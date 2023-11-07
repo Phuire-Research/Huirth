@@ -1,4 +1,4 @@
-![logixUX](https://github.com/Phuire-Research/LogicUX/blob/main/logixUX.png?raw=true)
+![logixUX](https://github.com/Phuire-Research/logixUX/blob/main/LogixUX.png?raw=true)
 # Digital Embodiment of AI
 The purpose of this project is to build in public a proof of concept of three parts. 
 1. [Stratimux](https://github.com/Phuire-Research/Stratimux/) - In its capacity to perform as a universal transformer.
