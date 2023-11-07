@@ -5,6 +5,8 @@ The purpose of this project is to build in public a proof of concept of three pa
 2. A working example of a prototype "User Interface Concept."
 3. A method of safe recursive improvement of AI via Stratimux as a surrogate ABI (Autonomous Baseline Intelligence), written in plain text.
 
+**GOAL: Reduce complexity of working with this pattern via generative AI in combination with a custom UI**
+
 ![Stratimux](https://github.com/Phuire-Research/Stratimux/blob/main/Stratimux.png?raw=true)
 # ADVANCED STRATIMUX TEMPLATE
 ```bash
