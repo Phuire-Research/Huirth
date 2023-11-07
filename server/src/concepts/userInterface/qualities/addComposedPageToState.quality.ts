@@ -5,7 +5,7 @@ import {
   defaultMethodCreator,
   prepareActionCreator,
 } from 'stratimux';
-import { Page, userInterface_selectPage } from '../../../model/userInterface';
+import { userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 
 export const userInterfaceAddComposedPageToStateType: ActionType =
