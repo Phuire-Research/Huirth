@@ -1,5 +1,12 @@
-![LogicUX](https://github.com/Phuire-Research/LogicUX/blob/main/LogixUX.png?raw=true)
-# STRATIMUX STARTER TEMPLATE
+![logixUX](https://github.com/Phuire-Research/LogicUX/blob/main/logixUX.png?raw=true)
+# Digital Embodiment of AI
+The purpose of this project is to build in public a proof of concept of three parts. 
+1. [Stratimux](https://github.com/Phuire-Research/Stratimux/) - In its capacity to perform as a universal transformer.
+2. A working example of a prototype "User Interface Concept."
+3. A method of safe recursive improvement of AI via Stratimux as a surrogate ABI (Autonomous Baseline Intelligence), written in plain text.
+
+![Stratimux](https://github.com/Phuire-Research/Stratimux/blob/main/Stratimux.png?raw=true)
+# ADVANCED STRATIMUX TEMPLATE
 ```bash
 npm i
 ```
@@ -15,7 +22,7 @@ src/ concepts / uX / qualities / qOfUX.quality.ts
      concepts / uX / strategies / sOfUX.strategy.ts
      concepts / uX / uX.concept.ts
      concepts / uX / uX.principle.ts
-     test / uX.test.ts
+     tests / uX.test.ts
 ```
 
 ### uX.concept.ts
