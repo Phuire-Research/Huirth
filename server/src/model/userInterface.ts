@@ -67,15 +67,17 @@ export type UserInterfacePageStrategies = Record<string, PageStrategyCreators>;
  */
 
 export type BoundSelectors = {
+  id: string
   action: Action,
   selectors: KeyedSelector[],
   semaphore: [number, number],
 }
 
 export const createBoundSelectors =
-  (action: Action, selectors: KeyedSelector[]): BoundSelectors => ({action, selectors, semaphore: [-1, -1]});
+  (id: string, action: Action, selectors: KeyedSelector[]): BoundSelectors => ({id, action, selectors, semaphore: [-1, -1]});
 
 export type Composition = {
+  id: string;
   boundSelectors: BoundSelectors[],
   bindings?: UserInterfaceBindings,
   html: string,

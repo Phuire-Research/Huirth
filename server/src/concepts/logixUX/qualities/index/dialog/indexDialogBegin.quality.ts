@@ -15,12 +15,14 @@ export const logixUXIndexDialogBeginType: ActionType = 'create userInterface for
 export const logixUXIndexDialogBegin = prepareActionCreator(logixUXIndexDialogBeginType);
 
 const createIndexDialogBeginMethodCreator: MethodCreator = () => createMethod(action => {
+  const id = '#dialogBeginID';
   if (action.strategy) {
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
+      id,
       boundSelectors: [],
       action: logixUXIndexDialogBegin(),
       html: /*html*/`
-<div class="carbon-fiber">
+<div id='${id}' class="carbon-fiber">
   <section class="flex flex-col items-center bg-gradient-to-br from-60% from-black to-transparent to-black min-h-screen text-white">
     <div class ="flex-1 mb-12 max-w-3xl m-10 pt-10 pb-10">
       <h1 class="text-3xl text-center">Stratimux Dialog Output</h1>

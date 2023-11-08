@@ -1,8 +1,11 @@
 /* eslint-disable max-len */
 import {
   ActionType,
+  Concepts,
   KeyedSelector,
   MethodCreator,
+  UnifiedSubject,
+  axiumLog,
   createMethod,
   createQuality,
   defaultReducer,
@@ -10,7 +13,10 @@ import {
   strategySuccess
 } from 'stratimux';
 
-import { createBoundSelectors, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
+import { createBinding, createBoundSelectors, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
+import { elementEventBinding } from '../../../../../model/html';
+import { createMethodWithConcepts } from '../../../../../model/methods';
+import { getAxiumState } from '../../../../../model/concepts';
 
 export const logixUXIndexDialogContentType: ActionType = 'create userInterface for IndexDialogContent';
 export const logixUXIndexDialogContent = prepareActionCreator(logixUXIndexDialogContentType);
@@ -20,22 +26,36 @@ const axiumSelectDialog: KeyedSelector = {
   stateKeys: 'dialog'
 };
 
-const createIndexDialogContentMethodCreator: MethodCreator = () => createMethod(action => {
+const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) => createMethodWithConcepts((action, concepts, _) => {
+  const id = '#dialogID';
+  const buttonId = '#buttonID';
   if (action.strategy) {
+    const dialog = getAxiumState(concepts).dialog;
+    let finalDialog = '';
+    dialog.split('\n').forEach(paragraph => {
+      finalDialog += /*html*/`
+        <p class="pb-2 indent-4">
+          ${paragraph}
+        </p>
+      `;
+    });
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
+      id,
+      bindings: createBinding([{elementId: buttonId, action: axiumLog(), eventBinding: elementEventBinding.onclick}]),
       boundSelectors: [
-        createBoundSelectors(logixUXIndexDialogContent(), [axiumSelectDialog])
+        createBoundSelectors(id, logixUXIndexDialogContent(), [axiumSelectDialog])
       ],
       action: logixUXIndexDialogContent(),
       html: /*html*/`
-      <p class="pb-2 indent-4">
-        TEST
-      </p>
+      <div id='${id}'>
+        <button id=${buttonId}></button>
+        ${finalDialog}
+      </div>
 `
     }));
   }
   return action;
-});
+}, concepts$ as UnifiedSubject, semaphore as number);
 
 export const logixUXIndexDialogContentQuality = createQuality(
   logixUXIndexDialogContentType,

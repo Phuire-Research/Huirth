@@ -15,8 +15,10 @@ export const logixUXIndexDialogEndType: ActionType = 'create userInterface for I
 export const logixUXIndexDialogEnd = prepareActionCreator(logixUXIndexDialogEndType);
 
 const createIndexDialogEndMethodCreator: MethodCreator = () => createMethod(action => {
+  const id = '';
   if (action.strategy) {
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
+      id,
       boundSelectors: [],
       action: logixUXIndexDialogEnd(),
       html: /*html*/`

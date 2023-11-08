@@ -33,6 +33,7 @@ export const helloWorldPageStrategy: PageStrategyCreators = () => () => {
   const pageData =  userInterface_createPage({
     title: 'helloWorld',
     compositions: [],
+    cachedSelectors: [],
     conceptAndProps: [
       {
         name: helloWorldName,

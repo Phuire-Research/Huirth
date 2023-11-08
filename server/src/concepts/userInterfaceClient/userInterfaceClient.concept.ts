@@ -6,7 +6,7 @@ import { createLogixUXConcept, logixUXName } from '../logixUX/logixUX.concepts';
 import { logixUXErrorPageStrategy } from '../logixUX/strategies/errorPage.strategy';
 import { logixUXIndexPageStrategy } from '../logixUX/strategies/indexPage.strategy';
 
-export const userInterfaceName = 'userInterface';
+export const userInterfaceClientName = 'userInterfaceClient';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
@@ -24,6 +24,7 @@ const createUserInterfaceClientState = (brand?: {
       return {
         pages: [],
         pageStrategies: brand.pageStrategies,
+        pagesCached: false,
         currentPage: id.split('page#')[1]
       };
     }
@@ -31,6 +32,7 @@ const createUserInterfaceClientState = (brand?: {
   return {
     pages: [],
     pageStrategies: [],
+    pagesCached: false,
     currentPage: ''
   };
 };
@@ -39,7 +41,7 @@ const createUserInterfaceClientState = (brand?: {
 // via the interface this UI is intended for.
 export const createUserInterfaceClientConcept = (): Concept => {
   return unifyConcepts([createHtmlConcept(), createLogixUXConcept()], createConcept(
-    userInterfaceName,
+    userInterfaceClientName,
     createUserInterfaceClientState({
       name: logixUXName,
       pageStrategies: [logixUXIndexPageStrategy, logixUXErrorPageStrategy]

@@ -1,9 +1,7 @@
 import {
-  Action,
   ActionNode,
   ActionStrategy,
   ActionType,
-  axiumLog,
   createActionNode,
   createActionNodeFromStrategy,
   createMethod,
@@ -16,17 +14,18 @@ import {
   strategyBegin,
 } from 'stratimux';
 import { BoundSelectors } from '../../../model/userInterface';
-import { userInterfaceAtomicUpdatePageComposition } from '../../userInterface/qualities/atomicUpdatePageCompositionquality';
+import { userInterfaceAtomicUpdatePageComposition } from '../../userInterface/qualities/atomicUpdatePageComposition.quality';
 
-export type UserInterfaceAssembleActionQueStrategyPayload = {
+export type UserInterfaceAssembleActionQueStrategyServerPayload = {
   boundActionQue: BoundSelectors[]
 }
-export const userInterfaceAssembleActionQueStrategyType: ActionType =
-  'User Interface assemble update atomic compositions strategy';
-export const userInterfaceAssembleActionQueStrategy = prepareActionWithPayloadCreator(userInterfaceAssembleActionQueStrategyType);
+export const userInterfaceAssembleActionQueStrategyServerType: ActionType =
+  'User Interface assemble update atomic compositions strategy server';
+export const userInterfaceAssembleActionQueStrategyServer =
+  prepareActionWithPayloadCreator(userInterfaceAssembleActionQueStrategyServerType);
 
-const createUserInterfaceAssembleActionQueStrategyMethod = () => createMethod(action => {
-  const boundActionQue = selectPayload<UserInterfaceAssembleActionQueStrategyPayload>(action).boundActionQue;
+const createUserInterfaceAssembleActionQueStrategyServerMethod = () => createMethod(action => {
+  const boundActionQue = selectPayload<UserInterfaceAssembleActionQueStrategyServerPayload>(action).boundActionQue;
   let previous: ActionNode | undefined;
   let first: ActionNode | undefined;
   for (const bound of boundActionQue) {
@@ -53,10 +52,10 @@ const createUserInterfaceAssembleActionQueStrategyMethod = () => createMethod(ac
   return action;
 });
 
-export const userInterfaceAssembleActionQueStrategyQuality = createQuality(
-  userInterfaceAssembleActionQueStrategyType,
+export const userInterfaceAssembleActionQueStrategyServerQuality = createQuality(
+  userInterfaceAssembleActionQueStrategyServerType,
   defaultReducer,
-  createUserInterfaceAssembleActionQueStrategyMethod,
+  createUserInterfaceAssembleActionQueStrategyServerMethod,
 );
 
 // Need to provide semaphore that will update the target composition of some page.

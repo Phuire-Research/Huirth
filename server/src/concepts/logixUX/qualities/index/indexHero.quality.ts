@@ -16,12 +16,14 @@ export const logixUXIndexHeroType: ActionType = 'create userInterface for IndexH
 export const logixUXIndexHero = prepareActionCreator(logixUXIndexHeroType);
 
 const createIndexHeroMethodCreator: MethodCreator = () => createMethod(action => {
+  const id = '#heroId';
   if (action.strategy) {
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage(action.strategy, {
+      id,
       boundSelectors: [],
       action: logixUXIndexHero(),
       html: /*html*/`
-<section class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">
+<section id='${id}' class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">
   <div class="flex items-center h-16">
     <!-- Navbar Container -->
     <div class="mx-auto relative px-5 w-full flex items-center justify-end">

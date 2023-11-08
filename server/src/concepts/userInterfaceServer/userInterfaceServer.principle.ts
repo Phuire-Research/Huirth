@@ -19,10 +19,11 @@ import path from 'path';
 import { FileSystemState, fileSystemName } from '../fileSystem/fileSystem.concept';
 import { findRoot } from '../../model/findRoot';
 import { UserInterfaceServerState } from './userInterfaceServer.concept';
-import { getAxiumState, getUnifiedName } from '../../model/concepts';
-import { UserInterfaceState } from '../userInterface/userInterface.concept';
-import { UserInterfaceAssembleActionQueStrategyPayload, userInterfaceAssembleActionQueStrategy } from './qualities/assembleActionQueStrategy.quality';
-// import * as path from 'path';
+import { getUnifiedName } from '../../model/concepts';
+import {
+  UserInterfaceAssembleActionQueStrategyServerPayload,
+  userInterfaceAssembleActionQueStrategyServer
+} from './qualities/assembleActionQueStrategyServer.quality';
 
 export const userInterfaceServerPrinciple: PrincipleFunction =
   (_: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
@@ -94,7 +95,7 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
     });
   };
 
-export const userInterfaceOnChangePrinciple: PrincipleFunction =
+export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
   (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     let cachedState = selectUnifiedState<UserInterfaceServerState>(cpts, semaphore);
     if (cachedState) {
@@ -121,7 +122,7 @@ export const userInterfaceOnChangePrinciple: PrincipleFunction =
               bound.action.conceptSemaphore = semaphore;
               selectors.push(bound);
             }));
-            const payload: UserInterfaceAssembleActionQueStrategyPayload = {
+            const payload: UserInterfaceAssembleActionQueStrategyServerPayload = {
               boundActionQue: []
             };
             selectors.forEach(bound => {
@@ -136,7 +137,7 @@ export const userInterfaceOnChangePrinciple: PrincipleFunction =
             });
             cachedState = {...uiState};
             if (payload.boundActionQue.length > 0) {
-              dispatch(userInterfaceAssembleActionQueStrategy(payload), {
+              dispatch(userInterfaceAssembleActionQueStrategyServer(payload), {
                 throttle: 50
               });
             }
