@@ -21,7 +21,8 @@ function addComposedPageToState(state: UserInterfaceState, action: Action): User
     newPages.push(page);
     return {
       ...state,
-      pages: newPages
+      pages: newPages,
+      pagesCached: true
     };
   }
   return {

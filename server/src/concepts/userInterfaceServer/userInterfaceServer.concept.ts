@@ -34,6 +34,7 @@ const createUserInterfaceServerState =
     return {
       pages: [],
       pageStrategies,
+      pagesCached: false,
       createClientIndexQue: [],
       goal
     };
@@ -44,6 +45,9 @@ const principleGoal = (goal: commandLineInterfaceGoals): PrincipleFunction[] => 
   case commandLineInterfaceGoals.simulate: {
     return [
     ];
+  }
+  case commandLineInterfaceGoals.none: {
+    return [];
   }
   default: {
     return [

@@ -65,8 +65,14 @@ export type UserInterfacePageStrategies = Record<string, PageStrategyCreators>;
  * @param html The html of your composition
  * @param action The action that creates your composition
  */
+
+export type BoundSelector = {
+  action: Action,
+  selector: KeyedSelector[]
+}
+
 export type Composition = {
-  selectors: KeyedSelector[],
+  selectors: BoundSelector[],
   bindings?: UserInterfaceBindings,
   html: string,
   action: Action;

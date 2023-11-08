@@ -1,12 +1,14 @@
 import { Subscriber } from 'rxjs';
 import { ServerState } from '../server/server.concept';
 import express from 'express';
-import { Action, Concepts, PrincipleFunction, UnifiedSubject, isConceptLoaded, selectState, selectUnifiedState } from 'stratimux';
-import { Page } from '../../model/userInterface';
+import { Action, Concepts, KeyedSelector, PrincipleFunction, UnifiedSubject, axiumKick, axiumRegisterStagePlanner, axiumSelectOpen, createUnifiedKeyedSelector, isConceptLoaded, selectSlice, selectState, selectUnifiedState, updateUnifiedKeyedSelector } from 'stratimux';
+import { BoundSelector, Page } from '../../model/userInterface';
 import path from 'path';
 import { FileSystemState, fileSystemName } from '../fileSystem/fileSystem.concept';
 import { findRoot } from '../../model/findRoot';
 import { UserInterfaceServerState } from './userInterfaceServer.concept';
+import { getAxiumState, getUnifiedName } from '../../model/concepts';
+import { UserInterfaceState } from '../userInterface/userInterface.concept';
 // import * as path from 'path';
 
 export const userInterfaceServerPrinciple: PrincipleFunction =
@@ -77,4 +79,63 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
     server.use('/static', (req, res, next) => {
       express.static(contextPublic)(req, res, next);
     });
+  };
+
+export const userInterfaceOnChangePrinciple: PrincipleFunction =
+  (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
+    let cachedState = selectUnifiedState<UserInterfaceServerState>(cpts, semaphore);
+    let selectors: BoundSelector[] = [];
+    if (cachedState) {
+      const plan = concepts$.stage('User Interface Server on Change', [
+        (concepts, dispatch) => {
+          const name = getUnifiedName(concepts, semaphore);
+          if (name) {
+            dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
+              on: {
+                expected: true,
+                selector: axiumSelectOpen
+              },
+              iterateStage: true
+            });
+          } else {
+            plan.conclude();
+          }
+        },
+        (concepts, dispatch) => {
+          const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
+          if (uiState && uiState.pagesCached) {
+            selectors = [];
+            const actionQue: Action[] = [];
+            uiState.pages.forEach(page => page.compositions.forEach(comp => comp.selectors.forEach(selector => selectors.push(selector))));
+            selectors.forEach(bound => {
+              for (const b of bound.selector) {
+                if (
+                  (cachedState as Record<string, unknown>)[b.stateKeys] !==
+                  selectSlice(concepts, updateUnifiedKeyedSelector(concepts, semaphore, b) as KeyedSelector)
+                ) {
+                  actionQue.push(bound.action);
+                }
+              }
+            });
+            cachedState = {...uiState};
+            if (actionQue.length > 0) {
+              // DISPATCH ASSEMBLE ACTION_QUE_STRATEGY
+            }
+          } else if (uiState === undefined) {
+            plan.conclude();
+          }
+        },
+        (concepts, _) => {
+          if (getAxiumState(concepts).logging) {
+            const ui = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
+            if (ui) {
+              if (ui.pages.length > 0) {
+                console.log('Pages Populated: ', ui.pages.length);
+              }
+            }
+          }
+          plan.conclude();
+        }]
+      );
+    }
   };

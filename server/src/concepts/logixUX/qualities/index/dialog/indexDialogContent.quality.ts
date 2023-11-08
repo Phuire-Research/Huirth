@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import {
   ActionType,
+  KeyedSelector,
   MethodCreator,
   createMethod,
   createQuality,
@@ -14,10 +15,18 @@ import { userInterface_appendCompositionToPage } from '../../../../../model/user
 export const logixUXIndexDialogContentType: ActionType = 'create userInterface for IndexDialogContent';
 export const logixUXIndexDialogContent = prepareActionCreator(logixUXIndexDialogContentType);
 
+const axiumSelectDialog: KeyedSelector = {
+  conceptName: 'axium',
+  stateKeys: 'dialog'
+};
+
 const createIndexDialogContentMethodCreator: MethodCreator = () => createMethod(action => {
   if (action.strategy) {
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-      selectors: [],
+      selectors: [{
+        action: logixUXIndexDialogContent(),
+        selector: [axiumSelectDialog]
+      }],
       action: logixUXIndexDialogContent(),
       html: /*html*/`
       <p class="pb-2 indent-4">
@@ -34,3 +43,7 @@ export const logixUXIndexDialogContentQuality = createQuality(
   defaultReducer,
   createIndexDialogContentMethodCreator,
 );
+
+function renderDialog(dialog: string) {
+  //
+}
