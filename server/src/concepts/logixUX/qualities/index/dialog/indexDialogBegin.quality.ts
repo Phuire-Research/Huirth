@@ -17,7 +17,7 @@ export const logixUXIndexDialogBegin = prepareActionCreator(logixUXIndexDialogBe
 const createIndexDialogBeginMethodCreator: MethodCreator = () => createMethod(action => {
   if (action.strategy) {
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-      selectors: [],
+      boundSelectors: [],
       action: logixUXIndexDialogBegin(),
       html: /*html*/`
 <div class="carbon-fiber">

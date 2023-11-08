@@ -1,5 +1,4 @@
-import { ActionStrategy, createActionNode, createStrategy } from 'stratimux';
-import { StrategyStitch } from '../../../model/actionStrategy';
+import { ActionStrategy, ActionStrategyStitch, createActionNode, createStrategy } from 'stratimux';
 import { userInterfaceAddComposedPageToState } from '../qualities/addComposedPageToState.quality';
 
 /**
@@ -7,7 +6,7 @@ import { userInterfaceAddComposedPageToState } from '../qualities/addComposedPag
  * @param stitch Page Strategy
  * @returns ActionStrategy
  */
-export function userInterfacePageToStateStrategy(stitch: StrategyStitch): ActionStrategy {
+export function userInterfacePageToStateStrategy(stitch: ActionStrategyStitch): ActionStrategy {
   const stepAddToState = createActionNode(userInterfaceAddComposedPageToState(), {
     successNode: null,
     failureNode: null,

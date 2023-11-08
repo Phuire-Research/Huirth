@@ -5,7 +5,7 @@ import {
   defaultMethodCreator,
   prepareActionCreator,
 } from 'stratimux';
-import { userInterface_selectPage } from '../../../model/userInterface';
+import { BoundSelectors, userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 
 export const userInterfaceAddComposedPageToStateType: ActionType =
@@ -19,10 +19,22 @@ function addComposedPageToState(state: UserInterfaceState, action: Action): User
       return page.title !== _page.title;
     });
     newPages.push(page);
+    for (const [i, p] of newPages.entries()) {
+      const cachedSelectors: BoundSelectors[] = [];
+      for (const [compIndex, comp] of p.compositions.entries()) {
+        for (const bound of comp.boundSelectors) {
+          cachedSelectors.push({
+            ...bound,
+            semaphore: [i, compIndex]
+          });
+        }
+      }
+      p.cachedSelectors = cachedSelectors;
+    }
     return {
       ...state,
       pages: newPages,
-      pagesCached: true
+      pagesCached: true,
     };
   }
   return {

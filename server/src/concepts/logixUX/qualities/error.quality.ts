@@ -24,7 +24,7 @@ const createErrorMethodCreator: MethodCreator = () => {
     map((action: Action) => {
       if (action.strategy) {
         return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-          selectors: [],
+          boundSelectors: [],
           action: logixUXError(),
           html: /*html*/`
 <section class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">

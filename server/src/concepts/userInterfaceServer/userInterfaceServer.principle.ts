@@ -1,14 +1,27 @@
 import { Subscriber } from 'rxjs';
 import { ServerState } from '../server/server.concept';
 import express from 'express';
-import { Action, Concepts, KeyedSelector, PrincipleFunction, UnifiedSubject, axiumKick, axiumRegisterStagePlanner, axiumSelectOpen, createUnifiedKeyedSelector, isConceptLoaded, selectSlice, selectState, selectUnifiedState, updateUnifiedKeyedSelector } from 'stratimux';
-import { BoundSelector, Page } from '../../model/userInterface';
+import {
+  Action,
+  Concepts,
+  KeyedSelector,
+  PrincipleFunction,
+  UnifiedSubject,
+  axiumRegisterStagePlanner,
+  axiumSelectOpen,
+  selectSlice,
+  selectState,
+  selectUnifiedState,
+  updateUnifiedKeyedSelector
+} from 'stratimux';
+import { BoundSelectors, Page } from '../../model/userInterface';
 import path from 'path';
 import { FileSystemState, fileSystemName } from '../fileSystem/fileSystem.concept';
 import { findRoot } from '../../model/findRoot';
 import { UserInterfaceServerState } from './userInterfaceServer.concept';
 import { getAxiumState, getUnifiedName } from '../../model/concepts';
 import { UserInterfaceState } from '../userInterface/userInterface.concept';
+import { UserInterfaceAssembleActionQueStrategyPayload, userInterfaceAssembleActionQueStrategy } from './qualities/assembleActionQueStrategy.quality';
 // import * as path from 'path';
 
 export const userInterfaceServerPrinciple: PrincipleFunction =
@@ -84,7 +97,6 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
 export const userInterfaceOnChangePrinciple: PrincipleFunction =
   (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     let cachedState = selectUnifiedState<UserInterfaceServerState>(cpts, semaphore);
-    let selectors: BoundSelector[] = [];
     if (cachedState) {
       const plan = concepts$.stage('User Interface Server on Change', [
         (concepts, dispatch) => {
@@ -104,38 +116,35 @@ export const userInterfaceOnChangePrinciple: PrincipleFunction =
         (concepts, dispatch) => {
           const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
           if (uiState && uiState.pagesCached) {
-            selectors = [];
-            const actionQue: Action[] = [];
-            uiState.pages.forEach(page => page.compositions.forEach(comp => comp.selectors.forEach(selector => selectors.push(selector))));
+            const selectors: BoundSelectors[] = [];
+            uiState.pages.forEach(page => page.cachedSelectors.forEach(bound => {
+              bound.action.conceptSemaphore = semaphore;
+              selectors.push(bound);
+            }));
+            const payload: UserInterfaceAssembleActionQueStrategyPayload = {
+              boundActionQue: []
+            };
             selectors.forEach(bound => {
-              for (const b of bound.selector) {
+              for (const b of bound.selectors) {
                 if (
                   (cachedState as Record<string, unknown>)[b.stateKeys] !==
                   selectSlice(concepts, updateUnifiedKeyedSelector(concepts, semaphore, b) as KeyedSelector)
                 ) {
-                  actionQue.push(bound.action);
+                  payload.boundActionQue.push(bound);
                 }
               }
             });
             cachedState = {...uiState};
-            if (actionQue.length > 0) {
-              // DISPATCH ASSEMBLE ACTION_QUE_STRATEGY
+            if (payload.boundActionQue.length > 0) {
+              dispatch(userInterfaceAssembleActionQueStrategy(payload), {
+                throttle: 50
+              });
             }
           } else if (uiState === undefined) {
             plan.conclude();
           }
         },
-        (concepts, _) => {
-          if (getAxiumState(concepts).logging) {
-            const ui = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
-            if (ui) {
-              if (ui.pages.length > 0) {
-                console.log('Pages Populated: ', ui.pages.length);
-              }
-            }
-          }
-          plan.conclude();
-        }]
+      ]
       );
     }
   };

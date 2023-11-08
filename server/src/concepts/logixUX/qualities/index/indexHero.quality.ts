@@ -18,7 +18,7 @@ export const logixUXIndexHero = prepareActionCreator(logixUXIndexHeroType);
 const createIndexHeroMethodCreator: MethodCreator = () => createMethod(action => {
   if (action.strategy) {
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage(action.strategy, {
-      selectors: [],
+      boundSelectors: [],
       action: logixUXIndexHero(),
       html: /*html*/`
 <section class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">

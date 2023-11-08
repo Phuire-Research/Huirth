@@ -10,7 +10,7 @@ import {
   strategySuccess
 } from 'stratimux';
 
-import { userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
+import { createBoundSelectors, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 
 export const logixUXIndexDialogContentType: ActionType = 'create userInterface for IndexDialogContent';
 export const logixUXIndexDialogContent = prepareActionCreator(logixUXIndexDialogContentType);
@@ -23,10 +23,9 @@ const axiumSelectDialog: KeyedSelector = {
 const createIndexDialogContentMethodCreator: MethodCreator = () => createMethod(action => {
   if (action.strategy) {
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-      selectors: [{
-        action: logixUXIndexDialogContent(),
-        selector: [axiumSelectDialog]
-      }],
+      boundSelectors: [
+        createBoundSelectors(logixUXIndexDialogContent(), [axiumSelectDialog])
+      ],
       action: logixUXIndexDialogContent(),
       html: /*html*/`
       <p class="pb-2 indent-4">
