@@ -5,6 +5,9 @@ import { PageStrategyCreators } from '../../model/userInterface';
 import { createLogixUXConcept, logixUXName } from '../logixUX/logixUX.concepts';
 import { logixUXErrorPageStrategy } from '../logixUX/strategies/errorPage.strategy';
 import { logixUXIndexPageStrategy } from '../logixUX/strategies/indexPage.strategy';
+import { userInterfaceClientAssembleActionQueStrategyQuality } from './qualities/clientAssembleActionQueStrategy.quality';
+import { userInterfaceClientDetermineBindingsQuality } from './qualities/clientDetermineBindings.quality';
+import { userInterfaceClientReplaceOuterHtmlQuality } from './qualities/replaceOuterHtml.quality';
 
 export const userInterfaceClientName = 'userInterfaceClient';
 
@@ -48,6 +51,9 @@ export const createUserInterfaceClientConcept = (): Concept => {
     }),
     [
       // userInterfaceAddComposedPageToStateQuality,
+      userInterfaceClientAssembleActionQueStrategyQuality,
+      userInterfaceClientDetermineBindingsQuality,
+      userInterfaceClientReplaceOuterHtmlQuality
     ],
     [
       // userInterfaceInitializationPrinciple
