@@ -8,6 +8,7 @@ import { logixUXIndexPageStrategy } from '../logixUX/strategies/indexPage.strate
 import { userInterfaceClientAssembleActionQueStrategyQuality } from './qualities/clientAssembleActionQueStrategy.quality';
 import { userInterfaceClientDetermineBindingsQuality } from './qualities/clientDetermineBindings.quality';
 import { userInterfaceClientReplaceOuterHtmlQuality } from './qualities/replaceOuterHtml.quality';
+import { userInterfaceClientOnChangePrinciple } from './userInterfaceClient.principle';
 
 export const userInterfaceClientName = 'userInterfaceClient';
 
@@ -56,6 +57,7 @@ export const createUserInterfaceClientConcept = (): Concept => {
       ],
       [
         // userInterfaceInitializationPrinciple
+        userInterfaceClientOnChangePrinciple,
       ]
     )
   );

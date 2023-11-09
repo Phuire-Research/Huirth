@@ -25,7 +25,7 @@ import {
   userInterfaceClientAssembleActionQueStrategy
 } from './qualities/clientAssembleActionQueStrategy.quality';
 
-export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
+export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
   (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     let cachedState = selectUnifiedState<UserInterfaceClientState>(cpts, semaphore);
     if (cachedState) {
@@ -60,6 +60,7 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
               action$: getAxiumState(concepts).action$,
               boundActionQue: []
             };
+            // Update so that the state that is being cached is set by the selectors. Finish this up tomorrow and move on
             selectors.forEach(bound => {
               for (const b of bound.selectors) {
                 if (

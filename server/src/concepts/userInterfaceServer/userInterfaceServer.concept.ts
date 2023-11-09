@@ -1,6 +1,6 @@
 import { Concept, PrincipleFunction, Quality, createConcept, unifyConcepts } from 'stratimux';
 import { createServerConcept, serverName } from '../server/server.concept';
-import { userInterfaceServerPrinciple } from './userInterfaceServer.principle';
+import { userInterfaceServerOnChangePrinciple, userInterfaceServerPrinciple } from './userInterfaceServer.principle';
 import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
 import {
   UserInterfaceState,
@@ -53,7 +53,8 @@ const principleGoal = (goal: commandLineInterfaceGoals): PrincipleFunction[] => 
   }
   default: {
     return [
-      userInterfaceServerContextPrinciple
+      userInterfaceServerContextPrinciple,
+      userInterfaceServerOnChangePrinciple
     ];
   }
   }

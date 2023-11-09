@@ -13,7 +13,7 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
       index: {
         '#buttonID': [
           {
-            action: { type: 'logged a message passed to Axium', semaphore: [0, 0, -1, 0], expiration: 1699488762798 },
+            action: { type: 'logged a message passed to Axium', semaphore: [0, 0, -1, 0], expiration: 1699491464248 },
             eventBinding: 'onclick',
           },
         ],

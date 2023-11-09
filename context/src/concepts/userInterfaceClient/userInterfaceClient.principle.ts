@@ -23,7 +23,7 @@ import {
   userInterfaceClientAssembleActionQueStrategy,
 } from './qualities/clientAssembleActionQueStrategy.quality';
 
-export const userInterfaceServerOnChangePrinciple: PrincipleFunction = (
+export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
   ___: Subscriber<Action>,
   cpts: Concepts,
   concepts$: UnifiedSubject,
