@@ -54,7 +54,9 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
       action: logixUXIndexDialogContent(),
       html: /*html*/`
       <div id='${id}'>
-        <button id=${buttonId}>TRIGGER COUNTING ${count}</button>
+        <button id=${buttonId} class="m-10 center-m bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+          TRIGGER COUNTING ${count}
+        </button>
         <br>
         ${finalDialog}
       </div>

@@ -31,6 +31,9 @@ const createLogixUXStyleMethodCreator: MethodCreator = () => createMethod(
       padding-bottom: 5%;
       width: 768px;
     }
+    .center-m {
+      margin: 0 auto;
+    }
     .center-image {
       margin: 0 auto;
       width: 30%;
