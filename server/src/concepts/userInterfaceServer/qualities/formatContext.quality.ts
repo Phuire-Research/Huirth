@@ -14,7 +14,7 @@ import {
 import {exec} from 'child_process';
 
 export type FormatContextPayload = {contextDir: string};
-export const userInterfaceServerFormatContextType: ActionType = 'User Interface Server build Context';
+export const userInterfaceServerFormatContextType: ActionType = 'User Interface Server format Context';
 export const userInterfaceServerFormatContext =
   prepareActionWithPayloadCreator<FormatContextPayload>(userInterfaceServerFormatContextType);
 

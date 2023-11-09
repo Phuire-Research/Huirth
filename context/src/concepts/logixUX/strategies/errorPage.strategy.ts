@@ -24,6 +24,7 @@ export const logixUXErrorPageStrategy: PageStrategyCreators = () => () => {
   const pageData = userInterface_createPage({
     title: 'error',
     conceptAndProps: [{ name: 'helloWorld' }],
+    cachedSelectors: [],
     compositions: [],
   });
 

@@ -32,39 +32,38 @@ export const userInterfaceClientAssembleActionQueStrategy =
 
 const createUserInterfaceClientAssembleActionQueStrategyMethod = () => createMethod(action => {
   const payload = selectPayload<UserInterfaceClientAssembleActionQueStrategyPayload>(action);
-  if (action.strategy) {
-    const boundActionQue = payload.boundActionQue;
-    const action$ = payload.action$;
-    let previous: ActionNode | undefined;
-    let first: ActionNode | undefined;
-    for (const bound of boundActionQue) {
-      const [
-        stitchEnd,
-        stitchStrategy
-      ] = stitchUpdatedLayers(bound);
-      if (previous) {
-        const stitchNode = createActionNodeFromStrategy(stitchStrategy);
-        previous.successNode = stitchNode;
-        previous = stitchEnd;
-      } else {
-        const stitchNode = createActionNodeFromStrategy(stitchStrategy);
-        first = stitchNode;
-        previous = stitchEnd;
-      }
-    }
+  const boundActionQue = payload.boundActionQue;
+  const action$ = payload.action$;
+  let previous: ActionNode | undefined;
+  let first: ActionNode | undefined;
+  for (const bound of boundActionQue) {
+    const [
+      stitchEnd,
+      stitchStrategy
+    ] = stitchUpdatedLayers(bound);
     if (previous) {
-      const stepDetermineBindings = createActionNode(userInterfaceClientDetermineBindings({action$}), {
-        successNode: null,
-        failureNode: null,
-      });
-      previous.successNode = stepDetermineBindings;
+      const stitchNode = createActionNodeFromStrategy(stitchStrategy);
+      previous.successNode = stitchNode;
+      previous = stitchEnd;
+    } else {
+      const stitchNode = createActionNodeFromStrategy(stitchStrategy);
+      first = stitchNode;
+      previous = stitchEnd;
     }
-    if (first) {
-      return strategyBegin(createStrategy({
-        initialNode: first,
-        topic: 'User Interface atomic update compositions'
-      }));
-    }
+  }
+  if (previous) {
+    const stepDetermineBindings = createActionNode(userInterfaceClientDetermineBindings({action$}), {
+      successNode: null,
+      failureNode: null,
+    });
+    previous.successNode = stepDetermineBindings;
+  }
+  if (first) {
+    console.log('ASSEMBLE DISPATCH');
+    return strategyBegin(createStrategy({
+      initialNode: first,
+      topic: 'User Interface atomic update compositions'
+    }));
   }
   return action;
 });

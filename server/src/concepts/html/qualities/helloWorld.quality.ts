@@ -26,9 +26,10 @@ const createHelloWorldMethodCreator: MethodCreator = () => {
       if (action.strategy) {
         const helloWorldId = '#helloWorld';
         return strategySuccess(action.strategy, userInterface_appendCompositionToPage(action.strategy, {
-          selectors: [],
+          id: helloWorldId,
+          boundSelectors: [],
           bindings: {
-            'helloWorldId': [{
+            '#helloWorld': [{
               action: helloWorld(),
               eventBinding: elementEventBinding.onclick,
             }]

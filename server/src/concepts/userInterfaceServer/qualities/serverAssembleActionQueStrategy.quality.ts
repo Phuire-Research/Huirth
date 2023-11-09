@@ -15,17 +15,18 @@ import {
 } from 'stratimux';
 import { BoundSelectors } from '../../../model/userInterface';
 import { userInterfaceAtomicUpdatePageComposition } from '../../userInterface/qualities/atomicUpdatePageComposition.quality';
+import { userInterfaceEnd } from '../../userInterface/qualities/end.quality';
 
-export type UserInterfaceAssembleActionQueStrategyServerPayload = {
+export type UserInterfaceServerAssembleActionQueStrategyPayload = {
   boundActionQue: BoundSelectors[]
 }
-export const userInterfaceAssembleActionQueStrategyServerType: ActionType =
+export const userInterfaceServerAssembleActionQueStrategyType: ActionType =
   'User Interface assemble update atomic compositions strategy server';
-export const userInterfaceAssembleActionQueStrategyServer =
-  prepareActionWithPayloadCreator(userInterfaceAssembleActionQueStrategyServerType);
+export const userInterfaceServerAssembleActionQueStrategy =
+  prepareActionWithPayloadCreator(userInterfaceServerAssembleActionQueStrategyType);
 
-const createUserInterfaceAssembleActionQueStrategyServerMethod = () => createMethod(action => {
-  const boundActionQue = selectPayload<UserInterfaceAssembleActionQueStrategyServerPayload>(action).boundActionQue;
+const createUserInterfaceServerAssembleActionQueStrategyMethod = () => createMethod(action => {
+  const boundActionQue = selectPayload<UserInterfaceServerAssembleActionQueStrategyPayload>(action).boundActionQue;
   let previous: ActionNode | undefined;
   let first: ActionNode | undefined;
   for (const bound of boundActionQue) {
@@ -52,16 +53,20 @@ const createUserInterfaceAssembleActionQueStrategyServerMethod = () => createMet
   return action;
 });
 
-export const userInterfaceAssembleActionQueStrategyServerQuality = createQuality(
-  userInterfaceAssembleActionQueStrategyServerType,
+export const userInterfaceServerAssembleActionQueStrategyQuality = createQuality(
+  userInterfaceServerAssembleActionQueStrategyType,
   defaultReducer,
-  createUserInterfaceAssembleActionQueStrategyServerMethod,
+  createUserInterfaceServerAssembleActionQueStrategyMethod,
 );
 
 // Need to provide semaphore that will update the target composition of some page.
 const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy] => {
-  const stepUpdateAtomic = createActionNode(userInterfaceAtomicUpdatePageComposition({bound}, bound.action.conceptSemaphore as number), {
+  const stepEnd = createActionNode(userInterfaceEnd(), {
     successNode: null,
+    failureNode: null
+  });
+  const stepUpdateAtomic = createActionNode(userInterfaceAtomicUpdatePageComposition({bound}, bound.action.conceptSemaphore as number), {
+    successNode: stepEnd,
     failureNode: null
   });
   const stepAction = createActionNode(refreshAction(bound.action), {

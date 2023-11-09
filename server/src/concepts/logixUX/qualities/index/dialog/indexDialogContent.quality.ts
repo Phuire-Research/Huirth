@@ -32,13 +32,14 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
   if (action.strategy) {
     const dialog = getAxiumState(concepts).dialog;
     let finalDialog = '';
-    dialog.split('\n').forEach(paragraph => {
+    dialog.split('\n').forEach((paragraph, i) => {
       finalDialog += /*html*/`
         <p class="pb-2 indent-4">
-          ${paragraph}
+          ${i + ': ' + paragraph}
         </p>
       `;
     });
+    console.log('CHECK DIALOG', dialog);
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
       id,
       bindings: createBinding([{elementId: buttonId, action: axiumLog(), eventBinding: elementEventBinding.onclick}]),

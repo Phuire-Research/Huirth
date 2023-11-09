@@ -16,6 +16,7 @@ import { helloWorldPageStrategy } from '../userInterface/strategies.ts/helloWorl
 import { userInterfaceServerFormatContextQuality } from './qualities/formatContext.quality';
 import { PageStrategyCreators } from '../../model/userInterface';
 import { htmlName } from '../html/html.concepts';
+import { userInterfaceServerAssembleActionQueStrategyQuality } from './qualities/serverAssembleActionQueStrategy.quality';
 
 // eslint-disable-next-line no-shadow
 export enum workingConceptCategory {
@@ -64,6 +65,7 @@ const qualityGoal = (goal: commandLineInterfaceGoals): Quality[] => {
   switch (goal) {
   case commandLineInterfaceGoals.simulate: {
     return [
+      userInterfaceServerAssembleActionQueStrategyQuality
     ];
   }
   default: {
@@ -72,7 +74,8 @@ const qualityGoal = (goal: commandLineInterfaceGoals): Quality[] => {
       userInterfaceServerRecursivelyCreateEachPageHtmlQuality,
       userInterfaceServerCreateContextIndexQuality,
       userInterfaceServerBuildContextQuality,
-      userInterfaceServerFormatContextQuality
+      userInterfaceServerFormatContextQuality,
+      userInterfaceServerAssembleActionQueStrategyQuality
     ];
   }
   }

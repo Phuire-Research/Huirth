@@ -7,21 +7,26 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
 
 (() => {
   /*$ Start context template code $*/
-  const axium = createAxium('contextAxium', [
-    createHelloWorldConcept(),
-    createDocumentObjectModelConcept({
-      index: {
-        '#buttonID': [
-          {
-            action: { type: 'logged a message passed to Axium', semaphore: [0, 0, -1, 0], expiration: 1699491464248 },
-            eventBinding: 'onclick',
+  document.onreadystatechange = () => {
+    const axium = createAxium(
+      'contextAxium',
+      [
+        createHelloWorldConcept(),
+        createDocumentObjectModelConcept({
+          index: {
+            '#buttonID': [
+              {
+                action: { type: 'logged a message passed to Axium', semaphore: [0, 0, -1, 0], expiration: 1699548948735 },
+                eventBinding: 'onclick',
+              },
+            ],
           },
-        ],
-      },
-      error: {},
-    }),
-    createUserInterfaceClientConcept(),
-  ]);
+        }),
+        createUserInterfaceClientConcept(),
+      ],
+      true
+    );
+  };
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   console.warn = () => {};
   console.log('AXIUM INIT');

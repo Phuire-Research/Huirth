@@ -9,7 +9,8 @@
     "postinstall": "cd ./server/ && npm install && cd ../context/ && npm install",
     "start": "cd ./server/ && npm run build && npm run start",
     "start:dynamic": "cd ./server/ && npm run start:dynamic",
-    "dev": "cd ./server/ && npm run start:dev"
+    "dev": "cd ./server/ && npm run start:dev",
+    "dev:dynamic": "cd ./server/ && npm run start:dynamicDev"
   },
   "keywords": [
     "Unified Turing Machine",
