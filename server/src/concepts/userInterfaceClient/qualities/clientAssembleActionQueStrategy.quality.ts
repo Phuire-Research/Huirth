@@ -59,7 +59,6 @@ const createUserInterfaceClientAssembleActionQueStrategyMethod = () => createMet
     previous.successNode = stepDetermineBindings;
   }
   if (first) {
-    console.log('ASSEMBLE DISPATCH');
     return strategyBegin(createStrategy({
       initialNode: first,
       topic: 'User Interface atomic update compositions'

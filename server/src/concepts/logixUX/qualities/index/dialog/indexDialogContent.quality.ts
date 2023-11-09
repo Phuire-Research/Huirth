@@ -30,7 +30,7 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
   const id = '#dialogID';
   const buttonId = '#buttonID';
   if (action.strategy) {
-    const dialog = getAxiumState(concepts).dialog;
+    const dialog = getAxiumState(concepts).dialog.trim();
     let finalDialog = '';
     dialog.split('\n').forEach((paragraph, i) => {
       finalDialog += /*html*/`
@@ -39,7 +39,6 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
         </p>
       `;
     });
-    console.log('CHECK DIALOG', dialog);
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
       id,
       bindings: createBinding([{elementId: buttonId, action: axiumLog(), eventBinding: elementEventBinding.onclick}]),

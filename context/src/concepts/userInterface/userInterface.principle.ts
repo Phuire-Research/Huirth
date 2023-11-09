@@ -21,7 +21,6 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
   concepts$: UnifiedSubject,
   semaphore: number
 ) => {
-  console.log('INITIAlIZED');
   const plan = concepts$.stage('User Interface Page to State', [
     (concepts, dispatch) => {
       const name = getUnifiedName(concepts, semaphore);

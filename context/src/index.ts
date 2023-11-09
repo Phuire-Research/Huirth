@@ -7,25 +7,29 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
 
 (() => {
   /*$ Start context template code $*/
+  var init = false;
   document.onreadystatechange = () => {
-    const axium = createAxium(
-      'contextAxium',
-      [
-        createHelloWorldConcept(),
-        createDocumentObjectModelConcept({
-          index: {
-            '#buttonID': [
-              {
-                action: { type: 'logged a message passed to Axium', semaphore: [0, 0, -1, 0], expiration: 1699548948735 },
-                eventBinding: 'onclick',
-              },
-            ],
-          },
-        }),
-        createUserInterfaceClientConcept(),
-      ],
-      true
-    );
+    if (!init) {
+      init = true;
+      const axium = createAxium(
+        'contextAxium',
+        [
+          createHelloWorldConcept(),
+          createDocumentObjectModelConcept({
+            index: {
+              '#buttonID': [
+                {
+                  action: { type: 'logged a message passed to Axium', semaphore: [0, 0, -1, 0], expiration: 1699549991360 },
+                  eventBinding: 'onclick',
+                },
+              ],
+            },
+          }),
+          createUserInterfaceClientConcept(),
+        ],
+        true
+      );
+    }
   };
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   console.warn = () => {};

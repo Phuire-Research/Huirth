@@ -12,10 +12,14 @@ ${imports}
 
 (() => {
   /*$ Start context template code $*/
+  var init = false;
   document.onreadystatechange = () => {
-    const axium = createAxium('contextAxium', [
-      ${creators}
-    ], true);
+    if (!init) {
+      init = true;
+      const axium = createAxium('contextAxium', [
+        ${creators}
+      ], true);
+    }
   }
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   console.warn = () => {};

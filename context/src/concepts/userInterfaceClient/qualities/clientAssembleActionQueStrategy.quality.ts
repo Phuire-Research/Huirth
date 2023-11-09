@@ -57,7 +57,6 @@ const createUserInterfaceClientAssembleActionQueStrategyMethod = () =>
       previous.successNode = stepDetermineBindings;
     }
     if (first) {
-      console.log('ASSEMBLE DISPATCH');
       return strategyBegin(
         createStrategy({
           initialNode: first,

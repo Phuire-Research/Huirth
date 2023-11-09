@@ -26,11 +26,9 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
   concepts$: UnifiedSubject,
   semaphore: number
 ) => {
-  console.log('HERE');
   const atomicCachedState: Record<string, unknown> = {};
   const plan = concepts$.stage('User Interface Server on Change', [
     (concepts, dispatch) => {
-      console.log('THERE');
       const name = getUnifiedName(concepts, semaphore);
       if (name) {
         dispatch(axiumRegisterStagePlanner({ conceptName: name, stagePlanner: plan }), {
@@ -46,7 +44,6 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
     },
     (concepts, dispatch) => {
       const uiState = selectUnifiedState<UserInterfaceClientState>(concepts, semaphore);
-      console.log('WHERE 2', uiState?.pagesCached);
       if (uiState && uiState.pagesCached) {
         const selectors: BoundSelectors[] = [];
         uiState.pages.forEach((page, i) => {
@@ -62,25 +59,21 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
           boundActionQue: [],
         };
         // Update so that the state that is being cached is set by the selectors. Finish this up tomorrow and move on
-        console.log('BEFORE SELECTORS');
         selectors.forEach((bound) => {
           for (const select of bound.selectors) {
             const value = selectSlice(concepts, select);
             if ((atomicCachedState as Record<string, unknown>)[select.stateKeys] !== value) {
               payload.boundActionQue.push(bound);
             }
-            console.log('IN SELECTORS', select, value);
             atomicCachedState[select.stateKeys] = value;
           }
         });
-        console.log('CHECK', payload.boundActionQue);
         if (payload.boundActionQue.length > 0) {
           dispatch(userInterfaceClientAssembleActionQueStrategy(payload), {
             throttle: 50,
           });
         }
       } else if (uiState === undefined) {
-        console.log('CONCLUDE');
         plan.conclude();
       }
     },

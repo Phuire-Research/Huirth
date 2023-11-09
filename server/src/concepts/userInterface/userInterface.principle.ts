@@ -17,7 +17,6 @@ import { getAxiumState, getUnifiedName } from '../../model/concepts';
 
 export const userInterfaceInitializationPrinciple: PrincipleFunction =
   (___: Subscriber<Action>, __: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
-    console.log('INITIAlIZED');
     const plan = concepts$.stage('User Interface Page to State', [
       (concepts, dispatch) => {
         const name = getUnifiedName(concepts, semaphore);
