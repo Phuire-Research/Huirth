@@ -2,14 +2,17 @@
 import {
   ActionType,
   Concepts,
+  Counter,
   KeyedSelector,
   MethodCreator,
   UnifiedSubject,
   axiumLog,
+  counterName,
   createMethod,
   createQuality,
   defaultReducer,
   prepareActionCreator,
+  selectState,
   strategySuccess,
 } from 'stratimux';
 
@@ -17,6 +20,7 @@ import { createBinding, createBoundSelectors, userInterface_appendCompositionToP
 import { elementEventBinding } from '../../../../../model/html';
 import { createMethodWithConcepts } from '../../../../../model/methods';
 import { getAxiumState } from '../../../../../model/concepts';
+import { logixUXTriggerCountingStrategy } from '../../triggerCounterStrategy.quality';
 
 export const logixUXIndexDialogContentType: ActionType = 'create userInterface for IndexDialogContent';
 export const logixUXIndexDialogContent = prepareActionCreator(logixUXIndexDialogContentType);
@@ -33,6 +37,8 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
       const buttonId = '#buttonID';
       if (action.strategy) {
         const dialog = getAxiumState(concepts).dialog.trim();
+        const counter = selectState<Counter>(concepts, counterName);
+        const count = counter ? counter.count : 0;
         let finalDialog = '';
         dialog.split('\n').forEach((paragraph, i) => {
           finalDialog += /*html*/ `
@@ -45,12 +51,15 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
           action.strategy,
           userInterface_appendCompositionToPage(action.strategy, {
             id,
-            bindings: createBinding([{ elementId: buttonId, action: axiumLog(), eventBinding: elementEventBinding.onclick }]),
+            bindings: createBinding([
+              { elementId: buttonId, action: logixUXTriggerCountingStrategy(), eventBinding: elementEventBinding.onclick },
+            ]),
             boundSelectors: [createBoundSelectors(id, logixUXIndexDialogContent(), [axiumSelectDialog])],
             action: logixUXIndexDialogContent(),
             html: /*html*/ `
       <div id='${id}'>
-        <button id=${buttonId}></button>
+        <button id=${buttonId}>TRIGGER COUNTING ${count}</button>
+        <br>
         ${finalDialog}
       </div>
 `,

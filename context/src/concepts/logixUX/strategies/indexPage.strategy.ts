@@ -27,7 +27,7 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
 
   const pageData = userInterface_createPage({
     title: 'index',
-    conceptAndProps: [{ name: 'helloWorld' }],
+    conceptAndProps: [{ name: 'helloWorld' }, { name: 'counter' }],
     cachedSelectors: [],
     compositions: [],
   });

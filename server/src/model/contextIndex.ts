@@ -2,21 +2,31 @@ import { documentObjectModelName } from '../concepts/documentObjectModel/documen
 import { PrimedConceptAndProperties } from './userInterface';
 
 export async function createContextIndexContent(primedConcepts: PrimedConceptAndProperties[], directoryMap: string[]): Promise<string> {
+  const axiumImports = ['createAxium'];
+  const filteredPrimedConcepts = primedConcepts.filter(concept => {
+    for (const directory of directoryMap) {
+      if (directory === concept.name) {
+        return true;
+      }
+    }
+    axiumImports.push(`create${concept.nameCapitalized}Concept`);
+    return false;
+  });
   const creators = await createConceptCreatorTemplates(primedConcepts);
-  const imports = await createConceptImportTemplates(primedConcepts);
+  const imports = await createConceptImportTemplates(filteredPrimedConcepts);
   const content = /*typescript*/
 `/*$ Start template imports $*/
-import { createAxium } from 'stratimux';
+import { ${axiumImports.join(', ')} } from 'stratimux';
 ${imports}
 /*$ End template imports $*/
 
 (() => {
   /*$ Start context template code $*/
-  var init = false;
+  let init = false;
   document.onreadystatechange = () => {
     if (!init) {
       init = true;
-      const axium = createAxium('contextAxium', [
+      createAxium('contextAxium', [
         ${creators}
       ], true);
     }
