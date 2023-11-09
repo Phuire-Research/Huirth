@@ -25,7 +25,7 @@ export function userInterfaceServerPrepareContextConceptsStrategy(
   // As the userInterface, is an interoperable concept between server and client
   // Therefore you should only unify what would be needed for both
   unifiedConcepts.forEach(name => {
-    if (name !== serverName) {
+    if (!name.toLowerCase().includes(serverName.toLowerCase())) {
       for (const directory of initialDirectoryMap) {
         if (directory === name) {
           directories.push({

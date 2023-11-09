@@ -9,6 +9,7 @@ import { userInterfaceClientAssembleActionQueStrategyQuality } from './qualities
 import { userInterfaceClientDetermineBindingsQuality } from './qualities/clientDetermineBindings.quality';
 import { userInterfaceClientReplaceOuterHtmlQuality } from './qualities/replaceOuterHtml.quality';
 import { userInterfaceClientOnChangePrinciple } from './userInterfaceClient.principle';
+import { createWebSocketClientConcept } from '../webSocketClient/webSocketClient.concept';
 
 export const userInterfaceClientName = 'userInterfaceClient';
 
@@ -47,6 +48,7 @@ const createUserInterfaceClientState = (brand?: {
 export const createUserInterfaceClientConcept = (): Concept => {
   const unified = unifyConcepts([
     createHtmlConcept(),
+    createWebSocketClientConcept(),
     createLogixUXConcept(),
     createUserInterfaceConcept([logixUXIndexPageStrategy, logixUXErrorPageStrategy])
   ],

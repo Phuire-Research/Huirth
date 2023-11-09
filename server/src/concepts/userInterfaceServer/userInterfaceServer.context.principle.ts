@@ -26,6 +26,7 @@ import { documentObjectModelName } from '../documentObjectModel/documentObjectMo
 import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
 import { userInterfaceServerPrepareStaticConceptsStrategy } from './strategies/prepareStaticConcepts.strategy';
 import { userInterfaceClientName } from '../userInterfaceClient/userInterfaceClient.concept';
+import { webSocketClientName } from '../webSocketClient/webSocketClient.concept';
 
 export const userInterfaceServerContextPrinciple: PrincipleFunction = (
   _: Subscriber<Action>,
@@ -101,6 +102,9 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
               });
               conceptsAndProps.push({
                 name: userInterfaceClientName,
+              });
+              conceptsAndProps.push({
+                name: webSocketClientName,
               });
             }
             console.log('CHECK GOAL', uiState.goal);

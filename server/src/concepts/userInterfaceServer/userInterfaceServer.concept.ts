@@ -15,8 +15,8 @@ import { userInterfaceServerCreateContextIndexQuality } from './qualities/create
 import { helloWorldPageStrategy } from '../userInterface/strategies.ts/helloWorldPage.strategy';
 import { userInterfaceServerFormatContextQuality } from './qualities/formatContext.quality';
 import { PageStrategyCreators } from '../../model/userInterface';
-import { htmlName } from '../html/html.concepts';
 import { userInterfaceServerAssembleActionQueStrategyQuality } from './qualities/serverAssembleActionQueStrategy.quality';
+import { createWebSocketServerConcept } from '../webSocketServer/webSocketServer.concept';
 
 // eslint-disable-next-line no-shadow
 export enum workingConceptCategory {
@@ -131,6 +131,6 @@ export const createUserInterfaceServerConcept = (goal: commandLineInterfaceGoals
   pageStrategies: PageStrategyCreators[]
 }, port?: number) => {
   const serverConcept = createServerConcept(port);
-  const unified = unifyConcepts([serverConcept], userInterfaceServerConcept(goal, brand));
+  const unified = unifyConcepts([createWebSocketServerConcept(), serverConcept], userInterfaceServerConcept(goal, brand));
   return unified;
 };

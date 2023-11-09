@@ -1,18 +1,21 @@
 import { documentObjectModelName } from '../concepts/documentObjectModel/documentObjectModel.concept';
+import { webSocketClientName } from '../concepts/webSocketClient/webSocketClient.concept';
 import { PrimedConceptAndProperties } from './userInterface';
 
 export async function createContextIndexContent(primedConcepts: PrimedConceptAndProperties[], directoryMap: string[]): Promise<string> {
   const axiumImports = ['createAxium'];
   const filteredPrimedConcepts = primedConcepts.filter(concept => {
     for (const directory of directoryMap) {
-      if (directory === concept.name) {
+      if (concept.name === webSocketClientName) {
+        return false;
+      } else if (directory === concept.name) {
         return true;
       }
     }
     axiumImports.push(`create${concept.nameCapitalized}Concept`);
     return false;
   });
-  const creators = await createConceptCreatorTemplates(primedConcepts);
+  const creators = await createConceptCreatorTemplates(primedConcepts.filter(concept => concept.name !== webSocketClientName));
   const imports = await createConceptImportTemplates(filteredPrimedConcepts);
   const content = /*typescript*/
 `/*$ Start template imports $*/
