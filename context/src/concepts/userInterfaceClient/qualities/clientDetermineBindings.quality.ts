@@ -14,9 +14,9 @@ import {
   strategySuccess,
 } from 'stratimux';
 import { UserInterfaceBindings, userInterface_selectPage } from '../../../model/userInterface';
-import { determineBinding } from '../../documentObjectModel/documentObjectModel.concept';
 import { Subject } from 'rxjs';
 import { userInterfaceEnd } from '../../userInterface/qualities/end.quality';
+import { documentObjectModelBind } from '../../documentObjectModel/qualities/bind.quality';
 
 export type UserInterfaceClientActionQueStrategyClientPayload = {
   action$: Subject<Action>;
@@ -60,14 +60,14 @@ const createBindingActionNode = (action$: Subject<Action>, bindings: UserInterfa
   for (const key of bindingKeys) {
     for (const bind of bindings[key]) {
       if (previous) {
-        const node = createActionNode(determineBinding(action$, bind, key), {
+        const node = createActionNode(documentObjectModelBind({ action$, binding: bind, id: key }), {
           successNode: null,
           failureNode: null,
         });
         previous.successNode = node;
         previous = node;
       } else {
-        const node = createActionNode(determineBinding(action$, bind, key), {
+        const node = createActionNode(documentObjectModelBind({ action$, binding: bind, id: key }), {
           successNode: null,
           failureNode: null,
         });

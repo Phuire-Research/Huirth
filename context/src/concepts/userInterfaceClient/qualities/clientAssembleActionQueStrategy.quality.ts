@@ -17,7 +17,6 @@ import {
 } from 'stratimux';
 import { BoundSelectors, UserInterfaceBindings, userInterface_selectPage } from '../../../model/userInterface';
 import { userInterfaceClientReplaceOuterHtml } from './replaceOuterHtml.quality';
-import { determineBinding } from '../../documentObjectModel/documentObjectModel.concept';
 import { Subject } from 'rxjs';
 import { userInterfaceClientDetermineBindings } from './clientDetermineBindings.quality';
 

@@ -1,7 +1,7 @@
 import { ActionNode, AxiumState, Concepts, createActionNode, createStrategy } from 'stratimux';
 import { UserInterfacePageBindings } from '../../../model/userInterface';
 import { documentObjectModelClearBindingQue } from '../qualities/clearBindingQue.quality';
-import { determineBinding } from '../documentObjectModel.concept';
+import { documentObjectModelBind } from '../qualities/bind.quality';
 
 export const documentObjectModelBindingStrategyTopic = 'Document Object Model compose bind Page elements';
 export const documentObjectModelBindingStrategy = (concepts: Concepts, pageName: string, bindingQue: UserInterfacePageBindings) => {
@@ -12,7 +12,7 @@ export const documentObjectModelBindingStrategy = (concepts: Concepts, pageName:
   let previous: undefined | ActionNode;
   for (const key of bindingsKeys) {
     for (const binding of bindings[key]) {
-      const node = createActionNode(determineBinding(action$, binding, key), {
+      const node = createActionNode(documentObjectModelBind({action$, binding, id: key}), {
         successNode: null,
         failureNode: null
       });
