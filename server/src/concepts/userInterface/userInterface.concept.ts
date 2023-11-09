@@ -12,12 +12,14 @@ export const userInterfaceName = 'userInterface';
 export type UserInterfaceState = {
   pages: Page[],
   pageStrategies: PageStrategyCreators[],
+  pagesCached: boolean;
 }
 
 const createUserInterfaceState = (pageStrategies: PageStrategyCreators[]): UserInterfaceState => {
   return {
     pages: [],
     pageStrategies,
+    pagesCached: false
   };
 };
 

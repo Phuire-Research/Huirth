@@ -24,6 +24,7 @@ export function userInterfaceServerPrepareContextConceptsStrategy(
   // Server only concepts should not be unified into the server concept
   // As the userInterface, is an interoperable concept between server and client
   // Therefore you should only unify what would be needed for both
+  console.log('CHECK UNIFIED', unifiedConcepts, initialDirectoryMap);
   unifiedConcepts.forEach(name => {
     if (name !== serverName) {
       for (const directory of initialDirectoryMap) {
@@ -38,6 +39,7 @@ export function userInterfaceServerPrepareContextConceptsStrategy(
       }
     }
   });
+  console.log('CHECK UNIFIED', directoryMap);
   const primedConcepts: PrimedConceptAndProperties[] = conceptsAndProps.map(conceptAndProps => {
     conceptNames.push(conceptAndProps.name);
     for (const directory of initialDirectoryMap) {

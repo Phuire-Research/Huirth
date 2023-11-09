@@ -25,6 +25,7 @@ import { userInterfaceServerSetConceptDirectoriesFromDataStrategy } from './stra
 import { documentObjectModelName } from '../documentObjectModel/documentObjectModel.concept';
 import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
 import { userInterfaceServerPrepareStaticConceptsStrategy } from './strategies/prepareStaticConcepts.strategy';
+import { userInterfaceClientName } from '../userInterfaceClient/userInterfaceClient.concept';
 
 export const userInterfaceServerContextPrinciple: PrincipleFunction = (
   _: Subscriber<Action>,
@@ -35,6 +36,7 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
   const plan = concepts$.stage('User Interface Context Principle Plan', [
     (concepts, dispatch) => {
       const fileSystemExists = areConceptsLoaded(concepts, [fileSystemName]);
+      console.log('IS THIS RUNNING');
       if (!fileSystemExists) {
         console.log('FILE SYSTEM NOT LOADED, CONTEXT PRINCIPLE CONCLUDE');
         plan.conclude();
@@ -97,6 +99,9 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
                 name: documentObjectModelName,
                 properties: [userInterface_pageBindingsToString(finalBindingsList)],
               });
+              conceptsAndProps.push({
+                name: userInterfaceClientName,
+              });
             }
             console.log('CHECK GOAL', uiState.goal);
             if (uiState.goal === commandLineInterfaceGoals.dynamicDeployment) {
@@ -126,7 +131,7 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
       }
     },
     (__, dispatch) => {
-      console.log('HIT FOR OLD TIMES SAKE');
+      // console.log('HIT FOR OLD TIMES SAKE');
       plan.conclude();
     },
   ]);

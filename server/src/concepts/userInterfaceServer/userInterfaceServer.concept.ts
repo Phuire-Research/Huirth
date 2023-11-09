@@ -5,6 +5,7 @@ import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
 import {
   UserInterfaceState,
   createUserInterfaceConcept,
+  userInterfaceName,
 } from '../userInterface/userInterface.concept';
 import { userInterfaceServerBuildContextQuality } from './qualities/buildContext.quality';
 import { userInterfaceServerContextPrinciple } from './userInterfaceServer.context.principle';
@@ -14,6 +15,7 @@ import { userInterfaceServerCreateContextIndexQuality } from './qualities/create
 import { helloWorldPageStrategy } from '../userInterface/strategies.ts/helloWorldPage.strategy';
 import { userInterfaceServerFormatContextQuality } from './qualities/formatContext.quality';
 import { PageStrategyCreators } from '../../model/userInterface';
+import { htmlName } from '../html/html.concepts';
 
 // eslint-disable-next-line no-shadow
 export enum workingConceptCategory {
@@ -34,6 +36,7 @@ const createUserInterfaceServerState =
     return {
       pages: [],
       pageStrategies,
+      pagesCached: false,
       createClientIndexQue: [],
       goal
     };
@@ -44,6 +47,9 @@ const principleGoal = (goal: commandLineInterfaceGoals): PrincipleFunction[] => 
   case commandLineInterfaceGoals.simulate: {
     return [
     ];
+  }
+  case commandLineInterfaceGoals.none: {
+    return [];
   }
   default: {
     return [
@@ -94,18 +100,13 @@ const unifyBrandConcept = (goal: commandLineInterfaceGoals, brand: {
   concept: Concept,
   pageStrategies: PageStrategyCreators[]
 }) => {
-  const unifiedBrandState: Partial<UserInterfaceServerState> = {
-    brand: brand.name
-  };
   const unified = unifyConcepts([
     brand.concept,
-    baseUserInterfaceServerConcept(goal, brand.pageStrategies)
   ],
-  createConcept(
-    brand.name + serverName,
-    unifiedBrandState
-  )
+
+  baseUserInterfaceServerConcept(goal, brand.pageStrategies)
   );
+  (unified.state as UserInterfaceServerState).brand = brand.name;
   return unified;
 };
 

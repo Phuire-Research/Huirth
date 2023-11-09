@@ -3,32 +3,9 @@ import { elementEventBinding } from './html';
 import { documentObjectModelName } from '../concepts/documentObjectModel/documentObjectModel.concept';
 
 /**
- * Should be ID as #string or className, but beware of array return.
+ * Should be ID as #string
  */
 export type ElementIdentifier = string;
-// Expand to include all variations of element bindings, onChange, onClick, etc...
-/**
- * @WindowEvents
- * 'onafterprint' |'onbeforeprint' | 'onbeforeupload' | 'onerror' | 'onhashchange' | 'onload' | 'onmessage' |
- * 'onoffline' | 'ononline' | 'onpagehide' | 'onpageshow' | 'onpopstate' | 'onresize' | 'onunload' |
- * @FormEvents
- * 'onblur' | 'onchange' | 'oncontextmenu' | 'onfocus' | 'oninput' | 'oninvalid' | 'onreset' | 'onsearch' | 'onselect' | 'onsubmit' |
- * @KeyboardEvents
- * 'onkeydown' | 'onkeypress' | 'onkeyup' |
- * @MouseEvents
- * 'onclick' | 'ondblclick' | 'onmousedown' | 'onmouseout' | 'onmouseover' | 'onmouseup' | 'onwheel' |
- * @DragEvents
- * 'ondrag' | 'ondragend' | 'ondragenter' | 'ondragleave' | 'ondragover' | 'ondrop' | 'onscroll' |
- * @ClipboardEvents
- * 'oncopy' | 'oncut' | 'onpaste' |
- * @MediaEvents
- * 'onabort' | 'oncanplay' | 'oncanplaythrough' | 'oncuechange' | 'ondurationchange' | 'onemptied' | 'onended' | 'onerror' | 'onloadeddata'|
- * 'onloadedmetadata' | 'onloadstart' | 'onpause' | 'onplaying' | 'onprogress' | 'onratechange' | 'onseeked' | 'onseeking' | 'onstalled' |
- * 'onsuspend' | 'ontimeupdate' | 'onvolumechange' | 'onwaiting' |
- * @MiscEvents
- * 'ontoggle'
- */
-// eslint-disable-next-line no-shadow
 
 // This is going to use DOM Strategies that bind the Event and creates an Action Node of ActionType to pass that Event TO
 export type Binding = {
@@ -88,8 +65,24 @@ export type UserInterfacePageStrategies = Record<string, PageStrategyCreators>;
  * @param html The html of your composition
  * @param action The action that creates your composition
  */
-export type Composition = {
+
+export type BoundSelectors = {
+  id: string;
+  action: Action;
   selectors: KeyedSelector[];
+  semaphore: [number, number];
+};
+
+export const createBoundSelectors = (id: string, action: Action, selectors: KeyedSelector[]): BoundSelectors => ({
+  id,
+  action,
+  selectors,
+  semaphore: [-1, -1],
+});
+
+export type Composition = {
+  id: string;
+  boundSelectors: BoundSelectors[];
   bindings?: UserInterfaceBindings;
   html: string;
   action: Action;
@@ -99,26 +92,8 @@ export type Page = {
   title: string;
   conceptAndProps: ConceptAndProperties[];
   compositions: Composition[];
+  cachedSelectors: BoundSelectors[];
 };
-
-/**
- * @workingComposition
- * type Composition = {
- *  type: ActionType,
- *  selectorBindings: Map<elementIdentifier, binding>,
- *  cachedHtml: string,
- * }
- * @page
- * type Page = {
- *  title: string,
- *  conceptNames: string[]
- *  compositions: Composition[]
- * }
- */
-// export type WorkingPageData = {
-//   workingComposition: Composition,
-//   page: Page,
-// }
 
 export type PrimedConceptAndProperties = {
   name: string;
@@ -130,17 +105,6 @@ export type ConceptAndProperties = {
   properties?: string[];
 };
 
-// export const userInterface_createData = (workingComposition?: Composition, page?: Page): WorkingPageData => ({
-//   workingComposition: workingComposition ? workingComposition : {
-//     selectorBindings: new Map(),
-//     cachedHtml: '',
-//   },
-//   page: page ? page : {
-//     title: '',
-//     conceptAndProps: [],
-//     compositions: []
-//   }
-// });
 export const userInterface_createPage = (page?: Page): Page =>
   page
     ? page
@@ -148,19 +112,9 @@ export const userInterface_createPage = (page?: Page): Page =>
         title: '',
         conceptAndProps: [],
         compositions: [],
+        cachedSelectors: [],
       };
-// export const userInterface_setWorkingComposition =
-//   (strategy: ActionStrategy, workingComposition: Composition): WorkingPageData => {
-//     const data = strategyData_select<WorkingPageData>(strategy);
-//     if (data) {
-//       return {
-//         ...data,
-//         workingComposition
-//       };
-//     } else {
-//       return userInterface_createData();
-//     }
-//   };
+
 export const userInterface_appendCompositionToPage = (strategy: ActionStrategy, composition: Composition): Page => {
   const data = strategyData_select<Page>(strategy);
   if (data) {
@@ -168,9 +122,12 @@ export const userInterface_appendCompositionToPage = (strategy: ActionStrategy, 
     page.compositions.push(composition);
     return page;
   } else {
-    return userInterface_createPage();
+    const newPage = userInterface_createPage();
+    newPage.compositions.push(composition);
+    return newPage;
   }
 };
+
 export const userInterface_appendBindings = (strategy: ActionStrategy, bindings: UserInterfaceBindings[]): Page => {
   const data = strategyData_select<Page>(strategy);
   const newProps: string[] = [];
@@ -205,33 +162,7 @@ export const userInterface_appendBindings = (strategy: ActionStrategy, bindings:
     return userInterface_createPage();
   }
 };
-// export const userInterface_appendComposition = (strategy: ActionStrategy, workingComposition: Composition): WorkingPageData => {
-//   const data = strategyData_select<WorkingPageData>(strategy);
-//   if (data) {
-//     const page = data.page;
-//     page.compositions.push(data.workingComposition);
-//     return {
-//       workingComposition: workingComposition ? workingComposition : {
-//         selectorBindings: new Map(),
-//         cachedHtml: '',
-//       },
-//       page,
-//     };
-//   } else {
-//     return userInterface_createData();
-//   }
-// };
 
-// export const userInterface_getSelectorBindings = (strategy: ActionStrategy): Map<string, binding> => {
-//   let selectorBindings: Map<string, binding>;
-//   const data = strategyData_select<WorkingPageData>(strategy)?.workingComposition.selectorBindings;
-//   if (data) {
-//     selectorBindings = data;
-//   } else {
-//     selectorBindings = new Map();
-//   }
-//   return selectorBindings;
-// };
 export const userInterface_selectPage = (strategy: ActionStrategy): Page => {
   const data = strategyData_select<Page>(strategy);
   if (data) {
@@ -240,22 +171,3 @@ export const userInterface_selectPage = (strategy: ActionStrategy): Page => {
     return userInterface_createPage();
   }
 };
-
-// export const compositionHtmlElementTop = (lang?: string): Composition => {
-//   return {
-//     selectorBindings: new Map(),
-//     cachedHtml: /*html*/`
-// <!DOCTYPE html>
-// <html lang="${lang ? lang : 'en'}">
-//   `
-//   };
-// };
-
-// export const compositionHtmlElementBottom = (): Composition => {
-//   return {
-//     selectorBindings: new Map(),
-//     cachedHtml: /*html*/`
-// </html>
-//   `
-//   };
-// };

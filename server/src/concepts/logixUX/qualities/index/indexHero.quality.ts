@@ -1,11 +1,8 @@
 /* eslint-disable max-len */
 import {
-  Action,
   ActionType,
-  Method,
   MethodCreator,
-  axiumConcludeType,
-  createAction,
+  createMethod,
   createQuality,
   defaultReducer,
   prepareActionCreator,
@@ -13,21 +10,20 @@ import {
 } from 'stratimux';
 
 import { Subject, map } from 'rxjs';
-import { userInterface_appendCompositionToPage } from '../../../model/userInterface';
+import { userInterface_appendCompositionToPage } from '../../../../model/userInterface';
 
-export const logixUXIndexType: ActionType = 'create userInterface for Index';
-export const logixUXIndex = prepareActionCreator(logixUXIndexType);
+export const logixUXIndexHeroType: ActionType = 'create userInterface for IndexHero';
+export const logixUXIndexHero = prepareActionCreator(logixUXIndexHeroType);
 
-const createIndexMethodCreator: MethodCreator = () => {
-  const logSubject = new Subject<Action>();
-  const logMethod: Method = logSubject.pipe(
-    map((action: Action) => {
-      if (action.strategy) {
-        return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-          selectors: [],
-          action: logixUXIndex(),
-          html: /*html*/`
-<section class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">
+const createIndexHeroMethodCreator: MethodCreator = () => createMethod(action => {
+  const id = '#heroId';
+  if (action.strategy) {
+    return strategySuccess(action.strategy, userInterface_appendCompositionToPage(action.strategy, {
+      id,
+      boundSelectors: [],
+      action: logixUXIndexHero(),
+      html: /*html*/`
+<section id='${id}' class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">
   <div class="flex items-center h-16">
     <!-- Navbar Container -->
     <div class="mx-auto relative px-5 w-full flex items-center justify-end">
@@ -48,19 +44,13 @@ const createIndexMethodCreator: MethodCreator = () => {
   </div>
 </section>
         `
-        }));
-      }
-      return createAction(axiumConcludeType);
-    })
-  );
-  return [
-    logMethod,
-    logSubject
-  ];
-};
+    }));
+  }
+  return action;
+});
 
-export const logixUXIndexQuality = createQuality(
-  logixUXIndexType,
+export const logixUXIndexHeroQuality = createQuality(
+  logixUXIndexHeroType,
   defaultReducer,
-  createIndexMethodCreator,
+  createIndexHeroMethodCreator,
 );

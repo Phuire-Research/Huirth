@@ -65,8 +65,20 @@ export type UserInterfacePageStrategies = Record<string, PageStrategyCreators>;
  * @param html The html of your composition
  * @param action The action that creates your composition
  */
-export type Composition = {
+
+export type BoundSelectors = {
+  id: string
+  action: Action,
   selectors: KeyedSelector[],
+  semaphore: [number, number],
+}
+
+export const createBoundSelectors =
+  (id: string, action: Action, selectors: KeyedSelector[]): BoundSelectors => ({id, action, selectors, semaphore: [-1, -1]});
+
+export type Composition = {
+  id: string;
+  boundSelectors: BoundSelectors[],
   bindings?: UserInterfaceBindings,
   html: string,
   action: Action;
@@ -76,6 +88,7 @@ export type Page = {
   title: string,
   conceptAndProps: ConceptAndProperties[],
   compositions: Composition[]
+  cachedSelectors: BoundSelectors[]
 }
 
 export type PrimedConceptAndProperties = {
@@ -92,7 +105,8 @@ export const userInterface_createPage = (page?: Page): Page => (
   page ? page : {
     title: '',
     conceptAndProps: [],
-    compositions: []
+    compositions: [],
+    cachedSelectors: [],
   });
 
 export const userInterface_appendCompositionToPage =
@@ -103,7 +117,9 @@ export const userInterface_appendCompositionToPage =
       page.compositions.push(composition);
       return page;
     } else {
-      return userInterface_createPage();
+      const newPage = userInterface_createPage();
+      newPage.compositions.push(composition);
+      return newPage;
     }
   };
 
