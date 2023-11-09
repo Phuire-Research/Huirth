@@ -29,6 +29,7 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
     title: 'index',
     conceptAndProps: [
       { name: 'helloWorld'},
+      { name: 'counter' }
     ],
     cachedSelectors: [],
     compositions: []

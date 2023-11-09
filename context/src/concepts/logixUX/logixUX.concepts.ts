@@ -7,6 +7,7 @@ import { logixUXIndexHeroQuality } from './qualities/index/indexHero.quality';
 import { logixUXIndexDialogBeginQuality } from './qualities/index/dialog/indexDialogBegin.quality';
 import { logixUXIndexDialogContentQuality } from './qualities/index/dialog/indexDialogContent.quality';
 import { logixUXIndexDialogEndQuality } from './qualities/index/dialog/indexDialogEnd.quality';
+import { logixUXTriggerCountingStrategyQuality } from './qualities/triggerCounterStrategy.quality';
 
 export const logixUXName = 'logixUX';
 export type UserInterfaceLogixUXState = {
@@ -32,6 +33,7 @@ export const createLogixUXConcept = (): Concept => {
       logixUXIndexDialogContentQuality,
       logixUXIndexDialogEndQuality,
       logixUXErrorQuality,
+      logixUXTriggerCountingStrategyQuality,
     ],
     [],
     []

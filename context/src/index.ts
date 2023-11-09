@@ -1,5 +1,5 @@
 /*$ Start template imports $*/
-import { createAxium } from 'stratimux';
+import { createAxium, createCounterConcept } from 'stratimux';
 import { createHelloWorldConcept } from './concepts/helloWorld/helloWorld.concept';
 import { createDocumentObjectModelConcept } from './concepts/documentObjectModel/documentObjectModel.concept';
 import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient/userInterfaceClient.concept';
@@ -7,19 +7,20 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
 
 (() => {
   /*$ Start context template code $*/
-  var init = false;
+  let init = false;
   document.onreadystatechange = () => {
     if (!init) {
       init = true;
-      const axium = createAxium(
+      createAxium(
         'contextAxium',
         [
           createHelloWorldConcept(),
+          createCounterConcept(),
           createDocumentObjectModelConcept({
             index: {
               '#buttonID': [
                 {
-                  action: { type: 'logged a message passed to Axium', semaphore: [0, 0, -1, 0], expiration: 1699549991360 },
+                  action: { type: 'Create logixUX triggerCountingStrategy', semaphore: [0, 0, -1, 0], expiration: 1699551260000 },
                   eventBinding: 'onclick',
                 },
               ],
