@@ -9,6 +9,8 @@ import {
   selectUnifiedState,
 } from 'stratimux';
 import _ws from 'express-ws';
+import { webSocketClientSetServerSemaphore } from '../webSocketClient/qualities/setServerSemaphore.quality';
+import { webSocketServerSyncState } from './qualities/syncState.quality';
 
 export const webSocketServerPrinciple: PrincipleFunction =
   (observer: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
@@ -22,7 +24,46 @@ export const webSocketServerPrinciple: PrincipleFunction =
         if (Object.keys(act).includes('type')) {
           observer.next(act);
         }
-        ws.send(JSON.stringify(axiumLog()));
+        ws.send(JSON.stringify(webSocketClientSetServerSemaphore({semaphore})));
       });
+      // let state: Record<string, unknown> = {};
+      // const planOnChange = concepts$.stage('Web Socket Server On Change', [
+      //   (concepts, dispatch) => {
+      //     const name = getUnifiedName(concepts, semaphore);
+      //     if (name) {
+      //       dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: planOnChange}), {
+      //         iterateStage: true
+      //       });
+      //     } else {
+      //       planOnChange.conclude();
+      //     }
+      //   },
+      //   (concepts) => {
+      //     const newState = selectUnifiedState<Record<string, unknown>>(concepts, semaphore);
+      //     if (newState) {
+      //       const stateKeys = Object.keys(state);
+      //       if (stateKeys.length === 0) {
+      //         state = {
+      //           ...newState
+      //         };
+      //         ws.send(JSON.stringify(webSocketServerSyncState({state})));
+      //       } else {
+      //         for (const key of stateKeys) {
+      //           if (newState[key] !== state[key]) {
+      //             state = {
+      //               ...newState
+      //             };
+      //             const sync = webSocketServerSyncState({state});
+      //             sync.conceptSemaphore = (state as WebSocketClieState).serverSemaphore;
+      //             ws.send(JSON.stringify(webSocketClientSyncState({state})));
+      //             break;
+      //           }
+      //         }
+      //       }
+      //     } else {
+      //       planOnChange.conclude();
+      //     }
+      //   }
+      // ]);
     });
   };

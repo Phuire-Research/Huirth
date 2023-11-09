@@ -13,7 +13,8 @@ export type WebSocketClientAppendToActionQuePayload = {
 }
 export const webSocketClientAppendToActionQueType: ActionType =
   'Web Socket Client append to action que';
-export const webSocketClientAppendToActionQue = prepareActionWithPayloadCreator(webSocketClientAppendToActionQueType);
+export const webSocketClientAppendToActionQue =
+  prepareActionWithPayloadCreator<WebSocketClientAppendToActionQuePayload>(webSocketClientAppendToActionQueType);
 
 function webSocketClientAppendToActionQueReducer(state: WebSocketClientState, action: Action): WebSocketClientState {
   const payload = selectPayload<WebSocketClientAppendToActionQuePayload>(action);

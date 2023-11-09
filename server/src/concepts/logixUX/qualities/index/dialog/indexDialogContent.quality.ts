@@ -1,36 +1,30 @@
 /* eslint-disable max-len */
 import {
   ActionType,
-  Concepts,
   Counter,
   KeyedSelector,
   MethodCreator,
   UnifiedSubject,
-  axiumLog,
   counterName,
-  createMethod,
   createQuality,
   defaultReducer,
   getUnifiedName,
   prepareActionCreator,
   selectState,
+  selectUnifiedState,
   strategySuccess
 } from 'stratimux';
 
 import { createBinding, createBoundSelectors, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 import { elementEventBinding } from '../../../../../model/html';
 import { createMethodWithConcepts } from '../../../../../model/methods';
-import { getAxiumState, getUnifiedList } from '../../../../../model/concepts';
 import { logixUXTriggerCountingStrategy } from '../../triggerCounterStrategy.quality';
 import { userInterfaceClientName } from '../../../../userInterfaceClient/userInterfaceClient.concept';
+import { LogixUXState } from '../../../logixUX.concepts';
+import { logixUX_createDialogSelector } from '../../../logixUX.selector';
 
 export const logixUXIndexDialogContentType: ActionType = 'create userInterface for IndexDialogContent';
 export const logixUXIndexDialogContent = prepareActionCreator(logixUXIndexDialogContentType);
-
-const axiumSelectDialog: KeyedSelector = {
-  conceptName: 'axium',
-  stateKeys: 'dialog'
-};
 
 const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, _semaphore?: number) => createMethodWithConcepts((action, concepts, semaphore) => {
   const id = '#dialogID';
@@ -40,7 +34,7 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
     if (unifiedName) {
       const isClient = unifiedName === userInterfaceClientName;
       console.log('CHECK', isClient, unifiedName);
-      const dialog = getAxiumState(concepts).dialog.trim();
+      const dialog = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState).dialog.trim();
       const counter = selectState<Counter>(concepts, counterName);
       const count = counter ? counter.count : 0;
       let finalDialog = '';
@@ -53,10 +47,10 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
           `;
         });
       }
-      const boundSelectors = isClient ? [createBoundSelectors(id, logixUXIndexDialogContent(), [axiumSelectDialog])] : [];
+      const boundSelectors = isClient ? [createBoundSelectors(id, logixUXIndexDialogContent(), [logixUX_createDialogSelector(concepts, semaphore) as KeyedSelector])] : [];
       return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
         id,
-        bindings: createBinding([{elementId: buttonId, action: logixUXTriggerCountingStrategy(), eventBinding: elementEventBinding.onclick}]),
+        bindings: createBinding([{elementId: buttonId, action: logixUXTriggerCountingStrategy({count}), eventBinding: elementEventBinding.onclick}]),
         boundSelectors,
         action: logixUXIndexDialogContent(),
         html: /*html*/`

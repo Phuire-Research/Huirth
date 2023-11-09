@@ -11,6 +11,7 @@ import {
 } from 'stratimux';
 import _ws from 'express-ws';
 import { WebSocketClientState } from './webSocketClient.concept';
+import { webSocketClientSyncState } from './qualities/syncState.quality';
 
 export const webSocketClientPrinciple: PrincipleFunction = (
   observer: Subscriber<Action>,
@@ -49,7 +50,45 @@ export const webSocketClientPrinciple: PrincipleFunction = (
         }
       },
     ]);
-    ws.send(JSON.stringify(axiumLog()));
+    let state: Record<string, unknown> = {};
+    const planOnChange = concepts$.stage('Web Socket Server On Change', [
+      (concepts, dispatch) => {
+        const name = getUnifiedName(concepts, semaphore);
+        if (name) {
+          dispatch(axiumRegisterStagePlanner({ conceptName: name, stagePlanner: planOnChange }), {
+            iterateStage: true,
+          });
+        } else {
+          planOnChange.conclude();
+        }
+      },
+      (concepts) => {
+        const newState = selectUnifiedState<Record<string, unknown>>(concepts, semaphore);
+        if (newState) {
+          const stateKeys = Object.keys(state);
+          if (stateKeys.length === 0) {
+            state = {
+              ...newState,
+            };
+            ws.send(JSON.stringify(webSocketClientSyncState({ state })));
+          } else {
+            for (const key of stateKeys) {
+              if (newState[key] !== state[key]) {
+                state = {
+                  ...newState,
+                };
+                const sync = webSocketClientSyncState({ state });
+                sync.conceptSemaphore = (state as WebSocketClientState).serverSemaphore;
+                ws.send(JSON.stringify(webSocketClientSyncState({ state })));
+                break;
+              }
+            }
+          }
+        } else {
+          planOnChange.conclude();
+        }
+      },
+    ]);
   });
   ws.addEventListener('message', (message) => {
     const act = JSON.parse(message.data);

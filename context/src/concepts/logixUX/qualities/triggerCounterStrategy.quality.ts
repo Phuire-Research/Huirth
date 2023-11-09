@@ -5,16 +5,24 @@ import {
   createMethod,
   createQuality,
   defaultReducer,
-  prepareActionCreator,
+  prepareActionWithPayloadCreator,
+  selectPayload,
   strategyBegin,
 } from 'stratimux';
 
+export type LogixUXTriggerCountingStrategyPayload = {
+  count: number;
+};
 export const logixUXTriggerCountingStrategyType: ActionType = 'Create logixUX triggerCountingStrategy';
-export const logixUXTriggerCountingStrategy = prepareActionCreator(logixUXTriggerCountingStrategyType);
+export const logixUXTriggerCountingStrategy =
+  prepareActionWithPayloadCreator<LogixUXTriggerCountingStrategyPayload>(logixUXTriggerCountingStrategyType);
 
 const createLogixUXTriggerCountingStrategyMethodCreator: MethodCreator = () =>
-  createMethod((_) => {
-    return strategyBegin(countingStrategy());
+  createMethod((action) => {
+    const count = selectPayload<LogixUXTriggerCountingStrategyPayload>(action).count;
+    const strategy = countingStrategy();
+    strategy.topic += ` from ${count}`;
+    return strategyBegin(strategy);
   });
 
 export const logixUXTriggerCountingStrategyQuality = createQuality(

@@ -8,15 +8,19 @@ import { logixUXIndexDialogBeginQuality } from './qualities/index/dialog/indexDi
 import { logixUXIndexDialogContentQuality } from './qualities/index/dialog/indexDialogContent.quality';
 import { logixUXIndexDialogEndQuality } from './qualities/index/dialog/indexDialogEnd.quality';
 import { logixUXTriggerCountingStrategyQuality } from './qualities/triggerCounterStrategy.quality';
+import { logixUXAppendAxiumDialogQuality } from './qualities/appendAxiumDialog.quality';
+import { logixUXDialogPrinciple } from './logixUX.principle';
 
 export const logixUXName = 'logixUX';
-export type UserInterfaceLogixUXState = {
-  mock: number
+export type LogixUXState = {
+  mock: number;
+  dialog: string;
 };
 
-const createLogixUXState = (): UserInterfaceLogixUXState => {
+const createLogixUXState = (): LogixUXState => {
   return {
     mock: 0,
+    dialog: ''
   };
 };
 
@@ -33,9 +37,10 @@ export const createLogixUXConcept = (): Concept =>  {
       logixUXIndexDialogContentQuality,
       logixUXIndexDialogEndQuality,
       logixUXErrorQuality,
-      logixUXTriggerCountingStrategyQuality
+      logixUXTriggerCountingStrategyQuality,
+      logixUXAppendAxiumDialogQuality
     ],
-    [],
+    [logixUXDialogPrinciple],
     []
   );
 };

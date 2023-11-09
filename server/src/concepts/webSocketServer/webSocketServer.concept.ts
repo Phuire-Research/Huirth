@@ -1,3 +1,5 @@
+import { webSocketServerAppendToActionQueQuality } from './qualities/appendActionQue.quality';
+import { webSocketServerSyncStateQuality } from './qualities/syncState.quality';
 import { webSocketServerPrinciple } from './webSocketServer.principle';
 import { Action, createConcept } from 'stratimux';
 
@@ -17,7 +19,10 @@ export const createWebSocketServerConcept = () => {
   return createConcept(
     webSocketServerName,
     initialWebSocketServerState(),
-    [],
+    [
+      webSocketServerAppendToActionQueQuality,
+      webSocketServerSyncStateQuality
+    ],
     [webSocketServerPrinciple]
   );
 };

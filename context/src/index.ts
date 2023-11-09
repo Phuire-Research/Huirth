@@ -20,7 +20,12 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
             index: {
               '#buttonID': [
                 {
-                  action: { type: 'Create logixUX triggerCountingStrategy', semaphore: [0, 0, -1, 0], expiration: 1699565893636 },
+                  action: {
+                    type: 'Create logixUX triggerCountingStrategy',
+                    semaphore: [0, 0, -1, 0],
+                    payload: { count: 0 },
+                    expiration: 1699573624522,
+                  },
                   eventBinding: 'onclick',
                 },
               ],
