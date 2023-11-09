@@ -1,27 +1,9 @@
 import { createConcept, Concept, axiumLog, Action } from 'stratimux';
 import { documentObjectModelPrinciple } from './documentObjectModel.principle';
-import { Binding, UserInterfacePageBindings } from '../../model/userInterface';
-import { documentObjectModelBindOnClick, documentObjectModelBindOnClickQuality } from './qualities/bindOnClick.quality';
-import { elementEventBinding } from '../../model/html';
-import { Subject } from 'rxjs';
+import { UserInterfacePageBindings } from '../../model/userInterface';
+import { documentObjectModelBindQuality } from './qualities/bind.quality';
 import { documentObjectModelBindPayloadQuality } from './qualities/bindPayload.quality';
 import { documentObjectModelClearBindingQueQuality } from './qualities/clearBindingQue.quality';
-
-export function determineBinding(action$: Subject<Action>, binding: Binding, id: string): Action {
-  const payload = {
-    action$,
-    id,
-    binding
-  };
-  switch (binding.eventBinding) {
-  case elementEventBinding.onclick: {
-    return documentObjectModelBindOnClick(payload);
-  }
-  default: {
-    return axiumLog();
-  }
-  }
-}
 
 export const documentObjectModelName = 'documentObjectModel';
 
@@ -40,7 +22,7 @@ export const createDocumentObjectModelConcept = (bindingQue?: UserInterfacePageB
     documentObjectModelName,
     createDocumentObjectModelState(bindingQue),
     [
-      documentObjectModelBindOnClickQuality,
+      documentObjectModelBindQuality,
       documentObjectModelBindPayloadQuality,
       documentObjectModelClearBindingQueQuality
     ],
