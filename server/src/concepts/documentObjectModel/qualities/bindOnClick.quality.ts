@@ -24,10 +24,12 @@ export const documentObjectModelBindOnClick =
 
 const createDocumentObjectModelBindOnClickCreator: MethodCreator = () => createMethod((action) => {
   const payload = selectPayload<DocumentObjectModelBindOnClickPayload>(action);
-  document.getElementById(payload.id);
-  document.onclick = () => {
-    payload.action$.next(refreshAction(payload.binding.action));
-  };
+  const element = document.getElementById(payload.id);
+  if (element) {
+    element.onclick = () => {
+      payload.action$.next(refreshAction(payload.binding.action));
+    };
+  }
   if (action.strategy) {
     return strategySuccess(action.strategy);
   } else {
