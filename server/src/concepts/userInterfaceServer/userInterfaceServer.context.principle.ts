@@ -36,6 +36,7 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
   const plan = concepts$.stage('User Interface Context Principle Plan', [
     (concepts, dispatch) => {
       const fileSystemExists = areConceptsLoaded(concepts, [fileSystemName]);
+      console.log('IS THIS RUNNING');
       if (!fileSystemExists) {
         console.log('FILE SYSTEM NOT LOADED, CONTEXT PRINCIPLE CONCLUDE');
         plan.conclude();

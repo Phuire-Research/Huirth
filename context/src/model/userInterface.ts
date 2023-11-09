@@ -11,7 +11,7 @@ export type ElementIdentifier = string;
 export type Binding = {
   action: Action;
   eventBinding: elementEventBinding | string;
-}
+};
 export type UserInterfaceBindings = Record<ElementIdentifier, Binding[]>;
 export type UserInterfacePageBindings = Record<string, UserInterfaceBindings>;
 export type PageStrategyCreators = (concepts?: Concepts, semaphore?: number) => ActionStrategyStitch;
@@ -20,14 +20,15 @@ export const createPageId = (pageName: string) => {
   return `page#${pageName}`;
 };
 
-export const createBinding =
-  (bindings: {elementId: string, eventBinding: elementEventBinding, action: Action}[]): UserInterfaceBindings => {
-    const binding: UserInterfaceBindings = {};
-    bindings.forEach(bind => {
-      binding[bind.elementId] = [{action: bind.action, eventBinding: bind.eventBinding}];
-    });
-    return binding;
-  };
+export const createBinding = (
+  bindings: { elementId: string; eventBinding: elementEventBinding; action: Action }[]
+): UserInterfaceBindings => {
+  const binding: UserInterfaceBindings = {};
+  bindings.forEach((bind) => {
+    binding[bind.elementId] = [{ action: bind.action, eventBinding: bind.eventBinding }];
+  });
+  return binding;
+};
 
 export const userInterface_pageBindingsToString = (pageBindings: UserInterfacePageBindings): string => {
   let output = '{ ';
@@ -47,8 +48,7 @@ const userInterface_bindingsToString = (bindings: UserInterfaceBindings): string
     output += `'${key}' : [\n`;
     const bind = bindings[key];
     for (const b of bind) {
-      output +=
-        `\t{\n\t\taction: ${JSON.stringify(b.action).replace(/"/g,'\'')},\n\t\teventBinding: '${b.eventBinding}'\n\t},`;
+      output += `\t{\n\t\taction: ${JSON.stringify(b.action).replace(/"/g, "'")},\n\t\teventBinding: '${b.eventBinding}'\n\t},`;
     }
     output += '\n]';
   }
@@ -67,61 +67,66 @@ export type UserInterfacePageStrategies = Record<string, PageStrategyCreators>;
  */
 
 export type BoundSelectors = {
-  id: string
-  action: Action,
-  selectors: KeyedSelector[],
-  semaphore: [number, number],
-}
+  id: string;
+  action: Action;
+  selectors: KeyedSelector[];
+  semaphore: [number, number];
+};
 
-export const createBoundSelectors =
-  (id: string, action: Action, selectors: KeyedSelector[]): BoundSelectors => ({id, action, selectors, semaphore: [-1, -1]});
+export const createBoundSelectors = (id: string, action: Action, selectors: KeyedSelector[]): BoundSelectors => ({
+  id,
+  action,
+  selectors,
+  semaphore: [-1, -1],
+});
 
 export type Composition = {
   id: string;
-  boundSelectors: BoundSelectors[],
-  bindings?: UserInterfaceBindings,
-  html: string,
+  boundSelectors: BoundSelectors[];
+  bindings?: UserInterfaceBindings;
+  html: string;
   action: Action;
-}
+};
 
 export type Page = {
-  title: string,
-  conceptAndProps: ConceptAndProperties[],
-  compositions: Composition[]
-  cachedSelectors: BoundSelectors[]
-}
+  title: string;
+  conceptAndProps: ConceptAndProperties[];
+  compositions: Composition[];
+  cachedSelectors: BoundSelectors[];
+};
 
 export type PrimedConceptAndProperties = {
-  name: string,
-  nameCapitalized: string,
-  properties?: string[]
-}
+  name: string;
+  nameCapitalized: string;
+  properties?: string[];
+};
 export type ConceptAndProperties = {
-  name: string,
-  properties?: string[]
-}
+  name: string;
+  properties?: string[];
+};
 
-export const userInterface_createPage = (page?: Page): Page => (
-  page ? page : {
-    title: '',
-    conceptAndProps: [],
-    compositions: [],
-    cachedSelectors: [],
-  });
+export const userInterface_createPage = (page?: Page): Page =>
+  page
+    ? page
+    : {
+        title: '',
+        conceptAndProps: [],
+        compositions: [],
+        cachedSelectors: [],
+      };
 
-export const userInterface_appendCompositionToPage =
-  (strategy: ActionStrategy, composition: Composition): Page => {
-    const data = strategyData_select<Page>(strategy);
-    if (data) {
-      const page = data;
-      page.compositions.push(composition);
-      return page;
-    } else {
-      const newPage = userInterface_createPage();
-      newPage.compositions.push(composition);
-      return newPage;
-    }
-  };
+export const userInterface_appendCompositionToPage = (strategy: ActionStrategy, composition: Composition): Page => {
+  const data = strategyData_select<Page>(strategy);
+  if (data) {
+    const page = data;
+    page.compositions.push(composition);
+    return page;
+  } else {
+    const newPage = userInterface_createPage();
+    newPage.compositions.push(composition);
+    return newPage;
+  }
+};
 
 export const userInterface_appendBindings = (strategy: ActionStrategy, bindings: UserInterfaceBindings[]): Page => {
   const data = strategyData_select<Page>(strategy);
@@ -140,14 +145,11 @@ export const userInterface_appendBindings = (strategy: ActionStrategy, bindings:
       }
     }
     if (page.conceptAndProps[index].properties && index !== -1) {
-      page.conceptAndProps[index].properties = [
-        ...(page.conceptAndProps[index].properties as string[]),
-        ...newProps,
-      ];
+      page.conceptAndProps[index].properties = [...(page.conceptAndProps[index].properties as string[]), ...newProps];
     } else {
       page.conceptAndProps.push({
         name: documentObjectModelName,
-        properties: newProps
+        properties: newProps,
       });
     }
     return page;
@@ -155,7 +157,7 @@ export const userInterface_appendBindings = (strategy: ActionStrategy, bindings:
     const page = userInterface_createPage();
     page.conceptAndProps.push({
       name: documentObjectModelName,
-      properties: newProps
+      properties: newProps,
     });
     return userInterface_createPage();
   }

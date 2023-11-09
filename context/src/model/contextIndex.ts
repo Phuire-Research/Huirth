@@ -4,8 +4,9 @@ import { PrimedConceptAndProperties } from './userInterface';
 export async function createContextIndexContent(primedConcepts: PrimedConceptAndProperties[], directoryMap: string[]): Promise<string> {
   const creators = await createConceptCreatorTemplates(primedConcepts);
   const imports = await createConceptImportTemplates(primedConcepts);
-  const content = /*typescript*/
-`/*$ Start template imports $*/
+  const content =
+    /*typescript*/
+    `/*$ Start template imports $*/
 import { createAxium } from 'stratimux';
 ${imports}
 /*$ End template imports $*/
@@ -25,7 +26,7 @@ ${imports}
 }
 
 async function createConceptImportTemplates(concepts: PrimedConceptAndProperties[]): Promise<string> {
-  return concepts.map(concept => createConceptImport(concept)).join('\n');
+  return concepts.map((concept) => createConceptImport(concept)).join('\n');
 }
 
 function createConceptImport(concept: PrimedConceptAndProperties): string {
@@ -33,9 +34,11 @@ function createConceptImport(concept: PrimedConceptAndProperties): string {
 }
 
 async function createConceptCreatorTemplates(concepts: PrimedConceptAndProperties[]): Promise<string> {
-  return concepts.map(concept => {
-    return createConceptCreator(concept);
-  }).join(',\n\t\t');
+  return concepts
+    .map((concept) => {
+      return createConceptCreator(concept);
+    })
+    .join(',\n\t\t');
 }
 
 function createConceptCreator(concept: PrimedConceptAndProperties): string {
