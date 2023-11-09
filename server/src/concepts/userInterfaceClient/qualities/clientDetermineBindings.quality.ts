@@ -16,6 +16,7 @@ import {
 import { UserInterfaceBindings, userInterface_selectPage } from '../../../model/userInterface';
 import { determineBinding } from '../../documentObjectModel/documentObjectModel.concept';
 import { Subject } from 'rxjs';
+import { userInterfaceEnd } from '../../userInterface/qualities/end.quality';
 
 export type UserInterfaceClientActionQueStrategyClientPayload = {
   action$: Subject<Action>
@@ -78,6 +79,13 @@ const createBindingActionNode = (
         previous = node;
       }
     }
+  }
+  if (previous) {
+    const stepEnd = createActionNode(userInterfaceEnd(), {
+      successNode: null,
+      failureNode: null
+    });
+    previous.successNode = stepEnd;
   }
   return first as ActionNode;
 };

@@ -1,6 +1,6 @@
 import { Concept, PrincipleFunction, Quality, createConcept, unifyConcepts } from 'stratimux';
 import { createServerConcept, serverName } from '../server/server.concept';
-import { userInterfaceServerPrinciple } from './userInterfaceServer.principle';
+import { userInterfaceServerOnChangePrinciple, userInterfaceServerPrinciple } from './userInterfaceServer.principle';
 import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
 import {
   UserInterfaceState,
@@ -16,6 +16,7 @@ import { helloWorldPageStrategy } from '../userInterface/strategies.ts/helloWorl
 import { userInterfaceServerFormatContextQuality } from './qualities/formatContext.quality';
 import { PageStrategyCreators } from '../../model/userInterface';
 import { htmlName } from '../html/html.concepts';
+import { userInterfaceServerAssembleActionQueStrategyQuality } from './qualities/serverAssembleActionQueStrategy.quality';
 
 // eslint-disable-next-line no-shadow
 export enum workingConceptCategory {
@@ -53,7 +54,8 @@ const principleGoal = (goal: commandLineInterfaceGoals): PrincipleFunction[] => 
   }
   default: {
     return [
-      userInterfaceServerContextPrinciple
+      userInterfaceServerContextPrinciple,
+      userInterfaceServerOnChangePrinciple
     ];
   }
   }
@@ -63,6 +65,7 @@ const qualityGoal = (goal: commandLineInterfaceGoals): Quality[] => {
   switch (goal) {
   case commandLineInterfaceGoals.simulate: {
     return [
+      userInterfaceServerAssembleActionQueStrategyQuality
     ];
   }
   default: {
@@ -71,7 +74,8 @@ const qualityGoal = (goal: commandLineInterfaceGoals): Quality[] => {
       userInterfaceServerRecursivelyCreateEachPageHtmlQuality,
       userInterfaceServerCreateContextIndexQuality,
       userInterfaceServerBuildContextQuality,
-      userInterfaceServerFormatContextQuality
+      userInterfaceServerFormatContextQuality,
+      userInterfaceServerAssembleActionQueStrategyQuality
     ];
   }
   }

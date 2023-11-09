@@ -1,6 +1,6 @@
 import { Concept, createConcept, unifyConcepts } from 'stratimux';
 import { createHtmlConcept } from '../html/html.concepts';
-import { UserInterfaceState } from '../userInterface/userInterface.concept';
+import { UserInterfaceState, createUserInterfaceConcept } from '../userInterface/userInterface.concept';
 import { PageStrategyCreators } from '../../model/userInterface';
 import { createLogixUXConcept, logixUXName } from '../logixUX/logixUX.concepts';
 import { logixUXErrorPageStrategy } from '../logixUX/strategies/errorPage.strategy';
@@ -8,6 +8,7 @@ import { logixUXIndexPageStrategy } from '../logixUX/strategies/indexPage.strate
 import { userInterfaceClientAssembleActionQueStrategyQuality } from './qualities/clientAssembleActionQueStrategy.quality';
 import { userInterfaceClientDetermineBindingsQuality } from './qualities/clientDetermineBindings.quality';
 import { userInterfaceClientReplaceOuterHtmlQuality } from './qualities/replaceOuterHtml.quality';
+import { userInterfaceClientOnChangePrinciple } from './userInterfaceClient.principle';
 
 export const userInterfaceClientName = 'userInterfaceClient';
 
@@ -21,8 +22,9 @@ const createUserInterfaceClientState = (brand?: {
   name: string
   pageStrategies: PageStrategyCreators[],
 }): UserInterfaceClientState => {
-  if (brand) {
+  if (brand !== undefined) {
     const id = document.querySelector('[id^="page#"]')?.id;
+    console.log('HIT HERE', id, document.querySelector('[id^="page#"]'));
     if (id) {
       return {
         pages: [],
@@ -43,7 +45,12 @@ const createUserInterfaceClientState = (brand?: {
 // For now we are setting this ourselves. The ideal situation would be that this would be determined
 // via the interface this UI is intended for.
 export const createUserInterfaceClientConcept = (): Concept => {
-  return unifyConcepts([createHtmlConcept(), createLogixUXConcept()], createConcept(
+  const unified = unifyConcepts([
+    createHtmlConcept(),
+    createLogixUXConcept(),
+    createUserInterfaceConcept([logixUXIndexPageStrategy, logixUXErrorPageStrategy])
+  ],
+  createConcept(
     userInterfaceClientName,
     createUserInterfaceClientState({
       name: logixUXName,
@@ -57,6 +64,9 @@ export const createUserInterfaceClientConcept = (): Concept => {
     ],
     [
       // userInterfaceInitializationPrinciple
+      userInterfaceClientOnChangePrinciple
     ]
   ));
+  console.log('CHECK UNIFIED', unified);
+  return unified;
 };

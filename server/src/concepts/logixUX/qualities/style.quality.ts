@@ -17,7 +17,8 @@ const createLogixUXStyleMethodCreator: MethodCreator = () => createMethod(
   (action) => {
     if (action.strategy) {
       return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-        selectors: [],
+        id: '',
+        boundSelectors: [],
         action: logixUXStyle(),
         html: /*html*/`
   <style>

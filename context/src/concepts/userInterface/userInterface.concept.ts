@@ -1,9 +1,10 @@
-import { ActionStrategyStitch, Concept, Concepts, createConcept, unifyConcepts } from 'stratimux';
+import { Concept, createConcept, unifyConcepts } from 'stratimux';
 import { Page, PageStrategyCreators } from '../../model/userInterface';
-import { workingConceptCategory } from '../userInterfaceServer/userInterfaceServer.concept';
 import { userInterfaceAddComposedPageToStateQuality } from './qualities/addComposedPageToState.quality';
 import { userInterfaceInitializationPrinciple } from './userInterface.principle';
 import { createHtmlConcept } from '../html/html.concepts';
+import { userInterfaceRefreshCachedSelectorsQuality } from './qualities/refreshPageCachedSelectors.quality';
+import { userInterfaceEndQuality } from './qualities/end.quality';
 
 export const userInterfaceName = 'userInterface';
 
@@ -29,7 +30,7 @@ export const createUserInterfaceConcept = (pageStrategies: PageStrategyCreators[
     createConcept(
       userInterfaceName,
       createUserInterfaceState(pageStrategies),
-      [userInterfaceAddComposedPageToStateQuality],
+      [userInterfaceAddComposedPageToStateQuality, userInterfaceRefreshCachedSelectorsQuality, userInterfaceEndQuality],
       [userInterfaceInitializationPrinciple]
     )
   );

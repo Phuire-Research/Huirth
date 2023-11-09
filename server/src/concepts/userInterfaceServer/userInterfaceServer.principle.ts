@@ -4,7 +4,6 @@ import express from 'express';
 import {
   Action,
   Concepts,
-  KeyedSelector,
   PrincipleFunction,
   UnifiedSubject,
   axiumRegisterStagePlanner,
@@ -12,7 +11,6 @@ import {
   selectSlice,
   selectState,
   selectUnifiedState,
-  updateUnifiedKeyedSelector
 } from 'stratimux';
 import { BoundSelectors, Page } from '../../model/userInterface';
 import path from 'path';
@@ -21,9 +19,9 @@ import { findRoot } from '../../model/findRoot';
 import { UserInterfaceServerState } from './userInterfaceServer.concept';
 import { getUnifiedName } from '../../model/concepts';
 import {
-  UserInterfaceAssembleActionQueStrategyServerPayload,
-  userInterfaceAssembleActionQueStrategyServer
-} from './qualities/assembleActionQueStrategyServer.quality';
+  UserInterfaceServerAssembleActionQueStrategyPayload,
+  userInterfaceServerAssembleActionQueStrategy
+} from './qualities/serverAssembleActionQueStrategy.quality';
 
 export const userInterfaceServerPrinciple: PrincipleFunction =
   (_: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
@@ -97,55 +95,54 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
 
 export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
   (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
-    let cachedState = selectUnifiedState<UserInterfaceServerState>(cpts, semaphore);
-    if (cachedState) {
-      const plan = concepts$.stage('User Interface Server on Change', [
-        (concepts, dispatch) => {
-          const name = getUnifiedName(concepts, semaphore);
-          if (name) {
-            dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
-              on: {
-                expected: true,
-                selector: axiumSelectOpen
-              },
-              iterateStage: true
-            });
-          } else {
-            plan.conclude();
-          }
-        },
-        (concepts, dispatch) => {
-          const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
-          if (uiState && uiState.pagesCached) {
-            const selectors: BoundSelectors[] = [];
-            uiState.pages.forEach(page => page.cachedSelectors.forEach(bound => {
-              bound.action.conceptSemaphore = semaphore;
-              selectors.push(bound);
-            }));
-            const payload: UserInterfaceAssembleActionQueStrategyServerPayload = {
-              boundActionQue: []
-            };
-            selectors.forEach(bound => {
-              for (const b of bound.selectors) {
-                if (
-                  (cachedState as Record<string, unknown>)[b.stateKeys] !==
-                  selectSlice(concepts, updateUnifiedKeyedSelector(concepts, semaphore, b) as KeyedSelector)
-                ) {
-                  payload.boundActionQue.push(bound);
-                }
+    const atomicCachedState: Record<string, unknown> = {};
+    const plan = concepts$.stage('User Interface Server on Change', [
+      (concepts, dispatch) => {
+        const name = getUnifiedName(concepts, semaphore);
+        if (name) {
+          dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
+            on: {
+              expected: true,
+              selector: axiumSelectOpen
+            },
+            iterateStage: true
+          });
+        } else {
+          plan.conclude();
+        }
+      },
+      (concepts, dispatch) => {
+        const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
+        if (uiState && uiState.pagesCached) {
+          const selectors: BoundSelectors[] = [];
+          uiState.pages.forEach(page => page.cachedSelectors.forEach(bound => {
+            bound.action.conceptSemaphore = semaphore;
+            selectors.push(bound);
+          }));
+          const payload: UserInterfaceServerAssembleActionQueStrategyPayload = {
+            boundActionQue: []
+          };
+          selectors.forEach(bound => {
+            for (const select of bound.selectors) {
+              const value = selectSlice(concepts, select);
+              if (
+                atomicCachedState[select.stateKeys] !==
+                value
+              ) {
+                payload.boundActionQue.push(bound);
               }
-            });
-            cachedState = {...uiState};
-            if (payload.boundActionQue.length > 0) {
-              dispatch(userInterfaceAssembleActionQueStrategyServer(payload), {
-                throttle: 50
-              });
+              atomicCachedState[select.stateKeys] = value;
             }
-          } else if (uiState === undefined) {
-            plan.conclude();
+          });
+          if (payload.boundActionQue.length > 0) {
+            dispatch(userInterfaceServerAssembleActionQueStrategy(payload), {
+              throttle: 50
+            });
           }
-        },
-      ]
-      );
-    }
+        } else if (uiState === undefined) {
+          plan.conclude();
+        }
+      },
+    ]
+    );
   };

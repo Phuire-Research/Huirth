@@ -32,12 +32,12 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
       const id = '#dialogID';
       const buttonId = '#buttonID';
       if (action.strategy) {
-        const dialog = getAxiumState(concepts).dialog;
+        const dialog = getAxiumState(concepts).dialog.trim();
         let finalDialog = '';
-        dialog.split('\n').forEach((paragraph) => {
+        dialog.split('\n').forEach((paragraph, i) => {
           finalDialog += /*html*/ `
         <p class="pb-2 indent-4">
-          ${paragraph}
+          ${i + ': ' + paragraph}
         </p>
       `;
         });

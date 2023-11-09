@@ -25,7 +25,8 @@ const createHtmlHeadMethodCreator: MethodCreator = () => createMethod(
     if (action.strategy) {
       const payload = selectPayload<HtmlBeginPayload>(action);
       return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-        selectors: [],
+        id: '',
+        boundSelectors: [],
         action: htmlBegin(payload),
         html: /*html*/`
 <!DOCTYPE html>

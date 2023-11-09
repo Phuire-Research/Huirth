@@ -16,6 +16,7 @@
     "build": "rimraf ./dist && tsup src/index.ts --format cjs,esm --dts",
     "build:static": "rimraf ./dist && tsup src/index.ts --format cjs,esm --dts && node ./dist/index.js --goal staticDeployment",
     "start:dev": "npx nodemon --goal simulate",
+    "start:dynamicDev": "npx nodemon --goal dynamicDeployment",
     "start:dynamic": "npm run build && node dist/index.js --goal dynamicDeployment",
     "start": "npm run build && node dist/index.js",
     "lint": "eslint . --ext .ts",
