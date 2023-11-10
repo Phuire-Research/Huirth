@@ -19,6 +19,10 @@
   ],
   "author": "Micah T. Keller (public@phuire.org)",
   "devDependencies": {
+    "@types/express-ws": "^3.0.4",
     "concurrently": "^8.2.1"
+  },
+  "dependencies": {
+    "express-ws": "^5.0.2"
   }
 }

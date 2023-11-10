@@ -9,6 +9,7 @@ import { userInterfaceClientAssembleActionQueStrategyQuality } from './qualities
 import { userInterfaceClientDetermineBindingsQuality } from './qualities/clientDetermineBindings.quality';
 import { userInterfaceClientReplaceOuterHtmlQuality } from './qualities/replaceOuterHtml.quality';
 import { userInterfaceClientOnChangePrinciple } from './userInterfaceClient.principle';
+import { createWebSocketClientConcept } from '../webSocketClient/webSocketClient.concept';
 
 export const userInterfaceClientName = 'userInterfaceClient';
 
@@ -18,7 +19,7 @@ export type UserInterfaceClientState = {
   currentPage: string;
 } & UserInterfaceState;
 
-const createUserInterfaceClientState = (brand?: {
+const createUserInterfaceClientState = (newState: Record<string, unknown>, brand?: {
   name: string
   pageStrategies: PageStrategyCreators[],
 }): UserInterfaceClientState => {
@@ -30,7 +31,8 @@ const createUserInterfaceClientState = (brand?: {
         pages: [],
         pageStrategies: brand.pageStrategies,
         pagesCached: false,
-        currentPage: id.split('page#')[1]
+        currentPage: id.split('page#')[1],
+        ...newState
       };
     }
   }
@@ -38,23 +40,35 @@ const createUserInterfaceClientState = (brand?: {
     pages: [],
     pageStrategies: [],
     pagesCached: false,
-    currentPage: ''
+    currentPage: '',
+    ...newState
   };
 };
 
 // For now we are setting this ourselves. The ideal situation would be that this would be determined
 // via the interface this UI is intended for.
-export const createUserInterfaceClientConcept = (): Concept => {
+export const createUserInterfaceClientConcept = (state?: Record<string, unknown>): Concept => {
+  const newState: Record<string, unknown> = {};
+  console.log('FOUND STATE', state);
+  if (state) {
+    const stateKeys = Object.keys(state);
+    for (const key of stateKeys) {
+      if (key !== 'pages' && key !== 'pageStrategies' && key !== 'pagesCached' && key !== 'currentPage' && key !== 'actionQue') {
+        newState[key] = state[key];
+      }
+    }
+  }
   const unified = unifyConcepts([
     createHtmlConcept(),
+    createWebSocketClientConcept(),
     createLogixUXConcept(),
     createUserInterfaceConcept([logixUXIndexPageStrategy, logixUXErrorPageStrategy])
   ],
   createConcept(
     userInterfaceClientName,
-    createUserInterfaceClientState({
+    createUserInterfaceClientState(newState, {
       name: logixUXName,
-      pageStrategies: [logixUXIndexPageStrategy, logixUXErrorPageStrategy]
+      pageStrategies: [logixUXIndexPageStrategy, logixUXErrorPageStrategy],
     }),
     [
       // userInterfaceAddComposedPageToStateQuality,
