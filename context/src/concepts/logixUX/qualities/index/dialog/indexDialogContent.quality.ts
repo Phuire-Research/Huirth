@@ -77,6 +77,12 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
               `;
               }
             });
+            setTimeout(() => {
+              const element = document.getElementById(id + 'scroll');
+              if (element) {
+                element.scrollTop = element.scrollHeight;
+              }
+            }, 20);
           }
           const boundSelectors = isClient
             ? [
@@ -91,7 +97,7 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
             userInterface_appendCompositionToPage(action.strategy, {
               id,
               bindings: createBinding([
-                // {elementId: strategyId, action: logixUXTriggerCountingStrategy(), eventBinding: elementEventBinding.onclick},
+                { elementId: strategyId, action: logixUXTriggerCountingStrategy({ number: 0 }), eventBinding: elementEventBinding.onclick },
                 {
                   elementId: strategyPlusId,
                   action: logixUXTriggerCountingStrategy({ number: 1 }),
@@ -109,6 +115,9 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
               action: logixUXIndexDialogContent(),
               html: /*html*/ `
           <div id='${id}'>
+            <button id=${strategyId} class="m-2 center-m bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+              RANDOM
+            </button>
             <button id=${strategyPlusId} class="m-2 center-m bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
               COUNT SEVEN
             </button>
@@ -123,7 +132,11 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
             </button>
             <span class="text-amber-300 text-xl">Count: ${count}</span>
             <br>
-            ${finalDialog}
+            <div id='${
+              id + 'scroll'
+            }' class="overflow-scroll max-h-[70vh] p-12 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
+              ${finalDialog}
+            </div>
           </div>
     `,
             })

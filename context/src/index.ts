@@ -20,13 +20,24 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
             createHelloWorldConcept(),
             createDocumentObjectModelConcept({
               index: {
+                '#strategyID': [
+                  {
+                    action: {
+                      type: 'Create logixUX triggerCountingStrategy',
+                      semaphore: [0, 0, -1, 0],
+                      payload: { number: 0 },
+                      expiration: 1699629070903,
+                    },
+                    eventBinding: 'onclick',
+                  },
+                ],
                 '#strategyPlusID': [
                   {
                     action: {
                       type: 'Create logixUX triggerCountingStrategy',
                       semaphore: [0, 0, -1, 0],
                       payload: { number: 1 },
-                      expiration: 1699626868838,
+                      expiration: 1699629070903,
                     },
                     eventBinding: 'onclick',
                   },
@@ -37,20 +48,20 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
                       type: 'Create logixUX triggerCountingStrategy',
                       semaphore: [0, 0, -1, 0],
                       payload: { number: -1 },
-                      expiration: 1699626868838,
+                      expiration: 1699629070903,
                     },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#addID': [
                   {
-                    action: { type: 'Counter Add', semaphore: [0, 0, -1, 0], expiration: 1699626868838 },
+                    action: { type: 'Counter Add', semaphore: [0, 0, -1, 0], expiration: 1699629070903 },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#subtractID': [
                   {
-                    action: { type: 'Counter Subtract', semaphore: [0, 0, -1, 0], expiration: 1699626868838 },
+                    action: { type: 'Counter Subtract', semaphore: [0, 0, -1, 0], expiration: 1699629070903 },
                     eventBinding: 'onclick',
                   },
                 ],
