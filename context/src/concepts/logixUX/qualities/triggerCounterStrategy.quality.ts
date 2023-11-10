@@ -34,6 +34,8 @@ const createLogixUXTriggerCountingStrategyMethodCreator: MethodCreator = (concep
       let strategy = logixUXMinusSevenStrategy(state.count, semaphore as number);
       if (payload.number === 1) {
         strategy = logixUXPlusSevenStrategy(state.count, semaphore as number);
+      } else if (payload.number === 0) {
+        strategy = logixUXGenerateCountingStrategy(state.count, semaphore as number);
       }
       // const strategy = countingStrategy();
       // strategy.topic += ' :' + state.count;
