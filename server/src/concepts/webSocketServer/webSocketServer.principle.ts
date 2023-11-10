@@ -19,14 +19,15 @@ export const webSocketServerPrinciple: PrincipleFunction =
     const initialServerState = selectUnifiedState(cpts, semaphore) as ServerState;
     const server = initialServerState.server;
     const socket = _ws(server);
-
     socket.app.ws('/axium', (ws, req) => {
+      ws.on('open', () => {
+        ws.send(JSON.stringify(webSocketClientSetServerSemaphore({semaphore})));
+      });
       ws.on('message', (message) => {
         const act = JSON.parse(`${message}`);
         if (Object.keys(act).includes('type')) {
           observer.next(act);
         }
-        ws.send(JSON.stringify(webSocketClientSetServerSemaphore({semaphore})));
       });
       // let state: Record<string, unknown> = {};
       // const planOnChange = concepts$.stage('Web Socket Server On Change', [

@@ -39,6 +39,7 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
         }
       },
       (concepts, dispatch) => {
+        console.log('HIT');
         const uiState = selectUnifiedState<UserInterfaceClientState>(concepts, semaphore);
         if (uiState && uiState.pagesCached) {
           const selectors: BoundSelectors[] = [];
@@ -58,6 +59,7 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
           selectors.forEach(bound => {
             for (const select of bound.selectors) {
               const value = selectSlice(concepts, select);
+              console.log('HITTING', select, value, atomicCachedState);
               if (
                 (atomicCachedState as Record<string, unknown>)[select.stateKeys] !==
                 value
