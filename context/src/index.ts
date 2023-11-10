@@ -20,9 +20,37 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
             createHelloWorldConcept(),
             createDocumentObjectModelConcept({
               index: {
-                '#buttonID': [
+                '#strategyPlusID': [
                   {
-                    action: { type: 'Create logixUX triggerCountingStrategy', semaphore: [0, 0, -1, 0], expiration: 1699581422020 },
+                    action: {
+                      type: 'Create logixUX triggerCountingStrategy',
+                      semaphore: [0, 0, -1, 0],
+                      payload: { number: 1 },
+                      expiration: 1699626868838,
+                    },
+                    eventBinding: 'onclick',
+                  },
+                ],
+                '#strategyMinusID': [
+                  {
+                    action: {
+                      type: 'Create logixUX triggerCountingStrategy',
+                      semaphore: [0, 0, -1, 0],
+                      payload: { number: -1 },
+                      expiration: 1699626868838,
+                    },
+                    eventBinding: 'onclick',
+                  },
+                ],
+                '#addID': [
+                  {
+                    action: { type: 'Counter Add', semaphore: [0, 0, -1, 0], expiration: 1699626868838 },
+                    eventBinding: 'onclick',
+                  },
+                ],
+                '#subtractID': [
+                  {
+                    action: { type: 'Counter Subtract', semaphore: [0, 0, -1, 0], expiration: 1699626868838 },
                     eventBinding: 'onclick',
                   },
                 ],

@@ -19,6 +19,7 @@ import { BoundSelectors, UserInterfaceBindings, userInterface_selectPage } from 
 import { userInterfaceClientReplaceOuterHtml } from './replaceOuterHtml.quality';
 import { Subject } from 'rxjs';
 import { userInterfaceClientDetermineBindings } from './clientDetermineBindings.quality';
+import { userInterfaceEnd } from '../../userInterface/qualities/end.quality';
 
 export type UserInterfaceClientAssembleActionQueStrategyPayload = {
   action$: Subject<Action>;
@@ -74,8 +75,12 @@ export const userInterfaceClientAssembleActionQueStrategyQuality = createQuality
 
 // Need to provide semaphore that will update the target composition of some page.
 const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy] => {
-  const stepReplaceOuterHtml = createActionNode(userInterfaceClientReplaceOuterHtml(), {
+  const stepEnd = createActionNode(userInterfaceEnd(), {
     successNode: null,
+    failureNode: null,
+  });
+  const stepReplaceOuterHtml = createActionNode(userInterfaceClientReplaceOuterHtml(), {
+    successNode: stepEnd,
     failureNode: null,
   });
   // const stepUpdateAtomic = createActionNode(userInterfaceAtomicUpdatePageComposition({bound}, bound.action.conceptSemaphore as number), {

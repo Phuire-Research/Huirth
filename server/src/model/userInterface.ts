@@ -50,7 +50,7 @@ const userInterface_bindingsToString = (bindings: UserInterfaceBindings): string
       output +=
         `\t{\n\t\taction: ${JSON.stringify(b.action).replace(/"/g,'\'')},\n\t\teventBinding: '${b.eventBinding}'\n\t},`;
     }
-    output += '\n]';
+    output += '\n],';
   }
   output += '\n}';
   return output;
