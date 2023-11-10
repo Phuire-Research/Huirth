@@ -1,4 +1,4 @@
-import { createConcept, Concept } from 'stratimux';
+import { createConcept, Concept, unifyConcepts, createCounterConcept } from 'stratimux';
 import { logixUXErrorQuality } from './qualities/error.quality';
 import { logixUXHeadQuality } from './qualities/head.quality';
 import { logixUXStyleQuality } from './qualities/style.quality';
@@ -25,22 +25,25 @@ const createLogixUXState = (): LogixUXState => {
 };
 
 export const createLogixUXConcept = (): Concept => {
-  return createConcept(
-    logixUXName,
-    createLogixUXState(),
-    [
-      logixUXHeadQuality,
-      logixUXStyleQuality,
-      logixUXFooterQuality,
-      logixUXIndexHeroQuality,
-      logixUXIndexDialogBeginQuality,
-      logixUXIndexDialogContentQuality,
-      logixUXIndexDialogEndQuality,
-      logixUXErrorQuality,
-      logixUXTriggerCountingStrategyQuality,
-      logixUXAppendAxiumDialogQuality,
-    ],
-    [logixUXDialogPrinciple],
-    []
+  return unifyConcepts(
+    [createCounterConcept()],
+    createConcept(
+      logixUXName,
+      createLogixUXState(),
+      [
+        logixUXHeadQuality,
+        logixUXStyleQuality,
+        logixUXFooterQuality,
+        logixUXIndexHeroQuality,
+        logixUXIndexDialogBeginQuality,
+        logixUXIndexDialogContentQuality,
+        logixUXIndexDialogEndQuality,
+        logixUXErrorQuality,
+        logixUXTriggerCountingStrategyQuality,
+        logixUXAppendAxiumDialogQuality,
+      ],
+      [logixUXDialogPrinciple],
+      []
+    )
   );
 };

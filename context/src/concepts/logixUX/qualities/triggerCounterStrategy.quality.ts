@@ -1,29 +1,30 @@
 import {
   ActionType,
+  Counter,
   MethodCreator,
+  UnifiedSubject,
   countingStrategy,
   createMethod,
+  createMethodWithState,
   createQuality,
   defaultReducer,
-  prepareActionWithPayloadCreator,
-  selectPayload,
+  prepareActionCreator,
   strategyBegin,
 } from 'stratimux';
 
-export type LogixUXTriggerCountingStrategyPayload = {
-  count: number;
-};
 export const logixUXTriggerCountingStrategyType: ActionType = 'Create logixUX triggerCountingStrategy';
-export const logixUXTriggerCountingStrategy =
-  prepareActionWithPayloadCreator<LogixUXTriggerCountingStrategyPayload>(logixUXTriggerCountingStrategyType);
+export const logixUXTriggerCountingStrategy = prepareActionCreator(logixUXTriggerCountingStrategyType);
 
-const createLogixUXTriggerCountingStrategyMethodCreator: MethodCreator = () =>
-  createMethod((action) => {
-    const count = selectPayload<LogixUXTriggerCountingStrategyPayload>(action).count;
-    const strategy = countingStrategy();
-    strategy.topic += ` from ${count}`;
-    return strategyBegin(strategy);
-  });
+const createLogixUXTriggerCountingStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
+  createMethodWithState<Counter>(
+    (action, state) => {
+      const strategy = countingStrategy();
+      strategy.topic += ` from ${state.count}`;
+      return strategyBegin(strategy);
+    },
+    concepts$ as UnifiedSubject,
+    semaphore as number
+  );
 
 export const logixUXTriggerCountingStrategyQuality = createQuality(
   logixUXTriggerCountingStrategyType,

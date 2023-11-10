@@ -10,7 +10,6 @@ import {
   defaultReducer,
   getUnifiedName,
   prepareActionCreator,
-  selectState,
   selectUnifiedState,
   strategySuccess,
 } from 'stratimux';
@@ -37,7 +36,8 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
           const isClient = unifiedName === userInterfaceClientName;
           console.log('CHECK', isClient, unifiedName);
           const dialog = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState).dialog.trim();
-          const counter = selectState<Counter>(concepts, counterName);
+          const counter = selectUnifiedState<Counter>(concepts, semaphore);
+          console.log('CHECK COUNTER', concepts);
           const count = counter ? counter.count : 0;
           let finalDialog = '';
           if (isClient) {
@@ -57,7 +57,7 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
             userInterface_appendCompositionToPage(action.strategy, {
               id,
               bindings: createBinding([
-                { elementId: buttonId, action: logixUXTriggerCountingStrategy({ count }), eventBinding: elementEventBinding.onclick },
+                { elementId: buttonId, action: logixUXTriggerCountingStrategy(), eventBinding: elementEventBinding.onclick },
               ]),
               boundSelectors,
               action: logixUXIndexDialogContent(),

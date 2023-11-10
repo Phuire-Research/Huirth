@@ -8,34 +8,38 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
 (() => {
   /*$ Start context template code $*/
   let init = false;
+  let state: Record<string, unknown> | undefined;
+  fetch(window.location.protocol + '//' + window.location.host + '/stateSync').then((response) => {
+    response.json().then((value) => {
+      state = value;
+      console.log('WORKS', value);
+      if (init && state) {
+        createAxium(
+          'contextAxium',
+          [
+            createHelloWorldConcept(),
+            createDocumentObjectModelConcept({
+              index: {
+                '#buttonID': [
+                  {
+                    action: { type: 'Create logixUX triggerCountingStrategy', semaphore: [0, 0, -1, 0], expiration: 1699581422020 },
+                    eventBinding: 'onclick',
+                  },
+                ],
+              },
+              error: {},
+            }),
+            createUserInterfaceClientConcept(state),
+          ],
+          true,
+          true
+        );
+      }
+    });
+  });
   document.onreadystatechange = () => {
     if (!init) {
       init = true;
-      createAxium(
-        'contextAxium',
-        [
-          createHelloWorldConcept(),
-          createCounterConcept(),
-          createDocumentObjectModelConcept({
-            index: {
-              '#buttonID': [
-                {
-                  action: {
-                    type: 'Create logixUX triggerCountingStrategy',
-                    semaphore: [0, 0, -1, 0],
-                    payload: { count: 0 },
-                    expiration: 1699573624522,
-                  },
-                  eventBinding: 'onclick',
-                },
-              ],
-            },
-            error: {},
-          }),
-          createUserInterfaceClientConcept(),
-        ],
-        true
-      );
     }
   };
   // eslint-disable-next-line @typescript-eslint/no-empty-function

@@ -52,6 +52,7 @@ const createUserInterfaceClientState = (
 // via the interface this UI is intended for.
 export const createUserInterfaceClientConcept = (state?: Record<string, unknown>): Concept => {
   const newState: Record<string, unknown> = {};
+  console.log('FOUND STATE', state);
   if (state) {
     const stateKeys = Object.keys(state);
     for (const key of stateKeys) {
@@ -85,5 +86,6 @@ export const createUserInterfaceClientConcept = (state?: Record<string, unknown>
       ]
     )
   );
+  console.log('CHECK UNIFIED', unified);
   return unified;
 };

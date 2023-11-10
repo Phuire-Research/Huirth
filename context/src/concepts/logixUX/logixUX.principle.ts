@@ -7,10 +7,11 @@ import { userInterfaceClientName } from '../userInterfaceClient/userInterfaceCli
 let topic = '';
 export const logixUXDialogPrinciple: PrincipleFunction = (
   _: Subscriber<Action>,
-  __: Concepts,
+  cpts: Concepts,
   concepts$: UnifiedSubject,
   semaphore: number
 ) => {
+  console.log('CHECK CONCEPTS', cpts);
   const plan = concepts$.stage('Observe Axium Dialog and append to State', [
     (concepts, dispatch) => {
       const conceptName = getUnifiedName(concepts, semaphore);

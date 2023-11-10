@@ -25,6 +25,7 @@ import {
 
 export const userInterfaceServerPrinciple: PrincipleFunction =
   (_: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
+    const newState = selectUnifiedState(cpts, semaphore) as Record<string, unknown>;
     const body = 'body response';
     let pages: Page[] = [];
     let errorPage: undefined | string;
@@ -46,6 +47,32 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
         }
       }
     });
+    const plan = concepts$.stage('State Sync Client Init', [
+      (concepts, dispatch) => {
+        const name = getUnifiedName(concepts, semaphore);
+        if (name) {
+          dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
+            iterateStage: true
+          });
+        } else {
+          plan.conclude();
+        }
+      },
+      (concepts, __) => {
+        const state = selectUnifiedState<Record<string, unknown>>(concepts, semaphore);
+        if (state) {
+          const stateKeys = Object.keys(state);
+          for (const key of stateKeys) {
+            if (key !== 'pages' && key !== 'pageStrategies' && key !== 'pagesCached' && key !== 'currentPage' && key !== 'actionQue') {
+              newState[key] = state[key];
+            }
+          }
+        } else {
+          plan.conclude();
+        }
+      }
+    ]);
+
     const initialServerState = selectUnifiedState(cpts, semaphore) as ServerState;
     const initialFileSystemState = selectState<FileSystemState>(cpts, fileSystemName);
     const server = initialServerState.server;
@@ -63,6 +90,9 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
       } else if (!found) {
         res.send(body);
       }
+    });
+    server.get('/stateSync', (__, res) => {
+      res.json(newState);
     });
     server.get('/:title', (req, res) => {
       let found = false;

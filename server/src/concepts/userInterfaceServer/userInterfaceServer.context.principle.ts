@@ -102,6 +102,7 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
               });
               conceptsAndProps.push({
                 name: userInterfaceClientName,
+                properties: ['state']
               });
               conceptsAndProps.push({
                 name: webSocketClientName,
