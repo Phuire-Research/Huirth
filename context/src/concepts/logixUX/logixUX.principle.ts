@@ -34,7 +34,7 @@ export const logixUXDialogPrinciple: PrincipleFunction = (
             dialog: axiumDialog,
           }),
           {
-            throttle: 50,
+            throttle: 1,
           }
         );
       }
