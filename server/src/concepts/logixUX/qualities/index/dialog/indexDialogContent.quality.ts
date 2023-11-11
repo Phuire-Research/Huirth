@@ -103,23 +103,23 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
           html: /*html*/`
           <div id='${id}'>
             <button id=${strategyId} class="m-2 center-m bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-              RANDOM
+              Random
             </button>
             <button id=${strategyPlusId} class="m-2 center-m bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-              COUNT SEVEN
+              Count Seven
             </button>
             <button id=${strategyMinusId} class="m-2 center-m bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-              MINUS SEVEN
+              Minus Seven
             </button>
             <button id=${addId} class="m-2 center-m bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
-              ADD
+              Add
             </button>
             <button id=${subtractId} class="m-2 center-m bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
               Subtract
             </button>
             <span class="text-amber-300 text-xl">Count: ${count}</span>
             <br>
-            <div id='${id + 'scroll'}' class="overflow-scroll max-h-[70vh] p-12 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
+            <div id='${id + 'scroll'}' class="mt-4 overflow-scroll max-h-[70vh] p-4 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
               ${finalDialog}
             </div>
           </div>

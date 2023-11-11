@@ -36,7 +36,7 @@ export const logixUXDialogPrinciple: PrincipleFunction =
           dispatch(logixUXAppendAxiumDialog({
             dialog: axiumDialog
           }), {
-            throttle: 50
+            throttle: 1
           });
         }
       }
