@@ -27,7 +27,7 @@ import { createLogixUXConcept } from './concepts/logixUX/logixUX.concept';
                       type: 'Create logixUX triggerCountingStrategy',
                       semaphore: [0, 0, -1, 0],
                       payload: { number: 0 },
-                      expiration: 1699916672456,
+                      expiration: 1699918446254,
                     },
                     eventBinding: 'onclick',
                   },
@@ -38,7 +38,7 @@ import { createLogixUXConcept } from './concepts/logixUX/logixUX.concept';
                       type: 'Create logixUX triggerCountingStrategy',
                       semaphore: [0, 0, -1, 0],
                       payload: { number: 1 },
-                      expiration: 1699916672456,
+                      expiration: 1699918446254,
                     },
                     eventBinding: 'onclick',
                   },
@@ -49,21 +49,39 @@ import { createLogixUXConcept } from './concepts/logixUX/logixUX.concept';
                       type: 'Create logixUX triggerCountingStrategy',
                       semaphore: [0, 0, -1, 0],
                       payload: { number: -1 },
-                      expiration: 1699916672456,
+                      expiration: 1699918446254,
                     },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#addID': [
                   {
-                    action: { type: 'Counter Add', semaphore: [0, 0, -1, 0], expiration: 1699916672456 },
+                    action: { type: 'Counter Add', semaphore: [0, 0, -1, 0], expiration: 1699918446254 },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#subtractID': [
                   {
-                    action: { type: 'Counter Subtract', semaphore: [0, 0, -1, 0], expiration: 1699916672456 },
+                    action: { type: 'Counter Subtract', semaphore: [0, 0, -1, 0], expiration: 1699918446254 },
                     eventBinding: 'onclick',
+                  },
+                ],
+                '#promptID0': [
+                  {
+                    action: { type: 'Create logixUX UpdateFromPayload', semaphore: [0, 0, -1, 0], expiration: 1699918446083 },
+                    eventBinding: 'onchange',
+                  },
+                ],
+                '#chosenID0': [
+                  {
+                    action: { type: 'Create logixUX UpdateFromPayload', semaphore: [0, 0, -1, 0], expiration: 1699918446083 },
+                    eventBinding: 'onchange',
+                  },
+                ],
+                '#rejectedID0': [
+                  {
+                    action: { type: 'Create logixUX UpdateFromPayload', semaphore: [0, 0, -1, 0], expiration: 1699918446083 },
+                    eventBinding: 'onchange',
                   },
                 ],
               },

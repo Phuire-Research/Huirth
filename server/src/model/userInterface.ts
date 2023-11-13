@@ -5,6 +5,7 @@ import {
   Concepts,
   KeyedSelector,
   getUnifiedName,
+  selectPayload,
   strategyData_select
 } from 'stratimux';
 import { elementEventBinding } from './html';
@@ -40,6 +41,11 @@ export const createBinding =
     });
     return binding;
   };
+
+export const userInterface_selectInputTarget = (action: Action) => {
+  const payload = selectPayload<Event>(action);
+  return payload.target as HTMLInputElement;
+};
 
 export const userInterface_isClient = (concepts: Concepts, semaphore: number) => {
   const name = getUnifiedName(concepts, semaphore);

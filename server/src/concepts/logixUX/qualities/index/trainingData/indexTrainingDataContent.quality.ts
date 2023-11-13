@@ -16,6 +16,7 @@ import {
 import { createBinding, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 import { elementEventBinding } from '../../../../../model/html';
 import { LogixUXState } from '../../../logixUX.concept';
+import { logixUXUpdateFromPayload } from '../../updateFromPayload.quality';
 
 export const logixUXIndexTrainingDataContentType: ActionType = 'create userInterface for IndexTrainingDataContent';
 export const logixUXIndexTrainingDataContent = prepareActionCreator(logixUXIndexTrainingDataContentType);
@@ -41,17 +42,17 @@ const createIndexTrainingDataContentMethodCreator: MethodCreator = (concepts$?: 
         bindingsArray.push({
           elementId: promptID + elementID,
           eventBinding: elementEventBinding.onchange,
-          action: axiumLog()
+          action: logixUXUpdateFromPayload()
         });
         bindingsArray.push({
           elementId: chosenID + elementID,
           eventBinding: elementEventBinding.onchange,
-          action: axiumLog()
+          action: logixUXUpdateFromPayload()
         });
         bindingsArray.push({
           elementId: rejectedID + elementID,
           eventBinding: elementEventBinding.onchange,
-          action: axiumLog()
+          action: logixUXUpdateFromPayload()
         });
         finalOutput += /*html*/`
           <div>

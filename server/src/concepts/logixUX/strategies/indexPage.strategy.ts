@@ -44,7 +44,7 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
     [
       logixUXBody,
       logixUXIndexDialogStrategyStitch,
-      // logixUXIndexTrainingDataStrategyStitch,
+      logixUXIndexTrainingDataStrategyStitch,
       logixUXFooterStrategy
     ],
     logixUXHeaderStrategy

@@ -1,4 +1,13 @@
-import { Action, ActionStrategy, ActionStrategyStitch, Concepts, KeyedSelector, getUnifiedName, strategyData_select } from 'stratimux';
+import {
+  Action,
+  ActionStrategy,
+  ActionStrategyStitch,
+  Concepts,
+  KeyedSelector,
+  getUnifiedName,
+  selectPayload,
+  strategyData_select,
+} from 'stratimux';
 import { elementEventBinding } from './html';
 import { documentObjectModelName } from '../concepts/documentObjectModel/documentObjectModel.concept';
 
@@ -32,6 +41,11 @@ export const createBinding = (
     binding[bind.elementId] = [{ action: bind.action, eventBinding: bind.eventBinding }];
   });
   return binding;
+};
+
+export const userInterface_selectInputTarget = (action: Action) => {
+  const payload = selectPayload<Event>(action);
+  return payload.target as HTMLInputElement;
 };
 
 export const userInterface_isClient = (concepts: Concepts, semaphore: number) => {

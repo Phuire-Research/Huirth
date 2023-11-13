@@ -42,12 +42,7 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
   return userInterfaceCreatePageStrategy(
     logixUXIndexPageStrategyTopic,
     pageData,
-    [
-      logixUXBody,
-      logixUXIndexDialogStrategyStitch,
-      // logixUXIndexTrainingDataStrategyStitch,
-      logixUXFooterStrategy,
-    ],
+    [logixUXBody, logixUXIndexDialogStrategyStitch, logixUXIndexTrainingDataStrategyStitch, logixUXFooterStrategy],
     logixUXHeaderStrategy
   );
 };

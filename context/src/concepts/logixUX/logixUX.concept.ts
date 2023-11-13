@@ -17,6 +17,7 @@ import { DPO_DataSet } from '../../model/logixUX';
 import { logixUXIndexTrainingDataBeginQuality } from './qualities/index/trainingData/indexTrainingDataBegin.quality';
 import { logixUXIndexTrainingDataContentQuality } from './qualities/index/trainingData/indexTrainingDataContent.quality';
 import { logixUXIndexTrainingDataEndQuality } from './qualities/index/trainingData/indexTrainingDataEnd.quality';
+import { logixUXUpdateFromPayloadQuality } from './qualities/updateFromPayload.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
@@ -54,6 +55,7 @@ export const createLogixUXConcept = (): Concept => {
         logixUXIndexTrainingDataBeginQuality,
         logixUXIndexTrainingDataContentQuality,
         logixUXIndexTrainingDataEndQuality,
+        logixUXUpdateFromPayloadQuality,
       ],
       [logixUXDialogPrinciple],
       []
