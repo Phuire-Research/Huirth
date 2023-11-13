@@ -11,7 +11,6 @@ export const logixUXDialogPrinciple: PrincipleFunction = (
   concepts$: UnifiedSubject,
   semaphore: number
 ) => {
-  console.log('CHECK CONCEPTS', cpts);
   const plan = concepts$.stage('Observe Axium Dialog and append to State', [
     (concepts, dispatch) => {
       const conceptName = getUnifiedName(concepts, semaphore);
@@ -26,7 +25,7 @@ export const logixUXDialogPrinciple: PrincipleFunction = (
     (concepts, dispatch) => {
       const axiumTopic = getAxiumState(concepts).lastStrategy;
       const axiumDialog = getAxiumState(concepts).lastStrategyDialog;
-      console.log(`TOPIC: ${topic}, AXIUM TOPIC: ${axiumTopic}`);
+      // console.log(`TOPIC: ${topic}, AXIUM TOPIC: ${axiumTopic}`);
       if (topic !== axiumTopic) {
         topic = axiumTopic;
         dispatch(

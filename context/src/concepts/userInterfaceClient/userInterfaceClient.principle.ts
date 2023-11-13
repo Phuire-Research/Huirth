@@ -43,7 +43,6 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
       }
     },
     (concepts, dispatch) => {
-      console.log('HIT');
       const uiState = selectUnifiedState<UserInterfaceClientState>(concepts, semaphore);
       if (uiState && uiState.pagesCached) {
         const selectors: BoundSelectors[] = [];

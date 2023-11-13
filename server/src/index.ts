@@ -24,7 +24,7 @@ import { createUserInterfaceServerConcept } from './concepts/userInterfaceServer
     break;
   }
   default: {
-    createAxium(`axium ${commandLineInterfaceGoals.dynamicDeployment} logixUX`, [
+    createAxium(`axium ${goal} logixUX`, [
       createUserInterfaceServerConcept(goal, {
         concept: createLogixUXConcept(),
       }, port),

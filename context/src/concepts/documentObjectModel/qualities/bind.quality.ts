@@ -30,7 +30,8 @@ const createDocumentObjectModelBindCreator: MethodCreator = () =>
       setElementBinding(element, payload);
     }
     if (action.strategy) {
-      return strategySuccess(action.strategy);
+      const success = strategySuccess(action.strategy);
+      return success;
     } else {
       return action;
     }

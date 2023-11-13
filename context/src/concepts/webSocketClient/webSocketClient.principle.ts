@@ -20,7 +20,6 @@ export const webSocketClientPrinciple: PrincipleFunction = (
   semaphore: number
 ) => {
   const url = 'ws://' + window.location.host + '/axium';
-  console.log('CHECK URL', url);
   const ws = new WebSocket(url);
   ws.addEventListener('open', () => {
     const plan = concepts$.stage('Web Socket Planner', [
