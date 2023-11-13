@@ -65,18 +65,33 @@ export const webSocketClientPrinciple: PrincipleFunction = (
       (concepts) => {
         const newState = selectUnifiedState<Record<string, unknown>>(concepts, semaphore);
         if (newState) {
-          const stateKeys = Object.keys(state);
+          const stateKeys = Object.keys(newState);
           if (stateKeys.length === 0) {
-            state = {
-              ...newState,
-            };
+            for (const key of stateKeys) {
+              if (key !== 'pages') {
+                state[key] = newState[key];
+              }
+            }
+            // state = {
+            //   ...state,
+            //   ...newState
+            // };
+
+            console.log('STATE 1', state, newState);
             ws.send(JSON.stringify(webSocketClientSyncState({ state })));
           } else {
             for (const key of stateKeys) {
-              if (newState[key] !== state[key]) {
-                state = {
-                  ...newState,
-                };
+              if (key !== 'pages' && newState[key] !== state[key]) {
+                for (const k of stateKeys) {
+                  // eslint-disable-next-line max-depth
+                  if (k !== 'pages') {
+                    state[key] = newState[key];
+                  }
+                }
+                // state = {
+                //   ...state,
+                //   ...newState
+                // };
                 const sync = webSocketClientSyncState({ state });
                 sync.conceptSemaphore = (state as WebSocketClientState).serverSemaphore;
                 ws.send(JSON.stringify(webSocketClientSyncState({ state })));

@@ -41,42 +41,41 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
         const unifiedName = getUnifiedName(concepts, semaphore);
         if (unifiedName) {
           const isClient = unifiedName === userInterfaceClientName;
-          console.log('CHECK', isClient, unifiedName);
           const dialog = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState).dialog.trim();
           const counter = selectUnifiedState<Counter>(concepts, semaphore);
-          console.log('CHECK COUNTER', concepts);
           const count = counter ? counter.count : 0;
           let finalDialog = '';
-          if (isClient) {
-            let index = 0;
-            dialog.split('\n').forEach((paragraph) => {
-              if (paragraph.trim().includes('User Interface atomic update compositions.')) {
-                const split = paragraph.trim().split('User Interface atomic update compositions.');
-                if (split[0].trim().length > 0) {
-                  index++;
-                  finalDialog += /*html*/ `
-                  <p class="pb-2 indent-4">
-                    ${index + ': ' + split[0]}
-                  </p>
-                `;
-                }
-                if (split[1].trim().length > 0) {
-                  index++;
-                  finalDialog += /*html*/ `
-                  <p class="pb-2 indent-4">
-                    ${index + ': ' + split[1]}
-                  </p>
-                `;
-                }
-              } else {
+          // if (isClient) {
+          let index = 0;
+          dialog.split('\n').forEach((paragraph) => {
+            if (paragraph.trim().includes('User Interface atomic update compositions.')) {
+              const split = paragraph.trim().split('User Interface atomic update compositions.');
+              if (split[0].trim().length > 0) {
                 index++;
                 finalDialog += /*html*/ `
                 <p class="pb-2 indent-4">
-                  ${index + ': ' + paragraph}
+                  ${index + ': ' + split[0]}
                 </p>
               `;
               }
-            });
+              if (split[1].trim().length > 0) {
+                index++;
+                finalDialog += /*html*/ `
+                <p class="pb-2 indent-4">
+                  ${index + ': ' + split[1]}
+                </p>
+              `;
+              }
+            } else {
+              index++;
+              finalDialog += /*html*/ `
+              <p class="pb-2 indent-4">
+                ${index + ': ' + paragraph}
+              </p>
+            `;
+            }
+          });
+          if (isClient) {
             setTimeout(() => {
               const element = document.getElementById(id + 'scroll');
               if (element) {
@@ -84,6 +83,7 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
               }
             }, 20);
           }
+          // }
           const boundSelectors = isClient
             ? [
                 createBoundSelectors(id, logixUXIndexDialogContent(), [
@@ -91,8 +91,8 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
                   logixUX_createCountSelector(concepts, semaphore) as KeyedSelector,
                 ]),
               ]
-            : [];
-          return strategySuccess(
+            : [createBoundSelectors(id, logixUXIndexDialogContent(), [logixUX_createCountSelector(concepts, semaphore) as KeyedSelector])];
+          const strategy = strategySuccess(
             action.strategy,
             userInterface_appendCompositionToPage(action.strategy, {
               id,
@@ -141,6 +141,7 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
     `,
             })
           );
+          return strategy;
         }
       }
       return action;

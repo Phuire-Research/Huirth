@@ -13,7 +13,7 @@ export type UserInterfaceAtomicUpdatePageCompositionPayload = {
   bound: BoundSelectors
 }
 export const userInterfaceAtomicUpdatePageCompositionType: ActionType =
-  'User Interface add composed Page to State';
+  'User Interface atomic update composition to State';
 export const userInterfaceAtomicUpdatePageComposition =
   prepareActionWithPayloadCreator<UserInterfaceAtomicUpdatePageCompositionPayload>(userInterfaceAtomicUpdatePageCompositionType);
 

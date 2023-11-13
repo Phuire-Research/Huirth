@@ -49,12 +49,16 @@ const createUserInterfaceClientAssembleActionQueStrategyMethod = () =>
         previous = stitchEnd;
       }
     }
-    if (previous) {
-      const stepDetermineBindings = createActionNode(userInterfaceClientDetermineBindings({ action$ }), {
+    if (previous && boundActionQue.length > 0) {
+      previous.successNode = createActionNode(userInterfaceClientDetermineBindings({ action$ }), {
         successNode: null,
         failureNode: null,
       });
-      previous.successNode = stepDetermineBindings;
+    } else if (previous) {
+      previous.successNode = createActionNode(userInterfaceEnd(), {
+        successNode: null,
+        failureNode: null,
+      });
     }
     if (first) {
       return strategyBegin(
