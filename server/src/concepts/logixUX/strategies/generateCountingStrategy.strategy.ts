@@ -6,7 +6,7 @@ function getRandomRange(min: number, max: number) {
 }
 
 export const logixUXGenerateCountingStrategy = (count: number, semaphore: number) => {
-  const length = Math.round(getRandomRange(1, 10));
+  const length = Math.round(getRandomRange(1, 20));
   let numPos = 0;
   let numNeg = 0;
   const firstRand = Math.round(getRandomRange(1, 5));
@@ -39,7 +39,7 @@ export const logixUXGenerateCountingStrategy = (count: number, semaphore: number
   }
   previousStep.successNode = null;
 
-  const topic = `Counting Strategy from: ${count}, using ${numPos} Adds and ${numNeg} Subtracts`;
+  const topic = `Generated Counting Strategy from: ${count}, using ${numPos} Adds and ${numNeg} Subtracts`;
   return createStrategy({
     initialNode: stepFirst,
     topic,

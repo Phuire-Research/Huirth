@@ -24,19 +24,20 @@ export function userInterfaceServerPrepareStaticConceptsStrategy(
   const rootLayoutStatic = path.join(root + '/layout/static/');
   const contextPublic = path.join(root + '/context/public/');
   // axium Close
-  const stepEight = createActionNode(axiumPreClose({ exit: true}), {
+  const stepCloseProcess = createActionNode(axiumPreClose({ exit: true}), {
     successNode: null,
     failureNode: null
   });
-  const stepSeven = createActionNode(userInterfaceServerRecursivelyCreateEachPageHtml({targetDir: rootLayout, pages: [...pages]}), {
-    successNode: stepEight,
-    failureNode: null
-  });
-  const stepSix = createActionNode(fileSystemCopyMoveTargetDirectory({
+  const stepRecursivelyCreatePageHtml =
+    createActionNode(userInterfaceServerRecursivelyCreateEachPageHtml({targetDir: rootLayout, pages: [...pages]}), {
+      successNode: stepCloseProcess,
+      failureNode: null
+    });
+  const stepCopyMovePublicToLayout = createActionNode(fileSystemCopyMoveTargetDirectory({
     target: contextPublic,
     newLocation: rootLayoutStatic,
   }), {
-    successNode: stepSeven,
+    successNode: stepRecursivelyCreatePageHtml,
     failureNode: null
   });
   const [stitchEnd, contextStrategy] = userInterfaceServerPrepareContextConceptsStrategy(
@@ -45,7 +46,7 @@ export function userInterfaceServerPrepareStaticConceptsStrategy(
     unified,
     initialDirectoryMap
   );
-  stitchEnd.successNode = stepSix;
+  stitchEnd.successNode = stepCopyMovePublicToLayout;
   const stepStart = createActionNodeFromStrategy(contextStrategy);
 
   const params: ActionStrategyParameters = {

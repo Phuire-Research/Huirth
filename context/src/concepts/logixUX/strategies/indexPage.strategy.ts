@@ -8,7 +8,7 @@ import { logixUXIndexDialogBegin } from '../qualities/index/dialog/indexDialogBe
 import { logixUXIndexDialogContent } from '../qualities/index/dialog/indexDialogContent.quality';
 import { logixUXIndexDialogEnd } from '../qualities/index/dialog/indexDialogEnd.quality';
 
-export const logixUXIndexPageStrategyTopic = 'logixUX Index Page Strategy Stitch';
+export const logixUXIndexPageStrategyTopic = 'index';
 export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
   // Body
   const [stitchEnd, stitchStrategy] = logixUXIndexDialogStrategyStitch();
@@ -26,7 +26,7 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
   ];
 
   const pageData = userInterface_createPage({
-    title: 'index',
+    title: logixUXIndexPageStrategyTopic,
     conceptAndProps: [{ name: 'helloWorld' }, { name: 'counter' }],
     cachedSelectors: [],
     compositions: [],

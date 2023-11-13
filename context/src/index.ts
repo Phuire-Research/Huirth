@@ -12,7 +12,6 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
   fetch(window.location.protocol + '//' + window.location.host + '/stateSync').then((response) => {
     response.json().then((value) => {
       state = value;
-      console.log('WORKS', value);
       if (init && state) {
         createAxium(
           'contextAxium',
@@ -26,7 +25,7 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
                       type: 'Create logixUX triggerCountingStrategy',
                       semaphore: [0, 0, -1, 0],
                       payload: { number: 0 },
-                      expiration: 1699885264550,
+                      expiration: 1699890842246,
                     },
                     eventBinding: 'onclick',
                   },
@@ -37,7 +36,7 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
                       type: 'Create logixUX triggerCountingStrategy',
                       semaphore: [0, 0, -1, 0],
                       payload: { number: 1 },
-                      expiration: 1699885264550,
+                      expiration: 1699890842246,
                     },
                     eventBinding: 'onclick',
                   },
@@ -48,20 +47,20 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
                       type: 'Create logixUX triggerCountingStrategy',
                       semaphore: [0, 0, -1, 0],
                       payload: { number: -1 },
-                      expiration: 1699885264550,
+                      expiration: 1699890842246,
                     },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#addID': [
                   {
-                    action: { type: 'Counter Add', semaphore: [0, 0, -1, 0], expiration: 1699885264550 },
+                    action: { type: 'Counter Add', semaphore: [0, 0, -1, 0], expiration: 1699890842246 },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#subtractID': [
                   {
-                    action: { type: 'Counter Subtract', semaphore: [0, 0, -1, 0], expiration: 1699885264550 },
+                    action: { type: 'Counter Subtract', semaphore: [0, 0, -1, 0], expiration: 1699890842246 },
                     eventBinding: 'onclick',
                   },
                 ],

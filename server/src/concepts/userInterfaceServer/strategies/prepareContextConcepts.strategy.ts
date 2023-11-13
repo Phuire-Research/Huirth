@@ -21,6 +21,12 @@ export function userInterfaceServerPrepareContextConceptsStrategy(
   const conceptNames = [];
   const directories: RecursivelyCopyMoveTargetDirectoriesPayload = [];
   const directoryMap: string[] = [];
+  const contextConcepts = path.join(root + '/context/src/concepts/');
+  const contextModel = path.join(root + '/context/src/model/');
+  const modelDirectory = {
+    newLocation: path.join(root + '/context/src/model/'),
+    target: path.join(root + '/server/src/model/')
+  };
   // Server only concepts should not be unified into the server concept
   // As the userInterface, is an interoperable concept between server and client
   // Therefore you should only unify what would be needed for both
@@ -60,35 +66,43 @@ export function userInterfaceServerPrepareContextConceptsStrategy(
     successNode: null,
     failureNode: null
   });
-  const stepFive = createActionNode(userInterfaceServerBuildContext({contextDir: path.join(root + '/context/')}), {
+  const stepContextBuild = createActionNode(userInterfaceServerBuildContext({contextDir: path.join(root + '/context/')}), {
     successNode: null,
     failureNode: stepLog,
     agreement: 7000
   });
-  const stepFour = createActionNode(userInterfaceServerFormatContext({contextDir: path.join(root + '/context/')}), {
-    successNode: stepFive,
+  const stepContextFormat = createActionNode(userInterfaceServerFormatContext({contextDir: path.join(root + '/context/')}), {
+    successNode: stepContextBuild,
     failureNode: stepLog,
     agreement: 7000
   });
-  const stepThree = createActionNode(userInterfaceServerCreateContextIndex({primedConcepts, root, directoryMap}), {
-    successNode: stepFour,
+  const stepCreateContextIndex = createActionNode(userInterfaceServerCreateContextIndex({primedConcepts, root, directoryMap}), {
+    successNode: stepContextFormat,
     failureNode: null
   });
-  const stepTwo = createActionNode(fileSystemRecursivelyCopyMoveTargetDirectories(directories), {
-    successNode: stepThree,
+  const stepCopyMoveModel = createActionNode(fileSystemRecursivelyCopyMoveTargetDirectories([modelDirectory]), {
+    successNode: stepCreateContextIndex,
     failureNode: null
   });
-  const contextConcepts = path.join(root + '/context/src/concepts/');
-  const stepOne = createActionNode(fileSystemRemoveTargetDirectory(contextConcepts), {
-    successNode: stepTwo,
+  const stepContextModelRemove = createActionNode(fileSystemRemoveTargetDirectory(contextModel), {
+    successNode: stepCopyMoveModel,
+    failureNode: null,
+    agreement: 20000
+  });
+  const stepCopyMoveConcepts = createActionNode(fileSystemRecursivelyCopyMoveTargetDirectories(directories), {
+    successNode: stepContextModelRemove,
+    failureNode: null
+  });
+  const stepContextConceptRemove = createActionNode(fileSystemRemoveTargetDirectory(contextConcepts), {
+    successNode: stepCopyMoveConcepts,
     failureNode: null,
     agreement: 20000
   });
 
   const params: ActionStrategyParameters = {
     topic: userInterfaceServerPrepareContextConceptsTopic,
-    initialNode: stepOne,
+    initialNode: stepContextConceptRemove,
   };
 
-  return [stepFive, createStrategy(params)];
+  return [stepContextBuild, createStrategy(params)];
 }
