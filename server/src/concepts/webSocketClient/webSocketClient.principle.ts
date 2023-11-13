@@ -16,7 +16,6 @@ import { webSocketClientSyncState } from './qualities/syncState.quality';
 export const webSocketClientPrinciple: PrincipleFunction =
   (observer: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     const url = 'ws://' + window.location.host + '/axium';
-    console.log('CHECK URL', url);
     const ws = new WebSocket(url);
     ws.addEventListener('open', () => {
       const plan = concepts$.stage('Web Socket Planner', [

@@ -13,17 +13,23 @@ import { logixUXDialogPrinciple } from './logixUX.principle';
 import { BrandState } from '../../model/userInterface';
 import { logixUXIndexPageStrategy } from './strategies/indexPage.strategy';
 import { logixUXErrorPageStrategy } from './strategies/errorPage.strategy';
+import { DPO_DataSet } from '../../model/logixUX';
+import { logixUXIndexTrainingDataBeginQuality } from './qualities/index/trainingData/indexTrainingDataBegin.quality';
+import { logixUXIndexTrainingDataContentQuality } from './qualities/index/trainingData/indexTrainingDataContent.quality';
+import { logixUXIndexTrainingDataEndQuality } from './qualities/index/trainingData/indexTrainingDataEnd.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
   mock: number;
   dialog: string;
+  trainingData: DPO_DataSet;
 } & BrandState;
 
 const createLogixUXState = (): LogixUXState => {
   return {
     mock: 0,
     dialog: '',
+    trainingData: {},
     pageStrategies: [logixUXIndexPageStrategy, logixUXErrorPageStrategy],
   };
 };
@@ -45,6 +51,9 @@ export const createLogixUXConcept = (): Concept => {
         logixUXErrorQuality,
         logixUXTriggerCountingStrategyQuality,
         logixUXAppendAxiumDialogQuality,
+        logixUXIndexTrainingDataBeginQuality,
+        logixUXIndexTrainingDataContentQuality,
+        logixUXIndexTrainingDataEndQuality,
       ],
       [logixUXDialogPrinciple],
       []

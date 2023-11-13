@@ -6,3 +6,7 @@ export const logixUX_createDialogSelector = (concepts: Concepts, semaphore: numb
 export const logixUX_createCountSelector = (concepts: Concepts, semaphore: number) => {
   return createUnifiedKeyedSelector(concepts, semaphore, 'count');
 };
+
+export const logixUX_createTrainingDataSelector = (concepts: Concepts, semaphore: number) => {
+  return createUnifiedKeyedSelector(concepts, semaphore, 'trainingData');
+};

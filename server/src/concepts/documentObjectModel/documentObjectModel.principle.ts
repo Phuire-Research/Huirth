@@ -20,6 +20,7 @@ export const documentObjectModelPrinciple: PrincipleFunction = (
   concepts$: UnifiedSubject,
   semaphore: number
 ) => {
+  const pageID = document.querySelector('[id^="page#"]')?.id;
   const plan = concepts$.stage('ownership Principle Plan', [
     (concepts, dispatch) => {
       dispatch(primeAction(concepts, axiumRegisterStagePlanner({conceptName: documentObjectModelName, stagePlanner: plan})), {
@@ -34,8 +35,8 @@ export const documentObjectModelPrinciple: PrincipleFunction = (
       // console.log('Hello Document Object Model', selectUnifiedState<DocumentObjectModelState>(concepts, semaphore)?.bindingQue);
       const documentObjectModelState = selectUnifiedState<DocumentObjectModelState>(concepts, semaphore);
       const binding = documentObjectModelState?.bindingQue;
-      if (binding) {
-        dispatch(strategyBegin(documentObjectModelBindingStrategy(concepts, 'index', binding)), {
+      if (binding && pageID) {
+        dispatch(strategyBegin(documentObjectModelBindingStrategy(concepts, pageID.split('page#')[1], binding)), {
           iterateStage: true
         });
       }

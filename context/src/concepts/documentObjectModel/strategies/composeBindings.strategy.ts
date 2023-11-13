@@ -16,7 +16,7 @@ export const documentObjectModelBindingStrategy = (concepts: Concepts, pageName:
         successNode: null,
         failureNode: null,
       });
-      if (start !== null) {
+      if (start === null) {
         start = node;
         previous = start;
       } else if (previous) {
