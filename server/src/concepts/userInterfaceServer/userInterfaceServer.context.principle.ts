@@ -104,9 +104,6 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
                 name: userInterfaceClientName,
                 properties: ['state']
               });
-              conceptsAndProps.push({
-                name: webSocketClientName,
-              });
             }
             console.log('CHECK GOAL', uiState.goal);
             if (uiState.goal === commandLineInterfaceGoals.dynamicDeployment) {

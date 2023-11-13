@@ -1,7 +1,6 @@
 import { Subscriber } from 'rxjs';
 import {
   Action,
-  AxiumState,
   PrincipleFunction,
   UnifiedSubject,
   strategySequence,

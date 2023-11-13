@@ -36,6 +36,7 @@ async function copyDir(src: string, dest: string) {
 }
 
 export type RecursivelyCopyMoveTargetDirectoriesPayload = {
+  name: string;
   target: string,
   newLocation: string,
 }[];
