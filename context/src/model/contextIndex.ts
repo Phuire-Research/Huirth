@@ -1,26 +1,21 @@
-import { counterName } from 'stratimux';
-import { documentObjectModelName } from '../concepts/documentObjectModel/documentObjectModel.concept';
-import { webSocketClientName } from '../concepts/webSocketClient/webSocketClient.concept';
 import { PrimedConceptAndProperties } from './userInterface';
 
 export function createContextIndexContent(primedConcepts: PrimedConceptAndProperties[], directoryMap: string[]): string {
   const axiumImports = ['createAxium'];
-  const filteredPrimedConcepts = primedConcepts.filter((concept) => {
+  primedConcepts.forEach((concept) => {
+    let found = false;
     for (const directory of directoryMap) {
-      if (concept.name === webSocketClientName) {
-        return false;
-      } else if (directory === concept.name) {
-        return true;
+      if (directory === concept.name) {
+        found = true;
+        break;
       }
     }
-    axiumImports.push(`create${concept.nameCapitalized}Concept`);
-    return false;
+    if (!found) {
+      axiumImports.push(`create${concept.nameCapitalized}Concept`);
+    }
   });
-  // HACKY FOR PROOF OF CONCEPTS, FIX THIS FLOW
-  const creators = createConceptCreatorTemplates(
-    primedConcepts.filter((concept) => concept.name !== webSocketClientName && concept.name !== counterName)
-  );
-  const imports = createConceptImportTemplates(filteredPrimedConcepts);
+  const creators = createConceptCreatorTemplates(primedConcepts);
+  const imports = createConceptImportTemplates(primedConcepts);
   const content =
     /*typescript*/
     `/*$ Start template imports $*/

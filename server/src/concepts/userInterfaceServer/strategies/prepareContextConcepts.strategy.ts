@@ -1,4 +1,4 @@
-import { ActionNode, ActionStrategy, ActionStrategyParameters, axiumLog, createActionNode, createStrategy } from 'stratimux';
+import { ActionNode, ActionStrategy, ActionStrategyParameters, Concept, axiumLog, createActionNode, createStrategy } from 'stratimux';
 import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
 import path from 'path';
 import {
@@ -10,6 +10,7 @@ import { ConceptAndProperties, PrimedConceptAndProperties } from '../../../model
 import { userInterfaceServerCreateContextIndex } from '../qualities/createContextIndex.quality';
 import { serverName } from '../../server/server.concept';
 import { userInterfaceServerFormatContext } from '../qualities/formatContext.quality';
+import { webSocketClientName } from '../../webSocketClient/webSocketClient.concept';
 
 export const userInterfaceServerPrepareContextConceptsTopic = 'User Interface Server prepare Context Concepts';
 export function userInterfaceServerPrepareContextConceptsStrategy(
@@ -24,6 +25,7 @@ export function userInterfaceServerPrepareContextConceptsStrategy(
   const contextConcepts = path.join(root + '/context/src/concepts/');
   const contextModel = path.join(root + '/context/src/model/');
   const modelDirectory = {
+    name: 'model',
     newLocation: path.join(root + '/context/src/model/'),
     target: path.join(root + '/server/src/model/')
   };
@@ -35,10 +37,10 @@ export function userInterfaceServerPrepareContextConceptsStrategy(
       for (const directory of initialDirectoryMap) {
         if (directory === name) {
           directories.push({
+            name,
             newLocation: path.join(root + '/context/src/concepts/' + name),
             target: path.join(root + '/server/src/concepts/' + name)
           });
-          directoryMap.push(name);
           break;
         }
       }
@@ -47,11 +49,15 @@ export function userInterfaceServerPrepareContextConceptsStrategy(
   const primedConcepts: PrimedConceptAndProperties[] = conceptsAndProps.map(conceptAndProps => {
     conceptNames.push(conceptAndProps.name);
     for (const directory of initialDirectoryMap) {
-      if (directory === conceptAndProps.name) {
+      const isSet = directories.filter(d => d.name === conceptAndProps.name).length > 0;
+      if (directory === conceptAndProps.name && !isSet) {
         directories.push({
+          name: conceptAndProps.name,
           newLocation: path.join(root + '/context/src/concepts/' + conceptAndProps.name),
           target: path.join(root + '/server/src/concepts/' + conceptAndProps.name)
         });
+      }
+      if (directory === conceptAndProps.name) {
         directoryMap.push(conceptAndProps.name);
         break;
       }
@@ -61,6 +67,11 @@ export function userInterfaceServerPrepareContextConceptsStrategy(
       nameCapitalized: conceptAndProps.name[0].toUpperCase() + conceptAndProps.name.substring(1),
       properties: conceptAndProps.properties
     };
+  });
+  directories.push({
+    name: webSocketClientName,
+    newLocation: path.join(root + '/context/src/concepts/' + webSocketClientName),
+    target: path.join(root + '/server/src/concepts/' + webSocketClientName)
   });
   const stepLog = createActionNode(axiumLog(), {
     successNode: null,
@@ -76,7 +87,11 @@ export function userInterfaceServerPrepareContextConceptsStrategy(
     failureNode: stepLog,
     agreement: 7000
   });
-  const stepCreateContextIndex = createActionNode(userInterfaceServerCreateContextIndex({primedConcepts, root, directoryMap}), {
+  const stepCreateContextIndex = createActionNode(userInterfaceServerCreateContextIndex({
+    primedConcepts,
+    root,
+    directoryMap
+  }), {
     successNode: stepContextFormat,
     failureNode: null
   });

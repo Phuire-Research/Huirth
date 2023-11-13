@@ -1,6 +1,7 @@
 import {
   ActionStrategy,
   ActionType,
+  Concept,
   MethodCreator,
   axiumConclude,
   createAsyncMethod,
@@ -16,7 +17,11 @@ import path from 'path';
 import { PrimedConceptAndProperties } from '../../../model/userInterface';
 import { createContextIndexContent } from '../../../model/contextIndex';
 
-export type CreateContextIndexPayload = {primedConcepts: PrimedConceptAndProperties[], root: string, directoryMap: string[]};
+export type CreateContextIndexPayload = {
+  primedConcepts: PrimedConceptAndProperties[],
+  root: string,
+  directoryMap: string[]
+};
 export const userInterfaceServerCreateContextIndexType: ActionType = 'User Interface Server create Context index.ts';
 export const userInterfaceServerCreateContextIndex =
   prepareActionWithPayloadCreator<CreateContextIndexPayload>(userInterfaceServerCreateContextIndexType);

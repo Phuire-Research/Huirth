@@ -1,6 +1,7 @@
 import {
   ActionStrategy,
   ActionStrategyParameters,
+  Concept,
   axiumPreClose,
   createActionNode,
   createActionNodeFromStrategy,
