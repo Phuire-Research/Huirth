@@ -3,6 +3,8 @@ import { createAxium } from 'stratimux';
 import { createHelloWorldConcept } from './concepts/helloWorld/helloWorld.concept';
 import { createDocumentObjectModelConcept } from './concepts/documentObjectModel/documentObjectModel.concept';
 import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient/userInterfaceClient.concept';
+import { createLogixUXConcept } from './concepts/logixUX/logixUX.concept';
+
 /*$ End template imports $*/
 
 (() => {
@@ -25,7 +27,7 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
                       type: 'Create logixUX triggerCountingStrategy',
                       semaphore: [0, 0, -1, 0],
                       payload: { number: 0 },
-                      expiration: 1699894017817,
+                      expiration: 1699895677781,
                     },
                     eventBinding: 'onclick',
                   },
@@ -36,7 +38,7 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
                       type: 'Create logixUX triggerCountingStrategy',
                       semaphore: [0, 0, -1, 0],
                       payload: { number: 1 },
-                      expiration: 1699894017817,
+                      expiration: 1699895677781,
                     },
                     eventBinding: 'onclick',
                   },
@@ -47,27 +49,27 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
                       type: 'Create logixUX triggerCountingStrategy',
                       semaphore: [0, 0, -1, 0],
                       payload: { number: -1 },
-                      expiration: 1699894017817,
+                      expiration: 1699895677781,
                     },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#addID': [
                   {
-                    action: { type: 'Counter Add', semaphore: [0, 0, -1, 0], expiration: 1699894017817 },
+                    action: { type: 'Counter Add', semaphore: [0, 0, -1, 0], expiration: 1699895677781 },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#subtractID': [
                   {
-                    action: { type: 'Counter Subtract', semaphore: [0, 0, -1, 0], expiration: 1699894017817 },
+                    action: { type: 'Counter Subtract', semaphore: [0, 0, -1, 0], expiration: 1699895677781 },
                     eventBinding: 'onclick',
                   },
                 ],
               },
               error: {},
             }),
-            createUserInterfaceClientConcept(state),
+            createUserInterfaceClientConcept(state, createLogixUXConcept),
           ],
           true,
           true

@@ -100,10 +100,17 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
                 name: documentObjectModelName,
                 properties: [userInterface_pageBindingsToString(finalBindingsList)],
               });
-              conceptsAndProps.push({
-                name: userInterfaceClientName,
-                properties: ['state']
-              });
+              if (uiState.brand) {
+                conceptsAndProps.push({
+                  name: userInterfaceClientName,
+                  properties: ['state', uiState.brand]
+                });
+              } else {
+                conceptsAndProps.push({
+                  name: userInterfaceClientName,
+                  properties: ['state']
+                });
+              }
             }
             console.log('CHECK GOAL', uiState.goal);
             if (uiState.goal === commandLineInterfaceGoals.dynamicDeployment) {

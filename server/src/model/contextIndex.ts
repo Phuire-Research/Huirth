@@ -1,7 +1,9 @@
+import { userInterfaceClientName } from '../concepts/userInterfaceClient/userInterfaceClient.concept';
 import { PrimedConceptAndProperties } from './userInterface';
 
 export function createContextIndexContent(primedConcepts: PrimedConceptAndProperties[], directoryMap: string[]): string {
   const axiumImports = ['createAxium'];
+  let conceptImports = createConceptImportTemplates(primedConcepts);
   primedConcepts.forEach(concept => {
     let found = false;
     for (const directory of directoryMap) {
@@ -13,14 +15,22 @@ export function createContextIndexContent(primedConcepts: PrimedConceptAndProper
     if (!found) {
       axiumImports.push(`create${concept.nameCapitalized}Concept`);
     }
+    if (concept.name === userInterfaceClientName && concept.properties?.length === 2) {
+      const brand = concept.properties[1];
+      const nameCapitalized = brand[0].toUpperCase() + brand.substring(1);
+      conceptImports += createConceptImportTemplates([{
+        name: brand,
+        nameCapitalized,
+      }]) + '\n';
+      concept.properties[1] = `create${nameCapitalized}Concept`;
+    }
   });
   const creators =
     createConceptCreatorTemplates(primedConcepts);
-  const imports = createConceptImportTemplates(primedConcepts);
   const content = /*typescript*/
 `/*$ Start template imports $*/
 import { ${axiumImports.join(', ')} } from 'stratimux';
-${imports}
+${conceptImports}
 /*$ End template imports $*/
 
 (() => {

@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';
-import { LogixUXState } from '../logixUX.concepts';
+import { LogixUXState } from '../logixUX.concept';
 
 export type LogixUXAppendAxiumDialogTypePayload = {
   dialog: string;

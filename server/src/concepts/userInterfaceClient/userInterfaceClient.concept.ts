@@ -2,7 +2,7 @@ import { Concept, createConcept, unifyConcepts } from 'stratimux';
 import { createHtmlConcept } from '../html/html.concepts';
 import { UserInterfaceState, createUserInterfaceConcept } from '../userInterface/userInterface.concept';
 import { PageStrategyCreators } from '../../model/userInterface';
-import { createLogixUXConcept, logixUXName } from '../logixUX/logixUX.concepts';
+import { createLogixUXConcept, logixUXName } from '../logixUX/logixUX.concept';
 import { logixUXErrorPageStrategy } from '../logixUX/strategies/errorPage.strategy';
 import { logixUXIndexPageStrategy } from '../logixUX/strategies/indexPage.strategy';
 import { userInterfaceClientAssembleActionQueStrategyQuality } from './qualities/clientAssembleActionQueStrategy.quality';
@@ -47,7 +47,7 @@ const createUserInterfaceClientState = (newState: Record<string, unknown>, brand
 
 // For now we are setting this ourselves. The ideal situation would be that this would be determined
 // via the interface this UI is intended for.
-export const createUserInterfaceClientConcept = (state?: Record<string, unknown>): Concept => {
+export const createUserInterfaceClientConcept = (state?: Record<string, unknown>, brandCreator?: () => Concept): Concept => {
   const newState: Record<string, unknown> = {};
   console.log('FOUND STATE', state);
   if (state) {
@@ -58,10 +58,31 @@ export const createUserInterfaceClientConcept = (state?: Record<string, unknown>
       }
     }
   }
-  const unified = unifyConcepts([
+  const unified = brandCreator ? unifyConcepts([
     createHtmlConcept(),
     createWebSocketClientConcept(),
-    createLogixUXConcept(),
+    brandCreator(),
+    createUserInterfaceConcept([logixUXIndexPageStrategy, logixUXErrorPageStrategy])
+  ],
+  createConcept(
+    userInterfaceClientName,
+    createUserInterfaceClientState(newState, {
+      name: logixUXName,
+      pageStrategies: [logixUXIndexPageStrategy, logixUXErrorPageStrategy],
+    }),
+    [
+      // userInterfaceAddComposedPageToStateQuality,
+      userInterfaceClientAssembleActionQueStrategyQuality,
+      userInterfaceClientDetermineBindingsQuality,
+      userInterfaceClientReplaceOuterHtmlQuality
+    ],
+    [
+      // userInterfaceInitializationPrinciple
+      userInterfaceClientOnChangePrinciple
+    ]
+  )) : unifyConcepts([
+    createHtmlConcept(),
+    createWebSocketClientConcept(),
     createUserInterfaceConcept([logixUXIndexPageStrategy, logixUXErrorPageStrategy])
   ],
   createConcept(
@@ -81,6 +102,6 @@ export const createUserInterfaceClientConcept = (state?: Record<string, unknown>
       userInterfaceClientOnChangePrinciple
     ]
   ));
-  console.log('CHECK UNIFIED', unified);
+  // console.log('CHECK UNIFIED', unified);
   return unified;
 };
