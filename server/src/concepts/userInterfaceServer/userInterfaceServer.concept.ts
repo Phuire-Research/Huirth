@@ -5,7 +5,6 @@ import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
 import {
   UserInterfaceState,
   createUserInterfaceConcept,
-  userInterfaceName,
 } from '../userInterface/userInterface.concept';
 import { userInterfaceServerBuildContextQuality } from './qualities/buildContext.quality';
 import { userInterfaceServerContextPrinciple } from './userInterfaceServer.context.principle';
@@ -100,24 +99,25 @@ const baseUserInterfaceServerConcept = (goal: commandLineInterfaceGoals, pageStr
 };
 
 const unifyBrandConcept = (goal: commandLineInterfaceGoals, brand: {
-  name: string,
   concept: Concept,
-  pageStrategies: PageStrategyCreators[]
 }) => {
+  const base = baseUserInterfaceServerConcept(goal, []);
+  base.name = '';
   const unified = unifyConcepts([
+    base,
     brand.concept,
   ],
-
-  baseUserInterfaceServerConcept(goal, brand.pageStrategies)
+  createConcept(
+    userInterfaceServerName,
+    {}
+  )
   );
-  (unified.state as UserInterfaceServerState).brand = brand.name;
+  (unified.state as UserInterfaceServerState).brand = brand.concept.name;
   return unified;
 };
 
 const userInterfaceServerConcept = (goal: commandLineInterfaceGoals, brand?: {
-  name: string,
   concept: Concept,
-  pageStrategies: PageStrategyCreators[]
 }): Concept =>  {
   if (brand) {
     return unifyBrandConcept(goal, brand);
@@ -126,9 +126,7 @@ const userInterfaceServerConcept = (goal: commandLineInterfaceGoals, brand?: {
 };
 
 export const createUserInterfaceServerConcept = (goal: commandLineInterfaceGoals, brand?: {
-  name: string,
   concept: Concept,
-  pageStrategies: PageStrategyCreators[]
 }, port?: number) => {
   const serverConcept = createServerConcept(port);
   const unified = unifyConcepts([createWebSocketServerConcept(), serverConcept], userInterfaceServerConcept(goal, brand));

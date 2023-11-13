@@ -24,6 +24,10 @@ export type UserInterfaceBindings = Record<ElementIdentifier, Binding[]>;
 export type UserInterfacePageBindings = Record<string, UserInterfaceBindings>;
 export type PageStrategyCreators = (concepts?: Concepts, semaphore?: number) => ActionStrategyStitch;
 
+export type BrandState = {
+  pageStrategies: PageStrategyCreators[]
+};
+
 export const createPageId = (pageName: string) => {
   return `page#${pageName}`;
 };

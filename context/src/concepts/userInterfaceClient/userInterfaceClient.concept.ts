@@ -1,10 +1,6 @@
 import { Concept, createConcept, unifyConcepts } from 'stratimux';
 import { createHtmlConcept } from '../html/html.concepts';
 import { UserInterfaceState, createUserInterfaceConcept } from '../userInterface/userInterface.concept';
-import { PageStrategyCreators } from '../../model/userInterface';
-import { createLogixUXConcept, logixUXName } from '../logixUX/logixUX.concept';
-import { logixUXErrorPageStrategy } from '../logixUX/strategies/errorPage.strategy';
-import { logixUXIndexPageStrategy } from '../logixUX/strategies/indexPage.strategy';
 import { userInterfaceClientAssembleActionQueStrategyQuality } from './qualities/clientAssembleActionQueStrategy.quality';
 import { userInterfaceClientDetermineBindingsQuality } from './qualities/clientDetermineBindings.quality';
 import { userInterfaceClientReplaceOuterHtmlQuality } from './qualities/replaceOuterHtml.quality';
@@ -19,40 +15,29 @@ export type UserInterfaceClientState = {
   currentPage: string;
 } & UserInterfaceState;
 
-const createUserInterfaceClientState = (
-  newState: Record<string, unknown>,
-  brand?: {
-    name: string;
-    pageStrategies: PageStrategyCreators[];
+const createUserInterfaceClientState = (): UserInterfaceClientState => {
+  const id = document.querySelector('[id^="page#"]')?.id;
+  if (id) {
+    return {
+      pages: [],
+      pagesCached: false,
+      pageStrategies: [],
+      currentPage: id.split('page#')[1],
+    };
+  } else {
+    return {
+      pages: [],
+      pageStrategies: [],
+      pagesCached: false,
+      currentPage: '',
+    };
   }
-): UserInterfaceClientState => {
-  if (brand !== undefined) {
-    const id = document.querySelector('[id^="page#"]')?.id;
-    console.log('HIT HERE', id, document.querySelector('[id^="page#"]'));
-    if (id) {
-      return {
-        pages: [],
-        pageStrategies: brand.pageStrategies,
-        pagesCached: false,
-        currentPage: id.split('page#')[1],
-        ...newState,
-      };
-    }
-  }
-  return {
-    pages: [],
-    pageStrategies: [],
-    pagesCached: false,
-    currentPage: '',
-    ...newState,
-  };
 };
 
 // For now we are setting this ourselves. The ideal situation would be that this would be determined
 // via the interface this UI is intended for.
 export const createUserInterfaceClientConcept = (state?: Record<string, unknown>, brandCreator?: () => Concept): Concept => {
   const newState: Record<string, unknown> = {};
-  console.log('FOUND STATE', state);
   if (state) {
     const stateKeys = Object.keys(state);
     for (const key of stateKeys) {
@@ -66,50 +51,46 @@ export const createUserInterfaceClientConcept = (state?: Record<string, unknown>
         [
           createHtmlConcept(),
           createWebSocketClientConcept(),
+          createUserInterfaceConcept([]),
+          createConcept(
+            '',
+            createUserInterfaceClientState(),
+            [
+              // userInterfaceAddComposedPageToStateQuality,
+              userInterfaceClientAssembleActionQueStrategyQuality,
+              userInterfaceClientDetermineBindingsQuality,
+              userInterfaceClientReplaceOuterHtmlQuality,
+            ],
+            [
+              // userInterfaceInitializationPrinciple
+              userInterfaceClientOnChangePrinciple,
+            ]
+          ),
           brandCreator(),
-          createUserInterfaceConcept([logixUXIndexPageStrategy, logixUXErrorPageStrategy]),
         ],
-        createConcept(
-          userInterfaceClientName,
-          createUserInterfaceClientState(newState, {
-            name: logixUXName,
-            pageStrategies: [logixUXIndexPageStrategy, logixUXErrorPageStrategy],
-          }),
-          [
-            // userInterfaceAddComposedPageToStateQuality,
-            userInterfaceClientAssembleActionQueStrategyQuality,
-            userInterfaceClientDetermineBindingsQuality,
-            userInterfaceClientReplaceOuterHtmlQuality,
-          ],
-          [
-            // userInterfaceInitializationPrinciple
-            userInterfaceClientOnChangePrinciple,
-          ]
-        )
+        createConcept(userInterfaceClientName, newState)
       )
     : unifyConcepts(
         [
           createHtmlConcept(),
           createWebSocketClientConcept(),
-          createUserInterfaceConcept([logixUXIndexPageStrategy, logixUXErrorPageStrategy]),
+          createUserInterfaceConcept([]),
+          createConcept(
+            '',
+            createUserInterfaceClientState(),
+            [
+              // userInterfaceAddComposedPageToStateQuality,
+              userInterfaceClientAssembleActionQueStrategyQuality,
+              userInterfaceClientDetermineBindingsQuality,
+              userInterfaceClientReplaceOuterHtmlQuality,
+            ],
+            [
+              // userInterfaceInitializationPrinciple
+              userInterfaceClientOnChangePrinciple,
+            ]
+          ),
         ],
-        createConcept(
-          userInterfaceClientName,
-          createUserInterfaceClientState(newState, {
-            name: logixUXName,
-            pageStrategies: [logixUXIndexPageStrategy, logixUXErrorPageStrategy],
-          }),
-          [
-            // userInterfaceAddComposedPageToStateQuality,
-            userInterfaceClientAssembleActionQueStrategyQuality,
-            userInterfaceClientDetermineBindingsQuality,
-            userInterfaceClientReplaceOuterHtmlQuality,
-          ],
-          [
-            // userInterfaceInitializationPrinciple
-            userInterfaceClientOnChangePrinciple,
-          ]
-        )
+        createConcept(userInterfaceClientName, newState)
       );
   // console.log('CHECK UNIFIED', unified);
   return unified;
