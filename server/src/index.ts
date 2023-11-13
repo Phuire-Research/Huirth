@@ -1,8 +1,6 @@
 import { createAxium } from 'stratimux';
 import { createFileSystemConcept } from './concepts/fileSystem/fileSystem.concept';
-import { createLogixUXConcept, logixUXName } from './concepts/logixUX/logixUX.concept';
-import { logixUXIndexPageStrategy } from './concepts/logixUX/strategies/indexPage.strategy';
-import { logixUXErrorPageStrategy } from './concepts/logixUX/strategies/errorPage.strategy';
+import { createLogixUXConcept } from './concepts/logixUX/logixUX.concept';
 
 import { argv } from 'process';
 import {
@@ -20,9 +18,7 @@ import { createUserInterfaceServerConcept } from './concepts/userInterfaceServer
   case commandLineInterfaceGoals.simulate: {
     createAxium(`axium ${goal} logixUX`, [
       createUserInterfaceServerConcept(goal, {
-        name: logixUXName,
         concept: createLogixUXConcept(),
-        pageStrategies: [logixUXIndexPageStrategy, logixUXErrorPageStrategy]
       }, port),
     ], true, true);
     break;
@@ -30,9 +26,7 @@ import { createUserInterfaceServerConcept } from './concepts/userInterfaceServer
   default: {
     createAxium(`axium ${commandLineInterfaceGoals.dynamicDeployment} logixUX`, [
       createUserInterfaceServerConcept(goal, {
-        name: logixUXName,
         concept: createLogixUXConcept(),
-        pageStrategies: [logixUXIndexPageStrategy, logixUXErrorPageStrategy]
       }, port),
       createFileSystemConcept()
     ], true, true);

@@ -10,17 +10,21 @@ import { logixUXIndexDialogEndQuality } from './qualities/index/dialog/indexDial
 import { logixUXTriggerCountingStrategyQuality } from './qualities/triggerCounterStrategy.quality';
 import { logixUXAppendAxiumDialogQuality } from './qualities/appendAxiumDialog.quality';
 import { logixUXDialogPrinciple } from './logixUX.principle';
+import { BrandState } from '../../model/userInterface';
+import { logixUXIndexPageStrategy } from './strategies/indexPage.strategy';
+import { logixUXErrorPageStrategy } from './strategies/errorPage.strategy';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
   mock: number;
   dialog: string;
-};
+} & BrandState;
 
 const createLogixUXState = (): LogixUXState => {
   return {
     mock: 0,
     dialog: '',
+    pageStrategies: [logixUXIndexPageStrategy, logixUXErrorPageStrategy],
   };
 };
 
