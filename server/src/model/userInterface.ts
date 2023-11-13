@@ -1,7 +1,14 @@
-import { Action, ActionStrategy, ActionStrategyStitch, ActionType, Concepts, KeyedSelector, getUnifiedName, strategyData_select } from 'stratimux';
+import {
+  Action,
+  ActionStrategy,
+  ActionStrategyStitch,
+  Concepts,
+  KeyedSelector,
+  getUnifiedName,
+  strategyData_select
+} from 'stratimux';
 import { elementEventBinding } from './html';
 import { documentObjectModelName } from '../concepts/documentObjectModel/documentObjectModel.concept';
-import { userInterfaceClientName } from '../concepts/userInterfaceClient/userInterfaceClient.concept';
 
 /**
  * Should be ID as #string
