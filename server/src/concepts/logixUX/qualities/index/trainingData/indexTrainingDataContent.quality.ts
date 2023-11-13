@@ -40,17 +40,17 @@ const createIndexTrainingDataContentMethodCreator: MethodCreator = (concepts$?: 
         const elementID = 0;
         bindingsArray.push({
           elementId: promptID + elementID,
-          eventBinding: elementEventBinding.oninput,
+          eventBinding: elementEventBinding.onchange,
           action: axiumLog()
         });
         bindingsArray.push({
           elementId: chosenID + elementID,
-          eventBinding: elementEventBinding.oninput,
+          eventBinding: elementEventBinding.onchange,
           action: axiumLog()
         });
         bindingsArray.push({
           elementId: rejectedID + elementID,
-          eventBinding: elementEventBinding.oninput,
+          eventBinding: elementEventBinding.onchange,
           action: axiumLog()
         });
         finalOutput += /*html*/`
