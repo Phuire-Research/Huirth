@@ -44,6 +44,12 @@ const createUserInterfaceServerAssembleActionQueStrategyMethod = () => createMet
       previous = stitchEnd;
     }
   }
+  // if (previous) {
+  //   previous.successNode = createActionNode(userInterfaceEnd(), {
+  //     successNode: null,
+  //     failureNode: null
+  //   });
+  // }
   if (first) {
     return strategyBegin(createStrategy({
       initialNode: first,

@@ -166,7 +166,7 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
           });
           if (payload.boundActionQue.length > 0) {
             dispatch(userInterfaceServerAssembleActionQueStrategy(payload), {
-              throttle: 50
+              throttle: 1
             });
           }
         } else if (uiState === undefined) {

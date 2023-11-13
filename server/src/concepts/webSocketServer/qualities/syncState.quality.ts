@@ -25,7 +25,7 @@ function webSocketServerSyncStateReducer(state: WebSocketServerState, action: Ac
       newState[key] = payload.state[key];
     }
   }
-  console.log('SYNC SERVER SEMAPHORE HELLO WORLD', payload);
+  // console.log('SYNC SERVER SEMAPHORE HELLO WORLD', payload);
   return {
     ...state,
     ...newState

@@ -76,12 +76,14 @@ const createBindingActionNode = (action$: Subject<Action>, bindings: UserInterfa
       }
     }
   }
+  const end = createActionNode(userInterfaceEnd(), {
+    successNode: null,
+    failureNode: null,
+  });
   if (previous) {
-    const stepEnd = createActionNode(userInterfaceEnd(), {
-      successNode: null,
-      failureNode: null,
-    });
-    previous.successNode = stepEnd;
+    previous.successNode = end;
+  } else {
+    return end;
   }
   return first as ActionNode;
 };

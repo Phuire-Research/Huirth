@@ -11,7 +11,7 @@ import {
   strategyBegin,
 } from 'stratimux';
 import { Subscriber } from 'rxjs';
-import { DocumentObjectModelState, determineBinding, documentObjectModelName } from './documentObjectModel.concept';
+import { DocumentObjectModelState, documentObjectModelName } from './documentObjectModel.concept';
 import { documentObjectModelBindingStrategy } from './strategies/composeBindings.strategy';
 
 export const documentObjectModelPrinciple: PrincipleFunction = (
