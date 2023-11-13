@@ -1,6 +1,6 @@
 import { createAxium } from 'stratimux';
 import { createFileSystemConcept } from './concepts/fileSystem/fileSystem.concept';
-import { createLogixUXConcept, logixUXName } from './concepts/logixUX/logixUX.concepts';
+import { createLogixUXConcept, logixUXName } from './concepts/logixUX/logixUX.concept';
 import { logixUXIndexPageStrategy } from './concepts/logixUX/strategies/indexPage.strategy';
 import { logixUXErrorPageStrategy } from './concepts/logixUX/strategies/errorPage.strategy';
 

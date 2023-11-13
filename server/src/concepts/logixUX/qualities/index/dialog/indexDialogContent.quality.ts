@@ -18,7 +18,7 @@ import {
 import { createBinding, createBoundSelectors, userInterface_appendCompositionToPage, userInterface_isClient } from '../../../../../model/userInterface';
 import { elementEventBinding } from '../../../../../model/html';
 import { logixUXTriggerCountingStrategy } from '../../triggerCounterStrategy.quality';
-import { LogixUXState } from '../../../logixUX.concepts';
+import { LogixUXState } from '../../../logixUX.concept';
 import { logixUX_createCountSelector, logixUX_createDialogSelector } from '../../../logixUX.selector';
 
 export const logixUXIndexDialogContentType: ActionType = 'create userInterface for IndexDialogContent';

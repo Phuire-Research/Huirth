@@ -7,7 +7,7 @@ import {
   prepareActionWithPayloadCreator,
   selectPayload,
 } from 'stratimux';
-import { LogixUXState } from '../logixUX.concepts';
+import { LogixUXState } from '../logixUX.concept';
 
 export type LogixUXAppendAxiumDialogTypePayload = {
   dialog: string;
