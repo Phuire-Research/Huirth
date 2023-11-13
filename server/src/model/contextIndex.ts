@@ -33,7 +33,6 @@ ${imports}
   fetch(window.location.protocol + '//' + window.location.host + '/stateSync').then(response => {
     response.json().then(value => {
       state = value;
-      console.log('WORKS', value);
       if (init && state) {
         createAxium('contextAxium', [
           ${creators}

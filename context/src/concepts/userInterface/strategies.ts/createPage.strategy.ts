@@ -25,7 +25,7 @@ export const userInterfaceCreatePageTopic = 'User Interface create Page Strategy
  * @returns [ActionNode, ActionStrategy] ActionStrategy with data of type Composition
  */
 export function userInterfaceCreatePageStrategy(
-  topic: string,
+  title: string,
   pageData: Page,
   body: ActionStrategyStitch[],
   headerStitch?: ActionStrategyStitch,
@@ -71,7 +71,7 @@ export function userInterfaceCreatePageStrategy(
   return [
     stepHtmlEnd,
     createStrategy({
-      topic,
+      topic: title,
       initialNode: stepHtmlBegin,
       data: pageData,
     }),

@@ -5,7 +5,7 @@ import { logixUXFooterStrategy } from './footer.strategy';
 import { logixUXHeaderStrategy } from './header.strategy';
 import { userInterfaceCreatePageStrategy } from '../../userInterface/strategies.ts/createPage.strategy';
 
-export const logixUXErrorPageStrategyTopic = 'logixUX Error Page Strategy Stitch';
+export const logixUXErrorPageStrategyTopic = 'error';
 export const logixUXErrorPageStrategy: PageStrategyCreators = () => () => {
   // Body
   const stepStitch = axium_createStitchNode();
@@ -22,7 +22,7 @@ export const logixUXErrorPageStrategy: PageStrategyCreators = () => () => {
   ];
 
   const pageData = userInterface_createPage({
-    title: 'error',
+    title: logixUXErrorPageStrategyTopic,
     conceptAndProps: [{ name: 'helloWorld' }],
     cachedSelectors: [],
     compositions: [],

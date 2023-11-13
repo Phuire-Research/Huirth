@@ -6,21 +6,23 @@ import {
   MethodCreator,
   UnifiedSubject,
   counterAdd,
-  counterName,
   counterSubtract,
   createMethodDebounceWithConcepts,
   createQuality,
   defaultReducer,
-  getUnifiedName,
   prepareActionCreator,
   selectUnifiedState,
   strategySuccess,
 } from 'stratimux';
 
-import { createBinding, createBoundSelectors, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
+import {
+  createBinding,
+  createBoundSelectors,
+  userInterface_appendCompositionToPage,
+  userInterface_isClient,
+} from '../../../../../model/userInterface';
 import { elementEventBinding } from '../../../../../model/html';
 import { logixUXTriggerCountingStrategy } from '../../triggerCounterStrategy.quality';
-import { userInterfaceClientName } from '../../../../userInterfaceClient/userInterfaceClient.concept';
 import { LogixUXState } from '../../../logixUX.concepts';
 import { logixUX_createCountSelector, logixUX_createDialogSelector } from '../../../logixUX.selector';
 
@@ -38,9 +40,8 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
       const subtractId = '#subtractID';
 
       if (action.strategy) {
-        const unifiedName = getUnifiedName(concepts, semaphore);
-        if (unifiedName) {
-          const isClient = unifiedName === userInterfaceClientName;
+        const isClient = userInterface_isClient(concepts, semaphore);
+        if (isClient !== undefined) {
           const dialog = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState).dialog.trim();
           const counter = selectUnifiedState<Counter>(concepts, semaphore);
           const count = counter ? counter.count : 0;

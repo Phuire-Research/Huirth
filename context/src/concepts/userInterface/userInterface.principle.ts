@@ -10,10 +10,13 @@ import {
   Concepts,
   axiumRegisterStagePlanner,
   axiumSelectOpen,
+  ActionStrategy,
 } from 'stratimux';
 import { UserInterfaceState } from './userInterface.concept';
 import { userInterfacePageToStateStrategy } from './strategies.ts/pageToState.strategy';
 import { getAxiumState, getUnifiedName } from '../../model/concepts';
+import { userInterface_isClient } from '../../model/userInterface';
+import { UserInterfaceClientState } from '../userInterfaceClient/userInterfaceClient.concept';
 
 export const userInterfaceInitializationPrinciple: PrincipleFunction = (
   ___: Subscriber<Action>,
@@ -44,7 +47,20 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
             iterateStage: true,
           });
         } else if (uiState.pageStrategies.length > 1) {
-          const list = uiState.pageStrategies.map((creator) => userInterfacePageToStateStrategy(creator(concepts)));
+          const isClient = userInterface_isClient(concepts, semaphore);
+          const list: ActionStrategy[] = [];
+          uiState.pageStrategies.forEach((creator) => {
+            if (isClient) {
+              const pageCreator = creator(concepts);
+              const title = pageCreator()[1].topic;
+              const currentPage = (uiState as UserInterfaceClientState).currentPage;
+              if (title === currentPage) {
+                list.push(userInterfacePageToStateStrategy(pageCreator));
+              }
+            } else {
+              list.push(userInterfacePageToStateStrategy(creator(concepts)));
+            }
+          });
           const strategy = strategySequence(list);
           if (strategy) {
             dispatch(strategyBegin(strategy), {

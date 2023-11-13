@@ -1,6 +1,7 @@
-import { Action, ActionStrategy, ActionStrategyStitch, ActionType, Concepts, KeyedSelector, strategyData_select } from 'stratimux';
+import { Action, ActionStrategy, ActionStrategyStitch, ActionType, Concepts, KeyedSelector, getUnifiedName, strategyData_select } from 'stratimux';
 import { elementEventBinding } from './html';
 import { documentObjectModelName } from '../concepts/documentObjectModel/documentObjectModel.concept';
+import { userInterfaceClientName } from '../concepts/userInterfaceClient/userInterfaceClient.concept';
 
 /**
  * Should be ID as #string
@@ -28,6 +29,15 @@ export const createBinding =
     });
     return binding;
   };
+
+export const userInterface_isClient = (concepts: Concepts, semaphore: number) => {
+  const name = getUnifiedName(concepts, semaphore);
+  if (name) {
+    return name === 'userInterfaceClient';
+  } else {
+    return undefined;
+  }
+};
 
 export const userInterface_pageBindingsToString = (pageBindings: UserInterfacePageBindings): string => {
   let output = '{ ';
