@@ -48,6 +48,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
               const que = [...state.actionQue];
               state.actionQue = [];
               que.forEach(action => {
+                action.conceptSemaphore = (state as WebSocketClientState).serverSemaphore;
                 ws.send(JSON.stringify(action));
               });
               concepts$.next(concepts);
@@ -57,7 +58,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
           }
         }
       ]);
-      let state: Record<string, unknown> = {};
+      const state: Record<string, unknown> = {};
       const planOnChange = concepts$.stage('Web Socket Server On Change', [
         (concepts, dispatch) => {
           const name = getUnifiedName(concepts, semaphore);
@@ -84,7 +85,6 @@ export const webSocketClientPrinciple: PrincipleFunction =
               //   ...newState
               // };
 
-              console.log('STATE 1', state, newState);
               ws.send(JSON.stringify(webSocketClientSyncState({state})));
             } else {
               for (const key of stateKeys) {

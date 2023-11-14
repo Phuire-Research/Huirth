@@ -21,6 +21,7 @@ import { logixUXUpdateFromChosenPayloadQuality } from './qualities/updateFromCho
 import { logixUXUpdateFromRejectedPayloadQuality } from './qualities/updateFromRejectedPayload.quality';
 import { Active_DPO, generateDefaultTrainingData } from './logixUX.model';
 import { logixUXNewDataSetEntryQuality } from './qualities/newDataSetEntry.quality';
+import { logixUXTriggerSaveTrainingDataStrategyQuality } from './qualities/triggerSaveTrainingDataStrategy.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
@@ -66,6 +67,7 @@ export const createLogixUXConcept = (): Concept =>  {
     ];
     qualities = [
       ...qualities,
+      logixUXTriggerSaveTrainingDataStrategyQuality
     ];
   }
   return unifyConcepts(

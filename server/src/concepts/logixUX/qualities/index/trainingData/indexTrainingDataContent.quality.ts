@@ -22,6 +22,8 @@ import { logixUXUpdateFromChosenPayload } from '../../updateFromChosenPayload.qu
 import { logixUXUpdateFromRejectedPayload } from '../../updateFromRejectedPayload.quality';
 import { logixUXNewDataSetEntry } from '../../newDataSetEntry.quality';
 import { logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
+import { webSocketClientAppendToActionQue } from '../../../../webSocketClient/qualities/appendActionQue.quality';
+import { logixUXTriggerSaveTrainingDataStrategy } from '../../triggerSaveTrainingDataStrategy.quality';
 
 export const logixUXIndexTrainingDataContentType: ActionType = 'create userInterface for IndexTrainingDataContent';
 export const logixUXIndexTrainingDataContent = prepareActionCreator(logixUXIndexTrainingDataContentType);
@@ -30,6 +32,7 @@ const createIndexTrainingDataContentMethodCreator: MethodCreator = (concepts$?: 
   createMethodDebounceWithConcepts((action, concepts, semaphore) => {
     const id = '#trainingDataID';
     const addEntryID = '#addEntry';
+    const saveTrainingDataID = '#saveTrainingData';
     if (action.strategy) {
       const trainingData = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState).trainingData;
       let finalOutput = '';
@@ -73,6 +76,11 @@ ${trainingData[i].rejected}
         elementId: addEntryID,
         eventBinding: elementEventBinding.onclick
       });
+      bindingsArray.push({
+        action: webSocketClientAppendToActionQue({actionQue: [logixUXTriggerSaveTrainingDataStrategy()]}),
+        elementId: saveTrainingDataID,
+        eventBinding: elementEventBinding.onclick
+      });
       const bindings = createBinding(bindingsArray);
       console.log('Check bindings', bindings);
       const strategy = strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
@@ -90,6 +98,9 @@ ${trainingData[i].rejected}
           <div class="mt-4 overflow-scroll max-h-[70vh] p-4 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
           <button id=${addEntryID} class="m-2 center-m bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
             Add Entry
+          </button>
+          <button id=${saveTrainingDataID} class="m-2 center-m bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+            Save Training Data
           </button>
             ${finalOutput}
           </div>
