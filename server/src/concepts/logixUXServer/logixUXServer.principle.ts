@@ -12,7 +12,7 @@ import {
   selectUnifiedState,
 } from 'stratimux';
 import { LogixUXServerState } from './logixUXServer.concept';
-import { logixUXTriggerSaveTrainingDataStrategy } from '../logixUX/qualities/triggerSaveTrainingDataStrategy.quality';
+import { logixUXServerTriggerSaveTrainingDataStrategy } from '../logixUXServer/qualities/triggerSaveTrainingDataStrategy.quality';
 
 // Should be converted into its own server bindings principle.
 export const logixUXServerPrinciple: PrincipleFunction =
@@ -34,9 +34,9 @@ export const logixUXServerPrinciple: PrincipleFunction =
         if (state && state.triggerSave) {
           state.triggerSave = false;
           // console.log('Check qualities', concepts[semaphore].qualities);
-          console.log('CHECK SEMAPHORE2', semaphore);
+          console.log('CHECK TRAINING DATA', state.trainingData);
           concepts$.next(concepts);
-          dispatch(logixUXTriggerSaveTrainingDataStrategy(semaphore), {
+          dispatch(logixUXServerTriggerSaveTrainingDataStrategy(semaphore), {
             throttle: 50
           });
         }

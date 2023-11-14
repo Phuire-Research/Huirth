@@ -8,13 +8,15 @@ import { DPO_DataSet } from '../../../model/logixUX';
 
 export const logixUXServerSaveTrainingDataStrategyTopic = 'Save training data currently loaded in state';
 export const logixUXServerSaveTrainingDataStrategy = (root: string, trainingData: Active_DPO[]) => {
+  console.log('BEFORE SAVE FORMAT', trainingData);
   const saveFormat: DPO_DataSet = {};
-  trainingData.forEach(entry => {
-    saveFormat[entry.prompt] = {
+  trainingData.forEach((entry, i) => {
+    saveFormat[entry.prompt + i] = {
       chosen: [{content: entry.chosen}],
       rejected: [{content: entry.chosen}],
     };
   });
+  console.log('CHECK SAVE FORMAT', saveFormat);
   const dataPath = path.join(root + '/data/logixUX/');
   const stepCreateFileWithContents = createActionNode(fileSystemCreateFileWithContentsIndex({
     target: path.join(dataPath + 'data.json'),

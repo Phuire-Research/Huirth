@@ -38,7 +38,7 @@ export const webSocketServerPrinciple: PrincipleFunction =
       // });
       ws.on('message', (message) => {
         const act = JSON.parse(`${message}`);
-        console.log('MESSAGE', act);
+        // console.log('MESSAGE', act);
         if (Object.keys(act).includes('type')) {
           observer.next(act);
         }

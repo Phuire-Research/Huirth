@@ -117,7 +117,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
     });
     ws.addEventListener('message', (message) => {
       const act = JSON.parse(message.data);
-      console.log('CHECK MESSAGE', act);
+      // console.log('CHECK MESSAGE', act);
       if (Object.keys(act).includes('type')) {
         observer.next(act);
       }

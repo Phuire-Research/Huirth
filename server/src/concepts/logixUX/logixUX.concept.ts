@@ -9,7 +9,7 @@ import { logixUXIndexDialogContentQuality } from './qualities/index/dialog/index
 import { logixUXIndexDialogEndQuality } from './qualities/index/dialog/indexDialogEnd.quality';
 import { logixUXTriggerCountingStrategyQuality } from './qualities/triggerCounterStrategy.quality';
 import { logixUXAppendAxiumDialogQuality } from './qualities/appendAxiumDialog.quality';
-import { logixUXDialogPrinciple } from './logixUX.principle';
+import { logixUXDialogPrinciple, logixUXDisableSave } from './logixUX.principle';
 import { BrandState } from '../../model/userInterface';
 import { logixUXIndexPageStrategy } from './strategies/pages/indexPage.strategy';
 import { logixUXErrorPageStrategy } from './strategies/pages/errorPage.strategy';
@@ -22,6 +22,7 @@ import { logixUXUpdateFromRejectedPayloadQuality } from './qualities/updateFromR
 import { Active_DPO, generateDefaultTrainingData } from './logixUX.model';
 import { logixUXNewDataSetEntryQuality } from './qualities/newDataSetEntry.quality';
 import { logixUXEnableTriggerSaveFlagQuality } from './qualities/enableTriggerSaveFlag.quality';
+import { logixUXDisableTriggerSaveFlagQuality } from './qualities/disableTriggerSaveFlag.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
@@ -42,7 +43,7 @@ const createLogixUXState = (): LogixUXState => {
 };
 
 export const createLogixUXConcept = (): Concept =>  {
-  const principles: PrincipleFunction[] = [logixUXDialogPrinciple];
+  const principles: PrincipleFunction[] = [logixUXDialogPrinciple, logixUXDisableSave];
   const qualities: Quality[] = [
     logixUXHeadQuality,
     logixUXStyleQuality,
@@ -61,7 +62,8 @@ export const createLogixUXConcept = (): Concept =>  {
     logixUXUpdateFromChosenPayloadQuality,
     logixUXUpdateFromRejectedPayloadQuality,
     logixUXNewDataSetEntryQuality,
-    logixUXEnableTriggerSaveFlagQuality
+    logixUXEnableTriggerSaveFlagQuality,
+    logixUXDisableTriggerSaveFlagQuality
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
   return unifyConcepts(
