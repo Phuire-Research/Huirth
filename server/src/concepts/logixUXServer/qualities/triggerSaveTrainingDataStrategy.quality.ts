@@ -10,17 +10,18 @@ import {
   selectUnifiedState,
   strategyBegin,
 } from 'stratimux';
-import { LogixUXState } from '../logixUX.concept';
+import { LogixUXServerState } from '../logixUXServer.concept';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXSaveTrainingDataStrategy } from '../strategies/saveTrainingData.strategy';
 
-export const logixUXTriggerSaveTrainingDataStrategyType: ActionType = 'Create logixUX triggerSaveTrainingDataStrategy';
-export const logixUXTriggerSaveTrainingDataStrategy = prepareActionCreator(logixUXTriggerSaveTrainingDataStrategyType);
+export const logixUXTriggerSaveTrainingDataStrategyType: ActionType = 'Create logixUXServer triggerSaveTrainingDataStrategy';
+export const logixUXTriggerSaveTrainingDataStrategy =
+  prepareActionCreator(logixUXTriggerSaveTrainingDataStrategyType);
 
-const createLogixUXTriggerSaveTrainingDataStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
+const createLogixUXServerTriggerSaveTrainingDataStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
   createMethodDebounceWithConcepts(
     (action, concepts) => {
-      const state = selectUnifiedState<LogixUXState>(concepts, semaphore as number);
+      const state = selectUnifiedState<LogixUXServerState>(concepts, semaphore as number);
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       if (state && fileSystemState) {
         const strategy = logixUXSaveTrainingDataStrategy(fileSystemState.root, state.trainingData);
@@ -28,14 +29,11 @@ const createLogixUXTriggerSaveTrainingDataStrategyMethodCreator: MethodCreator =
       } else {
         return action;
       }
-    },
-    concepts$ as UnifiedSubject,
-    semaphore as number,
-    50
+    }, concepts$ as UnifiedSubject, semaphore as number, 50
   );
 
 export const logixUXTriggerSaveTrainingDataStrategyQuality = createQuality(
   logixUXTriggerSaveTrainingDataStrategyType,
   defaultReducer,
-  createLogixUXTriggerSaveTrainingDataStrategyMethodCreator
+  createLogixUXServerTriggerSaveTrainingDataStrategyMethodCreator,
 );

@@ -12,31 +12,32 @@ export const userInterfaceName = 'userInterface';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 export type UserInterfaceState = {
-  pages: Page[],
-  pageStrategies: PageStrategyCreators[],
+  pages: Page[];
+  pageStrategies: PageStrategyCreators[];
   pagesCached: boolean;
-}
+};
 
 const createUserInterfaceState = (pageStrategies: PageStrategyCreators[]): UserInterfaceState => {
   return {
     pages: [],
     pageStrategies,
-    pagesCached: false
+    pagesCached: false,
   };
 };
 
 export const createUserInterfaceConcept = (pageStrategies: PageStrategyCreators[]): Concept => {
-  return unifyConcepts([createHtmlConcept()], createConcept(
-    userInterfaceName,
-    createUserInterfaceState(pageStrategies),
-    [
-      userInterfaceAddComposedPageToStateQuality,
-      userInterfaceRefreshCachedSelectorsQuality,
-      userInterfaceAtomicUpdatePageCompositionQuality,
-      userInterfaceEndQuality
-    ],
-    [
-      userInterfaceInitializationPrinciple
-    ]
-  ));
+  return unifyConcepts(
+    [createHtmlConcept()],
+    createConcept(
+      userInterfaceName,
+      createUserInterfaceState(pageStrategies),
+      [
+        userInterfaceAddComposedPageToStateQuality,
+        userInterfaceRefreshCachedSelectorsQuality,
+        userInterfaceAtomicUpdatePageCompositionQuality,
+        userInterfaceEndQuality,
+      ],
+      [userInterfaceInitializationPrinciple]
+    )
+  );
 };

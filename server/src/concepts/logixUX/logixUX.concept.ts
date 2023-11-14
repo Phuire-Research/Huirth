@@ -21,7 +21,6 @@ import { logixUXUpdateFromChosenPayloadQuality } from './qualities/updateFromCho
 import { logixUXUpdateFromRejectedPayloadQuality } from './qualities/updateFromRejectedPayload.quality';
 import { Active_DPO, generateDefaultTrainingData } from './logixUX.model';
 import { logixUXNewDataSetEntryQuality } from './qualities/newDataSetEntry.quality';
-import { logixUXTriggerSaveTrainingDataStrategyQuality } from './qualities/triggerSaveTrainingDataStrategy.quality';
 import { logixUXPushToServerSaveTrainingDataQuality } from './qualities/pushToServerSaveTraining.quality';
 
 export const logixUXName = 'logixUX';
@@ -41,8 +40,8 @@ const createLogixUXState = (): LogixUXState => {
 };
 
 export const createLogixUXConcept = (): Concept =>  {
-  let principles: PrincipleFunction[] = [logixUXDialogPrinciple];
-  let qualities: Quality[] = [
+  const principles: PrincipleFunction[] = [logixUXDialogPrinciple];
+  const qualities: Quality[] = [
     logixUXHeadQuality,
     logixUXStyleQuality,
     logixUXFooterQuality,
@@ -59,23 +58,10 @@ export const createLogixUXConcept = (): Concept =>  {
     logixUXUpdateFromPromptPayloadQuality,
     logixUXUpdateFromChosenPayloadQuality,
     logixUXUpdateFromRejectedPayloadQuality,
-    logixUXNewDataSetEntryQuality
+    logixUXNewDataSetEntryQuality,
+    logixUXPushToServerSaveTrainingDataQuality
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
-  if (!userInterface_isClient()) {
-    principles = [
-      ...principles,
-    ];
-    qualities = [
-      ...qualities,
-      logixUXTriggerSaveTrainingDataStrategyQuality
-    ];
-  } else {
-    qualities = [
-      ...qualities,
-      logixUXPushToServerSaveTrainingDataQuality
-    ];
-  }
   return unifyConcepts(
     [
       createCounterConcept()

@@ -8,7 +8,7 @@ import {
   axiumSelectOpen,
   primeAction,
   selectUnifiedState,
-  strategyBegin
+  strategyBegin,
 } from 'stratimux';
 import { Subscriber } from 'rxjs';
 import { DocumentObjectModelState, documentObjectModelName } from './documentObjectModel.concept';
@@ -23,11 +23,11 @@ export const documentObjectModelPrinciple: PrincipleFunction = (
   const pageID = document.querySelector('[id^="page#"]')?.id;
   const plan = concepts$.stage('ownership Principle Plan', [
     (concepts, dispatch) => {
-      dispatch(primeAction(concepts, axiumRegisterStagePlanner({conceptName: documentObjectModelName, stagePlanner: plan})), {
+      dispatch(primeAction(concepts, axiumRegisterStagePlanner({ conceptName: documentObjectModelName, stagePlanner: plan })), {
         iterateStage: true,
         on: {
           selector: axiumSelectOpen,
-          expected: true
+          expected: true,
         },
       });
     },
@@ -37,13 +37,13 @@ export const documentObjectModelPrinciple: PrincipleFunction = (
       const binding = documentObjectModelState?.bindingQue;
       if (binding && pageID) {
         dispatch(strategyBegin(documentObjectModelBindingStrategy(concepts, pageID.split('page#')[1], binding)), {
-          iterateStage: true
+          iterateStage: true,
         });
       }
     },
     (__, ___) => {
       plan.conclude();
       // console.log('Plan can conclude.');
-    }
+    },
   ]);
 };

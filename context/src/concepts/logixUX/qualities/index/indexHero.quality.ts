@@ -1,13 +1,5 @@
 /* eslint-disable max-len */
-import {
-  ActionType,
-  MethodCreator,
-  createMethod,
-  createQuality,
-  defaultReducer,
-  prepareActionCreator,
-  strategySuccess
-} from 'stratimux';
+import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, prepareActionCreator, strategySuccess } from 'stratimux';
 
 import { Subject, map } from 'rxjs';
 import { userInterface_appendCompositionToPage } from '../../../../model/userInterface';
@@ -15,14 +7,17 @@ import { userInterface_appendCompositionToPage } from '../../../../model/userInt
 export const logixUXIndexHeroType: ActionType = 'create userInterface for IndexHero';
 export const logixUXIndexHero = prepareActionCreator(logixUXIndexHeroType);
 
-const createIndexHeroMethodCreator: MethodCreator = () => createMethod(action => {
-  const id = '#heroId';
-  if (action.strategy) {
-    return strategySuccess(action.strategy, userInterface_appendCompositionToPage(action.strategy, {
-      id,
-      boundSelectors: [],
-      action: logixUXIndexHero(),
-      html: /*html*/`
+const createIndexHeroMethodCreator: MethodCreator = () =>
+  createMethod((action) => {
+    const id = '#heroId';
+    if (action.strategy) {
+      return strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
+          id,
+          boundSelectors: [],
+          action: logixUXIndexHero(),
+          html: /*html*/ `
 <section id='${id}' class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">
   <div class="flex items-center h-16">
     <!-- Navbar Container -->
@@ -43,14 +38,11 @@ const createIndexHeroMethodCreator: MethodCreator = () => createMethod(action =>
     </div>
   </div>
 </section>
-        `
-    }));
-  }
-  return action;
-});
+        `,
+        })
+      );
+    }
+    return action;
+  });
 
-export const logixUXIndexHeroQuality = createQuality(
-  logixUXIndexHeroType,
-  defaultReducer,
-  createIndexHeroMethodCreator,
-);
+export const logixUXIndexHeroQuality = createQuality(logixUXIndexHeroType, defaultReducer, createIndexHeroMethodCreator);

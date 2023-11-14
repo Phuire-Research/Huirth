@@ -1,5 +1,5 @@
 import { createActionNode, createStrategy } from 'stratimux';
-import { Active_DPO } from '../logixUX.model';
+import { Active_DPO } from '../../logixUX/logixUX.model';
 import { DPO_DataSet } from '../../../model/logixUX';
 import path from 'path';
 import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
@@ -9,33 +9,30 @@ import { fileSystemCreateFileWithContentsIndex } from '../../fileSystem/qualitie
 export const logixUXSaveTrainingDataStrategyTopic = 'Save training data currently loaded in state';
 export const logixUXSaveTrainingDataStrategy = (root: string, trainingData: Active_DPO[]) => {
   const saveFormat: DPO_DataSet = {};
-  trainingData.forEach((entry) => {
+  trainingData.forEach(entry => {
     saveFormat[entry.prompt] = {
-      chosen: [{ content: entry.chosen }],
-      rejected: [{ content: entry.chosen }],
+      chosen: [{content: entry.chosen}],
+      rejected: [{content: entry.chosen}],
     };
   });
   const dataPath = path.join(root + '/data/logixUX/');
-  const stepCreateFileWithContents = createActionNode(
-    fileSystemCreateFileWithContentsIndex({
-      target: dataPath,
-      content: JSON.stringify(saveFormat),
-    }),
-    {
-      successNode: null,
-      failureNode: null,
-      agreement: 20000,
-    }
-  );
+  const stepCreateFileWithContents = createActionNode(fileSystemCreateFileWithContentsIndex({
+    target: dataPath,
+    content: JSON.stringify(saveFormat)
+  }), {
+    successNode: null,
+    failureNode: null,
+    agreement: 20000
+  });
   const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory(dataPath), {
     successNode: stepCreateFileWithContents,
     failureNode: null,
-    agreement: 20000,
+    agreement: 20000
   });
   const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory(dataPath), {
     successNode: stepCreateDirectory,
     failureNode: null,
-    agreement: 20000,
+    agreement: 20000
   });
   return createStrategy({
     topic: logixUXSaveTrainingDataStrategyTopic,

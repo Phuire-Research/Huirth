@@ -4,7 +4,7 @@ import {
   ActionStrategyStitch,
   createActionNode,
   createActionNodeFromStrategy,
-  createStrategy
+  createStrategy,
 } from 'stratimux';
 import { Page } from '../../../model/userInterface';
 import { htmlBegin } from '../../html/qualities/htmlBegin.quality';
@@ -33,25 +33,22 @@ export function userInterfaceCreatePageStrategy(
 ): [ActionNode, ActionStrategy] {
   const stepHtmlEnd = createActionNode(htmlEnd(), {
     successNode: null,
-    failureNode: null
+    failureNode: null,
   });
 
   const stepBodyEnd = createActionNode(htmlBodyEnd(), {
     successNode: stepHtmlEnd,
-    failureNode: null
+    failureNode: null,
   });
 
-  const stepBodyBegin = createActionNode(htmlBodyBegin({pageName: pageData.title}), {
+  const stepBodyBegin = createActionNode(htmlBodyBegin({ pageName: pageData.title }), {
     successNode: stepBodyEnd,
-    failureNode: null
+    failureNode: null,
   });
 
   let prevHead = stepBodyBegin;
   for (let i = 0; i < body.length; i++) {
-    const [
-      stitchEnd,
-      stitchStrategy
-    ] = body[i]();
+    const [stitchEnd, stitchStrategy] = body[i]();
     const stitchHead = createActionNodeFromStrategy(stitchStrategy);
     prevHead.successNode = stitchHead;
     // console.log('PREV HEAD', prevHead, i);
@@ -61,15 +58,12 @@ export function userInterfaceCreatePageStrategy(
   prevHead.successNode = stepBodyEnd;
   // console.log('FINAL', prevHead);
 
-  const [
-    headEnd,
-    header
-  ] = createHeaderStrategy(headerStitch);
+  const [headEnd, header] = createHeaderStrategy(headerStitch);
   const stepHeader = createActionNodeFromStrategy(header);
 
   headEnd.successNode = stepBodyBegin;
 
-  const stepHtmlBegin = createActionNode(htmlBegin({language}), {
+  const stepHtmlBegin = createActionNode(htmlBegin({ language }), {
     successNode: stepHeader,
     failureNode: null,
   });
@@ -79,25 +73,22 @@ export function userInterfaceCreatePageStrategy(
     createStrategy({
       topic: title,
       initialNode: stepHtmlBegin,
-      data: pageData
-    })
+      data: pageData,
+    }),
   ];
 }
 
 const createHeaderStrategy = (stitch?: ActionStrategyStitch): [ActionNode, ActionStrategy] => {
   const stepHeadEnd = createActionNode(htmlHeadEnd(), {
     successNode: null,
-    failureNode: null
+    failureNode: null,
   });
   const stepHeadBegin = createActionNode(htmlHeadBegin(), {
     successNode: stepHeadEnd,
-    failureNode: null
+    failureNode: null,
   });
   if (stitch) {
-    const [
-      stitchEnd,
-      stitchStrategy
-    ] = stitch();
+    const [stitchEnd, stitchStrategy] = stitch();
     stitchEnd.successNode = stepHeadEnd;
     const stitched = createActionNodeFromStrategy(stitchStrategy);
     stepHeadBegin.successNode = stitched;
@@ -107,6 +98,6 @@ const createHeaderStrategy = (stitch?: ActionStrategyStitch): [ActionNode, Actio
     createStrategy({
       topic: 'Header Strategy',
       initialNode: stepHeadBegin,
-    })
+    }),
   ];
 };

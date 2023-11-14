@@ -9,7 +9,7 @@ import {
   createQuality,
   defaultReducer,
   prepareActionCreator,
-  strategySuccess
+  strategySuccess,
 } from 'stratimux';
 
 import { Subject, map } from 'rxjs';
@@ -24,11 +24,13 @@ const createErrorMethodCreator: MethodCreator = () => {
     map((action: Action) => {
       if (action.strategy) {
         const id = '#errorID';
-        return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-          id,
-          boundSelectors: [],
-          action: logixUXError(),
-          html: /*html*/`
+        return strategySuccess(
+          action.strategy,
+          userInterface_appendCompositionToPage(action.strategy, {
+            id,
+            boundSelectors: [],
+            action: logixUXError(),
+            html: /*html*/ `
 <section id='${id}' class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">
   <div class="flex items-center h-16">
     <!-- Navbar Container -->
@@ -49,20 +51,14 @@ const createErrorMethodCreator: MethodCreator = () => {
     </div>
   </div>
 </section>
-`
-        }));
+`,
+          })
+        );
       }
       return createAction(axiumConcludeType);
     })
   );
-  return [
-    logMethod,
-    logSubject
-  ];
+  return [logMethod, logSubject];
 };
 
-export const logixUXErrorQuality = createQuality(
-  logixUXErrorType,
-  defaultReducer,
-  createErrorMethodCreator,
-);
+export const logixUXErrorQuality = createQuality(logixUXErrorType, defaultReducer, createErrorMethodCreator);

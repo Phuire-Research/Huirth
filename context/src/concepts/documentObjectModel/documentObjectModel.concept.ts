@@ -8,26 +8,20 @@ import { documentObjectModelClearBindingQueQuality } from './qualities/clearBind
 export const documentObjectModelName = 'documentObjectModel';
 
 export type DocumentObjectModelState = {
-  bindingQue: UserInterfacePageBindings
+  bindingQue: UserInterfacePageBindings;
 };
 
-const createDocumentObjectModelState = (bindingQue?: UserInterfacePageBindings) : DocumentObjectModelState => {
+const createDocumentObjectModelState = (bindingQue?: UserInterfacePageBindings): DocumentObjectModelState => {
   return {
-    bindingQue: bindingQue ? bindingQue : {}
+    bindingQue: bindingQue ? bindingQue : {},
   };
 };
 
-export const createDocumentObjectModelConcept = (bindingQue?: UserInterfacePageBindings): Concept =>  {
+export const createDocumentObjectModelConcept = (bindingQue?: UserInterfacePageBindings): Concept => {
   return createConcept(
     documentObjectModelName,
     createDocumentObjectModelState(bindingQue),
-    [
-      documentObjectModelBindQuality,
-      documentObjectModelBindPayloadQuality,
-      documentObjectModelClearBindingQueQuality
-    ],
-    [
-      documentObjectModelPrinciple
-    ]
+    [documentObjectModelBindQuality, documentObjectModelBindPayloadQuality, documentObjectModelClearBindingQueQuality],
+    [documentObjectModelPrinciple]
   );
 };

@@ -37,11 +37,14 @@ const createLogixUXTriggerCountingStrategyMethodCreator: MethodCreator = (concep
       // strategy.topic += ' :' + state.count;
       // console.log('CHECK COUNTING', state.count);
       return strategyBegin(strategy);
-    }, concepts$ as UnifiedSubject, semaphore as number, 50
+    },
+    concepts$ as UnifiedSubject,
+    semaphore as number,
+    50
   );
 
 export const logixUXTriggerCountingStrategyQuality = createQuality(
   logixUXTriggerCountingStrategyType,
   defaultReducer,
-  createLogixUXTriggerCountingStrategyMethodCreator,
+  createLogixUXTriggerCountingStrategyMethodCreator
 );

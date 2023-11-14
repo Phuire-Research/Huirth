@@ -1,10 +1,4 @@
-import {
-  ActionStrategyParameters,
-  ActionStrategyStitch,
-  axium_createStitchNode,
-  createActionNode,
-  createStrategy
-} from 'stratimux';
+import { ActionStrategyParameters, ActionStrategyStitch, axium_createStitchNode, createActionNode, createStrategy } from 'stratimux';
 import { htmlHelloWorld } from '../../html/qualities/helloWorld.quality';
 import { helloWorldName } from '../../helloWorld/helloWorld.concept';
 import { PageStrategyCreators, userInterface_createPage } from '../../../model/userInterface';
@@ -30,15 +24,15 @@ export const helloWorldPageStrategy: PageStrategyCreators = () => () => {
     initialNode: stepOne,
   };
 
-  const pageData =  userInterface_createPage({
+  const pageData = userInterface_createPage({
     title: 'helloWorld',
     compositions: [],
     cachedSelectors: [],
     conceptAndProps: [
       {
         name: helloWorldName,
-      }
-    ]
+      },
+    ],
   });
 
   const helloWorldBody: ActionStrategyStitch = () => [stepStitch, createStrategy(params)];

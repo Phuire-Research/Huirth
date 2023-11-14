@@ -6,7 +6,7 @@ export enum commandLineInterfaceGoals {
   simulate = 'simulate',
   staticDeployment = 'staticDeployment',
   dynamicDeployment = 'dynamicDeployment',
-  none = 'none'
+  none = 'none',
 }
 
 export const commandLineInterfaceDetermineGoal = (args: string[]): commandLineInterfaceGoals => {
@@ -18,18 +18,18 @@ export const commandLineInterfaceDetermineGoal = (args: string[]): commandLineIn
     } else if (start && arg.indexOf('--') === -1) {
       // console.log('Checked arg', arg);
       switch (arg) {
-      case commandLineInterfaceGoals.simulate: {
-        return commandLineInterfaceGoals.simulate;
-      }
-      case commandLineInterfaceGoals.staticDeployment: {
-        return commandLineInterfaceGoals.staticDeployment;
-      }
-      case commandLineInterfaceGoals.dynamicDeployment: {
-        return commandLineInterfaceGoals.dynamicDeployment;
-      }
-      default: {
-        return commandLineInterfaceGoals.none;
-      }
+        case commandLineInterfaceGoals.simulate: {
+          return commandLineInterfaceGoals.simulate;
+        }
+        case commandLineInterfaceGoals.staticDeployment: {
+          return commandLineInterfaceGoals.staticDeployment;
+        }
+        case commandLineInterfaceGoals.dynamicDeployment: {
+          return commandLineInterfaceGoals.dynamicDeployment;
+        }
+        default: {
+          return commandLineInterfaceGoals.none;
+        }
       }
     }
   }

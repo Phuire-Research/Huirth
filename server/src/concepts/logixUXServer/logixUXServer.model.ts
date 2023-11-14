@@ -1,28 +1,21 @@
-export type Final_DPO = Record<
-  string,
-  {
-    chosen: [
-      {
-        content: string;
-      }
-    ];
-    rejected: [
-      {
-        content: string;
-      }
-    ];
-  }
->;
+export type Final_DPO = Record<string, {
+  chosen: [{
+    content: string
+  }],
+  rejected: [{
+    content: string
+  }]
+}>
 export type Active_DPO = {
-  prompt: string;
-  chosen: string;
-  rejected: string;
-};
+  prompt: string,
+  chosen: string,
+  rejected: string
+}
 
 export const generateDefaultTrainingData = (): Active_DPO => ({
   prompt: '#insert prompt#',
   chosen: '#insert chosen output#',
-  rejected: '#insert rejected output#',
+  rejected: '#insert rejected output#'
 });
 
 export const promptID = '#promptID-';
