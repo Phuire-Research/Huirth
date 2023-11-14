@@ -15,9 +15,12 @@ export const logixUXUpdateFromPromptPayload =
 
 function logixUXUpdateFromPromptPayloadReducer(state: LogixUXState, action: Action): LogixUXState {
   const target = userInterface_selectInputTarget(action);
-  console.log('CHECK VALUE', selectTrainingDataIndex(target, promptID));
+  const index = selectTrainingDataIndex(target, promptID);
+  const trainingData = state.trainingData;
+  trainingData[index].prompt = target.value;
   return {
-    ...state
+    ...state,
+    trainingData,
   };
 }
 

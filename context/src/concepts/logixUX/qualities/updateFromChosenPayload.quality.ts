@@ -8,9 +8,12 @@ export const logixUXUpdateFromChosenPayload = prepareActionCreator(logixUXUpdate
 
 function logixUXUpdateFromChosenPayloadReducer(state: LogixUXState, action: Action): LogixUXState {
   const target = userInterface_selectInputTarget(action);
-  console.log('CHECK VALUE', selectTrainingDataIndex(target, chosenID));
+  const index = selectTrainingDataIndex(target, chosenID);
+  const trainingData = state.trainingData;
+  trainingData[index].chosen = target.value;
   return {
     ...state,
+    trainingData,
   };
 }
 

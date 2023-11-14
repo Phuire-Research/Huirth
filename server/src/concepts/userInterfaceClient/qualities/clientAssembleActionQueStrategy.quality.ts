@@ -85,7 +85,7 @@ const stitchUpdatedLayers = (
     successNode: null,
     failureNode: null
   });
-  const stepReplaceOuterHtml = createActionNode(userInterfaceClientReplaceOuterHtml(), {
+  const stepReplaceOuterHtml = createActionNode(userInterfaceClientReplaceOuterHtml({id: bound.id}), {
     successNode: stepEnd,
     failureNode: null
   });

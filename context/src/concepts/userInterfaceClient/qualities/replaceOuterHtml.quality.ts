@@ -1,15 +1,28 @@
-import { ActionType, createMethod, createQuality, defaultReducer, prepareActionCreator, strategySuccess } from 'stratimux';
+import {
+  ActionType,
+  createMethod,
+  createQuality,
+  defaultReducer,
+  prepareActionWithPayloadCreator,
+  selectPayload,
+  strategySuccess,
+} from 'stratimux';
 import { userInterface_selectPage } from '../../../model/userInterface';
 
+export type UserInterfaceClientReplaceOuterHtmlPayload = {
+  id: string;
+};
 export const userInterfaceClientReplaceOuterHtmlType: ActionType =
   'User Interface Client assemble update atomic compositions strategy client';
-export const userInterfaceClientReplaceOuterHtml = prepareActionCreator(userInterfaceClientReplaceOuterHtmlType);
+export const userInterfaceClientReplaceOuterHtml = prepareActionWithPayloadCreator(userInterfaceClientReplaceOuterHtmlType);
 
 const createUserInterfaceClientReplaceOuterHtmlMethod = () =>
   createMethod((action) => {
     if (action.strategy) {
-      const composition = userInterface_selectPage(action.strategy).compositions[0];
+      const payload = selectPayload<UserInterfaceClientReplaceOuterHtmlPayload>(action);
+      const composition = userInterface_selectPage(action.strategy).compositions.filter((comp) => comp.id === payload.id)[0];
       const element = document.getElementById(composition.id);
+      console.log('CHECK', composition, element);
       if (element) {
         element.outerHTML = composition.html;
       }

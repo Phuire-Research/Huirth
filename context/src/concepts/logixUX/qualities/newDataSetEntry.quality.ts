@@ -6,7 +6,7 @@ export const logixUXNewDataSetEntryType: ActionType = 'Create logixUX NewDataSet
 export const logixUXNewDataSetEntry = prepareActionCreator(logixUXNewDataSetEntryType);
 
 function logixUXNewDataSetEntryReducer(state: LogixUXState, action: Action): LogixUXState {
-  const trainingData = state.trainingData;
+  const trainingData = [...state.trainingData];
   trainingData.push(generateDefaultTrainingData());
   return {
     ...state,

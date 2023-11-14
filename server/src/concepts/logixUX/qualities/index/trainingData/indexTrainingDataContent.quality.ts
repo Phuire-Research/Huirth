@@ -38,6 +38,7 @@ const createIndexTrainingDataContentMethodCreator: MethodCreator = (concepts$?: 
         eventBinding: elementEventBinding;
         action: Action;
       }[] = [];
+      console.log('CHECK LENGTH', trainingData);
       for (let i = 0; i < trainingData.length; i++) {
         const elementID = generateNumID(i);
         bindingsArray.push({
@@ -56,15 +57,15 @@ const createIndexTrainingDataContentMethodCreator: MethodCreator = (concepts$?: 
           action: logixUXUpdateFromRejectedPayload()
         });
         finalOutput += /*html*/`
-          <div class="text-black">
-            <input type="text" id="${promptID + elementID}" value='${trainingData[i].prompt}'/>
-            <textarea id="${chosenID + elementID}" rows="4" cols="50">
-              ${trainingData[i].chosen}
-            </textarea>
-            <textarea id="${rejectedID + elementID}" rows="4" cols="50">
-              ${trainingData[i].rejected}
-            </textarea>
-          </div>
+<div class="text-black">
+  <input type="text" id="${promptID + elementID}" value='${trainingData[i].prompt}'/>
+  <textarea id="${chosenID + elementID}" rows="4" cols="50">
+${trainingData[i].chosen}
+  </textarea>
+  <textarea id="${rejectedID + elementID}" rows="4" cols="50">
+${trainingData[i].rejected}
+  </textarea>
+</div>
         `;
       }
       bindingsArray.push({
@@ -79,9 +80,9 @@ const createIndexTrainingDataContentMethodCreator: MethodCreator = (concepts$?: 
         bindings,
         boundSelectors: [
           // START HERE
-          // createBoundSelectors(id, logixUXIndexTrainingDataContent(), [
-          //   logixUX_createTrainingDataSelector(concepts, semaphore) as KeyedSelector
-          // ])
+          createBoundSelectors(id, logixUXIndexTrainingDataContent(), [
+            logixUX_createTrainingDataSelector(concepts, semaphore) as KeyedSelector
+          ])
         ],
         action: logixUXIndexTrainingDataContent(),
         html: /*html*/`
