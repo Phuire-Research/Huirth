@@ -15,7 +15,7 @@ export const logixUXIndexTrainingDataBeginType: ActionType = 'create userInterfa
 export const logixUXIndexTrainingDataBegin = prepareActionCreator(logixUXIndexTrainingDataBeginType);
 
 const createIndexTrainingDataBeginMethodCreator: MethodCreator = () => createMethod(action => {
-  const id = '#dialogBeginID';
+  const id = '#beginTrainingDataID';
   if (action.strategy) {
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
       id,

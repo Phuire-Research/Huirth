@@ -8,7 +8,7 @@ export const logixUXIndexTrainingDataBegin = prepareActionCreator(logixUXIndexTr
 
 const createIndexTrainingDataBeginMethodCreator: MethodCreator = () =>
   createMethod((action) => {
-    const id = '#dialogBeginID';
+    const id = '#beginTrainingDataID';
     if (action.strategy) {
       return strategySuccess(
         action.strategy,
