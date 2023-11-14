@@ -1,4 +1,4 @@
-import { createAxium } from 'stratimux';
+import { createAxium, unifyConcepts } from 'stratimux';
 import { createFileSystemConcept } from './concepts/fileSystem/fileSystem.concept';
 import { createLogixUXConcept } from './concepts/logixUX/logixUX.concept';
 
@@ -9,6 +9,7 @@ import {
   commandLineInterfaceGoals
 } from './model/commandLineInterface';
 import { createUserInterfaceServerConcept } from './concepts/userInterfaceServer/userInterfaceServer.concept';
+import { createLogixUXServerConcept } from './concepts/logixUXServer/logixUXServer.concept';
 
 (() => {
   const goal = commandLineInterfaceDetermineGoal(argv);
@@ -18,7 +19,7 @@ import { createUserInterfaceServerConcept } from './concepts/userInterfaceServer
   case commandLineInterfaceGoals.simulate: {
     createAxium(`axium ${goal} logixUX`, [
       createUserInterfaceServerConcept(goal, {
-        concept: createLogixUXConcept(),
+        concept: unifyConcepts([createLogixUXServerConcept()], createLogixUXConcept()),
       }, port),
     ], true, true);
     break;
@@ -26,7 +27,7 @@ import { createUserInterfaceServerConcept } from './concepts/userInterfaceServer
   default: {
     createAxium(`axium ${goal} logixUX`, [
       createUserInterfaceServerConcept(goal, {
-        concept: createLogixUXConcept(),
+        concept: unifyConcepts([createLogixUXServerConcept()], createLogixUXConcept()),
       }, port),
       createFileSystemConcept()
     ], true, true);

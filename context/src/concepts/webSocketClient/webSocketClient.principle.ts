@@ -13,6 +13,7 @@ import {
 import _ws from 'express-ws';
 import { WebSocketClientState } from './webSocketClient.concept';
 import { webSocketClientSyncState } from './qualities/syncState.quality';
+import { webSocketClientSetClientSemaphore } from './qualities/setClientSemaphore.quality';
 
 export const webSocketClientPrinciple: PrincipleFunction = (
   observer: Subscriber<Action>,
@@ -34,17 +35,17 @@ export const webSocketClientPrinciple: PrincipleFunction = (
           plan.conclude();
         }
       },
-      // (concepts, dispatch) => {
-      //   const state = selectUnifiedState<WebSocketClientState>(concepts, semaphore);
-      //   if (state) {
-      //     ws.send(registerClientSemaphore);
-      //     dispatch(axiumKick(), {
-      //       iterateStage: true
-      //     });
-      //   } else {
-      //     plan.conclude();
-      //   }
-      // },
+      (concepts, dispatch) => {
+        const state = selectUnifiedState<WebSocketClientState>(concepts, semaphore);
+        if (state) {
+          ws.send(JSON.stringify(webSocketClientSetClientSemaphore({ semaphore })));
+          dispatch(axiumKick(), {
+            iterateStage: true,
+          });
+        } else {
+          plan.conclude();
+        }
+      },
       (concepts, __) => {
         const state = selectUnifiedState<WebSocketClientState>(concepts, semaphore);
         if (state) {
@@ -84,28 +85,25 @@ export const webSocketClientPrinciple: PrincipleFunction = (
                 state[key] = newState[key];
               }
             }
-            // state = {
-            //   ...state,
-            //   ...newState
-            // };
-
             ws.send(JSON.stringify(webSocketClientSyncState({ state })));
           } else {
             for (const key of stateKeys) {
-              if (key !== 'pages' && newState[key] !== state[key]) {
+              let changed = false;
+              if (key !== 'pages' && typeof newState[key] !== 'object' && newState[key] !== state[key]) {
+                changed = true;
+              } else if (key !== 'pages' && typeof newState[key] === 'object' && !Object.is(newState[key], state[key])) {
+                changed = true;
+              }
+              if (changed) {
                 for (const k of stateKeys) {
                   // eslint-disable-next-line max-depth
                   if (k !== 'pages') {
                     state[key] = newState[key];
                   }
                 }
-                // state = {
-                //   ...state,
-                //   ...newState
-                // };
                 const sync = webSocketClientSyncState({ state });
-                sync.conceptSemaphore = (state as WebSocketClientState).serverSemaphore;
-                ws.send(JSON.stringify(webSocketClientSyncState({ state })));
+                // sync.conceptSemaphore = (state as WebSocketClientState).serverSemaphore;
+                ws.send(JSON.stringify(sync));
                 break;
               }
             }
