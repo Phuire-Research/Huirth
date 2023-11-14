@@ -12,11 +12,11 @@ import {
 } from 'stratimux';
 import { LogixUXServerState } from '../logixUXServer.concept';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
-import { logixUXSaveTrainingDataStrategy } from '../strategies/saveTrainingData.strategy';
+import { logixUXServerSaveTrainingDataStrategy } from '../strategies/saveTrainingData.strategy';
 
-export const logixUXTriggerSaveTrainingDataStrategyType: ActionType = 'Create logixUXServer triggerSaveTrainingDataStrategy';
-export const logixUXTriggerSaveTrainingDataStrategy =
-  prepareActionCreator(logixUXTriggerSaveTrainingDataStrategyType);
+export const logixUXServerTriggerSaveTrainingDataStrategyType: ActionType = 'Create logixUXServer triggerSaveTrainingDataStrategy';
+export const logixUXServerTriggerSaveTrainingDataStrategy =
+  prepareActionCreator(logixUXServerTriggerSaveTrainingDataStrategyType);
 
 const createLogixUXServerTriggerSaveTrainingDataStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
   createMethodDebounceWithConcepts(
@@ -24,7 +24,7 @@ const createLogixUXServerTriggerSaveTrainingDataStrategyMethodCreator: MethodCre
       const state = selectUnifiedState<LogixUXServerState>(concepts, semaphore as number);
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       if (state && fileSystemState) {
-        const strategy = logixUXSaveTrainingDataStrategy(fileSystemState.root, state.trainingData);
+        const strategy = logixUXServerSaveTrainingDataStrategy(fileSystemState.root, state.trainingData);
         return strategyBegin(strategy);
       } else {
         return action;
@@ -32,8 +32,8 @@ const createLogixUXServerTriggerSaveTrainingDataStrategyMethodCreator: MethodCre
     }, concepts$ as UnifiedSubject, semaphore as number, 50
   );
 
-export const logixUXTriggerSaveTrainingDataStrategyQuality = createQuality(
-  logixUXTriggerSaveTrainingDataStrategyType,
+export const logixUXServerTriggerSaveTrainingDataStrategyQuality = createQuality(
+  logixUXServerTriggerSaveTrainingDataStrategyType,
   defaultReducer,
   createLogixUXServerTriggerSaveTrainingDataStrategyMethodCreator,
 );

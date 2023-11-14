@@ -22,9 +22,7 @@ import { logixUXUpdateFromChosenPayload } from '../../updateFromChosenPayload.qu
 import { logixUXUpdateFromRejectedPayload } from '../../updateFromRejectedPayload.quality';
 import { logixUXNewDataSetEntry } from '../../newDataSetEntry.quality';
 import { logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
-import { webSocketClientAppendToActionQue } from '../../../../webSocketClient/qualities/appendActionQue.quality';
-import { logixUXTriggerSaveTrainingDataStrategy } from '../../triggerSaveTrainingDataStrategy.quality';
-import { logixUXPushToServerSaveTrainingData } from '../../pushToServerSaveTraining.quality';
+import { logixUXEnableTriggerSaveFlag } from '../../enableTriggerSaveFlag.quality';
 
 export const logixUXIndexTrainingDataContentType: ActionType = 'create userInterface for IndexTrainingDataContent';
 export const logixUXIndexTrainingDataContent = prepareActionCreator(logixUXIndexTrainingDataContentType);
@@ -78,7 +76,7 @@ ${trainingData[i].rejected}
         eventBinding: elementEventBinding.onclick
       });
       bindingsArray.push({
-        action: logixUXPushToServerSaveTrainingData(),
+        action: logixUXEnableTriggerSaveFlag(),
         elementId: saveTrainingDataID,
         eventBinding: elementEventBinding.onclick
       });

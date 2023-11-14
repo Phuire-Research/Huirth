@@ -10,7 +10,7 @@ import { logixUXIndexDialogEndQuality } from './qualities/index/dialog/indexDial
 import { logixUXTriggerCountingStrategyQuality } from './qualities/triggerCounterStrategy.quality';
 import { logixUXAppendAxiumDialogQuality } from './qualities/appendAxiumDialog.quality';
 import { logixUXDialogPrinciple } from './logixUX.principle';
-import { BrandState, userInterface_isClient } from '../../model/userInterface';
+import { BrandState } from '../../model/userInterface';
 import { logixUXIndexPageStrategy } from './strategies/pages/indexPage.strategy';
 import { logixUXErrorPageStrategy } from './strategies/pages/errorPage.strategy';
 import { logixUXIndexTrainingDataBeginQuality } from './qualities/index/trainingData/indexTrainingDataBegin.quality';
@@ -21,11 +21,12 @@ import { logixUXUpdateFromChosenPayloadQuality } from './qualities/updateFromCho
 import { logixUXUpdateFromRejectedPayloadQuality } from './qualities/updateFromRejectedPayload.quality';
 import { Active_DPO, generateDefaultTrainingData } from './logixUX.model';
 import { logixUXNewDataSetEntryQuality } from './qualities/newDataSetEntry.quality';
-import { logixUXPushToServerSaveTrainingDataQuality } from './qualities/pushToServerSaveTraining.quality';
+import { logixUXEnableTriggerSaveFlagQuality } from './qualities/enableTriggerSaveFlag.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
   mock: number;
+  triggerSave: boolean;
   dialog: string;
   trainingData: Active_DPO[]
 } & BrandState;
@@ -34,6 +35,7 @@ const createLogixUXState = (): LogixUXState => {
   return {
     mock: 0,
     dialog: '',
+    triggerSave: false,
     trainingData: [generateDefaultTrainingData()],
     pageStrategies: [logixUXIndexPageStrategy, logixUXErrorPageStrategy]
   };
@@ -59,7 +61,7 @@ export const createLogixUXConcept = (): Concept =>  {
     logixUXUpdateFromChosenPayloadQuality,
     logixUXUpdateFromRejectedPayloadQuality,
     logixUXNewDataSetEntryQuality,
-    logixUXPushToServerSaveTrainingDataQuality
+    logixUXEnableTriggerSaveFlagQuality
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
   return unifyConcepts(

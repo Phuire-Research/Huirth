@@ -1,13 +1,13 @@
 import { createActionNode, createStrategy } from 'stratimux';
-import { Active_DPO } from '../../logixUX/logixUX.model';
-import { DPO_DataSet } from '../../../model/logixUX';
+import { Active_DPO  } from '../../logixUX/logixUX.model';
 import path from 'path';
 import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
 import { fileSystemCreateTargetDirectory } from '../../fileSystem/qualities/createTargetDirectory.quality';
 import { fileSystemCreateFileWithContentsIndex } from '../../fileSystem/qualities/createFileWithContents.quality';
+import { DPO_DataSet } from '../../../model/logixUX';
 
-export const logixUXSaveTrainingDataStrategyTopic = 'Save training data currently loaded in state';
-export const logixUXSaveTrainingDataStrategy = (root: string, trainingData: Active_DPO[]) => {
+export const logixUXServerSaveTrainingDataStrategyTopic = 'Save training data currently loaded in state';
+export const logixUXServerSaveTrainingDataStrategy = (root: string, trainingData: Active_DPO[]) => {
   const saveFormat: DPO_DataSet = {};
   trainingData.forEach(entry => {
     saveFormat[entry.prompt] = {
@@ -35,7 +35,7 @@ export const logixUXSaveTrainingDataStrategy = (root: string, trainingData: Acti
     agreement: 20000
   });
   return createStrategy({
-    topic: logixUXSaveTrainingDataStrategyTopic,
+    topic: logixUXServerSaveTrainingDataStrategyTopic,
     initialNode: stepRemoveDirectory,
   });
 };
