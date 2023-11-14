@@ -47,13 +47,8 @@ export const userInterface_selectInputTarget = (action: Action) => {
   return payload.target as HTMLInputElement;
 };
 
-export const userInterface_isClient = (concepts: Concepts, semaphore: number) => {
-  const name = getUnifiedName(concepts, semaphore);
-  if (name) {
-    return name === 'userInterfaceClient';
-  } else {
-    return undefined;
-  }
+export const userInterface_isClient = (): boolean => {
+  return typeof window !== 'undefined';
 };
 
 export const userInterface_pageBindingsToString = (pageBindings: UserInterfacePageBindings): string => {

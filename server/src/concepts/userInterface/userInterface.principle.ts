@@ -42,7 +42,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction =
               iterateStage: true,
             });
           } else if (uiState.pageStrategies.length > 1) {
-            const isClient = userInterface_isClient(concepts, semaphore);
+            const isClient = userInterface_isClient();
             const list: ActionStrategy[] = [];
             uiState.pageStrategies.forEach(creator => {
               if (isClient) {

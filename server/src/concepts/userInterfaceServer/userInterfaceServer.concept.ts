@@ -46,6 +46,7 @@ const principleGoal = (goal: commandLineInterfaceGoals): PrincipleFunction[] => 
   switch (goal) {
   case commandLineInterfaceGoals.simulate: {
     return [
+      userInterfaceServerOnChangePrinciple
     ];
   }
   case commandLineInterfaceGoals.none: {

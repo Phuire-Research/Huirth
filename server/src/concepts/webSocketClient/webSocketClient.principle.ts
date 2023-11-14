@@ -4,6 +4,7 @@ import {
   Concepts,
   PrincipleFunction,
   UnifiedSubject,
+  axiumKick,
   axiumLog,
   axiumRegisterStagePlanner,
   getUnifiedName,
@@ -29,6 +30,17 @@ export const webSocketClientPrinciple: PrincipleFunction =
             plan.conclude();
           }
         },
+        // (concepts, dispatch) => {
+        //   const state = selectUnifiedState<WebSocketClientState>(concepts, semaphore);
+        //   if (state) {
+        //     ws.send(registerClientSemaphore);
+        //     dispatch(axiumKick(), {
+        //       iterateStage: true
+        //     });
+        //   } else {
+        //     plan.conclude();
+        //   }
+        // },
         (concepts, __) => {
           const state = selectUnifiedState<WebSocketClientState>(concepts, semaphore);
           if (state) {

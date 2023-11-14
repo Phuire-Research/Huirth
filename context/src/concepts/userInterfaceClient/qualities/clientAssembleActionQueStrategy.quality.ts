@@ -13,9 +13,8 @@ import {
   refreshAction,
   selectPayload,
   strategyBegin,
-  strategySuccess,
 } from 'stratimux';
-import { BoundSelectors, UserInterfaceBindings, userInterface_selectPage } from '../../../model/userInterface';
+import { BoundSelectors } from '../../../model/userInterface';
 import { userInterfaceClientReplaceOuterHtml } from './replaceOuterHtml.quality';
 import { Subject } from 'rxjs';
 import { userInterfaceClientDetermineBindings } from './clientDetermineBindings.quality';

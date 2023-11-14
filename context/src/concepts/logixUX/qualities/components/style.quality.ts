@@ -1,6 +1,6 @@
 import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, prepareActionCreator, strategySuccess } from 'stratimux';
 
-import { userInterface_appendCompositionToPage } from '../../../model/userInterface';
+import { userInterface_appendCompositionToPage } from '../../../../model/userInterface';
 
 export const logixUXStyleType: ActionType = 'Create logixUX Style';
 export const logixUXStyle = prepareActionCreator(logixUXStyleType);

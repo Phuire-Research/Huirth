@@ -1,8 +1,8 @@
-import { createConcept, Concept, unifyConcepts, createCounterConcept } from 'stratimux';
-import { logixUXErrorQuality } from './qualities/error.quality';
-import { logixUXHeadQuality } from './qualities/head.quality';
-import { logixUXStyleQuality } from './qualities/style.quality';
-import { logixUXFooterQuality } from './qualities/footer.quality';
+import { createConcept, Concept, unifyConcepts, createCounterConcept, PrincipleFunction, Quality } from 'stratimux';
+import { logixUXErrorQuality } from './qualities/error/error.quality';
+import { logixUXHeadQuality } from './qualities/components/head.quality';
+import { logixUXStyleQuality } from './qualities/components/style.quality';
+import { logixUXFooterQuality } from './qualities/components/footer.quality';
 import { logixUXIndexHeroQuality } from './qualities/index/indexHero.quality';
 import { logixUXIndexDialogBeginQuality } from './qualities/index/dialog/indexDialogBegin.quality';
 import { logixUXIndexDialogContentQuality } from './qualities/index/dialog/indexDialogContent.quality';
@@ -10,9 +10,9 @@ import { logixUXIndexDialogEndQuality } from './qualities/index/dialog/indexDial
 import { logixUXTriggerCountingStrategyQuality } from './qualities/triggerCounterStrategy.quality';
 import { logixUXAppendAxiumDialogQuality } from './qualities/appendAxiumDialog.quality';
 import { logixUXDialogPrinciple } from './logixUX.principle';
-import { BrandState } from '../../model/userInterface';
-import { logixUXIndexPageStrategy } from './strategies/indexPage.strategy';
-import { logixUXErrorPageStrategy } from './strategies/errorPage.strategy';
+import { BrandState, userInterface_isClient } from '../../model/userInterface';
+import { logixUXIndexPageStrategy } from './strategies/pages/indexPage.strategy';
+import { logixUXErrorPageStrategy } from './strategies/pages/errorPage.strategy';
 import { logixUXIndexTrainingDataBeginQuality } from './qualities/index/trainingData/indexTrainingDataBegin.quality';
 import { logixUXIndexTrainingDataContentQuality } from './qualities/index/trainingData/indexTrainingDataContent.quality';
 import { logixUXIndexTrainingDataEndQuality } from './qualities/index/trainingData/indexTrainingDataEnd.quality';
@@ -39,6 +39,35 @@ const createLogixUXState = (): LogixUXState => {
 };
 
 export const createLogixUXConcept = (): Concept =>  {
+  let principles: PrincipleFunction[] = [logixUXDialogPrinciple];
+  let qualities: Quality[] = [
+    logixUXHeadQuality,
+    logixUXStyleQuality,
+    logixUXFooterQuality,
+    logixUXIndexHeroQuality,
+    logixUXIndexDialogBeginQuality,
+    logixUXIndexDialogContentQuality,
+    logixUXIndexDialogEndQuality,
+    logixUXErrorQuality,
+    logixUXTriggerCountingStrategyQuality,
+    logixUXAppendAxiumDialogQuality,
+    logixUXIndexTrainingDataBeginQuality,
+    logixUXIndexTrainingDataContentQuality,
+    logixUXIndexTrainingDataEndQuality,
+    logixUXUpdateFromPromptPayloadQuality,
+    logixUXUpdateFromChosenPayloadQuality,
+    logixUXUpdateFromRejectedPayloadQuality,
+    logixUXNewDataSetEntryQuality
+  ];
+  // This is temporary, the complete flow would allow for all server logic to remain on the server.
+  if (!userInterface_isClient()) {
+    principles = [
+      ...principles,
+    ];
+    qualities = [
+      ...qualities,
+    ];
+  }
   return unifyConcepts(
     [
       createCounterConcept()
@@ -46,26 +75,8 @@ export const createLogixUXConcept = (): Concept =>  {
     createConcept(
       logixUXName,
       createLogixUXState(),
-      [
-        logixUXHeadQuality,
-        logixUXStyleQuality,
-        logixUXFooterQuality,
-        logixUXIndexHeroQuality,
-        logixUXIndexDialogBeginQuality,
-        logixUXIndexDialogContentQuality,
-        logixUXIndexDialogEndQuality,
-        logixUXErrorQuality,
-        logixUXTriggerCountingStrategyQuality,
-        logixUXAppendAxiumDialogQuality,
-        logixUXIndexTrainingDataBeginQuality,
-        logixUXIndexTrainingDataContentQuality,
-        logixUXIndexTrainingDataEndQuality,
-        logixUXUpdateFromPromptPayloadQuality,
-        logixUXUpdateFromChosenPayloadQuality,
-        logixUXUpdateFromRejectedPayloadQuality,
-        logixUXNewDataSetEntryQuality
-      ],
-      [logixUXDialogPrinciple],
+      qualities,
+      principles,
       []
     ));
 };

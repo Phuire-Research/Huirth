@@ -34,7 +34,7 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
     const subtractId = '#subtractID';
 
     if (action.strategy) {
-      const isClient = userInterface_isClient(concepts, semaphore);
+      const isClient = userInterface_isClient();
       if (isClient !== undefined) {
         const dialog = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState).dialog.trim();
         const counter = selectUnifiedState<Counter>(concepts, semaphore);

@@ -1,15 +1,15 @@
 import { ActionStrategyStitch, axium_createStitchNode, createActionNode, createActionNodeFromStrategy, createStrategy } from 'stratimux';
-import { PageStrategyCreators, userInterface_createPage } from '../../../model/userInterface';
-import { userInterfaceCreatePageStrategy } from '../../userInterface/strategies.ts/createPage.strategy';
-import { logixUXFooterStrategy } from './footer.strategy';
-import { logixUXHeaderStrategy } from './header.strategy';
-import { logixUXIndexHero } from '../qualities/index/indexHero.quality';
-import { logixUXIndexDialogBegin } from '../qualities/index/dialog/indexDialogBegin.quality';
-import { logixUXIndexDialogContent } from '../qualities/index/dialog/indexDialogContent.quality';
-import { logixUXIndexDialogEnd } from '../qualities/index/dialog/indexDialogEnd.quality';
-import { logixUXIndexTrainingDataBegin } from '../qualities/index/trainingData/indexTrainingDataBegin.quality';
-import { logixUXIndexTrainingDataContent } from '../qualities/index/trainingData/indexTrainingDataContent.quality';
-import { logixUXIndexTrainingDataEnd } from '../qualities/index/trainingData/indexTrainingDataEnd.quality';
+import { PageStrategyCreators, userInterface_createPage } from '../../../../model/userInterface';
+import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
+import { logixUXFooterStrategy } from '../components/footer.strategy';
+import { logixUXHeaderStrategy } from '../components/header.strategy';
+import { logixUXIndexHero } from '../../qualities/index/indexHero.quality';
+import { logixUXIndexDialogBegin } from '../../qualities/index/dialog/indexDialogBegin.quality';
+import { logixUXIndexDialogContent } from '../../qualities/index/dialog/indexDialogContent.quality';
+import { logixUXIndexDialogEnd } from '../../qualities/index/dialog/indexDialogEnd.quality';
+import { logixUXIndexTrainingDataBegin } from '../../qualities/index/trainingData/indexTrainingDataBegin.quality';
+import { logixUXIndexTrainingDataContent } from '../../qualities/index/trainingData/indexTrainingDataContent.quality';
+import { logixUXIndexTrainingDataEnd } from '../../qualities/index/trainingData/indexTrainingDataEnd.quality';
 
 export const logixUXIndexPageStrategyTopic = 'index';
 export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {

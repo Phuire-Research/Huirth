@@ -9,7 +9,7 @@ import {
   strategySuccess
 } from 'stratimux';
 
-import { userInterface_appendCompositionToPage } from '../../../model/userInterface';
+import { userInterface_appendCompositionToPage } from '../../../../model/userInterface';
 
 export const logixUXHeadType: ActionType = 'Create logixUX Head';
 export const logixUXHead = prepareActionCreator(logixUXHeadType);

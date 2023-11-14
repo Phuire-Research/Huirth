@@ -13,7 +13,7 @@ import {
 } from 'stratimux';
 
 import { Subject, map } from 'rxjs';
-import { userInterface_appendCompositionToPage } from '../../../model/userInterface';
+import { userInterface_appendCompositionToPage } from '../../../../model/userInterface';
 
 export const logixUXErrorType: ActionType = 'Create logixUX Error Composition';
 export const logixUXError = prepareActionCreator(logixUXErrorType);

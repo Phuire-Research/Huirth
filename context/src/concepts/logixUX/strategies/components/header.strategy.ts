@@ -1,6 +1,6 @@
 import { ActionStrategyStitch, createActionNode, createStrategy } from 'stratimux';
-import { logixUXStyle } from '../qualities/style.quality';
-import { logixUXHead } from '../qualities/head.quality';
+import { logixUXStyle } from '../../qualities/components/style.quality';
+import { logixUXHead } from '../../qualities/components/head.quality';
 
 export const logixUXHeaderStrategy: ActionStrategyStitch = () => {
   // HEAD

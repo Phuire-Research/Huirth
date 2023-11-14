@@ -1,6 +1,6 @@
 import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, prepareActionCreator, strategySuccess } from 'stratimux';
 
-import { userInterface_appendCompositionToPage } from '../../../model/userInterface';
+import { userInterface_appendCompositionToPage } from '../../../../model/userInterface';
 
 export const logixUXFooterType: ActionType = 'Create logixUX Footer';
 export const logixUXFooter = prepareActionCreator(logixUXFooterType);
