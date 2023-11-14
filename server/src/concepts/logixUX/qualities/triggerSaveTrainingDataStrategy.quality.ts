@@ -3,6 +3,7 @@ import {
   MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
+  createMethodWithConcepts,
   createQuality,
   defaultReducer,
   prepareActionCreator,
@@ -14,12 +15,12 @@ import { LogixUXState } from '../logixUX.concept';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXSaveTrainingDataStrategy } from '../strategies/saveTrainingData.strategy';
 
-export const logixUXTriggerSaveTrainingDataStrategyType: ActionType = 'Create logixUX triggerSaveTrainingDataStrategy';
+export const logixUXTriggerSaveTrainingDataStrategyType: ActionType = 'logixUXServer triggerSaveTrainingDataStrategy';
 export const logixUXTriggerSaveTrainingDataStrategy =
   prepareActionCreator(logixUXTriggerSaveTrainingDataStrategyType);
 
 const createLogixUXTriggerSaveTrainingDataStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
-  createMethodDebounceWithConcepts(
+  createMethodWithConcepts(
     (action, concepts) => {
       const state = selectUnifiedState<LogixUXState>(concepts, semaphore as number);
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
@@ -29,7 +30,7 @@ const createLogixUXTriggerSaveTrainingDataStrategyMethodCreator: MethodCreator =
       } else {
         return action;
       }
-    }, concepts$ as UnifiedSubject, semaphore as number, 50
+    }, concepts$ as UnifiedSubject, semaphore as number,
   );
 
 export const logixUXTriggerSaveTrainingDataStrategyQuality = createQuality(

@@ -14,7 +14,7 @@ import { LogixUXServerState } from '../logixUXServer.concept';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXServerSaveTrainingDataStrategy } from '../strategies/saveTrainingData.strategy';
 
-export const logixUXServerTriggerSaveTrainingDataStrategyType: ActionType = 'Create logixUXServer triggerSaveTrainingDataStrategy';
+export const logixUXServerTriggerSaveTrainingDataStrategyType: ActionType = 'logixUXServer triggerSaveTrainingDataStrategy';
 export const logixUXServerTriggerSaveTrainingDataStrategy =
   prepareActionCreator(logixUXServerTriggerSaveTrainingDataStrategyType);
 

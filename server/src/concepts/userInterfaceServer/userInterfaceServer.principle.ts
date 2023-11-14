@@ -181,7 +181,7 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
               atomicCachedState[select.stateKeys] = value;
             }
           });
-          console.log('CHECK ATOMIC', atomicCachedState);
+          // console.log('CHECK ATOMIC', atomicCachedState);
           if (payload.boundActionQue.length > 0) {
             dispatch(userInterfaceServerAssembleActionQueStrategy(payload), {
               throttle: 1

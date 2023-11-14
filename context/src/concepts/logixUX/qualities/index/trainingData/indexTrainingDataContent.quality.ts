@@ -82,7 +82,7 @@ ${trainingData[i].rejected}
           eventBinding: elementEventBinding.onclick,
         });
         const bindings = createBinding(bindingsArray);
-        console.log('Check bindings', bindings);
+        // console.log('Check bindings', bindings);
         const strategy = strategySuccess(
           action.strategy,
           userInterface_appendCompositionToPage(action.strategy, {
@@ -97,13 +97,13 @@ ${trainingData[i].rejected}
             action: logixUXIndexTrainingDataContent(),
             html: /*html*/ `
         <div id='${id}'>
-          <div class="mt-4 overflow-scroll max-h-[70vh] p-4 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
           <button id=${addEntryID} class="m-2 center-m bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
             Add Entry
           </button>
           <button id=${saveTrainingDataID} class="m-2 center-m bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
             Save Training Data
           </button>
+          <div class="mt-4 p-4 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
             ${finalOutput}
           </div>
         </div>

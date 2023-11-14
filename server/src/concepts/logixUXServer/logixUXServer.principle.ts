@@ -5,7 +5,10 @@ import {
   PrincipleFunction,
   UnifiedSubject,
   axiumRegisterStagePlanner,
+  getSemaphore,
   getUnifiedName,
+  primeAction,
+  selectConcept,
   selectUnifiedState,
 } from 'stratimux';
 import { LogixUXServerState } from './logixUXServer.concept';
@@ -30,8 +33,10 @@ export const logixUXServerPrinciple: PrincipleFunction =
         const state = selectUnifiedState<LogixUXServerState>(concepts, semaphore);
         if (state && state.triggerSave) {
           state.triggerSave = false;
+          // console.log('Check qualities', concepts[semaphore].qualities);
+          console.log('CHECK SEMAPHORE2', semaphore);
           concepts$.next(concepts);
-          dispatch(logixUXTriggerSaveTrainingDataStrategy(), {
+          dispatch(logixUXTriggerSaveTrainingDataStrategy(semaphore), {
             throttle: 50
           });
         }

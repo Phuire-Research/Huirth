@@ -17,7 +17,7 @@ export const logixUXServerSaveTrainingDataStrategy = (root: string, trainingData
   });
   const dataPath = path.join(root + '/data/logixUX/');
   const stepCreateFileWithContents = createActionNode(fileSystemCreateFileWithContentsIndex({
-    target: dataPath,
+    target: path.join(dataPath + 'data.json'),
     content: JSON.stringify(saveFormat)
   }), {
     successNode: null,
