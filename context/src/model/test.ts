@@ -70,30 +70,43 @@ function unify(base: Concept, target: Concept): Concept {
     ...base.state,
     ...target.state,
   };
-  base.qualities = [...base.qualities, ...target.qualities];
+  base.qualities = [
+    ...base.qualities,
+    ...target.qualities,
+  ];
   if (target.principles) {
     if (base.principles) {
-      base.principles = [...base.principles, ...target.principles];
+      base.principles = [
+        ...base.principles,
+        ...target.principles
+      ];
     } else {
-      base.principles = [...target.principles];
+      base.principles = [
+        ...target.principles
+      ];
     }
   }
   if (target.mode) {
     if (base.mode) {
-      base.mode = [...base.mode, ...target.mode];
+      base.mode = [
+        ...base.mode,
+        ...target.mode
+      ];
     } else {
-      base.mode = [...target.mode];
+      base.mode = [
+        ...target.mode
+      ];
     }
   }
   if (target.meta) {
     if (base.meta) {
       base.meta = {
         ...base.meta,
-        ...target.meta,
+        ...target.meta
       };
     } else {
       base.meta = {
-        ...target.mode,
+        ...target.mode
       };
     }
   }
@@ -102,13 +115,16 @@ function unify(base: Concept, target: Concept): Concept {
 /**
  * Will document the usage of such after UI concept release.
  */
-export function testUnifyConcepts(concepts: Concept[], emergentConcept: Concept): Concept {
+export function testUnifyConcepts(
+  concepts: Concept[],
+  emergentConcept: Concept
+): Concept {
   let newConcept = createConcept('', {});
-  forEachConcept(concepts, (concept) => {
+  forEachConcept(concepts, (concept => {
     // console.log('Before', concept);
     newConcept = unify(newConcept, concept);
     // console.log('After', concept);
-  });
+  }));
   newConcept = unify(newConcept, emergentConcept);
   newConcept.name = emergentConcept.name;
   // console.log('Final', newConcept);

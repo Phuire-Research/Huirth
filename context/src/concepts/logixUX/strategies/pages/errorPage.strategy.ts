@@ -11,27 +11,27 @@ export const logixUXErrorPageStrategy: PageStrategyCreators = () => () => {
   const stepStitch = axium_createStitchNode();
   const stepLogixUXError = createActionNode(logixUXError(), {
     successNode: stepStitch,
-    failureNode: null,
+    failureNode: null
   });
-  const logixUXBody: ActionStrategyStitch = () => [
-    stepStitch,
-    createStrategy({
-      topic: 'Create logixUX Error Body Content',
-      initialNode: stepLogixUXError,
-    }),
-  ];
+  const logixUXBody: ActionStrategyStitch = () => [stepStitch, createStrategy({
+    topic: 'Create logixUX Error Body Content',
+    initialNode: stepLogixUXError,
+  })];
 
   const pageData = userInterface_createPage({
     title: logixUXErrorPageStrategyTopic,
-    conceptAndProps: [{ name: 'helloWorld' }],
+    conceptAndProps: [{ name: 'helloWorld'}],
     cachedSelectors: [],
-    compositions: [],
+    compositions: []
   });
 
   return userInterfaceCreatePageStrategy(
     logixUXErrorPageStrategyTopic,
     pageData,
-    [logixUXBody, logixUXFooterStrategy],
+    [
+      logixUXBody,
+      logixUXFooterStrategy
+    ],
     logixUXHeaderStrategy
   );
 };

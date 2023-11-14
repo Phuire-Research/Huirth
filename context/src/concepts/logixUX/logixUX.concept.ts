@@ -1,4 +1,4 @@
-import { createConcept, Concept, unifyConcepts, createCounterConcept } from 'stratimux';
+import { createConcept, Concept, unifyConcepts, createCounterConcept, PrincipleFunction, Quality } from 'stratimux';
 import { logixUXErrorQuality } from './qualities/error/error.quality';
 import { logixUXHeadQuality } from './qualities/components/head.quality';
 import { logixUXStyleQuality } from './qualities/components/style.quality';
@@ -10,7 +10,7 @@ import { logixUXIndexDialogEndQuality } from './qualities/index/dialog/indexDial
 import { logixUXTriggerCountingStrategyQuality } from './qualities/triggerCounterStrategy.quality';
 import { logixUXAppendAxiumDialogQuality } from './qualities/appendAxiumDialog.quality';
 import { logixUXDialogPrinciple } from './logixUX.principle';
-import { BrandState } from '../../model/userInterface';
+import { BrandState, userInterface_isClient } from '../../model/userInterface';
 import { logixUXIndexPageStrategy } from './strategies/pages/indexPage.strategy';
 import { logixUXErrorPageStrategy } from './strategies/pages/errorPage.strategy';
 import { logixUXIndexTrainingDataBeginQuality } from './qualities/index/trainingData/indexTrainingDataBegin.quality';
@@ -21,12 +21,14 @@ import { logixUXUpdateFromChosenPayloadQuality } from './qualities/updateFromCho
 import { logixUXUpdateFromRejectedPayloadQuality } from './qualities/updateFromRejectedPayload.quality';
 import { Active_DPO, generateDefaultTrainingData } from './logixUX.model';
 import { logixUXNewDataSetEntryQuality } from './qualities/newDataSetEntry.quality';
+import { logixUXTriggerSaveTrainingDataStrategyQuality } from './qualities/triggerSaveTrainingDataStrategy.quality';
+import { logixUXPushToServerSaveTrainingDataQuality } from './qualities/pushToServerSaveTraining.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
   mock: number;
   dialog: string;
-  trainingData: Active_DPO[];
+  trainingData: Active_DPO[]
 } & BrandState;
 
 const createLogixUXState = (): LogixUXState => {
@@ -34,37 +36,55 @@ const createLogixUXState = (): LogixUXState => {
     mock: 0,
     dialog: '',
     trainingData: [generateDefaultTrainingData()],
-    pageStrategies: [logixUXIndexPageStrategy, logixUXErrorPageStrategy],
+    pageStrategies: [logixUXIndexPageStrategy, logixUXErrorPageStrategy]
   };
 };
 
-export const createLogixUXConcept = (): Concept => {
+export const createLogixUXConcept = (): Concept =>  {
+  let principles: PrincipleFunction[] = [logixUXDialogPrinciple];
+  let qualities: Quality[] = [
+    logixUXHeadQuality,
+    logixUXStyleQuality,
+    logixUXFooterQuality,
+    logixUXIndexHeroQuality,
+    logixUXIndexDialogBeginQuality,
+    logixUXIndexDialogContentQuality,
+    logixUXIndexDialogEndQuality,
+    logixUXErrorQuality,
+    logixUXTriggerCountingStrategyQuality,
+    logixUXAppendAxiumDialogQuality,
+    logixUXIndexTrainingDataBeginQuality,
+    logixUXIndexTrainingDataContentQuality,
+    logixUXIndexTrainingDataEndQuality,
+    logixUXUpdateFromPromptPayloadQuality,
+    logixUXUpdateFromChosenPayloadQuality,
+    logixUXUpdateFromRejectedPayloadQuality,
+    logixUXNewDataSetEntryQuality
+  ];
+  // This is temporary, the complete flow would allow for all server logic to remain on the server.
+  if (!userInterface_isClient()) {
+    principles = [
+      ...principles,
+    ];
+    qualities = [
+      ...qualities,
+      logixUXTriggerSaveTrainingDataStrategyQuality
+    ];
+  } else {
+    qualities = [
+      ...qualities,
+      logixUXPushToServerSaveTrainingDataQuality
+    ];
+  }
   return unifyConcepts(
-    [createCounterConcept()],
+    [
+      createCounterConcept()
+    ],
     createConcept(
       logixUXName,
       createLogixUXState(),
-      [
-        logixUXHeadQuality,
-        logixUXStyleQuality,
-        logixUXFooterQuality,
-        logixUXIndexHeroQuality,
-        logixUXIndexDialogBeginQuality,
-        logixUXIndexDialogContentQuality,
-        logixUXIndexDialogEndQuality,
-        logixUXErrorQuality,
-        logixUXTriggerCountingStrategyQuality,
-        logixUXAppendAxiumDialogQuality,
-        logixUXIndexTrainingDataBeginQuality,
-        logixUXIndexTrainingDataContentQuality,
-        logixUXIndexTrainingDataEndQuality,
-        logixUXUpdateFromPromptPayloadQuality,
-        logixUXUpdateFromChosenPayloadQuality,
-        logixUXUpdateFromRejectedPayloadQuality,
-        logixUXNewDataSetEntryQuality,
-      ],
-      [logixUXDialogPrinciple],
+      qualities,
+      principles,
       []
-    )
-  );
+    ));
 };

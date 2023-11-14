@@ -46,52 +46,52 @@ export const createUserInterfaceClientConcept = (state?: Record<string, unknown>
       }
     }
   }
-  const unified = brandCreator
-    ? unifyConcepts(
-        [
-          createHtmlConcept(),
-          createWebSocketClientConcept(),
-          createUserInterfaceConcept([]),
-          createConcept(
-            '',
-            createUserInterfaceClientState(),
-            [
-              // userInterfaceAddComposedPageToStateQuality,
-              userInterfaceClientAssembleActionQueStrategyQuality,
-              userInterfaceClientDetermineBindingsQuality,
-              userInterfaceClientReplaceOuterHtmlQuality,
-            ],
-            [
-              // userInterfaceInitializationPrinciple
-              userInterfaceClientOnChangePrinciple,
-            ]
-          ),
-          brandCreator(),
-        ],
-        createConcept(userInterfaceClientName, newState)
-      )
-    : unifyConcepts(
-        [
-          createHtmlConcept(),
-          createWebSocketClientConcept(),
-          createUserInterfaceConcept([]),
-          createConcept(
-            '',
-            createUserInterfaceClientState(),
-            [
-              // userInterfaceAddComposedPageToStateQuality,
-              userInterfaceClientAssembleActionQueStrategyQuality,
-              userInterfaceClientDetermineBindingsQuality,
-              userInterfaceClientReplaceOuterHtmlQuality,
-            ],
-            [
-              // userInterfaceInitializationPrinciple
-              userInterfaceClientOnChangePrinciple,
-            ]
-          ),
-        ],
-        createConcept(userInterfaceClientName, newState)
-      );
+  const unified = brandCreator ? unifyConcepts([
+    createHtmlConcept(),
+    createWebSocketClientConcept(),
+    createUserInterfaceConcept([]),
+    createConcept(
+      '',
+      createUserInterfaceClientState(),
+      [
+        // userInterfaceAddComposedPageToStateQuality,
+        userInterfaceClientAssembleActionQueStrategyQuality,
+        userInterfaceClientDetermineBindingsQuality,
+        userInterfaceClientReplaceOuterHtmlQuality
+      ],
+      [
+        // userInterfaceInitializationPrinciple
+        userInterfaceClientOnChangePrinciple
+      ]
+    ),
+    brandCreator(),
+  ],
+  createConcept(
+    userInterfaceClientName,
+    newState,
+  )) : unifyConcepts([
+    createHtmlConcept(),
+    createWebSocketClientConcept(),
+    createUserInterfaceConcept([]),
+    createConcept(
+      '',
+      createUserInterfaceClientState(),
+      [
+        // userInterfaceAddComposedPageToStateQuality,
+        userInterfaceClientAssembleActionQueStrategyQuality,
+        userInterfaceClientDetermineBindingsQuality,
+        userInterfaceClientReplaceOuterHtmlQuality
+      ],
+      [
+        // userInterfaceInitializationPrinciple
+        userInterfaceClientOnChangePrinciple
+      ]
+    ),
+  ],
+  createConcept(
+    userInterfaceClientName,
+    newState,
+  ));
   // console.log('CHECK UNIFIED', unified);
   return unified;
 };

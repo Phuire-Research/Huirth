@@ -8,7 +8,7 @@ import {
   createQuality,
   defaultReducer,
   prepareActionCreator,
-  strategySuccess,
+  strategySuccess
 } from 'stratimux';
 
 import { Subject, map } from 'rxjs';
@@ -25,28 +25,30 @@ const createHelloWorldMethodCreator: MethodCreator = () => {
     map((action: Action) => {
       if (action.strategy) {
         const helloWorldId = '#helloWorld';
-        return strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id: helloWorldId,
-            boundSelectors: [],
-            bindings: {
-              '#helloWorld': [
-                {
-                  action: helloWorld(),
-                  eventBinding: elementEventBinding.onclick,
-                },
-              ],
-            },
-            action: htmlHelloWorld(),
-            html: /*html*/ `<h1 id=${helloWorldId}>Hello World</h1>`,
-          })
-        );
+        return strategySuccess(action.strategy, userInterface_appendCompositionToPage(action.strategy, {
+          id: helloWorldId,
+          boundSelectors: [],
+          bindings: {
+            '#helloWorld': [{
+              action: helloWorld(),
+              eventBinding: elementEventBinding.onclick,
+            }]
+          },
+          action: htmlHelloWorld(),
+          html: /*html*/`<h1 id=${helloWorldId}>Hello World</h1>`
+        }));
       }
       return createAction(axiumConcludeType);
     })
   );
-  return [logMethod, logSubject];
+  return [
+    logMethod,
+    logSubject
+  ];
 };
 
-export const htmlHelloWorldQuality = createQuality(htmlHelloWorldType, defaultReducer, createHelloWorldMethodCreator);
+export const htmlHelloWorldQuality = createQuality(
+  htmlHelloWorldType,
+  defaultReducer,
+  createHelloWorldMethodCreator,
+);

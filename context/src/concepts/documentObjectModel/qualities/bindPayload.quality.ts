@@ -18,19 +18,18 @@ export const documentObjectModelBindPayloadType: ActionType = 'Document Object M
 export const documentObjectModelBindPayload =
   prepareActionWithPayloadCreator<DocumentObjectModelBindPayloadPayload>(documentObjectModelBindPayloadType);
 
-const createDocumentObjectModelBindPayloadCreator: MethodCreator = () =>
-  createMethod((action) => {
-    if (action.strategy) {
-      const strategy = strategySuccess(action.strategy);
-      strategy.payload = selectPayload(action);
-      return strategy;
-    } else {
-      return action;
-    }
-  });
+const createDocumentObjectModelBindPayloadCreator: MethodCreator = () => createMethod((action) => {
+  if (action.strategy) {
+    const strategy = strategySuccess(action.strategy);
+    strategy.payload = selectPayload(action);
+    return strategy;
+  } else {
+    return action;
+  }
+});
 
 export const documentObjectModelBindPayloadQuality = createQuality(
   documentObjectModelBindPayloadType,
   defaultReducer,
-  createDocumentObjectModelBindPayloadCreator
+  createDocumentObjectModelBindPayloadCreator,
 );

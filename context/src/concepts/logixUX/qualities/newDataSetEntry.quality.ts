@@ -1,9 +1,16 @@
-import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionCreator } from 'stratimux';
+import {
+  Action,
+  ActionType,
+  createQuality,
+  defaultMethodCreator,
+  prepareActionCreator,
+} from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 import { generateDefaultTrainingData } from '../logixUX.model';
 
 export const logixUXNewDataSetEntryType: ActionType = 'Create logixUX NewDataSetEntry';
-export const logixUXNewDataSetEntry = prepareActionCreator(logixUXNewDataSetEntryType);
+export const logixUXNewDataSetEntry =
+  prepareActionCreator(logixUXNewDataSetEntryType);
 
 function logixUXNewDataSetEntryReducer(state: LogixUXState, action: Action): LogixUXState {
   const trainingData = [...state.trainingData];
@@ -14,4 +21,8 @@ function logixUXNewDataSetEntryReducer(state: LogixUXState, action: Action): Log
   };
 }
 
-export const logixUXNewDataSetEntryQuality = createQuality(logixUXNewDataSetEntryType, logixUXNewDataSetEntryReducer, defaultMethodCreator);
+export const logixUXNewDataSetEntryQuality = createQuality(
+  logixUXNewDataSetEntryType,
+  logixUXNewDataSetEntryReducer,
+  defaultMethodCreator
+);

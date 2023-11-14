@@ -24,6 +24,7 @@ import { logixUXNewDataSetEntry } from '../../newDataSetEntry.quality';
 import { logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
 import { webSocketClientAppendToActionQue } from '../../../../webSocketClient/qualities/appendActionQue.quality';
 import { logixUXTriggerSaveTrainingDataStrategy } from '../../triggerSaveTrainingDataStrategy.quality';
+import { logixUXPushToServerSaveTrainingData } from '../../pushToServerSaveTraining.quality';
 
 export const logixUXIndexTrainingDataContentType: ActionType = 'create userInterface for IndexTrainingDataContent';
 export const logixUXIndexTrainingDataContent = prepareActionCreator(logixUXIndexTrainingDataContentType);
@@ -77,7 +78,7 @@ ${trainingData[i].rejected}
         eventBinding: elementEventBinding.onclick
       });
       bindingsArray.push({
-        action: webSocketClientAppendToActionQue({actionQue: [logixUXTriggerSaveTrainingDataStrategy()]}),
+        action: logixUXPushToServerSaveTrainingData(),
         elementId: saveTrainingDataID,
         eventBinding: elementEventBinding.onclick
       });

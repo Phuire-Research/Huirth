@@ -1,14 +1,21 @@
-import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionCreator } from 'stratimux';
+import {
+  Action,
+  ActionType,
+  createQuality,
+  defaultMethodCreator,
+  prepareActionCreator,
+} from 'stratimux';
 import { BoundSelectors, userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 
-export const userInterfaceAddComposedPageToStateType: ActionType = 'User Interface add composed Page to State';
+export const userInterfaceAddComposedPageToStateType: ActionType =
+  'User Interface add composed Page to State';
 export const userInterfaceAddComposedPageToState = prepareActionCreator(userInterfaceAddComposedPageToStateType);
 
 function addComposedPageToState(state: UserInterfaceState, action: Action): UserInterfaceState {
   if (action.strategy) {
     const page = userInterface_selectPage(action.strategy);
-    const newPages = state.pages.filter((_page) => {
+    const newPages = state.pages.filter(_page => {
       return page.title !== _page.title;
     });
     newPages.push(page);
@@ -19,7 +26,7 @@ function addComposedPageToState(state: UserInterfaceState, action: Action): User
           for (const bound of comp.boundSelectors) {
             cachedSelectors.push({
               ...bound,
-              semaphore: [i, compIndex],
+              semaphore: [i, compIndex]
             });
           }
         }
@@ -40,5 +47,5 @@ function addComposedPageToState(state: UserInterfaceState, action: Action): User
 export const userInterfaceAddComposedPageToStateQuality = createQuality(
   userInterfaceAddComposedPageToStateType,
   addComposedPageToState,
-  defaultMethodCreator
+  defaultMethodCreator,
 );

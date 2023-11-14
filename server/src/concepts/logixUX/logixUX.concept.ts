@@ -22,6 +22,7 @@ import { logixUXUpdateFromRejectedPayloadQuality } from './qualities/updateFromR
 import { Active_DPO, generateDefaultTrainingData } from './logixUX.model';
 import { logixUXNewDataSetEntryQuality } from './qualities/newDataSetEntry.quality';
 import { logixUXTriggerSaveTrainingDataStrategyQuality } from './qualities/triggerSaveTrainingDataStrategy.quality';
+import { logixUXPushToServerSaveTrainingDataQuality } from './qualities/pushToServerSaveTraining.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
@@ -68,6 +69,11 @@ export const createLogixUXConcept = (): Concept =>  {
     qualities = [
       ...qualities,
       logixUXTriggerSaveTrainingDataStrategyQuality
+    ];
+  } else {
+    qualities = [
+      ...qualities,
+      logixUXPushToServerSaveTrainingDataQuality
     ];
   }
   return unifyConcepts(
