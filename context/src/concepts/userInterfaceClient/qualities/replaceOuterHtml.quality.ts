@@ -22,7 +22,6 @@ const createUserInterfaceClientReplaceOuterHtmlMethod = () =>
       const payload = selectPayload<UserInterfaceClientReplaceOuterHtmlPayload>(action);
       const composition = userInterface_selectPage(action.strategy).compositions.filter((comp) => comp.id === payload.id)[0];
       const element = document.getElementById(composition.id);
-      console.log('CHECK', composition, element);
       if (element) {
         element.outerHTML = composition.html;
       }

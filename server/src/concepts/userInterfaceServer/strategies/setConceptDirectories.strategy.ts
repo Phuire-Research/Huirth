@@ -10,7 +10,7 @@ export function userInterfaceServerSetConceptDirectoriesFromDataStrategy(root: s
     failureNode: null
   });
   const conceptDirectory = path.join(root + '/server/src/concepts');
-  const stepOne = createActionNode(fileSystemGetDirectories(conceptDirectory), {
+  const stepOne = createActionNode(fileSystemGetDirectories({path: conceptDirectory}), {
     successNode: stepTwo,
     failureNode: null,
   });

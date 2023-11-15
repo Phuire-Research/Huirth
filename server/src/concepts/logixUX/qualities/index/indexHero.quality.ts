@@ -9,7 +9,6 @@ import {
   strategySuccess
 } from 'stratimux';
 
-import { Subject, map } from 'rxjs';
 import { userInterface_appendCompositionToPage } from '../../../../model/userInterface';
 
 export const logixUXIndexHeroType: ActionType = 'create userInterface for IndexHero';

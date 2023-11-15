@@ -4,15 +4,9 @@ import {
   Concepts,
   PrincipleFunction,
   UnifiedSubject,
-  axiumRegisterStagePlanner,
-  getSemaphore,
-  getUnifiedName,
-  primeAction,
-  selectConcept,
-  selectUnifiedState,
 } from 'stratimux';
-import { LogixUXServerState } from './logixUXServer.concept';
-import { logixUXServerTriggerSaveTrainingDataStrategy } from '../logixUXServer/qualities/triggerSaveTrainingDataStrategy.quality';
+// import { LogixUXServerState } from './logixUXServer.concept';
+// import { logixUXServerTriggerSaveTrainingDataStrategy } from '../logixUXServer/qualities/triggerSaveTrainingDataStrategy.quality';
 
 // Should be converted into its own server bindings principle.
 export const logixUXServerPrinciple: PrincipleFunction =

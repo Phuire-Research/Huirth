@@ -6,14 +6,13 @@ import {
   createQuality,
   defaultReducer,
   prepareActionWithPayloadCreator,
-  refreshAction,
   selectPayload,
   strategySuccess,
 } from 'stratimux';
-import { Binding } from '../../../model/userInterface';
-import { Subject } from 'rxjs';
 
-export type DocumentObjectModelBindPayloadPayload = unknown;
+export type DocumentObjectModelBindPayloadPayload = {
+  event: unknown;
+};
 export const documentObjectModelBindPayloadType: ActionType = 'Document Object Model bind payload';
 export const documentObjectModelBindPayload =
   prepareActionWithPayloadCreator<DocumentObjectModelBindPayloadPayload>(documentObjectModelBindPayloadType);
@@ -21,8 +20,16 @@ export const documentObjectModelBindPayload =
 const createDocumentObjectModelBindPayloadCreator: MethodCreator = () =>
   createMethod((action) => {
     if (action.strategy) {
+      const payload = selectPayload<DocumentObjectModelBindPayloadPayload>(action);
       const strategy = strategySuccess(action.strategy);
-      strategy.payload = selectPayload(action);
+      if (strategy.payload) {
+        strategy.payload = {
+          ...strategy.payload,
+          ...payload,
+        };
+      } else {
+        strategy.payload = payload;
+      }
       return strategy;
     } else {
       return action;

@@ -13,7 +13,7 @@ import {
 import _ws from 'express-ws';
 import { WebSocketClientState } from './webSocketClient.concept';
 import { webSocketClientSyncState } from './qualities/syncState.quality';
-import { webSocketClientSetClientSemaphore } from './strategies/setClientSemaphore.helper';
+import { webSocketClientSetClientSemaphore } from './strategies/server/setClientSemaphore.helper';
 
 const notKeys = (key: string) => {
   return key !== 'pages' && key !== 'clientSemaphore' && key !== 'serverSemaphore';
@@ -48,6 +48,7 @@ export const webSocketClientPrinciple: PrincipleFunction = (
             const que = [...state.actionQue];
             state.actionQue = [];
             que.forEach((action) => {
+              console.log('SENDING', action);
               action.conceptSemaphore = (state as WebSocketClientState).serverSemaphore;
               ws.send(JSON.stringify(action));
             });

@@ -26,12 +26,12 @@ export const logixUXServerSaveTrainingDataStrategy = (root: string, trainingData
     failureNode: null,
     agreement: 20000
   });
-  const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory(dataPath), {
+  const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory({path: dataPath}), {
     successNode: stepCreateFileWithContents,
     failureNode: null,
     agreement: 20000
   });
-  const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory(dataPath), {
+  const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory({path: dataPath}), {
     successNode: stepCreateDirectory,
     failureNode: null,
     agreement: 20000

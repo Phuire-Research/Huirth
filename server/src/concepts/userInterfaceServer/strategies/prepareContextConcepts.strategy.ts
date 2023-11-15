@@ -20,7 +20,9 @@ export function userInterfaceServerPrepareContextConceptsStrategy(
   initialDirectoryMap: string[]
 ): [ActionNode, ActionStrategy] {
   const conceptNames = [];
-  const directories: RecursivelyCopyMoveTargetDirectoriesPayload = [];
+  const copyMovePayload: RecursivelyCopyMoveTargetDirectoriesPayload = {
+    directories: []
+  };
   const directoryMap: string[] = [];
   const contextConcepts = path.join(root + '/context/src/concepts/');
   const contextModel = path.join(root + '/context/src/model/');
@@ -36,7 +38,7 @@ export function userInterfaceServerPrepareContextConceptsStrategy(
     if (!name.toLowerCase().includes(serverName.toLowerCase())) {
       for (const directory of initialDirectoryMap) {
         if (directory === name) {
-          directories.push({
+          copyMovePayload.directories.push({
             name,
             newLocation: path.join(root + '/context/src/concepts/' + name),
             target: path.join(root + '/server/src/concepts/' + name)
@@ -49,9 +51,9 @@ export function userInterfaceServerPrepareContextConceptsStrategy(
   const primedConcepts: PrimedConceptAndProperties[] = conceptsAndProps.map(conceptAndProps => {
     conceptNames.push(conceptAndProps.name);
     for (const directory of initialDirectoryMap) {
-      const isSet = directories.filter(d => d.name === conceptAndProps.name).length > 0;
+      const isSet = copyMovePayload.directories.filter(d => d.name === conceptAndProps.name).length > 0;
       if (directory === conceptAndProps.name && !isSet) {
-        directories.push({
+        copyMovePayload.directories.push({
           name: conceptAndProps.name,
           newLocation: path.join(root + '/context/src/concepts/' + conceptAndProps.name),
           target: path.join(root + '/server/src/concepts/' + conceptAndProps.name)
@@ -68,7 +70,7 @@ export function userInterfaceServerPrepareContextConceptsStrategy(
       properties: conceptAndProps.properties
     };
   });
-  directories.push({
+  copyMovePayload.directories.push({
     name: webSocketClientName,
     newLocation: path.join(root + '/context/src/concepts/' + webSocketClientName),
     target: path.join(root + '/server/src/concepts/' + webSocketClientName)
@@ -95,20 +97,20 @@ export function userInterfaceServerPrepareContextConceptsStrategy(
     successNode: stepContextFormat,
     failureNode: null
   });
-  const stepCopyMoveModel = createActionNode(fileSystemRecursivelyCopyMoveTargetDirectories([modelDirectory]), {
+  const stepCopyMoveModel = createActionNode(fileSystemRecursivelyCopyMoveTargetDirectories({directories: [modelDirectory]}), {
     successNode: stepCreateContextIndex,
     failureNode: null
   });
-  const stepContextModelRemove = createActionNode(fileSystemRemoveTargetDirectory(contextModel), {
+  const stepContextModelRemove = createActionNode(fileSystemRemoveTargetDirectory({path: contextModel}), {
     successNode: stepCopyMoveModel,
     failureNode: null,
     agreement: 20000
   });
-  const stepCopyMoveConcepts = createActionNode(fileSystemRecursivelyCopyMoveTargetDirectories(directories), {
+  const stepCopyMoveConcepts = createActionNode(fileSystemRecursivelyCopyMoveTargetDirectories(copyMovePayload), {
     successNode: stepContextModelRemove,
     failureNode: null
   });
-  const stepContextConceptRemove = createActionNode(fileSystemRemoveTargetDirectory(contextConcepts), {
+  const stepContextConceptRemove = createActionNode(fileSystemRemoveTargetDirectory({path: contextConcepts}), {
     successNode: stepCopyMoveConcepts,
     failureNode: null,
     agreement: 20000
