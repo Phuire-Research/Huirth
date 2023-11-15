@@ -13,7 +13,7 @@ import {
   strategySuccess
 } from 'stratimux';
 import { Subject, map, switchMap } from 'rxjs';
-import fs from 'fs';
+import fs, { Dirent } from 'fs';
 
 export type GetDirectoriesAndFilesPayload = {
   path: string
@@ -22,7 +22,7 @@ export const fileSystemGetDirectoriesAndFilesType: ActionType = 'File System get
 export const fileSystemGetDirectoriesAndFiles =
   prepareActionWithPayloadCreator<GetDirectoriesAndFilesPayload>(fileSystemGetDirectoriesAndFilesType);
 export type GetDirectoriesAndFilesDataField = {
-  directories: string[]
+  directories: Dirent[]
 }
 
 const createGetDirectoriesAndFilesMethodCreator: MethodCreator = () => {

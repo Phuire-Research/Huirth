@@ -16,6 +16,7 @@ import { GetDirectoriesAndFilesDataField } from '../../fileSystem/qualities/getD
 import fs from 'fs';
 import { DPO_DataSet } from '../../../model/logixUX';
 import { logixUXServerFailureConditions } from '../logixUXServer.model';
+import path from 'path';
 
 export const logixUXServerReadFromDataTrainingDataFromDirectoriesType: ActionType =
   'logixUX Server read from File System Data, Directories and Files';
@@ -30,7 +31,9 @@ export const logixUXServerReadFromDataTrainingDataFromDirectoriesMethodCreator =
     if (action.strategy && action.strategy.data) {
       const data = strategyData_select(action.strategy) as GetDirectoriesAndFilesDataField;
       if (data.directories) {
-        const contents = fs.readFileSync(data.directories[0]);
+        console.log('CHECK DIRENT', data.directories);
+        // FIGURE OUT DIRENT
+        const contents = fs.readFileSync(path.join((data.directories[0] as any).path + '/' + data.directories[0].name));
         try {
           const trainingData = JSON.parse(`${contents}`);
           controller.fire(strategySuccess(action.strategy, strategyData_unifyData(action.strategy, {

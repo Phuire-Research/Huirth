@@ -10,15 +10,16 @@ import {
   strategySuccess,
 } from 'stratimux';
 import { LogixUXServerState } from '../../logixUXServer/logixUXServer.concept';
-import { ReadFromDataTrainingDataFromDirectoriesField } from './readFromDataTrainingDataFromDirectory.quality';
+// import { logixUXServerReadFromDataTrainingDataFromDirectories } from './readFromDataTrainingDataFromDirectory.quality';
 import { convertSaveFormatToTrainingData, logixUXServerFailureConditions } from '../logixUXServer.model';
+import { ReadFromDataTrainingDataFromDirectoriesField } from './readFromDataTrainingDataFromDirectory.quality';
 
-export const logixUXServerReadFromDataTrainingDataFromDirectoriesType: ActionType =
+export const logixUXServerSetTrainingDataFromDataType: ActionType =
   'User Interface Server parse Training Data from passed Data';
-export const logixUXServerReadFromDataTrainingDataFromDirectories =
-  prepareActionCreator(logixUXServerReadFromDataTrainingDataFromDirectoriesType);
+export const logixUXServerSetTrainingDataFromData =
+  prepareActionCreator(logixUXServerSetTrainingDataFromDataType);
 
-const logixUXServerReadFromDataTrainingDataFromDirectoriesMethodCreator = () =>
+const logixUXServerSetTrainingDataFromDataMethodCreator = () =>
   createMethod((action) => {
     if (action.strategy && action.strategy.data) {
       const data = strategyData_select(action.strategy) as ReadFromDataTrainingDataFromDirectoriesField;
@@ -35,7 +36,7 @@ const logixUXServerReadFromDataTrainingDataFromDirectoriesMethodCreator = () =>
     }
   });
 
-function logixUXServerReadFromDataTrainingDataFromDirectoriesReducer(
+function logixUXServerSetTrainingDataFromDataReducer(
   state: LogixUXServerState,
   action: Action
 ): LogixUXServerState {
@@ -54,8 +55,8 @@ function logixUXServerReadFromDataTrainingDataFromDirectoriesReducer(
   };
 }
 
-export const logixUXServerReadFromDataTrainingDataFromDirectoriesQuality = createQuality(
-  logixUXServerReadFromDataTrainingDataFromDirectoriesType,
-  logixUXServerReadFromDataTrainingDataFromDirectoriesReducer,
-  logixUXServerReadFromDataTrainingDataFromDirectoriesMethodCreator,
+export const logixUXServerSetTrainingDataFromDataQuality = createQuality(
+  logixUXServerSetTrainingDataFromDataType,
+  logixUXServerSetTrainingDataFromDataReducer,
+  logixUXServerSetTrainingDataFromDataMethodCreator,
 );

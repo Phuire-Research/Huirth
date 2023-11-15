@@ -3,11 +3,12 @@ import path from 'path';
 import { fileSystemGetDirectoriesAndFiles } from '../../fileSystem/qualities/getDirectoriesAndFiles.quality';
 import { logixUXServerReadFromDataTrainingDataFromDirectories } from '../qualities/readFromDataTrainingDataFromDirectory.quality';
 import { logixUXServerTriggerSaveTrainingDataStrategy } from '../qualities/triggerSaveTrainingDataStrategy.quality';
+import { logixUXServerSetTrainingDataFromData } from '../qualities/setTrainingDataFromData.quality';
 
 const logixUXServerInitializationStrategyTopic = 'logixUX Server Initialization Strategy';
 export const logixUXServerInitializationStrategy = (root: string) => {
   const dataDirectory = path.join(root + '/data/logixUX');
-  const stepThree = createActionNode(logixUXServerTriggerSaveTrainingDataStrategy(), {
+  const stepThree = createActionNode(logixUXServerSetTrainingDataFromData(), {
     successNode: null,
     failureNode: null
   });

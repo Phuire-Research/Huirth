@@ -1,7 +1,9 @@
 import { createConcept, Concept, unifyConcepts, createCounterConcept, PrincipleFunction, Quality } from 'stratimux';
 import { LogixUXState } from '../logixUX/logixUX.concept';
 import { logixUXServerTriggerSaveTrainingDataStrategyQuality } from './qualities/triggerSaveTrainingDataStrategy.quality';
-// import { logixUXServerPrinciple } from './logixUXServer.principle';
+import { logixUXServerPrinciple } from './logixUXServer.principle';
+import { logixUXServerReadFromDataTrainingDataFromDirectoriesQuality } from './qualities/readFromDataTrainingDataFromDirectory.quality';
+import { logixUXServerSetTrainingDataFromDataQuality } from './qualities/setTrainingDataFromData.quality';
 
 export const logixUXServerName = 'logixUXServer';
 export type LogixUXServerState = {
@@ -10,10 +12,12 @@ export type LogixUXServerState = {
 
 export const createLogixUXServerConcept = (): Concept =>  {
   const principles: PrincipleFunction[] = [
-    // logixUXServerPrinciple
+    logixUXServerPrinciple
   ];
   const qualities: Quality[] = [
-    logixUXServerTriggerSaveTrainingDataStrategyQuality
+    logixUXServerTriggerSaveTrainingDataStrategyQuality,
+    logixUXServerReadFromDataTrainingDataFromDirectoriesQuality,
+    logixUXServerSetTrainingDataFromDataQuality
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
   return unifyConcepts(
