@@ -13,7 +13,7 @@ import {
 import _ws from 'express-ws';
 import { WebSocketClientState } from './webSocketClient.concept';
 import { webSocketClientSyncState } from './qualities/syncState.quality';
-import { webSocketClientSetClientSemaphore } from './qualities/setClientSemaphore.quality';
+import { webSocketClientSetClientSemaphore } from './strategies/setClientSemaphore.helper';
 
 const notKeys = (key: string) => {
   return (
@@ -102,7 +102,6 @@ export const webSocketClientPrinciple: PrincipleFunction =
                     }
                   }
                   const sync = webSocketClientSyncState({state});
-                  console.log('CHECK SEMAPHORE3', newState);
                   sync.conceptSemaphore = (newState as WebSocketClientState).serverSemaphore;
                   ws.send(JSON.stringify(sync));
                   break;

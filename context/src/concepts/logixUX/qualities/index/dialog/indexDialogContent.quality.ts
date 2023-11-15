@@ -22,9 +22,11 @@ import {
   userInterface_isClient,
 } from '../../../../../model/userInterface';
 import { elementEventBinding } from '../../../../../model/html';
-import { logixUXTriggerCountingStrategy } from '../../triggerCounterStrategy.quality';
 import { LogixUXState } from '../../../logixUX.concept';
 import { logixUX_createCountSelector, logixUX_createDialogSelector } from '../../../logixUX.selector';
+import { logixUXTriggerMinusCountingStrategy } from '../../triggerMinusCounterStrategy.quality';
+import { logixUXTriggerPlusCountingStrategy } from '../../triggerPlusCounterStrategy.quality';
+import { logixUXTriggerRandomCountingStrategy } from '../../triggerRandomCounterStrategy.quality';
 
 export const logixUXIndexDialogContentType: ActionType = 'create userInterface for IndexDialogContent';
 export const logixUXIndexDialogContent = prepareActionCreator(logixUXIndexDialogContentType);
@@ -98,17 +100,9 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
             userInterface_appendCompositionToPage(action.strategy, {
               id,
               bindings: createBinding([
-                { elementId: strategyId, action: logixUXTriggerCountingStrategy({ number: 0 }), eventBinding: elementEventBinding.onclick },
-                {
-                  elementId: strategyPlusId,
-                  action: logixUXTriggerCountingStrategy({ number: 1 }),
-                  eventBinding: elementEventBinding.onclick,
-                },
-                {
-                  elementId: strategyMinusId,
-                  action: logixUXTriggerCountingStrategy({ number: -1 }),
-                  eventBinding: elementEventBinding.onclick,
-                },
+                { elementId: strategyId, action: logixUXTriggerRandomCountingStrategy(), eventBinding: elementEventBinding.onclick },
+                { elementId: strategyPlusId, action: logixUXTriggerPlusCountingStrategy(), eventBinding: elementEventBinding.onclick },
+                { elementId: strategyMinusId, action: logixUXTriggerMinusCountingStrategy(), eventBinding: elementEventBinding.onclick },
                 { elementId: addId, action: counterAdd(), eventBinding: elementEventBinding.onclick },
                 { elementId: subtractId, action: counterSubtract(), eventBinding: elementEventBinding.onclick },
               ]),

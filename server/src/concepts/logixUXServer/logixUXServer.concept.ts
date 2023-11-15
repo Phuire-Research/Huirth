@@ -1,7 +1,7 @@
 import { createConcept, Concept, unifyConcepts, createCounterConcept, PrincipleFunction, Quality } from 'stratimux';
 import { LogixUXState } from '../logixUX/logixUX.concept';
 import { logixUXServerTriggerSaveTrainingDataStrategyQuality } from './qualities/triggerSaveTrainingDataStrategy.quality';
-import { logixUXServerPrinciple } from './logixUXServer.principle';
+// import { logixUXServerPrinciple } from './logixUXServer.principle';
 
 export const logixUXServerName = 'logixUXServer';
 export type LogixUXServerState = {
@@ -10,7 +10,7 @@ export type LogixUXServerState = {
 
 export const createLogixUXServerConcept = (): Concept =>  {
   const principles: PrincipleFunction[] = [
-    logixUXServerPrinciple
+    // logixUXServerPrinciple
   ];
   const qualities: Quality[] = [
     logixUXServerTriggerSaveTrainingDataStrategyQuality

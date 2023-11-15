@@ -6,8 +6,6 @@ import {
   createQuality,
   defaultReducer,
   prepareActionCreator,
-  prepareActionWithPayloadCreator,
-  selectPayload,
   selectState,
   selectUnifiedState,
   strategyBegin,
@@ -15,7 +13,6 @@ import {
 import { LogixUXServerState } from '../logixUXServer.concept';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXServerSaveTrainingDataStrategy } from '../strategies/saveTrainingData.strategy';
-import { Active_DPO } from '../../logixUX/logixUX.model';
 
 export const logixUXServerTriggerSaveTrainingDataStrategyType: ActionType = 'logixUXServer triggerSaveTrainingDataStrategy';
 export const logixUXServerTriggerSaveTrainingDataStrategy =

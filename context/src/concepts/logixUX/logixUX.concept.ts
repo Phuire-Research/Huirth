@@ -7,9 +7,8 @@ import { logixUXIndexHeroQuality } from './qualities/index/indexHero.quality';
 import { logixUXIndexDialogBeginQuality } from './qualities/index/dialog/indexDialogBegin.quality';
 import { logixUXIndexDialogContentQuality } from './qualities/index/dialog/indexDialogContent.quality';
 import { logixUXIndexDialogEndQuality } from './qualities/index/dialog/indexDialogEnd.quality';
-import { logixUXTriggerCountingStrategyQuality } from './qualities/triggerCounterStrategy.quality';
 import { logixUXAppendAxiumDialogQuality } from './qualities/appendAxiumDialog.quality';
-import { logixUXDialogPrinciple, logixUXDisableSave } from './logixUX.principle';
+import { logixUXDialogPrinciple } from './logixUX.principle';
 import { BrandState } from '../../model/userInterface';
 import { logixUXIndexPageStrategy } from './strategies/pages/indexPage.strategy';
 import { logixUXErrorPageStrategy } from './strategies/pages/errorPage.strategy';
@@ -21,13 +20,13 @@ import { logixUXUpdateFromChosenPayloadQuality } from './qualities/updateFromCho
 import { logixUXUpdateFromRejectedPayloadQuality } from './qualities/updateFromRejectedPayload.quality';
 import { Active_DPO, generateDefaultTrainingData } from './logixUX.model';
 import { logixUXNewDataSetEntryQuality } from './qualities/newDataSetEntry.quality';
-import { logixUXEnableTriggerSaveFlagQuality } from './qualities/enableTriggerSaveFlag.quality';
-import { logixUXDisableTriggerSaveFlagQuality } from './qualities/disableTriggerSaveFlag.quality';
+import { logixUXTriggerMinusCountingStrategyQuality } from './qualities/triggerMinusCounterStrategy.quality';
+import { logixUXTriggerPlusCountingStrategyQuality } from './qualities/triggerPlusCounterStrategy.quality';
+import { logixUXTriggerRandomCountingStrategyQuality } from './qualities/triggerRandomCounterStrategy.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
   mock: number;
-  triggerSave: boolean;
   dialog: string;
   trainingData: Active_DPO[];
 } & BrandState;
@@ -36,14 +35,13 @@ const createLogixUXState = (): LogixUXState => {
   return {
     mock: 0,
     dialog: '',
-    triggerSave: false,
     trainingData: [generateDefaultTrainingData()],
     pageStrategies: [logixUXIndexPageStrategy, logixUXErrorPageStrategy],
   };
 };
 
 export const createLogixUXConcept = (): Concept => {
-  const principles: PrincipleFunction[] = [logixUXDialogPrinciple, logixUXDisableSave];
+  const principles: PrincipleFunction[] = [logixUXDialogPrinciple];
   const qualities: Quality[] = [
     logixUXHeadQuality,
     logixUXStyleQuality,
@@ -53,7 +51,6 @@ export const createLogixUXConcept = (): Concept => {
     logixUXIndexDialogContentQuality,
     logixUXIndexDialogEndQuality,
     logixUXErrorQuality,
-    logixUXTriggerCountingStrategyQuality,
     logixUXAppendAxiumDialogQuality,
     logixUXIndexTrainingDataBeginQuality,
     logixUXIndexTrainingDataContentQuality,
@@ -62,8 +59,9 @@ export const createLogixUXConcept = (): Concept => {
     logixUXUpdateFromChosenPayloadQuality,
     logixUXUpdateFromRejectedPayloadQuality,
     logixUXNewDataSetEntryQuality,
-    logixUXEnableTriggerSaveFlagQuality,
-    logixUXDisableTriggerSaveFlagQuality,
+    logixUXTriggerMinusCountingStrategyQuality,
+    logixUXTriggerPlusCountingStrategyQuality,
+    logixUXTriggerRandomCountingStrategyQuality,
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
   return unifyConcepts([createCounterConcept()], createConcept(logixUXName, createLogixUXState(), qualities, principles, []));

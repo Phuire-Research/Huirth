@@ -23,76 +23,70 @@ import { createLogixUXConcept } from './concepts/logixUX/logixUX.concept';
               index: {
                 '#strategyID': [
                   {
-                    action: {
-                      type: 'Create logixUX triggerCountingStrategy',
-                      semaphore: [0, 0, -1, 0],
-                      payload: { number: 0 },
-                      expiration: 1700006298642,
-                    },
+                    action: { type: 'Create logixUX triggerRandomCountingStrategy', semaphore: [0, 0, -1, 0], expiration: 1700053991330 },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#strategyPlusID': [
                   {
-                    action: {
-                      type: 'Create logixUX triggerCountingStrategy',
-                      semaphore: [0, 0, -1, 0],
-                      payload: { number: 1 },
-                      expiration: 1700006298642,
-                    },
+                    action: { type: 'Create logixUX triggerPlusCountingStrategy', semaphore: [0, 0, -1, 0], expiration: 1700053991330 },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#strategyMinusID': [
                   {
-                    action: {
-                      type: 'Create logixUX triggerCountingStrategy',
-                      semaphore: [0, 0, -1, 0],
-                      payload: { number: -1 },
-                      expiration: 1700006298642,
-                    },
+                    action: { type: 'Create logixUX triggerMinusCountingStrategy', semaphore: [0, 0, -1, 0], expiration: 1700053991331 },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#addID': [
                   {
-                    action: { type: 'Counter Add', semaphore: [0, 0, -1, 0], expiration: 1700006298642 },
+                    action: { type: 'Counter Add', semaphore: [0, 0, -1, 0], expiration: 1700053991331 },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#subtractID': [
                   {
-                    action: { type: 'Counter Subtract', semaphore: [0, 0, -1, 0], expiration: 1700006298642 },
+                    action: { type: 'Counter Subtract', semaphore: [0, 0, -1, 0], expiration: 1700053991331 },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#promptID-000': [
                   {
-                    action: { type: 'Create logixUX UpdateFromPromptPayload', semaphore: [0, 0, -1, 0], expiration: 1700006298468 },
+                    action: { type: 'Create logixUX UpdateFromPromptPayload', semaphore: [0, 0, -1, 0], expiration: 1700053991426 },
                     eventBinding: 'onchange',
                   },
                 ],
                 '#chosenID-000': [
                   {
-                    action: { type: 'Create logixUX UpdateFromChosenPayload', semaphore: [0, 0, -1, 0], expiration: 1700006298468 },
+                    action: { type: 'Create logixUX UpdateFromChosenPayload', semaphore: [0, 0, -1, 0], expiration: 1700053991426 },
                     eventBinding: 'onchange',
                   },
                 ],
                 '#rejectedID-000': [
                   {
-                    action: { type: 'Create logixUX UpdateFromRejectedPayload', semaphore: [0, 0, -1, 0], expiration: 1700006298468 },
+                    action: { type: 'Create logixUX UpdateFromRejectedPayload', semaphore: [0, 0, -1, 0], expiration: 1700053991426 },
                     eventBinding: 'onchange',
                   },
                 ],
                 '#addEntry': [
                   {
-                    action: { type: 'Create logixUX NewDataSetEntry', semaphore: [0, 0, -1, 0], expiration: 1700006298468 },
+                    action: { type: 'Create logixUX NewDataSetEntry', semaphore: [0, 0, -1, 0], expiration: 1700053991426 },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#saveTrainingData': [
                   {
-                    action: { type: 'logixUX push saveTrainingData action to Server', semaphore: [0, 0, -1, 0], expiration: 1700006298468 },
+                    action: {
+                      type: 'Web Socket Client append to action que',
+                      semaphore: [0, 0, -1, 0],
+                      payload: {
+                        actionQue: [
+                          { type: 'logixUXServer triggerSaveTrainingDataStrategy', semaphore: [0, 0, -1, 0], expiration: 1700053991426 },
+                        ],
+                      },
+                      expiration: 1700053991426,
+                    },
                     eventBinding: 'onclick',
                   },
                 ],
