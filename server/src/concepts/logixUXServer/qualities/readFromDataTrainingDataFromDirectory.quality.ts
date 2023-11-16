@@ -31,19 +31,26 @@ export const logixUXServerReadFromDataTrainingDataFromDirectoriesMethodCreator =
     if (action.strategy && action.strategy.data) {
       const data = strategyData_select(action.strategy) as GetDirectoriesAndFilesDataField;
       if (data.directories) {
-        console.log('CHECK DIRENT', data.directories);
+        // console.log('CHECK DIRENT', data.directories);
         // FIGURE OUT DIRENT
-        const contents = fs.readFileSync(path.join((data.directories[0] as any).path + '/' + data.directories[0].name));
-        try {
-          const trainingData = JSON.parse(`${contents}`);
-          controller.fire(strategySuccess(action.strategy, strategyData_unifyData(action.strategy, {
-          // TEMP
-            trainingData,
-          })));
-        } catch (error) {
+        if (data.directories.length !== 0) {
+          const contents = fs.readFileSync(path.join((data.directories[0] as any).path + '/' + data.directories[0].name));
+          try {
+            const trainingData = JSON.parse(`${contents}`);
+            controller.fire(strategySuccess(action.strategy, strategyData_unifyData(action.strategy, {
+            // TEMP
+              trainingData,
+            })));
+          } catch (error) {
+            controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(
+              action.strategy,
+              logixUXServerFailureConditions.failedParsingTrainingData
+            )));
+          }
+        } else {
           controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(
             action.strategy,
-            logixUXServerFailureConditions.failedParsingTrainingData
+            logixUXServerFailureConditions.noTrainingData
           )));
         }
       }
