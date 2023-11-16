@@ -8,7 +8,6 @@ import {
   createMethodDebounceWithConcepts,
   createQuality,
   defaultReducer,
-  prepareActionCreator,
   selectUnifiedState,
   strategySuccess
 } from 'stratimux';
@@ -21,28 +20,28 @@ import { logixUXUpdateFromPromptPayload } from '../../updateFromPromptPayload.qu
 import { logixUXUpdateFromChosenPayload } from '../../updateFromChosenPayload.quality';
 import { logixUXUpdateFromRejectedPayload } from '../../updateFromRejectedPayload.quality';
 import { logixUXNewDataSetEntry } from '../../newDataSetEntry.quality';
-import { logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
-import { logixUXTriggerSaveTrainingDataStrategy } from '../../../strategies/server/triggerSaveTrainingDataStrategy.helper';
+import { logixUX_createDPOSelector } from '../../../logixUX.selector';
+import { logixUXTriggerSaveDPOStrategy } from '../../../strategies/server/triggerSaveDPOStrategy.helper';
 
-export const logixUXIndexTrainingDataContentType: ActionType = 'create userInterface for IndexTrainingDataContent';
-export const logixUXIndexTrainingDataContent = prepareActionComponentCreator(logixUXIndexTrainingDataContentType);
+export const logixUXIndexDPOContentType: ActionType = 'create userInterface for IndexDPOContent';
+export const logixUXIndexDPOContent = prepareActionComponentCreator(logixUXIndexDPOContentType);
 
-const createIndexTrainingDataContentMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, _semaphore?: number) =>
+const createIndexDPOContentMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, _semaphore?: number) =>
   createMethodDebounceWithConcepts((action, concepts, semaphore) => {
     const payload = selectComponentPayload(action);
-    const id = '#trainingDataID';
-    const addEntryID = '#addEntry';
-    const saveTrainingDataID = '#saveTrainingData';
+    const id = '#trainingDataID' + payload.pageTitle;
+    const addEntryID = '#addEntry' + payload.pageTitle;
+    const saveDPOID = '#saveDPO' + payload.pageTitle;
     if (action.strategy) {
-      const trainingData = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState).trainingData;
+      const activeDPO = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState).activeDPO;
       let finalOutput = '';
       const bindingsArray: {
         elementId: string;
         eventBinding: elementEventBinding;
         action: Action;
       }[] = [];
-      console.log('CHECK LENGTH', trainingData);
-      for (let i = 0; i < trainingData.length; i++) {
+      console.log('CHECK LENGTH DPO', activeDPO);
+      for (let i = 0; i < activeDPO.length; i++) {
         const elementID = generateNumID(i);
         bindingsArray.push({
           elementId: promptID + elementID,
@@ -61,12 +60,12 @@ const createIndexTrainingDataContentMethodCreator: MethodCreator = (concepts$?: 
         });
         finalOutput += /*html*/`
 <div class="text-black">
-  <input type="text" id="${promptID + elementID}" value='${trainingData[i].prompt}'/>
+  <input type="text" id="${promptID + elementID}" value='${activeDPO[i].prompt}'/>
   <textarea id="${chosenID + elementID}" rows="4" cols="50">
-${trainingData[i].chosen}
+${activeDPO[i].chosen}
   </textarea>
   <textarea id="${rejectedID + elementID}" rows="4" cols="50">
-${trainingData[i].rejected}
+${activeDPO[i].rejected}
   </textarea>
 </div>
         `;
@@ -77,8 +76,8 @@ ${trainingData[i].rejected}
         eventBinding: elementEventBinding.onclick
       });
       bindingsArray.push({
-        action: logixUXTriggerSaveTrainingDataStrategy(),
-        elementId: saveTrainingDataID,
+        action: logixUXTriggerSaveDPOStrategy(),
+        elementId: saveDPOID,
         eventBinding: elementEventBinding.onclick
       });
       const bindings = createBinding(bindingsArray);
@@ -88,17 +87,17 @@ ${trainingData[i].rejected}
         bindings,
         boundSelectors: [
           // START HERE
-          createBoundSelectors(id, logixUXIndexTrainingDataContent(payload), [
-            logixUX_createTrainingDataSelector(concepts, semaphore) as KeyedSelector
+          createBoundSelectors(id, logixUXIndexDPOContent(payload), [
+            logixUX_createDPOSelector(concepts, semaphore) as KeyedSelector
           ])
         ],
-        action: logixUXIndexTrainingDataContent(payload),
+        action: logixUXIndexDPOContent(payload),
         html: /*html*/`
         <div id='${id}'>
           <button id=${addEntryID} class="m-2 center-m bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
             Add Entry
           </button>
-          <button id=${saveTrainingDataID} class="m-2 center-m bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+          <button id=${saveDPOID} class="m-2 center-m bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
             Save Training Data
           </button>
           <div class="mt-4 p-4 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
@@ -112,8 +111,8 @@ ${trainingData[i].rejected}
     return action;
   }, concepts$ as UnifiedSubject, _semaphore as number, 50);
 
-export const logixUXIndexTrainingDataContentQuality = createQuality(
-  logixUXIndexTrainingDataContentType,
+export const logixUXIndexDPOContentQuality = createQuality(
+  logixUXIndexDPOContentType,
   defaultReducer,
-  createIndexTrainingDataContentMethodCreator,
+  createIndexDPOContentMethodCreator,
 );

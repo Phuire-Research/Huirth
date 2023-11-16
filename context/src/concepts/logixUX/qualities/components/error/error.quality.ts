@@ -6,6 +6,7 @@ import {
   MethodCreator,
   axiumConcludeType,
   createAction,
+  createMethod,
   createQuality,
   defaultReducer,
   prepareActionCreator,
@@ -13,24 +14,27 @@ import {
 } from 'stratimux';
 
 import { Subject, map } from 'rxjs';
-import { userInterface_appendCompositionToPage } from '../../../../model/userInterface';
+import {
+  prepareActionComponentCreator,
+  selectComponentPayload,
+  userInterface_appendCompositionToPage,
+} from '../../../../../model/userInterface';
 
 export const logixUXErrorType: ActionType = 'Create logixUX Error Composition';
-export const logixUXError = prepareActionCreator(logixUXErrorType);
+export const logixUXError = prepareActionComponentCreator(logixUXErrorType);
 
-const createErrorMethodCreator: MethodCreator = () => {
-  const logSubject = new Subject<Action>();
-  const logMethod: Method = logSubject.pipe(
-    map((action: Action) => {
-      if (action.strategy) {
-        const id = '#errorID';
-        return strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id,
-            boundSelectors: [],
-            action: logixUXError(),
-            html: /*html*/ `
+const createErrorMethodCreator: MethodCreator = () =>
+  createMethod((action: Action) => {
+    const payload = selectComponentPayload(action);
+    if (action.strategy) {
+      const id = '#errorID';
+      return strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
+          id,
+          boundSelectors: [],
+          action: logixUXError(payload),
+          html: /*html*/ `
 <section id='${id}' class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">
   <div class="flex items-center h-16">
     <!-- Navbar Container -->
@@ -52,13 +56,10 @@ const createErrorMethodCreator: MethodCreator = () => {
   </div>
 </section>
 `,
-          })
-        );
-      }
-      return createAction(axiumConcludeType);
-    })
-  );
-  return [logMethod, logSubject];
-};
+        })
+      );
+    }
+    return createAction(axiumConcludeType);
+  });
 
 export const logixUXErrorQuality = createQuality(logixUXErrorType, defaultReducer, createErrorMethodCreator);

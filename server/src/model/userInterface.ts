@@ -45,8 +45,13 @@ export const createBinding =
     return binding;
   };
 
+type ActionEventPayload = {
+  event: Event
+}
+
 export const userInterface_selectInputTarget = (action: Action) => {
-  const payload = selectPayload<Event>(action);
+  const payload = selectPayload<ActionEventPayload>(action).event;
+  console.log('CHECK TARGET PAYLOAD', payload, payload.target);
   return payload.target as HTMLInputElement;
 };
 

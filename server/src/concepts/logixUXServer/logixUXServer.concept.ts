@@ -3,7 +3,7 @@ import { LogixUXState } from '../logixUX/logixUX.concept';
 import { logixUXServerTriggerSaveTrainingDataStrategyQuality } from './qualities/triggerSaveTrainingDataStrategy.quality';
 import { logixUXServerPrinciple } from './logixUXServer.principle';
 import { logixUXServerReadFromDataTrainingDataFromDirectoriesQuality } from './qualities/readFromDataTrainingDataFromDirectory.quality';
-import { logixUXServerSetTrainingDataFromDataQuality } from './qualities/setTrainingDataFromData.quality';
+import { logixUXServerSetDPOFromDataQuality } from './qualities/setDPOFromData.quality';
 
 export const logixUXServerName = 'logixUXServer';
 export type LogixUXServerState = {
@@ -17,7 +17,7 @@ export const createLogixUXServerConcept = (): Concept =>  {
   const qualities: Quality[] = [
     logixUXServerTriggerSaveTrainingDataStrategyQuality,
     logixUXServerReadFromDataTrainingDataFromDirectoriesQuality,
-    logixUXServerSetTrainingDataFromDataQuality
+    logixUXServerSetDPOFromDataQuality
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
   return unifyConcepts(

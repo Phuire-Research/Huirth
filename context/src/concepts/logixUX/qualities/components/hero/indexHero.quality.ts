@@ -1,13 +1,27 @@
 /* eslint-disable max-len */
-import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, prepareActionCreator, strategySuccess } from 'stratimux';
+import {
+  ActionType,
+  MethodCreator,
+  createMethod,
+  createQuality,
+  defaultReducer,
+  prepareActionCreator,
+  selectPayload,
+  strategySuccess,
+} from 'stratimux';
 
-import { userInterface_appendCompositionToPage } from '../../../../model/userInterface';
+import {
+  prepareActionComponentCreator,
+  selectComponentPayload,
+  userInterface_appendCompositionToPage,
+} from '../../../../../model/userInterface';
 
 export const logixUXIndexHeroType: ActionType = 'create userInterface for IndexHero';
-export const logixUXIndexHero = prepareActionCreator(logixUXIndexHeroType);
+export const logixUXIndexHero = prepareActionComponentCreator(logixUXIndexHeroType);
 
 const createIndexHeroMethodCreator: MethodCreator = () =>
   createMethod((action) => {
+    const payload = selectComponentPayload(action);
     const id = '#heroId';
     if (action.strategy) {
       return strategySuccess(
@@ -15,7 +29,7 @@ const createIndexHeroMethodCreator: MethodCreator = () =>
         userInterface_appendCompositionToPage(action.strategy, {
           id,
           boundSelectors: [],
-          action: logixUXIndexHero(),
+          action: logixUXIndexHero(payload),
           html: /*html*/ `
 <section id='${id}' class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">
   <div class="flex items-center h-16">

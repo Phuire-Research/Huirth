@@ -16,10 +16,10 @@ import { logixUXIndexDPOBegin } from '../../qualities/components/DPO/DPOBegin.qu
 import { logixUXIndexDPOContent } from '../../qualities/components/DPO/DPOContent.quality';
 import { logixUXIndexDPOEnd } from '../../qualities/components/DPO/DPOEnd.quality';
 
-export const logixUXIndexPageStrategyTopic = 'index';
+export const logixUXDataManagerPageStrategyTopic = 'dataManager';
 export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
   const page: ActionComponentPayload = {
-    pageTitle: logixUXIndexPageStrategyTopic,
+    pageTitle: logixUXDataManagerPageStrategyTopic,
   };
   // Body
   // const [
@@ -32,7 +32,7 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
     successNode: stepStitch,
     failureNode: null,
   });
-  const logixUXBody: ActionStrategyComponentStitch = (payload: ActionComponentPayload) => [
+  const logixUXBody: ActionStrategyComponentStitch = (payload) => [
     stepStitch,
     createStrategy({
       topic: 'Create logixUX Body Content',
@@ -41,14 +41,14 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
   ];
 
   const pageData = userInterface_createPage({
-    title: logixUXIndexPageStrategyTopic,
+    title: logixUXDataManagerPageStrategyTopic,
     conceptAndProps: [{ name: 'helloWorld' }],
     cachedSelectors: [],
     compositions: [],
   });
 
   return userInterfaceCreatePageStrategy(
-    logixUXIndexPageStrategyTopic,
+    logixUXDataManagerPageStrategyTopic,
     pageData,
     [logixUXBody, logixUXIndexDialogStrategyStitch, logixUXIndexDPOStrategyStitch, logixUXFooterStrategy],
     logixUXHeaderStrategy
@@ -79,7 +79,7 @@ export const logixUXIndexDialogStrategyStitch: ActionStrategyComponentStitch = (
   ];
 };
 
-export const logixUXIndexDPOStrategyStitchTopic = 'logixUX Index DPO Strategy Stitch';
+export const logixUXIndexDPOStrategyStitchTopic = 'logixUX Index Training Data Strategy Stitch';
 export const logixUXIndexDPOStrategyStitch: ActionStrategyComponentStitch = (payload) => {
   // Body
   const stepLogixUXIndexDPOEnd = createActionNode(logixUXIndexDPOEnd(payload), {

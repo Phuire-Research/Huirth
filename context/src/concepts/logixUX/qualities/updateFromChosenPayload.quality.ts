@@ -8,12 +8,17 @@ export const logixUXUpdateFromChosenPayload = prepareActionCreator(logixUXUpdate
 
 function logixUXUpdateFromChosenPayloadReducer(state: LogixUXState, action: Action): LogixUXState {
   const target = userInterface_selectInputTarget(action);
-  const index = selectTrainingDataIndex(target, chosenID);
-  const trainingData = state.trainingData;
-  trainingData[index].chosen = target.value;
+  if (target) {
+    const index = selectTrainingDataIndex(target, chosenID);
+    const activeDPO = state.activeDPO;
+    activeDPO[index].chosen = target.value;
+    return {
+      ...state,
+      activeDPO,
+    };
+  }
   return {
     ...state,
-    trainingData,
   };
 }
 

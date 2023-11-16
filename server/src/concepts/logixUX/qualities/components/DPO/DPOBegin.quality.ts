@@ -10,17 +10,17 @@ import {
 
 import { prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 
-export const logixUXIndexTrainingDataBeginType: ActionType = 'create userInterface for IndexTrainingDataBegin';
-export const logixUXIndexTrainingDataBegin = prepareActionComponentCreator(logixUXIndexTrainingDataBeginType);
+export const logixUXIndexDPOBeginType: ActionType = 'create userInterface for IndexDPOBegin';
+export const logixUXIndexDPOBegin = prepareActionComponentCreator(logixUXIndexDPOBeginType);
 
-const createIndexTrainingDataBeginMethodCreator: MethodCreator = () => createMethod(action => {
+const createIndexDPOBeginMethodCreator: MethodCreator = () => createMethod(action => {
   const payload = selectComponentPayload(action);
-  const id = '#beginTrainingDataID';
+  const id = '#beginDPOID' + payload.pageTitle;
   if (action.strategy) {
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
       id,
       boundSelectors: [],
-      action: logixUXIndexTrainingDataBegin(payload),
+      action: logixUXIndexDPOBegin(payload),
       html: /*html*/`
 <div id='${id}' class="carbon-fiber">
   <section class="flex flex-col items-center min-h-screen text-white bg-center bg-blend-overlay md:bg-fixed bg-neutral-900/60">
@@ -32,8 +32,8 @@ const createIndexTrainingDataBeginMethodCreator: MethodCreator = () => createMet
   return action;
 });
 
-export const logixUXIndexTrainingDataBeginQuality = createQuality(
-  logixUXIndexTrainingDataBeginType,
+export const logixUXIndexDPOBeginQuality = createQuality(
+  logixUXIndexDPOBeginType,
   defaultReducer,
-  createIndexTrainingDataBeginMethodCreator,
+  createIndexDPOBeginMethodCreator,
 );

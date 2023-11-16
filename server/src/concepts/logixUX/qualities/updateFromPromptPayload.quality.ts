@@ -16,11 +16,12 @@ export const logixUXUpdateFromPromptPayload =
 function logixUXUpdateFromPromptPayloadReducer(state: LogixUXState, action: Action): LogixUXState {
   const target = userInterface_selectInputTarget(action);
   const index = selectTrainingDataIndex(target, promptID);
-  const trainingData = state.trainingData;
-  trainingData[index].prompt = target.value;
+  const activeDPO = state.activeDPO;
+  activeDPO[index].prompt = target.value;
+  console.log('HIT UPDATE FROM PROMPT', activeDPO, target);
   return {
     ...state,
-    trainingData,
+    activeDPO,
   };
 }
 

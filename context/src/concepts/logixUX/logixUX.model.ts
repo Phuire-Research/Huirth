@@ -19,11 +19,28 @@ export type Active_DPO = {
   rejected: string;
 };
 
-export const generateDefaultTrainingData = (): Active_DPO => ({
+export type NamedDataSet = {
+  name: string;
+  dataSet: Record<string, unknown>;
+};
+
+export type TrainingData = NamedDataSet[];
+
+export const generateDPOTrainingData = (): Active_DPO => ({
   prompt: '#insert prompt#',
   chosen: '#insert chosen output#',
   rejected: '#insert rejected output#',
 });
+
+export const generateDefaultNamedDataSet = (name: string): NamedDataSet => ({
+  name,
+  dataSet: {
+    prompt: '#insert prompt#',
+    content: '#insert chosen output#',
+  },
+});
+
+export const generateDefaultTrainingData = (): TrainingData => [generateDefaultNamedDataSet('#insert name#')];
 
 export const promptID = '#promptID-';
 export const chosenID = '#chosenID-';
@@ -40,5 +57,6 @@ export function generateNumID(number: number) {
 }
 
 export function selectTrainingDataIndex(element: HTMLElement, key: string) {
+  console.log('CHECK ERROR', element, key);
   return Number(element.id.split(key)[1]);
 }

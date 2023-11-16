@@ -10,6 +10,7 @@ import {
   axiumRegisterStagePlanner,
   axiumSelectOpen,
   ActionStrategy,
+  axiumKick,
 } from 'stratimux';
 import { UserInterfaceState } from './userInterface.concept';
 import { userInterfacePageToStateStrategy } from './strategies.ts/pageToState.strategy';
@@ -23,6 +24,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
   concepts$: UnifiedSubject,
   semaphore: number
 ) => {
+  let pageLength = -1;
   const plan = concepts$.stage('User Interface Page to State', [
     (concepts, dispatch) => {
       const name = getUnifiedName(concepts, semaphore);
@@ -41,6 +43,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
     (concepts, dispatch) => {
       const uiState = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
       if (uiState) {
+        pageLength = uiState.pageStrategies.length;
         if (uiState.pageStrategies.length === 1) {
           dispatch(strategyBegin(userInterfacePageToStateStrategy(uiState.pageStrategies[0](concepts))), {
             iterateStage: true,
@@ -48,6 +51,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
         } else if (uiState.pageStrategies.length > 1) {
           const isClient = userInterface_isClient();
           const list: ActionStrategy[] = [];
+          console.log(uiState.pageStrategies);
           uiState.pageStrategies.forEach((creator) => {
             if (isClient) {
               const pageCreator = creator(concepts);
@@ -74,16 +78,17 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
         }
       }
     },
-    (concepts, _) => {
-      if (getAxiumState(concepts).logging) {
-        const ui = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
-        if (ui) {
-          if (ui.pages.length > 0) {
-            console.log('Pages Populated: ', ui.pages.length);
-          }
+    (concepts, dispatch) => {
+      const ui = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
+      if (ui) {
+        if (ui?.pageStrategies.length !== pageLength) {
+          dispatch(axiumKick(), {
+            setStage: 1,
+          });
         }
+      } else {
+        plan.conclude();
       }
-      plan.conclude();
     },
   ]);
 };

@@ -16,7 +16,7 @@ import { webSocketClientSyncState } from './qualities/syncState.quality';
 import { webSocketClientSetClientSemaphore } from './strategies/server/setClientSemaphore.helper';
 
 const notKeys = (key: string) => {
-  return key !== 'pages' && key !== 'clientSemaphore' && key !== 'serverSemaphore';
+  return key !== 'pages' && key !== 'clientSemaphore' && key !== 'serverSemaphore' && key !== 'pageStrategies';
 };
 
 export const webSocketClientPrinciple: PrincipleFunction = (
@@ -77,7 +77,7 @@ export const webSocketClientPrinciple: PrincipleFunction = (
           const stateKeys = Object.keys(newState);
           if (stateKeys.length === 0) {
             for (const key of stateKeys) {
-              if (key !== 'pages') {
+              if (notKeys(key)) {
                 state[key] = newState[key];
               }
             }

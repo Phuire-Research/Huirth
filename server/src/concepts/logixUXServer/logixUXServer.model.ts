@@ -7,7 +7,7 @@ export enum logixUXServerFailureConditions {
   failedParsingTrainingData = 'failedParsingTrainingData',
 }
 
-export const convertTrainingDataToSaveFormat = (trainingData: Active_DPO[]) => {
+export const convertDPOToSaveFormatDPO = (trainingData: Active_DPO[]) => {
   const saveFormat: DPO_DataSet = {};
   trainingData.forEach((entry, i) => {
     saveFormat[entry.prompt + i] = {
@@ -18,7 +18,7 @@ export const convertTrainingDataToSaveFormat = (trainingData: Active_DPO[]) => {
   return saveFormat;
 };
 
-export const convertSaveFormatToTrainingData = (saveFormat: DPO_DataSet) => {
+export const convertSaveFormatDPOToDPO = (saveFormat: DPO_DataSet) => {
   const trainingData: Active_DPO[] = [];
   const saveKeys = Object.keys(saveFormat);
   for (const key of saveKeys) {

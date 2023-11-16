@@ -9,17 +9,17 @@ import {
   strategyFailed,
   strategySuccess,
 } from 'stratimux';
-import { LogixUXServerState } from '../../logixUXServer/logixUXServer.concept';
-// import { logixUXServerReadFromDataTrainingDataFromDirectories } from './readFromDataTrainingDataFromDirectory.quality';
-import { convertSaveFormatToTrainingData, logixUXServerFailureConditions } from '../logixUXServer.model';
+import { LogixUXServerState } from '../logixUXServer.concept';
+// import { logixUXServerReadFromDataDPOFromDirectories } from './readFromDataDPOFromDirectory.quality';
+import { convertSaveFormatDPOToDPO, convertDPOToSaveFormatDPO, logixUXServerFailureConditions } from '../logixUXServer.model';
 import { ReadFromDataTrainingDataFromDirectoriesField } from './readFromDataTrainingDataFromDirectory.quality';
 
-export const logixUXServerSetTrainingDataFromDataType: ActionType =
+export const logixUXServerSetDPOFromDataType: ActionType =
   'User Interface Server parse Training Data from passed Data';
-export const logixUXServerSetTrainingDataFromData =
-  prepareActionCreator(logixUXServerSetTrainingDataFromDataType);
+export const logixUXServerSetDPOFromData =
+  prepareActionCreator(logixUXServerSetDPOFromDataType);
 
-const logixUXServerSetTrainingDataFromDataMethodCreator = () =>
+const logixUXServerSetDPOFromDataMethodCreator = () =>
   createMethod((action) => {
     if (action.strategy && action.strategy.data) {
       const data = strategyData_select(action.strategy) as ReadFromDataTrainingDataFromDirectoriesField;
@@ -36,17 +36,17 @@ const logixUXServerSetTrainingDataFromDataMethodCreator = () =>
     }
   });
 
-function logixUXServerSetTrainingDataFromDataReducer(
+function logixUXServerSetDPOFromDataReducer(
   state: LogixUXServerState,
   action: Action
 ): LogixUXServerState {
   if (action.strategy && action.strategy.data) {
     const data = strategyData_select(action.strategy) as ReadFromDataTrainingDataFromDirectoriesField;
-    const trainingData = convertSaveFormatToTrainingData(data.trainingData);
-    if (trainingData) {
+    const activeDPO = convertSaveFormatDPOToDPO(data.trainingData);
+    if (activeDPO) {
       return {
         ...state,
-        trainingData,
+        activeDPO,
       };
     }
   }
@@ -55,8 +55,8 @@ function logixUXServerSetTrainingDataFromDataReducer(
   };
 }
 
-export const logixUXServerSetTrainingDataFromDataQuality = createQuality(
-  logixUXServerSetTrainingDataFromDataType,
-  logixUXServerSetTrainingDataFromDataReducer,
-  logixUXServerSetTrainingDataFromDataMethodCreator,
+export const logixUXServerSetDPOFromDataQuality = createQuality(
+  logixUXServerSetDPOFromDataType,
+  logixUXServerSetDPOFromDataReducer,
+  logixUXServerSetDPOFromDataMethodCreator,
 );

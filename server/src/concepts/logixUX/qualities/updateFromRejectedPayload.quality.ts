@@ -15,12 +15,13 @@ export const logixUXUpdateFromRejectedPayload =
 
 function logixUXUpdateFromRejectedPayloadReducer(state: LogixUXState, action: Action): LogixUXState {
   const target = userInterface_selectInputTarget(action);
+  console.log('CHECK TARGET', target);
   const index = selectTrainingDataIndex(target, rejectedID);
-  const trainingData = state.trainingData;
-  trainingData[index].rejected = target.value;
+  const activeDPO = state.activeDPO;
+  activeDPO[index].rejected = target.value;
   return {
     ...state,
-    trainingData,
+    activeDPO,
   };
 }
 

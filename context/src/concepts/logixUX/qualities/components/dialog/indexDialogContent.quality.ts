@@ -18,6 +18,8 @@ import {
 import {
   createBinding,
   createBoundSelectors,
+  prepareActionComponentCreator,
+  selectComponentPayload,
   userInterface_appendCompositionToPage,
   userInterface_isClient,
 } from '../../../../../model/userInterface';
@@ -29,11 +31,12 @@ import { logixUXTriggerPlusCountingStrategy } from '../../triggerPlusCounterStra
 import { logixUXTriggerRandomCountingStrategy } from '../../triggerRandomCounterStrategy.quality';
 
 export const logixUXIndexDialogContentType: ActionType = 'create userInterface for IndexDialogContent';
-export const logixUXIndexDialogContent = prepareActionCreator(logixUXIndexDialogContentType);
+export const logixUXIndexDialogContent = prepareActionComponentCreator(logixUXIndexDialogContentType);
 
 const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, _semaphore?: number) =>
   createMethodDebounceWithConcepts(
     (action, concepts, semaphore) => {
+      const payload = selectComponentPayload(action);
       const id = '#dialogID';
       const strategyId = '#strategyID';
       const strategyPlusId = '#strategyPlusID';
@@ -89,12 +92,16 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
           // }
           const boundSelectors = isClient
             ? [
-                createBoundSelectors(id, logixUXIndexDialogContent(), [
+                createBoundSelectors(id, logixUXIndexDialogContent(payload), [
                   logixUX_createDialogSelector(concepts, semaphore) as KeyedSelector,
                   logixUX_createCountSelector(concepts, semaphore) as KeyedSelector,
                 ]),
               ]
-            : [createBoundSelectors(id, logixUXIndexDialogContent(), [logixUX_createCountSelector(concepts, semaphore) as KeyedSelector])];
+            : [
+                createBoundSelectors(id, logixUXIndexDialogContent(payload), [
+                  logixUX_createCountSelector(concepts, semaphore) as KeyedSelector,
+                ]),
+              ];
           const strategy = strategySuccess(
             action.strategy,
             userInterface_appendCompositionToPage(action.strategy, {
@@ -107,7 +114,7 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
                 { elementId: subtractId, action: counterSubtract(), eventBinding: elementEventBinding.onclick },
               ]),
               boundSelectors,
-              action: logixUXIndexDialogContent(),
+              action: logixUXIndexDialogContent(payload),
               html: /*html*/ `
           <div id='${id}'>
             <button id=${strategyId} class="m-2 center-m bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">

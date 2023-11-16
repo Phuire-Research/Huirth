@@ -12,9 +12,9 @@ import { logixUXIndexHero } from '../../qualities/components/hero/indexHero.qual
 import { logixUXIndexDialogBegin } from '../../qualities/components/dialog/indexDialogBegin.quality';
 import { logixUXIndexDialogContent } from '../../qualities/components/dialog/indexDialogContent.quality';
 import { logixUXIndexDialogEnd } from '../../qualities/components/dialog/indexDialogEnd.quality';
-import { logixUXIndexTrainingDataBegin } from '../../qualities/components/trainingData/indexTrainingDataBegin.quality';
-import { logixUXIndexTrainingDataContent } from '../../qualities/components/trainingData/indexTrainingDataContent.quality';
-import { logixUXIndexTrainingDataEnd } from '../../qualities/components/trainingData/indexTrainingDataEnd.quality';
+import { logixUXIndexDPOBegin } from '../../qualities/components/DPO/DPOBegin.quality';
+import { logixUXIndexDPOContent } from '../../qualities/components/DPO/DPOContent.quality';
+import { logixUXIndexDPOEnd } from '../../qualities/components/DPO/DPOEnd.quality';
 
 export const logixUXIndexPageStrategyTopic = 'index';
 export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
@@ -52,7 +52,7 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
     [
       logixUXBody,
       logixUXIndexDialogStrategyStitch,
-      logixUXIndexTrainingDataStrategyStitch,
+      logixUXIndexDPOStrategyStitch,
       logixUXFooterStrategy
     ],
     logixUXHeaderStrategy
@@ -83,26 +83,26 @@ export const logixUXIndexDialogStrategyStitch: ActionStrategyComponentStitch = (
   ];
 };
 
-export const logixUXIndexTrainingDataStrategyStitchTopic = 'logixUX Index Training Data Strategy Stitch';
-export const logixUXIndexTrainingDataStrategyStitch: ActionStrategyComponentStitch = (payload) => {
+export const logixUXIndexDPOStrategyStitchTopic = 'logixUX Index DPO Strategy Stitch';
+export const logixUXIndexDPOStrategyStitch: ActionStrategyComponentStitch = (payload) => {
   // Body
-  const stepLogixUXIndexTrainingDataEnd = createActionNode(logixUXIndexTrainingDataEnd(payload), {
+  const stepLogixUXIndexDPOEnd = createActionNode(logixUXIndexDPOEnd(payload), {
     successNode: null,
     failureNode: null
   });
-  const stepLogixUXIndexTrainingDataContent = createActionNode(logixUXIndexTrainingDataContent(payload), {
-    successNode: stepLogixUXIndexTrainingDataEnd,
+  const stepLogixUXIndexDPOContent = createActionNode(logixUXIndexDPOContent(payload), {
+    successNode: stepLogixUXIndexDPOEnd,
     failureNode: null
   });
-  const stepLogixUXIndexTrainingDataBegin = createActionNode(logixUXIndexTrainingDataBegin(payload), {
-    successNode: stepLogixUXIndexTrainingDataContent,
+  const stepLogixUXIndexDPOBegin = createActionNode(logixUXIndexDPOBegin(payload), {
+    successNode: stepLogixUXIndexDPOContent,
     failureNode: null
   });
   return [
-    stepLogixUXIndexTrainingDataEnd,
+    stepLogixUXIndexDPOEnd,
     createStrategy({
-      topic: logixUXIndexTrainingDataStrategyStitchTopic,
-      initialNode: stepLogixUXIndexTrainingDataBegin,
+      topic: logixUXIndexDPOStrategyStitchTopic,
+      initialNode: stepLogixUXIndexDPOBegin,
     })
   ];
 };

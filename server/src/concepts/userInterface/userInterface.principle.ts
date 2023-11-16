@@ -47,6 +47,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction =
           } else if (uiState.pageStrategies.length > 1) {
             const isClient = userInterface_isClient();
             const list: ActionStrategy[] = [];
+            console.log(uiState.pageStrategies);
             uiState.pageStrategies.forEach(creator => {
               if (isClient) {
                 const pageCreator = creator(concepts);

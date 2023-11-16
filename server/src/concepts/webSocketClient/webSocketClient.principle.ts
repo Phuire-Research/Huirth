@@ -19,7 +19,8 @@ const notKeys = (key: string) => {
   return (
     key !== 'pages' &&
     key !== 'clientSemaphore' &&
-    key !== 'serverSemaphore'
+    key !== 'serverSemaphore' &&
+    key !== 'pageStrategies'
   );
 };
 
@@ -77,7 +78,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
             const stateKeys = Object.keys(newState);
             if (stateKeys.length === 0) {
               for (const key of stateKeys) {
-                if (key !== 'pages') {
+                if (notKeys(key)) {
                   state[key] = newState[key];
                 }
               }

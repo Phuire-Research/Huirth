@@ -1,10 +1,12 @@
 import {
   Action,
+  ActionNode,
   ActionStrategy,
   ActionStrategyStitch,
+  ActionType,
   Concepts,
   KeyedSelector,
-  getUnifiedName,
+  createAction,
   selectPayload,
   strategyData_select,
 } from 'stratimux';
@@ -24,6 +26,7 @@ export type Binding = {
 export type UserInterfaceBindings = Record<ElementIdentifier, Binding[]>;
 export type UserInterfacePageBindings = Record<string, UserInterfaceBindings>;
 export type PageStrategyCreators = (concepts?: Concepts, semaphore?: number) => ActionStrategyStitch;
+export type ActionStrategyComponentStitch = (payload: ActionComponentPayload) => [ActionNode, ActionStrategy];
 
 export type BrandState = {
   pageStrategies: PageStrategyCreators[];
@@ -43,8 +46,13 @@ export const createBinding = (
   return binding;
 };
 
+type ActionEventPayload = {
+  event: Event;
+};
+
 export const userInterface_selectInputTarget = (action: Action) => {
-  const payload = selectPayload<Event>(action);
+  const payload = selectPayload<ActionEventPayload>(action).event;
+  console.log('CHECK TARGET PAYLOAD', payload, payload.target);
   return payload.target as HTMLInputElement;
 };
 
@@ -136,6 +144,24 @@ export const userInterface_createPage = (page?: Page): Page =>
         compositions: [],
         cachedSelectors: [],
       };
+
+export type ActionComponentPayload = {
+  pageTitle: string;
+};
+
+export const selectComponentPayload = (action: Action) => selectPayload<ActionComponentPayload>(action);
+
+export function prepareActionComponentCreator(actionType: ActionType) {
+  return (
+    payload: ActionComponentPayload,
+    conceptSemaphore?: number,
+    keyedSelectors?: KeyedSelector[],
+    agreement?: number,
+    semaphore?: [number, number, number, number]
+  ) => {
+    return createAction(actionType, payload, keyedSelectors, agreement, semaphore, conceptSemaphore);
+  };
+}
 
 export const userInterface_appendCompositionToPage = (strategy: ActionStrategy, composition: Composition): Page => {
   const data = strategyData_select<Page>(strategy);
