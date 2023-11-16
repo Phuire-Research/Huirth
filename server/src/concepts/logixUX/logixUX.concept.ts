@@ -45,7 +45,7 @@ const createLogixUXState = (): LogixUXState => {
   return {
     mock: 0,
     dialog: '',
-    sideBarExpanded: false,
+    sideBarExpanded: true,
     trainingData: generateDefaultTrainingData(),
     activeDPO: [generateDPOTrainingData()],
     pageStrategies: [logixUXIndexPageStrategy, logixUXDataManagerPageStrategy, logixUXErrorPageStrategy]
