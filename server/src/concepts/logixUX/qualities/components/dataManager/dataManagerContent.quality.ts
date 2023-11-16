@@ -41,6 +41,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
       }[] = [];
       console.log('CHECK LENGTH Training Data', trainingData);
       for (let i = 0; i < trainingData.length; i++) {
+        console.log('HIT');
         // bindingsArray.push({
         //   elementId: promptID + elementID,
         //   eventBinding: elementEventBinding.onchange,
@@ -58,7 +59,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
         // });
         finalOutput += /*html*/`
 <div class="text-black">
-  <h1>${trainingData[i].name}</h1>
+  <h1><a href="/${trainingData[i].name}">${trainingData[i].name}</a></h1>
 </div>
         `;
       }

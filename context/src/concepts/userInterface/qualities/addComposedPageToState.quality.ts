@@ -6,8 +6,10 @@ export const userInterfaceAddComposedPageToStateType: ActionType = 'User Interfa
 export const userInterfaceAddComposedPageToState = prepareActionCreator(userInterfaceAddComposedPageToStateType);
 
 function addComposedPageToState(state: UserInterfaceState, action: Action): UserInterfaceState {
+  console.log('HITTING COMPOSED PAGE TO STATE');
   if (action.strategy) {
     const page = userInterface_selectPage(action.strategy);
+    console.log('CHECK PAGE TITLES', page.title);
     const newPages = state.pages.filter((_page) => {
       return page.title !== _page.title;
     });
@@ -26,6 +28,7 @@ function addComposedPageToState(state: UserInterfaceState, action: Action): User
       }
       p.cachedSelectors = cachedSelectors;
     }
+    // console.log('CHECK ADD COMPOSED PAGE TO STATE', newPages, page);
     return {
       ...state,
       pages: newPages,

@@ -8,7 +8,7 @@ import { logixUXIndexDialogBeginQuality } from './qualities/components/dialog/in
 import { logixUXIndexDialogContentQuality } from './qualities/components/dialog/indexDialogContent.quality';
 import { logixUXIndexDialogEndQuality } from './qualities/components/dialog/indexDialogEnd.quality';
 import { logixUXAppendAxiumDialogQuality } from './qualities/appendAxiumDialog.quality';
-import { logixUXDialogPrinciple } from './logixUX.principle';
+import { logixUXDialogPrinciple, logixUXTrainingDataPagePrinciple } from './logixUX.principle';
 import { BrandState } from '../../model/userInterface';
 import { logixUXIndexPageStrategy } from './strategies/pages/indexPage.strategy';
 import { logixUXErrorPageStrategy } from './strategies/pages/errorPage.strategy';
@@ -31,6 +31,7 @@ import { logixUXSideBarBeginQuality } from './qualities/components/sideBar/sideB
 import { logixUXSideBarContentQuality } from './qualities/components/sideBar/sideBarContent.quality';
 import { logixUXSideBarEndQuality } from './qualities/components/sideBar/sideBarEnd.quality';
 import { logixUXToggleSidebarQuality } from './qualities/toggleSidebar.quality';
+import { logixUXNewDPOEntryQuality } from './qualities/newDPOEntry.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
@@ -45,7 +46,7 @@ const createLogixUXState = (): LogixUXState => {
   return {
     mock: 0,
     dialog: '',
-    sideBarExpanded: false,
+    sideBarExpanded: true,
     trainingData: generateDefaultTrainingData(),
     activeDPO: [generateDPOTrainingData()],
     pageStrategies: [logixUXIndexPageStrategy, logixUXDataManagerPageStrategy, logixUXErrorPageStrategy],
@@ -53,7 +54,7 @@ const createLogixUXState = (): LogixUXState => {
 };
 
 export const createLogixUXConcept = (): Concept => {
-  const principles: PrincipleFunction[] = [logixUXDialogPrinciple];
+  const principles: PrincipleFunction[] = [logixUXDialogPrinciple, logixUXTrainingDataPagePrinciple];
   const qualities: Quality[] = [
     logixUXHeadQuality,
     logixUXStyleQuality,
@@ -77,6 +78,7 @@ export const createLogixUXConcept = (): Concept => {
     logixUXUpdateFromChosenPayloadQuality,
     logixUXUpdateFromRejectedPayloadQuality,
     logixUXNewDataSetEntryQuality,
+    logixUXNewDPOEntryQuality,
     logixUXTriggerMinusCountingStrategyQuality,
     logixUXTriggerPlusCountingStrategyQuality,
     logixUXTriggerRandomCountingStrategyQuality,

@@ -22,6 +22,7 @@ import { logixUXUpdateFromRejectedPayload } from '../../updateFromRejectedPayloa
 import { logixUXNewDataSetEntry } from '../../newDataSetEntry.quality';
 import { logixUX_createDPOSelector } from '../../../logixUX.selector';
 import { logixUXTriggerSaveDPOStrategy } from '../../../strategies/server/triggerSaveDPOStrategy.helper';
+import { logixUXNewDPOEntry } from '../../newDPOEntry.quality';
 
 export const logixUXIndexDPOContentType: ActionType = 'create userInterface for IndexDPOContent';
 export const logixUXIndexDPOContent = prepareActionComponentCreator(logixUXIndexDPOContentType);
@@ -71,7 +72,7 @@ ${activeDPO[i].rejected}
         `;
       }
       bindingsArray.push({
-        action: logixUXNewDataSetEntry(),
+        action: logixUXNewDPOEntry(),
         elementId: addEntryID,
         eventBinding: elementEventBinding.onclick
       });

@@ -23,7 +23,11 @@ import {
 import { LogixUXState } from '../../../logixUX.concept';
 import { UserInterfaceState } from '../../../../userInterface/userInterface.concept';
 import { logixUXIndexDialogContent } from '../dialog/indexDialogContent.quality';
-import { logixUX_createPagesSelector, logixUX_createSideBarExpandedSelector } from '../../../logixUX.selector';
+import {
+  logixUX_createPagesSelector,
+  logixUX_createSideBarExpandedSelector,
+  logixUX_createTrainingDataSelector,
+} from '../../../logixUX.selector';
 import { logixUXToggleSidebar } from '../../toggleSidebar.quality';
 import { elementEventBinding } from '../../../../../model/html';
 
@@ -35,18 +39,24 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
     (action, concepts) => {
       const state = selectUnifiedState<UserInterfaceState & LogixUXState>(concepts, semaphore as number);
       const payload = selectComponentPayload(action);
-      const id = '#sideBarContent';
+      const id = '#sideBarContent' + payload.pageTitle;
       const expandSideBarId = '#expandSideBarID';
       const liClass = ' relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer bg-gray-50 hover:bg-gray-100';
       let pages = /*html*/ `
 <li class="${liClass}"><a href="/index"><i class="fa-solid fa-house"></i> Home</a></li>
 <li class="${liClass}"><a href="/dataManager"><i class="fa-solid fa-book"></i> Data Manager</a></li>
 `;
-
+      if (state) {
+        for (const data of state.trainingData) {
+          pages += /*html*/ `
+<li class='${liClass}'><a href="/${data.name}"><i class="fa-solid fa-file"></i> ${data.name}</a></li>
+`;
+        }
+      }
       const boundSelectors = [
         createBoundSelectors(id, logixUXSideBarContent(payload), [
-          logixUX_createPagesSelector(concepts, semaphore as number) as KeyedSelector,
           logixUX_createSideBarExpandedSelector(concepts, semaphore as number) as KeyedSelector,
+          logixUX_createTrainingDataSelector(concepts, semaphore as number) as KeyedSelector,
         ]),
       ];
       if (action.strategy && state) {
@@ -69,10 +79,12 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
     </button>
   </div>
   <!-- Navbar Menu -->
-  <ul class="${state?.sideBarExpanded ? '' : 'w-0 overflow-hidden'} flex-1 px-3 text-xl">
-    ${pages}
-    <li class='${liClass}'><a class="" href="https://github.com/Phuire-Research/logixUX"><i class="fa-brands fa-github"></i> GITHUB</a></li>
-  </ul>
+  <div class="flex overflow-y-scroll">
+    <ul class="${state?.sideBarExpanded ? '' : 'w-0 overflow-hidden'} flex-1 px-3 text-xl">
+      ${pages}
+      <li class='${liClass}'><a class="" href="https://github.com/Phuire-Research/logixUX"><i class="fa-brands fa-github"></i> GITHUB</a></li>
+    </ul>
+  </div>
 </div>
 `,
           })
@@ -85,11 +97,3 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
   );
 
 export const logixUXSideBarContentQuality = createQuality(logixUXSideBarContentType, defaultReducer, createSideBarContentMethodCreator);
-
-//   if (state) {
-//     for (const page of state.trainingData) {
-//       pages += /*html*/`
-// <li class='${liClass}'><a href="/${page.title}"><i class="fa-solid fa-house"></i> Home</a></li>
-// `;
-//     }
-//   }

@@ -4,6 +4,7 @@ import express from 'express';
 import {
   Action,
   Concepts,
+  KeyedSelector,
   PrincipleFunction,
   UnifiedSubject,
   axiumRegisterStagePlanner,
@@ -152,6 +153,8 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
           const payload: UserInterfaceServerAssembleActionQueStrategyPayload = {
             boundActionQue: []
           };
+          const changes: string[] = [];
+          const changedSelectors: KeyedSelector[] = [];
           selectors.forEach(bound => {
             for (const select of bound.selectors) {
               const value = selectSlice(concepts, select);
@@ -167,6 +170,10 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
                 }
               }
               if (changed) {
+                if (!changes.includes(select.stateKeys)) {
+                  changes.push(select.stateKeys);
+                  changedSelectors.push(select);
+                }
                 let exists = false;
                 for (const b of payload.boundActionQue) {
                   if (b.id === bound.id) {
@@ -178,9 +185,11 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
                   payload.boundActionQue.push(bound);
                 }
               }
-              atomicCachedState[select.stateKeys] = value;
             }
           });
+          for (let i = 0; i < changes.length; i++) {
+            atomicCachedState[changes[i]] = selectSlice(concepts, changedSelectors[i]);
+          }
           // console.log('CHECK ATOMIC', atomicCachedState);
           if (payload.boundActionQue.length > 0) {
             dispatch(userInterfaceServerAssembleActionQueStrategy(payload), {

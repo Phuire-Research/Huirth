@@ -4,6 +4,7 @@
 import {
   Action,
   Concepts,
+  KeyedSelector,
   PrincipleFunction,
   UnifiedSubject,
   axiumRegisterStagePlanner,
@@ -59,6 +60,8 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
           boundActionQue: [],
         };
         // Update so that the state that is being cached is set by the selectors. Finish this up tomorrow and move on
+        const changes: string[] = [];
+        const changedSelectors: KeyedSelector[] = [];
         selectors.forEach((bound) => {
           for (const select of bound.selectors) {
             const value = selectSlice(concepts, select);
@@ -75,6 +78,10 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
               }
             }
             if (changed) {
+              if (!changes.includes(select.stateKeys)) {
+                changes.push(select.stateKeys);
+                changedSelectors.push(select);
+              }
               let exists = false;
               for (const b of payload.boundActionQue) {
                 if (b.id === bound.id) {
@@ -86,10 +93,12 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
                 payload.boundActionQue.push(bound);
               }
             }
-            atomicCachedState[select.stateKeys] = value;
           }
         });
-        // console.log('CHECK PAYLOAD', payload);
+        for (let i = 0; i < changes.length; i++) {
+          atomicCachedState[changes[i]] = selectSlice(concepts, changedSelectors[i]);
+        }
+        console.log('CHECK PAYLOAD', payload);
         if (payload.boundActionQue.length > 0) {
           dispatch(userInterfaceClientAssembleActionQueStrategy(payload), {
             throttle: 50,

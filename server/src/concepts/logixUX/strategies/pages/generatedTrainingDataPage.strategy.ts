@@ -12,26 +12,28 @@ import { logixUXDataManagerContent } from '../../qualities/components/dataManage
 import { logixUXDataManagerEnd } from '../../qualities/components/dataManager/dataManagerEnd.quality';
 import { logixUXSidebarComponentStitch } from '../components/sidebar.strategy';
 
-export const logixUXGeneratedTrainingDataStrategy = (pageTitle: string) => (): PageStrategyCreators => () => () => {
-  const pageData = userInterface_createPage({
-    title: pageTitle,
-    conceptAndProps: [
-      { name: 'helloWorld'},
-    ],
-    cachedSelectors: [],
-    compositions: []
-  });
+export const logixUXGeneratedTrainingDataPageStrategy = (pageTitle: string): PageStrategyCreators => {
+  return () => () => {
+    const pageData = userInterface_createPage({
+      title: pageTitle,
+      conceptAndProps: [
+        { name: 'helloWorld'},
+      ],
+      cachedSelectors: [],
+      compositions: []
+    });
 
-  return userInterfaceCreatePageStrategy(
-    pageTitle,
-    pageData,
-    [
-      logixUXSidebarComponentStitch,
-      logixUXGeneratedTrainingDataStrategyStitch,
-      logixUXFooterStrategy
-    ],
-    logixUXHeaderStrategy
-  );
+    return userInterfaceCreatePageStrategy(
+      pageTitle,
+      pageData,
+      [
+        logixUXSidebarComponentStitch,
+        logixUXGeneratedTrainingDataStrategyStitch,
+        logixUXFooterStrategy
+      ],
+      logixUXHeaderStrategy
+    );
+  };
 };
 
 export const logixUXGeneratedTrainingDataStrategyStitchTopic = 'logixUX Generated Training Data Strategy Stitch';

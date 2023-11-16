@@ -51,7 +51,6 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
         } else if (uiState.pageStrategies.length > 1) {
           const isClient = userInterface_isClient();
           const list: ActionStrategy[] = [];
-          console.log(uiState.pageStrategies);
           uiState.pageStrategies.forEach((creator) => {
             if (isClient) {
               const pageCreator = creator(concepts);
@@ -65,6 +64,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
             }
           });
           const strategy = strategySequence(list);
+          console.log('CHECK STRATEGY', strategy);
           if (strategy) {
             dispatch(strategyBegin(strategy), {
               iterateStage: true,
@@ -81,7 +81,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
     (concepts, dispatch) => {
       const ui = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
       if (ui) {
-        if (ui?.pageStrategies.length !== pageLength) {
+        if (ui.pageStrategies.length !== pageLength) {
           dispatch(axiumKick(), {
             setStage: 1,
           });

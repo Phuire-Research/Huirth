@@ -40,7 +40,7 @@ export const generateDefaultNamedDataSet = (name: string): NamedDataSet => ({
   },
 });
 
-export const generateDefaultTrainingData = (): TrainingData => [generateDefaultNamedDataSet('#insert name#')];
+export const generateDefaultTrainingData = (): TrainingData => [generateDefaultNamedDataSet('newDataSet0')];
 
 export const promptID = '#promptID-';
 export const chosenID = '#chosenID-';
