@@ -1,10 +1,5 @@
 import { createActionNode, createStrategy } from 'stratimux';
-import {
-  ActionComponentPayload,
-  ActionStrategyComponentStitch,
-  PageStrategyCreators,
-  userInterface_createPage,
-} from '../../../../model/userInterface';
+import { ActionStrategyComponentStitch, PageStrategyCreators, userInterface_createPage } from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { logixUXFooterStrategy } from '../components/footer.strategy';
 import { logixUXHeaderStrategy } from '../components/header.strategy';
@@ -12,36 +7,26 @@ import { logixUXDataManagerBegin } from '../../qualities/components/dataManager/
 import { logixUXDataManagerContent } from '../../qualities/components/dataManager/dataManagerContent.quality';
 import { logixUXDataManagerEnd } from '../../qualities/components/dataManager/dataManagerEnd.quality';
 
-export const logixUXDataManagerPageStrategyTopic = 'dataManager';
-export const logixUXDataManagerPageStrategy: PageStrategyCreators = () => () => {
-  const page: ActionComponentPayload = {
-    pageTitle: logixUXDataManagerPageStrategyTopic,
-  };
-  // Body
-  // const [
-  //   stitchDialogEnd,
-  //   stitchDialogStrategy
-  // ] = logixUXIndexDialogStrategyStitch();
-  // const stepDialog = createActionNodeFromStrategy(stitchDialogStrategy);
-
+export const logixUXGeneratedTrainingDataStrategy = (pageTitle: string) => (): PageStrategyCreators => () => () => {
   const pageData = userInterface_createPage({
-    title: logixUXDataManagerPageStrategyTopic,
+    title: pageTitle,
     conceptAndProps: [{ name: 'helloWorld' }],
     cachedSelectors: [],
     compositions: [],
   });
 
   return userInterfaceCreatePageStrategy(
-    logixUXDataManagerPageStrategyTopic,
+    pageTitle,
     pageData,
-    [logixUXDataManagerStrategyStitch, logixUXFooterStrategy],
+    [logixUXGeneratedTrainingDataStrategyStitch, logixUXFooterStrategy],
     logixUXHeaderStrategy
   );
 };
 
-export const logixUXDataManagerStrategyStitchTopic = 'logixUX Index Training Data Strategy Stitch';
-export const logixUXDataManagerStrategyStitch: ActionStrategyComponentStitch = (payload) => {
+export const logixUXGeneratedTrainingDataStrategyStitchTopic = 'logixUX Generated Training Data Strategy Stitch';
+export const logixUXGeneratedTrainingDataStrategyStitch: ActionStrategyComponentStitch = (payload) => {
   // Body
+  // Fill in the Universal Data Set Editor
   const stepLogixUXDataManagerEnd = createActionNode(logixUXDataManagerEnd(payload), {
     successNode: null,
     failureNode: null,
@@ -57,7 +42,7 @@ export const logixUXDataManagerStrategyStitch: ActionStrategyComponentStitch = (
   return [
     stepLogixUXDataManagerEnd,
     createStrategy({
-      topic: logixUXDataManagerStrategyStitchTopic,
+      topic: `logixUX Generated ${payload.pageTitle} Training Data Strategy Stitch`,
       initialNode: stepLogixUXDataManagerBegin,
     }),
   ];

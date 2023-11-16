@@ -2,7 +2,6 @@ import { createActionNode, createStrategy } from 'stratimux';
 import path from 'path';
 import { fileSystemGetDirectoriesAndFiles } from '../../fileSystem/qualities/getDirectoriesAndFiles.quality';
 import { logixUXServerReadFromDataTrainingDataFromDirectories } from '../qualities/readFromDataTrainingDataFromDirectory.quality';
-import { logixUXServerTriggerSaveTrainingDataStrategy } from '../qualities/triggerSaveTrainingDataStrategy.quality';
 import { logixUXServerSetDPOFromData } from '../qualities/setDPOFromData.quality';
 
 const logixUXServerInitializationStrategyTopic = 'logixUX Server Initialization Strategy';

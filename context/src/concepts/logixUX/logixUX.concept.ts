@@ -24,11 +24,18 @@ import { logixUXTriggerMinusCountingStrategyQuality } from './qualities/triggerM
 import { logixUXTriggerPlusCountingStrategyQuality } from './qualities/triggerPlusCounterStrategy.quality';
 import { logixUXTriggerRandomCountingStrategyQuality } from './qualities/triggerRandomCounterStrategy.quality';
 import { logixUXDataManagerPageStrategy } from './strategies/pages/dataManagerPage.strategy';
+import { logixUXDataManagerBeginQuality } from './qualities/components/dataManager/dataManagerBegin.quality';
+import { logixUXDataManagerContentQuality } from './qualities/components/dataManager/dataManagerContent.quality';
+import { logixUXDataManagerEnd, logixUXDataManagerEndQuality } from './qualities/components/dataManager/dataManagerEnd.quality';
+import { logixUXSideBarBeginQuality } from './qualities/components/sideBar/sideBarBegin.quality';
+import { logixUXSideBarContentQuality } from './qualities/components/sideBar/sideBarContent.quality';
+import { logixUXSideBarEndQuality } from './qualities/components/sideBar/sideBarEnd.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
   mock: number;
   dialog: string;
+  sideBarExpanded: boolean;
   trainingData: TrainingData;
   activeDPO: Active_DPO[];
 } & BrandState;
@@ -37,6 +44,7 @@ const createLogixUXState = (): LogixUXState => {
   return {
     mock: 0,
     dialog: '',
+    sideBarExpanded: false,
     trainingData: generateDefaultTrainingData(),
     activeDPO: [generateDPOTrainingData()],
     pageStrategies: [logixUXIndexPageStrategy, logixUXDataManagerPageStrategy, logixUXErrorPageStrategy],
@@ -49,6 +57,9 @@ export const createLogixUXConcept = (): Concept => {
     logixUXHeadQuality,
     logixUXStyleQuality,
     logixUXFooterQuality,
+    logixUXSideBarBeginQuality,
+    logixUXSideBarContentQuality,
+    logixUXSideBarEndQuality,
     logixUXIndexHeroQuality,
     logixUXIndexDialogBeginQuality,
     logixUXIndexDialogContentQuality,
@@ -58,6 +69,9 @@ export const createLogixUXConcept = (): Concept => {
     logixUXIndexDPOBeginQuality,
     logixUXIndexDPOContentQuality,
     logixUXIndexDPOEndQuality,
+    logixUXDataManagerBeginQuality,
+    logixUXDataManagerContentQuality,
+    logixUXDataManagerEndQuality,
     logixUXUpdateFromPromptPayloadQuality,
     logixUXUpdateFromChosenPayloadQuality,
     logixUXUpdateFromRejectedPayloadQuality,

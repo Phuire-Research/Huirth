@@ -18,7 +18,6 @@ function logixUXUpdateFromPromptPayloadReducer(state: LogixUXState, action: Acti
   const index = selectTrainingDataIndex(target, promptID);
   const activeDPO = state.activeDPO;
   activeDPO[index].prompt = target.value;
-  console.log('HIT UPDATE FROM PROMPT', activeDPO, target);
   return {
     ...state,
     activeDPO,
