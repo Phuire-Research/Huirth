@@ -1,10 +1,5 @@
 import { ActionStrategyStitch, axium_createStitchNode, createActionNode, createActionNodeFromStrategy, createStrategy } from 'stratimux';
-import {
-  ActionComponentPayload,
-  ActionStrategyComponentStitch,
-  PageStrategyCreators,
-  userInterface_createPage
-} from '../../../../model/userInterface';
+import { PageStrategyCreators, userInterface_createPage } from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { logixUXFooterStrategy } from '../components/footer.strategy';
 import { logixUXHeaderStrategy } from '../components/header.strategy';
@@ -16,11 +11,8 @@ import { logixUXIndexTrainingDataBegin } from '../../qualities/components/traini
 import { logixUXIndexTrainingDataContent } from '../../qualities/components/trainingData/indexTrainingDataContent.quality';
 import { logixUXIndexTrainingDataEnd } from '../../qualities/components/trainingData/indexTrainingDataEnd.quality';
 
-export const logixUXIndexPageStrategyTopic = 'index';
+export const logixUXDataManagerPageStrategyTopic = 'dataManager';
 export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
-  const page: ActionComponentPayload = {
-    pageTitle: logixUXIndexPageStrategyTopic,
-  };
   // Body
   // const [
   //   stitchDialogEnd,
@@ -28,17 +20,17 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
   // ] = logixUXIndexDialogStrategyStitch();
   // const stepDialog = createActionNodeFromStrategy(stitchDialogStrategy);
   const stepStitch = axium_createStitchNode();
-  const stepLogixUXIndexHero = createActionNode(logixUXIndexHero(page), {
+  const stepLogixUXIndexHero = createActionNode(logixUXIndexHero(), {
     successNode: stepStitch,
     failureNode: null
   });
-  const logixUXBody: ActionStrategyComponentStitch = (payload: ActionComponentPayload) => [stepStitch, createStrategy({
+  const logixUXBody: ActionStrategyStitch = () => [stepStitch, createStrategy({
     topic: 'Create logixUX Body Content',
     initialNode: stepLogixUXIndexHero,
   })];
 
   const pageData = userInterface_createPage({
-    title: logixUXIndexPageStrategyTopic,
+    title: logixUXDataManagerPageStrategyTopic,
     conceptAndProps: [
       { name: 'helloWorld'},
     ],
@@ -47,7 +39,7 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
   });
 
   return userInterfaceCreatePageStrategy(
-    logixUXIndexPageStrategyTopic,
+    logixUXDataManagerPageStrategyTopic,
     pageData,
     [
       logixUXBody,
@@ -60,17 +52,17 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
 };
 
 export const logixUXIndexDialogStrategyStitchTopic = 'logixUX Index Dialog Strategy Stitch';
-export const logixUXIndexDialogStrategyStitch: ActionStrategyComponentStitch = (payload) => {
+export const logixUXIndexDialogStrategyStitch: ActionStrategyStitch = () => {
   // Body
-  const stepLogixUXIndexDialogEnd = createActionNode(logixUXIndexDialogEnd(payload), {
+  const stepLogixUXIndexDialogEnd = createActionNode(logixUXIndexDialogEnd(), {
     successNode: null,
     failureNode: null
   });
-  const stepLogixUXIndexDialogContent = createActionNode(logixUXIndexDialogContent(payload), {
+  const stepLogixUXIndexDialogContent = createActionNode(logixUXIndexDialogContent(), {
     successNode: stepLogixUXIndexDialogEnd,
     failureNode: null
   });
-  const stepLogixUXIndexDialogBegin = createActionNode(logixUXIndexDialogBegin(payload), {
+  const stepLogixUXIndexDialogBegin = createActionNode(logixUXIndexDialogBegin(), {
     successNode: stepLogixUXIndexDialogContent,
     failureNode: null
   });
@@ -84,17 +76,17 @@ export const logixUXIndexDialogStrategyStitch: ActionStrategyComponentStitch = (
 };
 
 export const logixUXIndexTrainingDataStrategyStitchTopic = 'logixUX Index Training Data Strategy Stitch';
-export const logixUXIndexTrainingDataStrategyStitch: ActionStrategyComponentStitch = (payload) => {
+export const logixUXIndexTrainingDataStrategyStitch: ActionStrategyStitch = () => {
   // Body
-  const stepLogixUXIndexTrainingDataEnd = createActionNode(logixUXIndexTrainingDataEnd(payload), {
+  const stepLogixUXIndexTrainingDataEnd = createActionNode(logixUXIndexTrainingDataEnd(), {
     successNode: null,
     failureNode: null
   });
-  const stepLogixUXIndexTrainingDataContent = createActionNode(logixUXIndexTrainingDataContent(payload), {
+  const stepLogixUXIndexTrainingDataContent = createActionNode(logixUXIndexTrainingDataContent(), {
     successNode: stepLogixUXIndexTrainingDataEnd,
     failureNode: null
   });
-  const stepLogixUXIndexTrainingDataBegin = createActionNode(logixUXIndexTrainingDataBegin(payload), {
+  const stepLogixUXIndexTrainingDataBegin = createActionNode(logixUXIndexTrainingDataBegin(), {
     successNode: stepLogixUXIndexTrainingDataContent,
     failureNode: null
   });

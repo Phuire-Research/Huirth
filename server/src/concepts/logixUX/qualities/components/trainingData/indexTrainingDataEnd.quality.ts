@@ -9,18 +9,19 @@ import {
   strategySuccess
 } from 'stratimux';
 
-import { userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
+import { prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 
 export const logixUXIndexTrainingDataEndType: ActionType = 'create userInterface for IndexTrainingDataEnd';
-export const logixUXIndexTrainingDataEnd = prepareActionCreator(logixUXIndexTrainingDataEndType);
+export const logixUXIndexTrainingDataEnd = prepareActionComponentCreator(logixUXIndexTrainingDataEndType);
 
 const createIndexTrainingDataEndMethodCreator: MethodCreator = () => createMethod(action => {
+  const payload = selectComponentPayload(action);
   const id = '';
   if (action.strategy) {
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
       id,
       boundSelectors: [],
-      action: logixUXIndexTrainingDataEnd(),
+      action: logixUXIndexTrainingDataEnd(payload),
       html: /*html*/`
     </div>
   </section>

@@ -1,7 +1,11 @@
 /* eslint-disable max-len */
 import {
+  Action,
   ActionType,
+  Method,
   MethodCreator,
+  axiumConcludeType,
+  createAction,
   createMethod,
   createQuality,
   defaultReducer,
@@ -9,19 +13,22 @@ import {
   strategySuccess
 } from 'stratimux';
 
-import { userInterface_appendCompositionToPage } from '../../../../model/userInterface';
+import { Subject, map } from 'rxjs';
+import { prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 
-export const logixUXIndexHeroType: ActionType = 'create userInterface for IndexHero';
-export const logixUXIndexHero = prepareActionCreator(logixUXIndexHeroType);
+export const logixUXErrorType: ActionType = 'Create logixUX Error Composition';
+export const logixUXError = prepareActionComponentCreator(logixUXErrorType);
 
-const createIndexHeroMethodCreator: MethodCreator = () => createMethod(action => {
-  const id = '#heroId';
-  if (action.strategy) {
-    return strategySuccess(action.strategy, userInterface_appendCompositionToPage(action.strategy, {
-      id,
-      boundSelectors: [],
-      action: logixUXIndexHero(),
-      html: /*html*/`
+const createErrorMethodCreator: MethodCreator = () =>
+  createMethod((action: Action) => {
+    const payload = selectComponentPayload(action);
+    if (action.strategy) {
+      const id = '#errorID';
+      return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
+        id,
+        boundSelectors: [],
+        action: logixUXError(payload),
+        html: /*html*/`
 <section id='${id}' class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">
   <div class="flex items-center h-16">
     <!-- Navbar Container -->
@@ -38,18 +45,18 @@ const createIndexHeroMethodCreator: MethodCreator = () => createMethod(action =>
   </div>
   <div class="flex-1 flex items-center">
     <div class="flex flex-col items-center text-center mx-auto">
-      <img class="flex-none" src="/static/logixUX.png" alt="logixUX">
+      <h1 class="text-8xl text-black">404</h1>
     </div>
   </div>
 </section>
-        `
-    }));
-  }
-  return action;
-});
+`
+      }));
+    }
+    return createAction(axiumConcludeType);
+  });
 
-export const logixUXIndexHeroQuality = createQuality(
-  logixUXIndexHeroType,
+export const logixUXErrorQuality = createQuality(
+  logixUXErrorType,
   defaultReducer,
-  createIndexHeroMethodCreator,
+  createErrorMethodCreator,
 );

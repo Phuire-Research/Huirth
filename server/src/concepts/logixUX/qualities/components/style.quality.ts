@@ -8,18 +8,19 @@ import {
   strategySuccess
 } from 'stratimux';
 
-import { userInterface_appendCompositionToPage } from '../../../../model/userInterface';
+import { prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../model/userInterface';
 
 export const logixUXStyleType: ActionType = 'Create logixUX Style';
-export const logixUXStyle = prepareActionCreator(logixUXStyleType);
+export const logixUXStyle = prepareActionComponentCreator(logixUXStyleType);
 
 const createLogixUXStyleMethodCreator: MethodCreator = () => createMethod(
   (action) => {
+    const payload = selectComponentPayload(action);
     if (action.strategy) {
       return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
         id: '',
         boundSelectors: [],
-        action: logixUXStyle(),
+        action: logixUXStyle(payload),
         html: /*html*/`
   <style>
     html, body {

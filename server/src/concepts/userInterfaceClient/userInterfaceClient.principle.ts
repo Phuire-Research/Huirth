@@ -52,7 +52,7 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
           });
           const payload: UserInterfaceClientAssembleActionQueStrategyPayload = {
             action$: getAxiumState(concepts).action$,
-            boundActionQue: []
+            boundActionQue: [],
           };
           // Update so that the state that is being cached is set by the selectors. Finish this up tomorrow and move on
           selectors.forEach(bound => {

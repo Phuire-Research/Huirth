@@ -13,7 +13,7 @@ import {
   strategySuccess
 } from 'stratimux';
 
-import { createBinding, createBoundSelectors, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
+import { createBinding, createBoundSelectors, prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 import { elementEventBinding } from '../../../../../model/html';
 import { LogixUXState } from '../../../logixUX.concept';
 import { chosenID, generateNumID, promptID, rejectedID } from '../../../logixUX.model';
@@ -25,10 +25,11 @@ import { logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
 import { logixUXTriggerSaveTrainingDataStrategy } from '../../../strategies/server/triggerSaveTrainingDataStrategy.helper';
 
 export const logixUXIndexTrainingDataContentType: ActionType = 'create userInterface for IndexTrainingDataContent';
-export const logixUXIndexTrainingDataContent = prepareActionCreator(logixUXIndexTrainingDataContentType);
+export const logixUXIndexTrainingDataContent = prepareActionComponentCreator(logixUXIndexTrainingDataContentType);
 
 const createIndexTrainingDataContentMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, _semaphore?: number) =>
   createMethodDebounceWithConcepts((action, concepts, semaphore) => {
+    const payload = selectComponentPayload(action);
     const id = '#trainingDataID';
     const addEntryID = '#addEntry';
     const saveTrainingDataID = '#saveTrainingData';
@@ -87,11 +88,11 @@ ${trainingData[i].rejected}
         bindings,
         boundSelectors: [
           // START HERE
-          createBoundSelectors(id, logixUXIndexTrainingDataContent(), [
+          createBoundSelectors(id, logixUXIndexTrainingDataContent(payload), [
             logixUX_createTrainingDataSelector(concepts, semaphore) as KeyedSelector
           ])
         ],
-        action: logixUXIndexTrainingDataContent(),
+        action: logixUXIndexTrainingDataContent(payload),
         html: /*html*/`
         <div id='${id}'>
           <button id=${addEntryID} class="m-2 center-m bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">

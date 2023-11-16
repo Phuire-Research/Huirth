@@ -8,18 +8,19 @@ import {
   strategySuccess
 } from 'stratimux';
 
-import { userInterface_appendCompositionToPage } from '../../../../model/userInterface';
+import { prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../model/userInterface';
 
 export const logixUXFooterType: ActionType = 'Create logixUX Footer';
-export const logixUXFooter = prepareActionCreator(logixUXFooterType);
+export const logixUXFooter = prepareActionComponentCreator(logixUXFooterType);
 
 const createLogixUXFooterMethodCreator: MethodCreator = () => createMethod(
   (action) => {
+    const payload = selectComponentPayload(action);
     if (action.strategy) {
       return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
         id: '',
         boundSelectors: [],
-        action: logixUXFooter(),
+        action: logixUXFooter(payload),
         html: /*html*/`
   <footer
     class="bg-neutral-200 text-center dark:bg-neutral-700 lg:text-left">

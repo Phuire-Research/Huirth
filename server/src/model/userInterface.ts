@@ -1,10 +1,12 @@
 import {
   Action,
+  ActionNode,
   ActionStrategy,
   ActionStrategyStitch,
+  ActionType,
   Concepts,
   KeyedSelector,
-  getUnifiedName,
+  createAction,
   selectPayload,
   strategyData_select
 } from 'stratimux';
@@ -24,6 +26,7 @@ export type Binding = {
 export type UserInterfaceBindings = Record<ElementIdentifier, Binding[]>;
 export type UserInterfacePageBindings = Record<string, UserInterfaceBindings>;
 export type PageStrategyCreators = (concepts?: Concepts, semaphore?: number) => ActionStrategyStitch;
+export type ActionStrategyComponentStitch = (payload: ActionComponentPayload) => [ActionNode, ActionStrategy];
 
 export type BrandState = {
   pageStrategies: PageStrategyCreators[]
@@ -96,7 +99,8 @@ export type BoundSelectors = {
 }
 
 export const createBoundSelectors =
-  (id: string, action: Action, selectors: KeyedSelector[]): BoundSelectors => ({id, action, selectors, semaphore: [-1, -1]});
+  (id: string, action: Action, selectors: KeyedSelector[]): BoundSelectors =>
+    ({id, action, selectors, semaphore: [-1, -1]});
 
 export type Composition = {
   id: string;
@@ -130,6 +134,24 @@ export const userInterface_createPage = (page?: Page): Page => (
     compositions: [],
     cachedSelectors: [],
   });
+
+export type ActionComponentPayload = {
+  pageTitle: string
+};
+
+export const selectComponentPayload = (action: Action) => selectPayload<ActionComponentPayload>(action);
+
+export function prepareActionComponentCreator(actionType: ActionType) {
+  return (
+    payload: ActionComponentPayload,
+    conceptSemaphore?: number,
+    keyedSelectors?: KeyedSelector[],
+    agreement?: number,
+    semaphore?: [number, number, number, number]
+  ) => {
+    return createAction(actionType, payload, keyedSelectors, agreement, semaphore, conceptSemaphore);
+  };
+}
 
 export const userInterface_appendCompositionToPage =
   (strategy: ActionStrategy, composition: Composition): Page => {

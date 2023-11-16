@@ -10,22 +10,21 @@ import {
   strategySuccess
 } from 'stratimux';
 
-import { createPageId, userInterface_appendCompositionToPage } from '../../../model/userInterface';
+import { createPageId, prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../model/userInterface';
 
-export type HtmlBodyBeginPayload = { pageName: string};
 export const htmlBodyBeginType: ActionType = 'Html create Body Begin';
-export const htmlBodyBegin = prepareActionWithPayloadCreator<HtmlBodyBeginPayload>(htmlBodyBeginType);
+export const htmlBodyBegin = prepareActionComponentCreator(htmlBodyBeginType);
 
 const createHtmlBodyMethodCreator: MethodCreator = () => createMethod(
   (action) => {
-    const payload = selectPayload<HtmlBodyBeginPayload>(action);
+    const payload = selectComponentPayload(action);
     if (action.strategy) {
       return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
         id: '',
         boundSelectors: [],
         action: htmlBodyBegin(payload),
         html: /*html*/`
-  <body id="${createPageId(payload.pageName)}">
+  <body id="${createPageId(payload.pageTitle)}">
     `
       }));
     }

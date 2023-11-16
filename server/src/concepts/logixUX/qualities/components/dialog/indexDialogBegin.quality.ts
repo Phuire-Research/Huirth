@@ -5,22 +5,23 @@ import {
   createMethod,
   createQuality,
   defaultReducer,
-  prepareActionCreator,
+  selectPayload,
   strategySuccess
 } from 'stratimux';
 
-import { userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
+import { prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 
 export const logixUXIndexDialogBeginType: ActionType = 'create userInterface for IndexDialogBegin';
-export const logixUXIndexDialogBegin = prepareActionCreator(logixUXIndexDialogBeginType);
+export const logixUXIndexDialogBegin = prepareActionComponentCreator(logixUXIndexDialogBeginType);
 
 const createIndexDialogBeginMethodCreator: MethodCreator = () => createMethod(action => {
+  const payload = selectComponentPayload(action);
   const id = '#dialogBeginID';
   if (action.strategy) {
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
       id,
       boundSelectors: [],
-      action: logixUXIndexDialogBegin(),
+      action: logixUXIndexDialogBegin(payload),
       html: /*html*/`
 <div id='${id}' class="carbon-fiber">
   <section class="flex flex-col items-center bg-gradient-to-br from-60% from-black to-transparent to-black min-h-screen text-white">

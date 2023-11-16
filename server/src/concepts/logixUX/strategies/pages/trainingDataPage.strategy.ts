@@ -1,10 +1,5 @@
 import { ActionStrategyStitch, axium_createStitchNode, createActionNode, createActionNodeFromStrategy, createStrategy } from 'stratimux';
-import {
-  ActionComponentPayload,
-  ActionStrategyComponentStitch,
-  PageStrategyCreators,
-  userInterface_createPage
-} from '../../../../model/userInterface';
+import { ActionComponentPayload, ActionStrategyComponentStitch, PageStrategyCreators, userInterface_createPage } from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { logixUXFooterStrategy } from '../components/footer.strategy';
 import { logixUXHeaderStrategy } from '../components/header.strategy';
@@ -16,10 +11,10 @@ import { logixUXIndexTrainingDataBegin } from '../../qualities/components/traini
 import { logixUXIndexTrainingDataContent } from '../../qualities/components/trainingData/indexTrainingDataContent.quality';
 import { logixUXIndexTrainingDataEnd } from '../../qualities/components/trainingData/indexTrainingDataEnd.quality';
 
-export const logixUXIndexPageStrategyTopic = 'index';
+export const logixUXDataManagerPageStrategyTopic = 'dataManager';
 export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
   const page: ActionComponentPayload = {
-    pageTitle: logixUXIndexPageStrategyTopic,
+    pageTitle: logixUXDataManagerPageStrategyTopic
   };
   // Body
   // const [
@@ -32,13 +27,13 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
     successNode: stepStitch,
     failureNode: null
   });
-  const logixUXBody: ActionStrategyComponentStitch = (payload: ActionComponentPayload) => [stepStitch, createStrategy({
+  const logixUXBody: ActionStrategyComponentStitch = (payload) => [stepStitch, createStrategy({
     topic: 'Create logixUX Body Content',
     initialNode: stepLogixUXIndexHero,
   })];
 
   const pageData = userInterface_createPage({
-    title: logixUXIndexPageStrategyTopic,
+    title: logixUXDataManagerPageStrategyTopic,
     conceptAndProps: [
       { name: 'helloWorld'},
     ],
@@ -47,7 +42,7 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
   });
 
   return userInterfaceCreatePageStrategy(
-    logixUXIndexPageStrategyTopic,
+    logixUXDataManagerPageStrategyTopic,
     pageData,
     [
       logixUXBody,

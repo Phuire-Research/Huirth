@@ -5,22 +5,22 @@ import {
   createMethod,
   createQuality,
   defaultReducer,
-  prepareActionCreator,
   strategySuccess
 } from 'stratimux';
 
-import { userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
+import { prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 
 export const logixUXIndexTrainingDataBeginType: ActionType = 'create userInterface for IndexTrainingDataBegin';
-export const logixUXIndexTrainingDataBegin = prepareActionCreator(logixUXIndexTrainingDataBeginType);
+export const logixUXIndexTrainingDataBegin = prepareActionComponentCreator(logixUXIndexTrainingDataBeginType);
 
 const createIndexTrainingDataBeginMethodCreator: MethodCreator = () => createMethod(action => {
+  const payload = selectComponentPayload(action);
   const id = '#beginTrainingDataID';
   if (action.strategy) {
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
       id,
       boundSelectors: [],
-      action: logixUXIndexTrainingDataBegin(),
+      action: logixUXIndexTrainingDataBegin(payload),
       html: /*html*/`
 <div id='${id}' class="carbon-fiber">
   <section class="flex flex-col items-center min-h-screen text-white bg-center bg-blend-overlay md:bg-fixed bg-neutral-900/60">
