@@ -6,6 +6,7 @@ import { logixUXHeaderStrategy } from '../components/header.strategy';
 import { logixUXDataManagerBegin } from '../../qualities/components/dataManager/dataManagerBegin.quality';
 import { logixUXDataManagerContent } from '../../qualities/components/dataManager/dataManagerContent.quality';
 import { logixUXDataManagerEnd } from '../../qualities/components/dataManager/dataManagerEnd.quality';
+import { logixUXSidebarComponentStitch } from '../components/sidebar.strategy';
 
 export const logixUXGeneratedTrainingDataStrategy = (pageTitle: string) => (): PageStrategyCreators => () => () => {
   const pageData = userInterface_createPage({
@@ -18,7 +19,7 @@ export const logixUXGeneratedTrainingDataStrategy = (pageTitle: string) => (): P
   return userInterfaceCreatePageStrategy(
     pageTitle,
     pageData,
-    [logixUXGeneratedTrainingDataStrategyStitch, logixUXFooterStrategy],
+    [logixUXSidebarComponentStitch, logixUXGeneratedTrainingDataStrategyStitch, logixUXFooterStrategy],
     logixUXHeaderStrategy
   );
 };

@@ -4,25 +4,22 @@ import { logixUXSideBarEnd } from '../../qualities/components/sideBar/sideBarEnd
 import { logixUXSideBarBegin } from '../../qualities/components/sideBar/sideBarBegin.quality';
 import { logixUXSideBarContent } from '../../qualities/components/sideBar/sideBarContent.quality';
 
-export const logixUXFooterStrategy: ActionStrategyComponentStitch = (payload) => {
+export const logixUXSidebarComponentStitch: ActionStrategyComponentStitch = (payload) => {
   // HEAD
   const stepLogixUXSidebarEnd = createActionNode(logixUXSideBarEnd(payload), {
     successNode: null,
-    failureNode: null,
+    failureNode: null
   });
   const stepLogixUXSidebarContent = createActionNode(logixUXSideBarContent(payload), {
     successNode: stepLogixUXSidebarEnd,
-    failureNode: null,
+    failureNode: null
   });
   const stepLogixUXSidebarBegin = createActionNode(logixUXSideBarBegin(payload), {
     successNode: stepLogixUXSidebarContent,
-    failureNode: null,
+    failureNode: null
   });
-  return [
-    stepLogixUXSidebarEnd,
-    createStrategy({
-      topic: 'Create logixUX Sidebar',
-      initialNode: stepLogixUXSidebarBegin,
-    }),
-  ];
+  return [stepLogixUXSidebarEnd, createStrategy({
+    topic: 'Create logixUX Sidebar',
+    initialNode: stepLogixUXSidebarBegin,
+  })];
 };

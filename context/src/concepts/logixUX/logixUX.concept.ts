@@ -30,6 +30,7 @@ import { logixUXDataManagerEnd, logixUXDataManagerEndQuality } from './qualities
 import { logixUXSideBarBeginQuality } from './qualities/components/sideBar/sideBarBegin.quality';
 import { logixUXSideBarContentQuality } from './qualities/components/sideBar/sideBarContent.quality';
 import { logixUXSideBarEndQuality } from './qualities/components/sideBar/sideBarEnd.quality';
+import { logixUXToggleSidebarQuality } from './qualities/toggleSidebar.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
@@ -79,6 +80,7 @@ export const createLogixUXConcept = (): Concept => {
     logixUXTriggerMinusCountingStrategyQuality,
     logixUXTriggerPlusCountingStrategyQuality,
     logixUXTriggerRandomCountingStrategyQuality,
+    logixUXToggleSidebarQuality,
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
   return unifyConcepts([createCounterConcept()], createConcept(logixUXName, createLogixUXState(), qualities, principles, []));

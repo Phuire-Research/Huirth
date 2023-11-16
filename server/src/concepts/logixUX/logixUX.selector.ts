@@ -18,3 +18,7 @@ export const logixUX_createDPOSelector = (concepts: Concepts, semaphore: number)
 export const logixUX_createSideBarExpandedSelector = (concepts: Concepts, semaphore: number) => {
   return createUnifiedKeyedSelector(concepts, semaphore, 'sideBarExpanded');
 };
+
+export const logixUX_createPagesSelector = (concepts: Concepts, semaphore: number) => {
+  return createUnifiedKeyedSelector(concepts, semaphore, 'pages');
+};

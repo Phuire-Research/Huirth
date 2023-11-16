@@ -9,6 +9,7 @@ import { logixUXError } from '../../qualities/components/error/error.quality';
 import { logixUXFooterStrategy } from '../components/footer.strategy';
 import { logixUXHeaderStrategy } from '../components/header.strategy';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
+import { logixUXSidebarComponentStitch } from '../components/sidebar.strategy';
 
 export const logixUXErrorPageStrategyTopic = 'error';
 export const logixUXErrorPageStrategy: PageStrategyCreators = () => () => {
@@ -37,6 +38,7 @@ export const logixUXErrorPageStrategy: PageStrategyCreators = () => () => {
     logixUXErrorPageStrategyTopic,
     pageData,
     [
+      logixUXSidebarComponentStitch,
       logixUXBody,
       logixUXFooterStrategy
     ],

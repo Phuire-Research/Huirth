@@ -11,6 +11,7 @@ import { logixUXHeaderStrategy } from '../components/header.strategy';
 import { logixUXDataManagerBegin } from '../../qualities/components/dataManager/dataManagerBegin.quality';
 import { logixUXDataManagerContent } from '../../qualities/components/dataManager/dataManagerContent.quality';
 import { logixUXDataManagerEnd } from '../../qualities/components/dataManager/dataManagerEnd.quality';
+import { logixUXSidebarComponentStitch } from '../components/sidebar.strategy';
 
 export const logixUXDataManagerPageStrategyTopic = 'dataManager';
 export const logixUXDataManagerPageStrategy: PageStrategyCreators = () => () => {
@@ -34,7 +35,7 @@ export const logixUXDataManagerPageStrategy: PageStrategyCreators = () => () => 
   return userInterfaceCreatePageStrategy(
     logixUXDataManagerPageStrategyTopic,
     pageData,
-    [logixUXDataManagerStrategyStitch, logixUXFooterStrategy],
+    [logixUXSidebarComponentStitch, logixUXDataManagerStrategyStitch, logixUXFooterStrategy],
     logixUXHeaderStrategy
   );
 };

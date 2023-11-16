@@ -15,6 +15,7 @@ import { logixUXIndexDialogEnd } from '../../qualities/components/dialog/indexDi
 import { logixUXIndexDPOBegin } from '../../qualities/components/DPO/DPOBegin.quality';
 import { logixUXIndexDPOContent } from '../../qualities/components/DPO/DPOContent.quality';
 import { logixUXIndexDPOEnd } from '../../qualities/components/DPO/DPOEnd.quality';
+import { logixUXSidebarComponentStitch } from '../components/sidebar.strategy';
 
 export const logixUXIndexPageStrategyTopic = 'index';
 export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
@@ -50,7 +51,7 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
   return userInterfaceCreatePageStrategy(
     logixUXIndexPageStrategyTopic,
     pageData,
-    [logixUXBody, logixUXIndexDialogStrategyStitch, logixUXIndexDPOStrategyStitch, logixUXFooterStrategy],
+    [logixUXSidebarComponentStitch, logixUXBody, logixUXIndexDialogStrategyStitch, logixUXIndexDPOStrategyStitch, logixUXFooterStrategy],
     logixUXHeaderStrategy
   );
 };

@@ -22,10 +22,8 @@ const createSideBarBeginMethodCreator: MethodCreator = () =>
           boundSelectors: [],
           action: logixUXSideBarBegin(payload),
           html: /*html*/ `
-<div id='${id}' class="carbon-fiber">
-  <section class="flex flex-col items-center min-h-screen text-white bg-center bg-blend-overlay md:bg-fixed bg-neutral-900/60">
-    <div class ="flex-1 mb-12 max-w-5xl m-10 pt-10 pb-10 bg-gray-800/90 rounded">
-      <h1 class="text-3xl text-center p-4">DataManager</h1>
+<aside id=${id} class="fixed left-0 top-0 h-screen w-min">
+  <nav class="h-full flex flex-col bg-white border-r shadow-sm">
 `,
         })
       );
