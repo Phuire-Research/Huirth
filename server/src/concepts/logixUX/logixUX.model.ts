@@ -12,9 +12,14 @@ export type Active_DPO = {
   rejected: string
 }
 
+export type BaseDataSet = {
+  prompt: string,
+  content: string,
+}
+
 export type NamedDataSet = {
   name: string,
-  dataSet: Record<string,unknown>
+  dataSet: BaseDataSet[]
 }
 
 export type TrainingData = NamedDataSet[];
@@ -25,17 +30,23 @@ export const generateDPOTrainingData = (): Active_DPO => ({
   rejected: '#insert rejected output#'
 });
 
-export const generateDefaultNamedDataSet = (name: string): NamedDataSet => ({
-  name,
-  dataSet: {
+export const generateBaseDataSetEntry = (): BaseDataSet => {
+  return {
     prompt: '#insert prompt#',
     content: '#insert chosen output#',
-  }
+  };
+};
+
+export const generateDefaultNamedDataSet = (name: string): NamedDataSet => ({
+  name,
+  dataSet: [generateBaseDataSetEntry()]
 });
 
 export const generateDefaultTrainingData = (): TrainingData => [generateDefaultNamedDataSet('newDataSet0')];
 
+export const dataSetNameID = '#dataSetNameID-';
 export const promptID = '#promptID-';
+export const contentID = '#contentID-';
 export const chosenID = '#chosenID-';
 export const rejectedID = '#rejectedID-';
 

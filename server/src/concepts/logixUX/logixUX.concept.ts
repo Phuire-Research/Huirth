@@ -26,12 +26,17 @@ import { logixUXTriggerRandomCountingStrategyQuality } from './qualities/trigger
 import { logixUXDataManagerPageStrategy } from './strategies/pages/dataManagerPage.strategy';
 import { logixUXDataManagerBeginQuality } from './qualities/components/dataManager/dataManagerBegin.quality';
 import { logixUXDataManagerContentQuality } from './qualities/components/dataManager/dataManagerContent.quality';
-import { logixUXDataManagerEnd, logixUXDataManagerEndQuality } from './qualities/components/dataManager/dataManagerEnd.quality';
+import { logixUXDataManagerEndQuality } from './qualities/components/dataManager/dataManagerEnd.quality';
 import { logixUXSideBarBeginQuality } from './qualities/components/sideBar/sideBarBegin.quality';
 import { logixUXSideBarContentQuality } from './qualities/components/sideBar/sideBarContent.quality';
 import { logixUXSideBarEndQuality } from './qualities/components/sideBar/sideBarEnd.quality';
 import { logixUXToggleSidebarQuality } from './qualities/toggleSidebar.quality';
 import { logixUXNewDPOEntryQuality } from './qualities/newDPOEntry.quality';
+import { logixUXNewDataSetQuality } from './qualities/newDataSet.quality';
+import { logixUXUpdateDataSetNameQuality } from './qualities/updateDataSetName.quality';
+import { logixUXDataSetBeginQuality } from './qualities/components/dataSet/dataSetBegin.quality';
+import { logixUXDataSetEndQuality } from './qualities/components/dataSet/dataSetEnd.quality';
+import { logixUXDataSetContentQuality } from './qualities/components/dataSet/dataSetContent.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
@@ -77,10 +82,15 @@ export const createLogixUXConcept = (): Concept =>  {
     logixUXDataManagerBeginQuality,
     logixUXDataManagerContentQuality,
     logixUXDataManagerEndQuality,
+    logixUXDataSetBeginQuality,
+    logixUXDataSetContentQuality,
+    logixUXDataSetEndQuality,
     logixUXUpdateFromPromptPayloadQuality,
     logixUXUpdateFromChosenPayloadQuality,
     logixUXUpdateFromRejectedPayloadQuality,
+    logixUXUpdateDataSetNameQuality,
     logixUXNewDataSetEntryQuality,
+    logixUXNewDataSetQuality,
     logixUXNewDPOEntryQuality,
     logixUXTriggerMinusCountingStrategyQuality,
     logixUXTriggerPlusCountingStrategyQuality,

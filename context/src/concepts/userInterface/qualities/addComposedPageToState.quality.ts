@@ -9,7 +9,6 @@ function addComposedPageToState(state: UserInterfaceState, action: Action): User
   console.log('HITTING COMPOSED PAGE TO STATE');
   if (action.strategy) {
     const page = userInterface_selectPage(action.strategy);
-    console.log('CHECK PAGE TITLES', page.title);
     const newPages = state.pages.filter((_page) => {
       return page.title !== _page.title;
     });

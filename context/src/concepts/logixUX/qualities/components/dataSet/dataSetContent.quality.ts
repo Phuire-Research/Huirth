@@ -5,6 +5,7 @@ import {
   KeyedSelector,
   MethodCreator,
   UnifiedSubject,
+  axiumLog,
   createMethodDebounceWithConcepts,
   createQuality,
   defaultReducer,
@@ -21,16 +22,15 @@ import {
 } from '../../../../../model/userInterface';
 import { elementEventBinding } from '../../../../../model/html';
 import { LogixUXState } from '../../../logixUX.concept';
+import { BaseDataSet, chosenID, contentID, generateNumID, promptID, rejectedID } from '../../../logixUX.model';
+import { logixUXNewDataSetEntry } from '../../newDataSetEntry.quality';
 import { logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
-import { logixUXNewDataSet } from '../../newDataSet.quality';
-import { dataSetNameID, generateNumID } from '../../../logixUX.model';
-import { logixUXUpdateDataSetName } from '../../updateDataSetName.quality';
-// import { logixUXTriggerSaveDataManagerStrategy } from '../../../strategies/server/triggerSaveDataManagerStrategy.helper';
+// import { logixUXTriggerSaveDataSetStrategy } from '../../../strategies/server/triggerSaveDataSetStrategy.helper';
 
-export const logixUXDataManagerContentType: ActionType = 'create userInterface for DataManagerContent';
-export const logixUXDataManagerContent = prepareActionComponentCreator(logixUXDataManagerContentType);
+export const logixUXDataSetContentType: ActionType = 'create userInterface for DataSetContent';
+export const logixUXDataSetContent = prepareActionComponentCreator(logixUXDataSetContentType);
 
-const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, _semaphore?: number) =>
+const createDataSetContentMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, _semaphore?: number) =>
   createMethodDebounceWithConcepts(
     (action, concepts, semaphore) => {
       const payload = selectComponentPayload(action);
@@ -45,22 +45,35 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
           action: Action;
         }[] = [];
         console.log('CHECK LENGTH Training Data', trainingData);
-        for (let i = 0; i < trainingData.length; i++) {
-          console.log('HIT');
-          const elementID = generateNumID(i);
-          bindingsArray.push({
-            elementId: dataSetNameID + elementID,
-            eventBinding: elementEventBinding.onchange,
-            action: logixUXUpdateDataSetName({ index: i }),
-          });
-          finalOutput += /*html*/ `
+        let dataSet: BaseDataSet[] | undefined;
+        let index = -1;
+        for (const [i, data] of trainingData.entries()) {
+          if (data.name === payload.pageTitle) {
+            dataSet = data.dataSet;
+            index = 1;
+            break;
+          }
+        }
+        if (dataSet) {
+          for (const [i, data] of dataSet.entries()) {
+            const elementID = generateNumID(i);
+            bindingsArray.push({
+              elementId: contentID + elementID,
+              eventBinding: elementEventBinding.onchange,
+              action: axiumLog(),
+            });
+            finalOutput += /*html*/ `
 <div class="text-black">
-  <input type="text" id="${dataSetNameID + elementID}" value='${trainingData[i].name}'/>
+  <h1 type="text" id="${promptID + elementID}"> ${data.prompt} </h1>
+    <textarea id="${chosenID + elementID}" rows="4" cols="50">
+  ${data.content}
+    </textarea>
 </div>
         `;
+          }
         }
         bindingsArray.push({
-          action: logixUXNewDataSet(),
+          action: logixUXNewDataSetEntry({ index }),
           elementId: addEntryID,
           eventBinding: elementEventBinding.onclick,
         });
@@ -73,11 +86,11 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
             bindings,
             boundSelectors: [
               // START HERE
-              createBoundSelectors(id, logixUXDataManagerContent(payload), [
+              createBoundSelectors(id, logixUXDataSetContent(payload), [
                 logixUX_createTrainingDataSelector(concepts, semaphore) as KeyedSelector,
               ]),
             ],
-            action: logixUXDataManagerContent(payload),
+            action: logixUXDataSetContent(payload),
             html: /*html*/ `
         <div id='${id}'>
           <button id=${addEntryID} class="m-2 center-m bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
@@ -99,8 +112,4 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
     50
   );
 
-export const logixUXDataManagerContentQuality = createQuality(
-  logixUXDataManagerContentType,
-  defaultReducer,
-  createDataManagerContentMethodCreator
-);
+export const logixUXDataSetContentQuality = createQuality(logixUXDataSetContentType, defaultReducer, createDataSetContentMethodCreator);
