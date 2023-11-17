@@ -49,6 +49,6 @@ const userInterfaceRemovePageReducer = (state: UserInterfaceState, action: Actio
 
 export const userInterfaceRemovePageQuality = createQuality(
   userInterfaceRemovePageType,
-  defaultReducer,
+  userInterfaceRemovePageReducer,
   userInterfaceRemovePageMethodCreator
 );

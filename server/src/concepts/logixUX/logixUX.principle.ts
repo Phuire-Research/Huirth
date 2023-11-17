@@ -57,11 +57,14 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
     const isClient = userInterface_isClient();
     const plan = concepts$.stage('Observe Training Data and modify Pages', [
       (concepts, dispatch) => {
+        const state = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
         const conceptName = getUnifiedName(concepts, semaphore);
         if (conceptName) {
-          dispatch(axiumRegisterStagePlanner({conceptName, stagePlanner: plan}), {
-            iterateStage: true,
-          });
+          if (state && (state.pageStrategies.length === state.pages.length || isClient)) {
+            dispatch(axiumRegisterStagePlanner({conceptName, stagePlanner: plan}), {
+              iterateStage: true,
+            });
+          }
         } else {
           plan.conclude();
         }

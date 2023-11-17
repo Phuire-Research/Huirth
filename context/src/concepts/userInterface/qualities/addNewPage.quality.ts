@@ -3,16 +3,11 @@ import {
   ActionType,
   MethodCreator,
   UnifiedSubject,
-  createMethod,
-  createMethodDebounce,
   createMethodWithConcepts,
   createQuality,
-  defaultReducer,
-  prepareActionCreator,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyBegin,
-  strategySuccess,
 } from 'stratimux';
 import { PageStrategyCreators } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
