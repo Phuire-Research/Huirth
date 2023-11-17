@@ -32,7 +32,7 @@ test('FileSystem get Concept Directory Test', (done) => {
     (concepts) => {
       const fileSystemState = selectState(concepts, fileSystemName) as FileSystemState;
       if (fileSystemState.conceptDirectoryMap.length > 1) {
-        expect(fileSystemState.conceptDirectoryMap.length).toBe(8);
+        expect(fileSystemState.conceptDirectoryMap.length).toBe(12);
         console.log('CHECK MAP FORMAT', fileSystemState.conceptDirectoryMap);
         setTimeout(() => {
           done();
