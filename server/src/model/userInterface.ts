@@ -1,10 +1,13 @@
 import {
   Action,
+  ActionNode,
   ActionStrategy,
   ActionStrategyStitch,
+  ActionType,
   Concepts,
   KeyedSelector,
-  getUnifiedName,
+  createAction,
+  selectPayload,
   strategyData_select
 } from 'stratimux';
 import { elementEventBinding } from './html';
@@ -23,6 +26,7 @@ export type Binding = {
 export type UserInterfaceBindings = Record<ElementIdentifier, Binding[]>;
 export type UserInterfacePageBindings = Record<string, UserInterfaceBindings>;
 export type PageStrategyCreators = (concepts?: Concepts, semaphore?: number) => ActionStrategyStitch;
+export type ActionStrategyComponentStitch = (payload: ActionComponentPayload) => [ActionNode, ActionStrategy];
 
 export type BrandState = {
   pageStrategies: PageStrategyCreators[]
@@ -41,13 +45,18 @@ export const createBinding =
     return binding;
   };
 
-export const userInterface_isClient = (concepts: Concepts, semaphore: number) => {
-  const name = getUnifiedName(concepts, semaphore);
-  if (name) {
-    return name === 'userInterfaceClient';
-  } else {
-    return undefined;
-  }
+type ActionEventPayload = {
+  event: Event
+}
+
+export const userInterface_selectInputTarget = (action: Action) => {
+  const payload = selectPayload<ActionEventPayload>(action).event;
+  console.log('CHECK TARGET PAYLOAD', payload, payload.target);
+  return payload.target as HTMLInputElement;
+};
+
+export const userInterface_isClient = (): boolean => {
+  return typeof window !== 'undefined';
 };
 
 export const userInterface_pageBindingsToString = (pageBindings: UserInterfacePageBindings): string => {
@@ -95,7 +104,8 @@ export type BoundSelectors = {
 }
 
 export const createBoundSelectors =
-  (id: string, action: Action, selectors: KeyedSelector[]): BoundSelectors => ({id, action, selectors, semaphore: [-1, -1]});
+  (id: string, action: Action, selectors: KeyedSelector[]): BoundSelectors =>
+    ({id, action, selectors, semaphore: [-1, -1]});
 
 export type Composition = {
   id: string;
@@ -129,6 +139,24 @@ export const userInterface_createPage = (page?: Page): Page => (
     compositions: [],
     cachedSelectors: [],
   });
+
+export type ActionComponentPayload = {
+  pageTitle: string
+};
+
+export const selectComponentPayload = (action: Action) => selectPayload<ActionComponentPayload>(action);
+
+export function prepareActionComponentCreator(actionType: ActionType) {
+  return (
+    payload: ActionComponentPayload,
+    conceptSemaphore?: number,
+    keyedSelectors?: KeyedSelector[],
+    agreement?: number,
+    semaphore?: [number, number, number, number]
+  ) => {
+    return createAction(actionType, payload, keyedSelectors, agreement, semaphore, conceptSemaphore);
+  };
+}
 
 export const userInterface_appendCompositionToPage =
   (strategy: ActionStrategy, composition: Composition): Page => {

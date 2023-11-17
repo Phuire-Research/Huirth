@@ -1,8 +1,8 @@
 import { Action, createActionNode, createStrategy } from 'stratimux';
-import { documentObjectModelBindPayload } from '../qualities/bindPayload.quality';
+import { DocumentObjectModelBindPayloadPayload, documentObjectModelBindPayload } from '../qualities/bindPayload.quality';
 
 export const documentObjectModelBindActionStrategyTopic = 'Document Object Model bind target Action with Payload';
-export const documentObjectModelBindActionStrategy = (payload: unknown, target: Action) => {
+export const documentObjectModelBindActionStrategy = (payload: DocumentObjectModelBindPayloadPayload, target: Action) => {
   // Body
   const stepAction = createActionNode(target, {
     successNode: null,

@@ -4,6 +4,7 @@ import express from 'express';
 import {
   Action,
   Concepts,
+  KeyedSelector,
   PrincipleFunction,
   UnifiedSubject,
   axiumRegisterStagePlanner,
@@ -152,18 +153,44 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
           const payload: UserInterfaceServerAssembleActionQueStrategyPayload = {
             boundActionQue: []
           };
+          const changes: string[] = [];
+          const changedSelectors: KeyedSelector[] = [];
           selectors.forEach(bound => {
             for (const select of bound.selectors) {
               const value = selectSlice(concepts, select);
-              if (
-                atomicCachedState[select.stateKeys] !==
-                value
-              ) {
-                payload.boundActionQue.push(bound);
+              let changed = false;
+              if (typeof value !== 'object') {
+                changed = (atomicCachedState as Record<string, unknown>)[select.stateKeys] !== value;
+              } else {
+                const object = (atomicCachedState as Record<string, unknown>)[select.stateKeys];
+                if (object === undefined) {
+                  changed = true;
+                } else {
+                  changed = !Object.is(object, value);
+                }
               }
-              atomicCachedState[select.stateKeys] = value;
+              if (changed) {
+                if (!changes.includes(select.stateKeys)) {
+                  changes.push(select.stateKeys);
+                  changedSelectors.push(select);
+                }
+                let exists = false;
+                for (const b of payload.boundActionQue) {
+                  if (b.id === bound.id) {
+                    exists = true;
+                    break;
+                  }
+                }
+                if (!exists) {
+                  payload.boundActionQue.push(bound);
+                }
+              }
             }
           });
+          for (let i = 0; i < changes.length; i++) {
+            atomicCachedState[changes[i]] = selectSlice(concepts, changedSelectors[i]);
+          }
+          // console.log('CHECK ATOMIC', atomicCachedState);
           if (payload.boundActionQue.length > 0) {
             dispatch(userInterfaceServerAssembleActionQueStrategy(payload), {
               throttle: 1

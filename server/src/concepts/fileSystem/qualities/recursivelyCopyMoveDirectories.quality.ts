@@ -36,10 +36,12 @@ async function copyDir(src: string, dest: string) {
 }
 
 export type RecursivelyCopyMoveTargetDirectoriesPayload = {
-  name: string;
-  target: string,
-  newLocation: string,
-}[];
+  directories: {
+    name: string,
+    target: string,
+    newLocation: string,
+  }[]
+};
 export const fileSystemRecursivelyCopyMoveTargetDirectoriesType: ActionType = 'File System recursively copy move target Directories';
 export const fileSystemRecursivelyCopyMoveTargetDirectories =
   prepareActionWithPayloadCreator<RecursivelyCopyMoveTargetDirectoriesPayload>(fileSystemRecursivelyCopyMoveTargetDirectoriesType);
@@ -48,14 +50,12 @@ const createRecursivelyCopyMoveTargetDirectoriesMethodCreator: MethodCreator = (
   createAsyncMethod((controller, action) => {
     const payload = selectPayload<RecursivelyCopyMoveTargetDirectoriesPayload>(action);
     if (action.strategy) {
-      const directory = payload.shift();
+      const directory = payload.directories.shift();
       if (directory) {
         copyDir(directory.target, directory.newLocation).then(() => {
-          if (payload.length > 0) {
+          if (payload.directories.length > 0) {
             controller.fire(
-              strategyRecurse(action.strategy as ActionStrategy, {
-                payload,
-              })
+              strategyRecurse(action.strategy as ActionStrategy, {payload})
             );
           } else {
             const newStrategy =

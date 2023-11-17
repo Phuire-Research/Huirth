@@ -15,7 +15,9 @@ import {
 import { Subject, map, switchMap } from 'rxjs';
 import fs from 'fs';
 
-export type GetDirectoriesPayload = string;
+export type GetDirectoriesPayload = {
+  path: string
+};
 export const fileSystemGetDirectoriesType: ActionType = 'File System get target Directories';
 export const fileSystemGetDirectories = prepareActionWithPayloadCreator<GetDirectoriesPayload>(fileSystemGetDirectoriesType);
 export type GetDirectoriesDataField = {
@@ -28,7 +30,7 @@ const createGetDirectoriesMethodCreator: MethodCreator = () => {
     switchMap((act: Action) => {
       return createActionController$(act, (controller, action) => {
         const payload = selectPayload<GetDirectoriesPayload>(action);
-        const directories = fs.readdirSync(payload);
+        const directories = fs.readdirSync(payload.path);
         if (action.strategy) {
           console.log('DIRECTORIES LENGTH', directories.length);
           const newStrategy =

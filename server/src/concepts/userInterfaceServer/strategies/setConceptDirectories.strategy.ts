@@ -1,4 +1,4 @@
-import { ActionStrategy, ActionStrategyParameters, createActionNode, createStrategy } from 'stratimux';
+import { ActionStrategy, ActionStrategyParameters, axiumLog, createActionNode, createStrategy } from 'stratimux';
 import { fileSystemGetDirectories } from '../../fileSystem/qualities/getDirectories.quality';
 import path from 'path';
 import { fileSystemServerSetConceptDirectoriesFromData } from '../../fileSystem/qualities/setConceptDirectoriesFromData.quality';
@@ -7,12 +7,18 @@ export const userInterfaceServerSetConceptDirectoriesFromDataTopic = 'User Inter
 export function userInterfaceServerSetConceptDirectoriesFromDataStrategy(root: string): ActionStrategy {
   const stepTwo = createActionNode(fileSystemServerSetConceptDirectoriesFromData(), {
     successNode: null,
-    failureNode: null
+    failureNode: createActionNode(axiumLog(), {
+      successNode: null,
+      failureNode: null
+    }),
   });
   const conceptDirectory = path.join(root + '/server/src/concepts');
-  const stepOne = createActionNode(fileSystemGetDirectories(conceptDirectory), {
+  const stepOne = createActionNode(fileSystemGetDirectories({path: conceptDirectory}), {
     successNode: stepTwo,
-    failureNode: null,
+    failureNode: createActionNode(axiumLog(), {
+      successNode: null,
+      failureNode: null
+    }),
   });
 
   const params: ActionStrategyParameters = {

@@ -13,9 +13,8 @@ import {
   refreshAction,
   selectPayload,
   strategyBegin,
-  strategySuccess,
 } from 'stratimux';
-import { BoundSelectors, UserInterfaceBindings, userInterface_selectPage } from '../../../model/userInterface';
+import { BoundSelectors } from '../../../model/userInterface';
 import { userInterfaceClientReplaceOuterHtml } from './replaceOuterHtml.quality';
 import { Subject } from 'rxjs';
 import { userInterfaceClientDetermineBindings } from './clientDetermineBindings.quality';
@@ -85,7 +84,7 @@ const stitchUpdatedLayers = (
     successNode: null,
     failureNode: null
   });
-  const stepReplaceOuterHtml = createActionNode(userInterfaceClientReplaceOuterHtml(), {
+  const stepReplaceOuterHtml = createActionNode(userInterfaceClientReplaceOuterHtml({id: bound.id}), {
     successNode: stepEnd,
     failureNode: null
   });

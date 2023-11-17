@@ -4,6 +4,7 @@ import {
   createQuality,
   defaultMethodCreator,
   prepareActionWithPayloadCreator,
+  refreshAction,
   selectPayload,
 } from 'stratimux';
 import { WebSocketServerState } from '../webSocketServer.concept';
@@ -13,13 +14,15 @@ export type WebSocketServerAppendToActionQuePayload = {
 }
 export const webSocketServerAppendToActionQueType: ActionType =
   'Web Socket Server append to action que';
-export const webSocketServerAppendToActionQue = prepareActionWithPayloadCreator(webSocketServerAppendToActionQueType);
+export const webSocketServerAppendToActionQue =
+  prepareActionWithPayloadCreator<WebSocketServerAppendToActionQuePayload>(webSocketServerAppendToActionQueType);
 
 function webSocketServerAppendToActionQueReducer(state: WebSocketServerState, action: Action): WebSocketServerState {
   const payload = selectPayload<WebSocketServerAppendToActionQuePayload>(action);
+  const actionQue = payload.actionQue.map(act => refreshAction(act));
   const newActionQue = [
     ...state.actionQue,
-    ...payload.actionQue
+    ...actionQue
   ];
   return {
     ...state,

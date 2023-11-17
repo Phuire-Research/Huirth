@@ -6,6 +6,8 @@ import { createHtmlConcept } from '../html/html.concepts';
 import { userInterfaceRefreshCachedSelectorsQuality } from './qualities/refreshPageCachedSelectors.quality';
 import { userInterfaceEndQuality } from './qualities/end.quality';
 import { userInterfaceAtomicUpdatePageCompositionQuality } from './qualities/atomicUpdatePageComposition.quality';
+import { userInterfaceDebouncePageCreationQuality } from './qualities/debouncePageCreation.quality';
+import { userInterfaceAddNewPageQuality } from './qualities/addNewPage.quality';
 
 export const userInterfaceName = 'userInterface';
 
@@ -35,6 +37,8 @@ export const createUserInterfaceConcept = (pageStrategies: PageStrategyCreators[
         userInterfaceAddComposedPageToStateQuality,
         userInterfaceRefreshCachedSelectorsQuality,
         userInterfaceAtomicUpdatePageCompositionQuality,
+        // userInterfaceDebouncePageCreationQuality,
+        userInterfaceAddNewPageQuality,
         userInterfaceEndQuality,
       ],
       [userInterfaceInitializationPrinciple]

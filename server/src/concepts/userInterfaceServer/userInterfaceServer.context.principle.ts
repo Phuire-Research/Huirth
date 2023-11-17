@@ -26,7 +26,6 @@ import { documentObjectModelName } from '../documentObjectModel/documentObjectMo
 import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
 import { userInterfaceServerPrepareStaticConceptsStrategy } from './strategies/prepareStaticConcepts.strategy';
 import { userInterfaceClientName } from '../userInterfaceClient/userInterfaceClient.concept';
-import { webSocketClientName } from '../webSocketClient/webSocketClient.concept';
 
 export const userInterfaceServerContextPrinciple: PrincipleFunction = (
   _: Subscriber<Action>,
@@ -63,8 +62,10 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
       if (fileSystemState && uiState) {
+        // console.log('HIT HERE', fileSystemState.conceptDirectoryMap, uiState.pageStrategies);
         if (fileSystemState.conceptDirectoryMap.length > 0 && uiState.pageStrategies.length > 0) {
           if (uiState.pageStrategies.length === uiState.pages.length) {
+            console.log('HIT THERE');
             const conceptsAndProps: ConceptAndProperties[] = [];
             const finalBindingsList: UserInterfacePageBindings = {};
             for (const page of uiState.pages) {

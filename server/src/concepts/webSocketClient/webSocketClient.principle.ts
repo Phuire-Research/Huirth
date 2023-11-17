@@ -4,6 +4,7 @@ import {
   Concepts,
   PrincipleFunction,
   UnifiedSubject,
+  axiumKick,
   axiumLog,
   axiumRegisterStagePlanner,
   getUnifiedName,
@@ -12,12 +13,24 @@ import {
 import _ws from 'express-ws';
 import { WebSocketClientState } from './webSocketClient.concept';
 import { webSocketClientSyncState } from './qualities/syncState.quality';
+import { webSocketClientSetClientSemaphore } from './strategies/server/setClientSemaphore.helper';
+
+const notKeys = (key: string) => {
+  return (
+    key !== 'pages' &&
+    key !== 'clientSemaphore' &&
+    key !== 'serverSemaphore' &&
+    key !== 'pageStrategies'
+  );
+};
 
 export const webSocketClientPrinciple: PrincipleFunction =
   (observer: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     const url = 'ws://' + window.location.host + '/axium';
     const ws = new WebSocket(url);
     ws.addEventListener('open', () => {
+      console.log('SEND');
+      ws.send(JSON.stringify(webSocketClientSetClientSemaphore({semaphore})));
       const plan = concepts$.stage('Web Socket Planner', [
         (concepts, dispatch) => {
           const name = getUnifiedName(concepts, semaphore);
@@ -36,6 +49,8 @@ export const webSocketClientPrinciple: PrincipleFunction =
               const que = [...state.actionQue];
               state.actionQue = [];
               que.forEach(action => {
+                console.log('SENDING', action);
+                action.conceptSemaphore = (state as WebSocketClientState).serverSemaphore;
                 ws.send(JSON.stringify(action));
               });
               concepts$.next(concepts);
@@ -45,7 +60,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
           }
         }
       ]);
-      let state: Record<string, unknown> = {};
+      const state: Record<string, unknown> = {};
       const planOnChange = concepts$.stage('Web Socket Server On Change', [
         (concepts, dispatch) => {
           const name = getUnifiedName(concepts, semaphore);
@@ -63,33 +78,34 @@ export const webSocketClientPrinciple: PrincipleFunction =
             const stateKeys = Object.keys(newState);
             if (stateKeys.length === 0) {
               for (const key of stateKeys) {
-                if (key !== 'pages') {
+                if (notKeys(key)) {
                   state[key] = newState[key];
                 }
               }
-              // state = {
-              //   ...state,
-              //   ...newState
-              // };
-
-              console.log('STATE 1', state, newState);
               ws.send(JSON.stringify(webSocketClientSyncState({state})));
             } else {
               for (const key of stateKeys) {
-                if (key !== 'pages' && newState[key] !== state[key]) {
+                let changed = false;
+                if (
+                  notKeys(key) &&
+                  // typeof newState[key] !== 'object' &&
+                  newState[key] !== state[key]
+                ) {
+                  changed = true;
+                }
+                // else if (notKeys(key) && typeof newState[key] === 'object' && !Object.is(newState[key], state[key])) {
+                //   changed = true;
+                // }
+                if (changed) {
                   for (const k of stateKeys) {
                     // eslint-disable-next-line max-depth
-                    if (k !== 'pages') {
+                    if (notKeys(k)) {
                       state[key] = newState[key];
                     }
                   }
-                  // state = {
-                  //   ...state,
-                  //   ...newState
-                  // };
                   const sync = webSocketClientSyncState({state});
-                  sync.conceptSemaphore = (state as WebSocketClientState).serverSemaphore;
-                  ws.send(JSON.stringify(webSocketClientSyncState({state})));
+                  sync.conceptSemaphore = (newState as WebSocketClientState).serverSemaphore;
+                  ws.send(JSON.stringify(sync));
                   break;
                 }
               }
@@ -102,6 +118,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
     });
     ws.addEventListener('message', (message) => {
       const act = JSON.parse(message.data);
+      // console.log('CHECK MESSAGE', act);
       if (Object.keys(act).includes('type')) {
         observer.next(act);
       }

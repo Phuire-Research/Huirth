@@ -10,12 +10,14 @@ import {
   axiumRegisterStagePlanner,
   axiumSelectOpen,
   ActionStrategy,
+  axiumKick,
 } from 'stratimux';
 import { UserInterfaceState } from './userInterface.concept';
 import { userInterfacePageToStateStrategy } from './strategies.ts/pageToState.strategy';
 import { getAxiumState, getUnifiedName } from '../../model/concepts';
 import { userInterface_isClient } from '../../model/userInterface';
 import { UserInterfaceClientState } from '../userInterfaceClient/userInterfaceClient.concept';
+import { userInterfaceDebouncePageCreationStrategy } from './strategies.ts/debouncePageCreation.strategy';
 
 export const userInterfaceInitializationPrinciple: PrincipleFunction = (
   ___: Subscriber<Action>,
@@ -23,6 +25,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
   concepts$: UnifiedSubject,
   semaphore: number
 ) => {
+  let pageLength = -1;
   const plan = concepts$.stage('User Interface Page to State', [
     (concepts, dispatch) => {
       const name = getUnifiedName(concepts, semaphore);
@@ -41,12 +44,13 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
     (concepts, dispatch) => {
       const uiState = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
       if (uiState) {
+        pageLength = uiState.pageStrategies.length;
         if (uiState.pageStrategies.length === 1) {
           dispatch(strategyBegin(userInterfacePageToStateStrategy(uiState.pageStrategies[0](concepts))), {
             iterateStage: true,
           });
         } else if (uiState.pageStrategies.length > 1) {
-          const isClient = userInterface_isClient(concepts, semaphore);
+          const isClient = userInterface_isClient();
           const list: ActionStrategy[] = [];
           uiState.pageStrategies.forEach((creator) => {
             if (isClient) {
@@ -60,7 +64,9 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
               list.push(userInterfacePageToStateStrategy(creator(concepts)));
             }
           });
+          // const strategy = strategySequence([userInterfaceDebouncePageCreationStrategy(), ...list]);
           const strategy = strategySequence(list);
+          console.log('CHECK STRATEGY', strategy);
           if (strategy) {
             dispatch(strategyBegin(strategy), {
               iterateStage: true,
@@ -74,16 +80,17 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
         }
       }
     },
-    (concepts, _) => {
-      if (getAxiumState(concepts).logging) {
-        const ui = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
-        if (ui) {
-          if (ui.pages.length > 0) {
-            console.log('Pages Populated: ', ui.pages.length);
-          }
+    (concepts, dispatch) => {
+      const ui = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
+      if (ui) {
+        if (ui.pageStrategies.length !== pageLength) {
+          // dispatch(axiumKick(), {
+          //   setStage: 1
+          // });
         }
+      } else {
+        plan.conclude();
       }
-      plan.conclude();
     },
   ]);
 };

@@ -22,7 +22,7 @@ function webSocketClientSyncStateReducer(state: WebSocketClientState, action: Ac
   const keys = Object.keys(payload.state);
   const newState: Record<string, unknown> = {};
   for (const key of keys) {
-    if (key !== 'clientSemaphore') {
+    if (key !== 'serverSemaphore' && key !== 'clientSemaphore') {
       newState[key] = payload.state[key];
     }
   }
