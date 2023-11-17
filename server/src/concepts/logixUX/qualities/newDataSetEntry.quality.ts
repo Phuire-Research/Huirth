@@ -20,8 +20,8 @@ export const logixUXNewDataSetEntry =
 function logixUXNewDataSetEntryReducer(state: LogixUXState, action: Action): LogixUXState {
   const payload = selectPayload<LogixUXNewDataSetEntryPayload>(action);
   const trainingData = [...state.trainingData];
+  console.log('CHECK TRAINING DATA INDEX', trainingData, payload);
   trainingData[payload.index].dataSet.push(generateBaseDataSetEntry());
-  trainingData.push(generateDefaultNamedDataSet('newDataSet' + trainingData.length));
   return {
     ...state,
     trainingData,

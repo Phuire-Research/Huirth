@@ -7,6 +7,7 @@ import {
   axiumRegisterStagePlanner,
   axiumSelectOpen,
   primeAction,
+  selectState,
   selectUnifiedState,
   strategyBegin
 } from 'stratimux';
@@ -34,8 +35,14 @@ export const documentObjectModelPrinciple: PrincipleFunction = (
     (concepts, dispatch) => {
       // console.log('Hello Document Object Model', selectUnifiedState<DocumentObjectModelState>(concepts, semaphore)?.bindingQue);
       const documentObjectModelState = selectUnifiedState<DocumentObjectModelState>(concepts, semaphore);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const userInterfaceState = selectState<any>(concepts, 'userInterfaceClient');
+      let ready = false;
+      userInterfaceState?.pages.forEach((page: {title: string}) => {
+        pageID && page.title === pageID ? ready = true : ready = false;
+      });
       const binding = documentObjectModelState?.bindingQue;
-      if (binding && pageID) {
+      if (binding && pageID && ready) {
         dispatch(strategyBegin(documentObjectModelBindingStrategy(concepts, pageID.split('page#')[1], binding)), {
           iterateStage: true
         });

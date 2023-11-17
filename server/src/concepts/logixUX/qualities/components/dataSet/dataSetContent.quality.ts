@@ -43,7 +43,7 @@ const createDataSetContentMethodCreator: MethodCreator = (concepts$?: UnifiedSub
       for (const [i, data] of trainingData.entries()) {
         if (data.name === payload.pageTitle) {
           dataSet = data.dataSet;
-          index = 1;
+          index = i;
           break;
         }
       }
