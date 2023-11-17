@@ -23,61 +23,61 @@ import { createLogixUXConcept } from './concepts/logixUX/logixUX.concept';
               index: {
                 '#expandSideBarID': [
                   {
-                    action: { type: 'Create logixUX ToggleSidebar', semaphore: [0, 0, -1, 0], expiration: 1700234288450 },
+                    action: { type: 'Create logixUX ToggleSidebar', semaphore: [0, 0, -1, 0], expiration: 1700239767542 },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#strategyID': [
                   {
-                    action: { type: 'Create logixUX triggerRandomCountingStrategy', semaphore: [0, 0, -1, 0], expiration: 1700234288527 },
+                    action: { type: 'Create logixUX triggerRandomCountingStrategy', semaphore: [0, 0, -1, 0], expiration: 1700239767636 },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#strategyPlusID': [
                   {
-                    action: { type: 'Create logixUX triggerPlusCountingStrategy', semaphore: [0, 0, -1, 0], expiration: 1700234288527 },
+                    action: { type: 'Create logixUX triggerPlusCountingStrategy', semaphore: [0, 0, -1, 0], expiration: 1700239767636 },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#strategyMinusID': [
                   {
-                    action: { type: 'Create logixUX triggerMinusCountingStrategy', semaphore: [0, 0, -1, 0], expiration: 1700234288527 },
+                    action: { type: 'Create logixUX triggerMinusCountingStrategy', semaphore: [0, 0, -1, 0], expiration: 1700239767636 },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#addID': [
                   {
-                    action: { type: 'Counter Add', semaphore: [0, 0, -1, 0], expiration: 1700234288527 },
+                    action: { type: 'Counter Add', semaphore: [0, 0, -1, 0], expiration: 1700239767636 },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#subtractID': [
                   {
-                    action: { type: 'Counter Subtract', semaphore: [0, 0, -1, 0], expiration: 1700234288527 },
+                    action: { type: 'Counter Subtract', semaphore: [0, 0, -1, 0], expiration: 1700239767636 },
                     eventBinding: 'onclick',
                   },
                 ],
                 '#promptID-000': [
                   {
-                    action: { type: 'Create logixUX UpdateFromPromptPayload', semaphore: [0, 0, -1, 0], expiration: 1700234288620 },
+                    action: { type: 'Create logixUX UpdateFromPromptPayload', semaphore: [0, 0, -1, 0], expiration: 1700239767731 },
                     eventBinding: 'onchange',
                   },
                 ],
                 '#chosenID-000': [
                   {
-                    action: { type: 'Create logixUX UpdateFromChosenPayload', semaphore: [0, 0, -1, 0], expiration: 1700234288620 },
+                    action: { type: 'Create logixUX UpdateFromChosenPayload', semaphore: [0, 0, -1, 0], expiration: 1700239767731 },
                     eventBinding: 'onchange',
                   },
                 ],
                 '#rejectedID-000': [
                   {
-                    action: { type: 'Create logixUX UpdateFromRejectedPayload', semaphore: [0, 0, -1, 0], expiration: 1700234288620 },
+                    action: { type: 'Create logixUX UpdateFromRejectedPayload', semaphore: [0, 0, -1, 0], expiration: 1700239767731 },
                     eventBinding: 'onchange',
                   },
                 ],
                 '#addEntryindex': [
                   {
-                    action: { type: 'Create logixUX NewDPOEntry', semaphore: [0, 0, -1, 0], expiration: 1700234288620 },
+                    action: { type: 'Create logixUX NewDPOEntry', semaphore: [0, 0, -1, 0], expiration: 1700239767731 },
                     eventBinding: 'onclick',
                   },
                 ],
@@ -87,9 +87,9 @@ import { createLogixUXConcept } from './concepts/logixUX/logixUX.concept';
                       type: 'Web Socket Client append to action que',
                       semaphore: [0, 0, -1, 0],
                       payload: {
-                        actionQue: [{ type: 'logixUXServer triggerSaveDPOStrategy', semaphore: [0, 0, -1, 0], expiration: 1700234288620 }],
+                        actionQue: [{ type: 'logixUXServer triggerSaveDPOStrategy', semaphore: [0, 0, -1, 0], expiration: 1700239767731 }],
                       },
-                      expiration: 1700234288620,
+                      expiration: 1700239767731,
                     },
                     eventBinding: 'onclick',
                   },
@@ -98,7 +98,7 @@ import { createLogixUXConcept } from './concepts/logixUX/logixUX.concept';
               dataManager: {
                 '#expandSideBarID': [
                   {
-                    action: { type: 'Create logixUX ToggleSidebar', semaphore: [0, 0, -1, 0], expiration: 1700234288543 },
+                    action: { type: 'Create logixUX ToggleSidebar', semaphore: [0, 0, -1, 0], expiration: 1700239767619 },
                     eventBinding: 'onclick',
                   },
                 ],
@@ -108,14 +108,14 @@ import { createLogixUXConcept } from './concepts/logixUX/logixUX.concept';
                       type: 'Create logixUX UpdateDataSetName',
                       semaphore: [0, 0, -1, 0],
                       payload: { index: 0 },
-                      expiration: 1700234288636,
+                      expiration: 1700239767730,
                     },
                     eventBinding: 'onchange',
                   },
                 ],
                 '#addEntrydataManager': [
                   {
-                    action: { type: 'Create logixUX NewDataSet', semaphore: [0, 0, -1, 0], expiration: 1700234288636 },
+                    action: { type: 'Create logixUX NewDataSet', semaphore: [0, 0, -1, 0], expiration: 1700239767730 },
                     eventBinding: 'onclick',
                   },
                 ],
@@ -123,7 +123,7 @@ import { createLogixUXConcept } from './concepts/logixUX/logixUX.concept';
               error: {
                 '#expandSideBarID': [
                   {
-                    action: { type: 'Create logixUX ToggleSidebar', semaphore: [0, 0, -1, 0], expiration: 1700234288820 },
+                    action: { type: 'Create logixUX ToggleSidebar', semaphore: [0, 0, -1, 0], expiration: 1700239767930 },
                     eventBinding: 'onclick',
                   },
                 ],

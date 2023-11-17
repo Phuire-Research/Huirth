@@ -56,11 +56,21 @@ const createDataSetContentMethodCreator: MethodCreator = (concepts$?: UnifiedSub
             action: axiumLog()
           });
           finalOutput += /*html*/`
-<div class="text-black">
-  <h1 type="text" id="${promptID + elementID}"> ${data.prompt} </h1>
-    <textarea id="${chosenID + elementID}" rows="4" cols="50">
-  ${data.content}
-    </textarea>
+<div class="text-black m-4">
+  <label class="text-white pl-2 translate-y-2">
+    Prompt
+  </label>
+  <input
+    class="input-${i} mb-4 peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-teal-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+    value="${data.prompt}"
+  />
+  <label class="text-white pl-2 translate-y-2">
+    Content
+  </label>
+  <textarea class="textarea-${i} peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50" id="${chosenID + elementID}" rows="4" cols="50">
+${data.content}
+  </textarea>
+  
 </div>
         `;
         }
@@ -83,11 +93,11 @@ const createDataSetContentMethodCreator: MethodCreator = (concepts$?: UnifiedSub
         ],
         action: logixUXDataSetContent(payload),
         html: /*html*/`
-        <div id='${id}'>
-          <button id=${addEntryID} class="m-2 center-m bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+        <div class="flex flex-col items-center" id='${id}'>
+          <button id=${addEntryID} class="m-2 center-m bg-white/5 hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
             Add Entry
           </button>
-          <div class="mt-4 p-4 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
+          <div class="flex-1 mt-4 p-4 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
             ${finalOutput}
           </div>
         </div>

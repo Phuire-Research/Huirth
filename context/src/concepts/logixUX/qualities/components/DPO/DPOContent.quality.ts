@@ -68,11 +68,33 @@ const createIndexDPOContentMethodCreator: MethodCreator = (concepts$?: UnifiedSu
           });
           finalOutput += /*html*/ `
 <div class="text-black">
-  <input type="text" id="${promptID + elementID}" value='${activeDPO[i].prompt}'/>
-  <textarea id="${chosenID + elementID}" rows="4" cols="50">
+  <label class="text-white pl-2 translate-y-2">
+    Prompt
+  </label>
+  <input
+    id="${promptID + elementID}"
+    class="mb-4 peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-teal-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+    value="${activeDPO[i].prompt}"
+  />
+  <label class="text-white pl-2 translate-y-2">
+    Chosen
+  </label>
+  <textarea id="${
+    chosenID + elementID
+  }" class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50" id="${
+            chosenID + elementID
+          }" rows="4" cols="50">
 ${activeDPO[i].chosen}
   </textarea>
-  <textarea id="${rejectedID + elementID}" rows="4" cols="50">
+  </textarea>
+  <label class="text-white pl-2 translate-y-2">
+    Rejected
+  </label>
+  <textarea id="${
+    rejectedID + elementID
+  }" class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50" id="${
+            chosenID + elementID
+          }" rows="4" cols="50">
 ${activeDPO[i].rejected}
   </textarea>
 </div>
@@ -101,11 +123,11 @@ ${activeDPO[i].rejected}
             ],
             action: logixUXIndexDPOContent(payload),
             html: /*html*/ `
-        <div id='${id}'>
-          <button id=${addEntryID} class="m-2 center-m bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+        <div class="flex flex-col items-center" id='${id}'>
+          <button id=${addEntryID} class="m-2 center-m bg-white/5 hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
             Add Entry
           </button>
-          <button id=${saveDPOID} class="m-2 center-m bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+          <button id=${saveDPOID} class="m-2 center-m bg-white/5 hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
             Save Training Data
           </button>
           <div class="mt-4 p-4 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
