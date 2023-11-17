@@ -60,7 +60,8 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction =
                 list.push(userInterfacePageToStateStrategy(creator(concepts)));
               }
             });
-            const strategy = strategySequence([userInterfaceDebouncePageCreationStrategy(), ...list]);
+            // const strategy = strategySequence([userInterfaceDebouncePageCreationStrategy(), ...list]);
+            const strategy = strategySequence(list);
             console.log('CHECK STRATEGY', strategy);
             if (strategy) {
               dispatch(strategyBegin(strategy), {
@@ -79,9 +80,9 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction =
         const ui = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
         if (ui) {
           if (ui.pageStrategies.length !== pageLength) {
-            dispatch(axiumKick(), {
-              setStage: 1
-            });
+            // dispatch(axiumKick(), {
+            //   setStage: 1
+            // });
           }
         } else {
           plan.conclude();

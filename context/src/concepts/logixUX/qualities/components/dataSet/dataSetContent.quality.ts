@@ -34,8 +34,8 @@ const createDataSetContentMethodCreator: MethodCreator = (concepts$?: UnifiedSub
   createMethodDebounceWithConcepts(
     (action, concepts, semaphore) => {
       const payload = selectComponentPayload(action);
-      const id = '#dataManagerID' + payload.pageTitle;
-      const addEntryID = '#addEntry' + payload.pageTitle;
+      const id = '#dataSetID' + payload.pageTitle;
+      const addEntryID = '#addDataEntry' + payload.pageTitle;
       if (action.strategy) {
         const trainingData = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState).trainingData;
         let finalOutput = '';

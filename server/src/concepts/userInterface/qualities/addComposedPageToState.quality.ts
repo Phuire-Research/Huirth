@@ -34,7 +34,7 @@ function addComposedPageToState(state: UserInterfaceState, action: Action): User
       }
       p.cachedSelectors = cachedSelectors;
     }
-    // console.log('CHECK ADD COMPOSED PAGE TO STATE', newPages, page);
+    console.log('CHECK ADD COMPOSED PAGE TO STATE', newPages, page.title);
     return {
       ...state,
       pages: newPages,
