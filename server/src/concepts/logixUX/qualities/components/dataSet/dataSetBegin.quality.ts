@@ -25,7 +25,7 @@ const createDataSetBeginMethodCreator: MethodCreator = () => createMethod(action
 <div id='${id}' class="carbon-fiber">
   <section class="flex flex-col items-center min-h-screen text-white bg-center bg-blend-overlay md:bg-fixed bg-neutral-900/60">
     <div class ="flex-1 mb-12 max-w-5xl m-10 pt-10 pb-10 bg-gray-800/90 rounded">
-      <h1 class="text-3xl text-center p-4">DataSet</h1>
+      <h1 class="text-3xl text-center p-4">DataSet: ${payload.pageTitle}</h1>
 `
     }));
   }

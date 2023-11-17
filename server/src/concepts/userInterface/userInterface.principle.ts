@@ -17,6 +17,7 @@ import { userInterfacePageToStateStrategy } from './strategies.ts/pageToState.st
 import { getAxiumState, getUnifiedName } from '../../model/concepts';
 import { userInterface_isClient } from '../../model/userInterface';
 import { UserInterfaceClientState } from '../userInterfaceClient/userInterfaceClient.concept';
+import { userInterfaceDebouncePageCreationStrategy } from './strategies.ts/debouncePageCreation.strategy';
 
 export const userInterfaceInitializationPrinciple: PrincipleFunction =
   (___: Subscriber<Action>, __: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
@@ -59,7 +60,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction =
                 list.push(userInterfacePageToStateStrategy(creator(concepts)));
               }
             });
-            const strategy = strategySequence(list);
+            const strategy = strategySequence([userInterfaceDebouncePageCreationStrategy(), ...list]);
             console.log('CHECK STRATEGY', strategy);
             if (strategy) {
               dispatch(strategyBegin(strategy), {
