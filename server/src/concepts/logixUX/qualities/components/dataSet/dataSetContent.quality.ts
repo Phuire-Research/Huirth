@@ -18,7 +18,9 @@ import { elementEventBinding } from '../../../../../model/html';
 import { LogixUXState } from '../../../logixUX.concept';
 import { BaseDataSet, chosenID, contentID, generateNumID, promptID, rejectedID } from '../../../logixUX.model';
 import { logixUXNewDataSetEntry } from '../../newDataSetEntry.quality';
-import { logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
+import { logixUX_createDataSetSelector, logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
+import { logixUXUpdateDataSetContents } from '../../updateDataSetContents.quality';
+import { logixUXUpdateDataSetPrompt } from '../../updateDataSetPrompt.quality';
 // import { logixUXTriggerSaveDataSetStrategy } from '../../../strategies/server/triggerSaveDataSetStrategy.helper';
 
 export const logixUXDataSetContentType: ActionType = 'create userInterface for DataSetContent';
@@ -51,9 +53,14 @@ const createDataSetContentMethodCreator: MethodCreator = (concepts$?: UnifiedSub
         for (const [i, data] of dataSet.entries()) {
           const elementID = generateNumID(i);
           bindingsArray.push({
+            elementId: promptID + elementID,
+            eventBinding: elementEventBinding.onchange,
+            action: logixUXUpdateDataSetPrompt({index, dataSetIndex: i})
+          });
+          bindingsArray.push({
             elementId: contentID + elementID,
             eventBinding: elementEventBinding.onchange,
-            action: axiumLog()
+            action: logixUXUpdateDataSetContents({index, dataSetIndex: i})
           });
           finalOutput += /*html*/`
 <div class="text-black m-4">
@@ -61,13 +68,14 @@ const createDataSetContentMethodCreator: MethodCreator = (concepts$?: UnifiedSub
     Prompt
   </label>
   <input
+    id="${promptID + elementID}"
     class="input-${i} mb-4 peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-teal-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
     value="${data.prompt}"
   />
   <label class="text-white pl-2 translate-y-2">
     Content
   </label>
-  <textarea class="textarea-${i} peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50" id="${chosenID + elementID}" rows="4" cols="50">
+  <textarea id="${contentID + elementID}" class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50" id="${chosenID + elementID}" rows="4" cols="50">
 ${data.content}
   </textarea>
   
@@ -88,7 +96,8 @@ ${data.content}
         boundSelectors: [
           // START HERE
           createBoundSelectors(id, logixUXDataSetContent(payload), [
-            logixUX_createTrainingDataSelector(concepts, semaphore) as KeyedSelector
+            logixUX_createTrainingDataSelector(concepts, semaphore) as KeyedSelector,
+            logixUX_createDataSetSelector(concepts, semaphore, index) as KeyedSelector
           ])
         ],
         action: logixUXDataSetContent(payload),

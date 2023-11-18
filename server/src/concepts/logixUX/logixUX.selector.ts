@@ -22,3 +22,7 @@ export const logixUX_createSideBarExpandedSelector = (concepts: Concepts, semaph
 export const logixUX_createPagesSelector = (concepts: Concepts, semaphore: number) => {
   return createUnifiedKeyedSelector(concepts, semaphore, 'pages');
 };
+
+export const logixUX_createDataSetSelector = (concepts: Concepts, semaphore: number, index: number) => {
+  return createUnifiedKeyedSelector(concepts, semaphore, `trainingData ${index}`);
+};

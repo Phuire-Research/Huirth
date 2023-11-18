@@ -56,7 +56,7 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
       html: /*html*/`
 <div id="${id}" class="p-4 pb-2 flex flex-col justify-between items-center">
   <div class="flex">
-    <img class="overflow-hidden transition-all ${state.sideBarExpanded ? 'w-40' : 'w-0'}" src="/static/PHUIRE.png" alt="PhuirE">
+    <img class="overflow-hidden transition-all ${state.sideBarExpanded ? 'p-2 w-40' : 'w-0'}" src="/static/PHUIRE.png" alt="PhuirE">
     <!-- Navbar Logo -->
     <button id="${expandSideBarId}" class="h-24 p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100">
       <i class="fa-solid fa-bars"></i>

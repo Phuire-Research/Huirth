@@ -3,12 +3,11 @@ import {
   ActionType,
   createQuality,
   defaultMethodCreator,
-  prepareActionCreator,
   prepareActionWithPayloadCreator,
   selectPayload,
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
-import { generateBaseDataSetEntry, generateDefaultNamedDataSet } from '../logixUX.model';
+import { generateBaseDataSetEntry } from '../logixUX.model';
 
 export type LogixUXNewDataSetEntryPayload = {
   index: number
