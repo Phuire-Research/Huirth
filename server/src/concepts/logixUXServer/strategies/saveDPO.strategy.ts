@@ -14,7 +14,7 @@ export const logixUXServerSaveDPOStrategy = (root: string, DPO: Active_DPO[]) =>
   console.log('CHECK SAVE FORMAT', saveFormat);
   const dataPath = path.join(root + '/data/logixUX/');
   const stepCreateFileWithContents = createActionNode(fileSystemCreateFileWithContentsIndex({
-    target: path.join(dataPath + 'data.json'),
+    target: path.join(dataPath + 'dpo.json'),
     content: JSON.stringify(saveFormat)
   }), {
     successNode: null,
