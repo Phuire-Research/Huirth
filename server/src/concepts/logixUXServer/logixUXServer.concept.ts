@@ -4,6 +4,7 @@ import { logixUXServerTriggerSaveTrainingDataStrategyQuality } from './qualities
 import { logixUXServerPrinciple } from './logixUXServer.principle';
 import { logixUXServerReadFromDataTrainingDataFromDirectoriesQuality } from './qualities/readFromDataTrainingDataFromDirectory.quality';
 import { logixUXServerSetDPOFromDataQuality } from './qualities/setDPOFromData.quality';
+import { logixUXServerTriggerSaveDPOStrategyQuality } from './qualities/triggerSaveDPOStrategy.quality';
 
 export const logixUXServerName = 'logixUXServer';
 export type LogixUXServerState = {
@@ -16,6 +17,7 @@ export const createLogixUXServerConcept = (): Concept =>  {
   ];
   const qualities: Quality[] = [
     logixUXServerTriggerSaveTrainingDataStrategyQuality,
+    logixUXServerTriggerSaveDPOStrategyQuality,
     logixUXServerReadFromDataTrainingDataFromDirectoriesQuality,
     logixUXServerSetDPOFromDataQuality
   ];
