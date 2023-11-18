@@ -37,6 +37,8 @@ import { logixUXUpdateDataSetNameQuality } from './qualities/updateDataSetName.q
 import { logixUXDataSetBeginQuality } from './qualities/components/dataSet/dataSetBegin.quality';
 import { logixUXDataSetEndQuality } from './qualities/components/dataSet/dataSetEnd.quality';
 import { logixUXDataSetContentQuality } from './qualities/components/dataSet/dataSetContent.quality';
+import { logixUXUpdateDataSetContentsQuality } from './qualities/updateDataSetContents.quality';
+import { logixUXUpdateDataSetPromptQuality } from './qualities/updateDataSetPrompt.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
@@ -86,6 +88,8 @@ export const createLogixUXConcept = (): Concept => {
     logixUXUpdateFromChosenPayloadQuality,
     logixUXUpdateFromRejectedPayloadQuality,
     logixUXUpdateDataSetNameQuality,
+    logixUXUpdateDataSetContentsQuality,
+    logixUXUpdateDataSetPromptQuality,
     logixUXNewDataSetEntryQuality,
     logixUXNewDataSetQuality,
     logixUXNewDPOEntryQuality,
