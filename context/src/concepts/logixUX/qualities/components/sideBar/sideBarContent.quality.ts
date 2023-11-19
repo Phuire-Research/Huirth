@@ -38,6 +38,8 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
       let pages = /*html*/ `
 <li class="${liClass} cursor-pointer"><a href="/"><i class="fa-solid fa-house"></i> Home</a></li>
 <li class="${liClass} text-slate-400 italic cursor-not-allowed"><a><i class="fa-solid fa-compass"></i> Applications</a></li>
+<li class="${liClass} text-slate-400 italic cursor-not-allowed"><a><i class="fa-solid fa-lightbulb"></i> Concepts</a></li>
+<li class="${liClass} text-slate-400 italic cursor-not-allowed"><a><i class="fa-solid fa-fire"></i> Tutorials</a></li>
 <li class="${liClass} text-slate-400 italic cursor-not-allowed"><a><i class="fa-solid fa-vial-circle-check"></i> Model Lab</a></li>
 <li class="${liClass} text-slate-400 italic cursor-not-allowed"><a><i class="fa-sharp fa-solid fa-diagram-project"></i> Project Manager</a></li>
 <li class="${liClass} cursor-pointer"><a href="/dataManager"><i class="fa-solid fa-book"></i> Data Manager</a></li>
@@ -80,7 +82,7 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
   <div class="flex overflow-y-scroll">
     <ul class="${state?.sideBarExpanded ? '' : 'w-0 overflow-hidden'} flex-1 px-3 text-xl">
       ${pages}
-      <li class='${liClass} cursor-pointer'><a class="" href="https://github.com/Phuire-Research/logixUX"><i class="fa-brands fa-github"></i> GITHUB</a></li>
+      <li class='${liClass} cursor-pointer'><a class="" href="https://github.com/Phuire-Research/logixUX"><i class="fa-brands fa-github"></i> Github</a></li>
     </ul>
   </div>
 </div>
