@@ -4,9 +4,7 @@ import {
   KeyedSelector,
   MethodCreator,
   UnifiedSubject,
-  createMethod,
   createMethodWithConcepts,
-  createMethodWithState,
   createQuality,
   defaultReducer,
   selectUnifiedState,
@@ -22,12 +20,7 @@ import {
 } from '../../../../../model/userInterface';
 import { LogixUXState } from '../../../logixUX.concept';
 import { UserInterfaceState } from '../../../../userInterface/userInterface.concept';
-import { logixUXIndexDialogContent } from '../dialog/indexDialogContent.quality';
-import {
-  logixUX_createPagesSelector,
-  logixUX_createSideBarExpandedSelector,
-  logixUX_createTrainingDataSelector,
-} from '../../../logixUX.selector';
+import { logixUX_createSideBarExpandedSelector, logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
 import { logixUXToggleSidebar } from '../../toggleSidebar.quality';
 import { elementEventBinding } from '../../../../../model/html';
 
