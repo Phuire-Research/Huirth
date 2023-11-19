@@ -49,7 +49,7 @@ export const generateDefaultNamedDataSet = (name: string): NamedDataSet => ({
   dataSet: [generateBaseDataSetEntry()],
 });
 
-export const generateDefaultTrainingData = (): TrainingData => [generateDefaultNamedDataSet('newDataSet0')];
+export const generateDefaultTrainingData = (): TrainingData => [];
 
 export const dataSetNameID = '#dataSetNameID-';
 export const promptID = '#promptID-';

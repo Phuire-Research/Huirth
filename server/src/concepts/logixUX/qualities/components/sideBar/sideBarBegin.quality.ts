@@ -23,7 +23,7 @@ const createSideBarBeginMethodCreator: MethodCreator = () => createMethod(action
       action: logixUXSideBarBegin(payload),
       html: /*html*/`
 <aside id=${id} class="fixed left-0 top-0 bottom-0 h-screen w-min overflow-y-scroll bg-white">
-  <nav class="h-full flex flex-col bg-white border-r shadow-sm">
+  <nav class="h-full flex flex-col bg-gray-200 border-r shadow-sm">
 `
     }));
   }

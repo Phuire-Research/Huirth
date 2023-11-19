@@ -29,10 +29,12 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
   const payload = selectComponentPayload(action);
   const id = '#sideBarContent' + payload.pageTitle;
   const expandSideBarId = '#expandSideBarID';
-  const liClass = ' relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer bg-gray-50 hover:bg-gray-100';
+  const liClass = ' relative flex items-center py-2 px-3 my-2 font-medium rounded-md bg-gray-100 hover:bg-white';
   let pages = /*html*/`
-<li class="${liClass}"><a href="/index"><i class="fa-solid fa-house"></i> Home</a></li>
-<li class="${liClass}"><a href="/dataManager"><i class="fa-solid fa-book"></i> Data Manager</a></li>
+<li class="${liClass} cursor-pointer"><a href="/"><i class="fa-solid fa-house"></i> Home</a></li>
+<li class="${liClass} text-slate-400 italic cursor-not-allowed"><a><i class="fa-solid fa-vial-circle-check"></i> Model Lab</a></li>
+<li class="${liClass} text-slate-400 italic cursor-not-allowed"><a><i class="fa-sharp fa-solid fa-diagram-project"></i> Project Manager</a></li>
+<li class="${liClass} cursor-pointer"><a href="/dataManager"><i class="fa-solid fa-book"></i> Data Manager</a></li>
 `;
   if (state) {
     for (const data of state.trainingData) {
@@ -55,18 +57,18 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
       action: logixUXSideBarContent(payload),
       html: /*html*/`
 <div id="${id}" class="p-4 pb-2 flex flex-col justify-between items-center">
-  <div class="flex">
-    <img class="overflow-hidden transition-all ${state.sideBarExpanded ? 'p-2 w-40' : 'w-0'}" src="/static/PHUIRE.png" alt="PhuirE">
+  <div class="flex mb-8">
+    <img class="overflow-hidden transition-all ${state.sideBarExpanded ? 'p-2 w-52 max-w-none' : 'w-0'}" src="/static/PHUIRE-Title.png" alt="PhuirE">
     <!-- Navbar Logo -->
-    <button id="${expandSideBarId}" class="h-24 p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100">
-      <i class="fa-solid fa-bars"></i>
+    <button id="${expandSideBarId}" class="h-24 p-1.5 rounded-lg bg-transparent hover:bg-gray-100">
+      <i class="fa-solid fa-bars translate-y-1"></i>
     </button>
   </div>
   <!-- Navbar Menu -->
   <div class="flex overflow-y-scroll">
     <ul class="${(state?.sideBarExpanded ? '' : 'w-0 overflow-hidden')} flex-1 px-3 text-xl">
       ${pages}
-      <li class='${liClass}'><a class="" href="https://github.com/Phuire-Research/logixUX"><i class="fa-brands fa-github"></i> GITHUB</a></li>
+      <li class='${liClass} cursor-pointer'><a class="" href="https://github.com/Phuire-Research/logixUX"><i class="fa-brands fa-github"></i> GITHUB</a></li>
     </ul>
   </div>
 </div>
