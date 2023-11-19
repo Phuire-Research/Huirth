@@ -103,7 +103,7 @@ ${data.content}
         action: logixUXDataSetContent(payload),
         html: /*html*/`
         <div class="flex flex-col items-center" id='${id}'>
-          <button id=${addEntryID} class="m-2 center-m bg-white/5 hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+          <button id=${addEntryID} class="m-4 center-m bg-white/5 hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
             Add Entry
           </button>
           <div class="flex-1 mt-4 p-4 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
