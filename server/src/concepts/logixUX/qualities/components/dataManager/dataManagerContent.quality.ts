@@ -49,7 +49,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
         finalOutput += /*html*/`
 <div class="w-full ml-4 mt-2 mb-2">
   <div class="relative flex items-center h-10 w-full min-w-[200px]">
-    <div class="absolute top-2/4 right-32 grid h-5 w-5 -translate-y-2/4 place-items-center text-blue-gray-500">
+    <div class="absolute top-2/4 right-48 grid h-5 w-5 -translate-y-2/4 place-items-center text-blue-gray-500">
       <i class="fa-solid fa-book"></i>
     </div>
     <input
@@ -57,6 +57,9 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
       class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 !pr-9 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
       value="${trainingData[i].name}"
     />
+    <button class="ml-4 italic cursor-pointer center-m bg-purple-800/5 hover:bg-purple-500 text-purple-50 font-semibold hover:text-white py-2 px-4 border border-purple-400 hover:border-transparent border-solid rounded">
+      <a href="/${trainingData[i].name}"><i class="fa-solid fa-link"></i></a>
+    </button>
     <input
       type="checkbox"
       class="w-40 bg-red-100 border-red-300 text-red-500 focus:ring-red-200"
@@ -85,13 +88,15 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
         action: logixUXDataManagerContent(payload),
         html: /*html*/`
         <div class="flex flex-col items-center text-black" id='${id}'>
-          
-          <div class="p-8 pt-2 bg-black/10 border border-t-2 rounded border-gray-700 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
+          <button class="italic cursor-not-allowed mb-4 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
+            Open <i class="fa-solid fa-folder"></i>
+          </button>
+          <div class="p-8 pt-2 mt-2 bg-black/10 border border-t-2 rounded border-gray-700 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
              <div class="m-4 flex-none flex items-center justify-end w-full">
               
               <h2 class="w-72 text-white text-center italic">Not Installed</h2>
               <button
-                class="w-44 m-2 center-m items-center bg-white/5 hover:bg-red-500 text-red-50 hover:text-white font-semibold py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                class="w-44 m-2 center-m items-center bg-red-800/5 hover:bg-red-500 text-red-50 hover:text-white font-semibold py-2 px-4 border border-red-500 hover:border-transparent rounded"
               >
                 Stratimux <img class="inline w-[27px]" src="/static/Stratimux-Spiral.png">
               </button>
@@ -99,7 +104,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
             <div class="m-4 flex-none flex items-center justify-end w-full">
               <h2 class="w-72 text-white text-center italic">Not Installed</h2>
               <button
-                class="w-44 m-2 center-m items-center bg-white/5 hover:bg-yellow-500 text-yellow-50 hover:text-white font-semibold py-2 px-4 border border-yellow-500 hover:border-transparent rounded"
+                class="w-44 m-2 center-m items-center bg-yellow-800/5 hover:bg-yellow-500 text-yellow-50 hover:text-white font-semibold py-2 px-4 border border-yellow-500 hover:border-transparent rounded"
               >
                 logixUX <img class="inline w-[27px]" src="/static/LogixUX-Spiral.png">
               </button>
@@ -115,9 +120,14 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
                 />
               </div>
               <button
-                class="w-44 m-2 center-m bg-/5 hover:bg-orange-500 text-orange-50 hover:text-white font-semibold py-2 px-4 border border-orange-500 hover:border-transparent rounded"
+                class="w-44 m-2 center-m bg-/5 bg-orange-800/5 hover:bg-orange-500 text-orange-50 hover:text-white font-semibold py-2 px-4 border border-orange-500 hover:border-transparent rounded"
               >
-                Add Project
+                Project <i class="fa-solid fa-plus"></i>
+              </button>
+              <button
+                class="w-44 m-2 center-m bg-/5 bg-orange-800/5 hover:bg-orange-500 text-orange-50 hover:text-white font-semibold py-2 px-4 border border-orange-500 hover:border-transparent rounded"
+              >
+                Load <i class="fa-solid fa-folder-open"></i>
               </button>
             </div>
             <div class="m-4 flex-none flex items-center w-full">
@@ -126,27 +136,27 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
                 <option value="something">Something</option>
               </select>
               <button
-                class="w-44 m-2 center-m bg-white/5 hover:bg-blue-500 text-blue-50 hover:text-white font-semibold py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                class="w-44 m-2 center-m bg-blue-800/5 hover:bg-blue-500 text-blue-50 hover:text-white font-semibold py-2 px-4 border border-blue-500 hover:border-transparent rounded"
               >
-                Add Strategy
+                Strategy <i class="fa-solid fa-plus"></i>
               </button>
             </div>
             <h1 class="m-4 text-white text-3xl w-full text-center">Data Sets</h1>
             <div class="flex-none flex items-center w-full">
-              <button id=${addEntryID} class="mb-8 mt-2 center-m bg-white/5 hover:bg-green-500 text-green-50 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
-                Add Custom Data Set
+              <button id=${addEntryID} class="mb-8 mt-2 center-m bg-green-800/5 hover:bg-green-500 text-green-50 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+                Custom Data Set <i class="fa-solid fa-plus"></i>
               </button>
               <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
-                Load
+                Load <i class="fa-solid fa-folder-open"></i>
               </button>
               <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
-                Unify
+                Unify <i class="fa-solid fa-code-merge"></i>
               </button>
               <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
-                Remove
+                Remove <i class="fa-solid fa-trash"></i>
               </button>
               <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
-                Save
+                Save <i class="fa-solid fa-floppy-disk"></i>
               </button>
             </div>
             ${finalOutput}
