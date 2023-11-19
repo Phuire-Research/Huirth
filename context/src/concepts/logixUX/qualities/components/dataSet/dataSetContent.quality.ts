@@ -89,7 +89,9 @@ const createDataSetContentMethodCreator: MethodCreator = (concepts$?: UnifiedSub
             }" rows="4" cols="50">
 ${data.content}
   </textarea>
-  
+  <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
+    Remove <i class="fa-solid fa-trash"></i>
+  </button>
 </div>
         `;
           }
@@ -116,10 +118,15 @@ ${data.content}
             action: logixUXDataSetContent(payload),
             html: /*html*/ `
         <div class="flex flex-col items-center" id='${id}'>
-          <button id=${addEntryID} class="m-4 center-m bg-white/5 hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
-            Add Entry
-          </button>
-          <div class="flex-1 mt-4 p-4 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
+          <div class="flex-none flex items-center w-full">
+            <button id=${addEntryID} class="mb-8 mt-2 center-m bg-green-800/5 hover:bg-green-500 text-green-50 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+              Entry <i class="fa-solid fa-plus"></i>
+            </button>
+            <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
+              Save <i class="fa-solid fa-floppy-disk"></i>
+            </button>
+          </div>
+          <div class="flex-1 p-4 pt-0 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
             ${finalOutput}
           </div>
         </div>

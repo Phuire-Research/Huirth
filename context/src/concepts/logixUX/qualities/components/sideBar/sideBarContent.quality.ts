@@ -4,9 +4,7 @@ import {
   KeyedSelector,
   MethodCreator,
   UnifiedSubject,
-  createMethod,
   createMethodWithConcepts,
-  createMethodWithState,
   createQuality,
   defaultReducer,
   selectUnifiedState,
@@ -22,12 +20,7 @@ import {
 } from '../../../../../model/userInterface';
 import { LogixUXState } from '../../../logixUX.concept';
 import { UserInterfaceState } from '../../../../userInterface/userInterface.concept';
-import { logixUXIndexDialogContent } from '../dialog/indexDialogContent.quality';
-import {
-  logixUX_createPagesSelector,
-  logixUX_createSideBarExpandedSelector,
-  logixUX_createTrainingDataSelector,
-} from '../../../logixUX.selector';
+import { logixUX_createSideBarExpandedSelector, logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
 import { logixUXToggleSidebar } from '../../toggleSidebar.quality';
 import { elementEventBinding } from '../../../../../model/html';
 
@@ -44,6 +37,7 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
       const liClass = ' relative flex items-center py-2 px-3 my-2 font-medium rounded-md bg-gray-100 hover:bg-white';
       let pages = /*html*/ `
 <li class="${liClass} cursor-pointer"><a href="/"><i class="fa-solid fa-house"></i> Home</a></li>
+<li class="${liClass} text-slate-400 italic cursor-not-allowed"><a><i class="fa-solid fa-compass"></i> Applications</a></li>
 <li class="${liClass} text-slate-400 italic cursor-not-allowed"><a><i class="fa-solid fa-vial-circle-check"></i> Model Lab</a></li>
 <li class="${liClass} text-slate-400 italic cursor-not-allowed"><a><i class="fa-sharp fa-solid fa-diagram-project"></i> Project Manager</a></li>
 <li class="${liClass} cursor-pointer"><a href="/dataManager"><i class="fa-solid fa-book"></i> Data Manager</a></li>
