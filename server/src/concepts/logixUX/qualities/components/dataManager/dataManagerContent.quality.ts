@@ -23,6 +23,7 @@ import { logixUXUpdateDataSetName } from '../../updateDataSetName.quality';
 import { logixUXInstallGitRepositoryStrategy } from '../../../strategies/installGitProject.strategy';
 import { logixUXServerTriggerCloneGitRepositoryStrategy } from '../../../../logixUXServer/qualities/triggerCloneGitRepositoryStrategy.quality';
 import { logixUXTriggerInstallGitRepository } from '../../triggerInstallGitRepository.quality';
+import { logixUXSendTriggerParseRepositoryStrategy } from '../../../strategies/server/triggerParseRepositoryStrategy.helper';
 // import { logixUXTriggerSaveDataManagerStrategy } from '../../../strategies/server/triggerSaveDataManagerStrategy.helper';
 
 export const logixUXDataManagerContentType: ActionType = 'create userInterface for DataManagerContent';
@@ -34,7 +35,13 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
     const id = '#dataManagerID' + payload.pageTitle;
     const addEntryID = '#addEntry' + payload.pageTitle;
     const installStratimuxID = '#install_' + PhuirEProjects.stratimux;
+    let finalStratimuxID = '#stratimuxID';
+    let finalStratimuxNote = 'Stratimux';
+    const parseStratimuxID = '#parse_' + PhuirEProjects.stratimux;
     const installLogixUX_ID = '#install_' + PhuirEProjects.logixUX;
+    let finalLogixUX_ID = '#logixUX_ID';
+    let finalLogixUX_note = 'logixUX';
+    const parseLogixUX_ID = '#parse_' + PhuirEProjects.logixUX;
     if (action.strategy) {
       const {trainingData, stratimuxStatus, logixUXStatus} = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState);
       let finalOutput = '';
@@ -89,6 +96,16 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
           elementId: installStratimuxID,
           eventBinding: elementEventBinding.onclick
         });
+        finalStratimuxID = installStratimuxID;
+        finalStratimuxNote = 'Install Stratimux';
+      } else if (stratimuxStatus === ProjectStatus.installed) {
+        bindingsArray.push({
+          action: logixUXSendTriggerParseRepositoryStrategy(PhuirEProjects.stratimux),
+          elementId: parseStratimuxID,
+          eventBinding: elementEventBinding.onclick
+        });
+        finalStratimuxID = parseStratimuxID;
+        finalStratimuxNote = 'Parse Stratimux';
       }
       if (logixUXStatus === ProjectStatus.notInstalled) {
         bindingsArray.push({
@@ -99,6 +116,16 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
           elementId: installLogixUX_ID,
           eventBinding: elementEventBinding.onclick
         });
+        finalLogixUX_ID = installLogixUX_ID;
+        finalLogixUX_note = 'Install LogixUX';
+      } else if (logixUXStatus === ProjectStatus.installed) {
+        bindingsArray.push({
+          action: logixUXSendTriggerParseRepositoryStrategy(PhuirEProjects.logixUX),
+          elementId: parseLogixUX_ID,
+          eventBinding: elementEventBinding.onclick
+        });
+        finalLogixUX_ID = parseLogixUX_ID;
+        finalLogixUX_note = 'Parse LogixUX';
       }
       const bindings = createBinding(bindingsArray);
       // console.log('Check bindings', bindings);
@@ -124,19 +151,19 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
               
               <h2 class="w-72 text-white text-center italic">${stratimuxStatus}</h2>
               <button
-                id="${installStratimuxID}"
+                id="${finalStratimuxID}"
                 class="w-44 m-2 center-m items-center bg-red-800/5 hover:bg-red-500 text-red-50 hover:text-white font-semibold py-2 px-4 border border-red-500 hover:border-transparent rounded"
               >
-                Stratimux <img class="inline w-[27px]" src="/static/Stratimux-Spiral.png">
+                ${finalStratimuxNote} <img class="inline w-[27px]" src="/static/Stratimux-Spiral.png">
               </button>
             </div>
             <div class="m-4 flex-none flex items-center justify-end w-full">
               <h2 class="w-72 text-white text-center italic">${logixUXStatus}</h2>
               <button
-                id="${installLogixUX_ID}"
+                id="${finalLogixUX_ID}"
                 class="w-44 m-2 center-m items-center bg-yellow-800/5 hover:bg-yellow-500 text-yellow-50 hover:text-white font-semibold py-2 px-4 border border-yellow-500 hover:border-transparent rounded"
               >
-                logixUX <img class="inline w-[27px]" src="/static/LogixUX-Spiral.png">
+                ${finalLogixUX_note} <img class="inline w-[27px]" src="/static/LogixUX-Spiral.png">
               </button>
             </div>
             <div class="m-4 flex-none flex items-center w-full">

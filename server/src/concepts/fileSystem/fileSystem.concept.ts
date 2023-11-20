@@ -8,6 +8,7 @@ import { fileSystemRecursivelyCopyMoveTargetDirectoriesQuality } from './qualiti
 import { fileSystemServerSetConceptDirectoriesFromDataQuality } from './qualities/setConceptDirectoriesFromData.quality';
 import { fileSystemCreateFileWithContentsIndexQuality } from './qualities/createFileWithContents.quality';
 import { fileSystemGetDirectoriesAndFilesQuality } from './qualities/getDirectoriesAndFiles.quality';
+import { fileSystemReadDirectoryQuality } from './qualities/readDir.quality';
 
 export type FileSystemState = {
   conceptDirectoryMap: string[],
@@ -35,7 +36,8 @@ export const createFileSystemConcept = (): Concept =>  {
       fileSystemRecursivelyCopyMoveTargetDirectoriesQuality,
       fileSystemServerSetConceptDirectoriesFromDataQuality,
       fileSystemCreateFileWithContentsIndexQuality,
-      fileSystemGetDirectoriesAndFilesQuality
+      fileSystemGetDirectoriesAndFilesQuality,
+      fileSystemReadDirectoryQuality
     ],
     [],
     []
