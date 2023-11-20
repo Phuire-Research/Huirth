@@ -12,7 +12,7 @@ const logixUXServerInitializationStrategyTopic = 'logixUX Server Initialization 
 export const logixUXServerInitializationStrategy = (root: string) => {
   const dataDirectory = path.join(root + '/data/');
   const logixUXDirectory = path.join(root + '/data/logixUX');
-  const gitRepoDirectory = path.join(root + '/data/' + dataDirectories.gitRepo);
+  const gitRepoDirectory = path.join(root + '/data/' + dataDirectories.gitRepo + '/');
   // If repositories doesn't exist
   // stepFour does folder repositories exists?
   const stepSetDPO_data = createActionNode(logixUXServerSetDPOFromData(), {
@@ -32,13 +32,17 @@ export const logixUXServerInitializationStrategy = (root: string) => {
     successNode: stepVerifyLogixUXData,
     failureNode: null
   });
+  const stepReadDataRepoDirectory = createActionNode(fileSystemGetDirectoriesAndFiles({path: gitRepoDirectory}), {
+    successNode: stepSetRepositoriesFromData,
+    failureNode: null,
+  });
   const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory({path: gitRepoDirectory}), {
     successNode: stepVerifyLogixUXData,
     failureNode: null,
     agreement: 20000
   });
   const stepIsTheDataDirectorySetUp = createActionNode(logixUXServerIsDataDirectorySetUp(), {
-    successNode: stepSetRepositoriesFromData,
+    successNode: stepReadDataRepoDirectory,
     failureNode: stepCreateDirectory
   });
   const stepReadDataDirectory = createActionNode(fileSystemGetDirectoriesAndFiles({path: dataDirectory}), {

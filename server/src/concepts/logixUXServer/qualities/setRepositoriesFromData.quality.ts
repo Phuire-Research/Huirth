@@ -26,7 +26,7 @@ const logixUXServerSetRepositoriesFromDataReducer = (state: LogixUXState, action
       let stratimuxExists = false;
       let logixUXExists = false;
       const projectsStatuses: {name: string, status: ProjectStatus}[] = [];
-      console.log('CHECK DIRENT', data.directories);
+      console.log('CHECK DIRENT REPOS', data.directories);
       for (const dir of data.directories) {
         switch (dir.name) {
         case PhuirEProjects.stratimux: {
