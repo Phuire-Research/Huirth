@@ -13,23 +13,22 @@ import {
   strategySuccess
 } from 'stratimux';
 import fs from 'fs/promises';
-import path from 'path';
 import { Dirent } from 'fs';
+import path from 'path';
 
-async function copyDir(src: string, dest: string) {
-  console.log('TEST', dest);
-  await fs.mkdir(dest, { recursive: true });
-  const entries = await fs.readdir(src, { withFileTypes: true });
-
+async function walk(target: string): Promise<({path: string} & Dirent)[]> {
+  const entries = await fs.readdir(target, {
+    withFileTypes: true
+  });
+  let ret: ({path: string} & Dirent)[] = [];
   for (const entry of entries) {
-    if (entry.name) {
-      const srcPath = path.join(src, entry.name);
-      const destPath = path.join(dest, entry.name);
-      entry.isDirectory() ?
-        await copyDir(srcPath, destPath) :
-        await fs.copyFile(srcPath, destPath);
+    if (entry.isDirectory() && entry.name !== '.git') {
+      ret = [...ret, ...(await walk(path.join((entry as {path: string} & Dirent).path) + '/' + entry.name))];
+    } else {
+      ret = [...ret, entry as {path: string} & Dirent];
     }
   }
+  return ret;
 }
 
 export type ReadDirectoryPayload = {
@@ -47,9 +46,7 @@ const createReadDirectoryMethodCreator: MethodCreator = () =>
     const { target } = selectPayload<ReadDirectoryPayload>(action);
     if (action.strategy) {
       const strategy = action.strategy;
-      fs.readdir(target, {
-        withFileTypes: true,
-      }).then(data => {
+      walk(target).then(data => {
         controller.fire(strategySuccess(strategy, strategyData_unifyData(strategy, {
           filesAndDirectories: data
         })));
