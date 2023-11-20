@@ -34,8 +34,35 @@ export const webSocketServerPrinciple: PrincipleFunction =
     socket.app.ws('/axium', (ws, req) => {
       console.log('SEND');
       ws.send(JSON.stringify(webSocketClientSetServerSemaphore({semaphore})));
-      // ws.on('open', () => {
-      // });
+      const plan = concepts$.stage('Web Socket Server Message Que Planner', [
+        (concepts, dispatch) => {
+          const name = getUnifiedName(concepts, semaphore);
+          if (name) {
+            dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
+              iterateStage: true
+            });
+          } else {
+            plan.conclude();
+          }
+        },
+        (concepts, __) => {
+          const state = selectUnifiedState<WebSocketServerState>(concepts, semaphore);
+          if (state) {
+            if (state.actionQue.length > 0) {
+              const que = [...state.actionQue];
+              state.actionQue = [];
+              que.forEach(action => {
+                console.log('SENDING', action);
+                action.conceptSemaphore = (state as WebSocketServerState).clientSemaphore;
+                ws.send(JSON.stringify(action));
+              });
+              concepts$.next(concepts);
+            }
+          } else {
+            plan.conclude();
+          }
+        }
+      ]);
       ws.on('message', (message) => {
         const act = JSON.parse(`${message}`);
         // console.log('MESSAGE', act);

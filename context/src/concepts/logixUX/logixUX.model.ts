@@ -1,3 +1,19 @@
+// eslint-disable-next-line no-shadow
+export enum ProjectStatus {
+  notInstalled = 'Not Installed',
+  installing = 'Installing',
+  installed = 'Installed',
+  parsed = 'Data Parsed',
+}
+
+// eslint-disable-next-line no-shadow
+export enum PhuirEProjects {
+  stratimux = 'stratimux',
+  stratimuxURL = 'https://github.com/Phuire-Research/Stratimux',
+  logixUX = 'logixUX',
+  logixUX_URL = 'https://github.com/Phuire-Research/logixUX',
+}
+
 export type Final_DPO = Record<
   string,
   {

@@ -7,6 +7,11 @@ export enum logixUXServerFailureConditions {
   failedParsingTrainingData = 'failedParsingTrainingData',
 }
 
+// eslint-disable-next-line no-shadow
+export enum dataDirectories {
+  gitRepo = 'repositories'
+}
+
 export const convertDPOToSaveFormatDPO = (trainingData: Active_DPO[]) => {
   const saveFormat: DPO_DataSet = {};
   trainingData.forEach((entry, i) => {

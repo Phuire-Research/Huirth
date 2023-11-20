@@ -31,7 +31,7 @@ export const logixUXServerReadFromDataTrainingDataFromDirectoriesMethodCreator =
     if (action.strategy && action.strategy.data) {
       const data = strategyData_select(action.strategy) as GetDirectoriesAndFilesDataField;
       if (data.directories) {
-        // console.log('CHECK DIRENT', data.directories);
+        console.log('CHECK DIRENT', data.directories);
         // FIGURE OUT DIRENT
         if (data.directories.length !== 0) {
           const contents = fs.readFileSync(path.join(data.directories[0].path + '/' + data.directories[0].name));
