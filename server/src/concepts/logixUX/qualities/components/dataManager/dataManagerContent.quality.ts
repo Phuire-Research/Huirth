@@ -9,16 +9,18 @@ import {
   createQuality,
   defaultReducer,
   selectUnifiedState,
+  strategyBegin,
   strategySuccess
 } from 'stratimux';
 
 import { createBinding, createBoundSelectors, prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 import { elementEventBinding } from '../../../../../model/html';
 import { LogixUXState } from '../../../logixUX.concept';
-import { logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
+import { logixUX_createLogixUXStatusSelector, logixUX_createStratimuxStatusSelector, logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
 import { logixUXNewDataSet } from '../../newDataSet.quality';
-import { dataSetNameID, generateNumID } from '../../../logixUX.model';
+import { PhuirEProjects, ProjectStatus, dataSetNameID, generateNumID } from '../../../logixUX.model';
 import { logixUXUpdateDataSetName } from '../../updateDataSetName.quality';
+import { logixUXInstallGitRepositoryStrategy } from '../../../strategies/installGitProject.strategy';
 // import { logixUXTriggerSaveDataManagerStrategy } from '../../../strategies/server/triggerSaveDataManagerStrategy.helper';
 
 export const logixUXDataManagerContentType: ActionType = 'create userInterface for DataManagerContent';
@@ -29,8 +31,10 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
     const payload = selectComponentPayload(action);
     const id = '#dataManagerID' + payload.pageTitle;
     const addEntryID = '#addEntry' + payload.pageTitle;
+    const installStratimuxID = '#install_' + PhuirEProjects.stratimux;
+    const installLogixUX_ID = '#install_' + PhuirEProjects.logixUX;
     if (action.strategy) {
-      const trainingData = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState).trainingData;
+      const {trainingData, stratimuxStatus, logixUXStatus} = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState);
       let finalOutput = '';
       const bindingsArray: {
         elementId: string;
@@ -74,6 +78,20 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
         elementId: addEntryID,
         eventBinding: elementEventBinding.onclick
       });
+      if (stratimuxStatus === ProjectStatus.notInstalled) {
+        bindingsArray.push({
+          action: strategyBegin(logixUXInstallGitRepositoryStrategy(PhuirEProjects.stratimuxURL, PhuirEProjects.stratimux)),
+          elementId: installStratimuxID,
+          eventBinding: elementEventBinding.onclick
+        });
+      }
+      if (logixUXStatus === ProjectStatus.notInstalled) {
+        bindingsArray.push({
+          action: strategyBegin(logixUXInstallGitRepositoryStrategy(PhuirEProjects.logixUX_URL, PhuirEProjects.logixUX)),
+          elementId: installLogixUX_ID,
+          eventBinding: elementEventBinding.onclick
+        });
+      }
       const bindings = createBinding(bindingsArray);
       // console.log('Check bindings', bindings);
       const strategy = strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
@@ -82,7 +100,9 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
         boundSelectors: [
           // START HERE
           createBoundSelectors(id, logixUXDataManagerContent(payload), [
-            logixUX_createTrainingDataSelector(concepts, semaphore) as KeyedSelector
+            logixUX_createTrainingDataSelector(concepts, semaphore) as KeyedSelector,
+            logixUX_createStratimuxStatusSelector(concepts, semaphore) as KeyedSelector,
+            logixUX_createLogixUXStatusSelector(concepts, semaphore) as KeyedSelector
           ])
         ],
         action: logixUXDataManagerContent(payload),
@@ -94,16 +114,18 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
           <div class="p-8 pt-2 mt-2 bg-black/10 border border-t-2 rounded border-gray-700 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
              <div class="m-4 flex-none flex items-center justify-end w-full">
               
-              <h2 class="w-72 text-white text-center italic">Not Installed</h2>
+              <h2 class="w-72 text-white text-center italic">${stratimuxStatus}</h2>
               <button
+                id="${installStratimuxID}"
                 class="w-44 m-2 center-m items-center bg-red-800/5 hover:bg-red-500 text-red-50 hover:text-white font-semibold py-2 px-4 border border-red-500 hover:border-transparent rounded"
               >
                 Stratimux <img class="inline w-[27px]" src="/static/Stratimux-Spiral.png">
               </button>
             </div>
             <div class="m-4 flex-none flex items-center justify-end w-full">
-              <h2 class="w-72 text-white text-center italic">Not Installed</h2>
+              <h2 class="w-72 text-white text-center italic">${logixUXStatus}</h2>
               <button
+                id="${installLogixUX_ID}"
                 class="w-44 m-2 center-m items-center bg-yellow-800/5 hover:bg-yellow-500 text-yellow-50 hover:text-white font-semibold py-2 px-4 border border-yellow-500 hover:border-transparent rounded"
               >
                 logixUX <img class="inline w-[27px]" src="/static/LogixUX-Spiral.png">

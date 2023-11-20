@@ -18,7 +18,7 @@ import { logixUXIndexDPOEndQuality } from './qualities/components/DPO/DPOEnd.qua
 import { logixUXUpdateFromPromptPayloadQuality } from './qualities/updateFromPromptPayload.quality';
 import { logixUXUpdateFromChosenPayloadQuality } from './qualities/updateFromChosenPayload.quality';
 import { logixUXUpdateFromRejectedPayloadQuality } from './qualities/updateFromRejectedPayload.quality';
-import { Active_DPO, TrainingData, generateDPOTrainingData, generateDefaultTrainingData } from './logixUX.model';
+import { Active_DPO, ProjectStatus, TrainingData, generateDPOTrainingData, generateDefaultTrainingData } from './logixUX.model';
 import { logixUXNewDataSetEntryQuality } from './qualities/newDataSetEntry.quality';
 import { logixUXTriggerMinusCountingStrategyQuality } from './qualities/triggerMinusCounterStrategy.quality';
 import { logixUXTriggerPlusCountingStrategyQuality } from './qualities/triggerPlusCounterStrategy.quality';
@@ -44,6 +44,9 @@ export const logixUXName = 'logixUX';
 export type LogixUXState = {
   mock: number;
   dialog: string;
+  stratimuxStatus: ProjectStatus;
+  logixUXStatus: ProjectStatus;
+  projectsStatuses: ProjectStatus[];
   sideBarExpanded: boolean;
   trainingData: TrainingData;
   activeDPO: Active_DPO[];
@@ -53,6 +56,9 @@ const createLogixUXState = (): LogixUXState => {
   return {
     mock: 0,
     dialog: '',
+    stratimuxStatus: ProjectStatus.notInstalled,
+    logixUXStatus: ProjectStatus.notInstalled,
+    projectsStatuses: [],
     sideBarExpanded: true,
     trainingData: generateDefaultTrainingData(),
     activeDPO: [generateDPOTrainingData()],

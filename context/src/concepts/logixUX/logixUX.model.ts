@@ -1,3 +1,10 @@
+// eslint-disable-next-line no-shadow
+export enum ProjectStatus {
+  notInstalled = 'notInstalled',
+  installed = 'installed',
+  parsed = 'parsed',
+}
+
 export type Final_DPO = Record<
   string,
   {
