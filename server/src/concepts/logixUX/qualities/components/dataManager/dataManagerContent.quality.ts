@@ -21,6 +21,8 @@ import { logixUXNewDataSet } from '../../newDataSet.quality';
 import { PhuirEProjects, ProjectStatus, dataSetNameID, generateNumID } from '../../../logixUX.model';
 import { logixUXUpdateDataSetName } from '../../updateDataSetName.quality';
 import { logixUXInstallGitRepositoryStrategy } from '../../../strategies/installGitProject.strategy';
+import { logixUXServerTriggerCloneGitRepositoryStrategy } from '../../../../logixUXServer/qualities/triggerCloneGitRepositoryStrategy.quality';
+import { logixUXTriggerInstallGitRepository } from '../../triggerInstallGitRepository.quality';
 // import { logixUXTriggerSaveDataManagerStrategy } from '../../../strategies/server/triggerSaveDataManagerStrategy.helper';
 
 export const logixUXDataManagerContentType: ActionType = 'create userInterface for DataManagerContent';
@@ -80,14 +82,20 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
       });
       if (stratimuxStatus === ProjectStatus.notInstalled) {
         bindingsArray.push({
-          action: strategyBegin(logixUXInstallGitRepositoryStrategy(PhuirEProjects.stratimuxURL, PhuirEProjects.stratimux)),
+          action: logixUXTriggerInstallGitRepository({
+            url: PhuirEProjects.stratimuxURL,
+            name: PhuirEProjects.stratimux
+          }),
           elementId: installStratimuxID,
           eventBinding: elementEventBinding.onclick
         });
       }
       if (logixUXStatus === ProjectStatus.notInstalled) {
         bindingsArray.push({
-          action: strategyBegin(logixUXInstallGitRepositoryStrategy(PhuirEProjects.logixUX_URL, PhuirEProjects.logixUX)),
+          action: logixUXTriggerInstallGitRepository({
+            url: PhuirEProjects.logixUX_URL,
+            name: PhuirEProjects.logixUX
+          }),
           elementId: installLogixUX_ID,
           eventBinding: elementEventBinding.onclick
         });

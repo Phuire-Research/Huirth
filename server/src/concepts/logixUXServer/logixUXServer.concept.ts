@@ -7,6 +7,7 @@ import { logixUXServerSetDPOFromDataQuality } from './qualities/setDPOFromData.q
 import { logixUXServerTriggerSaveDPOStrategyQuality } from './qualities/triggerSaveDPOStrategy.quality';
 import { logixUXServerIsDataDirectorySetUpQuality } from './qualities/isDataDirectorySetUp.quality';
 import { logixUXServerTriggerCloneGitRepositoryStrategyQuality } from './qualities/triggerCloneGitRepositoryStrategy.quality';
+import { logixUXServerGitCloneRepoToDirectoryQuality } from './qualities/gitCloneRepoToDirectory.quality';
 
 export const logixUXServerName = 'logixUXServer';
 export type LogixUXServerState = {
@@ -23,6 +24,7 @@ export const createLogixUXServerConcept = (): Concept =>  {
     logixUXServerReadFromDataTrainingDataFromDirectoriesQuality,
     logixUXServerSetDPOFromDataQuality,
     logixUXServerIsDataDirectorySetUpQuality,
+    logixUXServerGitCloneRepoToDirectoryQuality,
     logixUXServerTriggerCloneGitRepositoryStrategyQuality
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.

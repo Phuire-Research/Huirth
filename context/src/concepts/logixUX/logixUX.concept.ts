@@ -39,6 +39,8 @@ import { logixUXDataSetEndQuality } from './qualities/components/dataSet/dataSet
 import { logixUXDataSetContentQuality } from './qualities/components/dataSet/dataSetContent.quality';
 import { logixUXUpdateDataSetContentsQuality } from './qualities/updateDataSetContents.quality';
 import { logixUXUpdateDataSetPromptQuality } from './qualities/updateDataSetPrompt.quality';
+import { logixUXUpdateProjectStatusQuality } from './qualities/updateProjectToStatus.quality';
+import { logixUXTriggerInstallGitRepositoryQuality } from './qualities/triggerInstallGitRepository.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
@@ -46,7 +48,7 @@ export type LogixUXState = {
   dialog: string;
   stratimuxStatus: ProjectStatus;
   logixUXStatus: ProjectStatus;
-  projectsStatuses: ProjectStatus[];
+  projectsStatuses: { name: string; status: ProjectStatus }[];
   sideBarExpanded: boolean;
   trainingData: TrainingData;
   activeDPO: Active_DPO[];
@@ -96,12 +98,14 @@ export const createLogixUXConcept = (): Concept => {
     logixUXUpdateDataSetNameQuality,
     logixUXUpdateDataSetContentsQuality,
     logixUXUpdateDataSetPromptQuality,
+    logixUXUpdateProjectStatusQuality,
     logixUXNewDataSetEntryQuality,
     logixUXNewDataSetQuality,
     logixUXNewDPOEntryQuality,
     logixUXTriggerMinusCountingStrategyQuality,
     logixUXTriggerPlusCountingStrategyQuality,
     logixUXTriggerRandomCountingStrategyQuality,
+    logixUXTriggerInstallGitRepositoryQuality,
     logixUXToggleSidebarQuality,
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.

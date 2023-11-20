@@ -26,3 +26,11 @@ export const logixUX_createPagesSelector = (concepts: Concepts, semaphore: numbe
 export const logixUX_createDataSetSelector = (concepts: Concepts, semaphore: number, index: number) => {
   return createUnifiedKeyedSelector(concepts, semaphore, `trainingData ${index}`);
 };
+
+export const logixUX_createStratimuxStatusSelector = (concepts: Concepts, semaphore: number) => {
+  return createUnifiedKeyedSelector(concepts, semaphore, 'stratimuxStatus');
+};
+
+export const logixUX_createLogixUXStatusSelector = (concepts: Concepts, semaphore: number) => {
+  return createUnifiedKeyedSelector(concepts, semaphore, 'logixUXStatus');
+};

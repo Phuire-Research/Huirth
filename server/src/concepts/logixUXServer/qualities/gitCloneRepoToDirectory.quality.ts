@@ -26,12 +26,15 @@ const makeGitCloneRepoToDirectoryMethodCreator: MethodCreator = () =>
     const {path, url} = selectPayload<GitCloneRepoToDirectoryPayload>(action);
     if (action.strategy) {
       const process = child_process.exec('git clone ' + url + ' ' + path);
-      process.on('close', () => {
+      process.on('message', (message) => console.log(message));
+      process.stdout?.on('data', (data) => console.log(data));
+      process.on('exit', () => {
         const newStrategy =
           strategySuccess(action.strategy as ActionStrategy);
         controller.fire(newStrategy);
       });
-      process.on('error', () => {
+      process.on('error', (error) => {
+        console.error(error);
         const newStrategy =
           strategyFailed(action.strategy as ActionStrategy);
         controller.fire(newStrategy);

@@ -43,6 +43,7 @@ import { logixUXDataSetContentQuality } from './qualities/components/dataSet/dat
 import { logixUXUpdateDataSetContentsQuality } from './qualities/updateDataSetContents.quality';
 import { logixUXUpdateDataSetPromptQuality } from './qualities/updateDataSetPrompt.quality';
 import { logixUXUpdateProjectStatusQuality } from './qualities/updateProjectToStatus.quality';
+import { logixUXTriggerInstallGitRepositoryQuality } from './qualities/triggerInstallGitRepository.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
@@ -110,6 +111,7 @@ export const createLogixUXConcept = (): Concept =>  {
     logixUXTriggerMinusCountingStrategyQuality,
     logixUXTriggerPlusCountingStrategyQuality,
     logixUXTriggerRandomCountingStrategyQuality,
+    logixUXTriggerInstallGitRepositoryQuality,
     logixUXToggleSidebarQuality
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
