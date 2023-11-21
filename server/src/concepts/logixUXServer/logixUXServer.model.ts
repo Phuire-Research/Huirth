@@ -35,3 +35,12 @@ export const convertSaveFormatDPOToDPO = (saveFormat: DPO_DataSet) => {
   }
   return trainingData;
 };
+
+// eslint-disable-next-line no-shadow
+export enum ParsingTokens {
+  promptBegin = '/*<$*/',
+  prompt = '// PROMPT: ',
+  promptEnd = '/*$>*/',
+  contentBegin = '/*<#*/',
+  contentEnd = '/*#>*/'
+}

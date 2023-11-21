@@ -9,7 +9,9 @@ export const logixUXServerParseRepositoryTopic = 'logixUXServer read Repository,
 export const logixUXServerParseRepositoryStrategy = (root: string, name:string) => {
   const dataPath = path.join(root + '/data/repositories/' + name);
   // Generate parse files and add them all to an array to be added to state at the end.
-  const stepParseFile = createActionNode(logixUXServerParseFileFromData(), {
+  const stepParseFile = createActionNode(logixUXServerParseFileFromData({
+    dataSetName: name
+  }), {
     successNode: null,
     // TODO: If failed we can use open to load a window with the git install webpage
     failureNode: null,
@@ -19,7 +21,10 @@ export const logixUXServerParseRepositoryStrategy = (root: string, name:string) 
     failureNode: null
   });
   // Step 1 Remove directory if exists based on name
-  const stepFilter = createActionNode(fileSystemFilterFilesAndDirectories({token: '.ts'}), {
+  const stepFilter = createActionNode(fileSystemFilterFilesAndDirectories({
+    isTokens: ['.ts'],
+    notTokens: [path.join('/context/')]
+  }), {
     successNode: stepReadFileContents,
     failureNode: null
   });

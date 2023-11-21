@@ -4,7 +4,6 @@ import {
   createQuality,
   defaultReducer,
   prepareActionCreator,
-  selectPayload,
   strategyData_appendFailure,
   strategyData_select,
   strategyData_unifyData,
@@ -31,11 +30,9 @@ const fileSystemReadFileContentsAndAppendToDataMethodCreator = () =>
       const strategy = action.strategy;
       const data = strategyData_select<ReadDirectoryField>(strategy);
       if (data) {
-        console.log('CHECK DATA', data);
         const {filesAndDirectories} = data;
         const dirent: FileDirent = filesAndDirectories[0];
         fs.readFile(path.join(dirent.path + '/' + dirent.name)).then(contents => {
-          console.log('CHECK CONTENTS', contents);
           try {
             const newData = {
               dirent,

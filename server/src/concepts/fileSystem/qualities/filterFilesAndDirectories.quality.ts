@@ -14,9 +14,33 @@ import {
   strategySuccess
 } from 'stratimux';
 import { ReadDirectoryField } from './readDir.quality';
+import path from 'path';
+
+const isNot = (name: string, tokens: string[]): boolean => {
+  let pass = true;
+  for (const token of tokens) {
+    if (name.indexOf(token) !== -1) {
+      pass = false;
+      break;
+    }
+  }
+  return pass;
+};
+
+const is = (name: string, tokens: string[]): boolean => {
+  let pass = false;
+  for (const token of tokens) {
+    if (name.indexOf(token) !== -1) {
+      pass = true;
+      break;
+    }
+  }
+  return pass;
+};
 
 export type FilterFilesAndDirectoriesPayload = {
-  token: string;
+  isTokens: string[];
+  notTokens: string[];
 };
 export const fileSystemFilterFilesAndDirectoriesType: ActionType = 'File System filter from Data Files and Directories field via token';
 export const fileSystemFilterFilesAndDirectories =
@@ -27,9 +51,13 @@ const createFilterFilesAndDirectoriesMethodCreator: MethodCreator = () =>
     if (action.strategy) {
       const strategy = action.strategy;
       const data = strategyData_select<ReadDirectoryField>(strategy);
-      const {token} = selectPayload<FilterFilesAndDirectoriesPayload>(action);
+      const {isTokens, notTokens} = selectPayload<FilterFilesAndDirectoriesPayload>(action);
       if (data && data.filesAndDirectories) {
-        data.filesAndDirectories = data?.filesAndDirectories.filter(dirent => dirent.name.indexOf(token) !== -1);
+        data.filesAndDirectories = data?.filesAndDirectories.filter(dirent => {
+          const check = path.join(dirent.path + '/' + dirent.name);
+          return is(check, isTokens) && isNot(check, notTokens);
+        });
+        console.log('CHECK FINAL DATA', data.filesAndDirectories);
         controller.fire(strategySuccess(strategy, strategyData_unifyData(strategy, data)));
       } else {
         controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, 'No filesAndDirectories passed to quality')));
