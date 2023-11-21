@@ -5,15 +5,19 @@ import {
   MethodCreator,
   axiumConclude,
   createActionController$,
+  createAsyncMethod,
   createQuality,
   defaultReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
+  strategyData_appendFailure,
   strategyData_unifyData,
+  strategyFailed,
   strategySuccess
 } from 'stratimux';
 import { Subject, map, switchMap } from 'rxjs';
-import fs, { Dirent } from 'fs';
+import fs  from 'fs/promises';
+import { FileDirent } from '../fileSystem.model';
 
 export type GetDirectoriesAndFilesPayload = {
   path: string
@@ -22,34 +26,28 @@ export const fileSystemGetDirectoriesAndFilesType: ActionType = 'File System get
 export const fileSystemGetDirectoriesAndFiles =
   prepareActionWithPayloadCreator<GetDirectoriesAndFilesPayload>(fileSystemGetDirectoriesAndFilesType);
 export type GetDirectoriesAndFilesDataField = {
-  directories: ({path: string} & Dirent)[]
+  directories: FileDirent[]
 }
 
-const createGetDirectoriesAndFilesMethodCreator: MethodCreator = () => {
-  const logSubject = new Subject<Action>();
-  const logMethod: Method = logSubject.pipe(
-    switchMap((act: Action) => {
-      return createActionController$(act, (controller, action) => {
-        const payload = selectPayload<GetDirectoriesAndFilesPayload>(action);
-        const directories = fs.readdirSync(payload.path, {
-          withFileTypes: true
-        });
-        if (action.strategy) {
-          console.log('DIRECTORIES AND FILES LENGTH', directories.length, action.strategy.topic);
-          const newStrategy =
-            strategySuccess(action.strategy, strategyData_unifyData(action.strategy, {directories}));
-          controller.fire(newStrategy);
-        } else {
-          controller.fire(axiumConclude());
-        }
+const createGetDirectoriesAndFilesMethodCreator: MethodCreator = () =>
+  createAsyncMethod((controller, action) => {
+    const payload = selectPayload<GetDirectoriesAndFilesPayload>(action);
+    if (action.strategy) {
+      const strategy = action.strategy;
+      fs.readdir(payload.path, {
+        withFileTypes: true
+      }).then(directories => {
+        console.log('DIRECTORIES AND FILES LENGTH', directories.length, strategy.topic);
+        const newStrategy =
+          strategySuccess(strategy, strategyData_unifyData(strategy, {directories}));
+        controller.fire(newStrategy);
+      }).catch(error => {
+        controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, `${error}`)));
       });
-    }),
-  );
-  return [
-    logMethod,
-    logSubject
-  ];
-};
+    } else {
+      controller.fire(action);
+    }
+  });
 
 export const fileSystemGetDirectoriesAndFilesQuality = createQuality(
   fileSystemGetDirectoriesAndFilesType,

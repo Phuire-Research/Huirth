@@ -10,6 +10,7 @@ import { fileSystemCreateFileWithContentsIndexQuality } from './qualities/create
 import { fileSystemGetDirectoriesAndFilesQuality } from './qualities/getDirectoriesAndFiles.quality';
 import { fileSystemReadDirectoryQuality } from './qualities/readDir.quality';
 import { fileSystemFilterFilesAndDirectoriesQuality } from './qualities/filterFilesAndDirectories.quality';
+import { fileSystemReadFileContentsAndAppendToDataQuality } from './qualities/readFileContentsAndAppendToData.quality';
 
 export type FileSystemState = {
   conceptDirectoryMap: string[],
@@ -39,7 +40,8 @@ export const createFileSystemConcept = (): Concept =>  {
       fileSystemCreateFileWithContentsIndexQuality,
       fileSystemGetDirectoriesAndFilesQuality,
       fileSystemReadDirectoryQuality,
-      fileSystemFilterFilesAndDirectoriesQuality
+      fileSystemFilterFilesAndDirectoriesQuality,
+      fileSystemReadFileContentsAndAppendToDataQuality,
     ],
     [],
     []

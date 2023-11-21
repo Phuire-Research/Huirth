@@ -4,33 +4,30 @@ import {
   createQuality,
   defaultReducer,
   prepareActionCreator,
-  strategyData_appendFailure,
   strategyData_select,
-  strategyData_unifyData,
-  strategyFailed,
   strategySuccess,
 } from 'stratimux';
-import { GetDirectoriesAndFilesDataField } from '../../fileSystem/qualities/getDirectoriesAndFiles.quality';
-import fs from 'fs';
-import { DPO_DataSet } from '../../../model/logixUX';
-import { logixUXServerFailureConditions } from '../logixUXServer.model';
-import path from 'path';
 import { ReadDirectoryField } from '../../fileSystem/qualities/readDir.quality';
+import { TrainingData } from '../../logixUX/logixUX.model';
+import { ReadFileContentsAndAppendToDataField } from '../../fileSystem/qualities/readFileContentsAndAppendToData.quality';
 
+export type LogixUXServerParseFileFromDataPayload = {
+  dataSetName: string,
+}
 export const logixUXServerParseFileFromDataType: ActionType =
   'logixUXServer parse file from data';
 export const logixUXServerParseFileFromData =
   prepareActionCreator(logixUXServerParseFileFromDataType);
 export type ParseFileFromDataField = {
-  trainingData: DPO_DataSet
+  trainingData: TrainingData
 }
 
 const logixUXServerParseFileFromDataMethodCreator = () =>
   createAsyncMethod((controller, action) => {
     if (action.strategy && action.strategy.data) {
-      const data = strategyData_select(action.strategy) as ReadDirectoryField;
+      const data = strategyData_select(action.strategy) as ReadDirectoryField & ReadFileContentsAndAppendToDataField;
       if (data.filesAndDirectories) {
-        console.log('CHECK DIRENT DIRECTORY CONTENTS', data.filesAndDirectories[0]);
+        console.log('CHECK DIRENT DIRECTORY CONTENTS', data.dirent, data.content);
         controller.fire(strategySuccess(action.strategy));
         // FIGURE OUT DIRENT
         // if (data.directories.length !== 0) {
