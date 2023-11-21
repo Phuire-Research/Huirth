@@ -1,25 +1,27 @@
-import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, prepareActionCreator, strategySuccess } from 'stratimux';
-
 import {
-  prepareActionComponentCreator,
-  selectComponentPayload,
-  userInterface_appendCompositionToPage,
-} from '../../../../model/userInterface';
+  ActionType,
+  MethodCreator,
+  createMethod,
+  createQuality,
+  defaultReducer,
+  prepareActionCreator,
+  strategySuccess
+} from 'stratimux';
+
+import { prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../model/userInterface';
 
 export const logixUXStyleType: ActionType = 'Create logixUX Style';
 export const logixUXStyle = prepareActionComponentCreator(logixUXStyleType);
 
-const createLogixUXStyleMethodCreator: MethodCreator = () =>
-  createMethod((action) => {
+const createLogixUXStyleMethodCreator: MethodCreator = () => createMethod(
+  (action) => {
     const payload = selectComponentPayload(action);
     if (action.strategy) {
-      return strategySuccess(
-        action.strategy,
-        userInterface_appendCompositionToPage(action.strategy, {
-          id: '',
-          boundSelectors: [],
-          action: logixUXStyle(payload),
-          html: /*html*/ `
+      return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
+        id: '',
+        boundSelectors: [],
+        action: logixUXStyle(payload),
+        html: /*html*/`
   <style>
     html, body {
       overflow-x: clip;
@@ -68,11 +70,15 @@ const createLogixUXStyleMethodCreator: MethodCreator = () =>
       background-color: #000000;
     }
   </style>
-    `,
-        })
-      );
+    `
+      }));
     }
     return action;
-  });
+  }
+);
 
-export const logixUXStyleQuality = createQuality(logixUXStyleType, defaultReducer, createLogixUXStyleMethodCreator);
+export const logixUXStyleQuality = createQuality(
+  logixUXStyleType,
+  defaultReducer,
+  createLogixUXStyleMethodCreator,
+);

@@ -3,7 +3,7 @@ import {
   ActionComponentPayload,
   ActionStrategyComponentStitch,
   PageStrategyCreators,
-  userInterface_createPage,
+  userInterface_createPage
 } from '../../../../model/userInterface';
 import { logixUXError } from '../../qualities/components/error/error.quality';
 import { logixUXFooterStrategy } from '../components/footer.strategy';
@@ -14,33 +14,34 @@ import { logixUXSidebarComponentStitch } from '../components/sidebar.strategy';
 export const logixUXErrorPageStrategyTopic = 'error';
 export const logixUXErrorPageStrategy: PageStrategyCreators = () => () => {
   const page: ActionComponentPayload = {
-    pageTitle: logixUXErrorPageStrategyTopic,
+    pageTitle: logixUXErrorPageStrategyTopic
   };
   // Body
   const stepStitch = axium_createStitchNode();
   const stepLogixUXError = createActionNode(logixUXError(page), {
     successNode: stepStitch,
-    failureNode: null,
+    failureNode: null
   });
-  const logixUXBody: ActionStrategyComponentStitch = () => [
-    stepStitch,
-    createStrategy({
-      topic: 'Create logixUX Error Body Content',
-      initialNode: stepLogixUXError,
-    }),
-  ];
+  const logixUXBody: ActionStrategyComponentStitch = () => [stepStitch, createStrategy({
+    topic: 'Create logixUX Error Body Content',
+    initialNode: stepLogixUXError,
+  })];
 
   const pageData = userInterface_createPage({
     title: logixUXErrorPageStrategyTopic,
-    conceptAndProps: [{ name: 'helloWorld' }],
+    conceptAndProps: [{ name: 'helloWorld'}],
     cachedSelectors: [],
-    compositions: [],
+    compositions: []
   });
 
   return userInterfaceCreatePageStrategy(
     logixUXErrorPageStrategyTopic,
     pageData,
-    [logixUXSidebarComponentStitch, logixUXBody, logixUXFooterStrategy],
+    [
+      logixUXSidebarComponentStitch,
+      logixUXBody,
+      logixUXFooterStrategy
+    ],
     logixUXHeaderStrategy
   );
 };

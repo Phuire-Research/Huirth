@@ -25,7 +25,14 @@ const createHelloWorldCreator: MethodCreator = () => {
       return axiumConclude();
     })
   );
-  return [logMethod, logSubject];
+  return [
+    logMethod,
+    logSubject
+  ];
 };
 
-export const helloWorldQuality = createQuality(helloWorldType, defaultReducer, createHelloWorldCreator);
+export const helloWorldQuality = createQuality(
+  helloWorldType,
+  defaultReducer,
+  createHelloWorldCreator,
+);

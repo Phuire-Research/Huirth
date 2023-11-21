@@ -1,12 +1,20 @@
-import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';
+import {
+  Action,
+  ActionType,
+  createQuality,
+  defaultMethodCreator,
+  prepareActionWithPayloadCreator,
+  selectPayload,
+} from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 import { userInterface_selectInputTarget } from '../../../model/userInterface';
 
 export type LogixUXUpdateDataSetNamePayload = {
-  index: number;
-};
+  index: number,
+}
 export const logixUXUpdateDataSetNameType: ActionType = 'Create logixUX UpdateDataSetName';
-export const logixUXUpdateDataSetName = prepareActionWithPayloadCreator(logixUXUpdateDataSetNameType);
+export const logixUXUpdateDataSetName =
+  prepareActionWithPayloadCreator(logixUXUpdateDataSetNameType);
 
 function logixUXUpdateDataSetNameReducer(state: LogixUXState, action: Action): LogixUXState {
   const payload = selectPayload<LogixUXUpdateDataSetNamePayload>(action);

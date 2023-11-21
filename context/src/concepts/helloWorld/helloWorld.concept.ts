@@ -14,6 +14,14 @@ const createHelloWorldState = (): HelloWorldState => {
   };
 };
 
-export const createHelloWorldConcept = (something?: string): Concept => {
-  return createConcept(helloWorldName, createHelloWorldState(), [helloWorldQuality], [helloWorldPrinciple], []);
+export const createHelloWorldConcept = (something?: string): Concept =>  {
+  return createConcept(
+    helloWorldName,
+    createHelloWorldState(),
+    [
+      helloWorldQuality
+    ],
+    [helloWorldPrinciple],
+    []
+  );
 };

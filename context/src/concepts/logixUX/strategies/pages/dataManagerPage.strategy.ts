@@ -3,7 +3,7 @@ import {
   ActionComponentPayload,
   ActionStrategyComponentStitch,
   PageStrategyCreators,
-  userInterface_createPage,
+  userInterface_createPage
 } from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { logixUXFooterStrategy } from '../components/footer.strategy';
@@ -16,7 +16,7 @@ import { logixUXSidebarComponentStitch } from '../components/sidebar.strategy';
 export const logixUXDataManagerPageStrategyTopic = 'dataManager';
 export const logixUXDataManagerPageStrategy: PageStrategyCreators = () => () => {
   const page: ActionComponentPayload = {
-    pageTitle: logixUXDataManagerPageStrategyTopic,
+    pageTitle: logixUXDataManagerPageStrategyTopic
   };
   // Body
   // const [
@@ -27,15 +27,21 @@ export const logixUXDataManagerPageStrategy: PageStrategyCreators = () => () => 
 
   const pageData = userInterface_createPage({
     title: logixUXDataManagerPageStrategyTopic,
-    conceptAndProps: [{ name: 'helloWorld' }],
+    conceptAndProps: [
+      { name: 'helloWorld'},
+    ],
     cachedSelectors: [],
-    compositions: [],
+    compositions: []
   });
 
   return userInterfaceCreatePageStrategy(
     logixUXDataManagerPageStrategyTopic,
     pageData,
-    [logixUXSidebarComponentStitch, logixUXDataManagerStrategyStitch, logixUXFooterStrategy],
+    [
+      logixUXSidebarComponentStitch,
+      logixUXDataManagerStrategyStitch,
+      logixUXFooterStrategy
+    ],
     logixUXHeaderStrategy
   );
 };
@@ -45,21 +51,21 @@ export const logixUXDataManagerStrategyStitch: ActionStrategyComponentStitch = (
   // Body
   const stepLogixUXDataManagerEnd = createActionNode(logixUXDataManagerEnd(payload), {
     successNode: null,
-    failureNode: null,
+    failureNode: null
   });
   const stepLogixUXDataManagerContent = createActionNode(logixUXDataManagerContent(payload), {
     successNode: stepLogixUXDataManagerEnd,
-    failureNode: null,
+    failureNode: null
   });
   const stepLogixUXDataManagerBegin = createActionNode(logixUXDataManagerBegin(payload), {
     successNode: stepLogixUXDataManagerContent,
-    failureNode: null,
+    failureNode: null
   });
   return [
     stepLogixUXDataManagerEnd,
     createStrategy({
       topic: logixUXDataManagerStrategyStitchTopic,
       initialNode: stepLogixUXDataManagerBegin,
-    }),
+    })
   ];
 };

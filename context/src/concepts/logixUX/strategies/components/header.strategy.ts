@@ -7,17 +7,14 @@ export const logixUXHeaderStrategy: ActionStrategyComponentStitch = (payload) =>
   // HEAD
   const stepLogixUXStyle = createActionNode(logixUXStyle(payload), {
     successNode: null,
-    failureNode: null,
+    failureNode: null
   });
   const stepLogixUXHead = createActionNode(logixUXHead(payload), {
     successNode: stepLogixUXStyle,
-    failureNode: null,
+    failureNode: null
   });
-  return [
-    stepLogixUXStyle,
-    createStrategy({
-      topic: 'Create logixUX Header Content',
-      initialNode: stepLogixUXHead,
-    }),
-  ];
+  return [stepLogixUXStyle, createStrategy({
+    topic: 'Create logixUX Header Content',
+    initialNode: stepLogixUXHead,
+  })];
 };

@@ -3,7 +3,7 @@ export enum ProjectStatus {
   notInstalled = 'Not Installed',
   installing = 'Installing',
   installed = 'Installed',
-  parsed = 'Data Parsed',
+  parsed = 'Data Parsed'
 }
 
 // eslint-disable-next-line no-shadow
@@ -11,46 +11,39 @@ export enum PhuirEProjects {
   stratimux = 'stratimux',
   stratimuxURL = 'https://github.com/Phuire-Research/Stratimux',
   logixUX = 'logixUX',
-  logixUX_URL = 'https://github.com/Phuire-Research/logixUX',
+  logixUX_URL = 'https://github.com/Phuire-Research/logixUX'
 }
 
-export type Final_DPO = Record<
-  string,
-  {
-    chosen: [
-      {
-        content: string;
-      }
-    ];
-    rejected: [
-      {
-        content: string;
-      }
-    ];
-  }
->;
+export type Final_DPO = Record<string, {
+  chosen: [{
+    content: string
+  }],
+  rejected: [{
+    content: string
+  }]
+}>
 export type Active_DPO = {
-  prompt: string;
-  chosen: string;
-  rejected: string;
-};
+  prompt: string,
+  chosen: string,
+  rejected: string
+}
 
 export type BaseDataSet = {
-  prompt: string;
-  content: string;
-};
+  prompt: string,
+  content: string,
+}
 
 export type NamedDataSet = {
-  name: string;
-  dataSet: BaseDataSet[];
-};
+  name: string,
+  dataSet: BaseDataSet[]
+}
 
 export type TrainingData = NamedDataSet[];
 
 export const generateDPOTrainingData = (): Active_DPO => ({
   prompt: '#insert prompt#',
   chosen: '#insert chosen output#',
-  rejected: '#insert rejected output#',
+  rejected: '#insert rejected output#'
 });
 
 export const generateBaseDataSetEntry = (): BaseDataSet => {
@@ -62,7 +55,7 @@ export const generateBaseDataSetEntry = (): BaseDataSet => {
 
 export const generateDefaultNamedDataSet = (name: string): NamedDataSet => ({
   name,
-  dataSet: [generateBaseDataSetEntry()],
+  dataSet: [generateBaseDataSetEntry()]
 });
 
 export const generateDefaultTrainingData = (): TrainingData => [];

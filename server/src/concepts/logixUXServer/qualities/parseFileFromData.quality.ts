@@ -29,15 +29,19 @@ const recursiveParse = (data: NamedDataSet, content: string): NamedDataSet => {
   if (index !== -1) {
     const begin = index + ParsingTokens.promptBegin.length;
     const end = content.indexOf(ParsingTokens.promptEnd);
+    const contentBegin = content.indexOf(ParsingTokens.contentBegin) + ParsingTokens.contentBegin.length;
+    const contentEnd = content.indexOf(ParsingTokens.contentEnd);
     const prompt = content.substring(begin, end).split(ParsingTokens.prompt)[1];
-    const output = content.substring(
-      content.indexOf(ParsingTokens.contentBegin) + ParsingTokens.contentBegin.length,
-      content.indexOf(ParsingTokens.contentEnd)
-    );
+    const output = content.substring(contentBegin, contentEnd);
     data.dataSet.push({
       prompt,
       content: output
     });
+    const sub = content.substring(contentEnd + ParsingTokens.contentEnd.length);
+    const cont = sub.indexOf(ParsingTokens.promptBegin) !== -1;
+    if (cont) {
+      return recursiveParse(data, sub);
+    }
   }
   return data;
 };

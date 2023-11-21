@@ -9,7 +9,7 @@ import {
   primeAction,
   selectState,
   selectUnifiedState,
-  strategyBegin,
+  strategyBegin
 } from 'stratimux';
 import { Subscriber } from 'rxjs';
 import { DocumentObjectModelState, documentObjectModelName } from './documentObjectModel.concept';
@@ -24,11 +24,11 @@ export const documentObjectModelPrinciple: PrincipleFunction = (
   const pageID = document.querySelector('[id^="page#"]')?.id;
   const plan = concepts$.stage('ownership Principle Plan', [
     (concepts, dispatch) => {
-      dispatch(primeAction(concepts, axiumRegisterStagePlanner({ conceptName: documentObjectModelName, stagePlanner: plan })), {
+      dispatch(primeAction(concepts, axiumRegisterStagePlanner({conceptName: documentObjectModelName, stagePlanner: plan})), {
         iterateStage: true,
         on: {
           selector: axiumSelectOpen,
-          expected: true,
+          expected: true
         },
       });
     },
@@ -38,19 +38,19 @@ export const documentObjectModelPrinciple: PrincipleFunction = (
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const userInterfaceState = selectState<any>(concepts, 'userInterfaceClient');
       let ready = false;
-      userInterfaceState?.pages.forEach((page: { title: string }) => {
-        pageID && page.title === pageID ? (ready = true) : (ready = false);
+      userInterfaceState?.pages.forEach((page: {title: string}) => {
+        pageID && page.title === pageID ? ready = true : ready = false;
       });
       const binding = documentObjectModelState?.bindingQue;
       if (binding && pageID && ready) {
         dispatch(strategyBegin(documentObjectModelBindingStrategy(concepts, pageID.split('page#')[1], binding)), {
-          iterateStage: true,
+          iterateStage: true
         });
       }
     },
     (__, ___) => {
       plan.conclude();
       // console.log('Plan can conclude.');
-    },
+    }
   ]);
 };

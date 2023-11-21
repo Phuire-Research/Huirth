@@ -43,31 +43,31 @@ export const logixUXMinusSevenStrategy = (count: number, semaphore: number) => {
   // previousStep.successNode = stepFirst;
   const stepSeventh = createActionNode(counterSubtract(semaphore), {
     successNode: null,
-    failureNode: null,
+    failureNode: null
   });
   const stepSix = createActionNode(counterSubtract(semaphore), {
     successNode: stepSeventh,
-    failureNode: null,
+    failureNode: null
   });
   const stepFifth = createActionNode(counterSubtract(semaphore), {
     successNode: stepSix,
-    failureNode: null,
+    failureNode: null
   });
   const StepFourth = createActionNode(counterSubtract(semaphore), {
     successNode: stepFifth,
-    failureNode: null,
+    failureNode: null
   });
   const stepThird = createActionNode(counterSubtract(semaphore), {
     successNode: StepFourth,
-    failureNode: null,
+    failureNode: null
   });
   const stepSecond = createActionNode(counterSubtract(semaphore), {
     successNode: stepThird,
-    failureNode: null,
+    failureNode: null
   });
   const stepFirst = createActionNode(counterSubtract(semaphore), {
     successNode: stepSecond,
-    failureNode: null,
+    failureNode: null
   });
 
   const topic = `Minus Seven Strategy from: ${count}`;

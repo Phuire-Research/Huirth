@@ -16,21 +16,24 @@ import { logixUXMinusSevenStrategy } from '../strategies/countMinusSeven.strateg
 import { logixUXInstallGitRepositoryStrategy } from '../strategies/installGitProject.strategy';
 
 export type LogixUXTriggerInstallGitRepositoryPayload = {
-  url: string;
-  name: string;
-};
+  url: string,
+  name: string
+}
 export const logixUXTriggerInstallGitRepositoryType: ActionType = 'Create logixUX triggerInstallGitRepository';
-export const logixUXTriggerInstallGitRepository = prepareActionWithPayloadCreator(logixUXTriggerInstallGitRepositoryType);
+export const logixUXTriggerInstallGitRepository =
+  prepareActionWithPayloadCreator(logixUXTriggerInstallGitRepositoryType);
 
 const createLogixUXTriggerInstallGitRepositoryMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
-  createMethod((action) => {
-    const { url, name } = selectPayload<LogixUXTriggerInstallGitRepositoryPayload>(action);
-    const strategy = logixUXInstallGitRepositoryStrategy(url, name);
-    return strategyBegin(strategy);
-  });
+  createMethod(
+    (action) => {
+      const { url, name } = selectPayload<LogixUXTriggerInstallGitRepositoryPayload>(action);
+      const strategy = logixUXInstallGitRepositoryStrategy(url, name);
+      return strategyBegin(strategy);
+    }
+  );
 
 export const logixUXTriggerInstallGitRepositoryQuality = createQuality(
   logixUXTriggerInstallGitRepositoryType,
   defaultReducer,
-  createLogixUXTriggerInstallGitRepositoryMethodCreator
+  createLogixUXTriggerInstallGitRepositoryMethodCreator,
 );
