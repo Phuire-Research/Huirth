@@ -1,10 +1,10 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and File System Concept, generate a quality that will add Directories and Files from that target location to ActionStrategy data.
+/*$>*/
+/*<#*/
 import {
-  Action,
   ActionType,
-  Method,
   MethodCreator,
-  axiumConclude,
-  createActionController$,
   createAsyncMethod,
   createQuality,
   defaultReducer,
@@ -15,7 +15,6 @@ import {
   strategyFailed,
   strategySuccess
 } from 'stratimux';
-import { Subject, map, switchMap } from 'rxjs';
 import fs  from 'fs/promises';
 import { FileDirent } from '../fileSystem.model';
 
@@ -29,7 +28,7 @@ export type GetDirectoriesAndFilesDataField = {
   directories: FileDirent[]
 }
 
-const createGetDirectoriesAndFilesMethodCreator: MethodCreator = () =>
+const fileSystemGetDirectoriesAndFilesMethodCreator: MethodCreator = () =>
   createAsyncMethod((controller, action) => {
     const payload = selectPayload<GetDirectoriesAndFilesPayload>(action);
     if (action.strategy) {
@@ -52,5 +51,6 @@ const createGetDirectoriesAndFilesMethodCreator: MethodCreator = () =>
 export const fileSystemGetDirectoriesAndFilesQuality = createQuality(
   fileSystemGetDirectoriesAndFilesType,
   defaultReducer,
-  createGetDirectoriesAndFilesMethodCreator,
+  fileSystemGetDirectoriesAndFilesMethodCreator,
 );
+/*#>*/

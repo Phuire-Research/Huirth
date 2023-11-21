@@ -1,10 +1,13 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality to create the style component necessary for the logixUX page strategies.
+/*$>*/
+/*<#*/
 import {
   ActionType,
   MethodCreator,
   createMethod,
   createQuality,
   defaultReducer,
-  prepareActionCreator,
   strategySuccess
 } from 'stratimux';
 

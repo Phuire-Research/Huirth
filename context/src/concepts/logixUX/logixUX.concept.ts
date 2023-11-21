@@ -8,10 +8,7 @@ import { logixUXIndexDialogBeginQuality } from './qualities/components/dialog/in
 import { logixUXIndexDialogContentQuality } from './qualities/components/dialog/indexDialogContent.quality';
 import { logixUXIndexDialogEndQuality } from './qualities/components/dialog/indexDialogEnd.quality';
 import { logixUXAppendAxiumDialogQuality } from './qualities/appendAxiumDialog.quality';
-import {
-  logixUXDialogPrinciple,
-  logixUXTrainingDataPagePrinciple
-} from './logixUX.principle';
+import { logixUXDialogPrinciple, logixUXTrainingDataPagePrinciple } from './logixUX.principle';
 import { BrandState } from '../../model/userInterface';
 import { logixUXIndexPageStrategy } from './strategies/pages/indexPage.strategy';
 import { logixUXErrorPageStrategy } from './strategies/pages/errorPage.strategy';
@@ -51,7 +48,7 @@ export type LogixUXState = {
   dialog: string;
   stratimuxStatus: ProjectStatus;
   logixUXStatus: ProjectStatus;
-  projectsStatuses: {name: string, status: ProjectStatus}[];
+  projectsStatuses: { name: string; status: ProjectStatus }[];
   sideBarExpanded: boolean;
   trainingData: TrainingData;
   activeDPO: Active_DPO[];
@@ -67,15 +64,12 @@ const createLogixUXState = (): LogixUXState => {
     sideBarExpanded: true,
     trainingData: generateDefaultTrainingData(),
     activeDPO: [generateDPOTrainingData()],
-    pageStrategies: [logixUXIndexPageStrategy, logixUXDataManagerPageStrategy, logixUXErrorPageStrategy]
+    pageStrategies: [logixUXIndexPageStrategy, logixUXDataManagerPageStrategy, logixUXErrorPageStrategy],
   };
 };
 
-export const createLogixUXConcept = (): Concept =>  {
-  const principles: PrincipleFunction[] = [
-    logixUXDialogPrinciple,
-    logixUXTrainingDataPagePrinciple
-  ];
+export const createLogixUXConcept = (): Concept => {
+  const principles: PrincipleFunction[] = [logixUXDialogPrinciple, logixUXTrainingDataPagePrinciple];
   const qualities: Quality[] = [
     logixUXHeadQuality,
     logixUXStyleQuality,
@@ -112,18 +106,8 @@ export const createLogixUXConcept = (): Concept =>  {
     logixUXTriggerPlusCountingStrategyQuality,
     logixUXTriggerRandomCountingStrategyQuality,
     logixUXTriggerInstallGitRepositoryQuality,
-    logixUXToggleSidebarQuality
+    logixUXToggleSidebarQuality,
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
-  return unifyConcepts(
-    [
-      createCounterConcept()
-    ],
-    createConcept(
-      logixUXName,
-      createLogixUXState(),
-      qualities,
-      principles,
-      []
-    ));
+  return unifyConcepts([createCounterConcept()], createConcept(logixUXName, createLogixUXState(), qualities, principles, []));
 };

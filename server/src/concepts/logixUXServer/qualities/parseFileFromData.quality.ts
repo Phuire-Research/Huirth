@@ -27,12 +27,25 @@ export type ParseFileFromDataField = {
 const recursiveParse = (data: NamedDataSet, content: string): NamedDataSet => {
   const index = content.indexOf(ParsingTokens.promptBegin);
   if (index !== -1) {
-    const begin = index + ParsingTokens.promptBegin.length;
-    const end = content.indexOf(ParsingTokens.promptEnd);
+    let output = '';
+    const promptBegin = index + ParsingTokens.promptBegin.length;
+    const promptEnd = content.indexOf(ParsingTokens.promptEnd);
     const contentBegin = content.indexOf(ParsingTokens.contentBegin) + ParsingTokens.contentBegin.length;
     const contentEnd = content.indexOf(ParsingTokens.contentEnd);
-    const prompt = content.substring(begin, end).split(ParsingTokens.prompt)[1];
-    const output = content.substring(contentBegin, contentEnd);
+    const importBegin = content.indexOf(ParsingTokens.importBegin);
+    const includeBegin = content.indexOf(ParsingTokens.includeBegin);
+    if (importBegin !== -1 && importBegin < contentEnd) {
+      const begin = importBegin + ParsingTokens.importBegin.length;
+      const end = content.indexOf(ParsingTokens.importEnd);
+      output += content.substring(begin, end);
+    }
+    if (includeBegin !== -1 && includeBegin < contentEnd) {
+      const begin = includeBegin + ParsingTokens.includeBegin.length;
+      const end = content.indexOf(ParsingTokens.includeEnd);
+      output += content.substring(begin, end);
+    }
+    const prompt = content.substring(promptBegin, promptEnd).split(ParsingTokens.prompt)[1];
+    output += content.substring(contentBegin, contentEnd);
     data.dataSet.push({
       prompt,
       content: output

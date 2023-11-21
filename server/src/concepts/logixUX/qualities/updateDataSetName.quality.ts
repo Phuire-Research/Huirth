@@ -1,3 +1,7 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and a Concept logixUX, generate a quality 
+/*$>*/
+/*<#*/
 import {
   Action,
   ActionType,

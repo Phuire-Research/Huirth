@@ -1,6 +1,10 @@
-import { Concepts, KeyedSelector } from 'stratimux';
+/*<$*/
+// PROMPT: For the framework Stratimux and File System Concept, generate a series of unified selectors to select the Concept's properties.
+/*$>*/
+/*<#*/
+import { Concepts, createUnifiedKeyedSelector} from 'stratimux';
 import { FileSystemState } from './fileSystem.concept';
-import { createUnifiedSelector } from '../../model/selectors';
 
 export const selectUnifiedRoot = (concepts: Concepts, semaphore: number) =>
-  createUnifiedSelector<FileSystemState>(concepts,semaphore, 'root');
+  createUnifiedKeyedSelector<FileSystemState>(concepts, semaphore, 'root');
+/*#>*/

@@ -1,4 +1,7 @@
-/* eslint-disable max-len */
+/*<$*/
+// PROMPT: For the framework Stratimux and Html Concept, generate a quality that will append a html element to a page composition for a User Interface Concept.
+/*$>*/
+/*<#*/
 import {
   ActionType,
   MethodCreator,
@@ -43,3 +46,4 @@ export const htmlBeginQuality = createQuality(
   defaultReducer,
   createHtmlHeadMethodCreator,
 );
+/*#>*/

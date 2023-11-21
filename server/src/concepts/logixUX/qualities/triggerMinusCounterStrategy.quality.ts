@@ -1,3 +1,7 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and a Concept logixUX, generate a quality that will trigger the minus count seven strategy.
+/*$>*/
+/*<#*/
 import {
   ActionType,
   Counter,
@@ -11,7 +15,7 @@ import {
 } from 'stratimux';
 import { logixUXMinusSevenStrategy } from '../strategies/countMinusSeven.strategy';
 
-export const logixUXTriggerMinusCountingStrategyType: ActionType = 'Create logixUX triggerMinusCountingStrategy';
+export const logixUXTriggerMinusCountingStrategyType: ActionType = 'Create logixUX trigger minus seven counting strategy';
 export const logixUXTriggerMinusCountingStrategy =
   prepareActionCreator(logixUXTriggerMinusCountingStrategyType);
 
@@ -28,3 +32,4 @@ export const logixUXTriggerMinusCountingStrategyQuality = createQuality(
   defaultReducer,
   createLogixUXTriggerMinusCountingStrategyMethodCreator,
 );
+/*#>*/

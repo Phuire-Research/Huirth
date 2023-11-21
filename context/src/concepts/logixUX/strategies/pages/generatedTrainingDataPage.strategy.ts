@@ -1,9 +1,5 @@
 import { createActionNode, createStrategy } from 'stratimux';
-import {
-  ActionStrategyComponentStitch,
-  PageStrategyCreators,
-  userInterface_createPage
-} from '../../../../model/userInterface';
+import { ActionStrategyComponentStitch, PageStrategyCreators, userInterface_createPage } from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { logixUXFooterStrategy } from '../components/footer.strategy';
 import { logixUXHeaderStrategy } from '../components/header.strategy';
@@ -16,21 +12,15 @@ export const logixUXGeneratedTrainingDataPageStrategy = (pageTitle: string): Pag
   return () => () => {
     const pageData = userInterface_createPage({
       title: pageTitle,
-      conceptAndProps: [
-        { name: 'helloWorld'},
-      ],
+      conceptAndProps: [{ name: 'helloWorld' }],
       cachedSelectors: [],
-      compositions: []
+      compositions: [],
     });
 
     return userInterfaceCreatePageStrategy(
       pageTitle,
       pageData,
-      [
-        logixUXSidebarComponentStitch,
-        logixUXGeneratedTrainingDataStrategyStitch,
-        logixUXFooterStrategy
-      ],
+      [logixUXSidebarComponentStitch, logixUXGeneratedTrainingDataStrategyStitch, logixUXFooterStrategy],
       logixUXHeaderStrategy
     );
   };
@@ -42,21 +32,21 @@ export const logixUXGeneratedTrainingDataStrategyStitch: ActionStrategyComponent
   // Fill in the Universal Data Set Editor
   const stepLogixUXDataManagerEnd = createActionNode(logixUXDataSetEnd(payload), {
     successNode: null,
-    failureNode: null
+    failureNode: null,
   });
   const stepLogixUXDataManagerContent = createActionNode(logixUXDataSetContent(payload), {
     successNode: stepLogixUXDataManagerEnd,
-    failureNode: null
+    failureNode: null,
   });
   const stepLogixUXDataManagerBegin = createActionNode(logixUXDataSetBegin(payload), {
     successNode: stepLogixUXDataManagerContent,
-    failureNode: null
+    failureNode: null,
   });
   return [
     stepLogixUXDataManagerEnd,
     createStrategy({
       topic: `logixUX Generated ${payload.pageTitle} Training Data Strategy Stitch`,
       initialNode: stepLogixUXDataManagerBegin,
-    })
+    }),
   ];
 };

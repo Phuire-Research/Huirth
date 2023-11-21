@@ -1,19 +1,19 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and File System Concept, generate a quality that will copy move a target directory to a new location.
+/*$>*/
+/*<#*/
 import {
-  Action,
   ActionStrategy,
   ActionType,
-  Method,
   MethodCreator,
   axiumConclude,
-  createActionController$,
+  createAsyncMethod,
   createQuality,
   defaultReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess
 } from 'stratimux';
-// import { strategyData_appendFailure, strategyData_unifyData } from '../../../model/actionStrategy';
-import { Subject, switchMap } from 'rxjs';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -41,32 +41,23 @@ export const fileSystemCopyMoveTargetDirectoryType: ActionType = 'File System co
 export const fileSystemCopyMoveTargetDirectory =
   prepareActionWithPayloadCreator<CopyMoveTargetDirectoryPayload>(fileSystemCopyMoveTargetDirectoryType);
 
-const createCopyMoveTargetDirectoryMethodCreator: MethodCreator = () => {
-  const logSubject = new Subject<Action>();
-  const logMethod: Method = logSubject.pipe(
-    switchMap((act: Action) => {
-      return createActionController$(act, (controller, action) => {
-        const payload = selectPayload<CopyMoveTargetDirectoryPayload>(action);
-        if (action.strategy) {
-          copyDir(payload.target, payload.newLocation).then(() => {
-            const newStrategy =
-              strategySuccess(action.strategy as ActionStrategy);
-            controller.fire(newStrategy);
-          });
-        } else {
-          controller.fire(axiumConclude());
-        }
+const fileSystemCopyMoveTargetDirectoryMethodCreator: MethodCreator = () =>
+  createAsyncMethod((controller, action) => {
+    const payload = selectPayload<CopyMoveTargetDirectoryPayload>(action);
+    if (action.strategy) {
+      copyDir(payload.target, payload.newLocation).then(() => {
+        const newStrategy =
+          strategySuccess(action.strategy as ActionStrategy);
+        controller.fire(newStrategy);
       });
-    }),
-  );
-  return [
-    logMethod,
-    logSubject
-  ];
-};
+    } else {
+      controller.fire(axiumConclude());
+    }
+  });
 
 export const fileSystemCopyMoveTargetDirectoryQuality = createQuality(
   fileSystemCopyMoveTargetDirectoryType,
   defaultReducer,
-  createCopyMoveTargetDirectoryMethodCreator,
+  fileSystemCopyMoveTargetDirectoryMethodCreator,
 );
+/*#>*/

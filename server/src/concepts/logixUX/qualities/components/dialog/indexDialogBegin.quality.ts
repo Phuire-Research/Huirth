@@ -1,11 +1,13 @@
-/* eslint-disable max-len */
+/*<$*/
+// PROMPT: For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the first slice of the Dialog Component.
+/*$>*/
+/*<#*/
 import {
   ActionType,
   MethodCreator,
   createMethod,
   createQuality,
   defaultReducer,
-  selectPayload,
   strategySuccess
 } from 'stratimux';
 
@@ -38,3 +40,4 @@ export const logixUXIndexDialogBeginQuality = createQuality(
   defaultReducer,
   createIndexDialogBeginMethodCreator,
 );
+/*#>*/

@@ -5,8 +5,8 @@ import { webSocketClientPrinciple } from './webSocketClient.principle';
 import { Action, createConcept } from 'stratimux';
 
 export type WebSocketClientState = {
-  actionQue: Action[],
-  serverSemaphore: number,
+  actionQue: Action[];
+  serverSemaphore: number;
 };
 
 export const webSocketClientName = 'webSocketClient';
@@ -14,7 +14,7 @@ export const webSocketClientName = 'webSocketClient';
 const initialWebSocketClientState = (): WebSocketClientState => {
   return {
     actionQue: [],
-    serverSemaphore: -1
+    serverSemaphore: -1,
   };
 };
 
@@ -22,11 +22,7 @@ export const createWebSocketClientConcept = () => {
   return createConcept(
     webSocketClientName,
     initialWebSocketClientState(),
-    [
-      webSocketClientAppendToActionQueQuality,
-      webSocketClientSetServerSemaphoreQuality,
-      webSocketClientSyncStateQuality
-    ],
+    [webSocketClientAppendToActionQueQuality, webSocketClientSetServerSemaphoreQuality, webSocketClientSyncStateQuality],
     [webSocketClientPrinciple]
   );
 };

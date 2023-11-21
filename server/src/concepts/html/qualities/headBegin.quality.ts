@@ -1,4 +1,7 @@
-/* eslint-disable max-len */
+/*<$*/
+// PROMPT: For the framework Stratimux and Html Concept, generate a quality that will append a Html head element for a User Interface Concept and the supplied page composition.
+/*$>*/
+/*<#*/
 import {
   ActionType,
   MethodCreator,
@@ -8,7 +11,6 @@ import {
   prepareActionCreator,
   strategySuccess
 } from 'stratimux';
-
 import { userInterface_appendCompositionToPage } from '../../../model/userInterface';
 
 export const htmlHeadBeginType: ActionType = 'Html create Head Begin';
@@ -39,3 +41,4 @@ export const htmlHeadBeginQuality = createQuality(
   defaultReducer,
   createHtmlHeadMethodCreator,
 );
+/*#>*/

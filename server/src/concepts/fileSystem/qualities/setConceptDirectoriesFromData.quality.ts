@@ -1,3 +1,7 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and File System Concept, generate a quality that will set the concept's concept directory map property from the supplied ActionStrategy data field.
+/*$>*/
+/*<#*/
 import {
   Action,
   ActionType,
@@ -13,7 +17,7 @@ export const fileSystemServerSetConceptDirectoriesFromDataType: ActionType =
   'File System set Concept Directories from Strategy Data';
 export const fileSystemServerSetConceptDirectoriesFromData = prepareActionCreator(fileSystemServerSetConceptDirectoriesFromDataType);
 
-function addComposedPageToState(state: FileSystemState, action: Action): FileSystemState {
+function fileSystemServerSetConceptDirectoriesFromDataReducer(state: FileSystemState, action: Action): FileSystemState {
   if (action.strategy && action.strategy.data) {
     const data = strategyData_select(action.strategy) as GetDirectoriesDataField;
     if (data.directories) {
@@ -30,6 +34,7 @@ function addComposedPageToState(state: FileSystemState, action: Action): FileSys
 
 export const fileSystemServerSetConceptDirectoriesFromDataQuality = createQuality(
   fileSystemServerSetConceptDirectoriesFromDataType,
-  addComposedPageToState,
+  fileSystemServerSetConceptDirectoriesFromDataReducer,
   defaultMethodCreator,
 );
+/*#>*/

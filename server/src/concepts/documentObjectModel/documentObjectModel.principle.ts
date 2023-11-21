@@ -1,6 +1,9 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and Document Object Model Concept, generate a principle that will bind the current page's preloaded document bindings.
+/*$>*/
+/*<#*/
 import {
   Action,
-  AxiumState,
   Concepts,
   PrincipleFunction,
   UnifiedSubject,
@@ -22,7 +25,7 @@ export const documentObjectModelPrinciple: PrincipleFunction = (
   semaphore: number
 ) => {
   const pageID = document.querySelector('[id^="page#"]')?.id;
-  const plan = concepts$.stage('ownership Principle Plan', [
+  const plan = concepts$.stage('Document Object Model initial page bindings plan', [
     (concepts, dispatch) => {
       dispatch(primeAction(concepts, axiumRegisterStagePlanner({conceptName: documentObjectModelName, stagePlanner: plan})), {
         iterateStage: true,
@@ -54,3 +57,4 @@ export const documentObjectModelPrinciple: PrincipleFunction = (
     }
   ]);
 };
+/*#>*/

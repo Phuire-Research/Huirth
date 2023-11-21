@@ -81,6 +81,5 @@ export enum elementEventBinding {
   ontimeupdate = 'ontimeupdate',
   onvolumechange = 'onvolumechange',
   onwaiting = 'onwaiting',
-  ontoggle = 'ontoggle'
+  ontoggle = 'ontoggle',
 }
-

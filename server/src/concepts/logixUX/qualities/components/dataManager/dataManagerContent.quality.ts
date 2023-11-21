@@ -1,4 +1,7 @@
-/* eslint-disable max-len */
+/*<$*/
+// PROMPT: For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality that will create the Data Manager's body slice and bind all essential functions to properly manage a Stratimux project data.
+/*$>*/
+/*<#*/
 import {
   Action,
   ActionType,
@@ -9,7 +12,6 @@ import {
   createQuality,
   defaultReducer,
   selectUnifiedState,
-  strategyBegin,
   strategySuccess
 } from 'stratimux';
 
@@ -20,11 +22,8 @@ import { logixUX_createLogixUXStatusSelector, logixUX_createStratimuxStatusSelec
 import { logixUXNewDataSet } from '../../newDataSet.quality';
 import { PhuirEProjects, ProjectStatus, dataSetNameID, generateNumID } from '../../../logixUX.model';
 import { logixUXUpdateDataSetName } from '../../updateDataSetName.quality';
-import { logixUXInstallGitRepositoryStrategy } from '../../../strategies/installGitProject.strategy';
-import { logixUXServerTriggerCloneGitRepositoryStrategy } from '../../../../logixUXServer/qualities/triggerCloneGitRepositoryStrategy.quality';
 import { logixUXTriggerInstallGitRepository } from '../../triggerInstallGitRepository.quality';
 import { logixUXSendTriggerParseRepositoryStrategy } from '../../../strategies/server/triggerParseRepositoryStrategy.helper';
-// import { logixUXTriggerSaveDataManagerStrategy } from '../../../strategies/server/triggerSaveDataManagerStrategy.helper';
 
 export const logixUXDataManagerContentType: ActionType = 'create userInterface for DataManagerContent';
 export const logixUXDataManagerContent = prepareActionComponentCreator(logixUXDataManagerContentType);
@@ -67,7 +66,10 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
     </div>
     <input
       id="${dataSetNameID + elementID}"
-      class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 !pr-9 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+      class="${'peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white ' +
+'px-3 py-2.5 !pr-9 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all ' +
+'placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 ' +
+'focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50'}"
       value="${trainingData[i].name}"
     />
     <button class="ml-4 italic cursor-pointer center-m bg-purple-800/5 hover:bg-purple-500 text-purple-50 font-semibold hover:text-white py-2 px-4 border border-purple-400 hover:border-transparent border-solid rounded">
@@ -172,7 +174,10 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
                   <i class="fa-brands fa-github"></i>
                 </div>
                 <input
-                  class="peer h-full w-full rounded-[7px] border border-orange-200 border-t-transparent bg-white px-3 py-2.5 !pr-9 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                  class="${'peer h-full w-full rounded-[7px] border border-orange-200 border-t-transparent bg-white ' +
+'px-3 py-2.5 !pr-9 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border ' +
+'placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 ' +
+'focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50'}"
                   value="Git Repository"
                 />
               </div>
@@ -188,7 +193,9 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
               </button>
             </div>
             <div class="m-4 flex-none flex items-center w-full">
-              <select id="strategies" class="mr-4 bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <select id="strategies" class="${'mr-4 bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-500 ' +
+'focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500' +
+'dark:focus:border-blue-500'}">
                 <option selected>Transformation Strategies</option>
                 <option value="something">Something</option>
               </select>
@@ -231,3 +238,4 @@ export const logixUXDataManagerContentQuality = createQuality(
   defaultReducer,
   createDataManagerContentMethodCreator,
 );
+/*#>*/

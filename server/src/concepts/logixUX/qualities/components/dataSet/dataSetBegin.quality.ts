@@ -1,4 +1,7 @@
-/* eslint-disable max-len */
+/*<$*/
+// PROMPT: For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality to create the first slice of the DataSet Component.
+/*$>*/
+/*<#*/
 import {
   ActionType,
   MethodCreator,
@@ -37,3 +40,4 @@ export const logixUXDataSetBeginQuality = createQuality(
   defaultReducer,
   createDataSetBeginMethodCreator,
 );
+/*#>*/

@@ -1,3 +1,7 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and File System Concept, generate a quality that will add all Directories and Files from that target location to ActionStrategy data.
+/*$>*/
+/*<#*/
 import {
   ActionType,
   MethodCreator,
@@ -63,3 +67,4 @@ export const fileSystemReadDirectoryQuality = createQuality(
   defaultReducer,
   createReadDirectoryMethodCreator,
 );
+/*#>*/

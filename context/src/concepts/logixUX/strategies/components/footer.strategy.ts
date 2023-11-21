@@ -7,10 +7,13 @@ export const logixUXFooterStrategy: ActionStrategyComponentStitch = (payload) =>
   const stepStitch = axium_createStitchNode();
   const stepLogixUXFooter = createActionNode(logixUXFooter(payload), {
     successNode: stepStitch,
-    failureNode: null
+    failureNode: null,
   });
-  return [stepStitch, createStrategy({
-    topic: 'Create logixUX Header Content',
-    initialNode: stepLogixUXFooter,
-  })];
+  return [
+    stepStitch,
+    createStrategy({
+      topic: 'Create logixUX Header Content',
+      initialNode: stepLogixUXFooter,
+    }),
+  ];
 };

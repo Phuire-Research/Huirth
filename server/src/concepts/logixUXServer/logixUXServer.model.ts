@@ -42,5 +42,9 @@ export enum ParsingTokens {
   prompt = '// PROMPT: ',
   promptEnd = '/*$>*/',
   contentBegin = '/*<#*/',
-  contentEnd = '/*#>*/'
+  contentEnd = '/*#>*/',
+  importBegin = '/*<!',
+  importEnd = '!>*/',
+  includeBegin = '/*<@',
+  includeEnd = '@>*/'
 }

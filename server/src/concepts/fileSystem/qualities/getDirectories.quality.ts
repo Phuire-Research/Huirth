@@ -1,3 +1,7 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and File System Concept, generate a quality that will store a target path's directories onto the provided ActionStrategy data field.
+/*$>*/
+/*<#*/
 import {
   Action,
   ActionType,

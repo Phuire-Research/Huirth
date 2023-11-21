@@ -1,4 +1,7 @@
-/* eslint-disable max-len */
+/*<$*/
+// PROMPT: For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality that will create the final slice for the Data Manager Component.
+/*$>*/
+/*<#*/
 import {
   ActionType,
   MethodCreator,
@@ -36,3 +39,4 @@ export const logixUXDataManagerEndQuality = createQuality(
   defaultReducer,
   createDataManagerEndMethodCreator,
 );
+/*#>*/

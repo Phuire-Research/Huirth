@@ -1,15 +1,8 @@
-import {
-  Action,
-  ActionType,
-  createQuality,
-  defaultMethodCreator,
-  prepareActionCreator,
-} from 'stratimux';
+import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionCreator } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 
 export const logixUXToggleSidebarType: ActionType = 'Create logixUX ToggleSidebar';
-export const logixUXToggleSidebar =
-  prepareActionCreator(logixUXToggleSidebarType);
+export const logixUXToggleSidebar = prepareActionCreator(logixUXToggleSidebarType);
 
 function logixUXToggleSidebarReducer(state: LogixUXState, action: Action): LogixUXState {
   return {
@@ -18,8 +11,4 @@ function logixUXToggleSidebarReducer(state: LogixUXState, action: Action): Logix
   };
 }
 
-export const logixUXToggleSidebarQuality = createQuality(
-  logixUXToggleSidebarType,
-  logixUXToggleSidebarReducer,
-  defaultMethodCreator
-);
+export const logixUXToggleSidebarQuality = createQuality(logixUXToggleSidebarType, logixUXToggleSidebarReducer, defaultMethodCreator);

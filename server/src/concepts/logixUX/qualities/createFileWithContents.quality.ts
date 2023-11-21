@@ -1,7 +1,10 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and a Concept logixUX, generate a quality that will create the context index needed to load Stratimux and all unified logixUX concepts onto the client.
+/*$>*/
+/*<#*/
 import {
   ActionStrategy,
   ActionType,
-  Concept,
   MethodCreator,
   axiumConclude,
   createAsyncMethod,
@@ -11,7 +14,6 @@ import {
   selectPayload,
   strategySuccess
 } from 'stratimux';
-// import { strategyData_appendFailure, strategyData_unifyData } from '../../../model/actionStrategy';
 import fs from 'fs/promises';
 import path from 'path';
 import { PrimedConceptAndProperties } from '../../../model/userInterface';
@@ -49,3 +51,4 @@ export const userInterfaceServerCreateContextIndexQuality = createQuality(
   defaultReducer,
   createCreateContextIndexMethodCreator,
 );
+/*#>*/

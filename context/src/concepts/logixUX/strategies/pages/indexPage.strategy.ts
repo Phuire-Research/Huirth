@@ -3,7 +3,7 @@ import {
   ActionComponentPayload,
   ActionStrategyComponentStitch,
   PageStrategyCreators,
-  userInterface_createPage
+  userInterface_createPage,
 } from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { logixUXFooterStrategy } from '../components/footer.strategy';
@@ -31,32 +31,27 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
   const stepStitch = axium_createStitchNode();
   const stepLogixUXIndexHero = createActionNode(logixUXIndexHero(page), {
     successNode: stepStitch,
-    failureNode: null
+    failureNode: null,
   });
-  const logixUXBody: ActionStrategyComponentStitch = (payload: ActionComponentPayload) => [stepStitch, createStrategy({
-    topic: 'Create logixUX Body Content',
-    initialNode: stepLogixUXIndexHero,
-  })];
+  const logixUXBody: ActionStrategyComponentStitch = (payload: ActionComponentPayload) => [
+    stepStitch,
+    createStrategy({
+      topic: 'Create logixUX Body Content',
+      initialNode: stepLogixUXIndexHero,
+    }),
+  ];
 
   const pageData = userInterface_createPage({
     title: logixUXIndexPageStrategyTopic,
-    conceptAndProps: [
-      { name: 'helloWorld'},
-    ],
+    conceptAndProps: [{ name: 'helloWorld' }],
     cachedSelectors: [],
-    compositions: []
+    compositions: [],
   });
 
   return userInterfaceCreatePageStrategy(
     logixUXIndexPageStrategyTopic,
     pageData,
-    [
-      logixUXSidebarComponentStitch,
-      logixUXBody,
-      logixUXIndexDialogStrategyStitch,
-      logixUXIndexDPOStrategyStitch,
-      logixUXFooterStrategy
-    ],
+    [logixUXSidebarComponentStitch, logixUXBody, logixUXIndexDialogStrategyStitch, logixUXIndexDPOStrategyStitch, logixUXFooterStrategy],
     logixUXHeaderStrategy
   );
 };
@@ -66,22 +61,22 @@ export const logixUXIndexDialogStrategyStitch: ActionStrategyComponentStitch = (
   // Body
   const stepLogixUXIndexDialogEnd = createActionNode(logixUXIndexDialogEnd(payload), {
     successNode: null,
-    failureNode: null
+    failureNode: null,
   });
   const stepLogixUXIndexDialogContent = createActionNode(logixUXIndexDialogContent(payload), {
     successNode: stepLogixUXIndexDialogEnd,
-    failureNode: null
+    failureNode: null,
   });
   const stepLogixUXIndexDialogBegin = createActionNode(logixUXIndexDialogBegin(payload), {
     successNode: stepLogixUXIndexDialogContent,
-    failureNode: null
+    failureNode: null,
   });
   return [
     stepLogixUXIndexDialogEnd,
     createStrategy({
       topic: logixUXIndexDialogStrategyStitchTopic,
       initialNode: stepLogixUXIndexDialogBegin,
-    })
+    }),
   ];
 };
 
@@ -90,21 +85,21 @@ export const logixUXIndexDPOStrategyStitch: ActionStrategyComponentStitch = (pay
   // Body
   const stepLogixUXIndexDPOEnd = createActionNode(logixUXIndexDPOEnd(payload), {
     successNode: null,
-    failureNode: null
+    failureNode: null,
   });
   const stepLogixUXIndexDPOContent = createActionNode(logixUXIndexDPOContent(payload), {
     successNode: stepLogixUXIndexDPOEnd,
-    failureNode: null
+    failureNode: null,
   });
   const stepLogixUXIndexDPOBegin = createActionNode(logixUXIndexDPOBegin(payload), {
     successNode: stepLogixUXIndexDPOContent,
-    failureNode: null
+    failureNode: null,
   });
   return [
     stepLogixUXIndexDPOEnd,
     createStrategy({
       topic: logixUXIndexDPOStrategyStitchTopic,
       initialNode: stepLogixUXIndexDPOBegin,
-    })
+    }),
   ];
 };

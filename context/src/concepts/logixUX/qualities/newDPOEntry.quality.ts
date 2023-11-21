@@ -1,16 +1,9 @@
-import {
-  Action,
-  ActionType,
-  createQuality,
-  defaultMethodCreator,
-  prepareActionCreator,
-} from 'stratimux';
+import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionCreator } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 import { generateDPOTrainingData, generateDefaultTrainingData } from '../logixUX.model';
 
 export const logixUXNewDPOEntryType: ActionType = 'Create logixUX NewDPOEntry';
-export const logixUXNewDPOEntry =
-  prepareActionCreator(logixUXNewDPOEntryType);
+export const logixUXNewDPOEntry = prepareActionCreator(logixUXNewDPOEntryType);
 
 function logixUXNewDPOEntryReducer(state: LogixUXState, action: Action): LogixUXState {
   const activeDPO = [...state.activeDPO];
@@ -21,8 +14,4 @@ function logixUXNewDPOEntryReducer(state: LogixUXState, action: Action): LogixUX
   };
 }
 
-export const logixUXNewDPOEntryQuality = createQuality(
-  logixUXNewDPOEntryType,
-  logixUXNewDPOEntryReducer,
-  defaultMethodCreator
-);
+export const logixUXNewDPOEntryQuality = createQuality(logixUXNewDPOEntryType, logixUXNewDPOEntryReducer, defaultMethodCreator);

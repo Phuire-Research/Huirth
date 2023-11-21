@@ -15,24 +15,28 @@ import { userInterfacePageToStateStrategy } from '../strategies.ts/pageToState.s
 
 export type UserInterfaceAddNewPagePayload = {
   // name: string,
-  pageStrategy: PageStrategyCreators,
-}
-export const userInterfaceAddNewPageType: ActionType =
-  'User Interface Add New Page';
+  pageStrategy: PageStrategyCreators;
+};
+export const userInterfaceAddNewPageType: ActionType = 'User Interface Add New Page';
 export const userInterfaceAddNewPage = prepareActionWithPayloadCreator<UserInterfaceAddNewPagePayload>(userInterfaceAddNewPageType);
 
-const userInterfaceAddNewPageMethodCreator: MethodCreator = (concepts$, semaphore) => createMethodWithConcepts((action, concepts) => {
-  const payload = selectPayload<UserInterfaceAddNewPagePayload>(action);
-  return strategyBegin(userInterfacePageToStateStrategy(payload.pageStrategy(concepts)));
-}, concepts$ as UnifiedSubject, semaphore as number);
+const userInterfaceAddNewPageMethodCreator: MethodCreator = (concepts$, semaphore) =>
+  createMethodWithConcepts(
+    (action, concepts) => {
+      const payload = selectPayload<UserInterfaceAddNewPagePayload>(action);
+      return strategyBegin(userInterfacePageToStateStrategy(payload.pageStrategy(concepts)));
+    },
+    concepts$ as UnifiedSubject,
+    semaphore as number
+  );
 
 const userInterfaceAddNewPageStateReducer = (state: UserInterfaceState, action: Action): UserInterfaceState => {
   const payload = selectPayload<UserInterfaceAddNewPagePayload>(action);
-  const {pageStrategies} = state;
+  const { pageStrategies } = state;
   pageStrategies.push(payload.pageStrategy);
   return {
     ...state,
-    pageStrategies
+    pageStrategies,
   };
 };
 

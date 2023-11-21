@@ -1,11 +1,12 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and File System Concept, generate a quality the will create the target directory if it does not exist.
+/*$>*/
+/*<#*/
 import {
-  Action,
   ActionStrategy,
   ActionType,
-  Method,
   MethodCreator,
   axiumConclude,
-  createActionController$,
   createAsyncMethod,
   createQuality,
   defaultReducer,
@@ -13,7 +14,6 @@ import {
   selectPayload,
   strategySuccess
 } from 'stratimux';
-import { Subject, switchMap } from 'rxjs';
 import fs from 'fs';
 
 export type CreateTargetDirectoryPayload = {

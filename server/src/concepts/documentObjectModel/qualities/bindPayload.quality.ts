@@ -1,5 +1,8 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and Document Object Model Concept, generate a quality that will attach a element event to the next action's payload.
+/*$>*/
+/*<#*/
 import {
-  Action,
   ActionType,
   MethodCreator,
   createMethod,
@@ -17,19 +20,19 @@ export const documentObjectModelBindPayloadType: ActionType = 'Document Object M
 export const documentObjectModelBindPayload =
   prepareActionWithPayloadCreator<DocumentObjectModelBindPayloadPayload>(documentObjectModelBindPayloadType);
 
-const createDocumentObjectModelBindPayloadCreator: MethodCreator = () => createMethod((action) => {
+const documentObjectModelBindPayloadMethodCreator: MethodCreator = () => createMethod((action) => {
   if (action.strategy) {
     const payload = selectPayload<DocumentObjectModelBindPayloadPayload>(action);
-    const strategy = strategySuccess(action.strategy);
-    if (strategy.payload) {
-      strategy.payload = {
-        ...strategy.payload,
+    const act = strategySuccess(action.strategy);
+    if (act.payload) {
+      act.payload = {
+        ...act.payload,
         ...payload
       };
     } else {
-      strategy.payload = payload;
+      act.payload = payload;
     }
-    return strategy;
+    return act;
   } else {
     return action;
   }
@@ -38,5 +41,6 @@ const createDocumentObjectModelBindPayloadCreator: MethodCreator = () => createM
 export const documentObjectModelBindPayloadQuality = createQuality(
   documentObjectModelBindPayloadType,
   defaultReducer,
-  createDocumentObjectModelBindPayloadCreator,
+  documentObjectModelBindPayloadMethodCreator,
 );
+/*#>*/
