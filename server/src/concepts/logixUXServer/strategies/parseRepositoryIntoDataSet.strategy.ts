@@ -2,6 +2,7 @@ import { axiumLog, createActionNode, createStrategy } from 'stratimux';
 import path from 'path';
 import { fileSystemReadDirectory } from '../../fileSystem/qualities/readDir.quality';
 import { logixUXServerParseFileFromData } from '../qualities/parseFileFromData.quality';
+import { fileSystemFilterFilesAndDirectories } from '../../fileSystem/qualities/filterFilesAndDirectories.quality';
 
 export const logixUXServerParseRepositoryTopic = 'logixUXServer read Repository, then parse the contents into a DataSet';
 export const logixUXServerParseRepositoryStrategy = (root: string, name:string) => {
@@ -13,9 +14,13 @@ export const logixUXServerParseRepositoryStrategy = (root: string, name:string) 
     failureNode: null,
   });
   // Step 1 Remove directory if exists based on name
+  const stepFilter = createActionNode(fileSystemFilterFilesAndDirectories({token: '.ts'}), {
+    successNode: stepParseFile,
+    failureNode: null
+  });
   const stepReadDirectory = createActionNode(fileSystemReadDirectory({target: dataPath}), {
     // successNode: stepCreateDirectory,
-    successNode: stepParseFile,
+    successNode: stepFilter,
     failureNode: null,
     agreement: 20000
   });

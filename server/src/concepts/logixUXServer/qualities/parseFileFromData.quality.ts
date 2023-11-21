@@ -30,7 +30,7 @@ const logixUXServerParseFileFromDataMethodCreator = () =>
     if (action.strategy && action.strategy.data) {
       const data = strategyData_select(action.strategy) as ReadDirectoryField;
       if (data.filesAndDirectories) {
-        console.log('CHECK DIRENT DIRECTORY CONTENTS', data.filesAndDirectories);
+        console.log('CHECK DIRENT DIRECTORY CONTENTS', data.filesAndDirectories[0]);
         controller.fire(strategySuccess(action.strategy));
         // FIGURE OUT DIRENT
         // if (data.directories.length !== 0) {
