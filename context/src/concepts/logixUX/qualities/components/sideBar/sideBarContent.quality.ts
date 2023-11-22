@@ -1,3 +1,7 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality to create the content slice of the Side Bar Component with the necessary bindings and selectors.
+/*$>*/
+/*<#*/
 /* eslint-disable max-len */
 import {
   ActionType,
@@ -102,3 +106,4 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
   );
 
 export const logixUXSideBarContentQuality = createQuality(logixUXSideBarContentType, defaultReducer, createSideBarContentMethodCreator);
+/*#>*/

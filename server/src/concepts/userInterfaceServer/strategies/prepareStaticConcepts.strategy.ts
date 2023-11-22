@@ -1,7 +1,11 @@
+/*<$
+For the framework Stratimux and the User Interface Server Concept, generate an ActionStrategy the composes the prepare context concepts stich as its beginning the prepares a static deployment.
+By create all the necessary page html files and moving context directories that those fils would utilize in production.
+$>*/
+/*<#*/
 import {
   ActionStrategy,
   ActionStrategyParameters,
-  Concept,
   axiumPreClose,
   createActionNode,
   createActionNodeFromStrategy,
@@ -11,7 +15,7 @@ import { fileSystemCopyMoveTargetDirectory } from '../../fileSystem/qualities/co
 import path from 'path';
 import { ConceptAndProperties, Page } from '../../../model/userInterface';
 import { userInterfaceServerRecursivelyCreateEachPageHtml } from '../qualities/recursivelyCreateEachPageHtml.quality';
-import { userInterfaceServerPrepareContextConceptsStrategy } from './prepareContextConcepts.strategy';
+import { userInterfaceServerPrepareContextConceptsStitch } from './prepareContextConcepts.strategy';
 
 export const userInterfaceServerPrepareStaticConceptsTopic = 'User Interface Server prepare Static Concepts';
 export function userInterfaceServerPrepareStaticConceptsStrategy(
@@ -41,7 +45,7 @@ export function userInterfaceServerPrepareStaticConceptsStrategy(
     successNode: stepRecursivelyCreatePageHtml,
     failureNode: null
   });
-  const [stitchEnd, contextStrategy] = userInterfaceServerPrepareContextConceptsStrategy(
+  const [stitchEnd, contextStrategy] = userInterfaceServerPrepareContextConceptsStitch(
     root,
     conceptsAndProps,
     unified,

@@ -1,3 +1,7 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality to create the first slice of the Side Bar Component.
+/*$>*/
+/*<#*/
 /* eslint-disable max-len */
 import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';
 
@@ -32,3 +36,4 @@ const createSideBarBeginMethodCreator: MethodCreator = () =>
   });
 
 export const logixUXSideBarBeginQuality = createQuality(logixUXSideBarBeginType, defaultReducer, createSideBarBeginMethodCreator);
+/*#>*/

@@ -1,4 +1,8 @@
-import { ActionStrategyStitch, axium_createStitchNode, createActionNode, createActionNodeFromStrategy, createStrategy } from 'stratimux';
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a Page Strategy Creator that will unify Sidebar, HeroDialog, DPO, Footer, and Header Action Strategy Component Stitches into a Page Composition.
+$>*/
+/*<#*/
+import { axium_createStitchNode, createActionNode, createStrategy } from 'stratimux';
 import {
   ActionComponentPayload,
   ActionStrategyComponentStitch,
@@ -6,8 +10,8 @@ import {
   userInterface_createPage,
 } from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
-import { logixUXFooterStrategy } from '../components/footer.strategy';
-import { logixUXHeaderStrategy } from '../components/header.strategy';
+import { logixUXFooterStitch } from '../components/footer.strategy';
+import { logixUXHeaderStitch } from '../components/header.strategy';
 import { logixUXIndexHero } from '../../qualities/components/hero/indexHero.quality';
 import { logixUXIndexDialogBegin } from '../../qualities/components/dialog/indexDialogBegin.quality';
 import { logixUXIndexDialogContent } from '../../qualities/components/dialog/indexDialogContent.quality';
@@ -22,12 +26,6 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
   const page: ActionComponentPayload = {
     pageTitle: logixUXIndexPageStrategyTopic,
   };
-  // Body
-  // const [
-  //   stitchDialogEnd,
-  //   stitchDialogStrategy
-  // ] = logixUXIndexDialogStrategyStitch();
-  // const stepDialog = createActionNodeFromStrategy(stitchDialogStrategy);
   const stepStitch = axium_createStitchNode();
   const stepLogixUXIndexHero = createActionNode(logixUXIndexHero(page), {
     successNode: stepStitch,
@@ -43,7 +41,7 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
 
   const pageData = userInterface_createPage({
     title: logixUXIndexPageStrategyTopic,
-    conceptAndProps: [{ name: 'helloWorld' }],
+    conceptAndProps: [],
     cachedSelectors: [],
     compositions: [],
   });
@@ -51,12 +49,12 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
   return userInterfaceCreatePageStrategy(
     logixUXIndexPageStrategyTopic,
     pageData,
-    [logixUXSidebarComponentStitch, logixUXBody, logixUXIndexDialogStrategyStitch, logixUXIndexDPOStrategyStitch, logixUXFooterStrategy],
-    logixUXHeaderStrategy
+    [logixUXSidebarComponentStitch, logixUXBody, logixUXIndexDialogStrategyStitch, logixUXIndexDPOStrategyStitch, logixUXFooterStitch],
+    logixUXHeaderStitch
   );
 };
 
-export const logixUXIndexDialogStrategyStitchTopic = 'logixUX Index Dialog Strategy Stitch';
+export const logixUXIndexDialogStrategyStitchTopic = 'logixUX Index Dialog Strategy Component Stitch';
 export const logixUXIndexDialogStrategyStitch: ActionStrategyComponentStitch = (payload) => {
   // Body
   const stepLogixUXIndexDialogEnd = createActionNode(logixUXIndexDialogEnd(payload), {
@@ -103,3 +101,4 @@ export const logixUXIndexDPOStrategyStitch: ActionStrategyComponentStitch = (pay
     }),
   ];
 };
+/*#>*/

@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the User Interface Server Concept, generate a quality that will build trigger a build script within the context directory.
+$>*/
+/*<#*/
 import {
   ActionType,
   MethodCreator,
@@ -25,8 +29,6 @@ const createBuildContextMethodCreator: MethodCreator = () => createAsyncMethod(
       exec(`cd ${payload.contextDir} & npm run build`, (error, stdout, stderr) => {
         if (action.strategy) {
           if (error) {
-            console.log(`error: ${error}, stdout: ${stdout}, stderr: ${stderr}`);
-            console.warn(`error: ${error}, stdout: ${stdout}, stderr: ${stderr}`);
             console.error(`error: ${error}, stdout: ${stdout}, stderr: ${stderr}`);
             controller.fire(
               strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, stderr))
@@ -53,3 +55,4 @@ export const userInterfaceServerBuildContextQuality = createQuality(
   defaultReducer,
   createBuildContextMethodCreator,
 );
+/*#>*/

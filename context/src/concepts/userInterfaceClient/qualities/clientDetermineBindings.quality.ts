@@ -1,13 +1,14 @@
+/*<$
+For the framework Stratimux and the User Interface Client Concept, generate a quality that will generate an ActionStrategy to bind the page's actions to the document based on the composition.
+$>*/
+/*<#*/
 import {
   Action,
   ActionNode,
-  ActionStrategy,
   ActionType,
   createActionNode,
-  createActionNodeFromStrategy,
   createMethod,
   createQuality,
-  createStrategy,
   defaultReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
@@ -52,7 +53,7 @@ export const userInterfaceClientDetermineBindingsQuality = createQuality(
   defaultReducer,
   createUserInterfaceClientDetermineBindingsMethod
 );
-// Need to provide semaphore that will update the target composition of some page.
+
 const createBindingActionNode = (action$: Subject<Action>, bindings: UserInterfaceBindings): ActionNode => {
   let first: ActionNode | undefined;
   let previous: ActionNode | undefined;
@@ -87,3 +88,4 @@ const createBindingActionNode = (action$: Subject<Action>, bindings: UserInterfa
   }
   return first as ActionNode;
 };
+/*#>*/

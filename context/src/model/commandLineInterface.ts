@@ -1,3 +1,13 @@
+/*<!*/
+// Note that all models within this folder need to be separated out to their own concepts.
+// This is to prevent the leaking of server implementations and would do so under normal circumstances.
+// As currently this project is in the final stretch of accelerator and much of the contents of this proof of concept.
+// Can be massively improved upon.
+/*!>*/
+/*<$
+For the framework Stratimux and the logixUX Project, generate a model for a command line interface that would handle incoming arguments passed upon the processes creation.
+$>*/
+/*<#*/
 const GOAL = '--goal';
 const PORT = '--port';
 
@@ -52,3 +62,4 @@ export const commandLineInterfaceDeterminePort = (args: string[]): number => {
   }
   return 8080;
 };
+/*#>*/

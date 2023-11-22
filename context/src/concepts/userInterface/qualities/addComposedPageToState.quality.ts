@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the User Interface Concept, generate a quality that will add a page and its compositions to the state, while update the cached selectors to enable atomic operations.
+$>*/
+/*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionCreator } from 'stratimux';
 import { BoundSelectors, userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
@@ -6,7 +10,6 @@ export const userInterfaceAddComposedPageToStateType: ActionType = 'User Interfa
 export const userInterfaceAddComposedPageToState = prepareActionCreator(userInterfaceAddComposedPageToStateType);
 
 function addComposedPageToState(state: UserInterfaceState, action: Action): UserInterfaceState {
-  console.log('HITTING COMPOSED PAGE TO STATE');
   if (action.strategy) {
     const page = userInterface_selectPage(action.strategy);
     const newPages = state.pages.filter((_page) => {
@@ -27,7 +30,6 @@ function addComposedPageToState(state: UserInterfaceState, action: Action): User
       }
       p.cachedSelectors = cachedSelectors;
     }
-    console.log('CHECK ADD COMPOSED PAGE TO STATE', newPages, page.title);
     return {
       ...state,
       pages: newPages,
@@ -44,3 +46,4 @@ export const userInterfaceAddComposedPageToStateQuality = createQuality(
   addComposedPageToState,
   defaultMethodCreator
 );
+/*#>*/

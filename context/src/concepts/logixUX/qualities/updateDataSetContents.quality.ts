@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a quality that will set the DataSet at the specified index, the value of the html target supplied in the strategy data field.
+$>*/
+/*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 import { userInterface_selectInputTarget } from '../../../model/userInterface';
@@ -29,3 +33,4 @@ export const logixUXUpdateDataSetContentsQuality = createQuality(
   logixUXUpdateDataSetContentsReducer,
   defaultMethodCreator
 );
+/*#>*/

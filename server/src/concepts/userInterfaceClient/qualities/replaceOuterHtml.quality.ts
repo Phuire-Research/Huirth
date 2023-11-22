@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the User Interface Client Concept, generate a quality that will replace the outer html of a document's element based on the incoming id.
+$>*/
+/*<#*/
 import {
   ActionType,
   createMethod,
@@ -35,3 +39,4 @@ export const userInterfaceClientReplaceOuterHtmlQuality = createQuality(
   defaultReducer,
   createUserInterfaceClientReplaceOuterHtmlMethod,
 );
+/*#>*/

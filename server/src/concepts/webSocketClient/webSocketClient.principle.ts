@@ -1,19 +1,23 @@
+/*<$
+For the framework Stratimux and the Web Socket Client Concept, generate a principle that will establish a connection with a server, and pass its semaphore.
+Then create a plan to notify the server of state changes, while ignoring values that would disallow this process from being halting complete.
+As well as receive actions from the server, the parse and dispatch them into the client's action stream.
+$>*/
+/*<#*/
 import { Subscriber } from 'rxjs';
 import {
   Action,
   Concepts,
   PrincipleFunction,
   UnifiedSubject,
-  axiumKick,
-  axiumLog,
   axiumRegisterStagePlanner,
   getUnifiedName,
   selectUnifiedState,
 } from 'stratimux';
 import _ws from 'express-ws';
 import { WebSocketClientState } from './webSocketClient.concept';
-import { webSocketClientSyncState } from './qualities/syncState.quality';
 import { webSocketClientSetClientSemaphore } from './strategies/server/setClientSemaphore.helper';
+import { webSocketServerSyncClientState } from './strategies/server/syncServerState.helper';
 
 const notKeys = (key: string) => {
   return (
@@ -82,7 +86,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
                   state[key] = newState[key];
                 }
               }
-              ws.send(JSON.stringify(webSocketClientSyncState({state})));
+              ws.send(JSON.stringify(webSocketServerSyncClientState({state})));
             } else {
               for (const key of stateKeys) {
                 let changed = false;
@@ -103,7 +107,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
                       state[key] = newState[key];
                     }
                   }
-                  const sync = webSocketClientSyncState({state});
+                  const sync = webSocketServerSyncClientState({state});
                   sync.conceptSemaphore = (newState as WebSocketClientState).serverSemaphore;
                   ws.send(JSON.stringify(sync));
                   break;
@@ -124,3 +128,4 @@ export const webSocketClientPrinciple: PrincipleFunction =
       }
     });
   };
+  /*#>*/

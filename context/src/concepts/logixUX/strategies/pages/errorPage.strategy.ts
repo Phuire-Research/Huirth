@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a Page Strategy Creator that will unify Sidebar, Error, Footer, and Header Action Strategy Component Stitches into a Page Composition.
+$>*/
+/*<#*/
 import { axium_createStitchNode, createActionNode, createStrategy } from 'stratimux';
 import {
   ActionComponentPayload,
@@ -6,8 +10,8 @@ import {
   userInterface_createPage,
 } from '../../../../model/userInterface';
 import { logixUXError } from '../../qualities/components/error/error.quality';
-import { logixUXFooterStrategy } from '../components/footer.strategy';
-import { logixUXHeaderStrategy } from '../components/header.strategy';
+import { logixUXFooterStitch } from '../components/footer.strategy';
+import { logixUXHeaderStitch } from '../components/header.strategy';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { logixUXSidebarComponentStitch } from '../components/sidebar.strategy';
 
@@ -22,7 +26,7 @@ export const logixUXErrorPageStrategy: PageStrategyCreators = () => () => {
     successNode: stepStitch,
     failureNode: null,
   });
-  const logixUXBody: ActionStrategyComponentStitch = () => [
+  const logixUXErrorStitch: ActionStrategyComponentStitch = () => [
     stepStitch,
     createStrategy({
       topic: 'Create logixUX Error Body Content',
@@ -32,7 +36,7 @@ export const logixUXErrorPageStrategy: PageStrategyCreators = () => () => {
 
   const pageData = userInterface_createPage({
     title: logixUXErrorPageStrategyTopic,
-    conceptAndProps: [{ name: 'helloWorld' }],
+    conceptAndProps: [],
     cachedSelectors: [],
     compositions: [],
   });
@@ -40,7 +44,7 @@ export const logixUXErrorPageStrategy: PageStrategyCreators = () => () => {
   return userInterfaceCreatePageStrategy(
     logixUXErrorPageStrategyTopic,
     pageData,
-    [logixUXSidebarComponentStitch, logixUXBody, logixUXFooterStrategy],
-    logixUXHeaderStrategy
+    [logixUXSidebarComponentStitch, logixUXErrorStitch, logixUXFooterStitch],
+    logixUXHeaderStitch
   );
 };

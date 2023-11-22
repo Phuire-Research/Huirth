@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the logixUX Project, generate a model that outputs the toString function for UserInterfacePageBindings.
+$>*/
+/*<#*/
 import { UserInterfacePageBindings, userInterface_pageBindingsToString } from '../model/userInterface';
 import { elementEventBinding } from '../model/html';
 import { axiumLog } from 'stratimux';
@@ -24,3 +28,4 @@ test('userInterfaceBindingsToString', (done) => {
   console.log('TEST BINDING TO STRING', userInterface_pageBindingsToString(testBindingToString));
   done();
 });
+/*#>*/

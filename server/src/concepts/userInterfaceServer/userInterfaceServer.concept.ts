@@ -1,5 +1,9 @@
+/*<$
+For the framework Stratimux generate a User Interface Server Concept, that will unify itself with the User Interface and incoming Brand concept to be loaded on the server.
+$>*/
+/*<#*/
 import { Concept, PrincipleFunction, Quality, createConcept, unifyConcepts } from 'stratimux';
-import { createServerConcept, serverName } from '../server/server.concept';
+import { createServerConcept } from '../server/server.concept';
 import { userInterfaceServerOnChangePrinciple, userInterfaceServerPrinciple } from './userInterfaceServer.principle';
 import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
 import {
@@ -14,7 +18,7 @@ import { userInterfaceServerCreateContextIndexQuality } from './qualities/create
 import { helloWorldPageStrategy } from '../userInterface/strategies.ts/helloWorldPage.strategy';
 import { userInterfaceServerFormatContextQuality } from './qualities/formatContext.quality';
 import { PageStrategyCreators } from '../../model/userInterface';
-import { userInterfaceServerAssembleActionQueStrategyQuality } from './qualities/serverAssembleActionQueStrategy.quality';
+import { userInterfaceServerAssembleAtomicUpdateCompositionStrategyQuality } from './qualities/serverAssembleAtomicUpdateCompositionStrategy.quality';
 import { createWebSocketServerConcept } from '../webSocketServer/webSocketServer.concept';
 
 // eslint-disable-next-line no-shadow
@@ -65,7 +69,7 @@ const qualityGoal = (goal: commandLineInterfaceGoals): Quality[] => {
   switch (goal) {
   case commandLineInterfaceGoals.simulate: {
     return [
-      userInterfaceServerAssembleActionQueStrategyQuality
+      userInterfaceServerAssembleAtomicUpdateCompositionStrategyQuality
     ];
   }
   default: {
@@ -75,7 +79,7 @@ const qualityGoal = (goal: commandLineInterfaceGoals): Quality[] => {
       userInterfaceServerCreateContextIndexQuality,
       userInterfaceServerBuildContextQuality,
       userInterfaceServerFormatContextQuality,
-      userInterfaceServerAssembleActionQueStrategyQuality
+      userInterfaceServerAssembleAtomicUpdateCompositionStrategyQuality
     ];
   }
   }
@@ -133,3 +137,4 @@ export const createUserInterfaceServerConcept = (goal: commandLineInterfaceGoals
   const unified = unifyConcepts([createWebSocketServerConcept(), serverConcept], userInterfaceServerConcept(goal, brand));
   return unified;
 };
+/*#>*/

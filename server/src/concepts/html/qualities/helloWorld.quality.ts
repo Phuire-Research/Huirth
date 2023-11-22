@@ -15,8 +15,6 @@ import {
   strategySuccess
 } from 'stratimux';
 
-import { helloWorld } from '../../helloWorld/qualities/helloWorld.quality';
-import { elementEventBinding } from '../../../model/html';
 import { userInterface_appendCompositionToPage } from '../../../model/userInterface';
 
 export const htmlHelloWorldType: ActionType = 'Html create hello world composition';
@@ -29,12 +27,6 @@ const createHelloWorldMethodCreator: MethodCreator = () =>
       return strategySuccess(action.strategy, userInterface_appendCompositionToPage(action.strategy, {
         id: helloWorldId,
         boundSelectors: [],
-        bindings: {
-          '#helloWorld': [{
-            action: helloWorld(),
-            eventBinding: elementEventBinding.onclick,
-          }]
-        },
         action: htmlHelloWorld(),
         html: /*html*/`<h1 id=${helloWorldId}>Hello World</h1>`
       }));

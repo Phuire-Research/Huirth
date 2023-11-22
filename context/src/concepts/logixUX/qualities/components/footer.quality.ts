@@ -1,4 +1,8 @@
-import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, prepareActionCreator, strategySuccess } from 'stratimux';
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality to create the footer component.
+$>*/
+/*<#*/
+import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';
 
 import {
   prepareActionComponentCreator,
@@ -34,3 +38,4 @@ const createLogixUXFooterMethodCreator: MethodCreator = () =>
   });
 
 export const logixUXFooterQuality = createQuality(logixUXFooterType, defaultReducer, createLogixUXFooterMethodCreator);
+/*#>*/

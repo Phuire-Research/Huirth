@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a quality that appends the Axium Dialog supplied via payload into logixUX's state.
+$>*/
+/*<#*/
 /* eslint-disable max-len */
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
@@ -21,3 +25,4 @@ export const logixUXAppendAxiumDialogQuality = createQuality(
   logixUXAppendAxiumDialogReducer,
   defaultMethodCreator
 );
+/*#>*/

@@ -1,5 +1,9 @@
-import { Concept, Concepts, KeyedSelector, createConcept, createUnifiedKeyedSelector, selectSlice } from 'stratimux';
-import { generateBaseDataSetEntry, generateDefaultNamedDataSet, generateNumID, promptID, selectTrainingDataIndex } from '../logixUX.model';
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a test that will ensure that the selectSlice helper function from Stratimux is operating as intended.
+$>*/
+/*<#*/
+import { Concepts, KeyedSelector, createConcept, createUnifiedKeyedSelector, selectSlice } from 'stratimux';
+import { generateBaseDataSetEntry, generateDefaultNamedDataSet } from '../logixUX.model';
 
 test('userInterfaceBindingsToString', (done) => {
   const simulated = {
@@ -17,3 +21,4 @@ test('userInterfaceBindingsToString', (done) => {
   expect(selectSlice(concepts, getUndefined)).toBe(undefined);
   done();
 });
+/*#>*/

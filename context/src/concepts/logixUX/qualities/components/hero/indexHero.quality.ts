@@ -1,14 +1,9 @@
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the Hero Section Component.
+$>*/
+/*<#*/
 /* eslint-disable max-len */
-import {
-  ActionType,
-  MethodCreator,
-  createMethod,
-  createQuality,
-  defaultReducer,
-  prepareActionCreator,
-  selectPayload,
-  strategySuccess,
-} from 'stratimux';
+import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';
 
 import {
   prepareActionComponentCreator,
@@ -46,3 +41,4 @@ const createIndexHeroMethodCreator: MethodCreator = () =>
   });
 
 export const logixUXIndexHeroQuality = createQuality(logixUXIndexHeroType, defaultReducer, createIndexHeroMethodCreator);
+/*#>*/

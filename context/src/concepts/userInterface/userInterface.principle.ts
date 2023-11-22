@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the User Interface Concept, generate a principle that will dispatch a sequence of page to state strategies that will cache the required pages for the client.
+$>*/
+/*<#*/
 import { Subscriber } from 'rxjs';
 import {
   Action,
@@ -10,14 +14,13 @@ import {
   axiumRegisterStagePlanner,
   axiumSelectOpen,
   ActionStrategy,
-  axiumKick,
+  getUnifiedName,
+  getAxiumState,
 } from 'stratimux';
 import { UserInterfaceState } from './userInterface.concept';
 import { userInterfacePageToStateStrategy } from './strategies.ts/pageToState.strategy';
-import { getAxiumState, getUnifiedName } from '../../model/concepts';
 import { userInterface_isClient } from '../../model/userInterface';
 import { UserInterfaceClientState } from '../userInterfaceClient/userInterfaceClient.concept';
-import { userInterfaceDebouncePageCreationStrategy } from './strategies.ts/debouncePageCreation.strategy';
 
 export const userInterfaceInitializationPrinciple: PrincipleFunction = (
   ___: Subscriber<Action>,
@@ -25,8 +28,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
   concepts$: UnifiedSubject,
   semaphore: number
 ) => {
-  let pageLength = -1;
-  const plan = concepts$.stage('User Interface Page to State', [
+  const plan = concepts$.stage('User Interface Page to State initialization plan', [
     (concepts, dispatch) => {
       const name = getUnifiedName(concepts, semaphore);
       if (name) {
@@ -44,7 +46,6 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
     (concepts, dispatch) => {
       const uiState = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
       if (uiState) {
-        pageLength = uiState.pageStrategies.length;
         if (uiState.pageStrategies.length === 1) {
           dispatch(strategyBegin(userInterfacePageToStateStrategy(uiState.pageStrategies[0](concepts))), {
             iterateStage: true,
@@ -64,9 +65,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
               list.push(userInterfacePageToStateStrategy(creator(concepts)));
             }
           });
-          // const strategy = strategySequence([userInterfaceDebouncePageCreationStrategy(), ...list]);
           const strategy = strategySequence(list);
-          console.log('CHECK STRATEGY', strategy);
           if (strategy) {
             dispatch(strategyBegin(strategy), {
               iterateStage: true,
@@ -80,17 +79,9 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
         }
       }
     },
-    (concepts, dispatch) => {
-      const ui = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
-      if (ui) {
-        if (ui.pageStrategies.length !== pageLength) {
-          // dispatch(axiumKick(), {
-          //   setStage: 1
-          // });
-        }
-      } else {
-        plan.conclude();
-      }
+    (____, _____) => {
+      plan.conclude();
     },
   ]);
 };
+/*#>*/

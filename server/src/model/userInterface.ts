@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the logixUX Project, generate a model that would enable all functionality required for the User Interface base concept.
+$>*/
+/*<#*/
 import {
   Action,
   ActionNode,
@@ -218,3 +222,4 @@ export const userInterface_selectPage = (strategy: ActionStrategy): Page => {
     return userInterface_createPage();
   }
 };
+/*#>*/

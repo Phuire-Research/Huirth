@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the Web Socket Client Concept, generate a quality that will set the server's semaphore.
+$>*/
+/*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';
 import { WebSocketClientState } from '../webSocketClient.concept';
 
@@ -23,3 +27,4 @@ export const webSocketClientSetServerSemaphoreQuality = createQuality(
   webSocketClientSetServerSemaphoreReducer,
   defaultMethodCreator
 );
+/*#>*/

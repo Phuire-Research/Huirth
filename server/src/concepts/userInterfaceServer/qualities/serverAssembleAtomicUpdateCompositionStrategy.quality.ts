@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the User Interface Server Concept, generate a quality that will generate a new strategy that will atomically update the composition currently loaded in the pages property.
+$>*/
+/*<#*/
 import {
   ActionNode,
   ActionStrategy,
@@ -17,16 +21,16 @@ import { BoundSelectors } from '../../../model/userInterface';
 import { userInterfaceAtomicUpdatePageComposition } from '../../userInterface/qualities/atomicUpdatePageComposition.quality';
 import { userInterfaceEnd } from '../../userInterface/qualities/end.quality';
 
-export type UserInterfaceServerAssembleActionQueStrategyPayload = {
+export type UserInterfaceServerAssembleAtomicUpdateCompositionStrategyPayload = {
   boundActionQue: BoundSelectors[]
 }
-export const userInterfaceServerAssembleActionQueStrategyType: ActionType =
+export const userInterfaceServerAssembleAtomicUpdateCompositionStrategyType: ActionType =
   'User Interface assemble update atomic compositions strategy server';
-export const userInterfaceServerAssembleActionQueStrategy =
-  prepareActionWithPayloadCreator(userInterfaceServerAssembleActionQueStrategyType);
+export const userInterfaceServerAssembleAtomicUpdateCompositionStrategy =
+  prepareActionWithPayloadCreator(userInterfaceServerAssembleAtomicUpdateCompositionStrategyType);
 
-const createUserInterfaceServerAssembleActionQueStrategyMethod = () => createMethod(action => {
-  const boundActionQue = selectPayload<UserInterfaceServerAssembleActionQueStrategyPayload>(action).boundActionQue;
+const createUserInterfaceServerAssembleAtomicUpdateCompositionStrategyMethod = () => createMethod(action => {
+  const boundActionQue = selectPayload<UserInterfaceServerAssembleAtomicUpdateCompositionStrategyPayload>(action).boundActionQue;
   let previous: ActionNode | undefined;
   let first: ActionNode | undefined;
   for (const bound of boundActionQue) {
@@ -44,12 +48,6 @@ const createUserInterfaceServerAssembleActionQueStrategyMethod = () => createMet
       previous = stitchEnd;
     }
   }
-  // if (previous) {
-  //   previous.successNode = createActionNode(userInterfaceEnd(), {
-  //     successNode: null,
-  //     failureNode: null
-  //   });
-  // }
   if (first) {
     return strategyBegin(createStrategy({
       initialNode: first,
@@ -59,10 +57,10 @@ const createUserInterfaceServerAssembleActionQueStrategyMethod = () => createMet
   return action;
 });
 
-export const userInterfaceServerAssembleActionQueStrategyQuality = createQuality(
-  userInterfaceServerAssembleActionQueStrategyType,
+export const userInterfaceServerAssembleAtomicUpdateCompositionStrategyQuality = createQuality(
+  userInterfaceServerAssembleAtomicUpdateCompositionStrategyType,
   defaultReducer,
-  createUserInterfaceServerAssembleActionQueStrategyMethod,
+  createUserInterfaceServerAssembleAtomicUpdateCompositionStrategyMethod,
 );
 
 // Need to provide semaphore that will update the target composition of some page.
@@ -87,3 +85,4 @@ const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy
     })
   ];
 };
+/*#>*/

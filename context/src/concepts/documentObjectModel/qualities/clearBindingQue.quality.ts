@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and Document Object Model Concept, generate a quality that will clear the Concept's bindingQue.
+$>*/
+/*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, defaultReducer, prepareActionCreator } from 'stratimux';
 import { DocumentObjectModelState } from '../documentObjectModel.concept';
 

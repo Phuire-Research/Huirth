@@ -14,16 +14,16 @@ import {
   axiumRegisterStagePlanner,
   axiumSelectOpen,
   ActionStrategy,
+  getUnifiedName,
+  getAxiumState,
 } from 'stratimux';
 import { UserInterfaceState } from './userInterface.concept';
 import { userInterfacePageToStateStrategy } from './strategies.ts/pageToState.strategy';
-import { getAxiumState, getUnifiedName } from '../../model/concepts';
 import { userInterface_isClient } from '../../model/userInterface';
 import { UserInterfaceClientState } from '../userInterfaceClient/userInterfaceClient.concept';
 
 export const userInterfaceInitializationPrinciple: PrincipleFunction =
   (___: Subscriber<Action>, __: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
-    let pageLength = -1;
     const plan = concepts$.stage('User Interface Page to State initialization plan', [
       (concepts, dispatch) => {
         const name = getUnifiedName(concepts, semaphore);
@@ -42,7 +42,6 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction =
       (concepts, dispatch) => {
         const uiState = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
         if (uiState) {
-          pageLength = uiState.pageStrategies.length;
           if (uiState.pageStrategies.length === 1) {
             dispatch(strategyBegin(userInterfacePageToStateStrategy(uiState.pageStrategies[0](concepts))), {
               iterateStage: true,

@@ -24,7 +24,7 @@ export const logixUXServerCloneGitRepositoryToDirectoryStrategy = (root: string,
     successNode: stepUpdateProjectToInstalled,
     // TODO: If failed we can use open to load a window with the git install webpage
     failureNode: null,
-    agreement: 120000
+    agreement: 20000
   });
   // Step 1 Remove directory if exists based on name
   const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory({path: dataPath}), {

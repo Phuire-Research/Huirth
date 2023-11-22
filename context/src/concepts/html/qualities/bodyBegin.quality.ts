@@ -1,15 +1,8 @@
-/* eslint-disable max-len */
-import {
-  ActionType,
-  MethodCreator,
-  createMethod,
-  createQuality,
-  defaultReducer,
-  prepareActionWithPayloadCreator,
-  selectPayload,
-  strategySuccess,
-} from 'stratimux';
-
+/*<$
+For the framework Stratimux and Html Concept, generate a quality for a User Interface Concept that will add a html body element with the supplied page id.
+$>*/
+/*<#*/
+import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';
 import {
   createPageId,
   prepareActionComponentCreator,
@@ -40,3 +33,4 @@ const createHtmlBodyMethodCreator: MethodCreator = () =>
   });
 
 export const htmlBodyBeginQuality = createQuality(htmlBodyBeginType, defaultReducer, createHtmlBodyMethodCreator);
+/*#>*/

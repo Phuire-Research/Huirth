@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the Web Socket Client Concept, generate a quality will set the client's semaphore onto the server to enable safe message passing.
+$>*/
+/*<#*/
 import {
   Action,
   ActionType,
@@ -30,3 +34,4 @@ export const webSocketServerSetClientSemaphoreQuality = createQuality(
   webSocketServerSetClientSemaphoreReducer,
   defaultMethodCreator,
 );
+/*#>*/

@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the logixUX Project, generate a model for to contain the function used to create the context index.ts file.
+$>*/
+/*<#*/
 import { userInterfaceClientName } from '../concepts/userInterfaceClient/userInterfaceClient.concept';
 import { PrimedConceptAndProperties } from './userInterface';
 
@@ -83,3 +87,4 @@ function createConceptCreator(concept: PrimedConceptAndProperties): string {
     return `create${concept.nameCapitalized}Concept()`;
   }
 }
+/*#>*/

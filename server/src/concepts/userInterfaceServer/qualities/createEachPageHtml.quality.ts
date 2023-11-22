@@ -1,22 +1,20 @@
+/*<$
+For the framework Stratimux and the User Interface Server Concept, generate a quality that will create a html document for each currently loaded page in the target directory.
+$>*/
+/*<#*/
 import {
-  Action,
   ActionStrategy,
   ActionType,
-  Concept,
-  Method,
   MethodCreator,
   UnifiedSubject,
   axiumConclude,
-  createActionController$,
   createAsyncMethodWithState,
   createQuality,
   defaultReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
-  selectUnifiedState,
   strategySuccess
 } from 'stratimux';
-// import { strategyData_appendFailure, strategyData_unifyData } from '../../../model/actionStrategy';
 import fs from 'fs';
 import path from 'path';
 import { UserInterfaceServerState } from '../userInterfaceServer.concept';
@@ -65,3 +63,4 @@ export const userInterfaceServerCreateEachPageHtmlQuality = createQuality(
   defaultReducer,
   createCreateEachPageHtmlMethodCreator,
 );
+/*#>*/

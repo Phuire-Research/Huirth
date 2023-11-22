@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the User Interface Server Concept, generate a quality that will run a format script within the context directory.
+$>*/
+/*<#*/
 import {
   ActionType,
   MethodCreator,
@@ -51,3 +55,4 @@ export const userInterfaceServerFormatContextQuality = createQuality(
   defaultReducer,
   createFormatContextMethodCreator,
 );
+/*#>*/

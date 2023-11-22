@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the logixUX Project, generate a model that would contain the function that would determine the root of the logixUX Project.
+$>*/
+/*<#*/
 import path from 'path';
 
 export const findRoot = () => {
@@ -15,3 +19,4 @@ export const findRoot = () => {
   }
   return path.join(root.join('/'));
 };
+/*#>*/

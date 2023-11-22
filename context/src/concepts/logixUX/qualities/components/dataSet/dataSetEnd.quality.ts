@@ -1,4 +1,7 @@
-/* eslint-disable max-len */
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality to create the final slice of the DataSet Component with the necessary closing element tags.
+$>*/
+/*<#*/
 import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';
 
 import {

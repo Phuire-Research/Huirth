@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the User Interface Client Concept, generate a quality that will atomically update the page html of any new changes.
+$>*/
+/*<#*/
 import {
   Action,
   ActionNode,
@@ -20,18 +24,20 @@ import { Subject } from 'rxjs';
 import { userInterfaceClientDetermineBindings } from './clientDetermineBindings.quality';
 import { userInterfaceEnd } from '../../userInterface/qualities/end.quality';
 
-export type UserInterfaceClientAssembleActionQueStrategyPayload = {
+export type UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload = {
   action$: Subject<Action>;
   boundActionQue: BoundSelectors[];
 };
-export const userInterfaceClientAssembleActionQueStrategyType: ActionType =
+export const userInterfaceClientAssembleAtomicUpdateCompositionStrategyType: ActionType =
   'User Interface Client assemble update atomic compositions strategy';
-export const userInterfaceClientAssembleActionQueStrategy =
-  prepareActionWithPayloadCreator<UserInterfaceClientAssembleActionQueStrategyPayload>(userInterfaceClientAssembleActionQueStrategyType);
+export const userInterfaceClientAssembleAtomicUpdateCompositionStrategy =
+  prepareActionWithPayloadCreator<UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload>(
+    userInterfaceClientAssembleAtomicUpdateCompositionStrategyType
+  );
 
-const createUserInterfaceClientAssembleActionQueStrategyMethod = () =>
+const createUserInterfaceClientAssembleAtomicUpdateCompositionStrategyMethod = () =>
   createMethod((action) => {
-    const payload = selectPayload<UserInterfaceClientAssembleActionQueStrategyPayload>(action);
+    const payload = selectPayload<UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload>(action);
     const boundActionQue = payload.boundActionQue;
     const action$ = payload.action$;
     let previous: ActionNode | undefined;
@@ -70,13 +76,12 @@ const createUserInterfaceClientAssembleActionQueStrategyMethod = () =>
     return action;
   });
 
-export const userInterfaceClientAssembleActionQueStrategyQuality = createQuality(
-  userInterfaceClientAssembleActionQueStrategyType,
+export const userInterfaceClientAssembleAtomicUpdateCompositionStrategyQuality = createQuality(
+  userInterfaceClientAssembleAtomicUpdateCompositionStrategyType,
   defaultReducer,
-  createUserInterfaceClientAssembleActionQueStrategyMethod
+  createUserInterfaceClientAssembleAtomicUpdateCompositionStrategyMethod
 );
 
-// Need to provide semaphore that will update the target composition of some page.
 const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy] => {
   const stepEnd = createActionNode(userInterfaceEnd(), {
     successNode: null,
@@ -86,10 +91,6 @@ const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy
     successNode: stepEnd,
     failureNode: null,
   });
-  // const stepUpdateAtomic = createActionNode(userInterfaceAtomicUpdatePageComposition({bound}, bound.action.conceptSemaphore as number), {
-  //   successNode: null,
-  //   failureNode: null
-  // });
   const stepAction = createActionNode(refreshAction(bound.action), {
     successNode: stepReplaceOuterHtml,
     failureNode: null,
@@ -102,3 +103,4 @@ const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy
     }),
   ];
 };
+/*#>*/

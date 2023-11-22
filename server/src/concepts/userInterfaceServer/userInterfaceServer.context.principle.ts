@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the User Interface Server Concept, generate a principle that will manager a generated context based upon the the configuration of the server. This context will be treated as the client run time.
+$>*/
+/*<#*/
 import {
   Action,
   Concepts,
@@ -20,7 +24,7 @@ import {
   UserInterfacePageBindings,
   userInterface_pageBindingsToString
 } from '../../model/userInterface';
-import { userInterfaceServerPrepareContextConceptsStrategy } from './strategies/prepareContextConcepts.strategy';
+import { userInterfaceServerPrepareContextConceptsStitch } from './strategies/prepareContextConcepts.strategy';
 import { userInterfaceServerSetConceptDirectoriesFromDataStrategy } from './strategies/setConceptDirectories.strategy';
 import { documentObjectModelName } from '../documentObjectModel/documentObjectModel.concept';
 import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
@@ -36,7 +40,6 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
   const plan = concepts$.stage('User Interface Context Principle Plan', [
     (concepts, dispatch) => {
       const fileSystemExists = areConceptsLoaded(concepts, [fileSystemName]);
-      console.log('IS THIS RUNNING');
       if (!fileSystemExists) {
         console.log('FILE SYSTEM NOT LOADED, CONTEXT PRINCIPLE CONCLUDE');
         plan.conclude();
@@ -62,10 +65,8 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
       if (fileSystemState && uiState) {
-        // console.log('HIT HERE', fileSystemState.conceptDirectoryMap, uiState.pageStrategies);
         if (fileSystemState.conceptDirectoryMap.length > 0 && uiState.pageStrategies.length > 0) {
           if (uiState.pageStrategies.length === uiState.pages.length) {
-            console.log('HIT THERE');
             const conceptsAndProps: ConceptAndProperties[] = [];
             const finalBindingsList: UserInterfacePageBindings = {};
             for (const page of uiState.pages) {
@@ -96,26 +97,23 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
                 }
               });
             }
-            if (Object.keys(finalBindingsList).length > 0) {
+            conceptsAndProps.push({
+              name: documentObjectModelName,
+              properties: [userInterface_pageBindingsToString(finalBindingsList)],
+            });
+            if (uiState.brand) {
               conceptsAndProps.push({
-                name: documentObjectModelName,
-                properties: [userInterface_pageBindingsToString(finalBindingsList)],
+                name: userInterfaceClientName,
+                properties: ['state', uiState.brand]
               });
-              if (uiState.brand) {
-                conceptsAndProps.push({
-                  name: userInterfaceClientName,
-                  properties: ['state', uiState.brand]
-                });
-              } else {
-                conceptsAndProps.push({
-                  name: userInterfaceClientName,
-                  properties: ['state']
-                });
-              }
+            } else {
+              conceptsAndProps.push({
+                name: userInterfaceClientName,
+                properties: ['state']
+              });
             }
-            console.log('CHECK GOAL', uiState.goal);
             if (uiState.goal === commandLineInterfaceGoals.dynamicDeployment) {
-              const [____, contextStrategy] = userInterfaceServerPrepareContextConceptsStrategy(
+              const [____, contextStrategy] = userInterfaceServerPrepareContextConceptsStitch(
                 fileSystemState.root,
                 conceptsAndProps,
                 concepts[semaphore].unified,
@@ -140,9 +138,9 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
         }
       }
     },
-    (__, dispatch) => {
-      // console.log('HIT FOR OLD TIMES SAKE');
+    () => {
       plan.conclude();
     },
   ]);
 };
+/*#>*/

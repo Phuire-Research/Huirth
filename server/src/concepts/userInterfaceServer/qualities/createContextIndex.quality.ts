@@ -1,7 +1,10 @@
+/*<$
+For the framework Stratimux and the User Interface Server Concept, generate a quality that will create the context's index file to dictate the execution of the client page script.
+$>*/
+/*<#*/
 import {
   ActionStrategy,
   ActionType,
-  Concept,
   MethodCreator,
   axiumConclude,
   createAsyncMethod,
@@ -11,7 +14,6 @@ import {
   selectPayload,
   strategySuccess
 } from 'stratimux';
-// import { strategyData_appendFailure, strategyData_unifyData } from '../../../model/actionStrategy';
 import fs from 'fs/promises';
 import path from 'path';
 import { PrimedConceptAndProperties } from '../../../model/userInterface';
@@ -49,3 +51,4 @@ export const userInterfaceServerCreateContextIndexQuality = createQuality(
   defaultReducer,
   createCreateContextIndexMethodCreator,
 );
+/*#>*/

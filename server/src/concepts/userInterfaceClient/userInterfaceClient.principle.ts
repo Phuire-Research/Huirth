@@ -11,13 +11,14 @@ import {
   UnifiedSubject,
   axiumRegisterStagePlanner,
   axiumSelectOpen,
+  getAxiumState,
+  getUnifiedName,
   selectSlice,
   selectUnifiedState,
 } from 'stratimux';
 import { UserInterfaceClientState } from './userInterfaceClient.concept';
 import { BoundSelectors } from '../../model/userInterface';
 import { Subscriber } from 'rxjs';
-import { getAxiumState, getUnifiedName } from '../../model/concepts';
 import {
   UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload,
   userInterfaceClientAssembleAtomicUpdateCompositionStrategy

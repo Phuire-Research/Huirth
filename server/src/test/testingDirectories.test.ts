@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the logixUX Project, generate a test to output the current project root.
+$>*/
+/*<#*/
 import { findRoot } from '../model/findRoot';
 
 test('FileSystem get Concept Directory Test', (done) => {
@@ -5,3 +9,4 @@ test('FileSystem get Concept Directory Test', (done) => {
   console.log('Possible Root: ', findRoot());
   done();
 });
+/*#>*/
