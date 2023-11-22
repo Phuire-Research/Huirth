@@ -46,6 +46,7 @@ import { logixUXUpdateDataSetContentsQuality } from './qualities/updateDataSetCo
 import { logixUXUpdateDataSetPromptQuality } from './qualities/updateDataSetPrompt.quality';
 import { logixUXUpdateProjectStatusQuality } from './qualities/updateProjectToStatus.quality';
 import { logixUXTriggerInstallGitRepositoryQuality } from './qualities/triggerInstallGitRepository.quality';
+import { logixUXUpdateParsedProjectDataSetQuality } from './qualities/updateParsedProjectDataSet.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
@@ -104,6 +105,7 @@ export const createLogixUXConcept = (): Concept => {
     logixUXUpdateDataSetContentsQuality,
     logixUXUpdateDataSetPromptQuality,
     logixUXUpdateProjectStatusQuality,
+    logixUXUpdateParsedProjectDataSetQuality,
     logixUXNewDataSetEntryQuality,
     logixUXNewDataSetQuality,
     logixUXNewDPOEntryQuality,

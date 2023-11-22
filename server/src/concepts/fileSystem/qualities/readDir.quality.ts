@@ -19,6 +19,7 @@ import {
 import fs from 'fs/promises';
 import { Dirent } from 'fs';
 import path from 'path';
+import { FileDirent } from '../fileSystem.model';
 
 async function walk(target: string): Promise<({path: string} & Dirent)[]> {
   const entries = await fs.readdir(target, {
@@ -39,7 +40,7 @@ export type ReadDirectoryPayload = {
   target: string;
 };
 export type ReadDirectoryField = {
-  filesAndDirectories: ({path: string} & Dirent)[]
+  filesAndDirectories: FileDirent[]
 };
 export const fileSystemReadDirectoryType: ActionType = 'File System read Directory and add to Strategy Data';
 export const fileSystemReadDirectory =

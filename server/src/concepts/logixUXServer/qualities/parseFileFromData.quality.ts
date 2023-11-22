@@ -7,28 +7,27 @@ import {
   createAsyncMethod,
   createQuality,
   defaultReducer,
-  prepareActionWithPayloadCreator,
-  selectPayload,
+  prepareActionCreator,
+  strategyData_appendFailure,
   strategyData_select,
+  strategyData_unifyData,
+  strategyFailed,
   strategySuccess,
 } from 'stratimux';
 import { ReadDirectoryField } from '../../fileSystem/qualities/readDir.quality';
-import { NamedDataSet, TrainingData, generateDefaultNamedDataSet } from '../../logixUX/logixUX.model';
+import { BaseDataSet } from '../../logixUX/logixUX.model';
 import { ReadFileContentsAndAppendToDataField } from '../../fileSystem/qualities/readFileContentsAndAppendToData.quality';
 import { ParsingTokens } from '../logixUXServer.model';
 
-export type LogixUXServerParseFileFromDataPayload = {
-  dataSetName: string,
-}
 export const logixUXServerParseFileFromDataType: ActionType =
   'logixUXServer parse file from data';
 export const logixUXServerParseFileFromData =
-  prepareActionWithPayloadCreator<LogixUXServerParseFileFromDataPayload>(logixUXServerParseFileFromDataType);
-export type ParseFileFromDataField = {
-  trainingData: TrainingData
+  prepareActionCreator(logixUXServerParseFileFromDataType);
+export type ParsedFileFromDataField = {
+  parsed: BaseDataSet[]
 }
 
-const recursiveParse = (data: NamedDataSet, content: string): NamedDataSet => {
+const recursiveParse = (data: BaseDataSet[], content: string): BaseDataSet[] => {
   const index = content.indexOf(ParsingTokens.promptBegin);
   if (index !== -1) {
     let output = '';
@@ -50,7 +49,7 @@ const recursiveParse = (data: NamedDataSet, content: string): NamedDataSet => {
     }
     const prompt = content.substring(promptBegin, promptEnd);
     output += content.substring(contentBegin, contentEnd);
-    data.dataSet.push({
+    data.push({
       prompt,
       content: output
     });
@@ -66,33 +65,17 @@ const recursiveParse = (data: NamedDataSet, content: string): NamedDataSet => {
 const logixUXServerParseFileFromDataMethodCreator = () =>
   createAsyncMethod((controller, action) => {
     if (action.strategy && action.strategy.data) {
+      const strategy = action.strategy;
       const data = strategyData_select(action.strategy) as ReadDirectoryField & ReadFileContentsAndAppendToDataField;
-      const { dataSetName } = selectPayload<LogixUXServerParseFileFromDataPayload>(action);
-      if (data.filesAndDirectories) {
-        const dataSet = generateDefaultNamedDataSet(dataSetName);
-        console.log('CHECK PARSE', recursiveParse(dataSet, data.content));
-        controller.fire(strategySuccess(action.strategy));
-        // FIGURE OUT DIRENT
-        // if (data.directories.length !== 0) {
-        //   const contents = fs.readFileSync(path.join(data.directories[0].path + '/' + data.directories[0].name));
-        //   try {
-        //     const trainingData = JSON.parse(`${contents}`);
-        //     controller.fire(strategySuccess(action.strategy, strategyData_unifyData(action.strategy, {
-        //     // TEMP
-        //       trainingData,
-        //     })));
-        //   } catch (error) {
-        //     controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(
-        //       action.strategy,
-        //       logixUXServerFailureConditions.failedParsingTrainingData
-        //     )));
-        //   }
-        // } else {
-        //   controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(
-        //     action.strategy,
-        //     logixUXServerFailureConditions.noTrainingData
-        //   )));
-        // }
+      if (data.filesAndDirectories && data.content) {
+        // console.log('CHECK CONTENT', data.content);
+        const parsed = recursiveParse([], data.content);
+        // console.log('CHECK PARSE', parsed);
+        controller.fire(strategySuccess(action.strategy, strategyData_unifyData(strategy, {
+          parsed,
+        })));
+      } else {
+        controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, 'No filesAndData field provided')))
       }
     } else {
       controller.fire(action);
