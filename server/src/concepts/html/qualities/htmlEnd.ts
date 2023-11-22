@@ -1,4 +1,7 @@
-/* eslint-disable max-len */
+/*<$
+For the framework Stratimux and Html Concept, generate a quality that will append a html closing element tag to a page composition for a User Interface Concept.
+$>*/
+/*<#*/
 import {
   ActionType,
   MethodCreator,
@@ -37,3 +40,4 @@ export const htmlEndQuality = createQuality(
   defaultReducer,
   createHtmlHeadMethodCreator,
 );
+/*#>*/

@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux generate a Hello World Concept.
+$>*/
+/*<#*/
 import { createConcept, Concept } from 'stratimux';
 import { helloWorldQuality } from './qualities/helloWorld.quality';
 import { helloWorldPrinciple } from './helloWorld.principle';
@@ -25,3 +29,4 @@ export const createHelloWorldConcept = (something?: string): Concept =>  {
     []
   );
 };
+/*#>*/

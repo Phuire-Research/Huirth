@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the brand Concept logixUX, generate a series of unified selector creators that will select slices of logixUX's state.
+$>*/
+/*<#*/
 import { Concepts, createUnifiedKeyedSelector } from 'stratimux';
 
 export const logixUX_createDialogSelector = (concepts: Concepts, semaphore: number) => {
@@ -34,3 +38,4 @@ export const logixUX_createStratimuxStatusSelector = (concepts: Concepts, semaph
 export const logixUX_createLogixUXStatusSelector = (concepts: Concepts, semaphore: number) => {
   return createUnifiedKeyedSelector(concepts, semaphore, 'logixUXStatus');
 };
+/*#>*/

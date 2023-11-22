@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a quality that updates a project's status via supplied payload and selected by included name property.
+$>*/
+/*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 import { PhuirEProjects, ProjectStatus } from '../logixUX.model';
@@ -40,3 +44,4 @@ export const logixUXUpdateProjectStatusQuality = createQuality(
   logixUXUpdateProjectStatusReducer,
   defaultMethodCreator
 );
+/*#>*/

@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the logixUX Project, generate a test to ensure that the file system is loaded and working as intended.
+$>*/
+/*<#*/
 import { Concepts, axiumSelectOpen, createAxium, selectState, strategyBegin } from 'stratimux';
 import { FileSystemState, createFileSystemConcept, fileSystemName } from '../concepts/fileSystem/fileSystem.concept';
 import {
@@ -42,3 +46,4 @@ test('FileSystem get Concept Directory Test', (done) => {
     }
   ]);
 });
+/*#>*/

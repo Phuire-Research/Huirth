@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux generate a File System Concept that will store the current projects root and concept directory map.
+$>*/
+/*<#*/
 import { createConcept, Concept } from 'stratimux';
 import { fileSystemGetDirectoriesQuality } from './qualities/getDirectories.quality';
 import { fileSystemRemoveTargetDirectoryQuality } from './qualities/removeTargetDirectory.quality';
@@ -8,6 +12,9 @@ import { fileSystemRecursivelyCopyMoveTargetDirectoriesQuality } from './qualiti
 import { fileSystemServerSetConceptDirectoriesFromDataQuality } from './qualities/setConceptDirectoriesFromData.quality';
 import { fileSystemCreateFileWithContentsIndexQuality } from './qualities/createFileWithContents.quality';
 import { fileSystemGetDirectoriesAndFilesQuality } from './qualities/getDirectoriesAndFiles.quality';
+import { fileSystemReadDirectoryQuality } from './qualities/readDir.quality';
+import { fileSystemFilterFilesAndDirectoriesQuality } from './qualities/filterFilesAndDirectories.quality';
+import { fileSystemReadFileContentsAndAppendToDataQuality } from './qualities/readFileContentsAndAppendToData.quality';
 
 export type FileSystemState = {
   conceptDirectoryMap: string[],
@@ -35,9 +42,13 @@ export const createFileSystemConcept = (): Concept =>  {
       fileSystemRecursivelyCopyMoveTargetDirectoriesQuality,
       fileSystemServerSetConceptDirectoriesFromDataQuality,
       fileSystemCreateFileWithContentsIndexQuality,
-      fileSystemGetDirectoriesAndFilesQuality
+      fileSystemGetDirectoriesAndFilesQuality,
+      fileSystemReadDirectoryQuality,
+      fileSystemFilterFilesAndDirectoriesQuality,
+      fileSystemReadFileContentsAndAppendToDataQuality,
     ],
     [],
     []
   );
 };
+/*#>*/

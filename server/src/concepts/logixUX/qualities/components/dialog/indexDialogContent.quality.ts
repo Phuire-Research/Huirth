@@ -1,4 +1,7 @@
-/* eslint-disable max-len */
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the content slice of the Dialog Component with the necessary bindings and selectors.
+$>*/
+/*<#*/
 import {
   ActionType,
   Counter,
@@ -10,7 +13,6 @@ import {
   createMethodDebounceWithConcepts,
   createQuality,
   defaultReducer,
-  prepareActionCreator,
   selectUnifiedState,
   strategySuccess
 } from 'stratimux';
@@ -137,3 +139,4 @@ export const logixUXIndexDialogContentQuality = createQuality(
   defaultReducer,
   createIndexDialogContentMethodCreator,
 );
+/*#>*/

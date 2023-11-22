@@ -1,10 +1,12 @@
+/*<$
+For the framework Stratimux and the User Interface Concept, generate a quality that will remove a page and page strategy creator from state based on the provided name in the payload.
+$>*/
+/*<#*/
 import {
   Action,
   ActionType,
   createMethod,
-  createMethodDebounce,
   createQuality,
-  defaultReducer,
   prepareActionCreator,
   selectPayload,
   strategySuccess,
@@ -14,7 +16,6 @@ import { UserInterfaceState } from '../userInterface.concept';
 
 export type UserInterfaceRemovePagePayload = {
   name: string,
-  // pageStrategy: PageStrategyCreators,
 }
 export const userInterfaceRemovePageType: ActionType =
   'User Interface Remove Page';
@@ -36,11 +37,9 @@ const userInterfaceRemovePageReducer = (state: UserInterfaceState, action: Actio
   for (const [i, page] of pages.entries()) {
     if (page.title !== payload.name) {
       newPageStrategies.push(pageStrategies[i]);
-      // Need to update semaphores
       newPages.push(page);
     }
   }
-  // pageStrategies.push(payload.pageStrategy);
   return {
     ...state,
     pageStrategies
@@ -52,3 +51,4 @@ export const userInterfaceRemovePageQuality = createQuality(
   userInterfaceRemovePageReducer,
   userInterfaceRemovePageMethodCreator
 );
+/*#>*/

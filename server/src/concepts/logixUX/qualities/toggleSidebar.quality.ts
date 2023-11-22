@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a quality that will toggle the sideBarExpanded property on the supplied state.
+$>*/
+/*<#*/
 import {
   Action,
   ActionType,
@@ -23,3 +27,4 @@ export const logixUXToggleSidebarQuality = createQuality(
   logixUXToggleSidebarReducer,
   defaultMethodCreator
 );
+/*#>*/

@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a quality that will add new default DPO Training Data Entry to logixUX's state.
+$>*/
+/*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionCreator } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 import { generateDPOTrainingData, generateDefaultTrainingData } from '../logixUX.model';
@@ -15,3 +19,4 @@ function logixUXNewDPOEntryReducer(state: LogixUXState, action: Action): LogixUX
 }
 
 export const logixUXNewDPOEntryQuality = createQuality(logixUXNewDPOEntryType, logixUXNewDPOEntryReducer, defaultMethodCreator);
+/*#>*/

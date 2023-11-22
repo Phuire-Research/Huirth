@@ -1,4 +1,8 @@
-import { ActionNode, ActionStrategy, ActionStrategyParameters, Concept, axiumLog, createActionNode, createStrategy } from 'stratimux';
+/*<$
+For the framework Stratimux and the User Interface Server Concept, generate a strategy stitch that will assemble the context directory to contain the necessary concepts dictated by the generated index file.
+$>*/
+/*<#*/
+import { ActionNode, ActionStrategy, ActionStrategyParameters, axiumLog, createActionNode, createStrategy } from 'stratimux';
 import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
 import path from 'path';
 import {
@@ -13,7 +17,7 @@ import { userInterfaceServerFormatContext } from '../qualities/formatContext.qua
 import { webSocketClientName } from '../../webSocketClient/webSocketClient.concept';
 
 export const userInterfaceServerPrepareContextConceptsTopic = 'User Interface Server prepare Context Concepts';
-export function userInterfaceServerPrepareContextConceptsStrategy(
+export function userInterfaceServerPrepareContextConceptsStitch(
   root: string,
   conceptsAndProps: ConceptAndProperties[],
   unifiedConcepts: string[],
@@ -123,3 +127,4 @@ export function userInterfaceServerPrepareContextConceptsStrategy(
 
   return [stepContextBuild, createStrategy(params)];
 }
+/*#>*/

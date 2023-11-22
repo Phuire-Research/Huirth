@@ -1,3 +1,7 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality to create the content slice of the Side Bar Component with the necessary bindings and selectors.
+/*$>*/
+/*<#*/
 /* eslint-disable max-len */
 import {
   ActionType,
@@ -31,11 +35,17 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
   createMethodWithConcepts(
     (action, concepts) => {
       const state = selectUnifiedState<UserInterfaceState & LogixUXState>(concepts, semaphore as number);
+
       const payload = selectComponentPayload(action);
       const id = '#sideBarContent' + payload.pageTitle;
       const expandSideBarId = '#expandSideBarID';
-      const liClass = ' relative flex items-center py-2 px-3 my-2 font-medium rounded-md bg-gray-100 hover:bg-white';
-      let pages = /*html*/ `
+      let liClass = ' relative flex items-center py-2 px-3 my-2 font-medium rounded-md bg-gray-100 hover:bg-white';
+      let pages = '';
+      if (state) {
+        if (!state.sideBarExpanded) {
+          liClass += ' hidden';
+        }
+        pages = /*html*/ `
 <li class="${liClass} cursor-pointer"><a href="/"><i class="fa-solid fa-house"></i> Home</a></li>
 <li class="${liClass} text-slate-400 italic cursor-not-allowed"><a><i class="fa-solid fa-compass"></i> Applications</a></li>
 <li class="${liClass} text-slate-400 italic cursor-not-allowed"><a><i class="fa-solid fa-lightbulb"></i> Concepts</a></li>
@@ -44,7 +54,6 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
 <li class="${liClass} text-slate-400 italic cursor-not-allowed"><a><i class="fa-sharp fa-solid fa-diagram-project"></i> Project Manager</a></li>
 <li class="${liClass} cursor-pointer"><a href="/dataManager"><i class="fa-solid fa-book"></i> Data Manager</a></li>
 `;
-      if (state) {
         for (const data of state.trainingData) {
           pages += /*html*/ `
 <li class='${liClass}'><a href="/${data.name}"><i class="fa-solid fa-file"></i> ${data.name}</a></li>
@@ -97,3 +106,4 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
   );
 
 export const logixUXSideBarContentQuality = createQuality(logixUXSideBarContentType, defaultReducer, createSideBarContentMethodCreator);
+/*#>*/

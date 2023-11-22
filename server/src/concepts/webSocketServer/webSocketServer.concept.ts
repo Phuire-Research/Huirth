@@ -1,3 +1,8 @@
+/*<$
+For the framework Stratimux generate a Web Socket Server Concept, that will create a message stream between the server and client.
+This message stream should establish each governing concept's semaphore so that messages are not invalidated.
+$>*/
+/*<#*/
 import { webSocketServerAppendToActionQueQuality } from './qualities/appendActionQue.quality';
 import { webSocketServerSetClientSemaphoreQuality } from './qualities/setClientSemaphore.quality';
 import { webSocketServerSyncStateQuality } from './qualities/syncState.quality';

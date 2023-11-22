@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX, generate the model file contents.
+$>*/
+/*<#*/
 // eslint-disable-next-line no-shadow
 export enum ProjectStatus {
   notInstalled = 'Not Installed',
@@ -80,3 +84,4 @@ export function selectTrainingDataIndex(element: HTMLElement, key: string) {
   console.log('CHECK ERROR', element, key);
   return Number(element.id.split(key)[1]);
 }
+/*#>*/

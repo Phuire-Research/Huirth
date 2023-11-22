@@ -1,4 +1,8 @@
-import { createConcept, Concept, axiumLog, Action } from 'stratimux';
+/*<$
+For the framework Stratimux generate a Document Object Model Concept
+$>*/
+/*<#*/
+import { createConcept, Concept } from 'stratimux';
 import { documentObjectModelPrinciple } from './documentObjectModel.principle';
 import { UserInterfacePageBindings } from '../../model/userInterface';
 import { documentObjectModelBindQuality } from './qualities/bind.quality';
@@ -25,3 +29,4 @@ export const createDocumentObjectModelConcept = (bindingQue?: UserInterfacePageB
     [documentObjectModelPrinciple]
   );
 };
+/*#>*/

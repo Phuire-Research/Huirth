@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the User Interface Concept, generate a quality that will refresh the current cached bound selectors and the associated semaphores to enable safe atomic operations.
+$>*/
+/*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionCreator } from 'stratimux';
 import { BoundSelectors } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
@@ -35,3 +39,4 @@ export const userInterfaceRefreshCachedSelectorsQuality = createQuality(
   userInterfaceRefreshCachedSelectorsReducer,
   defaultMethodCreator
 );
+/*#>*/

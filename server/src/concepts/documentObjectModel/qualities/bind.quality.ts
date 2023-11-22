@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and Document Object Model Concept, generate a quality that will bind an action to an element.
+$>*/
+/*<#*/
 import {
   Action,
   ActionType,
@@ -25,7 +29,7 @@ export const documentObjectModelBindType: ActionType = 'Document Object Model bi
 export const documentObjectModelBind =
   prepareActionWithPayloadCreator<DocumentObjectModelBindPayload>(documentObjectModelBindType);
 
-const createDocumentObjectModelBindCreator: MethodCreator = (event) => createMethod((action) => {
+const documentObjectModelBindMethodCreator: MethodCreator = (event) => createMethod((action) => {
   const payload = selectPayload<DocumentObjectModelBindPayload>(action);
   const element = document.getElementById(payload.id);
   if (element) {
@@ -42,9 +46,9 @@ const createDocumentObjectModelBindCreator: MethodCreator = (event) => createMet
 export const documentObjectModelBindQuality = createQuality(
   documentObjectModelBindType,
   defaultReducer,
-  createDocumentObjectModelBindCreator,
+  documentObjectModelBindMethodCreator,
 );
-
+/*#>*/
 // eslint-disable-next-line complexity
 const setElementBinding = (element: HTMLElement, payload: DocumentObjectModelBindPayload) => {
   const {

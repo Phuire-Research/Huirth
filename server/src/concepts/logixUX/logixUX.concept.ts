@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux generate a Brand Concept called LogixUX that will act as a Sidekick Application for the Stratimux Framework.
+$>*/
+/*<#*/
 import { createConcept, Concept, unifyConcepts, createCounterConcept, PrincipleFunction, Quality } from 'stratimux';
 import { logixUXErrorQuality } from './qualities/components/error/error.quality';
 import { logixUXHeadQuality } from './qualities/components/head.quality';
@@ -8,10 +12,8 @@ import { logixUXIndexDialogBeginQuality } from './qualities/components/dialog/in
 import { logixUXIndexDialogContentQuality } from './qualities/components/dialog/indexDialogContent.quality';
 import { logixUXIndexDialogEndQuality } from './qualities/components/dialog/indexDialogEnd.quality';
 import { logixUXAppendAxiumDialogQuality } from './qualities/appendAxiumDialog.quality';
-import {
-  logixUXDialogPrinciple,
-  logixUXTrainingDataPagePrinciple
-} from './logixUX.principle';
+import { logixUXDialogPrinciple } from './logixUX.principle';
+import { logixUXTrainingDataPagePrinciple } from './logixUX.trainingDataPage.principle';
 import { BrandState } from '../../model/userInterface';
 import { logixUXIndexPageStrategy } from './strategies/pages/indexPage.strategy';
 import { logixUXErrorPageStrategy } from './strategies/pages/errorPage.strategy';
@@ -127,3 +129,4 @@ export const createLogixUXConcept = (): Concept =>  {
       []
     ));
 };
+/*#>*/

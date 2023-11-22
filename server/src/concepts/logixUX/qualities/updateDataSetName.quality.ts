@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a quality that updates a DataSet's name by index and set by event target value.
+$>*/
+/*<#*/
 import {
   Action,
   ActionType,
@@ -35,3 +39,4 @@ export const logixUXUpdateDataSetNameQuality = createQuality(
   logixUXUpdateDataSetNameReducer,
   defaultMethodCreator
 );
+/*#>*/

@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the logixUX Project, generate a model that contains an enum that contains all document object model "on" element bindings.
+$>*/
+/*<#*/
 /**
  * @WindowEvents
  * 'onafterprint' |'onbeforeprint' | 'onbeforeupload' | 'onerror' | 'onhashchange' | 'onload' | 'onmessage' |
@@ -83,4 +87,4 @@ export enum elementEventBinding {
   onwaiting = 'onwaiting',
   ontoggle = 'ontoggle'
 }
-
+/*#>*/

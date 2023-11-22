@@ -1,4 +1,7 @@
-/* eslint-disable max-len */
+/*<$
+For the framework Stratimux and Html Concept, generate a quality that will append a head element closing tag for a User Interface Concept and supplied page composition.
+$>*/
+/*<#*/
 import {
   ActionType,
   MethodCreator,
@@ -8,8 +11,7 @@ import {
   prepareActionCreator,
   strategySuccess
 } from 'stratimux';
-
-import { userInterface_appendCompositionToPage, userInterface_selectPage } from '../../../model/userInterface';
+import { userInterface_appendCompositionToPage } from '../../../model/userInterface';
 
 export const htmlHeadEndType: ActionType = 'Html create Head End';
 export const htmlHeadEnd = prepareActionCreator(htmlHeadEndType);
@@ -35,3 +37,4 @@ export const htmlHeadEndQuality = createQuality(
   defaultReducer,
   createHtmlHeadMethodCreator,
 );
+/*#>*/

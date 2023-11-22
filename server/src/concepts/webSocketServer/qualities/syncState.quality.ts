@@ -12,7 +12,7 @@ export type WebSocketServerSyncStatePayload = {
   state: Record<string, unknown>,
 }
 export const webSocketServerSyncStateType: ActionType =
-  'Web Socket sync State';
+  'Web Socket Server sync State to provided Client State';
 export const webSocketServerSyncState =
   prepareActionWithPayloadCreator<WebSocketServerSyncStatePayload>(webSocketServerSyncStateType);
 

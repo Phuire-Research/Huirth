@@ -1,4 +1,8 @@
-import { createConcept, Concept, unifyConcepts, createCounterConcept, PrincipleFunction, Quality } from 'stratimux';
+/*<$
+For the framework Stratimux generate a Brand Server Concept called LogixUX Server that will be responsible for all server side qualities and principle.
+$>*/
+/*<#*/
+import { createConcept, Concept, unifyConcepts, PrincipleFunction, Quality } from 'stratimux';
 import { LogixUXState } from '../logixUX/logixUX.concept';
 import { logixUXServerTriggerSaveTrainingDataStrategyQuality } from './qualities/triggerSaveTrainingDataStrategy.quality';
 import { logixUXServerPrinciple } from './logixUXServer.principle';
@@ -9,6 +13,8 @@ import { logixUXServerIsDataDirectorySetUpQuality } from './qualities/isDataDire
 import { logixUXServerTriggerCloneGitRepositoryStrategyQuality } from './qualities/triggerCloneGitRepositoryStrategy.quality';
 import { logixUXServerGitCloneRepoToDirectoryQuality } from './qualities/gitCloneRepoToDirectory.quality';
 import { logixUXServerSetRepositoriesFromDataQuality } from './qualities/setRepositoriesFromData.quality';
+import { logixUXServerTriggerParseRepositoryStrategyQuality } from './qualities/triggerParseRepositoryIntoDataSet.quality';
+import { logixUXServerParseFileFromDataQuality } from './qualities/parseFileFromData.quality';
 
 export const logixUXServerName = 'logixUXServer';
 export type LogixUXServerState = {
@@ -27,9 +33,10 @@ export const createLogixUXServerConcept = (): Concept =>  {
     logixUXServerIsDataDirectorySetUpQuality,
     logixUXServerGitCloneRepoToDirectoryQuality,
     logixUXServerTriggerCloneGitRepositoryStrategyQuality,
-    logixUXServerSetRepositoriesFromDataQuality
+    logixUXServerTriggerParseRepositoryStrategyQuality,
+    logixUXServerSetRepositoriesFromDataQuality,
+    logixUXServerParseFileFromDataQuality
   ];
-  // This is temporary, the complete flow would allow for all server logic to remain on the server.
   return unifyConcepts(
     [
     ],
@@ -41,3 +48,4 @@ export const createLogixUXServerConcept = (): Concept =>  {
       []
     ));
 };
+/*#>*/

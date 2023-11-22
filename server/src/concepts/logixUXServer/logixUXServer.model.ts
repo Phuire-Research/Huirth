@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX Server, generate the model file contents that will handle Data Sets, Failure Conditions, and Tokens.
+$>*/
+/*<#*/
 import { DPO_DataSet } from '../../model/logixUX';
 import { Active_DPO } from '../logixUX/logixUX.model';
 
@@ -35,3 +39,20 @@ export const convertSaveFormatDPOToDPO = (saveFormat: DPO_DataSet) => {
   }
   return trainingData;
 };
+
+/*<!*/
+// eslint-disable-next-line no-shadow
+export enum ParsingTokens {
+  promptBegin = '/*<$',
+  promptEnd = '$>*/',
+  contentBegin = '/*<#*/',
+  contentEnd = '/*#>*/',
+  importBegin = '/*<@',
+  importEnd = '@>*/',
+  includeBegin = '/*<%',
+  includeEnd = '%>*/',
+  ignoreBegin = '/*<!*/',
+  ignoreEnd = '/*!>*/'
+}
+/*!>*/
+/*#>*/

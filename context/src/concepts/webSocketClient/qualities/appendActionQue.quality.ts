@@ -1,3 +1,8 @@
+/*<$
+For the framework Stratimux and the Web Socket Client Concept, generate a quality that will append a series of actions to that state's action que.
+This action que will later be dispatch by the Web Socket Client Principle to the server.
+$>*/
+/*<#*/
 import {
   Action,
   ActionType,
@@ -32,3 +37,4 @@ export const webSocketClientAppendToActionQueQuality = createQuality(
   webSocketClientAppendToActionQueReducer,
   defaultMethodCreator
 );
+/*#>*/

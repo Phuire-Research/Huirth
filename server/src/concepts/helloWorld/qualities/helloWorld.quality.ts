@@ -1,38 +1,34 @@
+/*<$
+For the framework Stratimux and Hello World Concept, generate a quality that will console log 'Hello World!'
+$>*/
+/*<#*/
 import {
   Action,
   ActionType,
-  Method,
   MethodCreator,
   axiumConclude,
+  createMethod,
   createQuality,
   defaultReducer,
   prepareActionCreator,
   strategySuccess,
 } from 'stratimux';
-import { Subject, map } from 'rxjs';
 
-export const helloWorldType: ActionType = 'Hello World';
+export const helloWorldType: ActionType = 'Hello World logs Hello World!';
 export const helloWorld = prepareActionCreator(helloWorldType);
 
-const createHelloWorldCreator: MethodCreator = () => {
-  const logSubject = new Subject<Action>();
-  const logMethod: Method = logSubject.pipe(
-    map((action: Action) => {
-      console.log('Hello World');
-      if (action.strategy) {
-        return strategySuccess(action.strategy);
-      }
-      return axiumConclude();
-    })
-  );
-  return [
-    logMethod,
-    logSubject
-  ];
-};
+const createHelloWorldCreator: MethodCreator = () =>
+  createMethod((action: Action) => {
+    console.log('Hello World!');
+    if (action.strategy) {
+      return strategySuccess(action.strategy);
+    }
+    return axiumConclude();
+  });
 
 export const helloWorldQuality = createQuality(
   helloWorldType,
   defaultReducer,
   createHelloWorldCreator,
 );
+/*#>*/

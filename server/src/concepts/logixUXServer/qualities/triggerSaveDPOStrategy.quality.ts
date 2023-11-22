@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX Server, generate a quality that will trigger the save DPO ActionStrategy.
+$>*/
+/*<#*/
 import {
   ActionType,
   MethodCreator,
@@ -14,7 +18,7 @@ import { LogixUXServerState } from '../logixUXServer.concept';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXServerSaveDPOStrategy } from '../strategies/saveDPO.strategy';
 
-export const logixUXServerTriggerSaveDPOStrategyType: ActionType = 'logixUXServer triggerSaveDPOStrategy';
+export const logixUXServerTriggerSaveDPOStrategyType: ActionType = 'logixUXServer trigger save DPO strategy';
 export const logixUXServerTriggerSaveDPOStrategy =
   prepareActionCreator(logixUXServerTriggerSaveDPOStrategyType);
 
@@ -24,7 +28,6 @@ const createLogixUXServerTriggerSaveDPOStrategyMethodCreator: MethodCreator = (c
       const state = selectUnifiedState<LogixUXServerState>(concepts, semaphore as number);
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       if (state && fileSystemState) {
-        console.log('CHECK STRATEGY', state.activeDPO);
         const strategy = logixUXServerSaveDPOStrategy(fileSystemState.root, state.activeDPO);
         return strategyBegin(strategy);
       } else {
@@ -38,3 +41,4 @@ export const logixUXServerTriggerSaveDPOStrategyQuality = createQuality(
   defaultReducer,
   createLogixUXServerTriggerSaveDPOStrategyMethodCreator,
 );
+/*#>*/

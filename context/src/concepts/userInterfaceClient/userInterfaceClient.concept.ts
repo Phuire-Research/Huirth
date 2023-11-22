@@ -1,15 +1,17 @@
+/*<$
+For the framework Stratimux generate a User Interface Client Concept, that will unify itself with the User Interface and incoming Brand concept to be loaded onto the client.
+$>*/
+/*<#*/
 import { Concept, createConcept, unifyConcepts } from 'stratimux';
 import { createHtmlConcept } from '../html/html.concepts';
 import { UserInterfaceState, createUserInterfaceConcept } from '../userInterface/userInterface.concept';
-import { userInterfaceClientAssembleActionQueStrategyQuality } from './qualities/clientAssembleActionQueStrategy.quality';
+import { userInterfaceClientAssembleAtomicUpdateCompositionStrategyQuality } from './qualities/clientAssembleAtomicUpdateCompositionStrategy.quality';
 import { userInterfaceClientDetermineBindingsQuality } from './qualities/clientDetermineBindings.quality';
 import { userInterfaceClientReplaceOuterHtmlQuality } from './qualities/replaceOuterHtml.quality';
 import { userInterfaceClientOnChangePrinciple } from './userInterfaceClient.principle';
 import { createWebSocketClientConcept } from '../webSocketClient/webSocketClient.concept';
 
 export const userInterfaceClientName = 'userInterfaceClient';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 export type UserInterfaceClientState = {
   currentPage: string;
@@ -34,8 +36,6 @@ const createUserInterfaceClientState = (): UserInterfaceClientState => {
   }
 };
 
-// For now we are setting this ourselves. The ideal situation would be that this would be determined
-// via the interface this UI is intended for.
 export const createUserInterfaceClientConcept = (state?: Record<string, unknown>, brandCreator?: () => Concept): Concept => {
   const newState: Record<string, unknown> = {};
   if (state) {
@@ -56,15 +56,11 @@ export const createUserInterfaceClientConcept = (state?: Record<string, unknown>
             '',
             createUserInterfaceClientState(),
             [
-              // userInterfaceAddComposedPageToStateQuality,
-              userInterfaceClientAssembleActionQueStrategyQuality,
+              userInterfaceClientAssembleAtomicUpdateCompositionStrategyQuality,
               userInterfaceClientDetermineBindingsQuality,
               userInterfaceClientReplaceOuterHtmlQuality,
             ],
-            [
-              // userInterfaceInitializationPrinciple
-              userInterfaceClientOnChangePrinciple,
-            ]
+            [userInterfaceClientOnChangePrinciple]
           ),
           brandCreator(),
         ],
@@ -79,19 +75,15 @@ export const createUserInterfaceClientConcept = (state?: Record<string, unknown>
             '',
             createUserInterfaceClientState(),
             [
-              // userInterfaceAddComposedPageToStateQuality,
-              userInterfaceClientAssembleActionQueStrategyQuality,
+              userInterfaceClientAssembleAtomicUpdateCompositionStrategyQuality,
               userInterfaceClientDetermineBindingsQuality,
               userInterfaceClientReplaceOuterHtmlQuality,
             ],
-            [
-              // userInterfaceInitializationPrinciple
-              userInterfaceClientOnChangePrinciple,
-            ]
+            [userInterfaceClientOnChangePrinciple]
           ),
         ],
         createConcept(userInterfaceClientName, newState)
       );
-  // console.log('CHECK UNIFIED', unified);
   return unified;
 };
+/*#>*/

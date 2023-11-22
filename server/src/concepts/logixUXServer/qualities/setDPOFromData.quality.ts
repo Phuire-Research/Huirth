@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX Server, generate a quality that parses a DPO data set from the incoming data field and adds such into state.
+$>*/
+/*<#*/
 import {
   Action,
   ActionType,
@@ -10,8 +14,7 @@ import {
   strategySuccess,
 } from 'stratimux';
 import { LogixUXServerState } from '../logixUXServer.concept';
-// import { logixUXServerReadFromDataDPOFromDirectories } from './readFromDataDPOFromDirectory.quality';
-import { convertSaveFormatDPOToDPO, convertDPOToSaveFormatDPO, logixUXServerFailureConditions } from '../logixUXServer.model';
+import { convertSaveFormatDPOToDPO, logixUXServerFailureConditions } from '../logixUXServer.model';
 import { ReadFromDataTrainingDataFromDirectoriesField } from './readFromDataTrainingDataFromDirectory.quality';
 
 export const logixUXServerSetDPOFromDataType: ActionType =
@@ -60,3 +63,4 @@ export const logixUXServerSetDPOFromDataQuality = createQuality(
   logixUXServerSetDPOFromDataReducer,
   logixUXServerSetDPOFromDataMethodCreator,
 );
+/*#>*/

@@ -1,6 +1,8 @@
-// This will set up and bind the selectors to state to determine which atomic operation
-// Should be dispatched to update the UI.
-
+/*<$
+For the framework Stratimux and the User Interface Client Concept, generate a principle that will detect changes on the client state based on the currently loaded page bound selectors, and dispatch the associated action if changed.
+This will set up and bind the selectors to state to determine which atomic operation that should be dispatched to update the UI.
+$>*/
+/*<#*/
 import {
   Action,
   Concepts,
@@ -9,17 +11,18 @@ import {
   UnifiedSubject,
   axiumRegisterStagePlanner,
   axiumSelectOpen,
+  getAxiumState,
+  getUnifiedName,
   selectSlice,
   selectUnifiedState,
 } from 'stratimux';
 import { UserInterfaceClientState } from './userInterfaceClient.concept';
 import { BoundSelectors } from '../../model/userInterface';
 import { Subscriber } from 'rxjs';
-import { getAxiumState, getUnifiedName } from '../../model/concepts';
 import {
-  UserInterfaceClientAssembleActionQueStrategyPayload,
-  userInterfaceClientAssembleActionQueStrategy
-} from './qualities/clientAssembleActionQueStrategy.quality';
+  UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload,
+  userInterfaceClientAssembleAtomicUpdateCompositionStrategy
+} from './qualities/clientAssembleAtomicUpdateCompositionStrategy.quality';
 
 export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
   (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
@@ -51,7 +54,7 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
               });
             }
           });
-          const payload: UserInterfaceClientAssembleActionQueStrategyPayload = {
+          const payload: UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload = {
             action$: getAxiumState(concepts).action$,
             boundActionQue: [],
           };
@@ -96,7 +99,7 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
           }
           console.log('CHECK PAYLOAD', payload);
           if (payload.boundActionQue.length > 0) {
-            dispatch(userInterfaceClientAssembleActionQueStrategy(payload), {
+            dispatch(userInterfaceClientAssembleAtomicUpdateCompositionStrategy(payload), {
               throttle: 50
             });
           }
@@ -107,3 +110,4 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
     ]
     );
   };
+/*#>*/

@@ -1,11 +1,12 @@
+/*<$
+For the framework Stratimux and File System Concept, generate a quality that will recursively copy a target directory and its contents to a new location.
+$>*/
+/*<#*/
 import {
-  Action,
   ActionStrategy,
   ActionType,
-  Method,
   MethodCreator,
   axiumConclude,
-  createActionController$,
   createAsyncMethod,
   createQuality,
   defaultReducer,
@@ -14,8 +15,6 @@ import {
   strategyRecurse,
   strategySuccess
 } from 'stratimux';
-// import { strategyData_appendFailure, strategyData_unifyData } from '../../../model/actionStrategy';
-import { Subject, switchMap } from 'rxjs';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -78,3 +77,4 @@ export const fileSystemRecursivelyCopyMoveTargetDirectoriesQuality = createQuali
   defaultReducer,
   createRecursivelyCopyMoveTargetDirectoriesMethodCreator,
 );
+/*#>*/

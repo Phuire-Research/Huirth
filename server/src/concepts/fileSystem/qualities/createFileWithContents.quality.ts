@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and File System Concept, generate a quality that will create a file at a target location with the specified contents.
+$>*/
+/*<#*/
 import {
   ActionStrategy,
   ActionType,
@@ -20,7 +24,7 @@ export const fileSystemCreateFileWithContentsIndexType: ActionType = 'File Syste
 export const fileSystemCreateFileWithContentsIndex =
   prepareActionWithPayloadCreator<CreateContextIndexPayload>(fileSystemCreateFileWithContentsIndexType);
 
-const createCreateContextIndexMethodCreator: MethodCreator = () => createAsyncMethod(
+const createContextIndexMethodCreator: MethodCreator = () => createAsyncMethod(
   (controller, action) => {
     const payload = selectPayload<CreateContextIndexPayload>(action);
     if (action.strategy) {
@@ -38,5 +42,6 @@ const createCreateContextIndexMethodCreator: MethodCreator = () => createAsyncMe
 export const fileSystemCreateFileWithContentsIndexQuality = createQuality(
   fileSystemCreateFileWithContentsIndexType,
   defaultReducer,
-  createCreateContextIndexMethodCreator,
+  createContextIndexMethodCreator,
 );
+/*#>*/

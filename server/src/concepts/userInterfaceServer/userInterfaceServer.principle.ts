@@ -1,3 +1,8 @@
+/*<$
+For the framework Stratimux and the User Interface Server Concept, generate a principle that will create a plan that synchronizes the server's state with the client state.
+While ignoring certain parts to allow for this recursive connection to be halting complete.
+$>*/
+/*<#*/
 import { Subscriber } from 'rxjs';
 import { ServerState } from '../server/server.concept';
 import express from 'express';
@@ -9,6 +14,7 @@ import {
   UnifiedSubject,
   axiumRegisterStagePlanner,
   axiumSelectOpen,
+  getUnifiedName,
   selectSlice,
   selectState,
   selectUnifiedState,
@@ -18,11 +24,10 @@ import path from 'path';
 import { FileSystemState, fileSystemName } from '../fileSystem/fileSystem.concept';
 import { findRoot } from '../../model/findRoot';
 import { UserInterfaceServerState } from './userInterfaceServer.concept';
-import { getUnifiedName } from '../../model/concepts';
 import {
-  UserInterfaceServerAssembleActionQueStrategyPayload,
-  userInterfaceServerAssembleActionQueStrategy
-} from './qualities/serverAssembleActionQueStrategy.quality';
+  UserInterfaceServerAssembleAtomicUpdateCompositionStrategyPayload,
+  userInterfaceServerAssembleAtomicUpdateCompositionStrategy
+} from './qualities/serverAssembleAtomicUpdateCompositionStrategy.quality';
 
 export const userInterfaceServerPrinciple: PrincipleFunction =
   (_: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
@@ -150,7 +155,7 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
             bound.action.conceptSemaphore = semaphore;
             selectors.push(bound);
           }));
-          const payload: UserInterfaceServerAssembleActionQueStrategyPayload = {
+          const payload: UserInterfaceServerAssembleAtomicUpdateCompositionStrategyPayload = {
             boundActionQue: []
           };
           const changes: string[] = [];
@@ -192,7 +197,7 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
           }
           // console.log('CHECK ATOMIC', atomicCachedState);
           if (payload.boundActionQue.length > 0) {
-            dispatch(userInterfaceServerAssembleActionQueStrategy(payload), {
+            dispatch(userInterfaceServerAssembleAtomicUpdateCompositionStrategy(payload), {
               throttle: 1
             });
           }
@@ -203,3 +208,4 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
     ]
     );
   };
+/*#>*/

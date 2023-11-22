@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux generate a HTML Concept.
+$>*/
+/*<#*/
 import { createConcept, Concept } from 'stratimux';
 import { htmlHelloWorldQuality } from './qualities/helloWorld.quality';
 import { htmlBeginQuality } from './qualities/htmlBegin.quality';
@@ -34,3 +38,4 @@ export const createHtmlConcept = (): Concept =>  {
     ]
   );
 };
+/*#>*/

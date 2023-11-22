@@ -1,19 +1,19 @@
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the Error Page Component.
+$>*/
+/*<#*/
 /* eslint-disable max-len */
 import {
   Action,
   ActionType,
-  Method,
   MethodCreator,
   axiumConcludeType,
   createAction,
   createMethod,
   createQuality,
   defaultReducer,
-  prepareActionCreator,
   strategySuccess
 } from 'stratimux';
-
-import { Subject, map } from 'rxjs';
 import { prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 
 export const logixUXErrorType: ActionType = 'Create logixUX Error Composition';

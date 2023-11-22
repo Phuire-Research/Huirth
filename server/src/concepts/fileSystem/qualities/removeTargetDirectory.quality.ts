@@ -1,11 +1,12 @@
+/*<$
+For the framework Stratimux and File System Concept, generate a quality that will remove a target directory.
+$>*/
+/*<#*/
 import {
-  Action,
   ActionStrategy,
   ActionType,
-  Method,
   MethodCreator,
   axiumConclude,
-  createActionController$,
   createAsyncMethod,
   createQuality,
   defaultReducer,
@@ -15,7 +16,6 @@ import {
   strategyFailed,
   strategySuccess
 } from 'stratimux';
-import { Subject, switchMap } from 'rxjs';
 import { rimraf } from 'rimraf';
 
 export type RemoveTargetDirectoryPayload = {
@@ -52,3 +52,4 @@ export const fileSystemRemoveTargetDirectoryQuality = createQuality(
   defaultReducer,
   createRemoveTargetDirectoryMethodCreator,
 );
+/*#>*/

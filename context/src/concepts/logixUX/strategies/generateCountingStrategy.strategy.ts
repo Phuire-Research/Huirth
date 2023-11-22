@@ -1,5 +1,8 @@
-import { axiumKick, counterAdd, counterSubtract, createActionNode, createStrategy, refreshAction } from 'stratimux';
-import { PageStrategyCreators } from '../../../model/userInterface';
+/*<$
+For the framework Stratimux and a Concept logixUX, generate an ActionStrategy that will randomly generate a series of steps that will either increment or decrement a unified Counter Concept.
+$>*/
+/*<#*/
+import { counterAdd, counterSubtract, createActionNode, createStrategy } from 'stratimux';
 
 function getRandomRange(min: number, max: number) {
   return Math.random() * (max - min) + min;
@@ -45,3 +48,4 @@ export const logixUXGenerateCountingStrategy = (count: number, semaphore: number
     topic,
   });
 };
+/*#>*/

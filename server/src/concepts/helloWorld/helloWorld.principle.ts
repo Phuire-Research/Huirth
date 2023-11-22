@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux generate a Hello World Concept.
+$>*/
+/*<#*/
 import {
   Action,
   Concepts,
@@ -15,9 +19,9 @@ export const helloWorldPrinciple: PrincipleFunction = (
   _: Subscriber<Action>,
   _concepts: Concepts,
   concepts$: UnifiedSubject,
-  semaphore: number
+  _semaphore: number
 ) => {
-  const plan = concepts$.stage('ownership Principle Plan', [
+  const plan = concepts$.stage('Hello World Plan', [
     (concepts, dispatch) => {
       dispatch(primeAction(concepts, axiumRegisterStagePlanner({conceptName: helloWorldName, stagePlanner: plan})), {
         iterateStage: true,
@@ -32,9 +36,9 @@ export const helloWorldPrinciple: PrincipleFunction = (
         iterateStage: true
       });
     },
-    (concepts, dispatch) => {
+    (__, ___) => {
       plan.conclude();
-      // console.log('Plan can conclude.');
     }
   ]);
 };
+/*#>*/

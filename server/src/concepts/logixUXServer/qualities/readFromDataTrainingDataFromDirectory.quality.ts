@@ -1,9 +1,11 @@
+/*<$
+For the framework Stratimux and a Concept logixUX Server, generate a quality that reads a data set based on the incoming data field and unifies such back into the ActionStrategy data.
+$>*/
+/*<#*/
 import {
-  Action,
   ActionType,
   createAsyncMethod,
   createQuality,
-  defaultMethodCreator,
   defaultReducer,
   prepareActionCreator,
   strategyData_appendFailure,
@@ -31,14 +33,12 @@ export const logixUXServerReadFromDataTrainingDataFromDirectoriesMethodCreator =
     if (action.strategy && action.strategy.data) {
       const data = strategyData_select(action.strategy) as GetDirectoriesAndFilesDataField;
       if (data.directories) {
-        console.log('CHECK DIRENT', data.directories);
-        // FIGURE OUT DIRENT
         if (data.directories.length !== 0) {
           const contents = fs.readFileSync(path.join(data.directories[0].path + '/' + data.directories[0].name));
           try {
             const trainingData = JSON.parse(`${contents}`);
             controller.fire(strategySuccess(action.strategy, strategyData_unifyData(action.strategy, {
-            // TEMP
+              // Temp
               trainingData,
             })));
           } catch (error) {
@@ -64,3 +64,4 @@ export const logixUXServerReadFromDataTrainingDataFromDirectoriesQuality = creat
   defaultReducer,
   logixUXServerReadFromDataTrainingDataFromDirectoriesMethodCreator,
 );
+/*#>*/

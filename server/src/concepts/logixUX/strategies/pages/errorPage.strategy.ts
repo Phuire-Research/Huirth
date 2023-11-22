@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a Page Strategy Creator that will unify Sidebar, Error, Footer, and Header Action Strategy Component Stitches into a Page Composition.
+$>*/
+/*<#*/
 import { axium_createStitchNode, createActionNode, createStrategy } from 'stratimux';
 import {
   ActionComponentPayload,
@@ -6,8 +10,8 @@ import {
   userInterface_createPage
 } from '../../../../model/userInterface';
 import { logixUXError } from '../../qualities/components/error/error.quality';
-import { logixUXFooterStrategy } from '../components/footer.strategy';
-import { logixUXHeaderStrategy } from '../components/header.strategy';
+import { logixUXFooterStitch } from '../components/footer.strategy';
+import { logixUXHeaderStitch } from '../components/header.strategy';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { logixUXSidebarComponentStitch } from '../components/sidebar.strategy';
 
@@ -22,14 +26,14 @@ export const logixUXErrorPageStrategy: PageStrategyCreators = () => () => {
     successNode: stepStitch,
     failureNode: null
   });
-  const logixUXBody: ActionStrategyComponentStitch = () => [stepStitch, createStrategy({
+  const logixUXErrorStitch: ActionStrategyComponentStitch = () => [stepStitch, createStrategy({
     topic: 'Create logixUX Error Body Content',
     initialNode: stepLogixUXError,
   })];
 
   const pageData = userInterface_createPage({
     title: logixUXErrorPageStrategyTopic,
-    conceptAndProps: [{ name: 'helloWorld'}],
+    conceptAndProps: [],
     cachedSelectors: [],
     compositions: []
   });
@@ -39,9 +43,9 @@ export const logixUXErrorPageStrategy: PageStrategyCreators = () => () => {
     pageData,
     [
       logixUXSidebarComponentStitch,
-      logixUXBody,
-      logixUXFooterStrategy
+      logixUXErrorStitch,
+      logixUXFooterStitch
     ],
-    logixUXHeaderStrategy
+    logixUXHeaderStitch
   );
 };

@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX, generate an ActionStrategy that will set a target project status to installing then utilize the client helper function to trigger the git clone strategy on the server.
+$>*/
+/*<#*/
 import { createActionNode, createStrategy } from 'stratimux';
 import { logixUXUpdateProjectStatus } from '../qualities/updateProjectToStatus.quality';
 import { ProjectStatus } from '../logixUX.model';
@@ -10,9 +14,7 @@ export const logixUXInstallGitRepositoryStrategy = (url: string, name: string) =
     // TODO: If failed we can use open to load a window with the git install webpage
     failureNode: null,
   });
-  // Step 1 Remove directory if exists based on name
   const stepUpdateToInstalling = createActionNode(logixUXUpdateProjectStatus({ name, status: ProjectStatus.installing }), {
-    // successNode: stepCreateDirectory,
     successNode: stepSendToServer,
     failureNode: null,
   });
@@ -21,3 +23,4 @@ export const logixUXInstallGitRepositoryStrategy = (url: string, name: string) =
     initialNode: stepUpdateToInstalling,
   });
 };
+/*#>*/

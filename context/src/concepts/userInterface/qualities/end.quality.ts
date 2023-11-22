@@ -1,6 +1,11 @@
+/*<$
+For the framework Stratimux and the User Interface Concept, generate a pure quality that will end a strategy without effecting the Axium's dialog system, simply by not including a method and using the default reducer.
+$>*/
+/*<#*/
 import { ActionType, createQuality, defaultReducer, prepareActionCreator } from 'stratimux';
 
 export const userInterfaceEndType: ActionType = 'User Interface End Strategy';
 export const userInterfaceEnd = prepareActionCreator(userInterfaceEndType);
 
 export const userInterfaceEndQuality = createQuality(userInterfaceEndType, defaultReducer);
+/*#>*/

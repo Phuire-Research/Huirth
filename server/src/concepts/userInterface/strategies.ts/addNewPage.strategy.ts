@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the User Interface Concept, generate a strategy that will append each page strategy's page composition to the state pages property.
+$>*/
+/*<#*/
 import { ActionStrategy, createActionNode, createStrategy } from 'stratimux';
 import { userInterfaceAddNewPage } from '../qualities/addNewPage.quality';
 import { PageStrategyCreators } from '../../../model/userInterface';
@@ -16,3 +20,4 @@ export function userInterfaceAddNewPageStrategy(pageStrategy: PageStrategyCreato
     initialNode: stepAddToState,
   });
 }
+/*#>*/

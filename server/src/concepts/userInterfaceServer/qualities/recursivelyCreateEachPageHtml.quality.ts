@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the User Interface Server Concept, generate a quality that will create recursively a html document for each page presented in the payload in the target directory.
+$>*/
+/*<#*/
 import {
   ActionType,
   MethodCreator,
@@ -10,7 +14,6 @@ import {
   strategyRecurse,
   strategySuccess
 } from 'stratimux';
-// import { strategyData_appendFailure, strategyData_unifyData } from '../../../model/actionStrategy';
 import fs from 'fs/promises';
 import path from 'path';
 import { Page } from '../../../model/userInterface';
@@ -66,3 +69,4 @@ export const userInterfaceServerRecursivelyCreateEachPageHtmlQuality = createQua
   defaultReducer,
   createRecursivelyCreateEachPageHtmlMethodCreator,
 );
+/*#>*/

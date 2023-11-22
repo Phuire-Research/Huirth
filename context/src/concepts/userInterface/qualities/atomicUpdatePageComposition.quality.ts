@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the User Interface Concept, generate a quality that will update a specific page and composition based on the incoming payload. And set by the data field supplied by the strategy.
+$>*/
+/*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';
 import { BoundSelectors, userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
@@ -32,3 +36,4 @@ export const userInterfaceAtomicUpdatePageCompositionQuality = createQuality(
   userInterfaceAtomicUpdatePageCompositionReducer,
   defaultMethodCreator
 );
+/*#>*/

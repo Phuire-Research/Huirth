@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the content slice of the DPO DataSet Component with the necessary bindings.
+$>*/
+/*<#*/
 /* eslint-disable max-len */
 import {
   Action,
@@ -131,3 +135,4 @@ export const logixUXIndexDPOContentQuality = createQuality(
   defaultReducer,
   createIndexDPOContentMethodCreator,
 );
+/*#>*/
