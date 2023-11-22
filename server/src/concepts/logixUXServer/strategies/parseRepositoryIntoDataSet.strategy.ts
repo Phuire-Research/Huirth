@@ -1,4 +1,8 @@
-import { axiumLog, createActionNode, createStrategy } from 'stratimux';
+/*<$
+For the framework Stratimux and a Concept logixUX Server, generate a strategy that will read an installed repository in the data directory and parse it into a data set to be loaded into state.
+$>*/
+/*<#*/
+import { createActionNode, createStrategy } from 'stratimux';
 import path from 'path';
 import { fileSystemReadDirectory } from '../../fileSystem/qualities/readDir.quality';
 import { logixUXServerParseFileFromData } from '../qualities/parseFileFromData.quality';
@@ -39,3 +43,4 @@ export const logixUXServerParseRepositoryStrategy = (root: string, name:string) 
     initialNode: stepReadDirectory,
   });
 };
+/*#>*/

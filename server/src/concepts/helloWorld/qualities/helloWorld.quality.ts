@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and Hello World Concept, generate a quality that will console log 'Hello World!'
-/*$>*/
+/*<$
+For the framework Stratimux and Hello World Concept, generate a quality that will console log 'Hello World!'
+$>*/
 /*<#*/
 import {
   Action,

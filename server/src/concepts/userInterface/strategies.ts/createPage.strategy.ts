@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the User Interface Concept, generate a ActionStrategy that will generate a page based on its loaded action strategy stitch components and assign such to the strategies data field.
+$>*/
+/*<#*/
 import {
   ActionNode,
   ActionStrategy,
@@ -112,3 +116,4 @@ const createHeaderStrategy = (payload: ActionComponentPayload, stitch?: ActionSt
     })
   ];
 };
+/*#>*/

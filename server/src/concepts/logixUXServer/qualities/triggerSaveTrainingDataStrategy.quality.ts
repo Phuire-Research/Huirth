@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX Server, generate a quality that will trigger the save training data ActionStrategy.
+$>*/
+/*<#*/
 import {
   ActionType,
   MethodCreator,
@@ -14,7 +18,7 @@ import { LogixUXServerState } from '../logixUXServer.concept';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXServerSaveTrainingDataStrategy } from '../strategies/saveTrainingData.strategy';
 
-export const logixUXServerTriggerSaveTrainingDataStrategyType: ActionType = 'logixUXServer triggerSaveTrainingDataStrategy';
+export const logixUXServerTriggerSaveTrainingDataStrategyType: ActionType = 'logixUXServer trigger save training data strategy';
 export const logixUXServerTriggerSaveTrainingDataStrategy =
   prepareActionCreator(logixUXServerTriggerSaveTrainingDataStrategyType);
 
@@ -24,7 +28,6 @@ const createLogixUXServerTriggerSaveTrainingDataStrategyMethodCreator: MethodCre
       const state = selectUnifiedState<LogixUXServerState>(concepts, semaphore as number);
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       if (state && fileSystemState) {
-        console.log('CHECK STRATEGY', state.trainingData);
         const strategy = logixUXServerSaveTrainingDataStrategy(fileSystemState.root, state.trainingData);
         return strategyBegin(strategy);
       } else {
@@ -38,3 +41,4 @@ export const logixUXServerTriggerSaveTrainingDataStrategyQuality = createQuality
   defaultReducer,
   createLogixUXServerTriggerSaveTrainingDataStrategyMethodCreator,
 );
+/*#>*/

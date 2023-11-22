@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the first slice of the Dialog Component.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the first slice of the Dialog Component.
+$>*/
 /*<#*/
 import {
   ActionType,

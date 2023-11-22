@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate a quality that will parse the contents 
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX Server, generate a quality that will parse the contents of a file supplied from the data field for a dataset set by payload.
+$>*/
 /*<#*/
 import {
   ActionType,
@@ -48,7 +48,7 @@ const recursiveParse = (data: NamedDataSet, content: string): NamedDataSet => {
       const end = content.indexOf(ParsingTokens.includeEnd);
       output += content.substring(begin, end);
     }
-    const prompt = content.substring(promptBegin, promptEnd).split(ParsingTokens.prompt)[1];
+    const prompt = content.substring(promptBegin, promptEnd);
     output += content.substring(contentBegin, contentEnd);
     data.dataSet.push({
       prompt,
@@ -104,3 +104,4 @@ export const logixUXServerParseFileFromDataQuality = createQuality(
   defaultReducer,
   logixUXServerParseFileFromDataMethodCreator,
 );
+/*#>*/

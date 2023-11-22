@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and Document Object Model Concept, generate a quality that will bind an action to an element.
-/*$>*/
+/*<$
+For the framework Stratimux and Document Object Model Concept, generate a quality that will bind an action to an element.
+$>*/
 /*<#*/
 import {
   Action,

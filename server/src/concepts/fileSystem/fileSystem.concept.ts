@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux generate a File System Concept that will store the current projects root and concept directory map.
-/*$>*/
+/*<$
+For the framework Stratimux generate a File System Concept that will store the current projects root and concept directory map.
+$>*/
 /*<#*/
 import { createConcept, Concept } from 'stratimux';
 import { fileSystemGetDirectoriesQuality } from './qualities/getDirectories.quality';

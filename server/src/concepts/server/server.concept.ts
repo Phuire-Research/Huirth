@@ -1,6 +1,9 @@
-import { Subscriber } from 'rxjs';
+/*<$*/
+// PROMPT: For the framework Stratimux generate a Server Concept, that accepts an initial port.
+/*$>*/
+/*<#*/
 import { serverPrinciple } from './server.principle';
-import { Action, createConcept } from 'stratimux';
+import { createConcept } from 'stratimux';
 import express, {Application} from 'express';
 
 export type ServerState = {
@@ -25,3 +28,4 @@ export const createServerConcept = (port?: number) => {
     [serverPrinciple]
   );
 };
+/*#>*/

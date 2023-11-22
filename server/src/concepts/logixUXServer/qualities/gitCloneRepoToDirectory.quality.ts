@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate a quality that will clone a git repository into the supplied payload path.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX Server, generate a quality that will clone a git repository into the supplied payload path.
+$>*/
 /*<#*/
 import {
   ActionStrategy,

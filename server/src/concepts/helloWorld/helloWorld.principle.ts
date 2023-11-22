@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux generate a Hello World Concept.
-/*$>*/
+/*<$
+For the framework Stratimux generate a Hello World Concept.
+$>*/
 /*<#*/
 import {
   Action,

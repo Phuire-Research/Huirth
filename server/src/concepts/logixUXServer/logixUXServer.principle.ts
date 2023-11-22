@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate principle that will dispatch a initialization strategy.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX Server, generate principle that will dispatch a initialization strategy.
+$>*/
 /*<#*/
 import { Subscriber } from 'rxjs';
 import {

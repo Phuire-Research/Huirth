@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate a test that will confirm that the generateNumID function is working as intended.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a test that will confirm that the generateNumID function is working as intended.
+$>*/
 /*<#*/
 import { generateNumID, promptID, selectTrainingDataIndex } from '../logixUX.model';
 

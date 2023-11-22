@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the brand concept logixUX, generate a principle that will create pages based upon the loaded data sets assigned to state.
+$>*/
+/*<#*/
 import { Subscriber } from 'rxjs';
 import { Action, ActionStrategy, Concepts, PrincipleFunction, UnifiedSubject, axiumRegisterStagePlanner, getUnifiedName, selectUnifiedState, strategyBegin, strategySequence } from 'stratimux';
 import { userInterface_isClient } from '../../model/userInterface';
@@ -179,3 +183,4 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
       }
     ]);
   };
+/*#>*/

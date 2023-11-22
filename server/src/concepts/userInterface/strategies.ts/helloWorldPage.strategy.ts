@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the User Interface Concept, generate a strategy that will create a hello world page to be loaded onto the client.
+$>*/
+/*<#*/
 import {
   ActionStrategyParameters,
   ActionStrategyStitch,
@@ -11,14 +15,7 @@ import { PageStrategyCreators, userInterface_createPage } from '../../../model/u
 import { userInterfaceCreatePageStrategy } from './createPage.strategy';
 
 export const helloWorldPageTopic = 'Hello World Page';
-// In Logical Conceptualism. This is called a Logical Stitch.
-//  Where despite the order to declare ActionNodes and have a cohesive strategy is reversed sequentially
-//    It appears ordered due to another reversal caused by the order of children.
 export const helloWorldPageStrategy: PageStrategyCreators = () => () => {
-  // const stepFour = createActionNode(userInterfaceAddComposedPageToState(), {
-  //   successNode: null,
-  //   failureNode: null
-  // });
   const stepStitch = axium_createStitchNode();
   const stepOne = createActionNode(htmlHelloWorld(), {
     successNode: stepStitch,
@@ -44,3 +41,4 @@ export const helloWorldPageStrategy: PageStrategyCreators = () => () => {
   const helloWorldBody: ActionStrategyStitch = () => [stepStitch, createStrategy(params)];
   return userInterfaceCreatePageStrategy(helloWorldPageTopic, pageData, [helloWorldBody]);
 };
+/*#>*/

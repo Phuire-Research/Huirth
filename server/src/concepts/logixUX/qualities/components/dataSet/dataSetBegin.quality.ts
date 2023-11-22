@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality to create the first slice of the DataSet Component.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality to create the first slice of the DataSet Component.
+$>*/
 /*<#*/
 import {
   ActionType,

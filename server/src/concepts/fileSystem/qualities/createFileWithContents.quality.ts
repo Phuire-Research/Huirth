@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and File System Concept, generate a quality that will create a file at a target location with the specified contents.
-/*$>*/
+/*<$
+For the framework Stratimux and File System Concept, generate a quality that will create a file at a target location with the specified contents.
+$>*/
 /*<#*/
 import {
   ActionStrategy,

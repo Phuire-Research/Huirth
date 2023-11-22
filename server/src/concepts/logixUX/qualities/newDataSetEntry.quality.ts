@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate a quality to add a new base data set entry to the training data at the target index.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a quality to add a new base data set entry to the training data at the target index.
+$>*/
 /*<#*/
 import {
   Action,

@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality that will create the Data Manager's initial slice and append to the page composition data field.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality that will create the Data Manager's initial slice and append to the page composition data field.
+$>*/
 /*<#*/
 import {
   ActionType,

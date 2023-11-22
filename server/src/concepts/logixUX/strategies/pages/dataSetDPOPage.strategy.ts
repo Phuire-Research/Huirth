@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate a Page Strategy Creator that will unify Sidebar, DPO, Footer, and Header Action Strategy Component Stitches into a Page Composition.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a Page Strategy Creator that will unify Sidebar, DPO, Footer, and Header Action Strategy Component Stitches into a Page Composition.
+$>*/
 /*<#*/
 import { createActionNode, createStrategy } from 'stratimux';
 import { ActionStrategyComponentStitch, PageStrategyCreators, userInterface_createPage } from '../../../../model/userInterface';

@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX Server, generate a ActionStrategy that will clone a git repository to a target directory
+$>*/
+/*<#*/
 import path from 'path';
 import { createActionNode, createStrategy } from 'stratimux';
 import { logixUXServerSendUpdateProjectToInstalled } from './client/logixUXServerSendUpdateProjectToInstalled.helper';
@@ -24,7 +28,6 @@ export const logixUXServerCloneGitRepositoryToDirectoryStrategy = (root: string,
   });
   // Step 1 Remove directory if exists based on name
   const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory({path: dataPath}), {
-    // successNode: stepCreateDirectory,
     successNode: stepCloneRepo,
     failureNode: null,
     agreement: 20000
@@ -34,3 +37,4 @@ export const logixUXServerCloneGitRepositoryToDirectoryStrategy = (root: string,
     initialNode: stepRemoveDirectory,
   });
 };
+/*#>*/

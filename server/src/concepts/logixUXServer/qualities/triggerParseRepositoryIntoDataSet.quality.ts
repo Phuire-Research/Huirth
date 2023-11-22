@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX Server, generate a quality that will trigger the parse repository ActionStrategy set by name supplied by the incoming payload.
+$>*/
+/*<#*/
 import {
   ActionType,
   MethodCreator,
@@ -16,7 +20,7 @@ import { logixUXServerParseRepositoryStrategy } from '../strategies/parseReposit
 export type LogixUXServerTriggerParseRepositoryStrategyPayload = {
   name: string
 }
-export const logixUXServerTriggerParseRepositoryStrategyType: ActionType = 'logixUXServer triggerParseRepositoryStrategy';
+export const logixUXServerTriggerParseRepositoryStrategyType: ActionType = 'logixUXServer trigger parse repository strategy';
 export const logixUXServerTriggerParseRepositoryStrategy =
   prepareActionCreator(logixUXServerTriggerParseRepositoryStrategyType);
 
@@ -39,3 +43,4 @@ export const logixUXServerTriggerParseRepositoryStrategyQuality = createQuality(
   defaultReducer,
   createLogixUXServerTriggerParseRepositoryStrategyMethodCreator,
 );
+/*#>*/

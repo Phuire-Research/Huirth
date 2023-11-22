@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate a quality that will set the DataSet at the specified index, the value of the html target supplied in the strategy data field.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a quality that will set the DataSet at the specified index, the value of the html target supplied in the strategy data field.
+$>*/
 /*<#*/
 import {
   Action,

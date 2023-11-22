@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate an Action Strategy Component Stitch that appends the logixUX style component to the desired composition.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX, generate an Action Strategy Component Stitch that appends the logixUX style component to the desired composition.
+$>*/
 /*<#*/
 import { createActionNode, createStrategy } from 'stratimux';
 import { logixUXStyle } from '../../qualities/components/style.quality';

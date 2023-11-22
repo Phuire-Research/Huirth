@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate a quality that updates a project's status via supplied payload and selected by included name property.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a quality that updates a project's status via supplied payload and selected by included name property.
+$>*/
 /*<#*/
 import {
   Action,

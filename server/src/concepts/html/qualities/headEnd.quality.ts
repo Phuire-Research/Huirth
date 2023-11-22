@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and Html Concept, generate a quality that will append a head element closing tag for a User Interface Concept and supplied page composition.
-/*$>*/
+/*<$
+For the framework Stratimux and Html Concept, generate a quality that will append a head element closing tag for a User Interface Concept and supplied page composition.
+$>*/
 /*<#*/
 import {
   ActionType,

@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and Document Object Model Concept, generate a quality that will attach a element event to the next action's payload.
-/*$>*/
+/*<$
+For the framework Stratimux and Document Object Model Concept, generate a quality that will attach a element event to the next action's payload.
+$>*/
 /*<#*/
 import {
   ActionType,

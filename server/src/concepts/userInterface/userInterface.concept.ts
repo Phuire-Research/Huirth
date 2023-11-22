@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the User Interface Concept, generate a principle that will dispatch a sequence of page to state strategies that will cache the required pages for the client.
+$>*/
+/*<#*/
 import { Concept, createConcept, unifyConcepts } from 'stratimux';
 import { Page, PageStrategyCreators } from '../../model/userInterface';
 import { userInterfaceAddComposedPageToStateQuality } from './qualities/addComposedPageToState.quality';
@@ -6,12 +10,9 @@ import { createHtmlConcept } from '../html/html.concepts';
 import { userInterfaceRefreshCachedSelectorsQuality } from './qualities/refreshPageCachedSelectors.quality';
 import { userInterfaceEndQuality } from './qualities/end.quality';
 import { userInterfaceAtomicUpdatePageCompositionQuality } from './qualities/atomicUpdatePageComposition.quality';
-import { userInterfaceDebouncePageCreationQuality } from './qualities/debouncePageCreation.quality';
 import { userInterfaceAddNewPageQuality } from './qualities/addNewPage.quality';
 
 export const userInterfaceName = 'userInterface';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 export type UserInterfaceState = {
   pages: Page[],
@@ -35,7 +36,6 @@ export const createUserInterfaceConcept = (pageStrategies: PageStrategyCreators[
       userInterfaceAddComposedPageToStateQuality,
       userInterfaceRefreshCachedSelectorsQuality,
       userInterfaceAtomicUpdatePageCompositionQuality,
-      // userInterfaceDebouncePageCreationQuality,
       userInterfaceAddNewPageQuality,
       userInterfaceEndQuality
     ],
@@ -44,3 +44,4 @@ export const createUserInterfaceConcept = (pageStrategies: PageStrategyCreators[
     ]
   ));
 };
+/*#>*/

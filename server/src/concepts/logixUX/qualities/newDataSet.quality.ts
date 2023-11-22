@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate a quality that will add a new default named dataset to the state's trainingData property.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a quality that will add a new default named dataset to the state's trainingData property.
+$>*/
 /*<#*/
 import {
   Action,

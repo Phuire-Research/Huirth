@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX Server, generate a strategy that will save the current DPO data onto the file system.
+$>*/
+/*<#*/
 import { createActionNode, createStrategy } from 'stratimux';
 import { Active_DPO  } from '../../logixUX/logixUX.model';
 import path from 'path';
@@ -36,3 +40,4 @@ export const logixUXServerSaveDPOStrategy = (root: string, DPO: Active_DPO[]) =>
     initialNode: stepRemoveDirectory,
   });
 };
+/*#>*/

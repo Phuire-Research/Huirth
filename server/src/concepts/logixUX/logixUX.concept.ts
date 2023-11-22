@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux generate a Brand Concept called LogixUX that will act as a Sidekick Application for the Stratimux Framework.
-/*$>*/
+/*<$
+For the framework Stratimux generate a Brand Concept called LogixUX that will act as a Sidekick Application for the Stratimux Framework.
+$>*/
 /*<#*/
 import { createConcept, Concept, unifyConcepts, createCounterConcept, PrincipleFunction, Quality } from 'stratimux';
 import { logixUXErrorQuality } from './qualities/components/error/error.quality';

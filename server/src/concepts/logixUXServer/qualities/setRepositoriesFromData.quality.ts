@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX Server, generate a quality that sets the initial project status based on their existence in the incoming data field.
+$>*/
+/*<#*/
 import {
   Action,
   ActionType,
@@ -60,3 +64,4 @@ export const logixUXServerSetRepositoriesFromDataQuality = createQuality(
   logixUXServerSetRepositoriesFromDataReducer,
   defaultMethodCreator,
 );
+/*#>*/

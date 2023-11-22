@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate a quality that will create the context index needed to load Stratimux and all unified logixUX concepts onto the client.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a quality that will create the context index needed to load Stratimux and all unified logixUX concepts onto the client.
+$>*/
 /*<#*/
 import {
   ActionStrategy,

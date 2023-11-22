@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and File System Concept, generate a quality that will read a file from a ReadDirectoryField data slice and unify the contents with the ActionStrategy's data.
-/*$>*/
+/*<$
+For the framework Stratimux and File System Concept, generate a quality that will read a file from a ReadDirectoryField data slice and unify the contents with the ActionStrategy's data.
+$>*/
 /*<#*/
 import {
   ActionType,

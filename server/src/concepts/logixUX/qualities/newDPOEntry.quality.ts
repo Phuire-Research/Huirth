@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate a quality that will add new default DPO Training Data Entry to logixUX's state.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a quality that will add new default DPO Training Data Entry to logixUX's state.
+$>*/
 /*<#*/
 import {
   Action,

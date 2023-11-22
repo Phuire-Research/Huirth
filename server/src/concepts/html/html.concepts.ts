@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux generate a HTML Concept.
-/*$>*/
+/*<$
+For the framework Stratimux generate a HTML Concept.
+$>*/
 /*<#*/
 import { createConcept, Concept } from 'stratimux';
 import { htmlHelloWorldQuality } from './qualities/helloWorld.quality';

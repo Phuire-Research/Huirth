@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate an ActionStrategy that accepts the current count and semaphore to have a unified Counter Concept be decremented seven times.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX, generate an ActionStrategy that accepts the current count and semaphore to have a unified Counter Concept be decremented seven times.
+$>*/
 /*<#*/
 import { counterSubtract, createActionNode, createStrategy } from 'stratimux';
 

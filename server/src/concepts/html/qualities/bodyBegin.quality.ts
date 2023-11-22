@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and Html Concept, generate a quality for a User Interface Concept that will add a html body element with the supplied page id.
-/*$>*/
+/*<$
+For the framework Stratimux and Html Concept, generate a quality for a User Interface Concept that will add a html body element with the supplied page id.
+$>*/
 /*<#*/
 import {
   ActionType,

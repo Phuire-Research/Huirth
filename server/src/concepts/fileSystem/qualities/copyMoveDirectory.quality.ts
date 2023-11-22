@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and File System Concept, generate a quality that will copy move a target directory to a new location.
-/*$>*/
+/*<$
+For the framework Stratimux and File System Concept, generate a quality that will copy move a target directory to a new location.
+$>*/
 /*<#*/
 import {
   ActionStrategy,

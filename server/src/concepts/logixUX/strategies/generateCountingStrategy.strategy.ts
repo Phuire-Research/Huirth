@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate an ActionStrategy that will randomly generate a series of steps that will either increment or decrement a unified Counter Concept.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX, generate an ActionStrategy that will randomly generate a series of steps that will either increment or decrement a unified Counter Concept.
+$>*/
 /*<#*/
 import { counterAdd, counterSubtract, createActionNode, createStrategy } from 'stratimux';
 

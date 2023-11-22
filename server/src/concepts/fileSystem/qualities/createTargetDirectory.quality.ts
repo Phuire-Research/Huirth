@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and File System Concept, generate a quality the will create the target directory if it does not exist.
-/*$>*/
+/*<$
+For the framework Stratimux and File System Concept, generate a quality the will create the target directory if it does not exist.
+$>*/
 /*<#*/
 import {
   ActionStrategy,

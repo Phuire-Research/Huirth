@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and a Concept logixUX Server, generate the model file contents.
+$>*/
+/*<#*/
 import {
   ActionType,
   MethodCreator,
@@ -8,10 +12,8 @@ import {
   prepareActionCreator,
   selectPayload,
   selectState,
-  selectUnifiedState,
   strategyBegin,
 } from 'stratimux';
-import { LogixUXServerState } from '../logixUXServer.concept';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXServerCloneGitRepositoryToDirectoryStrategy } from '../strategies/cloneGitRespositoryToDirectory.strategy';
 
@@ -19,7 +21,7 @@ export type LogixUXServerTriggerCloneGitRepositoryStrategyPayload = {
   url: string,
   name: string
 }
-export const logixUXServerTriggerCloneGitRepositoryStrategyType: ActionType = 'logixUXServer triggerCloneGitRepositoryStrategy';
+export const logixUXServerTriggerCloneGitRepositoryStrategyType: ActionType = 'logixUXServer trigger clone git repository ActionStrategy';
 export const logixUXServerTriggerCloneGitRepositoryStrategy =
   prepareActionCreator(logixUXServerTriggerCloneGitRepositoryStrategyType);
 
@@ -42,3 +44,4 @@ export const logixUXServerTriggerCloneGitRepositoryStrategyQuality = createQuali
   defaultReducer,
   createLogixUXServerTriggerCloneGitRepositoryStrategyMethodCreator,
 );
+/*#>*/

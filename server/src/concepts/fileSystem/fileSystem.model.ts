@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and File System Concept, generate a model file with all types required for it to function.
-/*$>*/
+/*<$
+For the framework Stratimux and File System Concept, generate a model file with all types required for it to function.
+$>*/
 /*<#*/
 import { Dirent } from 'fs';
 

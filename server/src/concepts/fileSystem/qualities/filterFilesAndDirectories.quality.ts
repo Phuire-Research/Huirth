@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and File System Concept, generate a quality that will filter an ActionStrategies supplied data's fileAndDirectories to both what is and is not specified.
-/*$>*/
+/*<$
+For the framework Stratimux and File System Concept, generate a quality that will filter an ActionStrategies supplied data's fileAndDirectories to both what is and is not specified.
+$>*/
 /*<#*/
 import {
   ActionType,

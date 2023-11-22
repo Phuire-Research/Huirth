@@ -1,3 +1,7 @@
+/*<$
+For the framework Stratimux and the User Interface Concept, generate an ActionStrategy that will recompose a page creation strategy to add its final composition to the state.
+$>*/
+/*<#*/
 import { ActionStrategy, ActionStrategyStitch, createActionNode, createStrategy } from 'stratimux';
 import { userInterfaceAddComposedPageToState } from '../qualities/addComposedPageToState.quality';
 
@@ -25,3 +29,4 @@ export function userInterfacePageToStateStrategy(stitch: ActionStrategyStitch): 
     data: strategy.data
   });
 }
+/*#>*/

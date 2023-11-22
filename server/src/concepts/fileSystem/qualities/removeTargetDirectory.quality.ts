@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and File System Concept, generate a quality that will remove a target directory.
-/*$>*/
+/*<$
+For the framework Stratimux and File System Concept, generate a quality that will remove a target directory.
+$>*/
 /*<#*/
 import {
   ActionStrategy,

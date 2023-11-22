@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and Document Object Model Concept, generate a principle that will bind the current page's preloaded document bindings.
-/*$>*/
+/*<$
+For the framework Stratimux and Document Object Model Concept, generate a principle that will bind the current page's preloaded document bindings.
+$>*/
 /*<#*/
 import {
   Action,

@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the Error Page Component.
-/*$>*/
+/*<$
+For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the Error Page Component.
+$>*/
 /*<#*/
 /* eslint-disable max-len */
 import {

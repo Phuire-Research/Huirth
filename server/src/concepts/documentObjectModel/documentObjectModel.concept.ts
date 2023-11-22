@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux generate a Document Object Model Concept
-/*$>*/
+/*<$
+For the framework Stratimux generate a Document Object Model Concept
+$>*/
 /*<#*/
 import { createConcept, Concept } from 'stratimux';
 import { documentObjectModelPrinciple } from './documentObjectModel.principle';
