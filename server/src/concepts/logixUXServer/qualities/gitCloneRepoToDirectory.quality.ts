@@ -1,3 +1,7 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and a Concept logixUX, generate a quality that will clone a git repository into the supplied payload path.
+/*$>*/
+/*<#*/
 import {
   ActionStrategy,
   ActionType,
@@ -49,3 +53,4 @@ export const logixUXServerGitCloneRepoToDirectoryQuality = createQuality(
   defaultReducer,
   makeGitCloneRepoToDirectoryMethodCreator,
 );
+/*#>*/

@@ -1,3 +1,7 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and a Concept logixUX, generate a quality that updates a DataSet's prompt by index and set by event target value.
+/*$>*/
+/*<#*/
 import {
   Action,
   ActionType,
@@ -36,3 +40,4 @@ export const logixUXUpdateDataSetPromptQuality = createQuality(
   logixUXUpdateDataSetPromptReducer,
   defaultMethodCreator
 );
+/*#>*/

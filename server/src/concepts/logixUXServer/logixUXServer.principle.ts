@@ -1,3 +1,7 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and a Concept logixUX, generate principle that will dispatch a initialization strategy.
+/*$>*/
+/*<#*/
 import { Subscriber } from 'rxjs';
 import {
   Action,
@@ -7,18 +11,14 @@ import {
   axiumRegisterStagePlanner,
   getUnifiedName,
   selectState,
-  selectUnifiedState,
   strategyBegin,
 } from 'stratimux';
 import { FileSystemState, fileSystemName } from '../fileSystem/fileSystem.concept';
 import { logixUXServerInitializationStrategy } from './strategies/initialization.strategy';
-// import { LogixUXServerState } from './logixUXServer.concept';
-// import { logixUXServerTriggerSaveTrainingDataStrategy } from '../logixUXServer/qualities/triggerSaveTrainingDataStrategy.quality';
 
-// Should be converted into its own server bindings principle.
 export const logixUXServerPrinciple: PrincipleFunction =
-  (_: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
-    const plan = concepts$.stage('Observer Save Trigger Flag', [
+  (_: Subscriber<Action>, _cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
+    const plan = concepts$.stage('logixUXServer initialization plan', [
       (concepts, dispatch) => {
         const conceptName = getUnifiedName(concepts, semaphore);
         if (conceptName) {
@@ -39,8 +39,9 @@ export const logixUXServerPrinciple: PrincipleFunction =
           plan.conclude();
         }
       },
-      (concepts, dispatch) => {
+      (__, ___) => {
         plan.conclude();
       },
     ]);
   };
+/*#>*/

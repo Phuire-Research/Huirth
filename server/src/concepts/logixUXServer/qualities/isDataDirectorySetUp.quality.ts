@@ -1,3 +1,7 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and a Concept logixUX, generate a quality that will determine if the data directory is properly step up.
+/*$>*/
+/*<#*/
 import {
   ActionType,
   createAsyncMethod,
@@ -47,3 +51,4 @@ export const logixUXServerIsDataDirectorySetUpQuality = createQuality(
   defaultReducer,
   logixUXServerIsDataDirectorySetUpMethodCreator,
 );
+/*#>*/

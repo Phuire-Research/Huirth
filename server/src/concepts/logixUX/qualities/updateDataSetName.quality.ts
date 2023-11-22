@@ -1,5 +1,5 @@
 /*<$*/
-// PROMPT: For the framework Stratimux and a Concept logixUX, generate a quality 
+// PROMPT: For the framework Stratimux and a Concept logixUX, generate a quality that updates a DataSet's name by index and set by event target value.
 /*$>*/
 /*<#*/
 import {
@@ -39,3 +39,4 @@ export const logixUXUpdateDataSetNameQuality = createQuality(
   logixUXUpdateDataSetNameReducer,
   defaultMethodCreator
 );
+/*#>*/

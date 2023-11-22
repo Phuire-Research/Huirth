@@ -1,3 +1,7 @@
+/*<$*/
+// PROMPT: For the framework Stratimux and a Concept logixUXServer, generate the model file contents that will handle Data Sets, Failure Conditions, and Tokens.
+/*$>*/
+/*<#*/
 import { DPO_DataSet } from '../../model/logixUX';
 import { Active_DPO } from '../logixUX/logixUX.model';
 
@@ -48,3 +52,4 @@ export enum ParsingTokens {
   includeBegin = '/*<@',
   includeEnd = '@>*/'
 }
+/*#>*/
