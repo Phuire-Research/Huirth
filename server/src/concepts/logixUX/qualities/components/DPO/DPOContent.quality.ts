@@ -45,7 +45,6 @@ const createIndexDPOContentMethodCreator: MethodCreator = (concepts$?: UnifiedSu
         eventBinding: elementEventBinding;
         action: Action;
       }[] = [];
-      console.log('CHECK LENGTH DPO', activeDPO);
       for (let i = 0; i < activeDPO.length; i++) {
         const elementID = generateNumID(i);
         bindingsArray.push({

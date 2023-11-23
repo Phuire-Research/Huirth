@@ -7,7 +7,10 @@ export enum ProjectStatus {
   notInstalled = 'Not Installed',
   installing = 'Installing',
   installed = 'Installed',
-  parsed = 'Data Parsed'
+  parsing = 'Data Parsing...',
+  parsed = 'Data Parsed',
+  saving = 'Saving...',
+  saved = 'Saved'
 }
 
 // eslint-disable-next-line no-shadow

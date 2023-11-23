@@ -3,7 +3,11 @@ For the framework Stratimux and a Concept logixUX, generate a Page Strategy Crea
 $>*/
 /*<#*/
 import { createActionNode, createStrategy } from 'stratimux';
-import { ActionStrategyComponentStitch, PageStrategyCreators, userInterface_createPage } from '../../../../model/userInterface';
+import {
+  ActionStrategyComponentStitch,
+  PageStrategyCreators,
+  userInterface_createPage
+} from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { logixUXFooterStitch } from '../components/footer.strategy';
 import { logixUXHeaderStitch } from '../components/header.strategy';
@@ -18,13 +22,17 @@ export const logixUXGeneratedTrainingDataPageStrategy = (pageTitle: string): Pag
       title: pageTitle,
       conceptAndProps: [],
       cachedSelectors: [],
-      compositions: [],
+      compositions: []
     });
 
     return userInterfaceCreatePageStrategy(
       pageTitle,
       pageData,
-      [logixUXSidebarComponentStitch, logixUXGeneratedTrainingDataStrategyStitch, logixUXFooterStitch],
+      [
+        logixUXSidebarComponentStitch,
+        logixUXGeneratedTrainingDataStrategyStitch,
+        logixUXFooterStitch
+      ],
       logixUXHeaderStitch
     );
   };
@@ -36,22 +44,22 @@ export const logixUXGeneratedTrainingDataStrategyStitch: ActionStrategyComponent
   // Fill in the Universal Data Set Editor
   const stepLogixUXDataManagerEnd = createActionNode(logixUXDataSetEnd(payload), {
     successNode: null,
-    failureNode: null,
+    failureNode: null
   });
   const stepLogixUXDataManagerContent = createActionNode(logixUXDataSetContent(payload), {
     successNode: stepLogixUXDataManagerEnd,
-    failureNode: null,
+    failureNode: null
   });
   const stepLogixUXDataManagerBegin = createActionNode(logixUXDataSetBegin(payload), {
     successNode: stepLogixUXDataManagerContent,
-    failureNode: null,
+    failureNode: null
   });
   return [
     stepLogixUXDataManagerEnd,
     createStrategy({
       topic: `logixUX Generated ${payload.pageTitle} Training Data Strategy Stitch`,
       initialNode: stepLogixUXDataManagerBegin,
-    }),
+    })
   ];
 };
 /*#>*/

@@ -3,7 +3,7 @@ For the framework Stratimux and a Concept logixUX Server, generate the model fil
 $>*/
 /*<#*/
 import { DPO_DataSet } from '../../model/logixUX';
-import { Active_DPO } from '../logixUX/logixUX.model';
+import { Active_DPO, NamedDataSet } from '../logixUX/logixUX.model';
 
 // eslint-disable-next-line no-shadow
 export enum logixUXServerFailureConditions {
@@ -23,6 +23,18 @@ export const convertDPOToSaveFormatDPO = (trainingData: Active_DPO[]) => {
       chosen: [{content: entry.chosen}],
       rejected: [{content: entry.chosen}],
     };
+  });
+  return saveFormat;
+};
+
+export type SavedFormat = {
+  [prompt: string]: string
+}
+
+export const convertNamedDataSetToSaveFormat = (named: NamedDataSet) => {
+  const saveFormat: SavedFormat = {};
+  named.dataSet.forEach((entry) => {
+    saveFormat[entry.prompt] = entry.content;
   });
   return saveFormat;
 };

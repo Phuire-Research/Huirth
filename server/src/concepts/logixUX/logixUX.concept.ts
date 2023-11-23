@@ -48,6 +48,9 @@ import { logixUXUpdateProjectStatusQuality } from './qualities/updateProjectToSt
 import { logixUXTriggerInstallGitRepositoryQuality } from './qualities/triggerInstallGitRepository.quality';
 import { logixUXUpdateParsedProjectDataSetQuality } from './qualities/updateParsedProjectDataSet.quality';
 import { logixUXUpdateDataSetSelectionQuality } from './qualities/updateDataSetSelection.quality';
+import { logixUXSendTriggerParseRepositoryStrategyQuality } from './qualities/sendTriggerParseRepositoryStrategy.quality';
+import { logixUXSendTriggerSaveDataSetSelectionStrategyQuality } from './qualities/sendTriggerSaveDataSetSelectionStrategy.quality';
+import { logixUXUpdateProjectStatusToSavedQuality } from './qualities/updateProjectToSaved.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
@@ -104,6 +107,8 @@ export const createLogixUXConcept = (): Concept =>  {
     logixUXDataSetBeginQuality,
     logixUXDataSetContentQuality,
     logixUXDataSetEndQuality,
+    logixUXSendTriggerParseRepositoryStrategyQuality,
+    logixUXSendTriggerSaveDataSetSelectionStrategyQuality,
     logixUXUpdateFromPromptPayloadQuality,
     logixUXUpdateFromChosenPayloadQuality,
     logixUXUpdateFromRejectedPayloadQuality,
@@ -113,6 +118,7 @@ export const createLogixUXConcept = (): Concept =>  {
     logixUXUpdateProjectStatusQuality,
     logixUXUpdateDataSetSelectionQuality,
     logixUXUpdateParsedProjectDataSetQuality,
+    logixUXUpdateProjectStatusToSavedQuality,
     logixUXNewDataSetEntryQuality,
     logixUXNewDataSetQuality,
     logixUXNewDPOEntryQuality,

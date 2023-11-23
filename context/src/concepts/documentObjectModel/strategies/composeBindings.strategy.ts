@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and Document Object Model Concept, generate a strategy that will also generate a series of steps to bind each entry in the bindingQue..
-/*$>*/
+/*<$
+For the framework Stratimux and Document Object Model Concept, generate a strategy that will also generate a series of steps to bind each entry in the bindingQue..
+$>*/
 /*<#*/
 import { ActionNode, AxiumState, Concepts, createActionNode, createStrategy } from 'stratimux';
 import { UserInterfacePageBindings } from '../../../model/userInterface';
@@ -16,9 +16,9 @@ export const documentObjectModelBindingStrategy = (concepts: Concepts, pageName:
   let previous: undefined | ActionNode;
   for (const key of bindingsKeys) {
     for (const binding of bindings[key]) {
-      const node = createActionNode(documentObjectModelBind({ action$, binding, id: key }), {
+      const node = createActionNode(documentObjectModelBind({action$, binding, id: key}), {
         successNode: null,
-        failureNode: null,
+        failureNode: null
       });
       if (start === null) {
         start = node;
@@ -32,7 +32,7 @@ export const documentObjectModelBindingStrategy = (concepts: Concepts, pageName:
 
   const stepBinding = createActionNode(documentObjectModelClearBindingQue(), {
     successNode: start,
-    failureNode: null,
+    failureNode: null
   });
   return createStrategy({
     topic: 'Bind supplied bindingQue',

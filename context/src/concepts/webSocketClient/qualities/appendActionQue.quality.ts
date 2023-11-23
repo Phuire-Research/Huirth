@@ -15,26 +15,30 @@ import {
 import { WebSocketClientState } from '../webSocketClient.concept';
 
 export type WebSocketClientAppendToActionQuePayload = {
-  actionQue: Action[];
-};
-export const webSocketClientAppendToActionQueType: ActionType = 'Web Socket Client append to action que';
-export const webSocketClientAppendToActionQue = prepareActionWithPayloadCreator<WebSocketClientAppendToActionQuePayload>(
-  webSocketClientAppendToActionQueType
-);
+  actionQue: Action[]
+}
+export const webSocketClientAppendToActionQueType: ActionType =
+  'Web Socket Client append to action que';
+export const webSocketClientAppendToActionQue =
+  prepareActionWithPayloadCreator<WebSocketClientAppendToActionQuePayload>(webSocketClientAppendToActionQueType);
 
 function webSocketClientAppendToActionQueReducer(state: WebSocketClientState, action: Action): WebSocketClientState {
   const payload = selectPayload<WebSocketClientAppendToActionQuePayload>(action);
-  const actionQue = payload.actionQue.map((act) => refreshAction(act));
-  const newActionQue = [...state.actionQue, ...actionQue];
+  console.log('IS THIS SENDING', payload.actionQue);
+  const actionQue = payload.actionQue.map(act => refreshAction(act));
+  const newActionQue = [
+    ...state.actionQue,
+    ...actionQue
+  ];
   return {
     ...state,
-    actionQue: newActionQue,
+    actionQue: newActionQue
   };
 }
 
 export const webSocketClientAppendToActionQueQuality = createQuality(
   webSocketClientAppendToActionQueType,
   webSocketClientAppendToActionQueReducer,
-  defaultMethodCreator
+  defaultMethodCreator,
 );
 /*#>*/

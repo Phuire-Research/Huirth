@@ -3,7 +3,11 @@ For the framework Stratimux and a Concept logixUX, generate a Page Strategy Crea
 $>*/
 /*<#*/
 import { createActionNode, createStrategy } from 'stratimux';
-import { ActionStrategyComponentStitch, PageStrategyCreators, userInterface_createPage } from '../../../../model/userInterface';
+import {
+  ActionStrategyComponentStitch,
+  PageStrategyCreators,
+  userInterface_createPage
+} from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { logixUXFooterStitch } from '../components/footer.strategy';
 import { logixUXHeaderStitch } from '../components/header.strategy';
@@ -18,13 +22,17 @@ export const logixUXDataManagerPageStrategy: PageStrategyCreators = () => () => 
     title: logixUXDataManagerPageStrategyTopic,
     conceptAndProps: [],
     cachedSelectors: [],
-    compositions: [],
+    compositions: []
   });
 
   return userInterfaceCreatePageStrategy(
     logixUXDataManagerPageStrategyTopic,
     pageData,
-    [logixUXSidebarComponentStitch, logixUXDataManagerStrategyStitch, logixUXFooterStitch],
+    [
+      logixUXSidebarComponentStitch,
+      logixUXDataManagerStrategyStitch,
+      logixUXFooterStitch
+    ],
     logixUXHeaderStitch
   );
 };
@@ -34,22 +42,22 @@ export const logixUXDataManagerStrategyStitch: ActionStrategyComponentStitch = (
   // Body
   const stepLogixUXDataManagerEnd = createActionNode(logixUXDataManagerEnd(payload), {
     successNode: null,
-    failureNode: null,
+    failureNode: null
   });
   const stepLogixUXDataManagerContent = createActionNode(logixUXDataManagerContent(payload), {
     successNode: stepLogixUXDataManagerEnd,
-    failureNode: null,
+    failureNode: null
   });
   const stepLogixUXDataManagerBegin = createActionNode(logixUXDataManagerBegin(payload), {
     successNode: stepLogixUXDataManagerContent,
-    failureNode: null,
+    failureNode: null
   });
   return [
     stepLogixUXDataManagerEnd,
     createStrategy({
       topic: logixUXDataManagerStrategyStitchTopic,
       initialNode: stepLogixUXDataManagerBegin,
-    }),
+    })
   ];
 };
 /*#>*/
