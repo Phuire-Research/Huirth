@@ -25,6 +25,7 @@ import {
 import { elementEventBinding } from '../../../../../model/html';
 import { LogixUXState } from '../../../logixUX.concept';
 import {
+  logixUX_createDataSetSelectionSelector,
   logixUX_createLogixUXStatusSelector,
   logixUX_createStratimuxStatusSelector,
   logixUX_createTrainingDataSelector,
@@ -60,6 +61,15 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
           concepts,
           semaphore
         ) as LogixUXState;
+        const anySelected = (() => {
+          for (const selected of dataSetSelection) {
+            if (selected) {
+              return true;
+            }
+          }
+          return false;
+        })();
+        console.log('ANY SELECTED', anySelected);
         let finalOutput = '';
         const bindingsArray: {
           elementId: string;
@@ -173,6 +183,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
                 logixUX_createTrainingDataSelector(concepts, semaphore) as KeyedSelector,
                 logixUX_createStratimuxStatusSelector(concepts, semaphore) as KeyedSelector,
                 logixUX_createLogixUXStatusSelector(concepts, semaphore) as KeyedSelector,
+                logixUX_createDataSetSelectionSelector(concepts, semaphore) as KeyedSelector,
               ]),
             ],
             action: logixUXDataManagerContent(payload),
@@ -257,7 +268,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
                 Remove <i class="fa-solid fa-trash"></i>
               </button>
 ${
-  dataSetSelection.length === 0
+  !anySelected
     ? /*html*/ `
               <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
                 Save <i class="fa-solid fa-floppy-disk"></i>

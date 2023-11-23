@@ -18,7 +18,7 @@ import {
 import { createBinding, createBoundSelectors, prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 import { elementEventBinding } from '../../../../../model/html';
 import { LogixUXState } from '../../../logixUX.concept';
-import { logixUX_createLogixUXStatusSelector, logixUX_createStratimuxStatusSelector, logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
+import { logixUX_createDataSetSelectionSelector, logixUX_createLogixUXStatusSelector, logixUX_createStratimuxStatusSelector, logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
 import { logixUXNewDataSet } from '../../newDataSet.quality';
 import { PhuirEProjects, ProjectStatus, dataSetNameID, dataSetSelectionID, generateNumID } from '../../../logixUX.model';
 import { logixUXUpdateDataSetName } from '../../updateDataSetName.quality';
@@ -46,6 +46,15 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
     const parseLogixUX_ID = '#parse_' + PhuirEProjects.logixUX;
     if (action.strategy) {
       const {trainingData, stratimuxStatus, logixUXStatus, dataSetSelection} = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState);
+      const anySelected = (() => {
+        for (const selected of dataSetSelection) {
+          if (selected) {
+            return true;
+          }
+        }
+        return false;
+      })();
+      console.log('ANY SELECTED', anySelected);
       let finalOutput = '';
       const bindingsArray: {
         elementId: string;
@@ -154,7 +163,8 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
           createBoundSelectors(id, logixUXDataManagerContent(payload), [
             logixUX_createTrainingDataSelector(concepts, semaphore) as KeyedSelector,
             logixUX_createStratimuxStatusSelector(concepts, semaphore) as KeyedSelector,
-            logixUX_createLogixUXStatusSelector(concepts, semaphore) as KeyedSelector
+            logixUX_createLogixUXStatusSelector(concepts, semaphore) as KeyedSelector,
+            logixUX_createDataSetSelectionSelector(concepts, semaphore) as KeyedSelector
           ])
         ],
         action: logixUXDataManagerContent(payload),
@@ -235,7 +245,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
                 Remove <i class="fa-solid fa-trash"></i>
               </button>
 ${
-  dataSetSelection.length === 0 ?
+  !anySelected ?
   /*html*/`
               <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
                 Save <i class="fa-solid fa-floppy-disk"></i>

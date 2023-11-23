@@ -38,7 +38,7 @@ const logixUXSendTriggerSaveDataSetSelectionStrategyMethodCreator: MethodCreator
       }
       const strategy = createStrategy({
         topic: `Sending to server trigger save data set selection for: ${names.join(', ')}`,
-        initialNode: createActionNode(userInterfaceClientSendActionToServer(createAction('logixUXServer trigger parse repository strategy', {
+        initialNode: createActionNode(userInterfaceClientSendActionToServer(createAction('logixUXServer trigger save data set selection strategy', {
           names
         })), {
           successNode: null,

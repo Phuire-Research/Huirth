@@ -40,7 +40,7 @@ const logixUXSendTriggerSaveDataSetSelectionStrategyMethodCreator: MethodCreator
         topic: `Sending to server trigger save data set selection for: ${names.join(', ')}`,
         initialNode: createActionNode(
           userInterfaceClientSendActionToServer(
-            createAction('logixUXServer trigger parse repository strategy', {
+            createAction('logixUXServer trigger save data set selection strategy', {
               names,
             })
           ),

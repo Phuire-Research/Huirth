@@ -14,9 +14,11 @@ export const logixUXUpdateDataSetSelection = prepareActionWithPayloadCreator(log
 function logixUXUpdateDataSetSelectionReducer(state: LogixUXState, action: Action): LogixUXState {
   const { index } = selectPayload<LogixUXUpdateDataSetSelectionPayload>(action);
   const dataSetSelection = [...state.dataSetSelection];
-  if (dataSetSelection[index]) {
+  console.log('CHECK DATA SET SELECTION BEFORE', dataSetSelection);
+  if (dataSetSelection[index] !== undefined) {
     dataSetSelection[index] = !dataSetSelection[index];
   }
+  console.log('CHECK DATA SET SELECTION AFTER', dataSetSelection);
   return {
     ...state,
     dataSetSelection,

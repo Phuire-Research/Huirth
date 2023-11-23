@@ -13,7 +13,8 @@ export enum logixUXServerFailureConditions {
 
 // eslint-disable-next-line no-shadow
 export enum dataDirectories {
-  gitRepo = 'repositories'
+  gitRepo = 'repositories',
+  sets = 'sets'
 }
 
 export const convertDPOToSaveFormatDPO = (trainingData: Active_DPO[]) => {
