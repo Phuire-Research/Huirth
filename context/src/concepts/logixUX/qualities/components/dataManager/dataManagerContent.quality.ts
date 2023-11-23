@@ -30,10 +30,11 @@ import {
   logixUX_createTrainingDataSelector,
 } from '../../../logixUX.selector';
 import { logixUXNewDataSet } from '../../newDataSet.quality';
-import { PhuirEProjects, ProjectStatus, dataSetNameID, generateNumID } from '../../../logixUX.model';
+import { PhuirEProjects, ProjectStatus, dataSetNameID, dataSetSelectionID, generateNumID } from '../../../logixUX.model';
 import { logixUXUpdateDataSetName } from '../../updateDataSetName.quality';
 import { logixUXTriggerInstallGitRepository } from '../../triggerInstallGitRepository.quality';
 import { logixUXSendTriggerParseRepositoryStrategy } from '../../../strategies/server/triggerParseRepositoryStrategy.helper';
+import { logixUXUpdateDataSetSelection } from '../../updateDataSetSelection.quality';
 
 export const logixUXDataManagerContentType: ActionType = 'create userInterface for DataManagerContent';
 export const logixUXDataManagerContent = prepareActionComponentCreator(logixUXDataManagerContentType);
@@ -53,7 +54,10 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
       let finalLogixUX_note = 'logixUX';
       const parseLogixUX_ID = '#parse_' + PhuirEProjects.logixUX;
       if (action.strategy) {
-        const { trainingData, stratimuxStatus, logixUXStatus } = selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState;
+        const { trainingData, stratimuxStatus, logixUXStatus, dataSetSelection } = selectUnifiedState<LogixUXState>(
+          concepts,
+          semaphore
+        ) as LogixUXState;
         let finalOutput = '';
         const bindingsArray: {
           elementId: string;
@@ -68,6 +72,11 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
             elementId: dataSetNameID + elementID,
             eventBinding: elementEventBinding.onchange,
             action: logixUXUpdateDataSetName({ index: i }),
+          });
+          bindingsArray.push({
+            elementId: dataSetSelectionID + elementID,
+            eventBinding: elementEventBinding.onchange,
+            action: logixUXUpdateDataSetSelection({ index: i }),
           });
           finalOutput += /*html*/ `
 <div class="w-full ml-4 mt-2 mb-2">
@@ -89,8 +98,10 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
       <a href="/${trainingData[i].name}"><i class="fa-solid fa-link"></i></a>
     </button>
     <input
+      id="${dataSetSelectionID + elementID}"
       type="checkbox"
       class="w-40 bg-red-100 border-red-300 text-red-500 focus:ring-red-200"
+      ${dataSetSelection[i] ? 'checked' : ''}
     />
   </div>
 </div>

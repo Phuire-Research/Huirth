@@ -75,7 +75,7 @@ const logixUXServerParseFileFromDataMethodCreator = () =>
           parsed,
         })));
       } else {
-        controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, 'No filesAndData field provided')))
+        controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, 'No filesAndData field provided')));
       }
     } else {
       controller.fire(action);

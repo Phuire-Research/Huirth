@@ -16,9 +16,11 @@ import {
 import { ReadDirectoryField } from '../../fileSystem/qualities/readDir.quality';
 import { ParsedFileFromDataField } from './parseFileFromData.quality';
 import { LogixUXServerState } from '../logixUXServer.concept';
+import { DataSetTypes } from '../../logixUX/logixUX.model';
 
 export type LogixUXServerAppendParsedDataToNamedDataSetPayload = {
   name: string,
+  type: DataSetTypes
 }
 export const logixUXServerAppendParsedDataToNamedDataSetType: ActionType =
   'logixUXServer append parsed data to named data set, then remove its path from fileAndDirectories field';
@@ -38,9 +40,10 @@ const logixUXServerAppendParsedDataToNamedDataSetMethodCreator = () =>
   });
 
 const logixUXServerAppendParsedDataToNamedDataSetReducer = (state: LogixUXServerState, action: Action): LogixUXServerState => {
-  const {name} = selectPayload<LogixUXServerAppendParsedDataToNamedDataSetPayload>(action);
+  const {name, type} = selectPayload<LogixUXServerAppendParsedDataToNamedDataSetPayload>(action);
   if (action.strategy) {
     const {strategy} = action;
+    const {dataSetSelection} = state;
     const data = strategyData_select<ParsedFileFromDataField>(strategy);
     if (data) {
       const {parsed} = data;
@@ -60,13 +63,16 @@ const logixUXServerAppendParsedDataToNamedDataSetReducer = (state: LogixUXServer
       if (!added) {
         trainingData.push({
           name,
+          type,
           dataSet: parsed
         });
+        dataSetSelection.push(false);
       }
       console.log('WAS ADDED', added);
       return {
         ...state,
-        trainingData
+        trainingData,
+        dataSetSelection
       };
     }
   }

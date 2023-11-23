@@ -24,18 +24,21 @@ import { ReadFileContentsAndAppendToDataField, fileSystemReadFileContentsAndAppe
 import { logixUXServerParseFileFromData } from './parseFileFromData.quality';
 import { logixUXServerPrepareParsedProjectDataUpdate } from './prepareUpdateParsedProjectData.quality';
 import { logixUXServerAppendParsedDataToNamedDataSet } from './appendParsedDataToNamedDataSet.quality';
+import { DataSetTypes } from '../../logixUX/logixUX.model';
 
 export type LogixUXServerDetermineReadParseAppendStrategyPayload = {
   name: string,
+  type: DataSetTypes
 }
 export const logixUXServerDetermineReadParseAppendStrategyType: ActionType =
   'logixUXServer determine read, parse, and append strategy for the incoming raw data set';
 export const logixUXServerDetermineReadParseAppendStrategy =
   prepareActionWithPayloadCreator<LogixUXServerDetermineReadParseAppendStrategyPayload>(logixUXServerDetermineReadParseAppendStrategyType);
 
-const readAndParseStitch = (name: string): [ActionNode, ActionStrategy] => {
+const readAndParseStitch = (name: string, type: DataSetTypes): [ActionNode, ActionStrategy] => {
   const stepAppendParsedDataToNamedDataSet = createActionNode(logixUXServerAppendParsedDataToNamedDataSet({
-    name
+    name,
+    type
   }), {
     successNode: null,
     failureNode: null
@@ -63,19 +66,19 @@ const logixUXServerDetermineReadParseAppendStrategyMethodCreator = () =>
     if (action.strategy && action.strategy.data) {
       const strategy = action.strategy;
       const data = strategyData_select(action.strategy) as ReadDirectoryField & ReadFileContentsAndAppendToDataField;
-      const { name } = selectPayload<LogixUXServerDetermineReadParseAppendStrategyPayload>(action);
+      const { name, type } = selectPayload<LogixUXServerDetermineReadParseAppendStrategyPayload>(action);
       if (data.filesAndDirectories && data.filesAndDirectories.length > 0) {
         const filesAndDirectories = data.filesAndDirectories;
         const [
           end,
           start
-        ] = readAndParseStitch(name);
+        ] = readAndParseStitch(name, type);
         let prevHead = end;
         for (let i = 1; i < filesAndDirectories.length; i++) {
           const [
             stitchEnd,
             stitchStrategy
-          ] = readAndParseStitch(name);
+          ] = readAndParseStitch(name, type);
           const stitchHead = createActionNodeFromStrategy(stitchStrategy);
           prevHead.successNode = stitchHead;
           // console.log('PREV HEAD', prevHead, i);

@@ -11,10 +11,13 @@ export const logixUXNewDataSet = prepareActionCreator(logixUXNewDataSetType);
 
 function logixUXNewDataSetReducer(state: LogixUXState, action: Action): LogixUXState {
   const trainingData = [...state.trainingData];
+  const { dataSetSelection } = state;
+  dataSetSelection.push(false);
   trainingData.push(generateDefaultNamedDataSet('newDataSet' + trainingData.length));
   return {
     ...state,
     trainingData,
+    dataSetSelection,
   };
 }
 
