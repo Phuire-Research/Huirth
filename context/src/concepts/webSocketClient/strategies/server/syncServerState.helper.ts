@@ -4,7 +4,6 @@ $>*/
 /*<#*/
 import { createAction } from 'stratimux';
 
-export const webSocketServerSyncClientState = (payload: {
-  state: Record<string, unknown>
-}) => (createAction('Web Socket Server sync State to provided Client State', payload));
+export const webSocketServerSyncClientState = (payload: { state: Record<string, unknown> }) =>
+  createAction('Web Socket Server sync State to provided Client State', payload);
 /*#>*/

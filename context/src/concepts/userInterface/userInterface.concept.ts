@@ -15,33 +15,34 @@ import { userInterfaceAddNewPageQuality } from './qualities/addNewPage.quality';
 export const userInterfaceName = 'userInterface';
 
 export type UserInterfaceState = {
-  pages: Page[],
-  pageStrategies: PageStrategyCreators[],
+  pages: Page[];
+  pageStrategies: PageStrategyCreators[];
   pagesCached: boolean;
-}
+};
 
 const createUserInterfaceState = (pageStrategies: PageStrategyCreators[]): UserInterfaceState => {
   return {
     pages: [],
     pageStrategies,
-    pagesCached: false
+    pagesCached: false,
   };
 };
 
 export const createUserInterfaceConcept = (pageStrategies: PageStrategyCreators[]): Concept => {
-  return unifyConcepts([createHtmlConcept()], createConcept(
-    userInterfaceName,
-    createUserInterfaceState(pageStrategies),
-    [
-      userInterfaceAddComposedPageToStateQuality,
-      userInterfaceRefreshCachedSelectorsQuality,
-      userInterfaceAtomicUpdatePageCompositionQuality,
-      userInterfaceAddNewPageQuality,
-      userInterfaceEndQuality
-    ],
-    [
-      userInterfaceInitializationPrinciple
-    ]
-  ));
+  return unifyConcepts(
+    [createHtmlConcept()],
+    createConcept(
+      userInterfaceName,
+      createUserInterfaceState(pageStrategies),
+      [
+        userInterfaceAddComposedPageToStateQuality,
+        userInterfaceRefreshCachedSelectorsQuality,
+        userInterfaceAtomicUpdatePageCompositionQuality,
+        userInterfaceAddNewPageQuality,
+        userInterfaceEndQuality,
+      ],
+      [userInterfaceInitializationPrinciple]
+    )
+  );
 };
 /*#>*/

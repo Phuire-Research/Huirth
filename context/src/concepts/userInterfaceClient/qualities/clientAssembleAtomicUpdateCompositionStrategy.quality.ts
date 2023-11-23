@@ -25,82 +25,82 @@ import { userInterfaceClientDetermineBindings } from './clientDetermineBindings.
 import { userInterfaceEnd } from '../../userInterface/qualities/end.quality';
 
 export type UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload = {
-  action$: Subject<Action>
-  boundActionQue: BoundSelectors[]
-}
+  action$: Subject<Action>;
+  boundActionQue: BoundSelectors[];
+};
 export const userInterfaceClientAssembleAtomicUpdateCompositionStrategyType: ActionType =
   'User Interface Client assemble update atomic compositions strategy';
 export const userInterfaceClientAssembleAtomicUpdateCompositionStrategy =
-  prepareActionWithPayloadCreator<UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload>(userInterfaceClientAssembleAtomicUpdateCompositionStrategyType);
+  prepareActionWithPayloadCreator<UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload>(
+    userInterfaceClientAssembleAtomicUpdateCompositionStrategyType
+  );
 
-const createUserInterfaceClientAssembleAtomicUpdateCompositionStrategyMethod = () => createMethod(action => {
-  const payload = selectPayload<UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload>(action);
-  const boundActionQue = payload.boundActionQue;
-  const action$ = payload.action$;
-  let previous: ActionNode | undefined;
-  let first: ActionNode | undefined;
-  for (const bound of boundActionQue) {
-    const [
-      stitchEnd,
-      stitchStrategy
-    ] = stitchUpdatedLayers(bound);
-    if (previous) {
-      const stitchNode = createActionNodeFromStrategy(stitchStrategy);
-      previous.successNode = stitchNode;
-      previous = stitchEnd;
-    } else {
-      const stitchNode = createActionNodeFromStrategy(stitchStrategy);
-      first = stitchNode;
-      previous = stitchEnd;
+const createUserInterfaceClientAssembleAtomicUpdateCompositionStrategyMethod = () =>
+  createMethod((action) => {
+    const payload = selectPayload<UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload>(action);
+    const boundActionQue = payload.boundActionQue;
+    const action$ = payload.action$;
+    let previous: ActionNode | undefined;
+    let first: ActionNode | undefined;
+    for (const bound of boundActionQue) {
+      const [stitchEnd, stitchStrategy] = stitchUpdatedLayers(bound);
+      if (previous) {
+        const stitchNode = createActionNodeFromStrategy(stitchStrategy);
+        previous.successNode = stitchNode;
+        previous = stitchEnd;
+      } else {
+        const stitchNode = createActionNodeFromStrategy(stitchStrategy);
+        first = stitchNode;
+        previous = stitchEnd;
+      }
     }
-  }
-  if (previous && boundActionQue.length > 0) {
-    previous.successNode = createActionNode(userInterfaceClientDetermineBindings({action$}), {
-      successNode: null,
-      failureNode: null,
-    });
-  } else if (previous) {
-    previous.successNode = createActionNode(userInterfaceEnd(), {
-      successNode: null,
-      failureNode: null
-    });
-  }
-  if (first) {
-    return strategyBegin(createStrategy({
-      initialNode: first,
-      topic: 'User Interface atomic update compositions'
-    }));
-  }
-  return action;
-});
+    if (previous && boundActionQue.length > 0) {
+      previous.successNode = createActionNode(userInterfaceClientDetermineBindings({ action$ }), {
+        successNode: null,
+        failureNode: null,
+      });
+    } else if (previous) {
+      previous.successNode = createActionNode(userInterfaceEnd(), {
+        successNode: null,
+        failureNode: null,
+      });
+    }
+    if (first) {
+      return strategyBegin(
+        createStrategy({
+          initialNode: first,
+          topic: 'User Interface atomic update compositions',
+        })
+      );
+    }
+    return action;
+  });
 
 export const userInterfaceClientAssembleAtomicUpdateCompositionStrategyQuality = createQuality(
   userInterfaceClientAssembleAtomicUpdateCompositionStrategyType,
   defaultReducer,
-  createUserInterfaceClientAssembleAtomicUpdateCompositionStrategyMethod,
+  createUserInterfaceClientAssembleAtomicUpdateCompositionStrategyMethod
 );
 
-const stitchUpdatedLayers = (
-  bound: BoundSelectors,
-): [ActionNode, ActionStrategy] => {
+const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy] => {
   const stepEnd = createActionNode(userInterfaceEnd(), {
     successNode: null,
-    failureNode: null
+    failureNode: null,
   });
-  const stepReplaceOuterHtml = createActionNode(userInterfaceClientReplaceOuterHtml({id: bound.id}), {
+  const stepReplaceOuterHtml = createActionNode(userInterfaceClientReplaceOuterHtml({ id: bound.id }), {
     successNode: stepEnd,
-    failureNode: null
+    failureNode: null,
   });
   const stepAction = createActionNode(refreshAction(bound.action), {
     successNode: stepReplaceOuterHtml,
-    failureNode: null
+    failureNode: null,
   });
   return [
     stepReplaceOuterHtml,
     createStrategy({
       initialNode: stepAction,
-      topic: 'STITCH ATOMIC COMPOSITION UPDATE'
-    })
+      topic: 'STITCH ATOMIC COMPOSITION UPDATE',
+    }),
   ];
 };
 /*#>*/

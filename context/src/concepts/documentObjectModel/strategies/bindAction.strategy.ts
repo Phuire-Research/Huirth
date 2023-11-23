@@ -10,11 +10,11 @@ export const documentObjectModelBindActionStrategy = (payload: DocumentObjectMod
   // Body
   const stepAction = createActionNode(target, {
     successNode: null,
-    failureNode: null
+    failureNode: null,
   });
   const stepBinding = createActionNode(documentObjectModelBindPayload(payload), {
     successNode: stepAction,
-    failureNode: null
+    failureNode: null,
   });
   return createStrategy({
     topic: `Bind payload to ${target.type}`,

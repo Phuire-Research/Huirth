@@ -8,7 +8,9 @@ export enum ProjectStatus {
   installing = 'Installing',
   installed = 'Installed',
   parsing = 'Data Parsing...',
-  parsed = 'Data Parsed'
+  parsed = 'Data Parsed',
+  saving = 'Saving...',
+  saved = 'Saved',
 }
 
 // eslint-disable-next-line no-shadow
@@ -16,46 +18,53 @@ export enum PhuirEProjects {
   stratimux = 'stratimux',
   stratimuxURL = 'https://github.com/Phuire-Research/Stratimux',
   logixUX = 'logixUX',
-  logixUX_URL = 'https://github.com/Phuire-Research/logixUX'
+  logixUX_URL = 'https://github.com/Phuire-Research/logixUX',
 }
 
-export type Final_DPO = Record<string, {
-  chosen: [{
-    content: string
-  }],
-  rejected: [{
-    content: string
-  }]
-}>
+export type Final_DPO = Record<
+  string,
+  {
+    chosen: [
+      {
+        content: string;
+      }
+    ];
+    rejected: [
+      {
+        content: string;
+      }
+    ];
+  }
+>;
 export type Active_DPO = {
-  prompt: string,
-  chosen: string,
-  rejected: string
-}
+  prompt: string;
+  chosen: string;
+  rejected: string;
+};
 
 export type BaseDataSet = {
-  prompt: string,
-  content: string,
-}
+  prompt: string;
+  content: string;
+};
 
 // eslint-disable-next-line no-shadow
 export enum DataSetTypes {
   general = 'general',
-  project = 'project'
+  project = 'project',
 }
 
 export type NamedDataSet = {
-  name: string,
-  type: DataSetTypes,
-  dataSet: BaseDataSet[]
-}
+  name: string;
+  type: DataSetTypes;
+  dataSet: BaseDataSet[];
+};
 
 export type TrainingData = NamedDataSet[];
 
 export const generateDPOTrainingData = (): Active_DPO => ({
   prompt: '#insert prompt#',
   chosen: '#insert chosen output#',
-  rejected: '#insert rejected output#'
+  rejected: '#insert rejected output#',
 });
 
 export const generateBaseDataSetEntry = (): BaseDataSet => {
@@ -68,7 +77,7 @@ export const generateBaseDataSetEntry = (): BaseDataSet => {
 export const generateDefaultNamedDataSet = (name: string): NamedDataSet => ({
   name,
   type: DataSetTypes.general,
-  dataSet: [generateBaseDataSetEntry()]
+  dataSet: [generateBaseDataSetEntry()],
 });
 
 export const generateDefaultTrainingData = (): TrainingData => [];

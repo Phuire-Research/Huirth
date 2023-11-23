@@ -6,5 +6,5 @@ import { createAction } from 'stratimux';
 import { userInterfaceClientSendActionToServer } from '../../../userInterfaceClient/strategies/sendActionToServer.helper';
 
 export const logixUXTriggerSaveTrainingDataStrategy = () =>
-  (userInterfaceClientSendActionToServer(createAction('logixUXServer trigger save training data strategy')));
+  userInterfaceClientSendActionToServer(createAction('logixUXServer trigger save training data strategy'));
 /*#>*/

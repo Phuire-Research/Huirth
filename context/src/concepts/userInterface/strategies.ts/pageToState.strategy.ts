@@ -16,17 +16,14 @@ export function userInterfacePageToStateStrategy(stitch: ActionStrategyStitch): 
     failureNode: null,
   });
 
-  const [
-    end,
-    strategy
-  ] = stitch();
+  const [end, strategy] = stitch();
 
   end.successNode = stepAddToState;
 
   return createStrategy({
     topic: strategy.topic,
     initialNode: strategy.currentNode,
-    data: strategy.data
+    data: strategy.data,
   });
 }
 /*#>*/
