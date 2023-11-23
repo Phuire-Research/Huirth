@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux generate a Server Concept, that accepts an initial port.
-/*$>*/
+/*<$
+For the framework Stratimux generate a Server Concept, that accepts an initial port.
+$>*/
 /*<#*/
 import { serverPrinciple } from './server.principle';
 import { createConcept } from 'stratimux';

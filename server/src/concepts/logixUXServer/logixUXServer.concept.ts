@@ -15,6 +15,10 @@ import { logixUXServerGitCloneRepoToDirectoryQuality } from './qualities/gitClon
 import { logixUXServerSetRepositoriesFromDataQuality } from './qualities/setRepositoriesFromData.quality';
 import { logixUXServerTriggerParseRepositoryStrategyQuality } from './qualities/triggerParseRepositoryIntoDataSet.quality';
 import { logixUXServerParseFileFromDataQuality } from './qualities/parseFileFromData.quality';
+import { logixUXServerDetermineReadParseAppendStrategyQuality } from './qualities/determineReadParseAppendStrategy.quality';
+import { logixUXServerAppendParsedDataToNamedDataSetQuality } from './qualities/appendParsedDataToNamedDataSet.quality';
+import { logixUXServerPrepareParsedProjectDataUpdateQuality } from './qualities/prepareUpdateParsedProjectData.quality';
+import { logixUXServerTriggerSaveDataSetSelectionStrategyQuality } from './qualities/triggerSaveDataSetSelectionStrategy.quality';
 
 export const logixUXServerName = 'logixUXServer';
 export type LogixUXServerState = {
@@ -34,8 +38,12 @@ export const createLogixUXServerConcept = (): Concept =>  {
     logixUXServerGitCloneRepoToDirectoryQuality,
     logixUXServerTriggerCloneGitRepositoryStrategyQuality,
     logixUXServerTriggerParseRepositoryStrategyQuality,
+    logixUXServerTriggerSaveDataSetSelectionStrategyQuality,
     logixUXServerSetRepositoriesFromDataQuality,
-    logixUXServerParseFileFromDataQuality
+    logixUXServerParseFileFromDataQuality,
+    logixUXServerDetermineReadParseAppendStrategyQuality,
+    logixUXServerAppendParsedDataToNamedDataSetQuality,
+    logixUXServerPrepareParsedProjectDataUpdateQuality,
   ];
   return unifyConcepts(
     [

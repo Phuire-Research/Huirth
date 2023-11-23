@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and Document Object Model Concept, generate an ActionStrategy that will bind a event to a target action.
-/*$>*/
+/*<$
+For the framework Stratimux and Document Object Model Concept, generate an ActionStrategy that will bind a event to a target action.
+$>*/
 /*<#*/
 import { Action, createActionNode, createStrategy } from 'stratimux';
 import { DocumentObjectModelBindPayloadPayload, documentObjectModelBindPayload } from '../qualities/bindPayload.quality';

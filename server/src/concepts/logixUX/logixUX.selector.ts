@@ -31,6 +31,10 @@ export const logixUX_createDataSetSelector = (concepts: Concepts, semaphore: num
   return createUnifiedKeyedSelector(concepts, semaphore, `trainingData ${index}`);
 };
 
+export const logixUX_createDataSetSelectionSelector = (concepts: Concepts, semaphore: number) => {
+  return createUnifiedKeyedSelector(concepts, semaphore, 'dataSetSelection');
+};
+
 export const logixUX_createStratimuxStatusSelector = (concepts: Concepts, semaphore: number) => {
   return createUnifiedKeyedSelector(concepts, semaphore, 'stratimuxStatus');
 };

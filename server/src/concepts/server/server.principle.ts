@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and a Server Concept, generate a principle that will listen on the port passed in its initial state.
-/*$>*/
+/*<$
+For the framework Stratimux and a Server Concept, generate a principle that will listen on the port passed in its initial state.
+$>*/
 /*<#*/
 import { Subscriber } from 'rxjs';
 import { ServerState } from './server.concept';

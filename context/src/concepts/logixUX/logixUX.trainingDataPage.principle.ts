@@ -99,10 +99,6 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
       const state = selectUnifiedState<LogixUXState & UserInterfaceState>(concepts, semaphore);
       const trainingData = state?.trainingData;
       if (state && trainingData) {
-        console.log(
-          'CHECK PAGE NAMES',
-          state.pages.map((page) => page.title)
-        );
         const add: {
           i: number;
           name: string;
@@ -149,7 +145,6 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
           return data.name;
         });
         cachedTrainingDataNames = trainingDataNames;
-        console.log('CHECK ADD REMOVE QUE', add, remove);
         if (add.length > 0 || remove.length > 0) {
           if (add.length > 0) {
             const list: ActionStrategy[] = [];

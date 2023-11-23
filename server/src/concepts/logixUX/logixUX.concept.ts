@@ -3,6 +3,7 @@ For the framework Stratimux generate a Brand Concept called LogixUX that will ac
 $>*/
 /*<#*/
 import { createConcept, Concept, unifyConcepts, createCounterConcept, PrincipleFunction, Quality } from 'stratimux';
+import { BrandState } from '../../model/userInterface';
 import { logixUXErrorQuality } from './qualities/components/error/error.quality';
 import { logixUXHeadQuality } from './qualities/components/head.quality';
 import { logixUXStyleQuality } from './qualities/components/style.quality';
@@ -14,7 +15,6 @@ import { logixUXIndexDialogEndQuality } from './qualities/components/dialog/inde
 import { logixUXAppendAxiumDialogQuality } from './qualities/appendAxiumDialog.quality';
 import { logixUXDialogPrinciple } from './logixUX.principle';
 import { logixUXTrainingDataPagePrinciple } from './logixUX.trainingDataPage.principle';
-import { BrandState } from '../../model/userInterface';
 import { logixUXIndexPageStrategy } from './strategies/pages/indexPage.strategy';
 import { logixUXErrorPageStrategy } from './strategies/pages/errorPage.strategy';
 import { logixUXIndexDPOBeginQuality } from './qualities/components/DPO/DPOBegin.quality';
@@ -46,6 +46,11 @@ import { logixUXUpdateDataSetContentsQuality } from './qualities/updateDataSetCo
 import { logixUXUpdateDataSetPromptQuality } from './qualities/updateDataSetPrompt.quality';
 import { logixUXUpdateProjectStatusQuality } from './qualities/updateProjectToStatus.quality';
 import { logixUXTriggerInstallGitRepositoryQuality } from './qualities/triggerInstallGitRepository.quality';
+import { logixUXUpdateParsedProjectDataSetQuality } from './qualities/updateParsedProjectDataSet.quality';
+import { logixUXUpdateDataSetSelectionQuality } from './qualities/updateDataSetSelection.quality';
+import { logixUXSendTriggerParseRepositoryStrategyQuality } from './qualities/sendTriggerParseRepositoryStrategy.quality';
+import { logixUXSendTriggerSaveDataSetSelectionStrategyQuality } from './qualities/sendTriggerSaveDataSetSelectionStrategy.quality';
+import { logixUXUpdateProjectStatusToSavedQuality } from './qualities/updateProjectToSaved.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
@@ -54,6 +59,7 @@ export type LogixUXState = {
   stratimuxStatus: ProjectStatus;
   logixUXStatus: ProjectStatus;
   projectsStatuses: {name: string, status: ProjectStatus}[];
+  dataSetSelection: boolean[],
   sideBarExpanded: boolean;
   trainingData: TrainingData;
   activeDPO: Active_DPO[];
@@ -66,6 +72,7 @@ const createLogixUXState = (): LogixUXState => {
     stratimuxStatus: ProjectStatus.notInstalled,
     logixUXStatus: ProjectStatus.notInstalled,
     projectsStatuses: [],
+    dataSetSelection: [],
     sideBarExpanded: true,
     trainingData: generateDefaultTrainingData(),
     activeDPO: [generateDPOTrainingData()],
@@ -100,6 +107,8 @@ export const createLogixUXConcept = (): Concept =>  {
     logixUXDataSetBeginQuality,
     logixUXDataSetContentQuality,
     logixUXDataSetEndQuality,
+    logixUXSendTriggerParseRepositoryStrategyQuality,
+    logixUXSendTriggerSaveDataSetSelectionStrategyQuality,
     logixUXUpdateFromPromptPayloadQuality,
     logixUXUpdateFromChosenPayloadQuality,
     logixUXUpdateFromRejectedPayloadQuality,
@@ -107,6 +116,9 @@ export const createLogixUXConcept = (): Concept =>  {
     logixUXUpdateDataSetContentsQuality,
     logixUXUpdateDataSetPromptQuality,
     logixUXUpdateProjectStatusQuality,
+    logixUXUpdateDataSetSelectionQuality,
+    logixUXUpdateParsedProjectDataSetQuality,
+    logixUXUpdateProjectStatusToSavedQuality,
     logixUXNewDataSetEntryQuality,
     logixUXNewDataSetQuality,
     logixUXNewDPOEntryQuality,

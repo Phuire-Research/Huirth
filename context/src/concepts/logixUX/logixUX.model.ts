@@ -7,7 +7,10 @@ export enum ProjectStatus {
   notInstalled = 'Not Installed',
   installing = 'Installing',
   installed = 'Installed',
+  parsing = 'Data Parsing...',
   parsed = 'Data Parsed',
+  saving = 'Saving...',
+  saved = 'Saved',
 }
 
 // eslint-disable-next-line no-shadow
@@ -44,8 +47,15 @@ export type BaseDataSet = {
   content: string;
 };
 
+// eslint-disable-next-line no-shadow
+export enum DataSetTypes {
+  general = 'general',
+  project = 'project',
+}
+
 export type NamedDataSet = {
   name: string;
+  type: DataSetTypes;
   dataSet: BaseDataSet[];
 };
 
@@ -66,12 +76,14 @@ export const generateBaseDataSetEntry = (): BaseDataSet => {
 
 export const generateDefaultNamedDataSet = (name: string): NamedDataSet => ({
   name,
+  type: DataSetTypes.general,
   dataSet: [generateBaseDataSetEntry()],
 });
 
 export const generateDefaultTrainingData = (): TrainingData => [];
 
 export const dataSetNameID = '#dataSetNameID-';
+export const dataSetSelectionID = '#dataSetSelectionID-';
 export const promptID = '#promptID-';
 export const contentID = '#contentID-';
 export const chosenID = '#chosenID-';

@@ -5,23 +5,20 @@ $>*/
 import { createActionNode, createStrategy } from 'stratimux';
 import path from 'path';
 import { fileSystemReadDirectory } from '../../fileSystem/qualities/readDir.quality';
-import { logixUXServerParseFileFromData } from '../qualities/parseFileFromData.quality';
 import { fileSystemFilterFilesAndDirectories } from '../../fileSystem/qualities/filterFilesAndDirectories.quality';
-import { fileSystemReadFileContentsAndAppendToData } from '../../fileSystem/qualities/readFileContentsAndAppendToData.quality';
+import { logixUXServerDetermineReadParseAppendStrategy } from '../qualities/determineReadParseAppendStrategy.quality';
+import { DataSetTypes } from '../../logixUX/logixUX.model';
 
 export const logixUXServerParseRepositoryTopic = 'logixUXServer read Repository, then parse the contents into a DataSet';
 export const logixUXServerParseRepositoryStrategy = (root: string, name:string) => {
   const dataPath = path.join(root + '/data/repositories/' + name);
+  console.log('What is this path?', dataPath);
   // Generate parse files and add them all to an array to be added to state at the end.
-  const stepParseFile = createActionNode(logixUXServerParseFileFromData({
-    dataSetName: name
+  const stepDetermineReadAndParseStrategy = createActionNode(logixUXServerDetermineReadParseAppendStrategy({
+    name,
+    type: DataSetTypes.project
   }), {
     successNode: null,
-    // TODO: If failed we can use open to load a window with the git install webpage
-    failureNode: null,
-  });
-  const stepReadFileContents = createActionNode(fileSystemReadFileContentsAndAppendToData(), {
-    successNode: stepParseFile,
     failureNode: null
   });
   // Step 1 Remove directory if exists based on name
@@ -29,7 +26,7 @@ export const logixUXServerParseRepositoryStrategy = (root: string, name:string) 
     isTokens: ['.ts'],
     notTokens: [path.join('/context/')]
   }), {
-    successNode: stepReadFileContents,
+    successNode: stepDetermineReadAndParseStrategy,
     failureNode: null
   });
   const stepReadDirectory = createActionNode(fileSystemReadDirectory({target: dataPath}), {

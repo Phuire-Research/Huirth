@@ -1,6 +1,6 @@
-/*<$*/
-// PROMPT: For the framework Stratimux and Document Object Model Concept, generate a strategy that will also generate a series of steps to bind each entry in the bindingQue..
-/*$>*/
+/*<$
+For the framework Stratimux and Document Object Model Concept, generate a strategy that will also generate a series of steps to bind each entry in the bindingQue..
+$>*/
 /*<#*/
 import { ActionNode, AxiumState, Concepts, createActionNode, createStrategy } from 'stratimux';
 import { UserInterfacePageBindings } from '../../../model/userInterface';

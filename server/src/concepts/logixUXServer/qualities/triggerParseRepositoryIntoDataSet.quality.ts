@@ -27,9 +27,10 @@ export const logixUXServerTriggerParseRepositoryStrategy =
 const createLogixUXServerTriggerParseRepositoryStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
   createMethodDebounceWithConcepts(
     (action, concepts) => {
-      const {name} = selectPayload<LogixUXServerTriggerParseRepositoryStrategyPayload>(action);
+      const { name } = selectPayload<LogixUXServerTriggerParseRepositoryStrategyPayload>(action);
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       if (fileSystemState) {
+        console.log('WHAT is this name?', name);
         const strategy = logixUXServerParseRepositoryStrategy(fileSystemState.root, name);
         return strategyBegin(strategy);
       } else {

@@ -28,13 +28,16 @@ const logixUXServerIsDataDirectorySetUpMethodCreator = () =>
         if (data.directories.length === 0) {
           controller.fire(strategyFailed(action.strategy));
         } else {
-          let found = false;
+          let repoFound = false;
+          let setsFound = false;
           data.directories.forEach(directory => {
             if (directory.name === dataDirectories.gitRepo) {
-              found = true;
+              repoFound = true;
+            } else if (directory.name === dataDirectories.sets) {
+              setsFound = true;
             }
           });
-          if (found) {
+          if (repoFound && setsFound) {
             controller.fire(strategySuccess(action.strategy));
           } else {
             controller.fire(strategyFailed(action.strategy));

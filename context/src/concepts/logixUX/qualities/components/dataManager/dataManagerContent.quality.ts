@@ -25,15 +25,18 @@ import {
 import { elementEventBinding } from '../../../../../model/html';
 import { LogixUXState } from '../../../logixUX.concept';
 import {
+  logixUX_createDataSetSelectionSelector,
   logixUX_createLogixUXStatusSelector,
   logixUX_createStratimuxStatusSelector,
   logixUX_createTrainingDataSelector,
 } from '../../../logixUX.selector';
 import { logixUXNewDataSet } from '../../newDataSet.quality';
-import { PhuirEProjects, ProjectStatus, dataSetNameID, generateNumID } from '../../../logixUX.model';
+import { PhuirEProjects, ProjectStatus, dataSetNameID, dataSetSelectionID, generateNumID } from '../../../logixUX.model';
 import { logixUXUpdateDataSetName } from '../../updateDataSetName.quality';
 import { logixUXTriggerInstallGitRepository } from '../../triggerInstallGitRepository.quality';
-import { logixUXSendTriggerParseRepositoryStrategy } from '../../../strategies/server/triggerParseRepositoryStrategy.helper';
+import { logixUXUpdateDataSetSelection } from '../../updateDataSetSelection.quality';
+import { logixUXSendTriggerParseRepositoryStrategy } from '../../sendTriggerParseRepositoryStrategy.quality';
+import { logixUXSendTriggerSaveDataSetSelectionStrategy } from '../../sendTriggerSaveDataSetSelectionStrategy.quality';
 
 export const logixUXDataManagerContentType: ActionType = 'create userInterface for DataManagerContent';
 export const logixUXDataManagerContent = prepareActionComponentCreator(logixUXDataManagerContentType);
@@ -43,6 +46,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
     (action, concepts, semaphore) => {
       const payload = selectComponentPayload(action);
       const id = '#dataManagerID' + payload.pageTitle;
+      const saveID = '#saveID';
       const addEntryID = '#addEntry' + payload.pageTitle;
       const installStratimuxID = '#install_' + PhuirEProjects.stratimux;
       let finalStratimuxID = '#stratimuxID';
@@ -53,7 +57,19 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
       let finalLogixUX_note = 'logixUX';
       const parseLogixUX_ID = '#parse_' + PhuirEProjects.logixUX;
       if (action.strategy) {
-        const { trainingData, stratimuxStatus, logixUXStatus } = selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState;
+        const { trainingData, stratimuxStatus, logixUXStatus, dataSetSelection } = selectUnifiedState<LogixUXState>(
+          concepts,
+          semaphore
+        ) as LogixUXState;
+        const anySelected = (() => {
+          for (const selected of dataSetSelection) {
+            if (selected) {
+              return true;
+            }
+          }
+          return false;
+        })();
+        console.log('ANY SELECTED', anySelected);
         let finalOutput = '';
         const bindingsArray: {
           elementId: string;
@@ -68,6 +84,11 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
             elementId: dataSetNameID + elementID,
             eventBinding: elementEventBinding.onchange,
             action: logixUXUpdateDataSetName({ index: i }),
+          });
+          bindingsArray.push({
+            elementId: dataSetSelectionID + elementID,
+            eventBinding: elementEventBinding.onchange,
+            action: logixUXUpdateDataSetSelection({ index: i }),
           });
           finalOutput += /*html*/ `
 <div class="w-full ml-4 mt-2 mb-2">
@@ -89,8 +110,10 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
       <a href="/${trainingData[i].name}"><i class="fa-solid fa-link"></i></a>
     </button>
     <input
+      id="${dataSetSelectionID + elementID}"
       type="checkbox"
       class="w-40 bg-red-100 border-red-300 text-red-500 focus:ring-red-200"
+      ${dataSetSelection[i] ? 'checked' : ''}
     />
   </div>
 </div>
@@ -115,7 +138,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
           finalStratimuxNote = 'Install Stratimux';
         } else if (stratimuxStatus === ProjectStatus.installed) {
           bindingsArray.push({
-            action: logixUXSendTriggerParseRepositoryStrategy(PhuirEProjects.stratimux),
+            action: logixUXSendTriggerParseRepositoryStrategy({ name: PhuirEProjects.stratimux }),
             elementId: parseStratimuxID,
             eventBinding: elementEventBinding.onclick,
           });
@@ -135,13 +158,18 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
           finalLogixUX_note = 'Install LogixUX';
         } else if (logixUXStatus === ProjectStatus.installed) {
           bindingsArray.push({
-            action: logixUXSendTriggerParseRepositoryStrategy(PhuirEProjects.logixUX),
+            action: logixUXSendTriggerParseRepositoryStrategy({ name: PhuirEProjects.logixUX }),
             elementId: parseLogixUX_ID,
             eventBinding: elementEventBinding.onclick,
           });
           finalLogixUX_ID = parseLogixUX_ID;
           finalLogixUX_note = 'Parse LogixUX';
         }
+        bindingsArray.push({
+          action: logixUXSendTriggerSaveDataSetSelectionStrategy(),
+          elementId: saveID,
+          eventBinding: elementEventBinding.onclick,
+        });
         const bindings = createBinding(bindingsArray);
         // console.log('Check bindings', bindings);
         const strategy = strategySuccess(
@@ -155,6 +183,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
                 logixUX_createTrainingDataSelector(concepts, semaphore) as KeyedSelector,
                 logixUX_createStratimuxStatusSelector(concepts, semaphore) as KeyedSelector,
                 logixUX_createLogixUXStatusSelector(concepts, semaphore) as KeyedSelector,
+                logixUX_createDataSetSelectionSelector(concepts, semaphore) as KeyedSelector,
               ]),
             ],
             action: logixUXDataManagerContent(payload),
@@ -238,9 +267,20 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
               <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
                 Remove <i class="fa-solid fa-trash"></i>
               </button>
+${
+  !anySelected
+    ? /*html*/ `
               <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
                 Save <i class="fa-solid fa-floppy-disk"></i>
               </button>
+`
+    : /*html*/ `
+              <button id="${saveID}"
+                class="italic cursor-pointer mb-8 mt-2 center-m bg-white/5 hover:bg-white text-white font-semibold hover:text-black py-2 px-4 border border-white hover:border-transparent rounded">
+                Save <i class="fa-solid fa-floppy-disk"></i>
+              </button>
+`
+}
             </div>
             ${finalOutput}
           </div>
