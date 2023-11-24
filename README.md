@@ -46,7 +46,7 @@ Be safe and responsible. But most importantly, have fun!
 
 	What matters is if the machine functions and such is the test. Where any circumstance that prevents that machine from functioning, likewise, becomes a new opportunity. To find a new provably unified configuration that satisfies the halting requirement.
 
-6. Then utilizing this data, we can both fine tune upon different breakpoints train entirely new models.
+6. Then utilizing this data, we can both fine tune preexisting models, or upon different breakpoints of some metrics, train entirely new models.
 
 7. Finally we recursively repeat 5 & 6 as needed.
 
