@@ -23,7 +23,7 @@ Be safe and responsible. But most importantly, have fun!
 **GOAL: Reduce complexity of working with this pattern via generative AI in combination with a custom UI**
 
 # What this project is proposing: PURF
-PURF: Provably Unified Recursive Feedback
+**PURF**: Provably Unified Recursive Feedback
 
 1. First, we need to define provable unification as to it relays to the Unified Turing Machine. Where provable relays to the machine's recursive functionality that restricts symbol selection to what can [provably terminate](https://en.wikipedia.org/wiki/Total_functional_programming), aka halts.
 	
@@ -56,3 +56,7 @@ There should be some decision within the graph that dictates the creation of pap
 The other intention here is to demonstrate the possibility of a form of Artificial Intelligence based upon creation. Versus a chat bot. As on a personal note. I would rather spend my time building, then having conversations about building. If I were to have all the resources thrown at myself. My focus would be the creation of singing hammers.
 
 Where that hammer is just intelligent enough to strike the nail versus my thumb, and to remember how to hammer that nail without my help. So, I can trust it to do that job. That way I can hammer away and know that just outside of view, my work is being replicated in a way that I would do it. That way I can check my own work on the other side of that building. And reprimand myself and not the hammer.
+
+The strange aspect here with the metaphor above. Is how this would translate to others, including Artificial Intelligence. What is being described is the creation of safe trustable mechanisms informed by all intelligence. To create a bed rock foundation of automation.
+
+Currently this would already be seen as a given with Open Source AI. The contrast here is that what is being created is still Artificial Intelligence. But in this case something baseline, designed to specification, and in plain text. Auditable. So it shouldn't be a surprise that if your a writing Artificial Intelligence by hand. Like we have been doing for years in video games/expert systems/etc... That there would be some carry over within graph network of universal functions, created via a brute force methodology.
