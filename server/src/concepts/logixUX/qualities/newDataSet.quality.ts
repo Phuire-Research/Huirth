@@ -20,6 +20,7 @@ function logixUXNewDataSetReducer(state: LogixUXState, action: Action): LogixUXS
   const trainingData = [...state.trainingData];
   const {dataSetSelection} = state;
   dataSetSelection.push(false);
+  console.log('CHECK DATA SET SELECTION', dataSetSelection);
   trainingData.push(generateDefaultNamedDataSet('newDataSet' + trainingData.length));
   return {
     ...state,

@@ -35,7 +35,7 @@ export const logixUXServerSaveDataSetSelectionStrategy = (root: string, training
         failureNode: null
       });
       const stepCreateFileWithContents = createActionNode(fileSystemCreateFileWithContentsIndex({
-        target: path.join(p + '/' + trainingData[i].name + '.json'),
+        target: path.join(p + '/' + dataSet.name + '.json'),
         content: JSON.stringify(saveFormat)
       }), {
         successNode: stepUpdateProjectStatusToSavedOnClient,

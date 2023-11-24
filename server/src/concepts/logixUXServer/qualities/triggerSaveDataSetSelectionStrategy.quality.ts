@@ -26,7 +26,7 @@ export const logixUXServerTriggerSaveDataSetSelectionStrategyType: ActionType = 
 export const logixUXServerTriggerSaveDataSetSelectionStrategy =
   prepareActionCreator(logixUXServerTriggerSaveDataSetSelectionStrategyType);
 
-const createLogixUXServerTriggerSaveDataSetSelectionStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
+const logixUXServerTriggerSaveDataSetSelectionStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
   createMethodDebounceWithConcepts(
     (action, concepts) => {
       const {names} = selectPayload<LogixUXServerTriggerSaveDataSetSelectionStrategyPayload>(action);
@@ -34,6 +34,7 @@ const createLogixUXServerTriggerSaveDataSetSelectionStrategyMethodCreator: Metho
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       if (fileSystemState && state) {
         const {trainingData} = state;
+        console.log('CHECK TRIGGER', fileSystemState.root, trainingData.length, names);
         const strategy = logixUXServerSaveDataSetSelectionStrategy(fileSystemState.root, trainingData, names);
         return strategyBegin(strategy);
       } else {
@@ -42,9 +43,16 @@ const createLogixUXServerTriggerSaveDataSetSelectionStrategyMethodCreator: Metho
     }, concepts$ as UnifiedSubject, semaphore as number, 50
   );
 
+const logixUXServerTriggerSaveDataSetSelectionStrategyReducer = (state: LogixUXServerState): LogixUXServerState => {
+  return {
+    ...state,
+    dataSetSelection: state.dataSetSelection.map(() => false)
+  };
+};
+
 export const logixUXServerTriggerSaveDataSetSelectionStrategyQuality = createQuality(
   logixUXServerTriggerSaveDataSetSelectionStrategyType,
-  defaultReducer,
-  createLogixUXServerTriggerSaveDataSetSelectionStrategyMethodCreator,
+  logixUXServerTriggerSaveDataSetSelectionStrategyReducer,
+  logixUXServerTriggerSaveDataSetSelectionStrategyMethodCreator,
 );
 /*#>*/

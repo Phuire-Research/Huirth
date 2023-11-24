@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a Page Strategy Creator that will unify Sidebar, HeroDialog, DPO, Footer, and Header Action Strategy Component Stitches into a Page Composition.
+For the framework Stratimux and a Concept logixUX, generate a Page Strategy Creator called index, that will unify Sidebar, Hero, Dialog, Footer, and Header Action Strategy Component Stitches into a Page Composition.
 $>*/
 /*<#*/
 import { axium_createStitchNode, createActionNode, createStrategy } from 'stratimux';
@@ -16,9 +16,6 @@ import { logixUXIndexHero } from '../../qualities/components/hero/indexHero.qual
 import { logixUXIndexDialogBegin } from '../../qualities/components/dialog/indexDialogBegin.quality';
 import { logixUXIndexDialogContent } from '../../qualities/components/dialog/indexDialogContent.quality';
 import { logixUXIndexDialogEnd } from '../../qualities/components/dialog/indexDialogEnd.quality';
-import { logixUXIndexDPOBegin } from '../../qualities/components/DPO/DPOBegin.quality';
-import { logixUXIndexDPOContent } from '../../qualities/components/DPO/DPOContent.quality';
-import { logixUXIndexDPOEnd } from '../../qualities/components/DPO/DPOEnd.quality';
 import { logixUXSidebarComponentStitch } from '../components/sidebar.strategy';
 
 export const logixUXIndexPageStrategyTopic = 'index';
@@ -50,7 +47,6 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
       logixUXSidebarComponentStitch,
       logixUXBody,
       logixUXIndexDialogStrategyStitch,
-      logixUXIndexDPOStrategyStitch,
       logixUXFooterStitch
     ],
     logixUXHeaderStitch
@@ -80,28 +76,29 @@ export const logixUXIndexDialogStrategyStitch: ActionStrategyComponentStitch = (
     })
   ];
 };
-
-export const logixUXIndexDPOStrategyStitchTopic = 'logixUX Index DPO Strategy Stitch';
-export const logixUXIndexDPOStrategyStitch: ActionStrategyComponentStitch = (payload) => {
-  // Body
-  const stepLogixUXIndexDPOEnd = createActionNode(logixUXIndexDPOEnd(payload), {
-    successNode: null,
-    failureNode: null
-  });
-  const stepLogixUXIndexDPOContent = createActionNode(logixUXIndexDPOContent(payload), {
-    successNode: stepLogixUXIndexDPOEnd,
-    failureNode: null
-  });
-  const stepLogixUXIndexDPOBegin = createActionNode(logixUXIndexDPOBegin(payload), {
-    successNode: stepLogixUXIndexDPOContent,
-    failureNode: null
-  });
-  return [
-    stepLogixUXIndexDPOEnd,
-    createStrategy({
-      topic: logixUXIndexDPOStrategyStitchTopic,
-      initialNode: stepLogixUXIndexDPOBegin,
-    })
-  ];
-};
 /*#>*/
+
+// logixUXIndexDPOStrategyStitch
+// export const logixUXIndexDPOStrategyStitchTopic = 'logixUX Index DPO Strategy Stitch';
+// export const logixUXIndexDPOStrategyStitch: ActionStrategyComponentStitch = (payload) => {
+//   // Body
+//   const stepLogixUXIndexDPOEnd = createActionNode(logixUXIndexDPOEnd(payload), {
+//     successNode: null,
+//     failureNode: null
+//   });
+//   const stepLogixUXIndexDPOContent = createActionNode(logixUXIndexDPOContent(payload), {
+//     successNode: stepLogixUXIndexDPOEnd,
+//     failureNode: null
+//   });
+//   const stepLogixUXIndexDPOBegin = createActionNode(logixUXIndexDPOBegin(payload), {
+//     successNode: stepLogixUXIndexDPOContent,
+//     failureNode: null
+//   });
+//   return [
+//     stepLogixUXIndexDPOEnd,
+//     createStrategy({
+//       topic: logixUXIndexDPOStrategyStitchTopic,
+//       initialNode: stepLogixUXIndexDPOBegin,
+//     })
+//   ];
+// };

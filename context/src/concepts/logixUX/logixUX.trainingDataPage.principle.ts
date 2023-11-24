@@ -107,44 +107,45 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
           i: number;
           name: string;
         }[] = [];
-        const trainingDataNames = trainingData.map((data, i) => {
-          let found = false;
-          let removed = false;
-          let first = false;
-          if (cachedTrainingDataNames.length === 0) {
-            first = true;
+        if (cachedTrainingDataNames.length === 0) {
+          cachedTrainingDataNames = trainingData.map((d, i) => {
             add.push({
               i,
-              name: data.name,
+              name: d.name,
             });
-          }
-          for (const [index, name] of cachedTrainingDataNames.entries()) {
-            if (data.name === name) {
-              found = true;
-              break;
+            return d.name;
+          });
+        } else {
+          cachedTrainingDataNames = trainingData.map((data, i) => {
+            let found = false;
+            let removed = false;
+            for (const [index, name] of cachedTrainingDataNames.entries()) {
+              if (data.name === name) {
+                found = true;
+                break;
+              }
+              if (
+                data.name !== name &&
+                trainingData.length < cachedTrainingDataNames.length &&
+                i === cachedTrainingDataNames.length - 1 &&
+                !found
+              ) {
+                removed = true;
+                remove.push({
+                  i: index,
+                  name,
+                });
+              }
             }
-            if (
-              data.name !== name &&
-              trainingData.length < cachedTrainingDataNames.length &&
-              i === cachedTrainingDataNames.length - 1 &&
-              !found
-            ) {
-              removed = true;
-              remove.push({
-                i: index,
-                name,
+            if (!found && !removed) {
+              add.push({
+                i,
+                name: data.name,
               });
             }
-          }
-          if (!first && !found && !removed) {
-            add.push({
-              i,
-              name: data.name,
-            });
-          }
-          return data.name;
-        });
-        cachedTrainingDataNames = trainingDataNames;
+            return data.name;
+          });
+        }
         if (add.length > 0 || remove.length > 0) {
           if (add.length > 0) {
             const list: ActionStrategy[] = [];
@@ -164,9 +165,10 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
                 // eslint-disable-next-line max-depth
               }
             } else {
-              cachedTrainingDataNames = trainingDataNames;
               for (let i = 0; i < add.length; i++) {
-                list.push(userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name)));
+                const name = trainingData[add[i].i].name;
+                console.log('CHECK TRAINING DATA NAMES', name, add[i].i);
+                list.push(userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(name)));
               }
               const strategies = strategySequence(list);
               if (strategies) {

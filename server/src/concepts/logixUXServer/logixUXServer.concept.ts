@@ -19,6 +19,7 @@ import { logixUXServerDetermineReadParseAppendStrategyQuality } from './qualitie
 import { logixUXServerAppendParsedDataToNamedDataSetQuality } from './qualities/appendParsedDataToNamedDataSet.quality';
 import { logixUXServerPrepareParsedProjectDataUpdateQuality } from './qualities/prepareUpdateParsedProjectData.quality';
 import { logixUXServerTriggerSaveDataSetSelectionStrategyQuality } from './qualities/triggerSaveDataSetSelectionStrategy.quality';
+import { logixUXServerSetTrainingDataFromDataQuality } from './qualities/setTrainingDataFromData.quality';
 
 export const logixUXServerName = 'logixUXServer';
 export type LogixUXServerState = {
@@ -34,6 +35,7 @@ export const createLogixUXServerConcept = (): Concept =>  {
     logixUXServerTriggerSaveDPOStrategyQuality,
     logixUXServerReadFromDataTrainingDataFromDirectoriesQuality,
     logixUXServerSetDPOFromDataQuality,
+    logixUXServerSetTrainingDataFromDataQuality,
     logixUXServerIsDataDirectorySetUpQuality,
     logixUXServerGitCloneRepoToDirectoryQuality,
     logixUXServerTriggerCloneGitRepositoryStrategyQuality,

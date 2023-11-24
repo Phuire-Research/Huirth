@@ -45,12 +45,13 @@ export type Active_DPO = {
 export type BaseDataSet = {
   prompt: string;
   content: string;
-};
+} & Record<string, string>;
 
 // eslint-disable-next-line no-shadow
 export enum DataSetTypes {
   general = 'general',
   project = 'project',
+  dpo = 'dpo',
 }
 
 export type NamedDataSet = {

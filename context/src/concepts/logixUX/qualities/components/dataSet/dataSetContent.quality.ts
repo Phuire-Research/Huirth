@@ -58,6 +58,7 @@ const createDataSetContentMethodCreator: MethodCreator = (concepts$?: UnifiedSub
           }
         }
         if (dataSet) {
+          console.log('CHECK TRAINING DATA INFO', trainingData[index].name, trainingData[index].type);
           for (const [i, data] of dataSet.entries()) {
             const elementID = generateNumID(i);
             bindingsArray.push({

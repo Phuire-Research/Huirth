@@ -47,8 +47,9 @@ const recursiveParse = (data: BaseDataSet[], content: string): BaseDataSet[] => 
       const end = content.indexOf(ParsingTokens.includeEnd);
       output += content.substring(begin, end);
     }
-    const prompt = content.substring(promptBegin, promptEnd);
+    const prompt = content.substring(promptBegin, promptEnd).trim();
     output += content.substring(contentBegin, contentEnd);
+    output = output.trim();
     data.push({
       prompt,
       content: output

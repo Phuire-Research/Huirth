@@ -101,7 +101,6 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
         for (let i = 0; i < changes.length; i++) {
           atomicCachedState[changes[i]] = selectSlice(concepts, changedSelectors[i]);
         }
-        console.log('CHECK PAYLOAD', payload);
         if (payload.boundActionQue.length > 0) {
           dispatch(userInterfaceClientAssembleAtomicUpdateCompositionStrategy(payload), {
             throttle: 50,
