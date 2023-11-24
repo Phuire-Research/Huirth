@@ -23,6 +23,7 @@ Be safe and responsible. But most importantly, have fun!
 **GOAL: Reduce complexity of working with this pattern via generative AI in combination with a custom UI**
 
 # What this project is proposing: PURF
+*"Safe Recursive Improvement of Artificial Intelligence"*  
 **PURF**: Provably Unified Recursive Feedback
 
 1. First, we need to define provable unification as to it relays to the Unified Turing Machine. Where provable relays to the machine's recursive functionality that restricts symbol selection to what can [provably terminate](https://en.wikipedia.org/wiki/Total_functional_programming), aka halts.
