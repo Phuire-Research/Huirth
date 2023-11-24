@@ -28,7 +28,7 @@ Be safe and responsible. But most importantly, have fun!
 
 1. First, we need to define provable unification as to it relays to the Unified Turing Machine. Where provable relays to the machine's recursive functionality that restricts symbol selection to what can [provably terminate](https://en.wikipedia.org/wiki/Total_functional_programming), aka halts.
 	
-	In addition, we also need to address that a Unified Turing Machine, Stratimux in this instance. Is likewise the 3rd answer to the P(Deterministic) vs NP(Non-Deterministic) debate. Where the decision to determine the next step in a graph calculation, can either be Deterministic, Probabilistic, or a Mixture of both approaches. This represents a scalar value that is ignored in the paradigm in favor of a binary reduction.
+	In addition, we also need to address that a Unified Turing Machine, Stratimux in this instance. Is likewise the 3rd answer to the P(Deterministic) vs NP(Non-Deterministic) debate. Where the decision to determine the next step in a graph calculation, can either be Deterministic, probabilistic(Non-Deterministic), or a mixture of both approaches. This represents a scalar value that is ignored in the paradigm in favor of a binary reduction.
 
 2. Since the symbol selection for a Unified Turing Machine must be restricted due to its recursive functionality. There is a very easy test as to when the symbols are failing within a complex interaction. Whether the input halts and returns the desired output. Otherwise, the quality would be a repeating output, or one that fails to halt and return an output.
 
