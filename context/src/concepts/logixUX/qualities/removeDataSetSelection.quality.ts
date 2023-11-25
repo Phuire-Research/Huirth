@@ -15,7 +15,7 @@ import {
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 import { DataSetTypes, NamedDataSet, ProjectStatus, TrainingData } from '../logixUX.model';
-import { logixUXTriggerDeleteDataSetsStrategy } from '../strategies/server/triggerDeleteDataSetsStrategy.helper';
+import { logixUXSendTriggerDeleteDataSetsStrategy } from './sendTriggerSaveDeleteDataSetsStrategy.quality';
 
 export const logixUXRemoveDataSetSelectionType: ActionType = 'logixUX remove data set selection';
 export const logixUXRemoveDataSetSelection = prepareActionCreator(logixUXRemoveDataSetSelectionType);
@@ -44,16 +44,16 @@ const logixUXRemoveDataSetSelectionMethodCreator: MethodCreator = (concepts$, se
   createMethodWithState<LogixUXState>(
     (_, state) => {
       const { trainingData, dataSetSelection } = state;
-      const names = trainingData.filter((data, i) => dataSetSelection[i] && data.type === DataSetTypes.project).map((d) => d.name);
-      return logixUXTriggerDeleteDataSetsStrategy(names);
+      const names = trainingData.filter((__, i) => dataSetSelection[i]).map((d) => d.name);
+      return logixUXSendTriggerDeleteDataSetsStrategy({ names });
     },
     concepts$ as UnifiedSubject,
     semaphore as number
   );
 
 function logixUXRemoveDataSetSelectionReducer(state: LogixUXState, action: Action): LogixUXState {
-  const { trainingData } = state;
-  let { projectsStatuses, stratimuxStatus, logixUXStatus, dataSetSelection } = state;
+  const { trainingData, dataSetSelection } = state;
+  let { projectsStatuses, stratimuxStatus, logixUXStatus } = state;
   const newTrainingData: TrainingData = [];
   const not = trainingData.filter((_, i) => dataSetSelection[i]).map((d) => d.name);
   const newStatuses = [];
@@ -85,7 +85,6 @@ function logixUXRemoveDataSetSelectionReducer(state: LogixUXState, action: Actio
     }
   }
   projectsStatuses = newStatuses;
-  dataSetSelection = dataSetSelection.map(() => false);
 
   return {
     ...state,
@@ -93,7 +92,6 @@ function logixUXRemoveDataSetSelectionReducer(state: LogixUXState, action: Actio
     stratimuxStatus,
     logixUXStatus,
     projectsStatuses,
-    dataSetSelection,
   };
 }
 

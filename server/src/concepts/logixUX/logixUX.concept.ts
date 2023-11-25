@@ -52,6 +52,7 @@ import { logixUXSendTriggerParseRepositoryStrategyQuality } from './qualities/se
 import { logixUXSendTriggerSaveDataSetSelectionStrategyQuality } from './qualities/sendTriggerSaveDataSetSelectionStrategy.quality';
 import { logixUXUpdateProjectStatusToSavedQuality } from './qualities/updateProjectToSaved.quality';
 import { logixUXRemoveDataSetSelectionQuality } from './qualities/removeDataSetSelection.quality';
+import { logixUXSendTriggerDeleteDataSetsStrategyQuality } from './qualities/sendTriggerSaveDeleteDataSetsStrategy.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
@@ -110,6 +111,7 @@ export const createLogixUXConcept = (): Concept =>  {
     logixUXDataSetEndQuality,
     logixUXSendTriggerParseRepositoryStrategyQuality,
     logixUXSendTriggerSaveDataSetSelectionStrategyQuality,
+    logixUXSendTriggerDeleteDataSetsStrategyQuality,
     logixUXUpdateFromPromptPayloadQuality,
     logixUXUpdateFromChosenPayloadQuality,
     logixUXUpdateFromRejectedPayloadQuality,
