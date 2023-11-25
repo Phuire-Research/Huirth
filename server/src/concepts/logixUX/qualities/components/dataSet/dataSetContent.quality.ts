@@ -132,7 +132,7 @@ ${
               Save <i class="fa-solid fa-floppy-disk"></i>
             </button>
           </div>
-          <h1>Entries: ${trainingData[index].dataSet.length}</h1>
+          <h1>Entries: ${trainingData[index] ? trainingData[index].dataSet.length : 'Data Set Removed'}</h1>
           <div class="flex-1 p-4 pt-0 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
             ${finalOutput}
           </div>

@@ -16,20 +16,20 @@ export const logixUXUpdateParsedProjectDataSet = prepareActionWithPayloadCreator
 
 function logixUXUpdateParsedProjectDataSetReducer(state: LogixUXState, action: Action): LogixUXState {
   const { dataSet } = selectPayload<LogixUXUpdateParsedProjectDataSetPayload>(action);
-  const { dataSetSelection } = state;
+  const { dataSetSelection, trainingData } = state;
   let { projectsStatuses, stratimuxStatus, logixUXStatus } = state;
-  const trainingData: TrainingData = [];
+  const newTrainingData: TrainingData = [];
   let added = false;
   for (const data of trainingData) {
     if (data.name === dataSet.name) {
-      trainingData.push(dataSet);
+      newTrainingData.push(dataSet);
       added = true;
     } else if (data.name !== dataSet.name) {
-      trainingData.push(dataSet);
+      newTrainingData.push(data);
     }
   }
   if (!added) {
-    trainingData.push(dataSet);
+    newTrainingData.push(dataSet);
     dataSetSelection.push(false);
   }
   if (dataSet.name.toLowerCase() === 'stratimux') {
@@ -58,7 +58,7 @@ function logixUXUpdateParsedProjectDataSetReducer(state: LogixUXState, action: A
   }
   return {
     ...state,
-    trainingData,
+    trainingData: newTrainingData,
     stratimuxStatus,
     logixUXStatus,
     projectsStatuses,

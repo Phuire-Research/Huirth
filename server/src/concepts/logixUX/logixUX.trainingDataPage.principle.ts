@@ -10,6 +10,8 @@ import { LogixUXState } from './logixUX.concept';
 import { UserInterfaceClientState } from '../userInterfaceClient/userInterfaceClient.concept';
 import { userInterfaceAddNewPageStrategy } from '../userInterface/strategies.ts/addNewPage.strategy';
 import { logixUXGeneratedTrainingDataPageStrategy } from './strategies/pages/generatedTrainingDataPage.strategy';
+import { DataSetTypes, ProjectStatus } from './logixUX.model';
+import { logixUXUpdateProjectStatusStrategy } from './strategies/updateProjectStatus.strategy';
 
 export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
   (_: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
@@ -37,6 +39,7 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
             i: number,
             name: string
           }[] = [];
+          const updateStatus = [];
           const trainingDataNames = trainingData.map((data, i) => {
             add.push({
               i,
@@ -44,7 +47,6 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
             });
             return data.name;
           });
-          console.log('CHECK ADD TRAINING DATA', add);
           cachedTrainingDataNames = trainingDataNames;
           if (add.length > 0) {
             const list: ActionStrategy[] = [];
@@ -79,9 +81,13 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
                   logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name),
                   concepts,
                 ));
+                if (trainingData[add[i].i].type === DataSetTypes.project) {
+                  list.push(logixUXUpdateProjectStatusStrategy(trainingData[add[i].i].name, ProjectStatus.parsed));
+                }
               }
               const strategies = strategySequence(list);
               if (strategies) {
+                console.log(strategies);
                 const action = strategyBegin(strategies);
                 console.log('CHECK ACTION STRATEGY', action.strategy);
                 dispatch(action, {
@@ -168,7 +174,6 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
                 }
                 const strategies = strategySequence(list);
                 if (strategies) {
-                  console.log('CHECK LIST DATA PAGE TITLES: ', (strategies.puntedStrategy as ActionStrategy[]).map(strat => (strat.data as any).page.title));
                   dispatch(strategyBegin(strategies), {
                     throttle: 1
                   });
