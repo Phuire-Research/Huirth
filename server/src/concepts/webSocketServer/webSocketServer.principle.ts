@@ -44,7 +44,7 @@ export const webSocketServerPrinciple: PrincipleFunction =
               const que = [...state.actionQue];
               state.actionQue = [];
               que.forEach(action => {
-                console.log('SENDING', action);
+                // console.log('SENDING', action);
                 action.conceptSemaphore = (state as WebSocketServerState).clientSemaphore;
                 ws.send(JSON.stringify(action));
               });

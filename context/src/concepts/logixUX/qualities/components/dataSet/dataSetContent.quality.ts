@@ -47,7 +47,6 @@ const createDataSetContentMethodCreator: MethodCreator = (concepts$?: UnifiedSub
           eventBinding: elementEventBinding;
           action: Action;
         }[] = [];
-        console.log('CHECK LENGTH Training Data', trainingData);
         let dataSet: BaseDataSet[] | undefined;
         let index = -1;
         for (const [i, data] of trainingData.entries()) {
@@ -58,6 +57,7 @@ const createDataSetContentMethodCreator: MethodCreator = (concepts$?: UnifiedSub
           }
         }
         if (dataSet) {
+          // console.log('CHECK TRAINING DATA INFO', trainingData[index].name, trainingData[index].type);
           for (const [i, data] of dataSet.entries()) {
             const elementID = generateNumID(i);
             bindingsArray.push({

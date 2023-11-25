@@ -4,14 +4,19 @@ $>*/
 /*<#*/
 import {
   Action,
+  ActionNode,
   ActionType,
+  MethodCreator,
+  createMethod,
   createQuality,
   defaultMethodCreator,
   prepareActionWithPayloadCreator,
   selectPayload,
+  strategySuccess,
 } from 'stratimux';
 import { BoundSelectors, userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
+import { listNodeSuccess } from '../../../model/ActionStrategy';
 
 export type UserInterfaceAtomicUpdatePageCompositionPayload = {
   bound: BoundSelectors

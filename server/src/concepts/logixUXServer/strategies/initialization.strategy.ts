@@ -11,30 +11,44 @@ import { logixUXServerIsDataDirectorySetUp } from '../qualities/isDataDirectoryS
 import { fileSystemCreateTargetDirectory } from '../../fileSystem/qualities/createTargetDirectory.quality';
 import { dataDirectories } from '../logixUXServer.model';
 import { logixUXServerSetRepositoriesFromData } from '../qualities/setRepositoriesFromData.quality';
+import { logixUXServerSetTrainingDataFromData } from '../qualities/setTrainingDataFromData.quality';
 
 const logixUXServerInitializationStrategyTopic = 'logixUX Server Initialization Strategy';
 export const logixUXServerInitializationStrategy = (root: string) => {
   const dataDirectory = path.join(root + '/data/');
-  const logixUXDirectory = path.join(root + '/data/logixUX');
+  const dataSetsDirectory = path.join(root + '/data/sets/');
+  const DPODirectory = path.join(root + '/data/logixUX');
   const gitRepoDirectory = path.join(root + '/data/' + dataDirectories.gitRepo + '/');
   const gitSetsDirectory = path.join(root + '/data/' + dataDirectories.sets + '/');
   // If repositories doesn't exist
   // stepFour does folder repositories exists?
-  const stepSetDPO_data = createActionNode(logixUXServerSetDPOFromData(), {
+  const stepSetTrainingDataFromData = createActionNode(logixUXServerSetTrainingDataFromData(), {
     successNode: null,
     failureNode: null
   });
   const stepReadTrainingDataFromData = createActionNode(logixUXServerReadFromDataTrainingDataFromDirectories(), {
+    successNode: stepSetTrainingDataFromData,
+    failureNode: null
+  });
+  const stepVerifyDataSets = createActionNode(fileSystemGetDirectoriesAndFiles({path: dataSetsDirectory}), {
+    successNode: stepReadTrainingDataFromData,
+    failureNode: null,
+  });
+  const stepSetDPO_data = createActionNode(logixUXServerSetDPOFromData(), {
+    successNode: stepVerifyDataSets,
+    failureNode: null
+  });
+  const stepReadDPOFromData = createActionNode(logixUXServerReadFromDataTrainingDataFromDirectories(), {
     successNode: stepSetDPO_data,
     failureNode: null
   });
-  const stepVerifyLogixUXData = createActionNode(fileSystemGetDirectoriesAndFiles({path: logixUXDirectory}), {
-    successNode: stepReadTrainingDataFromData,
+  const stepVerifyDPOData = createActionNode(fileSystemGetDirectoriesAndFiles({path: DPODirectory}), {
+    successNode: stepReadDPOFromData,
     failureNode: null,
   });
   const stepSetRepositoriesFromData = createActionNode(logixUXServerSetRepositoriesFromData(), {
     // No need to worry about setting status beyond installed here. In the next steps we will verify all currently installed data sources.
-    successNode: stepVerifyLogixUXData,
+    successNode: stepVerifyDPOData,
     failureNode: null
   });
   const stepReadDataRepoDirectory = createActionNode(fileSystemGetDirectoriesAndFiles({path: gitRepoDirectory}), {
@@ -42,7 +56,7 @@ export const logixUXServerInitializationStrategy = (root: string) => {
     failureNode: null,
   });
   const stepCreateSetsDirectory = createActionNode(fileSystemCreateTargetDirectory({path: gitSetsDirectory}), {
-    successNode: stepVerifyLogixUXData,
+    successNode: stepVerifyDPOData,
     failureNode: null,
     agreement: 20000
   });

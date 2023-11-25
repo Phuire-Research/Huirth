@@ -5,9 +5,10 @@ $>*/
 import {
   Action,
   ActionType,
+  createMethod,
   createQuality,
-  defaultMethodCreator,
   prepareActionCreator,
+  strategySuccess,
 } from 'stratimux';
 import { BoundSelectors, userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
@@ -16,9 +17,20 @@ export const userInterfaceAddComposedPageToStateType: ActionType =
   'User Interface add composed Page to State';
 export const userInterfaceAddComposedPageToState = prepareActionCreator(userInterfaceAddComposedPageToStateType);
 
+const addComposedPageMethodCreator = () => createMethod(action => {
+  if (action.strategy) {
+    const {strategy} = action;
+    console.warn('CHECK ADD COMPOSED STRATEGY: ', strategy.puntedStrategy);
+    return strategySuccess(strategy);
+  } else {
+    return action;
+  }
+});
+
 function addComposedPageToState(state: UserInterfaceState, action: Action): UserInterfaceState {
   if (action.strategy) {
     const page = userInterface_selectPage(action.strategy);
+    console.log('CHECK ADD COMPOSED PAGE: ', page.title, page.title.length);
     const newPages = state.pages.filter(_page => {
       return page.title !== _page.title;
     });
@@ -51,6 +63,6 @@ function addComposedPageToState(state: UserInterfaceState, action: Action): User
 export const userInterfaceAddComposedPageToStateQuality = createQuality(
   userInterfaceAddComposedPageToStateType,
   addComposedPageToState,
-  defaultMethodCreator,
+  addComposedPageMethodCreator,
 );
 /*#>*/

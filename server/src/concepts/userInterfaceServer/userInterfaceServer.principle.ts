@@ -12,6 +12,7 @@ import {
   KeyedSelector,
   PrincipleFunction,
   UnifiedSubject,
+  axiumKick,
   axiumRegisterStagePlanner,
   axiumSelectOpen,
   getUnifiedName,
@@ -132,6 +133,7 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
 export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
   (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     const atomicCachedState: Record<string, unknown> = {};
+    let delayChanges = false;
     const plan = concepts$.stage('User Interface Server on Change', [
       (concepts, dispatch) => {
         const name = getUnifiedName(concepts, semaphore);
@@ -150,6 +152,7 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
       (concepts, dispatch) => {
         const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
         if (uiState && uiState.pagesCached) {
+          console.log('PAGES: ', uiState.pages.map(page => page.title).join(', '));
           const selectors: BoundSelectors[] = [];
           uiState.pages.forEach(page => page.cachedSelectors.forEach(bound => {
             bound.action.conceptSemaphore = semaphore;
@@ -195,16 +198,26 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
           for (let i = 0; i < changes.length; i++) {
             atomicCachedState[changes[i]] = selectSlice(concepts, changedSelectors[i]);
           }
-          // console.log('CHECK ATOMIC', atomicCachedState);
           if (payload.boundActionQue.length > 0) {
+            setTimeout(() => {
+              delayChanges = false;
+            }, 100);
+            delayChanges = true;
             dispatch(userInterfaceServerAssembleAtomicUpdateCompositionStrategy(payload), {
-              throttle: 1
+              iterateStage: true
             });
           }
         } else if (uiState === undefined) {
           plan.conclude();
         }
       },
+      (_, dispatch) => {
+        if (!delayChanges) {
+          dispatch(axiumKick(), {
+            setStage: 1
+          });
+        }
+      }
     ]
     );
   };

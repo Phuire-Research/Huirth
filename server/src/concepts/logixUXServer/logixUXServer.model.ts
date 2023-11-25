@@ -3,7 +3,7 @@ For the framework Stratimux and a Concept logixUX Server, generate the model fil
 $>*/
 /*<#*/
 import { DPO_DataSet } from '../../model/logixUX';
-import { Active_DPO, NamedDataSet } from '../logixUX/logixUX.model';
+import { Active_DPO, BaseDataSet, DataSetTypes, NamedDataSet, TrainingData } from '../logixUX/logixUX.model';
 
 // eslint-disable-next-line no-shadow
 export enum logixUXServerFailureConditions {
@@ -18,39 +18,78 @@ export enum dataDirectories {
 }
 
 export const convertDPOToSaveFormatDPO = (trainingData: Active_DPO[]) => {
-  const saveFormat: DPO_DataSet = {};
-  trainingData.forEach((entry, i) => {
-    saveFormat[entry.prompt + i] = {
-      chosen: [{content: entry.chosen}],
-      rejected: [{content: entry.chosen}],
+  const saveFormat: SavedFormat = {};
+  trainingData.forEach((entry) => {
+    saveFormat[entry.prompt] = {
+      type: DataSetTypes.dpo,
+      content: '',
+      chosen: entry.chosen,
+      rejected: entry.chosen,
     };
   });
   return saveFormat;
 };
 
 export type SavedFormat = {
-  [prompt: string]: string
+  [prompt: string]: ({
+    type: string
+    content: string
+  } & Record<string, string>)
 }
 
 export const convertNamedDataSetToSaveFormat = (named: NamedDataSet) => {
   const saveFormat: SavedFormat = {};
   named.dataSet.forEach((entry) => {
-    saveFormat[entry.prompt] = entry.content;
+    saveFormat[entry.prompt] = {
+      type: named.type,
+      content: entry.content
+    };
+    const keys = Object.keys(entry);
+    for (const key of keys) {
+      if (key !== 'prompt' && key !== 'content' && key !== 'type') {
+        saveFormat.prompt[key] = entry[key];
+      }
+    }
   });
   return saveFormat;
 };
 
-export const convertSaveFormatDPOToDPO = (saveFormat: DPO_DataSet) => {
-  const trainingData: Active_DPO[] = [];
-  const saveKeys = Object.keys(saveFormat);
-  for (const key of saveKeys) {
-    trainingData.push({
+export const convertSavedFormatToNamedDataSet = (saved: SavedFormat, name: string) => {
+  const named: NamedDataSet = {
+    name,
+    type: DataSetTypes.general,
+    dataSet: []
+  };
+  const keys = Object.keys(saved);
+  for (const key of keys) {
+    const final: BaseDataSet = {
       prompt: key,
-      chosen: saveFormat[key].chosen[0].content,
-      rejected: saveFormat[key].rejected[0].content,
+      content: ''
+    };
+    const data = saved[key];
+    const dataKeys = Object.keys(data);
+    for (const d of dataKeys) {
+      if (d === 'type') {
+        named.type = data[d] as DataSetTypes;
+      } else {
+        final[d] = data[d];
+      }
+    }
+    named.dataSet.push(final);
+  }
+  return named;
+};
+
+export const convertSaveFormatDPOToDPO = (named: NamedDataSet) => {
+  const DPO: Active_DPO[] = [];
+  for (const set of named.dataSet) {
+    DPO.push({
+      prompt: set.prompt,
+      chosen: set.chosen !== undefined ? set.chosen : '',
+      rejected: set.rejected !== undefined ? set.rejected : '',
     });
   }
-  return trainingData;
+  return DPO;
 };
 
 /*<!*/

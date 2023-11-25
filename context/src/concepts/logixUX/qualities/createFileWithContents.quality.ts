@@ -35,7 +35,6 @@ const createCreateContextIndexMethodCreator: MethodCreator = () =>
     if (action.strategy) {
       const indexTs = path.join(payload.root + '/context/src/index.ts');
       const content = createContextIndexContent(payload.primedConcepts, payload.directoryMap);
-      console.log('TEST', indexTs, content);
       fs.writeFile(indexTs, content).then(() => {
         const newStrategy = strategySuccess(action.strategy as ActionStrategy);
         controller.fire(newStrategy);

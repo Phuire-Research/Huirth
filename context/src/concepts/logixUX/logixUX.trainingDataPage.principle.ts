@@ -9,6 +9,7 @@ import {
   Concepts,
   PrincipleFunction,
   UnifiedSubject,
+  axiumKick,
   axiumRegisterStagePlanner,
   getUnifiedName,
   selectUnifiedState,
@@ -59,32 +60,41 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
           });
           return data.name;
         });
+        console.log('CHECK ADD TRAINING DATA', add);
         cachedTrainingDataNames = trainingDataNames;
         if (add.length > 0) {
           const list: ActionStrategy[] = [];
           if (isClient) {
             const currentPage = (selectUnifiedState(concepts, semaphore) as UserInterfaceClientState).currentPage;
+            let found = false;
             for (let i = 0; i < add.length; i++) {
               // eslint-disable-next-line max-depth
               if (currentPage === add[i].name) {
-                list.push(userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name)));
+                list.push(userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name), concepts));
+                found = true;
               }
+            }
+            if (!found) {
+              dispatch(axiumKick(), {
+                setStage: 3,
+              });
             }
             const strategies = strategySequence(list);
             if (strategies) {
               dispatch(strategyBegin(strategies), {
-                throttle: 60,
+                setStage: 3,
               });
               // eslint-disable-next-line max-depth
-              plan.conclude();
             }
           } else {
             for (let i = 0; i < add.length; i++) {
-              list.push(userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name)));
+              list.push(userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name), concepts));
             }
             const strategies = strategySequence(list);
             if (strategies) {
-              dispatch(strategyBegin(strategies), {
+              const action = strategyBegin(strategies);
+              console.log('CHECK ACTION STRATEGY', action.strategy);
+              dispatch(action, {
                 iterateStage: true,
               });
             }
@@ -107,28 +117,15 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
           i: number;
           name: string;
         }[] = [];
-        const trainingDataNames = trainingData.map((data, i) => {
+        cachedTrainingDataNames = trainingData.map((data, i) => {
           let found = false;
           let removed = false;
-          let first = false;
-          if (cachedTrainingDataNames.length === 0) {
-            first = true;
-            add.push({
-              i,
-              name: data.name,
-            });
-          }
           for (const [index, name] of cachedTrainingDataNames.entries()) {
             if (data.name === name) {
               found = true;
               break;
             }
-            if (
-              data.name !== name &&
-              trainingData.length < cachedTrainingDataNames.length &&
-              i === cachedTrainingDataNames.length - 1 &&
-              !found
-            ) {
+            if (data.name !== name && trainingData.length < cachedTrainingDataNames.length && i === trainingData.length - 1 && !found) {
               removed = true;
               remove.push({
                 i: index,
@@ -136,7 +133,7 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
               });
             }
           }
-          if (!first && !found && !removed) {
+          if (!found && !removed) {
             add.push({
               i,
               name: data.name,
@@ -144,7 +141,6 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
           }
           return data.name;
         });
-        cachedTrainingDataNames = trainingDataNames;
         if (add.length > 0 || remove.length > 0) {
           if (add.length > 0) {
             const list: ActionStrategy[] = [];
@@ -153,7 +149,9 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
               for (let i = 0; i < add.length; i++) {
                 // eslint-disable-next-line max-depth
                 if (currentPage === add[i].name) {
-                  list.push(userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name)));
+                  list.push(
+                    userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name), concepts)
+                  );
                 }
               }
               const strategies = strategySequence(list);
@@ -164,12 +162,17 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
                 // eslint-disable-next-line max-depth
               }
             } else {
-              cachedTrainingDataNames = trainingDataNames;
               for (let i = 0; i < add.length; i++) {
-                list.push(userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name)));
+                const name = trainingData[add[i].i].name;
+                console.log('CHECK TRAINING DATA NAMES', name, add[i].i);
+                list.push(userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(name), concepts));
               }
               const strategies = strategySequence(list);
               if (strategies) {
+                console.log(
+                  'CHECK LIST DATA PAGE TITLES: ',
+                  (strategies.puntedStrategy as ActionStrategy[]).map((strat) => (strat.data as any).page.title)
+                );
                 dispatch(strategyBegin(strategies), {
                   throttle: 1,
                 });
