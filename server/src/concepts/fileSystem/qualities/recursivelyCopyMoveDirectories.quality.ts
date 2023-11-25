@@ -19,7 +19,6 @@ import fs from 'fs/promises';
 import path from 'path';
 
 async function copyDir(src: string, dest: string) {
-  console.log('TEST', dest);
   await fs.mkdir(dest, { recursive: true });
   const entries = await fs.readdir(src, { withFileTypes: true });
 

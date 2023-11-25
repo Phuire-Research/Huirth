@@ -17,16 +17,17 @@ import { logixUXDataSetContent } from '../../qualities/components/dataSet/dataSe
 import { logixUXDataSetBegin } from '../../qualities/components/dataSet/dataSetBegin.quality';
 
 export const logixUXGeneratedTrainingDataPageStrategy = (pageTitle: string): PageStrategyCreators => {
+  const title = pageTitle;
   return () => () => {
     const pageData = userInterface_createPage({
-      title: pageTitle,
+      title,
       conceptAndProps: [],
       cachedSelectors: [],
       compositions: []
     });
 
     return userInterfaceCreatePageStrategy(
-      pageTitle,
+      title,
       pageData,
       [
         logixUXSidebarComponentStitch,
@@ -40,25 +41,23 @@ export const logixUXGeneratedTrainingDataPageStrategy = (pageTitle: string): Pag
 
 export const logixUXGeneratedTrainingDataStrategyStitchTopic = 'logixUX Generated Training Data Strategy Component Stitch';
 export const logixUXGeneratedTrainingDataStrategyStitch: ActionStrategyComponentStitch = (payload) => {
-  // Body
-  // Fill in the Universal Data Set Editor
-  const stepLogixUXDataManagerEnd = createActionNode(logixUXDataSetEnd(payload), {
+  const stepLogixUXDataSetEnd = createActionNode(logixUXDataSetEnd(payload), {
     successNode: null,
     failureNode: null
   });
   const stepLogixUXDataManagerContent = createActionNode(logixUXDataSetContent(payload), {
-    successNode: stepLogixUXDataManagerEnd,
+    successNode: stepLogixUXDataSetEnd,
     failureNode: null
   });
-  const stepLogixUXDataManagerBegin = createActionNode(logixUXDataSetBegin(payload), {
+  const stepLogixUXDataSetBegin = createActionNode(logixUXDataSetBegin(payload), {
     successNode: stepLogixUXDataManagerContent,
     failureNode: null
   });
   return [
-    stepLogixUXDataManagerEnd,
+    stepLogixUXDataSetEnd,
     createStrategy({
       topic: `logixUX Generated ${payload.pageTitle} Training Data Strategy Stitch`,
-      initialNode: stepLogixUXDataManagerBegin,
+      initialNode: stepLogixUXDataSetBegin,
     })
   ];
 };

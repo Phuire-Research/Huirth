@@ -48,10 +48,17 @@ const createUserInterfaceServerAssembleAtomicUpdateCompositionStrategyMethod = (
       previous = stitchEnd;
     }
   }
+  const stepEnd = createActionNode(userInterfaceEnd(), {
+    successNode: null,
+    failureNode: null
+  });
+  if (previous) {
+    previous.successNode = stepEnd;
+  }
   if (first) {
     return strategyBegin(createStrategy({
       initialNode: first,
-      topic: 'User Interface atomic update compositions'
+      topic: 'User Interface atomic update compositions',
     }));
   }
   return action;
@@ -65,12 +72,8 @@ export const userInterfaceServerAssembleAtomicUpdateCompositionStrategyQuality =
 
 // Need to provide semaphore that will update the target composition of some page.
 const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy] => {
-  const stepEnd = createActionNode(userInterfaceEnd(), {
-    successNode: null,
-    failureNode: null
-  });
   const stepUpdateAtomic = createActionNode(userInterfaceAtomicUpdatePageComposition({bound}, bound.action.conceptSemaphore as number), {
-    successNode: stepEnd,
+    successNode: null,
     failureNode: null
   });
   const stepAction = createActionNode(refreshAction(bound.action), {

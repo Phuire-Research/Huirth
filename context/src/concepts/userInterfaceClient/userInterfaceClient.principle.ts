@@ -9,6 +9,7 @@ import {
   KeyedSelector,
   PrincipleFunction,
   UnifiedSubject,
+  axiumKick,
   axiumRegisterStagePlanner,
   axiumSelectOpen,
   getAxiumState,
@@ -31,6 +32,7 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
   semaphore: number
 ) => {
   const atomicCachedState: Record<string, unknown> = {};
+  let delayChanges = false;
   const plan = concepts$.stage('User Interface Server on Change', [
     (concepts, dispatch) => {
       const name = getUnifiedName(concepts, semaphore);
@@ -102,12 +104,23 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
           atomicCachedState[changes[i]] = selectSlice(concepts, changedSelectors[i]);
         }
         if (payload.boundActionQue.length > 0) {
+          setTimeout(() => {
+            delayChanges = false;
+          }, 100);
+          delayChanges = true;
           dispatch(userInterfaceClientAssembleAtomicUpdateCompositionStrategy(payload), {
-            throttle: 50,
+            iterateStage: true,
           });
         }
       } else if (uiState === undefined) {
         plan.conclude();
+      }
+    },
+    (_, dispatch) => {
+      if (!delayChanges) {
+        dispatch(axiumKick(), {
+          setStage: 1,
+        });
       }
     },
   ]);

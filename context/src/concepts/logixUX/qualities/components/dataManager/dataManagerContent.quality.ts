@@ -69,16 +69,13 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
           }
           return false;
         })();
-        console.log('ANY SELECTED', anySelected);
         let finalOutput = '';
         const bindingsArray: {
           elementId: string;
           eventBinding: elementEventBinding;
           action: Action;
         }[] = [];
-        console.log('CHECK LENGTH Training Data', trainingData);
         for (let i = 0; i < trainingData.length; i++) {
-          console.log('HIT');
           const elementID = generateNumID(i);
           bindingsArray.push({
             elementId: dataSetNameID + elementID,

@@ -68,7 +68,6 @@ export const convertSavedFormatToNamedDataSet = (saved: SavedFormat, name: strin
     };
     const data = saved[key];
     const dataKeys = Object.keys(data);
-    console.log('D KEYS', dataKeys);
     for (const d of dataKeys) {
       if (d === 'type') {
         named.type = data[d] as DataSetTypes;
