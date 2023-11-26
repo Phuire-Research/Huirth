@@ -7,11 +7,13 @@ import {
   ActionType,
   MethodCreator,
   UnifiedSubject,
-  createMethod,
+  createAction,
+  createActionNode,
   createMethodWithState,
   createQuality,
-  defaultMethodCreator,
+  createStrategy,
   prepareActionCreator,
+  strategyBegin,
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 import { DataSetTypes, NamedDataSet, ProjectStatus, TrainingData } from '../logixUX.model';
@@ -44,7 +46,10 @@ const isNot = (dataSet: NamedDataSet, not: string[]) => {
 const logixUXRemoveDataSetSelectionMethodCreator: MethodCreator = (concepts$, semaphore) => createMethodWithState<LogixUXState>((_, state) => {
   const {trainingData, dataSetSelection} = state;
   const names = trainingData.filter((__, i) => dataSetSelection[i]).map(d => d.name);
-  return logixUXSendTriggerDeleteDataSetsStrategy({names});
+  return strategyBegin(createStrategy({
+    topic: 'Send Trigger Delete Data Sets: ' + names.join(', '),
+    initialNode: createActionNode(logixUXSendTriggerDeleteDataSetsStrategy({names}), {successNode: null, failureNode: null})
+  }));
 }, concepts$ as UnifiedSubject, semaphore as number);
 
 function logixUXRemoveDataSetSelectionReducer(state: LogixUXState, action: Action): LogixUXState {

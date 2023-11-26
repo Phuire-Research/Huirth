@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a quality that will trigger the delete data sets strategy.
+For the framework Stratimux and a Concept logixUX Server, generate a quality that will trigger the delete data sets strategy based on passed payload.
 $>*/
 /*<#*/
 import {
@@ -8,13 +8,13 @@ import {
   UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQuality,
+  defaultReducer,
   prepareActionCreator,
   selectPayload,
   selectState,
   strategyBegin,
 } from 'stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
-import { LogixUXServerState } from '../logixUXServer.concept';
 import { logixUXServerDeleteDataSetsStrategy } from '../strategies/deleteDataSets.strategy';
 
 export type LogixUXServerTriggerDeleteDataSetsStrategyPayload = {
@@ -28,6 +28,7 @@ const logixUXServerTriggerDeleteDataSetsStrategyMethodCreator: MethodCreator = (
   createMethodDebounceWithConcepts(
     (action, concepts) => {
       const {names} = selectPayload<LogixUXServerTriggerDeleteDataSetsStrategyPayload>(action);
+      console.log('DELETE DATA SETS!!!', names);
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       if (fileSystemState) {
         const strategy = logixUXServerDeleteDataSetsStrategy(fileSystemState.root, names);
@@ -38,16 +39,9 @@ const logixUXServerTriggerDeleteDataSetsStrategyMethodCreator: MethodCreator = (
     }, concepts$ as UnifiedSubject, semaphore as number, 50
   );
 
-const logixUXServerTriggerDeleteDataSetsStrategyReducer = (state: LogixUXServerState): LogixUXServerState => {
-  return {
-    ...state,
-    dataSetSelection: state.dataSetSelection.map(() => false)
-  };
-};
-
 export const logixUXServerTriggerDeleteDataSetsStrategyQuality = createQuality(
   logixUXServerTriggerDeleteDataSetsStrategyType,
-  logixUXServerTriggerDeleteDataSetsStrategyReducer,
+  defaultReducer,
   logixUXServerTriggerDeleteDataSetsStrategyMethodCreator,
 );
 /*#>*/
