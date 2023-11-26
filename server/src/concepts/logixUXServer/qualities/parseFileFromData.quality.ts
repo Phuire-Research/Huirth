@@ -18,6 +18,7 @@ import { ReadDirectoryField } from '../../fileSystem/qualities/readDir.quality';
 import { BaseDataSet } from '../../logixUX/logixUX.model';
 import { ReadFileContentsAndAppendToDataField } from '../../fileSystem/qualities/readFileContentsAndAppendToData.quality';
 import { ParsingTokens } from '../logixUXServer.model';
+import { FileDirent } from '../../fileSystem/fileSystem.model';
 
 export const logixUXServerParseFileFromDataType: ActionType =
   'logixUXServer parse file from data';
@@ -27,7 +28,7 @@ export type ParsedFileFromDataField = {
   parsed: BaseDataSet[]
 }
 
-const recurseExclude = (content: string): string => {
+const recurseExclude = (content: string, file: FileDirent): string => {
   const excludeBegin = content.indexOf(ParsingTokens.excludeBegin);
   if (excludeBegin !== -1) {
     const excludeEnd = content.indexOf(ParsingTokens.excludeEnd) + ParsingTokens.excludeEnd.length;
@@ -35,10 +36,13 @@ const recurseExclude = (content: string): string => {
       const sliceBegin = content.substring(0, excludeBegin);
       const newContent = sliceBegin + content.substring(excludeEnd);
       const newExclude = newContent.indexOf(ParsingTokens.excludeBegin);
-      if (newExclude !== -1) {
-        return recurseExclude(newContent);
-      } else {
+      if (newExclude !== -1 && newContent.length < content.length) {
+        return recurseExclude(newContent, file);
+      } else if (newContent.length < content.length) {
         return newContent;
+      } else {
+        console.error('PARSING ERROR @ ', file);
+        return '';
       }
     } else {
       return content.substring(0, excludeBegin) + content.substring(excludeBegin + ParsingTokens.excludeBegin.length);
@@ -47,7 +51,7 @@ const recurseExclude = (content: string): string => {
   return content;
 };
 
-const recursiveParse = (data: BaseDataSet[], content: string): BaseDataSet[] => {
+const recursiveParse = (data: BaseDataSet[], content: string, file: FileDirent): BaseDataSet[] => {
   const index = content.indexOf(ParsingTokens.promptBegin);
   const stop = content.indexOf(ParsingTokens.stop);
   const stopExists = stop !== -1;
@@ -63,7 +67,7 @@ const recursiveParse = (data: BaseDataSet[], content: string): BaseDataSet[] => 
     if (importBegin !== -1 && importBegin < contentEnd && willStop(contentEnd)) {
       const begin = importBegin + ParsingTokens.importBegin.length;
       const end = content.indexOf(ParsingTokens.importEnd);
-      output += recurseExclude(content.substring(begin, end));
+      output += recurseExclude(content.substring(begin, end), file);
     }
     if (includeBegin !== -1 && includeBegin < contentEnd && willStop(contentEnd)) {
       const begin = includeBegin + ParsingTokens.includeBegin.length;
@@ -72,7 +76,7 @@ const recursiveParse = (data: BaseDataSet[], content: string): BaseDataSet[] => 
     }
     if (willStop(promptEnd)) {
       const prompt = content.substring(promptBegin, promptEnd).trim();
-      output += recurseExclude(content.substring(contentBegin, contentEnd));
+      output += recurseExclude(content.substring(contentBegin, contentEnd), file);
       output = output.trim();
       data.push({
         prompt,
@@ -82,7 +86,7 @@ const recursiveParse = (data: BaseDataSet[], content: string): BaseDataSet[] => 
     const sub = content.substring(contentEnd + ParsingTokens.contentEnd.length);
     const cont = sub.indexOf(ParsingTokens.promptBegin);
     if (cont  !== -1 && willStop(cont)) {
-      return recursiveParse(data, sub);
+      return recursiveParse(data, sub, file);
     }
   }
   return data;
@@ -95,7 +99,7 @@ const logixUXServerParseFileFromDataMethodCreator = () =>
       const data = strategyData_select(action.strategy) as ReadDirectoryField & ReadFileContentsAndAppendToDataField;
       if (data.filesAndDirectories && data.content) {
         // console.log('CHECK CONTENT', data.content);
-        const parsed = recursiveParse([], data.content);
+        const parsed = recursiveParse([], data.content, data.dirent);
         // console.log('CHECK PARSE', parsed);
         controller.fire(strategySuccess(action.strategy, strategyData_unifyData(strategy, {
           parsed,

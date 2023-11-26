@@ -68,7 +68,6 @@ const logixUXServerAppendParsedDataToNamedDataSetReducer = (state: LogixUXServer
         });
         dataSetSelection.push(false);
       }
-      console.log('WAS ADDED', added);
       return {
         ...state,
         trainingData,

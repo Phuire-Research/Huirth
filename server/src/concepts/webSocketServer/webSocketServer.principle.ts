@@ -12,6 +12,7 @@ import {
   PrincipleFunction,
   UnifiedSubject,
   axiumRegisterStagePlanner,
+  getAxiumState,
   getUnifiedName,
   selectUnifiedState,
 } from 'stratimux';
@@ -60,7 +61,9 @@ export const webSocketServerPrinciple: PrincipleFunction =
         const act = JSON.parse(`${message}`);
         if (Object.keys(act).includes('type')) {
           if ((act as Action).type !== webSocketServerSyncStateType) {
-            console.log('MESSAGE', act);
+            if (getAxiumState(cpts).logging) {
+              console.log('MESSAGE', (act as Action).type);
+            }
           }
           observer.next(act);
         }

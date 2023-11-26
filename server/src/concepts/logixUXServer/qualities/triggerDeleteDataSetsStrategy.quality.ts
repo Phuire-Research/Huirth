@@ -28,7 +28,6 @@ const logixUXServerTriggerDeleteDataSetsStrategyMethodCreator: MethodCreator = (
   createMethodDebounceWithConcepts(
     (action, concepts) => {
       const {names} = selectPayload<LogixUXServerTriggerDeleteDataSetsStrategyPayload>(action);
-      console.log('DELETE DATA SETS!!!', names);
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       if (fileSystemState) {
         const strategy = logixUXServerDeleteDataSetsStrategy(fileSystemState.root, names);

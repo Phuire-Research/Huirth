@@ -152,7 +152,7 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
       (concepts, dispatch) => {
         const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
         if (uiState && uiState.pagesCached) {
-          console.log('PAGES: ', uiState.pages.map(page => page.title).join(', '));
+          // console.log('PAGES: ', uiState.pages.map(page => page.title).join(', '));
           const selectors: BoundSelectors[] = [];
           uiState.pages.forEach(page => page.cachedSelectors.forEach(bound => {
             bound.action.conceptSemaphore = semaphore;

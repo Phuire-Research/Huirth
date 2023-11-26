@@ -99,7 +99,6 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
             if (strategies) {
               console.log(strategies);
               const action = strategyBegin(strategies);
-              console.log('CHECK ACTION STRATEGY', action.strategy);
               dispatch(action, {
                 iterateStage: true,
               });

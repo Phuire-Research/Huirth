@@ -12,7 +12,6 @@ import { DataSetTypes } from '../../logixUX/logixUX.model';
 export const logixUXServerParseRepositoryTopic = 'logixUXServer read Repository, then parse the contents into a DataSet';
 export const logixUXServerParseRepositoryStrategy = (root: string, name:string) => {
   const dataPath = path.join(root + '/data/repositories/' + name);
-  console.log('What is this path?', dataPath);
   // Generate parse files and add them all to an array to be added to state at the end.
   const stepDetermineReadAndParseStrategy = createActionNode(logixUXServerDetermineReadParseAppendStrategy({
     name,

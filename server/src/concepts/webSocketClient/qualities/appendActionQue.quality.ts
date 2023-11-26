@@ -24,7 +24,6 @@ export const webSocketClientAppendToActionQue =
 
 function webSocketClientAppendToActionQueReducer(state: WebSocketClientState, action: Action): WebSocketClientState {
   const payload = selectPayload<WebSocketClientAppendToActionQuePayload>(action);
-  console.log('IS THIS SENDING', payload.actionQue);
   const actionQue = payload.actionQue.map(act => refreshAction(act));
   const newActionQue = [
     ...state.actionQue,

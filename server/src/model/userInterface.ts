@@ -55,7 +55,6 @@ type ActionEventPayload = {
 
 export const userInterface_selectInputTarget = (action: Action) => {
   const payload = selectPayload<ActionEventPayload>(action).event;
-  console.log('CHECK TARGET PAYLOAD', payload, payload.target);
   return payload.target as HTMLInputElement;
 };
 
