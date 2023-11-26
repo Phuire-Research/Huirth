@@ -20,6 +20,7 @@ import { logixUXServerAppendParsedDataToNamedDataSetQuality } from './qualities/
 import { logixUXServerPrepareParsedProjectDataUpdateQuality } from './qualities/prepareUpdateParsedProjectData.quality';
 import { logixUXServerTriggerSaveDataSetSelectionStrategyQuality } from './qualities/triggerSaveDataSetSelectionStrategy.quality';
 import { logixUXServerSetTrainingDataFromDataQuality } from './qualities/setTrainingDataFromData.quality';
+import { logixUXServerTriggerDeleteDataSetsStrategyQuality } from './qualities/triggerDeleteDataSetsStrategy.quality';
 
 export const logixUXServerName = 'logixUXServer';
 export type LogixUXServerState = {
@@ -41,6 +42,7 @@ export const createLogixUXServerConcept = (): Concept =>  {
     logixUXServerTriggerCloneGitRepositoryStrategyQuality,
     logixUXServerTriggerParseRepositoryStrategyQuality,
     logixUXServerTriggerSaveDataSetSelectionStrategyQuality,
+    logixUXServerTriggerDeleteDataSetsStrategyQuality,
     logixUXServerSetRepositoriesFromDataQuality,
     logixUXServerParseFileFromDataQuality,
     logixUXServerDetermineReadParseAppendStrategyQuality,

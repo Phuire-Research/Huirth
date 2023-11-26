@@ -7,7 +7,7 @@ import { logixUXUpdateProjectStatus } from '../qualities/updateProjectToStatus.q
 import { ProjectStatus } from '../logixUX.model';
 import { logixUXTriggerCloneGitRepositoryStrategy } from './server/triggerCloneGitRepositoryStrategy.helper';
 
-export const logixUXInstallGitRepositoryTopic = 'logixUX set project status to installing then trigger git clone strategy on server';
+export const logixUXInstallGitRepositoryStrategyTopic = 'logixUX set project status to installing then trigger git clone strategy on server';
 export const logixUXInstallGitRepositoryStrategy = (url: string, name:string) => {
   const stepSendToServer = createActionNode(logixUXTriggerCloneGitRepositoryStrategy(url, name), {
     successNode: null,
@@ -19,7 +19,7 @@ export const logixUXInstallGitRepositoryStrategy = (url: string, name:string) =>
     failureNode: null,
   });
   return createStrategy({
-    topic: logixUXInstallGitRepositoryTopic,
+    topic: logixUXInstallGitRepositoryStrategyTopic,
     initialNode: stepUpdateToInstalling,
   });
 };

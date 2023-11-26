@@ -26,6 +26,7 @@ import { logixUXTriggerInstallGitRepository } from '../../triggerInstallGitRepos
 import { logixUXUpdateDataSetSelection } from '../../updateDataSetSelection.quality';
 import { logixUXSendTriggerParseRepositoryStrategy } from '../../sendTriggerParseRepositoryStrategy.quality';
 import { logixUXSendTriggerSaveDataSetSelectionStrategy } from '../../sendTriggerSaveDataSetSelectionStrategy.quality';
+import { logixUXRemoveDataSetSelection } from '../../removeDataSetSelection.quality';
 
 export const logixUXDataManagerContentType: ActionType = 'create userInterface for DataManagerContent';
 export const logixUXDataManagerContent = prepareActionComponentCreator(logixUXDataManagerContentType);
@@ -36,6 +37,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
     const id = '#dataManagerID' + payload.pageTitle;
     const saveID = '#saveID';
     const addEntryID = '#addEntry' + payload.pageTitle;
+    const removeID = '#removeID';
     const installStratimuxID = '#install_' + PhuirEProjects.stratimux;
     let finalStratimuxID = '#stratimuxID';
     let finalStratimuxNote = 'Stratimux';
@@ -150,6 +152,11 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
         elementId: saveID,
         eventBinding: elementEventBinding.onclick
       });
+      bindingsArray.push({
+        action: logixUXRemoveDataSetSelection(),
+        elementId: removeID,
+        eventBinding: elementEventBinding.onclick
+      });
       const bindings = createBinding(bindingsArray);
       // console.log('Check bindings', bindings);
       const strategy = strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
@@ -238,9 +245,19 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
               <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
                 Unify <i class="fa-solid fa-code-merge"></i>
               </button>
+${
+  !anySelected ?
+  /*html*/`
               <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
                 Remove <i class="fa-solid fa-trash"></i>
               </button>
+` : /*html*/`
+              <button id="${removeID}"
+                class="italic cursor-pointer mb-8 mt-2 center-m bg-red-800/5 hover:bg-red-800 text-white font-semibold hover:text-black py-2 px-4 border border-red-800 hover:border-transparent rounded">
+                Remove <i class="fa-solid fa-trash"></i>
+              </button>
+`
+}
 ${
   !anySelected ?
   /*html*/`

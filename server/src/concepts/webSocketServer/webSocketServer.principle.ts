@@ -18,6 +18,7 @@ import {
 import _ws from 'express-ws';
 import { webSocketClientSetServerSemaphore } from '../webSocketClient/qualities/setServerSemaphore.quality';
 import { WebSocketServerState } from './webSocketServer.concept';
+import { webSocketServerSyncStateType } from './qualities/syncState.quality';
 
 export const webSocketServerPrinciple: PrincipleFunction =
   (observer: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
@@ -57,8 +58,10 @@ export const webSocketServerPrinciple: PrincipleFunction =
       ]);
       ws.on('message', (message) => {
         const act = JSON.parse(`${message}`);
-        // console.log('MESSAGE', act);
         if (Object.keys(act).includes('type')) {
+          if ((act as Action).type !== webSocketServerSyncStateType) {
+            console.log('MESSAGE', act);
+          }
           observer.next(act);
         }
       });
