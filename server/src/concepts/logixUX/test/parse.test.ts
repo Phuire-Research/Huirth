@@ -1,31 +1,9 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a quality that will parse the contents of a file supplied from the data field for a dataset set by payload.
+For the framework Stratimux and a Concept logixUX, generate a test that will ensure that parseFileFrom's parsing function is working as intended.
 $>*/
 /*<#*/
-import {
-  ActionType,
-  createAsyncMethod,
-  createQuality,
-  defaultReducer,
-  prepareActionCreator,
-  strategyData_appendFailure,
-  strategyData_select,
-  strategyData_unifyData,
-  strategyFailed,
-  strategySuccess,
-} from 'stratimux';
-import { ReadDirectoryField } from '../../fileSystem/qualities/readDir.quality';
-import { BaseDataSet } from '../../logixUX/logixUX.model';
-import { ReadFileContentsAndAppendToDataField } from '../../fileSystem/qualities/readFileContentsAndAppendToData.quality';
-import { ParsingTokens } from '../logixUXServer.model';
-
-export const logixUXServerParseFileFromDataType: ActionType =
-  'logixUXServer parse file from data';
-export const logixUXServerParseFileFromData =
-  prepareActionCreator(logixUXServerParseFileFromDataType);
-export type ParsedFileFromDataField = {
-  parsed: BaseDataSet[]
-}
+import { ParsingTokens } from '../../logixUXServer/logixUXServer.model';
+import { BaseDataSet } from '../logixUX.model';
 
 const recurseExclude = (content: string): string => {
   const excludeBegin = content.indexOf(ParsingTokens.excludeBegin);
@@ -87,30 +65,85 @@ const recursiveParse = (data: BaseDataSet[], content: string): BaseDataSet[] => 
   }
   return data;
 };
-
-const logixUXServerParseFileFromDataMethodCreator = () =>
-  createAsyncMethod((controller, action) => {
-    if (action.strategy && action.strategy.data) {
-      const strategy = action.strategy;
-      const data = strategyData_select(action.strategy) as ReadDirectoryField & ReadFileContentsAndAppendToDataField;
-      if (data.filesAndDirectories && data.content) {
-        // console.log('CHECK CONTENT', data.content);
-        const parsed = recursiveParse([], data.content);
-        // console.log('CHECK PARSE', parsed);
-        controller.fire(strategySuccess(action.strategy, strategyData_unifyData(strategy, {
-          parsed,
-        })));
-      } else {
-        controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, 'No filesAndData field provided')));
-      }
-    } else {
-      controller.fire(action);
-    }
-  });
-
-export const logixUXServerParseFileFromDataQuality = createQuality(
-  logixUXServerParseFileFromDataType,
-  defaultReducer,
-  logixUXServerParseFileFromDataMethodCreator,
-);
+/*<%
+const createData = () => {
+  return `
+  This would be some data that exists beyond the stop point. But has be excluded due to parsing reasons.
+  And would include a series of prompts bound with content. That tests whether the parsing system is working as intended.
+`;
+%>*/
+test('userInterfaceBindingsToString', (done) => {
+  const simulated = createData();
+  const parsed = recursiveParse([], simulated);
+  console.log(parsed);
+  expect(parsed.length).toBe(2);
+  done();
+});
 /*#>*/
+/*<!!>*/
+const createData = () => {
+  return `
+  /*<$
+  For the framework Stratimux and a Concept logixUX Server, generate the model file contents that will handle Data Sets, Failure Conditions, and Tokens.
+  $>*/
+  /*<#*/
+  Something Here.
+  /*<!*/
+  // eslint-disable-next-line no-shadow
+  Something shouldn't be here.
+  /*!>*/
+  Something Else Here.
+  /*<@
+  import {something} from './something.ts'
+  @>*/
+  /*<%
+  This will be Include.
+  %>*/
+  Lorem
+  /*<!*/
+  ipsum
+  /*!>*/
+  dolor
+  sit
+  /*<!*/
+  amet,
+  consectetur
+  adipiscing
+  elit,
+  sed
+  do
+  eiusmod
+  tempor
+  incididunt
+  /*!>*/
+  /*#>*/
+  /*<$
+  Some random prompt
+  $>*/
+  /*<#*/
+  ut
+  labore
+  et
+  dolore
+  /*<!*/
+  magna
+  /*!>*/
+  aliqua.
+  
+  /*#>*/
+  /*<!!>*/
+  // eslint-disable-next-line no-shadow
+  export enum ParsingTokens {
+    promptBegin = '/*<$',
+    promptEnd = '$>*/',
+    contentBegin = '/*<#*/',
+    contentEnd = '/*#>*/',
+    importBegin = '/*<@',
+    importEnd = '@>*/',
+    includeBegin = '/*<%',
+    includeEnd = '%>*/',
+    ignoreBegin = '/*<!*/',
+    ignoreEnd = '/*!>*/'
+  }
+  `;
+};

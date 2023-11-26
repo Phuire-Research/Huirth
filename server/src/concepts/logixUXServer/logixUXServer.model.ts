@@ -92,7 +92,8 @@ export const convertSaveFormatDPOToDPO = (named: NamedDataSet) => {
   return DPO;
 };
 
-/*<!*/
+/*#>*/
+/*<!!>*/
 // eslint-disable-next-line no-shadow
 export enum ParsingTokens {
   promptBegin = '/*<$',
@@ -103,8 +104,7 @@ export enum ParsingTokens {
   importEnd = '@>*/',
   includeBegin = '/*<%',
   includeEnd = '%>*/',
-  ignoreBegin = '/*<!*/',
-  ignoreEnd = '/*!>*/'
+  excludeBegin = '/*<!*/',
+  excludeEnd = '/*!>*/',
+  stop = '/*<!!>*/'
 }
-/*!>*/
-/*#>*/
