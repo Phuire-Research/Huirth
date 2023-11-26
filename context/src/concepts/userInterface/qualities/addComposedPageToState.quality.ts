@@ -13,7 +13,6 @@ const addComposedPageMethodCreator = () =>
   createMethod((action) => {
     if (action.strategy) {
       const { strategy } = action;
-      console.warn('CHECK ADD COMPOSED STRATEGY: ', strategy.puntedStrategy);
       return strategySuccess(strategy);
     } else {
       return action;
@@ -23,7 +22,6 @@ const addComposedPageMethodCreator = () =>
 function addComposedPageToState(state: UserInterfaceState, action: Action): UserInterfaceState {
   if (action.strategy) {
     const page = userInterface_selectPage(action.strategy);
-    console.log('CHECK ADD COMPOSED PAGE: ', page.title, page.title.length);
     const newPages = state.pages.filter((_page) => {
       return page.title !== _page.title;
     });

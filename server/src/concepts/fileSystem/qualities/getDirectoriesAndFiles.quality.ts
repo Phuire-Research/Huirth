@@ -36,7 +36,7 @@ const fileSystemGetDirectoriesAndFilesMethodCreator: MethodCreator = () =>
       fs.readdir(payload.path, {
         withFileTypes: true
       }).then(directories => {
-        console.log('DIRECTORIES AND FILES LENGTH', directories.length, strategy.topic);
+        console.log('DIRECTORIES AND FILES LENGTH', directories.length);
         const newStrategy =
           strategySuccess(strategy, strategyData_unifyData(strategy, {directories}));
         controller.fire(newStrategy);

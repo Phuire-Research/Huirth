@@ -49,7 +49,6 @@ async function readAllDirectories(fileDirent: FileDirent[]): Promise<TrainingDat
       }
     }
   }
-  console.log('CHECK DATA OUTPUT LENGTH', data.length);
   return data;
 }
 

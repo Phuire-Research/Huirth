@@ -61,7 +61,6 @@ const createFilterFilesAndDirectoriesMethodCreator: MethodCreator = () =>
           const check = path.join(dirent.path + '/' + dirent.name);
           return is(check, isTokens) && isNot(check, notTokens);
         });
-        console.log('CHECK FINAL DATA', data.filesAndDirectories);
         controller.fire(strategySuccess(strategy, strategyData_unifyData(strategy, data)));
       } else {
         controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, 'No filesAndDirectories passed to quality')));

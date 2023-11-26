@@ -13,9 +13,7 @@ import { SavedFormat, convertDPOToSaveFormatDPO } from '../logixUXServer.model';
 
 export const logixUXServerSaveDPOStrategyTopic = 'Save training data currently loaded in state';
 export const logixUXServerSaveDPOStrategy = (root: string, DPO: Active_DPO[]) => {
-  console.log('BEFORE SAVE FORMAT', DPO);
   const saveFormat: SavedFormat = convertDPOToSaveFormatDPO(DPO);
-  console.log('CHECK SAVE FORMAT', saveFormat);
   const dataPath = path.join(root + '/data/logixUX/');
   const stepCreateFileWithContents = createActionNode(fileSystemCreateFileWithContentsIndex({
     target: path.join(dataPath + 'dpo.json'),
