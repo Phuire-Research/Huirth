@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the Web Socket Client Concept, generate a helper that will synchronize the server state with the client's state.
+For the graph programming framework Stratimux and the Web Socket Client Concept, generate a helper that will synchronize the server state with the client's state.
 $>*/
 /*<#*/
 import { createAction } from 'stratimux';

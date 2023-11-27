@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate an ActionStrategy that accepts the current count and semaphore to have a unified Counter Concept be incremented seven times.
+For the graph programming framework Stratimux and a Concept logixUX, generate an ActionStrategy that accepts the current count and semaphore to have a unified Counter Concept be incremented seven times.
 $>*/
 /*<#*/
 import { counterAdd, createActionNode, createStrategy } from 'stratimux';

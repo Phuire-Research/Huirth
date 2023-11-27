@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the User Interface Concept, generate a quality that will add a page and its compositions to the state, while update the cached selectors to enable atomic operations.
+For the graph programming framework Stratimux and the User Interface Concept, generate a quality that will add a page and its compositions to the state, while update the cached selectors to enable atomic operations.
 $>*/
 /*<#*/
 import { Action, ActionType, createMethod, createQuality, prepareActionCreator, strategySuccess } from 'stratimux';

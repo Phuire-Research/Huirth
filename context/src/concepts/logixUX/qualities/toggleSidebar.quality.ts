@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality that will toggle the sideBarExpanded property on the supplied state.
+For the graph programming framework Stratimux and a Concept logixUX, generate a quality that will toggle the sideBarExpanded property on the supplied state.
 $>*/
 /*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionCreator } from 'stratimux';

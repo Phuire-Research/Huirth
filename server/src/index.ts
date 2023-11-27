@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux, generate a index file for a branded project logixUX that utilizes the Stratimux advanced project template to formalize a unified application.
+For the graph programming framework Stratimux, generate a index file for a branded project logixUX that utilizes the Stratimux advanced project template to formalize a unified application.
 $>*/
 /*<#*/
 import { createAxium, unifyConcepts } from 'stratimux';

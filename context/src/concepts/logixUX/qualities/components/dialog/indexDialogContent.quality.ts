@@ -1,10 +1,10 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the content slice of the Dialog Component with the necessary bindings and selectors.
+For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the content slice of the Dialog Component with the necessary bindings and selectors.
 $>*/
 /*<#*/
 import {
   ActionType,
-  Counter,
+  CounterState,
   KeyedSelector,
   MethodCreator,
   UnifiedSubject,
@@ -50,7 +50,7 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
         const isClient = userInterface_isClient();
         if (isClient !== undefined) {
           const dialog = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState).dialog.trim();
-          const counter = selectUnifiedState<Counter>(concepts, semaphore);
+          const counter = selectUnifiedState<CounterState>(concepts, semaphore);
           const count = counter ? counter.count : 0;
           let finalDialog = '';
           // if (isClient) {

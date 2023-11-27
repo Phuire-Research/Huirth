@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a strategy that will save a selection of data sets by the passed parameter of names, to the file system, and to their own directory.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a strategy that will save a selection of data sets by the passed parameter of names, to the file system, and to their own directory.
 $>*/
 /*<#*/
 import { axiumLog, createActionNode, createStrategy } from 'stratimux';

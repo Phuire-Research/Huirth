@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a quality will add an entry or create a specified named data set to state, then remove the first entry from the filesAndData field.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a quality will add an entry or create a specified named data set to state, then remove the first entry from the filesAndData field.
 $>*/
 /*<#*/
 import {

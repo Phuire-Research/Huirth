@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the User Interface Concept, generate a principle that will dispatch a sequence of page to state strategies that will cache the required pages for the client.
+For the graph programming framework Stratimux and the User Interface Concept, generate a principle that will dispatch a sequence of page to state strategies that will cache the required pages for the client.
 $>*/
 /*<#*/
 import { Concept, createConcept, unifyConcepts } from 'stratimux';

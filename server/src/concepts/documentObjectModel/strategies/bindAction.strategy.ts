@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and Document Object Model Concept, generate an ActionStrategy that will bind a event to a target action.
+For the graph programming framework Stratimux and Document Object Model Concept, generate an ActionStrategy that will bind a event to a target action.
 $>*/
 /*<#*/
 import { Action, createActionNode, createStrategy } from 'stratimux';

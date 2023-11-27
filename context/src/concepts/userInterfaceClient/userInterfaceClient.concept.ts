@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux generate a User Interface Client Concept, that will unify itself with the User Interface and incoming Brand concept to be loaded onto the client.
+For the graph programming framework Stratimux generate a User Interface Client Concept, that will unify itself with the User Interface and incoming Brand concept to be loaded onto the client.
 $>*/
 /*<#*/
 import { Concept, createConcept, unifyConcepts } from 'stratimux';

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate the model file contents.
+For the graph programming framework Stratimux and a Concept logixUX, generate the model file contents.
 $>*/
 /*<#*/
 // eslint-disable-next-line no-shadow

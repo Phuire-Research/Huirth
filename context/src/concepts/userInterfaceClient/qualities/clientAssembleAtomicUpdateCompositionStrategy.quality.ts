@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the User Interface Client Concept, generate a quality that will atomically update the page html of any new changes.
+For the graph programming framework Stratimux and the User Interface Client Concept, generate a quality that will atomically update the page html of any new changes.
 $>*/
 /*<#*/
 import {

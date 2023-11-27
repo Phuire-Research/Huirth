@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and Html Concept, generate a quality that will append a Html head element for a User Interface Concept and the supplied page composition.
+For the graph programming framework Stratimux and Html Concept, generate a quality that will append a Html head element for a User Interface Concept and the supplied page composition.
 $>*/
 /*<#*/
 import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, prepareActionCreator, strategySuccess } from 'stratimux';

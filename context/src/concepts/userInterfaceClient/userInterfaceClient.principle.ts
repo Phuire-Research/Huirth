@@ -1,5 +1,6 @@
 /*<$
-For the framework Stratimux and the User Interface Client Concept, generate a principle that will detect changes on the client state based on the currently loaded page bound selectors, and dispatch the associated action if changed.
+For the graph programming framework Stratimux and the User Interface Client Concept,
+generate a principle that will detect changes on the client state based on the currently loaded page bound selectors, and dispatch the associated action if changed.
 This will set up and bind the selectors to state to determine which atomic operation that should be dispatched to update the UI.
 $>*/
 /*<#*/

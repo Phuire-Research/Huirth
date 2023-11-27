@@ -1,3 +1,8 @@
+/*<$
+For the graph programming framework Stratimux and the Web Socket Server Concept, generate a quality will synchronize the state while excluding
+properties that would prevent provable termination or should be defined only by the client.
+$>*/
+/*<#*/
 import {
   Action,
   ActionType,
@@ -25,7 +30,6 @@ function webSocketServerSyncStateReducer(state: WebSocketServerState, action: Ac
       newState[key] = payload.state[key];
     }
   }
-  // console.log('SYNC SERVER SEMAPHORE HELLO WORLD', payload);
   return {
     ...state,
     ...newState
@@ -37,3 +41,4 @@ export const webSocketServerSyncStateQuality = createQuality(
   webSocketServerSyncStateReducer,
   defaultMethodCreator,
 );
+/*#>*/

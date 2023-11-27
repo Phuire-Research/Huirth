@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the User Interface Concept, generate a quality that will add a page strategy to state, then dispatch that same strategy in the method.
+For the graph programming framework Stratimux and the User Interface Concept, generate a quality that will add a page strategy to state, then dispatch that same strategy in the method.
 To be later added back into state via the add composed page to state quality.
 $>*/
 /*<#*/

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the User Interface Concept, generate a quality that will remove a page and page strategy creator from state based on the provided name in the payload.
+For the graph programming framework Stratimux and the User Interface Concept, generate a quality that will remove a page and page strategy creator from state based on the provided name in the payload.
 $>*/
 /*<#*/
 import { Action, ActionType, createMethod, createQuality, prepareActionCreator, selectPayload, strategySuccess } from 'stratimux';

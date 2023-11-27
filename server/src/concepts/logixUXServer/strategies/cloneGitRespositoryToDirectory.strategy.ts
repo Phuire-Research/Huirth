@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a ActionStrategy that will clone a git repository to a target directory
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a ActionStrategy that will clone a git repository to a target directory
 $>*/
 /*<#*/
 import path from 'path';

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a Page Strategy Creator that will unify Sidebar, Error, Footer, and Header Action Strategy Component Stitches into a Page Composition.
+For the graph programming framework Stratimux and a Concept logixUX, generate a Page Strategy Creator that will unify Sidebar, Error, Footer, and Header Action Strategy Component Stitches into a Page Composition.
 $>*/
 /*<#*/
 import { axium_createStitchNode, createActionNode, createStrategy } from 'stratimux';

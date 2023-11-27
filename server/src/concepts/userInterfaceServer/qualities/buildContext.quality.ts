@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the User Interface Server Concept, generate a quality that will build trigger a build script within the context directory.
+For the graph programming framework Stratimux and the User Interface Server Concept, generate a quality that will build trigger a build script within the context directory.
 $>*/
 /*<#*/
 import {

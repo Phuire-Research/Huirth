@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate the model file contents that will handle Data Sets, Failure Conditions, and Tokens.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate the model file contents that will handle Data Sets, Failure Conditions, and Tokens.
 $>*/
 /*<#*/
 import { DPO_DataSet } from '../../model/logixUX';

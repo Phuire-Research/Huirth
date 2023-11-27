@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate an ActionStrategy that will set a target project status to the passed value of status.
+For the graph programming framework Stratimux and a Concept logixUX, generate an ActionStrategy that will set a target project status to the passed value of status.
 $>*/
 /*<#*/
 import { createActionNode, createStrategy } from 'stratimux';

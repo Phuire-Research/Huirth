@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality that will update a project's status to saved.
+For the graph programming framework Stratimux and a Concept logixUX, generate a quality that will update a project's status to saved.
 $>*/
 /*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';

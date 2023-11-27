@@ -1,22 +1,17 @@
 /*<$
-For the framework Stratimux and the User Interface Concept, generate a quality that will update a specific page and composition based on the incoming payload. And set by the data field supplied by the strategy.
+For the graph programming framework Stratimux and the User Interface Concept, generate a quality that will update a specific page and composition based on the incoming payload. And set by the data field supplied by the strategy.
 $>*/
 /*<#*/
 import {
   Action,
-  ActionNode,
   ActionType,
-  MethodCreator,
-  createMethod,
   createQuality,
   defaultMethodCreator,
   prepareActionWithPayloadCreator,
   selectPayload,
-  strategySuccess,
 } from 'stratimux';
 import { BoundSelectors, userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
-import { listNodeSuccess } from '../../../model/ActionStrategy';
 
 export type UserInterfaceAtomicUpdatePageCompositionPayload = {
   bound: BoundSelectors

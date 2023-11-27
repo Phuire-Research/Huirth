@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a quality that will trigger the save data set selection ActionStrategy.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a quality that will trigger the save data set selection ActionStrategy.
 $>*/
 /*<#*/
 import {
@@ -8,7 +8,6 @@ import {
   UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQuality,
-  defaultReducer,
   prepareActionCreator,
   selectPayload,
   selectState,

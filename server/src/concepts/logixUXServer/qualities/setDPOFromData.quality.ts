@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUXServer, generate a quality that parses a DPO data set from the incoming data field and adds such into state.
+For the graph programming framework Stratimux and a Concept logixUXServer, generate a quality that parses a DPO data set from the incoming data field and adds such into state.
 $>*/
 /*<#*/
 import {

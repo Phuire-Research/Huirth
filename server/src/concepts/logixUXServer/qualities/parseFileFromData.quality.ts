@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a quality that will parse the contents of a file supplied from the data field for a dataset set by payload.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a quality that will parse the contents of a file supplied from the data field for a dataset set by payload.
 $>*/
 /*<#*/
 import {

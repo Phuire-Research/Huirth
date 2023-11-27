@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a ActionStrategy that will delete data sets from the file system.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a ActionStrategy that will delete data sets from the file system.
 $>*/
 /*<#*/
 import { axiumLog, createActionNode, createStrategy } from 'stratimux';

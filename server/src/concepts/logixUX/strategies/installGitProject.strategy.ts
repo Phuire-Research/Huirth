@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate an ActionStrategy that will set a target project status to installing then utilize the client helper function to trigger the git clone strategy on the server.
+For the graph programming framework Stratimux and a Concept logixUX, generate an ActionStrategy that will set a target project status to installing then utilize the client helper function to trigger the git clone strategy on the server.
 $>*/
 /*<#*/
 import { createActionNode, createStrategy } from 'stratimux';

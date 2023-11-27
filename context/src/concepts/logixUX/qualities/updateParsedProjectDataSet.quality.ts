@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality that will append the payload data set into state, replacing if it already exists.
+For the graph programming framework Stratimux and a Concept logixUX, generate a quality that will append the payload data set into state, replacing if it already exists.
 $>*/
 /*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';

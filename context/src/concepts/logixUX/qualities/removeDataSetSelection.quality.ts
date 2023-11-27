@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality that remove a dataset and if it is a project, update the status to installed.
+For the graph programming framework Stratimux and a Concept logixUX, generate a quality that remove a dataset and if it is a project, update the status to installed.
 $>*/
 /*<#*/
 import {
@@ -7,7 +7,6 @@ import {
   ActionType,
   MethodCreator,
   UnifiedSubject,
-  createAction,
   createActionNode,
   createMethodWithState,
   createQuality,

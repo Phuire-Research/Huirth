@@ -1,5 +1,6 @@
 /*<$
-For the framework Stratimux and the User Interface Server Concept, generate a principle that will manager a generated context based upon the the configuration of the server. This context will be treated as the client run time.
+For the graph programming framework Stratimux and the User Interface Server Concept,
+generate a principle that will manager a generated context based upon the the configuration of the server. This context will be treated as the client run time.
 $>*/
 /*<#*/
 import {

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a logixUX Concept, generate a Principle that will detect the Axium's dialog and only will loaded on the client.
+For the graph programming framework Stratimux and a logixUX Concept, generate a Principle that will detect the Axium's dialog and only will loaded on the client.
 $>*/
 /*<#*/
 import { Subscriber } from 'rxjs';

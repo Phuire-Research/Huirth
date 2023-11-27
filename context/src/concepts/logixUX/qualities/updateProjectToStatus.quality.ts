@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality that updates a project's status via supplied payload and selected by included name property.
+For the graph programming graph programming framework Stratimux and a Concept logixUX, generate a quality that updates a project's status via supplied payload and selected by included name property.
 $>*/
 /*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';

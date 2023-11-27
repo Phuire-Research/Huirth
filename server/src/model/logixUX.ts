@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the logixUX Project, generate a model that contains the type definitions for the DPO Dataset
+For the graph programming framework Stratimux and the logixUX Project, generate a model that contains the type definitions for the DPO Dataset
 $>*/
 /*<#*/
 export type DPO = {

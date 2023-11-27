@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux generate a File System Concept that will store the current projects root and concept directory map.
+For the graph programming framework Stratimux generate a File System Concept that will store the current projects root and concept directory map.
 $>*/
 /*<#*/
 import { createConcept, Concept } from 'stratimux';

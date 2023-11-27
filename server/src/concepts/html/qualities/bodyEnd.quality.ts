@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and Html Concept, generate a quality to be used alongside a User Interface Concept that will add a body element closing tag to the current page composition.
+For the graph programming framework Stratimux and Html Concept, generate a quality to be used alongside a User Interface Concept that will add a body element closing tag to the current page composition.
 $>*/
 /*<#*/
 import {

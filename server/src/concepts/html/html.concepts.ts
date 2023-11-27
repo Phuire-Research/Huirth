@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux generate a HTML Concept.
+For the graph programming framework Stratimux generate a HTML Concept.
 $>*/
 /*<#*/
 import { createConcept, Concept } from 'stratimux';

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality that will trigger the strategy that will install the target git repository via a supplied url to a directory of the given name.
+For the graph programming framework Stratimux and a Concept logixUX, generate a quality that will trigger the strategy that will install the target git repository via a supplied url to a directory of the given name.
 $>*/
 /*<#*/
 import {

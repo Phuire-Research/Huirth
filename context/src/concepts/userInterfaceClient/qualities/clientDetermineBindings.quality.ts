@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the User Interface Client Concept, generate a quality that will generate an ActionStrategy to bind the page's actions to the document based on the composition.
+For the graph programming framework Stratimux and the User Interface Client Concept, generate a quality that will generate an ActionStrategy to bind the page's actions to the document based on the composition.
 $>*/
 /*<#*/
 import {

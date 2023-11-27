@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a test that will ensure that parseFileFrom's parsing function is working as intended.
+For the graph programming framework Stratimux and a Concept logixUX, generate a test that will ensure that parseFileFrom's parsing function is working as intended.
 $>*/
 /*<#*/
 import { ParsingTokens } from '../../logixUXServer/logixUXServer.model';
@@ -84,7 +84,7 @@ test('userInterfaceBindingsToString', (done) => {
 const createData = () => {
   return `
   /*<$
-  For the framework Stratimux and a Concept logixUX Server, generate the model file contents that will handle Data Sets, Failure Conditions, and Tokens.
+  For the graph programming framework Stratimux and a Concept logixUX Server, generate the model file contents that will handle Data Sets, Failure Conditions, and Tokens.
   $>*/
   /*<#*/
   Something Here.

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality that updates a DataSet's name by index and set by event target value.
+For the graph programming framework Stratimux and a Concept logixUX, generate a quality that updates a DataSet's name by index and set by event target value.
 $>*/
 /*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';

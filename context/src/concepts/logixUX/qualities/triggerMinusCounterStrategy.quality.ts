@@ -1,10 +1,10 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality that will trigger the minus count seven strategy.
+For the graph programming framework Stratimux and a Concept logixUX, generate a quality that will trigger the minus count seven strategy.
 $>*/
 /*<#*/
 import {
   ActionType,
-  Counter,
+  CounterState,
   MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithState,
@@ -19,7 +19,7 @@ export const logixUXTriggerMinusCountingStrategyType: ActionType = 'Create logix
 export const logixUXTriggerMinusCountingStrategy = prepareActionCreator(logixUXTriggerMinusCountingStrategyType);
 
 const createLogixUXTriggerMinusCountingStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
-  createMethodDebounceWithState<Counter>(
+  createMethodDebounceWithState<CounterState>(
     (_, state) => {
       const strategy = logixUXMinusSevenStrategy(state.count, semaphore as number);
       return strategyBegin(strategy);

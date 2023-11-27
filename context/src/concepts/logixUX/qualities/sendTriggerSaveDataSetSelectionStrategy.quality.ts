@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality that will Send the trigger action to the server that starts the save data set selection strategy.
+For the graph programming framework Stratimux and a Concept logixUX, generate a quality that will Send the trigger action to the server that starts the save data set selection strategy.
 As well as inform the user what data sets are currently being saved.
 $>*/
 /*<#*/

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a quality that will determine if the data directory is properly step up.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a quality that will determine if the data directory is properly step up.
 $>*/
 /*<#*/
 import {

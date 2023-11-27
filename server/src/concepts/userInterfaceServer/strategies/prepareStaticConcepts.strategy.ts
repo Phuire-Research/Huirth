@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the User Interface Server Concept, generate an ActionStrategy the composes the prepare context concepts stich as its beginning the prepares a static deployment.
+For the graph programming framework Stratimux and the User Interface Server Concept, generate an ActionStrategy the composes the prepare context concepts stich as its beginning the prepares a static deployment.
 By create all the necessary page html files and moving context directories that those fils would utilize in production.
 $>*/
 /*<#*/

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate an Action Strategy Component Stitch that appends the logixUX footer to the desired composition.
+For the graph programming framework Stratimux and a Concept logixUX, generate an Action Strategy Component Stitch that appends the logixUX footer to the desired composition.
 $>*/
 /*<#*/
 import { axium_createStitchNode, createActionNode, createStrategy } from 'stratimux';

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality that updates a DataSet's selection within state by index by toggling the boolean value.
+For the graph programming framework Stratimux and a Concept logixUX, generate a quality that updates a DataSet's selection within state by index by toggling the boolean value.
 $>*/
 /*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';

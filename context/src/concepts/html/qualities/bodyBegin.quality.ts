@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and Html Concept, generate a quality for a User Interface Concept that will add a html body element with the supplied page id.
+For the graph programming framework Stratimux and Html Concept, generate a quality for a User Interface Concept that will add a html body element with the supplied page id.
 $>*/
 /*<#*/
 import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';

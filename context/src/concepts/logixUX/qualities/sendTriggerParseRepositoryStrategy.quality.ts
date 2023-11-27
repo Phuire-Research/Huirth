@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality that will Send the trigger action to the server that starts the parse repositories strategy on the server.
+For the graph programming framework Stratimux and a Concept logixUX, generate a quality that will Send the trigger action to the server that starts the parse repositories strategy on the server.
 As well as inform the user that the data is currently being parsed.
 $>*/
 /*<#*/

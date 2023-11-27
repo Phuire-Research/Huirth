@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate principle that will dispatch a initialization strategy.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate principle that will dispatch a initialization strategy.
 $>*/
 /*<#*/
 import { Subscriber } from 'rxjs';

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the logixUX Project, generate a model that outputs the toString function for UserInterfacePageBindings.
+For the graph programming framework Stratimux and the logixUX Project, generate a model that outputs the toString function for UserInterfacePageBindings.
 $>*/
 /*<#*/
 import { UserInterfacePageBindings, userInterface_pageBindingsToString } from '../model/userInterface';

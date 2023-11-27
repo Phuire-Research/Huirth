@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality that appends the Axium Dialog supplied via payload into logixUX's state.
+For the graph programming framework Stratimux and a Concept logixUX, generate a quality that appends the Axium Dialog supplied via payload into logixUX's state.
 $>*/
 /*<#*/
 /* eslint-disable max-len */

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux generate a Brand Server Concept called LogixUX Server that will be responsible for all server side qualities and principle.
+For the graph programming framework Stratimux generate a Brand Server Concept called LogixUX Server that will be responsible for all server side qualities and principle.
 $>*/
 /*<#*/
 import { createConcept, Concept, unifyConcepts, PrincipleFunction, Quality } from 'stratimux';

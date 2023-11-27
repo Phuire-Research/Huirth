@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and Html Concept, generate a quality that will add a Hello World composition for a User Interface Concept and a supplied page composition.
+For the graph programming framework Stratimux and Html Concept, generate a quality that will add a Hello World composition for a User Interface Concept and a supplied page composition.
 $>*/
 /*<#*/
 import {

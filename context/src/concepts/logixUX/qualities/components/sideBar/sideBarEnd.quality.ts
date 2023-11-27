@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality for to create the last slice of the Side Bar Component with the necessary closing tags to complete the first slice.
+For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality for to create the last slice of the Side Bar Component with the necessary closing tags to complete the first slice.
 $>*/
 /*<#*/
 /* eslint-disable max-len */

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux generate a Document Object Model Concept
+For the graph programming framework Stratimux generate a Document Object Model Concept
 $>*/
 /*<#*/
 import { createConcept, Concept } from 'stratimux';

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality to add a new base data set entry to the training data at the target index.
+For the graph programming framework Stratimux and a Concept logixUX, generate a quality to add a new base data set entry to the training data at the target index.
 $>*/
 /*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';
@@ -15,7 +15,6 @@ export const logixUXNewDataSetEntry = prepareActionWithPayloadCreator<LogixUXNew
 function logixUXNewDataSetEntryReducer(state: LogixUXState, action: Action): LogixUXState {
   const payload = selectPayload<LogixUXNewDataSetEntryPayload>(action);
   const trainingData = [...state.trainingData];
-  // console.log('CHECK TRAINING DATA INDEX', trainingData, payload);
   trainingData[payload.index].dataSet.push(generateBaseDataSetEntry());
   return {
     ...state,

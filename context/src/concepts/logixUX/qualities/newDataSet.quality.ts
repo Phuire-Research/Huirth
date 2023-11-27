@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality that will add a new default named dataset to the state's trainingData property.
+For the graph programming framework Stratimux and a Concept logixUX, generate a quality that will add a new default named dataset to the state's trainingData property.
 $>*/
 /*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionCreator } from 'stratimux';

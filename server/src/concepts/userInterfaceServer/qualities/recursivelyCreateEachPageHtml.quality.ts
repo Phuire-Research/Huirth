@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the User Interface Server Concept, generate a quality that will create recursively a html document for each page presented in the payload in the target directory.
+For the graph programming framework Stratimux and the User Interface Server Concept, generate a quality that will create recursively a html document for each page presented in the payload in the target directory.
 $>*/
 /*<#*/
 import {

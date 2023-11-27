@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the last slice of the Dialog Component with the necessary closing element tags.
+For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the last slice of the Dialog Component with the necessary closing element tags.
 $>*/
 /*<#*/
 import {
