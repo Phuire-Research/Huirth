@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the User Interface Concept, generate a strategy that will create a hello world page to be loaded onto the client.
+For the graph programming framework Stratimux and the User Interface Concept, generate a strategy that will create a hello world page to be loaded onto the client.
 $>*/
 /*<#*/
 import {

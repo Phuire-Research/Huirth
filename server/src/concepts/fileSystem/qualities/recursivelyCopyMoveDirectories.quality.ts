@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and File System Concept, generate a quality that will recursively copy a target directory and its contents to a new location.
+For the graph programming framework Stratimux and File System Concept, generate a quality that will recursively copy a target directory and its contents to a new location.
 $>*/
 /*<#*/
 import {

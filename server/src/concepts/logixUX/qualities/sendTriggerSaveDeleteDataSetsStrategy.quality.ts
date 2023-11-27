@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality that will Send the trigger action to the server that starts deletion strategy for data set that have been removed.
+For the graph programming framework Stratimux and a Concept logixUX, generate a quality that will Send the trigger action to the server that starts deletion strategy for data set that have been removed.
 $>*/
 /*<#*/
 import {
@@ -11,7 +11,6 @@ import {
   createMethod,
   createQuality,
   createStrategy,
-  prepareActionCreator,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyBegin,

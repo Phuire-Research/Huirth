@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux generate a Web Socket Client Concept, that will create a message stream between the client and server.
+For the graph programming framework Stratimux generate a Web Socket Client Concept, that will create a message stream between the client and server.
 This message stream should establish each governing concept's semaphore so that messages are not invalidated.
 $>*/
 /*<#*/

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the Web Socket Server Concept, generate a quality will append a series of action to the state's action que.
+For the graph programming framework Stratimux and the Web Socket Server Concept, generate a quality will append a series of action to the state's action que.
 This will later be dispatched by the Web Socket Server Principle to the client.
 $>*/
 /*<#*/

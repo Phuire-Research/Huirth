@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a quality that will generate a strategy to read, parse, and append to state the output of every FileDirent passed via the data field.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a quality that will generate a strategy to read, parse, and append to state the output of every FileDirent passed via the data field.
 $>*/
 /*<#*/
 import {

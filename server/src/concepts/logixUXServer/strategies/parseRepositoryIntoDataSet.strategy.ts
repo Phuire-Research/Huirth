@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a strategy that will read an installed repository in the data directory and parse it into a data set to be loaded into state.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a strategy that will read an installed repository in the data directory and parse it into a data set to be loaded into state.
 $>*/
 /*<#*/
 import { createActionNode, createStrategy } from 'stratimux';

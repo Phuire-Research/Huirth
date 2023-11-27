@@ -17,21 +17,25 @@ export type HtmlState = {
   //
 };
 
-const createHtmlState = (): HtmlState => {
+const createHtmlState = () : HtmlState => {
   return {
     //
   };
 };
 
-export const createHtmlConcept = (): Concept => {
-  return createConcept(htmlName, createHtmlState(), [
-    htmlHelloWorldQuality,
-    htmlBeginQuality,
-    htmlEndQuality,
-    htmlBodyBeginQuality,
-    htmlBodyEndQuality,
-    htmlHeadBeginQuality,
-    htmlHeadEndQuality,
-  ]);
+export const createHtmlConcept = (): Concept =>  {
+  return createConcept(
+    htmlName,
+    createHtmlState(),
+    [
+      htmlHelloWorldQuality,
+      htmlBeginQuality,
+      htmlEndQuality,
+      htmlBodyBeginQuality,
+      htmlBodyEndQuality,
+      htmlHeadBeginQuality,
+      htmlHeadEndQuality
+    ]
+  );
 };
 /*#>*/

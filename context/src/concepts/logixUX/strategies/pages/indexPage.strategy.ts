@@ -7,7 +7,7 @@ import {
   ActionComponentPayload,
   ActionStrategyComponentStitch,
   PageStrategyCreators,
-  userInterface_createPage,
+  userInterface_createPage
 } from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { logixUXFooterStitch } from '../components/footer.strategy';
@@ -26,27 +26,29 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
   const stepStitch = axium_createStitchNode();
   const stepLogixUXIndexHero = createActionNode(logixUXIndexHero(page), {
     successNode: stepStitch,
-    failureNode: null,
+    failureNode: null
   });
-  const logixUXBody: ActionStrategyComponentStitch = (payload: ActionComponentPayload) => [
-    stepStitch,
-    createStrategy({
-      topic: 'Create logixUX Body Content',
-      initialNode: stepLogixUXIndexHero,
-    }),
-  ];
+  const logixUXBody: ActionStrategyComponentStitch = (payload: ActionComponentPayload) => [stepStitch, createStrategy({
+    topic: 'Create logixUX Body Content',
+    initialNode: stepLogixUXIndexHero,
+  })];
 
   const pageData = userInterface_createPage({
     title: logixUXIndexPageStrategyTopic,
     conceptAndProps: [],
     cachedSelectors: [],
-    compositions: [],
+    compositions: []
   });
 
   return userInterfaceCreatePageStrategy(
     logixUXIndexPageStrategyTopic,
     pageData,
-    [logixUXSidebarComponentStitch, logixUXBody, logixUXIndexDialogStrategyStitch, logixUXFooterStitch],
+    [
+      logixUXSidebarComponentStitch,
+      logixUXBody,
+      logixUXIndexDialogStrategyStitch,
+      logixUXFooterStitch
+    ],
     logixUXHeaderStitch
   );
 };
@@ -56,22 +58,22 @@ export const logixUXIndexDialogStrategyStitch: ActionStrategyComponentStitch = (
   // Body
   const stepLogixUXIndexDialogEnd = createActionNode(logixUXIndexDialogEnd(payload), {
     successNode: null,
-    failureNode: null,
+    failureNode: null
   });
   const stepLogixUXIndexDialogContent = createActionNode(logixUXIndexDialogContent(payload), {
     successNode: stepLogixUXIndexDialogEnd,
-    failureNode: null,
+    failureNode: null
   });
   const stepLogixUXIndexDialogBegin = createActionNode(logixUXIndexDialogBegin(payload), {
     successNode: stepLogixUXIndexDialogContent,
-    failureNode: null,
+    failureNode: null
   });
   return [
     stepLogixUXIndexDialogEnd,
     createStrategy({
       topic: logixUXIndexDialogStrategyStitchTopic,
       initialNode: stepLogixUXIndexDialogBegin,
-    }),
+    })
   ];
 };
 /*#>*/

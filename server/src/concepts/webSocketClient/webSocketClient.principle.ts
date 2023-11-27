@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the Web Socket Client Concept, generate a principle that will establish a connection with a server, and pass its semaphore.
+For the graph programming framework Stratimux and the Web Socket Client Concept, generate a principle that will establish a connection with a server, and pass its semaphore.
 Then create a plan to notify the server of state changes, while ignoring values that would disallow this process from being halting complete.
 As well as receive actions from the server, the parse and dispatch them into the client's action stream.
 $>*/

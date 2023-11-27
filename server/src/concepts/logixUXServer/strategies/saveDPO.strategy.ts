@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a strategy that will save the current DPO data onto the file system.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a strategy that will save the current DPO data onto the file system.
 $>*/
 /*<#*/
 import { createActionNode, createStrategy } from 'stratimux';

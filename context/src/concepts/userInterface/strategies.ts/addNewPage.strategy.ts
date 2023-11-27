@@ -11,20 +11,17 @@ export const userInterfaceAddNewPageStrategyTopic = 'User Interface add new Page
 export function userInterfaceAddNewPageStrategy(pageStrategy: PageStrategyCreators, concepts: Concepts): ActionStrategy {
   const strategy = userInterfacePageToStateStrategy(pageStrategy(concepts));
   const stepPageToState = createActionNodeFromStrategy(strategy);
-  const stepAddToState = createActionNode(
-    userInterfaceAddNewPage({
-      pageStrategy,
-    }),
-    {
-      successNode: stepPageToState,
-      failureNode: null,
-    }
-  );
+  const stepAddToState = createActionNode(userInterfaceAddNewPage({
+    pageStrategy,
+  }), {
+    successNode: stepPageToState,
+    failureNode: null,
+  });
 
   return createStrategy({
     topic: userInterfaceAddNewPageStrategyTopic,
     initialNode: stepAddToState,
-    data: strategy.data,
+    data: strategy.data
   });
 }
 /*#>*/

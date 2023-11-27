@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the brand Concept logixUX, generate a series of unified selector creators that will select slices of logixUX's state.
+For the graph programming framework Stratimux and the brand Concept logixUX, generate a series of unified selector creators that will select slices of logixUX's state.
 $>*/
 /*<#*/
 import { Concepts, createUnifiedKeyedSelector } from 'stratimux';

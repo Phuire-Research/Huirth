@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the last slice of the DPO DataSet Component with the proper closing tags.
+For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the last slice of the DPO DataSet Component with the proper closing tags.
 $>*/
 /*<#*/
 import {

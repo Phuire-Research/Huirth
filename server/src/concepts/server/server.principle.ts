@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Server Concept, generate a principle that will listen on the port passed in its initial state.
+For the graph programming framework Stratimux and a Server Concept, generate a principle that will listen on the port passed in its initial state.
 $>*/
 /*<#*/
 import { Subscriber } from 'rxjs';

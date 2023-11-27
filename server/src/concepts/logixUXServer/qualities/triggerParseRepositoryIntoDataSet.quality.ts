@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a quality that will trigger the parse repository ActionStrategy set by name supplied by the incoming payload.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a quality that will trigger the parse repository ActionStrategy set by name supplied by the incoming payload.
 $>*/
 /*<#*/
 import {

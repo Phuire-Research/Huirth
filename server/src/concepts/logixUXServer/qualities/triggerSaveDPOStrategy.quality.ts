@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a quality that will trigger the save DPO ActionStrategy.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a quality that will trigger the save DPO ActionStrategy.
 $>*/
 /*<#*/
 import {

@@ -60,8 +60,8 @@ export type LogixUXState = {
   dialog: string;
   stratimuxStatus: ProjectStatus;
   logixUXStatus: ProjectStatus;
-  projectsStatuses: { name: string; status: ProjectStatus }[];
-  dataSetSelection: boolean[];
+  projectsStatuses: {name: string, status: ProjectStatus}[];
+  dataSetSelection: boolean[],
   sideBarExpanded: boolean;
   trainingData: TrainingData;
   activeDPO: Active_DPO[];
@@ -78,12 +78,15 @@ const createLogixUXState = (): LogixUXState => {
     sideBarExpanded: true,
     trainingData: generateDefaultTrainingData(),
     activeDPO: [generateDPOTrainingData()],
-    pageStrategies: [logixUXIndexPageStrategy, logixUXDataManagerPageStrategy, logixUXErrorPageStrategy],
+    pageStrategies: [logixUXIndexPageStrategy, logixUXDataManagerPageStrategy, logixUXErrorPageStrategy]
   };
 };
 
-export const createLogixUXConcept = (): Concept => {
-  const principles: PrincipleFunction[] = [logixUXDialogPrinciple, logixUXTrainingDataPagePrinciple];
+export const createLogixUXConcept = (): Concept =>  {
+  const principles: PrincipleFunction[] = [
+    logixUXDialogPrinciple,
+    logixUXTrainingDataPagePrinciple
+  ];
   const qualities: Quality[] = [
     logixUXHeadQuality,
     logixUXStyleQuality,
@@ -127,9 +130,19 @@ export const createLogixUXConcept = (): Concept => {
     logixUXTriggerPlusCountingStrategyQuality,
     logixUXTriggerRandomCountingStrategyQuality,
     logixUXTriggerInstallGitRepositoryQuality,
-    logixUXToggleSidebarQuality,
+    logixUXToggleSidebarQuality
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
-  return unifyConcepts([createCounterConcept()], createConcept(logixUXName, createLogixUXState(), qualities, principles, []));
+  return unifyConcepts(
+    [
+      createCounterConcept()
+    ],
+    createConcept(
+      logixUXName,
+      createLogixUXState(),
+      qualities,
+      principles,
+      []
+    ));
 };
 /*#>*/

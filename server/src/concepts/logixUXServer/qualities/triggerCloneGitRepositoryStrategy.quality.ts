@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate the model file contents.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate the model file contents.
 $>*/
 /*<#*/
 import {

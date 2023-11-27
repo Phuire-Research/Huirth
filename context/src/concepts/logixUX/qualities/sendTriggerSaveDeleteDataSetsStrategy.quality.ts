@@ -20,42 +20,38 @@ import { LogixUXState } from '../logixUX.concept';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 
 export type LogixUXSendTriggerDeleteDataSetsStrategyPayload = {
-  names: string[];
-};
+  names: string[]
+}
 export const logixUXSendTriggerDeleteDataSetsStrategyType: ActionType = 'logixUX send trigger delete data sets strategy';
-export const logixUXSendTriggerDeleteDataSetsStrategy = prepareActionWithPayloadCreator<LogixUXSendTriggerDeleteDataSetsStrategyPayload>(
-  logixUXSendTriggerDeleteDataSetsStrategyType
-);
+export const logixUXSendTriggerDeleteDataSetsStrategy =
+  prepareActionWithPayloadCreator<LogixUXSendTriggerDeleteDataSetsStrategyPayload>(logixUXSendTriggerDeleteDataSetsStrategyType);
 
 const logixUXSendTriggerDeleteDataSetsStrategyMethodCreator: MethodCreator = () =>
-  createMethod((action) => {
-    const payload = selectPayload<LogixUXSendTriggerDeleteDataSetsStrategyPayload>(action);
-    console.log('SENDING DELETE TRIGGER DELETE DATA SETS: ', payload);
-    return strategyBegin(
-      createStrategy({
+  createMethod(
+    (action) => {
+      const payload = selectPayload<LogixUXSendTriggerDeleteDataSetsStrategyPayload>(action);
+      console.log('SENDING DELETE TRIGGER DELETE DATA SETS: ', payload);
+      return strategyBegin(createStrategy({
         topic: 'Sent to Web Socket: Trigger Delete Data Sets: ' + payload.names.join(', '),
-        initialNode: createActionNode(
-          userInterfaceClientSendActionToServer(createAction('logixUXServer trigger delete data sets strategy', payload)),
-          {
-            successNode: null,
-            failureNode: null,
-          }
-        ),
-      })
-    );
-  });
+        initialNode: createActionNode(userInterfaceClientSendActionToServer(createAction('logixUXServer trigger delete data sets strategy', payload)), {
+          successNode: null,
+          failureNode: null
+        })
+      }));
+    }
+  );
 
 const logixUXSendTriggerDeleteDataSetsStrategyReducer = (state: LogixUXState, _: Action): LogixUXState => {
   const dataSetSelection = state.dataSetSelection.map(() => false);
   return {
     ...state,
-    dataSetSelection,
+    dataSetSelection
   };
 };
 
 export const logixUXSendTriggerDeleteDataSetsStrategyQuality = createQuality(
   logixUXSendTriggerDeleteDataSetsStrategyType,
   logixUXSendTriggerDeleteDataSetsStrategyReducer,
-  logixUXSendTriggerDeleteDataSetsStrategyMethodCreator
+  logixUXSendTriggerDeleteDataSetsStrategyMethodCreator,
 );
 /*#>*/

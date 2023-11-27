@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a strategy that will save the currently loaded dataset into state.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a strategy that will save the currently loaded dataset into state.
 $>*/
 /*<#*/
 import { createActionNode, createStrategy } from 'stratimux';

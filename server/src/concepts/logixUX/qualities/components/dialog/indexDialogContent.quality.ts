@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the content slice of the Dialog Component with the necessary bindings and selectors.
+For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the content slice of the Dialog Component with the necessary bindings and selectors.
 $>*/
 /*<#*/
 import {

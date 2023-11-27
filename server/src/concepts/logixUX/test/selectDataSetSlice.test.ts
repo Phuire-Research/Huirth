@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a test that will ensure that the selectSlice helper function from Stratimux is operating as intended.
+For the graph programming framework Stratimux and a Concept logixUX, generate a test that will ensure that the selectSlice helper function from Stratimux is operating as intended.
 $>*/
 /*<#*/
 import { Concepts, KeyedSelector, createConcept, createUnifiedKeyedSelector, selectSlice } from 'stratimux';

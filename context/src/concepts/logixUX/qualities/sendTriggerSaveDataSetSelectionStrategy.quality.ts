@@ -21,14 +21,14 @@ import { ProjectStatus } from '../logixUX.model';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 import { LogixUXServerState } from '../../logixUXServer/logixUXServer.concept';
 
-export const logixUXSendTriggerSaveDataSetSelectionStrategyType: ActionType =
-  'logixUX send trigger save data set selection strategy to server';
-export const logixUXSendTriggerSaveDataSetSelectionStrategy = prepareActionCreator(logixUXSendTriggerSaveDataSetSelectionStrategyType);
+export const logixUXSendTriggerSaveDataSetSelectionStrategyType: ActionType = 'logixUX send trigger save data set selection strategy to server';
+export const logixUXSendTriggerSaveDataSetSelectionStrategy =
+  prepareActionCreator(logixUXSendTriggerSaveDataSetSelectionStrategyType);
 
 const logixUXSendTriggerSaveDataSetSelectionStrategyMethodCreator: MethodCreator = (concepts$, semaphore) =>
   createMethodDebounceWithState<LogixUXServerState>(
     (_, state) => {
-      const { dataSetSelection, trainingData } = state;
+      const {dataSetSelection, trainingData} = state;
       const names: string[] = [];
       for (const [i, select] of dataSetSelection.entries()) {
         if (select) {
@@ -38,28 +38,20 @@ const logixUXSendTriggerSaveDataSetSelectionStrategyMethodCreator: MethodCreator
       }
       const strategy = createStrategy({
         topic: `Sending to server trigger save data set selection for: ${names.join(', ')}`,
-        initialNode: createActionNode(
-          userInterfaceClientSendActionToServer(
-            createAction('logixUXServer trigger save data set selection strategy', {
-              names,
-            })
-          ),
-          {
-            successNode: null,
-            failureNode: null,
-          }
-        ),
+        initialNode: createActionNode(userInterfaceClientSendActionToServer(createAction('logixUXServer trigger save data set selection strategy', {
+          names
+        })), {
+          successNode: null,
+          failureNode: null
+        })
       });
       return strategyBegin(strategy);
-    },
-    concepts$ as UnifiedSubject,
-    semaphore as number,
-    50
+    }, concepts$ as UnifiedSubject, semaphore as number, 50
   );
 
 const logixUXSendTriggerSaveDataSetSelectionStrategyReducer = (state: LogixUXState, _: Action): LogixUXState => {
-  const { dataSetSelection, trainingData } = state;
-  let { stratimuxStatus, logixUXStatus, projectsStatuses } = state;
+  const {dataSetSelection, trainingData} = state;
+  let { stratimuxStatus, logixUXStatus, projectsStatuses, } = state;
   const names: string[] = [];
   for (const [i, select] of dataSetSelection.entries()) {
     if (select) {
@@ -84,7 +76,7 @@ const logixUXSendTriggerSaveDataSetSelectionStrategyReducer = (state: LogixUXSta
         if (!added) {
           newStatuses.push({
             name: name,
-            status: ProjectStatus.saving,
+            status: ProjectStatus.saving
           });
         }
         projectsStatuses = newStatuses;
@@ -95,13 +87,13 @@ const logixUXSendTriggerSaveDataSetSelectionStrategyReducer = (state: LogixUXSta
     ...state,
     stratimuxStatus,
     logixUXStatus,
-    projectsStatuses,
+    projectsStatuses
   };
 };
 
 export const logixUXSendTriggerSaveDataSetSelectionStrategyQuality = createQuality(
   logixUXSendTriggerSaveDataSetSelectionStrategyType,
   logixUXSendTriggerSaveDataSetSelectionStrategyReducer,
-  logixUXSendTriggerSaveDataSetSelectionStrategyMethodCreator
+  logixUXSendTriggerSaveDataSetSelectionStrategyMethodCreator,
 );
 /*#>*/

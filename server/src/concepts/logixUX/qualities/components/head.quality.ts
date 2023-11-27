@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality for to create the head content necessary for the logixUX brand page strategies.
+For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality for to create the head content necessary for the logixUX brand page strategies.
 $>*/
 /*<#*/
 /* eslint-disable max-len */

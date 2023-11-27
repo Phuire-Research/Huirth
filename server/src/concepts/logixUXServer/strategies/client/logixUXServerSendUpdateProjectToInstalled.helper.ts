@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate the a helper to send the update project status to the client.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate the a helper to send the update project status to the client.
 $>*/
 /*<#*/
 import { userInterfaceServerSendActionToClient } from '../../../userInterfaceServer/strategies/sendActionToClient.helper';

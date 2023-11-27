@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality that will trigger the minus count seven strategy.
+For the graph programming framework Stratimux and a Concept logixUX, generate a quality that will trigger the minus count seven strategy.
 $>*/
 /*<#*/
 import {

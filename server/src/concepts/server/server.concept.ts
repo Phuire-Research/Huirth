@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux generate a Server Concept, that accepts an initial port.
+For the graph programming framework Stratimux generate a Server Concept, that accepts an initial port.
 $>*/
 /*<#*/
 import { serverPrinciple } from './server.principle';

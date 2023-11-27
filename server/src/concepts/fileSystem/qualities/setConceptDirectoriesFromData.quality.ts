@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and File System Concept, generate a quality that will set the concept's concept directory map property from the supplied ActionStrategy data field.
+For the graph programming framework Stratimux and File System Concept, generate a quality that will set the concept's concept directory map property from the supplied ActionStrategy data field.
 $>*/
 /*<#*/
 import {

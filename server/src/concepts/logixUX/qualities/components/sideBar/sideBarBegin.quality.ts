@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a User Interface Component quality to create the first slice of the Side Bar Component.
+For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality to create the first slice of the Side Bar Component.
 $>*/
 /*<#*/
 /* eslint-disable max-len */

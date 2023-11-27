@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a quality that reads a data set based on the incoming data field and unifies such back into the ActionStrategy data.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a quality that reads a data set based on the incoming data field and unifies such back into the ActionStrategy data.
 $>*/
 /*<#*/
 import {

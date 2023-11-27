@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux generate a Hello World Concept.
+For the graph programming framework Stratimux generate a Hello World Concept.
 $>*/
 /*<#*/
 import {

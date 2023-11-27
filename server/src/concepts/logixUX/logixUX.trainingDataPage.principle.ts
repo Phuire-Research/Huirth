@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the brand concept logixUX, generate a principle that will create pages based upon the loaded data sets assigned to state.
+For the graph programming framework Stratimux and the brand concept logixUX, generate a principle that will create pages based upon the loaded data sets assigned to state.
 $>*/
 /*<#*/
 import { Subscriber } from 'rxjs';

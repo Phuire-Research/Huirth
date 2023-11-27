@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a quality that will trigger the delete data sets strategy based on passed payload.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a quality that will trigger the delete data sets strategy based on passed payload.
 $>*/
 /*<#*/
 import {

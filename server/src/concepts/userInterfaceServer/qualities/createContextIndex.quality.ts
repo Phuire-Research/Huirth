@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the User Interface Server Concept, generate a quality that will create the context's index file to dictate the execution of the client page script.
+For the graph programming framework Stratimux and the User Interface Server Concept, generate a quality that will create the context's index file to dictate the execution of the client page script.
 $>*/
 /*<#*/
 import {

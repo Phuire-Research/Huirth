@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and File System Concept, generate a series of unified selectors to select the Concept's properties.
+For the graph programming framework Stratimux and File System Concept, generate a series of unified selectors to select the Concept's properties.
 $>*/
 /*<#*/
 import { Concepts, createUnifiedKeyedSelector} from 'stratimux';

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux generate a Document Object Model Concept
+For the graph programming framework Stratimux generate a Document Object Model Concept
 $>*/
 /*<#*/
 import { createConcept, Concept } from 'stratimux';
@@ -12,21 +12,27 @@ import { documentObjectModelClearBindingQueQuality } from './qualities/clearBind
 export const documentObjectModelName = 'documentObjectModel';
 
 export type DocumentObjectModelState = {
-  bindingQue: UserInterfacePageBindings;
+  bindingQue: UserInterfacePageBindings
 };
 
-const createDocumentObjectModelState = (bindingQue?: UserInterfacePageBindings): DocumentObjectModelState => {
+const createDocumentObjectModelState = (bindingQue?: UserInterfacePageBindings) : DocumentObjectModelState => {
   return {
-    bindingQue: bindingQue ? bindingQue : {},
+    bindingQue: bindingQue ? bindingQue : {}
   };
 };
 
-export const createDocumentObjectModelConcept = (bindingQue?: UserInterfacePageBindings): Concept => {
+export const createDocumentObjectModelConcept = (bindingQue?: UserInterfacePageBindings): Concept =>  {
   return createConcept(
     documentObjectModelName,
     createDocumentObjectModelState(bindingQue),
-    [documentObjectModelBindQuality, documentObjectModelBindPayloadQuality, documentObjectModelClearBindingQueQuality],
-    [documentObjectModelPrinciple]
+    [
+      documentObjectModelBindQuality,
+      documentObjectModelBindPayloadQuality,
+      documentObjectModelClearBindingQueQuality
+    ],
+    [
+      documentObjectModelPrinciple
+    ]
   );
 };
 /*#>*/

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX Server, generate a quality that sets the initial project status based on their existence in the incoming data field.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a quality that sets the initial project status based on their existence in the incoming data field.
 $>*/
 /*<#*/
 import {

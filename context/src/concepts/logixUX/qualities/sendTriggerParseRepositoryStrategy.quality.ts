@@ -21,32 +21,28 @@ import { ProjectStatus } from '../logixUX.model';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 
 export type LogixUXSendTriggerParseRepositoryStrategyPayload = {
-  name: string;
-};
+  name: string,
+}
 export const logixUXSendTriggerParseRepositoryStrategyType: ActionType = 'logixUX send trigger parse repository to the server';
-export const logixUXSendTriggerParseRepositoryStrategy = prepareActionWithPayloadCreator<LogixUXSendTriggerParseRepositoryStrategyPayload>(
-  logixUXSendTriggerParseRepositoryStrategyType
-);
+export const logixUXSendTriggerParseRepositoryStrategy =
+  prepareActionWithPayloadCreator<LogixUXSendTriggerParseRepositoryStrategyPayload>(logixUXSendTriggerParseRepositoryStrategyType);
 
 const logixUXSendTriggerParseRepositoryStrategyMethodCreator: MethodCreator = () =>
-  createMethodDebounce((action) => {
-    const { name } = selectPayload<LogixUXSendTriggerParseRepositoryStrategyPayload>(action);
-    const strategy = createStrategy({
-      topic: `Sending to server trigger parse repository strategy for ${name}`,
-      initialNode: createActionNode(
-        userInterfaceClientSendActionToServer(
-          createAction('logixUXServer trigger parse repository strategy', {
-            name,
-          })
-        ),
-        {
+  createMethodDebounce(
+    (action) => {
+      const { name } = selectPayload<LogixUXSendTriggerParseRepositoryStrategyPayload>(action);
+      const strategy = createStrategy({
+        topic: `Sending to server trigger parse repository strategy for ${name}`,
+        initialNode: createActionNode(userInterfaceClientSendActionToServer(createAction('logixUXServer trigger parse repository strategy', {
+          name
+        })), {
           successNode: null,
-          failureNode: null,
-        }
-      ),
-    });
-    return strategyBegin(strategy);
-  }, 50);
+          failureNode: null
+        })
+      });
+      return strategyBegin(strategy);
+    }, 50
+  );
 
 const logixUXSendTriggerParseRepositoryStrategyReducer = (state: LogixUXState, action: Action): LogixUXState => {
   const { name } = selectPayload<LogixUXSendTriggerParseRepositoryStrategyPayload>(action);
@@ -70,7 +66,7 @@ const logixUXSendTriggerParseRepositoryStrategyReducer = (state: LogixUXState, a
     if (!added) {
       newStatuses.push({
         name: name,
-        status: ProjectStatus.parsing,
+        status: ProjectStatus.parsing
       });
     }
     projectsStatuses = newStatuses;
@@ -79,13 +75,13 @@ const logixUXSendTriggerParseRepositoryStrategyReducer = (state: LogixUXState, a
     ...state,
     stratimuxStatus,
     logixUXStatus,
-    projectsStatuses,
+    projectsStatuses
   };
 };
 
 export const logixUXSendTriggerParseRepositoryStrategyQuality = createQuality(
   logixUXSendTriggerParseRepositoryStrategyType,
   logixUXSendTriggerParseRepositoryStrategyReducer,
-  logixUXSendTriggerParseRepositoryStrategyMethodCreator
+  logixUXSendTriggerParseRepositoryStrategyMethodCreator,
 );
 /*#>*/

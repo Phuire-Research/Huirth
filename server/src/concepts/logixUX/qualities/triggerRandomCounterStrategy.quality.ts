@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a quality that will trigger a randomly generated counting strategy.
+For the graph programming framework Stratimux and a Concept logixUX, generate a quality that will trigger a randomly generated counting strategy.
 $>*/
 /*<#*/
 import {
