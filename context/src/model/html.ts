@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the logixUX Project, generate a model that contains an enum that contains all document object model "on" element bindings.
+For the graph programming framework Stratimux and the logixUX Project, generate a model that contains an enum that contains all document object model "on" element bindings.
 $>*/
 /*<#*/
 /**
@@ -85,6 +85,6 @@ export enum elementEventBinding {
   ontimeupdate = 'ontimeupdate',
   onvolumechange = 'onvolumechange',
   onwaiting = 'onwaiting',
-  ontoggle = 'ontoggle'
+  ontoggle = 'ontoggle',
 }
 /*#>*/

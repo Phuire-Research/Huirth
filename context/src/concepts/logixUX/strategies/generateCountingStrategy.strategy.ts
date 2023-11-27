@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate an ActionStrategy that will randomly generate a series of steps that will either increment or decrement a unified Counter Concept.
+For the graph programming framework Stratimux and a Concept logixUX, generate an ActionStrategy that will randomly generate a series of steps that will either increment or decrement a unified Counter Concept.
 $>*/
 /*<#*/
 import { counterAdd, counterSubtract, createActionNode, createStrategy } from 'stratimux';
@@ -16,7 +16,7 @@ export const logixUXGenerateCountingStrategy = (count: number, semaphore: number
   const firstAction = firstRand % 2 === 0 ? counterAdd(semaphore) : counterSubtract(semaphore);
   let previousStep = createActionNode(firstAction, {
     successNode: null,
-    failureNode: null
+    failureNode: null,
   });
   const stepFirst = previousStep;
   if (firstRand % 2 === 0) {
@@ -29,7 +29,7 @@ export const logixUXGenerateCountingStrategy = (count: number, semaphore: number
     const action = even ? counterAdd(semaphore) : counterSubtract(semaphore);
     const newStep = createActionNode(action, {
       successNode: null,
-      failureNode: null
+      failureNode: null,
     });
     if (even) {
       numPos++;

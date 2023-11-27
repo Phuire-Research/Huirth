@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the User Interface Concept, generate a strategy that will append each page strategy's page composition to the state pages property.
+For the graph programming framework Stratimux and the User Interface Concept, generate a strategy that will append each page strategy's page composition to the state pages property.
 $>*/
 /*<#*/
 import { ActionStrategy, Concepts, createActionNode, createActionNodeFromStrategy, createStrategy } from 'stratimux';
@@ -11,17 +11,20 @@ export const userInterfaceAddNewPageStrategyTopic = 'User Interface add new Page
 export function userInterfaceAddNewPageStrategy(pageStrategy: PageStrategyCreators, concepts: Concepts): ActionStrategy {
   const strategy = userInterfacePageToStateStrategy(pageStrategy(concepts));
   const stepPageToState = createActionNodeFromStrategy(strategy);
-  const stepAddToState = createActionNode(userInterfaceAddNewPage({
-    pageStrategy,
-  }), {
-    successNode: stepPageToState,
-    failureNode: null,
-  });
+  const stepAddToState = createActionNode(
+    userInterfaceAddNewPage({
+      pageStrategy,
+    }),
+    {
+      successNode: stepPageToState,
+      failureNode: null,
+    }
+  );
 
   return createStrategy({
     topic: userInterfaceAddNewPageStrategyTopic,
     initialNode: stepAddToState,
-    data: strategy.data
+    data: strategy.data,
   });
 }
 /*#>*/

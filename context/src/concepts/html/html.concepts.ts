@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux generate a HTML Concept.
+For the graph programming framework Stratimux generate a HTML Concept.
 $>*/
 /*<#*/
 import { createConcept, Concept } from 'stratimux';
@@ -17,25 +17,21 @@ export type HtmlState = {
   //
 };
 
-const createHtmlState = () : HtmlState => {
+const createHtmlState = (): HtmlState => {
   return {
     //
   };
 };
 
-export const createHtmlConcept = (): Concept =>  {
-  return createConcept(
-    htmlName,
-    createHtmlState(),
-    [
-      htmlHelloWorldQuality,
-      htmlBeginQuality,
-      htmlEndQuality,
-      htmlBodyBeginQuality,
-      htmlBodyEndQuality,
-      htmlHeadBeginQuality,
-      htmlHeadEndQuality
-    ]
-  );
+export const createHtmlConcept = (): Concept => {
+  return createConcept(htmlName, createHtmlState(), [
+    htmlHelloWorldQuality,
+    htmlBeginQuality,
+    htmlEndQuality,
+    htmlBodyBeginQuality,
+    htmlBodyEndQuality,
+    htmlHeadBeginQuality,
+    htmlHeadEndQuality,
+  ]);
 };
 /*#>*/

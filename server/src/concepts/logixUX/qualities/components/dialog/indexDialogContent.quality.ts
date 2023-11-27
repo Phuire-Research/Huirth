@@ -4,7 +4,7 @@ $>*/
 /*<#*/
 import {
   ActionType,
-  Counter,
+  CounterState,
   KeyedSelector,
   MethodCreator,
   UnifiedSubject,
@@ -42,7 +42,7 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
       const isClient = userInterface_isClient();
       if (isClient !== undefined) {
         const dialog = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState).dialog.trim();
-        const counter = selectUnifiedState<Counter>(concepts, semaphore);
+        const counter = selectUnifiedState<CounterState>(concepts, semaphore);
         const count = counter ? counter.count : 0;
         let finalDialog = '';
         // if (isClient) {

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the User Interface Concept, generate an ActionStrategy that will recompose a page creation strategy to add its final composition to the state.
+For the graph programming framework Stratimux and the User Interface Concept, generate an ActionStrategy that will recompose a page creation strategy to add its final composition to the state.
 $>*/
 /*<#*/
 import { ActionStrategy, ActionStrategyStitch, createActionNode, createStrategy } from 'stratimux';
@@ -16,17 +16,14 @@ export function userInterfacePageToStateStrategy(stitch: ActionStrategyStitch): 
     failureNode: null,
   });
 
-  const [
-    end,
-    strategy
-  ] = stitch();
+  const [end, strategy] = stitch();
 
   end.successNode = stepAddToState;
 
   return createStrategy({
     topic: strategy.topic,
     initialNode: strategy.currentNode,
-    data: strategy.data
+    data: strategy.data,
   });
 }
 /*#>*/

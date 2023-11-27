@@ -4,7 +4,7 @@ $>*/
 /*<#*/
 import {
   ActionType,
-  Counter,
+  CounterState,
   MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithState,
@@ -20,7 +20,7 @@ export const logixUXTriggerRandomCountingStrategy =
   prepareActionCreator(logixUXTriggerRandomCountingStrategyType);
 
 const createLogixUXTriggerRandomCountingStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
-  createMethodDebounceWithState<Counter>(
+  createMethodDebounceWithState<CounterState>(
     (_, state) => {
       const strategy = logixUXGenerateCountingStrategy(state.count, semaphore as number);
       return strategyBegin(strategy);

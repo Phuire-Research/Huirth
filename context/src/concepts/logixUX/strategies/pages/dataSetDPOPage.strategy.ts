@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate a Page Strategy Creator that will unify Sidebar, DPO, Footer, and Header Action Strategy Component Stitches into a Page Composition.
+For the graph programming framework Stratimux and a Concept logixUX, generate a Page Strategy Creator that will unify Sidebar, DPO, Footer, and Header Action Strategy Component Stitches into a Page Composition.
 $>*/
 /*<#*/
 import { createActionNode, createStrategy } from 'stratimux';
@@ -18,17 +18,13 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
     title: logixUXDataSetDPOPageStrategyTopic,
     conceptAndProps: [],
     cachedSelectors: [],
-    compositions: []
+    compositions: [],
   });
 
   return userInterfaceCreatePageStrategy(
     logixUXDataSetDPOPageStrategyTopic,
     pageData,
-    [
-      logixUXSidebarComponentStitch,
-      logixUXIndexDPOStrategyStitch,
-      logixUXFooterStitch
-    ],
+    [logixUXSidebarComponentStitch, logixUXIndexDPOStrategyStitch, logixUXFooterStitch],
     logixUXHeaderStitch
   );
 };
@@ -37,22 +33,22 @@ export const logixUXIndexDPOStrategyStitchTopic = 'logixUX Index Training Data S
 export const logixUXIndexDPOStrategyStitch: ActionStrategyComponentStitch = (payload) => {
   const stepLogixUXIndexDPOEnd = createActionNode(logixUXIndexDPOEnd(payload), {
     successNode: null,
-    failureNode: null
+    failureNode: null,
   });
   const stepLogixUXIndexDPOContent = createActionNode(logixUXIndexDPOContent(payload), {
     successNode: stepLogixUXIndexDPOEnd,
-    failureNode: null
+    failureNode: null,
   });
   const stepLogixUXIndexDPOBegin = createActionNode(logixUXIndexDPOBegin(payload), {
     successNode: stepLogixUXIndexDPOContent,
-    failureNode: null
+    failureNode: null,
   });
   return [
     stepLogixUXIndexDPOEnd,
     createStrategy({
       topic: logixUXIndexDPOStrategyStitchTopic,
       initialNode: stepLogixUXIndexDPOBegin,
-    })
+    }),
   ];
 };
 /*#>*/

@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and the User Interface Concept, generate a principle that will dispatch a sequence of page to state strategies that will cache the required pages for the client.
+For the graph programming framework Stratimux and the User Interface Concept, generate a principle that will dispatch a sequence of page to state strategies that will cache the required pages for the client.
 $>*/
 /*<#*/
 import { Concept, createConcept, unifyConcepts } from 'stratimux';
@@ -15,33 +15,34 @@ import { userInterfaceAddNewPageQuality } from './qualities/addNewPage.quality';
 export const userInterfaceName = 'userInterface';
 
 export type UserInterfaceState = {
-  pages: Page[],
-  pageStrategies: PageStrategyCreators[],
+  pages: Page[];
+  pageStrategies: PageStrategyCreators[];
   pagesCached: boolean;
-}
+};
 
 const createUserInterfaceState = (pageStrategies: PageStrategyCreators[]): UserInterfaceState => {
   return {
     pages: [],
     pageStrategies,
-    pagesCached: false
+    pagesCached: false,
   };
 };
 
 export const createUserInterfaceConcept = (pageStrategies: PageStrategyCreators[]): Concept => {
-  return unifyConcepts([createHtmlConcept()], createConcept(
-    userInterfaceName,
-    createUserInterfaceState(pageStrategies),
-    [
-      userInterfaceAddComposedPageToStateQuality,
-      userInterfaceRefreshCachedSelectorsQuality,
-      userInterfaceAtomicUpdatePageCompositionQuality,
-      userInterfaceAddNewPageQuality,
-      userInterfaceEndQuality
-    ],
-    [
-      userInterfaceInitializationPrinciple
-    ]
-  ));
+  return unifyConcepts(
+    [createHtmlConcept()],
+    createConcept(
+      userInterfaceName,
+      createUserInterfaceState(pageStrategies),
+      [
+        userInterfaceAddComposedPageToStateQuality,
+        userInterfaceRefreshCachedSelectorsQuality,
+        userInterfaceAtomicUpdatePageCompositionQuality,
+        userInterfaceAddNewPageQuality,
+        userInterfaceEndQuality,
+      ],
+      [userInterfaceInitializationPrinciple]
+    )
+  );
 };
 /*#>*/

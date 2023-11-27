@@ -1,5 +1,5 @@
 /*<$
-For the framework Stratimux and a Concept logixUX, generate an Action Strategy Component Stitch that appends the Sidebar first, content, and last component slices to the desired composition.
+For the graph programming framework Stratimux and a Concept logixUX, generate an Action Strategy Component Stitch that appends the Sidebar first, content, and last component slices to the desired composition.
 $>*/
 /*<#*/
 import { createActionNode, createStrategy } from 'stratimux';
@@ -12,19 +12,22 @@ export const logixUXSidebarComponentStitch: ActionStrategyComponentStitch = (pay
   // HEAD
   const stepLogixUXSidebarEnd = createActionNode(logixUXSideBarEnd(payload), {
     successNode: null,
-    failureNode: null
+    failureNode: null,
   });
   const stepLogixUXSidebarContent = createActionNode(logixUXSideBarContent(payload), {
     successNode: stepLogixUXSidebarEnd,
-    failureNode: null
+    failureNode: null,
   });
   const stepLogixUXSidebarBegin = createActionNode(logixUXSideBarBegin(payload), {
     successNode: stepLogixUXSidebarContent,
-    failureNode: null
+    failureNode: null,
   });
-  return [stepLogixUXSidebarEnd, createStrategy({
-    topic: 'Create logixUX Sidebar',
-    initialNode: stepLogixUXSidebarBegin,
-  })];
+  return [
+    stepLogixUXSidebarEnd,
+    createStrategy({
+      topic: 'Create logixUX Sidebar',
+      initialNode: stepLogixUXSidebarBegin,
+    }),
+  ];
 };
 /*#>*/

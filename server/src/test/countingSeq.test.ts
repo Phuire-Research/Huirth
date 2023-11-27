@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the logixUX Project, generate a test to ensure that the file system is loaded and working as intended.
 $>*/
 /*<#*/
-import { ActionStrategy, Counter, axiumSelectOpen, counterName, createAxium, createCounterConcept, selectState, strategyBegin, strategySequence } from 'stratimux';
+import { ActionStrategy, CounterState, axiumSelectOpen, counterName, createAxium, createCounterConcept, selectState, strategyBegin, strategySequence } from 'stratimux';
 import { logixUXPlusSevenStrategy } from '../concepts/logixUX/strategies/countPlusSeven.strategy';
 
 test('Stratimux test sequence of counting strategies', (done) => {
@@ -29,7 +29,7 @@ test('Stratimux test sequence of counting strategies', (done) => {
       });
     },
     (concepts) => {
-      const state = selectState(concepts, counterName) as Counter;
+      const state = selectState(concepts, counterName) as CounterState;
       console.log('Count: ', state);
       if (state.count === 21) {
         expect(true).toBe(true);
