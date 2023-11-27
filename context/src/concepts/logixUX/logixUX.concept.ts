@@ -23,7 +23,14 @@ import { logixUXIndexDPOEndQuality } from './qualities/components/DPO/DPOEnd.qua
 import { logixUXUpdateFromPromptPayloadQuality } from './qualities/updateFromPromptPayload.quality';
 import { logixUXUpdateFromChosenPayloadQuality } from './qualities/updateFromChosenPayload.quality';
 import { logixUXUpdateFromRejectedPayloadQuality } from './qualities/updateFromRejectedPayload.quality';
-import { Active_DPO, ProjectStatus, TrainingData, generateDPOTrainingData, generateDefaultTrainingData } from './logixUX.model';
+import {
+  Active_DPO,
+  GeneralProjectStatuses,
+  ProjectStatus,
+  TrainingData,
+  generateDPOTrainingData,
+  generateDefaultTrainingData,
+} from './logixUX.model';
 import { logixUXNewDataSetEntryQuality } from './qualities/newDataSetEntry.quality';
 import { logixUXTriggerMinusCountingStrategyQuality } from './qualities/triggerMinusCounterStrategy.quality';
 import { logixUXTriggerPlusCountingStrategyQuality } from './qualities/triggerPlusCounterStrategy.quality';
@@ -53,14 +60,18 @@ import { logixUXSendTriggerSaveDataSetSelectionStrategyQuality } from './qualiti
 import { logixUXUpdateProjectStatusToSavedQuality } from './qualities/updateProjectToSaved.quality';
 import { logixUXRemoveDataSetSelectionQuality } from './qualities/removeDataSetSelection.quality';
 import { logixUXSendTriggerDeleteDataSetsStrategyQuality } from './qualities/sendTriggerSaveDeleteDataSetsStrategy.quality';
+import { logixUXSetPossibleProjectQuality } from './qualities/setPossibleProject.quality';
+import { logixUXFilterTriggerInstallGitRepositoryQuality } from './qualities/filterTriggerInstallGitRepository.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
   mock: number;
   dialog: string;
+  possibleProject: string;
+  possibleProjectValid: boolean;
   stratimuxStatus: ProjectStatus;
   logixUXStatus: ProjectStatus;
-  projectsStatuses: { name: string; status: ProjectStatus }[];
+  projectsStatuses: GeneralProjectStatuses;
   dataSetSelection: boolean[];
   sideBarExpanded: boolean;
   trainingData: TrainingData;
@@ -71,6 +82,8 @@ const createLogixUXState = (): LogixUXState => {
   return {
     mock: 0,
     dialog: '',
+    possibleProject: '',
+    possibleProjectValid: false,
     stratimuxStatus: ProjectStatus.notInstalled,
     logixUXStatus: ProjectStatus.notInstalled,
     projectsStatuses: [],
@@ -128,6 +141,8 @@ export const createLogixUXConcept = (): Concept => {
     logixUXTriggerRandomCountingStrategyQuality,
     logixUXTriggerInstallGitRepositoryQuality,
     logixUXToggleSidebarQuality,
+    logixUXSetPossibleProjectQuality,
+    logixUXFilterTriggerInstallGitRepositoryQuality,
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
   return unifyConcepts([createCounterConcept()], createConcept(logixUXName, createLogixUXState(), qualities, principles, []));

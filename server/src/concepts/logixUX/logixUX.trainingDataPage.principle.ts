@@ -62,6 +62,10 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
                   ));
                   found = true;
                 }
+                if (currentPage === 'dataManager' && trainingData[add[i].i].type === DataSetTypes.project) {
+                  console.log('CHECK SET STATUS TO PARSE', trainingData[add[i].i].name);
+                  list.push(logixUXUpdateProjectStatusStrategy(trainingData[add[i].i].name, ProjectStatus.parsed));
+                }
               }
               if (!found) {
                 dispatch(axiumKick(), {
@@ -82,6 +86,7 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
                   concepts,
                 ));
                 if (trainingData[add[i].i].type === DataSetTypes.project) {
+                  console.log('CHECK SET STATUS TO PARSE', trainingData[add[i].i].name);
                   list.push(logixUXUpdateProjectStatusStrategy(trainingData[add[i].i].name, ProjectStatus.parsed));
                 }
               }

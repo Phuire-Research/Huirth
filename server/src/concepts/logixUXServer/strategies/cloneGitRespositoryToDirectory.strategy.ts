@@ -12,6 +12,7 @@ export const logixUXServerCloneGitRepositoryToDirectoryTopic = 'logixUXServer cl
 export const logixUXServerCloneGitRepositoryToDirectoryStrategy = (root: string, url: string, name:string) => {
   const dataPath = path.join(root + '/data/repositories/' + name);
   // Step 3 Update status to installed by name as payload
+  console.log('CLONING ', url, name);
   const stepUpdateProjectToInstalled = createActionNode(logixUXServerSendUpdateProjectToInstalled(name), {
     successNode: null,
     failureNode: null

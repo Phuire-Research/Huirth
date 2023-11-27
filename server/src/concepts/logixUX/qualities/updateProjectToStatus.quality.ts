@@ -23,6 +23,7 @@ export const logixUXUpdateProjectStatus =
 
 function logixUXUpdateProjectStatusReducer(state: LogixUXState, action: Action): LogixUXState {
   const { name, status } = selectPayload<LogixUXUpdateProjectStatusPayload>(action);
+  console.log('CHECK INCOMING STATUS', name, status);
   if (name === PhuirEProjects.stratimux) {
     return {
       ...state,

@@ -75,6 +75,10 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
                 list.push(userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name), concepts));
                 found = true;
               }
+              if (currentPage === 'dataManager' && trainingData[add[i].i].type === DataSetTypes.project) {
+                console.log('CHECK SET STATUS TO PARSE', trainingData[add[i].i].name);
+                list.push(logixUXUpdateProjectStatusStrategy(trainingData[add[i].i].name, ProjectStatus.parsed));
+              }
             }
             if (!found) {
               dispatch(axiumKick(), {
@@ -92,6 +96,7 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
             for (let i = 0; i < add.length; i++) {
               list.push(userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name), concepts));
               if (trainingData[add[i].i].type === DataSetTypes.project) {
+                console.log('CHECK SET STATUS TO PARSE', trainingData[add[i].i].name);
                 list.push(logixUXUpdateProjectStatusStrategy(trainingData[add[i].i].name, ProjectStatus.parsed));
               }
             }

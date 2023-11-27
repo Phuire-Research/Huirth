@@ -45,6 +45,7 @@ const logixUXServerSetRepositoriesFromDataReducer = (state: LogixUXState, action
         }
         }
       }
+      console.log('CHECK INSTALLED STATUSES', projectsStatuses);
       return {
         ...state,
         stratimuxStatus: stratimuxExists ? ProjectStatus.installed : ProjectStatus.notInstalled,
