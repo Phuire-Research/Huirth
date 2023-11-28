@@ -199,9 +199,6 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
             atomicCachedState[changes[i]] = selectSlice(concepts, changedSelectors[i]);
           }
           if (payload.boundActionQue.length > 0) {
-            setTimeout(() => {
-              delayChanges = false;
-            }, 100);
             delayChanges = true;
             dispatch(userInterfaceServerAssembleAtomicUpdateCompositionStrategy(payload), {
               iterateStage: true
@@ -213,6 +210,9 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
       },
       (_, dispatch) => {
         if (!delayChanges) {
+          setTimeout(() => {
+            delayChanges = false;
+          }, 300);
           dispatch(axiumKick(), {
             setStage: 1
           });
