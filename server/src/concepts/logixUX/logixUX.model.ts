@@ -53,6 +53,7 @@ export type NamedDataSet = {
   name: string,
   type: DataSetTypes,
   dataSet: BaseDataSet[]
+  index: number
 }
 
 export type TrainingData = NamedDataSet[];
@@ -73,7 +74,8 @@ export const generateBaseDataSetEntry = (): BaseDataSet => {
 export const generateDefaultNamedDataSet = (name: string): NamedDataSet => ({
   name,
   type: DataSetTypes.general,
-  dataSet: [generateBaseDataSetEntry()]
+  dataSet: [generateBaseDataSetEntry()],
+  index: 0
 });
 
 export const generateDefaultTrainingData = (): TrainingData => [];
@@ -99,4 +101,10 @@ export function selectTrainingDataIndex(element: HTMLElement, key: string) {
   console.log('CHECK ERROR', element, key);
   return Number(element.id.split(key)[1]);
 }
+
+// Transformation Strategies on server
+export const logixUXVerboseAddingStrategySelect = 'Verbose Adding Transformation Strategy';
+export const logixUXVerboseSubtractionStrategySelect = 'Verbose Subtraction Transformation Strategy';
+export const logixUXVerboseAdditionAndSubtractionStrategySelect = 'Verbose Addition and Subtraction Transformation Strategy';
+
 /*#>*/

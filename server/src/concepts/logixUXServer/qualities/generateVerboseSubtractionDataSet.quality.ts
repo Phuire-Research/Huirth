@@ -1,43 +1,48 @@
 /* eslint-disable indent */
 /*<$
 For the graph programming framework Stratimux and a Concept logixUX, generate a quality that will create a plan which will populate a new data set with the outcome of many
-verbose counting strategies.
+verbose subtraction strategies.
 $>*/
 /*<#*/
 import {
   ActionType,
   MethodCreator,
+  UnifiedSubject,
   axiumKick,
-  createAsyncMethod,
+  createAsyncMethodWithConcepts,
   createQuality,
-  defaultMethodCreator,
   defaultReducer,
   getAxiumState,
   prepareActionCreator,
+  selectState,
   strategyBegin,
 } from 'stratimux';
-import { LogixUXInnerCountField } from './innerCountBy.quality';
-import { logixUXVerboseCountingStrategy } from '../strategies/verboseCounting.strategy';
-import { DataSetTypes, NamedDataSet } from '../logixUX.model';
-import { logixUXSetDataSet } from './setDataSet.quality';
+import { DataSetTypes, NamedDataSet } from '../../logixUX/logixUX.model';
+import { LogixUXServerInnerAddField } from './innerAddTo.quality';
+import { logixUXServerSaveDataSetStrategy } from '../strategies/saveDataSet.strategy';
+import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
+import { logixUXServerVerboseSubtractionStrategy } from '../strategies/verboseSubtraction.strategy';
+import { logixUX_convertNumberToStringVerbose } from '../verboseNumber.model';
 
-export const logixUXGenerateVerboseCountingStrategyType: ActionType = 'Create logixUX generate a verbose counting data set';
-export const logixUXGenerateVerboseCountingStrategy =
-  prepareActionCreator(logixUXGenerateVerboseCountingStrategyType);
+export const logixUXServerGenerateVerboseSubtractionStrategyType: ActionType = 'logixUXServer generate a verbose subtraction data set';
+export const logixUXServerGenerateVerboseSubtractionStrategy =
+  prepareActionCreator(logixUXServerGenerateVerboseSubtractionStrategyType);
 
-const logixUXGenerateVerboseCountingStrategyMethodCreator: MethodCreator = (concepts$) => createAsyncMethod((controller, action) => {
-  if (concepts$) {
+const logixUXServerGenerateVerboseSubtractionStrategyMethodCreator: MethodCreator = (concepts$, semaphore) => createAsyncMethodWithConcepts((controller, action, cpts) => {
+  const fileSystemState = selectState<FileSystemState>(cpts, fileSystemName);
+  if (concepts$ && fileSystemState) {
     console.log('This had been triggered');
     const limit = 55;
     const named: NamedDataSet = {
-      name: 'VerboseCounting',
+      name: 'VerboseSubtraction',
       type: DataSetTypes.general,
-      dataSet: []
+      dataSet: [],
+      index: 0
     };
     let length = 5;
     let iterations = 0;
     let currentTopic = '';
-    const plan = concepts$.stage('Verbose Counting data set generation plan',
+    const plan = concepts$.stage('Verbose Subtraction data set generation plan',
     [
       (_, dispatch) => {
         dispatch(axiumKick(), {
@@ -47,7 +52,7 @@ const logixUXGenerateVerboseCountingStrategyMethodCreator: MethodCreator = (conc
       (_, dispatch) => {
         console.log('Transformation stage 1', iterations < 100, length < limit);
         if (iterations < 100 && length < limit) {
-          const newStrategy = logixUXVerboseCountingStrategy(length);
+          const newStrategy = logixUXServerVerboseSubtractionStrategy(length);
           newStrategy.topic += iterations;
           currentTopic = newStrategy.topic;
           console.log('BEGIN STRATEGY', currentTopic);
@@ -68,7 +73,7 @@ const logixUXGenerateVerboseCountingStrategyMethodCreator: MethodCreator = (conc
         if (state.lastStrategy === currentTopic) {
           named.dataSet.push({
             prompt: currentTopic,
-            content: state.dialog + 'The final count: ' + (state.lastStrategyData as LogixUXInnerCountField).count + '.'
+            content: '' + state.lastStrategyDialog + '\nThe final sum: ' + logixUX_convertNumberToStringVerbose((state.lastStrategyData as LogixUXServerInnerAddField).sum) + '.'
           });
           console.log(iterations);
           iterations++;
@@ -87,16 +92,16 @@ const logixUXGenerateVerboseCountingStrategyMethodCreator: MethodCreator = (conc
       },
       () => {
         console.log('Transformation stage 3', iterations, length, named.dataSet.length);
-        controller.fire(logixUXSetDataSet({named}));
+        controller.fire(strategyBegin(logixUXServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseSubtraction')));
         plan.conclude();
       }
     ]);
   }
-});
+}, concepts$ as UnifiedSubject, semaphore as number);
 
-export const logixUXGenerateVerboseCountingStrategyQuality = createQuality(
-  logixUXGenerateVerboseCountingStrategyType,
+export const logixUXServerGenerateVerboseSubtractionStrategyQuality = createQuality(
+  logixUXServerGenerateVerboseSubtractionStrategyType,
   defaultReducer,
-  logixUXGenerateVerboseCountingStrategyMethodCreator
+  logixUXServerGenerateVerboseSubtractionStrategyMethodCreator
 );
 /*#>*/

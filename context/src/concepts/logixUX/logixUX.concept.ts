@@ -30,6 +30,9 @@ import {
   TrainingData,
   generateDPOTrainingData,
   generateDefaultTrainingData,
+  logixUXVerboseAddingStrategySelect,
+  logixUXVerboseAdditionAndSubtractionStrategySelect,
+  logixUXVerboseSubtractionStrategySelect,
 } from './logixUX.model';
 import { logixUXNewDataSetEntryQuality } from './qualities/newDataSetEntry.quality';
 import { logixUXTriggerMinusCountingStrategyQuality } from './qualities/triggerMinusCounterStrategy.quality';
@@ -62,12 +65,9 @@ import { logixUXRemoveDataSetSelectionQuality } from './qualities/removeDataSetS
 import { logixUXSendTriggerDeleteDataSetsStrategyQuality } from './qualities/sendTriggerSaveDeleteDataSetsStrategy.quality';
 import { logixUXSetPossibleProjectQuality } from './qualities/setPossibleProject.quality';
 import { logixUXFilterTriggerInstallGitRepositoryQuality } from './qualities/filterTriggerInstallGitRepository.quality';
-import { logixUXInnerCountByQuality } from './qualities/innerCountBy.quality';
-import { logixUXGenerateVerboseCountingStrategyQuality } from './qualities/generateVerboseCountingDataSet.quality';
 import { logixUXSetDataSetQuality } from './qualities/setDataSet.quality';
-import { logixUXVerboseCountingStrategySelect } from './strategies/verboseCounting.strategy';
 import { logixUXSetSelectedTransformationQuality } from './qualities/setSelectedTransformation.quality';
-import { logixUXTriggerTransformationStrategyQuality } from './qualities/triggerSelectedTransformationStrategy.quality';
+import { logixUXSendTriggerSelectedTransformationStrategyQuality } from './qualities/sendTriggerSelectedTransformationStrategy.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
@@ -90,7 +90,11 @@ const createLogixUXState = (): LogixUXState => {
   return {
     mock: 0,
     dialog: '',
-    transformationStrategies: ['Some Strategy', logixUXVerboseCountingStrategySelect],
+    transformationStrategies: [
+      logixUXVerboseAddingStrategySelect,
+      logixUXVerboseSubtractionStrategySelect,
+      logixUXVerboseAdditionAndSubtractionStrategySelect,
+    ],
     selectedTransformation: 'Some Strategy',
     possibleProject: '',
     possibleProjectValid: false,
@@ -132,6 +136,7 @@ export const createLogixUXConcept = (): Concept => {
     logixUXSendTriggerParseRepositoryStrategyQuality,
     logixUXSendTriggerSaveDataSetSelectionStrategyQuality,
     logixUXSendTriggerDeleteDataSetsStrategyQuality,
+    logixUXSendTriggerSelectedTransformationStrategyQuality,
     logixUXUpdateFromPromptPayloadQuality,
     logixUXUpdateFromChosenPayloadQuality,
     logixUXUpdateFromRejectedPayloadQuality,
@@ -153,11 +158,8 @@ export const createLogixUXConcept = (): Concept => {
     logixUXToggleSidebarQuality,
     logixUXSetPossibleProjectQuality,
     logixUXFilterTriggerInstallGitRepositoryQuality,
-    logixUXInnerCountByQuality,
-    logixUXGenerateVerboseCountingStrategyQuality,
     logixUXSetDataSetQuality,
     logixUXSetSelectedTransformationQuality,
-    logixUXTriggerTransformationStrategyQuality,
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
   return unifyConcepts([createCounterConcept()], createConcept(logixUXName, createLogixUXState(), qualities, principles, []));

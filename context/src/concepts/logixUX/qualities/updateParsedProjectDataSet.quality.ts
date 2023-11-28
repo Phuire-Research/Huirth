@@ -4,7 +4,7 @@ $>*/
 /*<#*/
 import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
-import { NamedDataSet, ProjectStatus, TrainingData } from '../logixUX.model';
+import { DataSetTypes, NamedDataSet, ProjectStatus, TrainingData } from '../logixUX.model';
 
 export type LogixUXUpdateParsedProjectDataSetPayload = {
   dataSet: NamedDataSet;
@@ -32,29 +32,31 @@ function logixUXUpdateParsedProjectDataSetReducer(state: LogixUXState, action: A
     newTrainingData.push(dataSet);
     dataSetSelection.push(false);
   }
-  if (dataSet.name.toLowerCase() === 'stratimux') {
-    stratimuxStatus = ProjectStatus.parsed;
-  } else if (dataSet.name.toLowerCase() === 'logixux') {
-    logixUXStatus = ProjectStatus.parsed;
-  } else {
-    added = false;
-    const newStatuses = [];
-    for (const status of projectsStatuses) {
-      if (status.name === dataSet.name) {
-        status.status = ProjectStatus.parsed;
-        newStatuses.push(status);
-        added = true;
-      } else {
-        newStatuses.push(status);
+  if (dataSet.type === DataSetTypes.project) {
+    if (dataSet.name.toLowerCase() === 'stratimux') {
+      stratimuxStatus = ProjectStatus.parsed;
+    } else if (dataSet.name.toLowerCase() === 'logixux') {
+      logixUXStatus = ProjectStatus.parsed;
+    } else {
+      added = false;
+      const newStatuses = [];
+      for (const status of projectsStatuses) {
+        if (status.name === dataSet.name) {
+          status.status = ProjectStatus.parsed;
+          newStatuses.push(status);
+          added = true;
+        } else {
+          newStatuses.push(status);
+        }
       }
+      if (!added) {
+        newStatuses.push({
+          name: dataSet.name,
+          status: ProjectStatus.parsed,
+        });
+      }
+      projectsStatuses = newStatuses;
     }
-    if (!added) {
-      newStatuses.push({
-        name: dataSet.name,
-        status: ProjectStatus.parsed,
-      });
-    }
-    projectsStatuses = newStatuses;
   }
   return {
     ...state,

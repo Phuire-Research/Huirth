@@ -39,10 +39,16 @@ function convert_tens(num: number): string {
 }
 
 export function logixUX_convertNumberToStringVerbose(num: number): string {
+  let finalNum = num;
+  let negative = '';
+  if (num < 0) {
+    negative = 'negative ';
+    finalNum = Math.abs(num);
+  }
   if (num === 0) {
     return 'zero';
   }
   else {
-    return convert_millions(num);
+    return negative + convert_millions(finalNum);
   }
 }

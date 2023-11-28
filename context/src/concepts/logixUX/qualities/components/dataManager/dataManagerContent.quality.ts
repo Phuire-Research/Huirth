@@ -45,8 +45,8 @@ import { determineProjectControls } from './dataManagerProjectControls.model';
 import { logixUXSetPossibleProject } from '../../setPossibleProject.quality';
 import { logixUXFilterTriggerInstallGitRepository } from '../../filterTriggerInstallGitRepository.quality';
 import { logixUXSetSelectedTransformation } from '../../setSelectedTransformation.quality';
-import { logixUXTriggerTransformationStrategy } from '../../triggerSelectedTransformationStrategy.quality';
 import { logixUXSendTriggerTransformationStrategy } from '../../../strategies/server/triggerTransformationStrategy.helper';
+import { logixUXSendTriggerSelectedTransformationStrategy } from '../../sendTriggerSelectedTransformationStrategy.quality';
 
 export const logixUXDataManagerContentType: ActionType = 'create userInterface for DataManagerContent';
 export const logixUXDataManagerContent = prepareActionComponentCreator(logixUXDataManagerContentType);
@@ -211,7 +211,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
           eventBinding: elementEventBinding.onchange,
         });
         bindingsArray.push({
-          action: logixUXSendTriggerTransformationStrategy(),
+          action: logixUXSendTriggerSelectedTransformationStrategy(),
           elementId: triggerCreateTransformationDataSetID,
           eventBinding: elementEventBinding.onclick,
         });
@@ -296,8 +296,9 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
               'focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500' +
               'dark:focus:border-blue-500'
             }">
+            <option>Select a Data Transformation Strategy</option>
 ${transformationStrategies
-  .map((str) => `<option ${selectedTransformation === str ? 'select' : ''} value="${str}"> ${str}</option>`)
+  .map((str) => `<option ${selectedTransformation === str ? 'selected' : ''} value="${str}"> ${str}</option>`)
   .join('')}
               </select>
               <button

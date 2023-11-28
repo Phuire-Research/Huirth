@@ -4,7 +4,11 @@ $>*/
 /*<#*/
 import { createAction } from 'stratimux';
 import { userInterfaceClientSendActionToServer } from '../../../userInterfaceClient/strategies/sendActionToServer.helper';
-import { logixUXTriggerTransformationStrategy } from '../../qualities/triggerSelectedTransformationStrategy.quality';
 
-export const logixUXSendTriggerTransformationStrategy = () => userInterfaceClientSendActionToServer(logixUXTriggerTransformationStrategy());
+export const logixUXSendTriggerTransformationStrategy = (selection: string) =>
+  userInterfaceClientSendActionToServer(
+    createAction('logixUXServer trigger passed transformation strategy from payload', {
+      selection,
+    })
+  );
 /*#>*/
