@@ -50,4 +50,8 @@ export const logixUX_createProjectStatusSelector = (concepts: Concepts, semaphor
 export const logixUX_createPossibleProjectValidSelector = (concepts: Concepts, semaphore: number) => {
   return createUnifiedKeyedSelector(concepts, semaphore, 'possibleProjectValid');
 };
+
+export const logixUX_createSelectedTransformationSelector = (concepts: Concepts, semaphore: number) => {
+  return createUnifiedKeyedSelector(concepts, semaphore, 'selectedTransformation');
+};
 /*#>*/

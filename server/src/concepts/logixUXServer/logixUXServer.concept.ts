@@ -21,6 +21,12 @@ import { logixUXServerPrepareParsedProjectDataUpdateQuality } from './qualities/
 import { logixUXServerTriggerSaveDataSetSelectionStrategyQuality } from './qualities/triggerSaveDataSetSelectionStrategy.quality';
 import { logixUXServerSetTrainingDataFromDataQuality } from './qualities/setTrainingDataFromData.quality';
 import { logixUXServerTriggerDeleteDataSetsStrategyQuality } from './qualities/triggerDeleteDataSetsStrategy.quality';
+import { logixUXServerInnerAddToQuality } from './qualities/innerAddTo.quality';
+import { logixUXServerGenerateVerboseAddingStrategyQuality } from './qualities/generateVerboseAddingDataSet.quality';
+import { logixUXServerTriggerSelectTransformationStrategyQuality } from './qualities/triggerSelectedTransformationStrategy.quality';
+import { logixUXServerInnerSubtractFromQuality } from './qualities/innerSubtractFrom.quality';
+import { logixUXServerGenerateVerboseSubtractionStrategyQuality } from './qualities/generateVerboseSubtractionDataSet.quality';
+import { logixUXServerGenerateVerboseAdditionAndSubtractionStrategyQuality } from './qualities/generateVerboseAdditionAndSubtractionDataSet.quality';
 
 export const logixUXServerName = 'logixUXServer';
 export type LogixUXServerState = {
@@ -48,6 +54,12 @@ export const createLogixUXServerConcept = (): Concept =>  {
     logixUXServerDetermineReadParseAppendStrategyQuality,
     logixUXServerAppendParsedDataToNamedDataSetQuality,
     logixUXServerPrepareParsedProjectDataUpdateQuality,
+    logixUXServerInnerAddToQuality,
+    logixUXServerGenerateVerboseAddingStrategyQuality,
+    logixUXServerTriggerSelectTransformationStrategyQuality,
+    logixUXServerInnerSubtractFromQuality,
+    logixUXServerGenerateVerboseSubtractionStrategyQuality,
+    logixUXServerGenerateVerboseAdditionAndSubtractionStrategyQuality
   ];
   return unifyConcepts(
     [

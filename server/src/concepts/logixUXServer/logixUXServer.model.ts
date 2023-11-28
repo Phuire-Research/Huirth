@@ -58,7 +58,8 @@ export const convertSavedFormatToNamedDataSet = (saved: SavedFormat, name: strin
   const named: NamedDataSet = {
     name,
     type: DataSetTypes.general,
-    dataSet: []
+    dataSet: [],
+    index: 0
   };
   const keys = Object.keys(saved);
   for (const key of keys) {

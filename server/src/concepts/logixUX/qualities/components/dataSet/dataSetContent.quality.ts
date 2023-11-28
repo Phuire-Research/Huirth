@@ -52,6 +52,10 @@ const createDataSetContentMethodCreator: MethodCreator = (concepts$?: UnifiedSub
       if (dataSet) {
         // console.log('CHECK TRAINING DATA INFO', trainingData[index].name, trainingData[index].type);
         for (const [i, data] of dataSet.entries()) {
+          // So I don't break anything in the final sprint. Can save pagination if I have time today or tomorrow.
+          if (i === 10) {
+            break;
+          }
           const elementID = generateNumID(i);
           bindingsArray.push({
             elementId: promptID + elementID,
@@ -133,6 +137,7 @@ ${
             </button>
           </div>
           <h1>Entries: ${trainingData[index] ? trainingData[index].dataSet.length : 'Data Set Removed'}</h1>
+          <h1>Page: ${trainingData[index] ? trainingData[index].index + 1 + '/' + Math.round((trainingData[index].dataSet.length / 10) + 1) : '0/0'}</h1>
           <div class="flex-1 p-4 pt-0 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
             ${finalOutput}
           </div>

@@ -29,6 +29,7 @@ import {
   logixUX_createLogixUXStatusSelector,
   logixUX_createPossibleProjectValidSelector,
   logixUX_createProjectStatusSelector,
+  logixUX_createSelectedTransformationSelector,
   logixUX_createStratimuxStatusSelector,
   logixUX_createTrainingDataSelector,
 } from '../../../logixUX.selector';
@@ -43,6 +44,9 @@ import { logixUXRemoveDataSetSelection } from '../../removeDataSetSelection.qual
 import { determineProjectControls } from './dataManagerProjectControls.model';
 import { logixUXSetPossibleProject } from '../../setPossibleProject.quality';
 import { logixUXFilterTriggerInstallGitRepository } from '../../filterTriggerInstallGitRepository.quality';
+import { logixUXSetSelectedTransformation } from '../../setSelectedTransformation.quality';
+import { logixUXSendTriggerTransformationStrategy } from '../../../strategies/server/triggerTransformationStrategy.helper';
+import { logixUXSendTriggerSelectedTransformationStrategy } from '../../sendTriggerSelectedTransformationStrategy.quality';
 
 export const logixUXDataManagerContentType: ActionType = 'create userInterface for DataManagerContent';
 export const logixUXDataManagerContent = prepareActionComponentCreator(logixUXDataManagerContentType);
@@ -56,6 +60,8 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
       const saveID = '#saveID';
       const addEntryID = '#addEntry' + payload.pageTitle;
       const removeID = '#removeID';
+      const transformationSelectionID = '#transformationSelectionID';
+      const triggerCreateTransformationDataSetID = '#triggerCreateTransformationDataSetID';
       const installProjectID = '#installProjectID';
       const installStratimuxID = '#install_' + PhuirEProjects.stratimux;
       let finalStratimuxID = '#stratimuxID';
@@ -66,8 +72,17 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
       let finalLogixUX_note = 'logixUX';
       const parseLogixUX_ID = '#parse_' + PhuirEProjects.logixUX;
       if (action.strategy) {
-        const { trainingData, stratimuxStatus, logixUXStatus, dataSetSelection, projectsStatuses, possibleProject, possibleProjectValid } =
-          selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState;
+        const {
+          trainingData,
+          stratimuxStatus,
+          logixUXStatus,
+          dataSetSelection,
+          projectsStatuses,
+          possibleProject,
+          possibleProjectValid,
+          selectedTransformation,
+          transformationStrategies,
+        } = selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState;
         const anySelected = (() => {
           for (const selected of dataSetSelection) {
             if (selected) {
@@ -190,6 +205,16 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
           elementId: installProjectID,
           eventBinding: elementEventBinding.onclick,
         });
+        bindingsArray.push({
+          action: logixUXSetSelectedTransformation(),
+          elementId: transformationSelectionID,
+          eventBinding: elementEventBinding.onchange,
+        });
+        bindingsArray.push({
+          action: logixUXSendTriggerSelectedTransformationStrategy(),
+          elementId: triggerCreateTransformationDataSetID,
+          eventBinding: elementEventBinding.onclick,
+        });
         const bindings = createBinding(bindingsArray);
         // console.log('Check bindings', bindings);
         const strategy = strategySuccess(
@@ -206,6 +231,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
                 logixUX_createDataSetSelectionSelector(concepts, semaphore) as KeyedSelector,
                 logixUX_createProjectStatusSelector(concepts, semaphore) as KeyedSelector,
                 logixUX_createPossibleProjectValidSelector(concepts, semaphore) as KeyedSelector,
+                logixUX_createSelectedTransformationSelector(concepts, semaphore) as KeyedSelector,
               ]),
             ],
             action: logixUXDataManagerContent(payload),
@@ -265,15 +291,18 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
 
             </div>
             <div class="m-4 flex-none flex items-center w-full">
-              <select id="strategies" class="${
-                'mr-4 bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-500 ' +
-                'focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500' +
-                'dark:focus:border-blue-500'
-              }">
-                <option selected>Transformation Strategies</option>
-                <option value="something">Something</option>
+              <select id="${transformationSelectionID}" class="${
+              'mr-4 bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-500 ' +
+              'focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500' +
+              'dark:focus:border-blue-500'
+            }">
+            <option>Select a Data Transformation Strategy</option>
+${transformationStrategies
+  .map((str) => `<option ${selectedTransformation === str ? 'selected' : ''} value="${str}"> ${str}</option>`)
+  .join('')}
               </select>
               <button
+                id="${triggerCreateTransformationDataSetID}"
                 class="w-44 m-2 center-m bg-blue-800/5 hover:bg-blue-500 text-blue-50 hover:text-white font-semibold py-2 px-4 border border-blue-500 hover:border-transparent rounded"
               >
                 Strategy <i class="fa-solid fa-plus"></i>

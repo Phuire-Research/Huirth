@@ -30,6 +30,9 @@ import {
   TrainingData,
   generateDPOTrainingData,
   generateDefaultTrainingData,
+  logixUXVerboseAddingStrategySelect,
+  logixUXVerboseAdditionAndSubtractionStrategySelect,
+  logixUXVerboseSubtractionStrategySelect,
 } from './logixUX.model';
 import { logixUXNewDataSetEntryQuality } from './qualities/newDataSetEntry.quality';
 import { logixUXTriggerMinusCountingStrategyQuality } from './qualities/triggerMinusCounterStrategy.quality';
@@ -62,11 +65,16 @@ import { logixUXRemoveDataSetSelectionQuality } from './qualities/removeDataSetS
 import { logixUXSendTriggerDeleteDataSetsStrategyQuality } from './qualities/sendTriggerSaveDeleteDataSetsStrategy.quality';
 import { logixUXSetPossibleProjectQuality } from './qualities/setPossibleProject.quality';
 import { logixUXFilterTriggerInstallGitRepositoryQuality } from './qualities/filterTriggerInstallGitRepository.quality';
+import { logixUXSetDataSetQuality } from './qualities/setDataSet.quality';
+import { logixUXSetSelectedTransformationQuality } from './qualities/setSelectedTransformation.quality';
+import { logixUXSendTriggerSelectedTransformationStrategyQuality } from './qualities/sendTriggerSelectedTransformationStrategy.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
   mock: number;
   dialog: string;
+  transformationStrategies: string[];
+  selectedTransformation: string;
   possibleProject: string;
   possibleProjectValid: boolean;
   stratimuxStatus: ProjectStatus;
@@ -82,6 +90,12 @@ const createLogixUXState = (): LogixUXState => {
   return {
     mock: 0,
     dialog: '',
+    transformationStrategies: [
+      logixUXVerboseAddingStrategySelect,
+      logixUXVerboseSubtractionStrategySelect,
+      logixUXVerboseAdditionAndSubtractionStrategySelect,
+    ],
+    selectedTransformation: 'Some Strategy',
     possibleProject: '',
     possibleProjectValid: false,
     stratimuxStatus: ProjectStatus.notInstalled,
@@ -122,6 +136,7 @@ export const createLogixUXConcept = (): Concept => {
     logixUXSendTriggerParseRepositoryStrategyQuality,
     logixUXSendTriggerSaveDataSetSelectionStrategyQuality,
     logixUXSendTriggerDeleteDataSetsStrategyQuality,
+    logixUXSendTriggerSelectedTransformationStrategyQuality,
     logixUXUpdateFromPromptPayloadQuality,
     logixUXUpdateFromChosenPayloadQuality,
     logixUXUpdateFromRejectedPayloadQuality,
@@ -143,6 +158,8 @@ export const createLogixUXConcept = (): Concept => {
     logixUXToggleSidebarQuality,
     logixUXSetPossibleProjectQuality,
     logixUXFilterTriggerInstallGitRepositoryQuality,
+    logixUXSetDataSetQuality,
+    logixUXSetSelectedTransformationQuality,
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
   return unifyConcepts([createCounterConcept()], createConcept(logixUXName, createLogixUXState(), qualities, principles, []));
