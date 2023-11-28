@@ -55,11 +55,19 @@ import { logixUXRemoveDataSetSelectionQuality } from './qualities/removeDataSetS
 import { logixUXSendTriggerDeleteDataSetsStrategyQuality } from './qualities/sendTriggerSaveDeleteDataSetsStrategy.quality';
 import { logixUXSetPossibleProjectQuality } from './qualities/setPossibleProject.quality';
 import { logixUXFilterTriggerInstallGitRepositoryQuality } from './qualities/filterTriggerInstallGitRepository.quality';
+import { logixUXInnerCountByQuality } from './qualities/innerCountBy.quality';
+import { logixUXGenerateVerboseCountingStrategyQuality } from './qualities/generateVerboseCountingDataSet.quality';
+import { logixUXSetDataSetQuality } from './qualities/setDataSet.quality';
+import { logixUXVerboseCountingStrategySelect } from './strategies/verboseCounting.strategy';
+import { logixUXSetSelectedTransformationQuality } from './qualities/setSelectedTransformation.quality';
+import { logixUXTriggerTransformationStrategyQuality } from './qualities/triggerSelectedTransformationStrategy.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
   mock: number;
   dialog: string;
+  transformationStrategies: string[]
+  selectedTransformation: string,
   possibleProject: string;
   possibleProjectValid: boolean;
   stratimuxStatus: ProjectStatus;
@@ -75,6 +83,8 @@ const createLogixUXState = (): LogixUXState => {
   return {
     mock: 0,
     dialog: '',
+    transformationStrategies: ['Some Strategy', logixUXVerboseCountingStrategySelect],
+    selectedTransformation: 'Some Strategy',
     possibleProject: '',
     possibleProjectValid: false,
     stratimuxStatus: ProjectStatus.notInstalled,
@@ -138,7 +148,12 @@ export const createLogixUXConcept = (): Concept =>  {
     logixUXTriggerInstallGitRepositoryQuality,
     logixUXToggleSidebarQuality,
     logixUXSetPossibleProjectQuality,
-    logixUXFilterTriggerInstallGitRepositoryQuality
+    logixUXFilterTriggerInstallGitRepositoryQuality,
+    logixUXInnerCountByQuality,
+    logixUXGenerateVerboseCountingStrategyQuality,
+    logixUXSetDataSetQuality,
+    logixUXSetSelectedTransformationQuality,
+    logixUXTriggerTransformationStrategyQuality
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
   return unifyConcepts(
