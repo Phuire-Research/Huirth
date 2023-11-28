@@ -15,7 +15,7 @@ import { logixUXUpdateProjectStatusStrategy } from './strategies/updateProjectSt
 
 export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
   (_: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
-    const cachedTrainingDataNames: string[] = [];
+    let cachedTrainingDataNames: string[] = [];
     let delayDetection = false;
     const isClient = userInterface_isClient();
     const plan = concepts$.stage('Observe Training Data and modify Pages', [
@@ -105,7 +105,6 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
       (concepts, dispatch) => {
         const state = selectUnifiedState<LogixUXState & UserInterfaceState>(concepts, semaphore);
         const trainingData = state?.trainingData;
-        console.log('CACHED NAMES', cachedTrainingDataNames, state?.pages.length, state?.pageStrategies.length);
         if (state && trainingData && cachedTrainingDataNames.length !== trainingData.length) {
           const add: {
             i: number,
@@ -172,20 +171,28 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
           plan.conclude();
         }
       },
-      (__, dispatch) => {
+      (concepts, dispatch) => {
         if (!delayDetection) {
           delayDetection = true;
           setTimeout(() => {
-            delayDetection = false;
-            dispatch(axiumKick(), {
-              setStage: 2
-            });
-          }, 300);
+            const state = selectUnifiedState<LogixUXState & UserInterfaceState>(concepts, semaphore);
+            if (state) {
+              const pageNames = state.pages.map(p => p.title);
+              console.log(pageNames, cachedTrainingDataNames);
+              cachedTrainingDataNames = cachedTrainingDataNames.filter(name => pageNames.includes(name));
+              delayDetection = false;
+              dispatch(axiumKick(), {
+                setStage: 2
+              });
+            } else {
+              plan.conclude();
+            }
+          }, 333);
         }
       },
       () => {
         plan.conclude();
       }
-    ]);
+    ], 277);
   };
 /*#>*/

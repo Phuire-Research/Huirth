@@ -10,6 +10,7 @@ import {
   Concepts,
   PrincipleFunction,
   UnifiedSubject,
+  axiumKick,
   axiumRegisterStagePlanner,
   getAxiumState,
   getUnifiedName,
@@ -33,6 +34,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
   (observer: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     const url = 'ws://' + window.location.host + '/axium';
     const ws = new WebSocket(url);
+    let delayDetection = false;
     ws.addEventListener('open', () => {
       console.log('SEND');
       ws.send(JSON.stringify(webSocketClientSetClientSemaphore({semaphore})));
@@ -64,7 +66,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
             plan.conclude();
           }
         }
-      ]);
+      ], 100);
       const state: Record<string, unknown> = {};
       const planOnChange = concepts$.stage('Web Socket Server On Change', [
         (concepts, dispatch) => {
@@ -118,8 +120,19 @@ export const webSocketClientPrinciple: PrincipleFunction =
           } else {
             planOnChange.conclude();
           }
-        }
-      ]);
+        },
+        (__, dispatch) => {
+          if (!delayDetection) {
+            delayDetection = true;
+            setTimeout(() => {
+              delayDetection = false;
+              dispatch(axiumKick(), {
+                setStage: 1
+              });
+            }, 33);
+          }
+        },
+      ], 33);
     });
     ws.addEventListener('message', (message) => {
       const act = JSON.parse(message.data);

@@ -17,6 +17,7 @@ export const logixUXUpdateProjectStatusToSaved = prepareActionWithPayloadCreator
 function logixUXUpdateProjectStatusToSavedReducer(state: LogixUXState, action: Action): LogixUXState {
   const { name } = selectPayload<LogixUXUpdateProjectStatusToSavedPayload>(action);
   let { projectsStatuses, stratimuxStatus, logixUXStatus } = state;
+  console.log('HIT UPDATED SAVED STATUS!!', name);
   let added = false;
   if (name.toLowerCase() === 'stratimux') {
     stratimuxStatus = ProjectStatus.saved;

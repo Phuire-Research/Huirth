@@ -43,6 +43,6 @@ export const logixUXDialogPrinciple: PrincipleFunction =
           });
         }
       }
-    ]);
+    ], 500);
   };
 /*#>*/

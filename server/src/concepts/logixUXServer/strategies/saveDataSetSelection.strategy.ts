@@ -30,7 +30,7 @@ export const logixUXServerSaveDataSetSelectionStrategy = (root: string, training
     })();
     if (dataSet) {
       const saveFormat  = convertNamedDataSetToSaveFormat(dataSet);
-      const stepUpdateProjectStatusToSavedOnClient = createActionNode(logixUXServerSendProjectStatusToSaved(trainingData[i].name), {
+      const stepUpdateProjectStatusToSavedOnClient = createActionNode(logixUXServerSendProjectStatusToSaved(dataSet.name), {
         successNode: null,
         failureNode: null
       });

@@ -133,7 +133,6 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
 export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
   (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     const atomicCachedState: Record<string, unknown> = {};
-    let delayChanges = false;
     const plan = concepts$.stage('User Interface Server on Change', [
       (concepts, dispatch) => {
         const name = getUnifiedName(concepts, semaphore);
@@ -199,26 +198,15 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
             atomicCachedState[changes[i]] = selectSlice(concepts, changedSelectors[i]);
           }
           if (payload.boundActionQue.length > 0) {
-            delayChanges = true;
             dispatch(userInterfaceServerAssembleAtomicUpdateCompositionStrategy(payload), {
-              iterateStage: true
+              throttle: 1
             });
           }
         } else if (uiState === undefined) {
           plan.conclude();
         }
       },
-      (_, dispatch) => {
-        if (!delayChanges) {
-          setTimeout(() => {
-            delayChanges = false;
-          }, 300);
-          dispatch(axiumKick(), {
-            setStage: 1
-          });
-        }
-      }
-    ]
+    ], 333
     );
   };
 /*#>*/
