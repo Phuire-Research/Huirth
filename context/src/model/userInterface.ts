@@ -40,9 +40,13 @@ export const createPageId = (pageName: string) => {
   return `page#${pageName}`;
 };
 
-export const createBinding = (
-  bindings: { elementId: string; eventBinding: elementEventBinding; action: Action }[]
-): UserInterfaceBindings => {
+export type PreBind = {
+  elementId: string;
+  eventBinding: elementEventBinding;
+  action: Action;
+};
+
+export const createBinding = (bindings: PreBind[]): UserInterfaceBindings => {
   const binding: UserInterfaceBindings = {};
   bindings.forEach((bind) => {
     binding[bind.elementId] = [{ action: bind.action, eventBinding: bind.eventBinding }];

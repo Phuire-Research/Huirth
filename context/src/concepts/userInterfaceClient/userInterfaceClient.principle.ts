@@ -34,7 +34,7 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
 ) => {
   const atomicCachedState: Record<string, unknown> = {};
   let delayChanges = false;
-  const plan = concepts$.stage('User Interface Server on Change', [
+  const plan = concepts$.stage('User Interface Client on Change', [
     (concepts, dispatch) => {
       const name = getUnifiedName(concepts, semaphore);
       if (name) {
@@ -105,10 +105,6 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
           atomicCachedState[changes[i]] = selectSlice(concepts, changedSelectors[i]);
         }
         if (payload.boundActionQue.length > 0) {
-          setTimeout(() => {
-            delayChanges = false;
-          }, 100);
-          delayChanges = true;
           dispatch(userInterfaceClientAssembleAtomicUpdateCompositionStrategy(payload), {
             iterateStage: true,
           });
@@ -119,6 +115,10 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
     },
     (_, dispatch) => {
       if (!delayChanges) {
+        delayChanges = true;
+        setTimeout(() => {
+          delayChanges = false;
+        }, 200);
         dispatch(axiumKick(), {
           setStage: 1,
         });

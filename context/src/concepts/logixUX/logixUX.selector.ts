@@ -42,4 +42,12 @@ export const logixUX_createStratimuxStatusSelector = (concepts: Concepts, semaph
 export const logixUX_createLogixUXStatusSelector = (concepts: Concepts, semaphore: number) => {
   return createUnifiedKeyedSelector(concepts, semaphore, 'logixUXStatus');
 };
+
+export const logixUX_createProjectStatusSelector = (concepts: Concepts, semaphore: number) => {
+  return createUnifiedKeyedSelector(concepts, semaphore, 'projectStatus');
+};
+
+export const logixUX_createPossibleProjectValidSelector = (concepts: Concepts, semaphore: number) => {
+  return createUnifiedKeyedSelector(concepts, semaphore, 'possibleProjectValid');
+};
 /*#>*/

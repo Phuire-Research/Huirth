@@ -13,6 +13,8 @@ export enum ProjectStatus {
   saved = 'Saved',
 }
 
+export type GeneralProjectStatuses = { name: string; status: ProjectStatus }[];
+
 // eslint-disable-next-line no-shadow
 export enum PhuirEProjects {
   stratimux = 'stratimux',
