@@ -105,6 +105,7 @@ ${
         'disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50'
       }" id="${chosenID + elementID}" rows="4" cols="50"
 >
+  ${data.content}
   </textarea>`
     : /*html*/ `
   <input

@@ -23,7 +23,17 @@ import { logixUXIndexDPOEndQuality } from './qualities/components/DPO/DPOEnd.qua
 import { logixUXUpdateFromPromptPayloadQuality } from './qualities/updateFromPromptPayload.quality';
 import { logixUXUpdateFromChosenPayloadQuality } from './qualities/updateFromChosenPayload.quality';
 import { logixUXUpdateFromRejectedPayloadQuality } from './qualities/updateFromRejectedPayload.quality';
-import { Active_DPO, GeneralProjectStatuses, ProjectStatus, TrainingData, generateDPOTrainingData, generateDefaultTrainingData, logixUXVerboseAddingStrategySelect, logixUXVerboseAdditionAndSubtractionStrategySelect, logixUXVerboseSubtractionStrategySelect } from './logixUX.model';
+import {
+  Active_DPO,
+  GeneralProjectStatuses,
+  ProjectStatus,
+  TrainingData,
+  generateDPOTrainingData,
+  generateDefaultTrainingData,
+  logixUXVerboseAddingStrategySelect,
+  logixUXVerboseAdditionAndSubtractionStrategySelect,
+  logixUXVerboseSubtractionStrategySelect
+} from './logixUX.model';
 import { logixUXNewDataSetEntryQuality } from './qualities/newDataSetEntry.quality';
 import { logixUXTriggerMinusCountingStrategyQuality } from './qualities/triggerMinusCounterStrategy.quality';
 import { logixUXTriggerPlusCountingStrategyQuality } from './qualities/triggerPlusCounterStrategy.quality';

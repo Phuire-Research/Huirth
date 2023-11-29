@@ -72,8 +72,8 @@ const logixUXServerGenerateVerboseAddingStrategyMethodCreator: MethodCreator = (
         console.log('Transformation stage 2', iterations, length, currentTopic === state.lastStrategy);
         if (state.lastStrategy === currentTopic) {
           named.dataSet.push({
-            prompt: currentTopic,
-            content: '' + state.lastStrategyDialog + '\nThe final sum: ' + logixUX_convertNumberToStringVerbose((state.lastStrategyData as LogixUXServerInnerAddField).sum) + '.'
+            prompt: (currentTopic.split('.')[0] + '.').trim(),
+            content: ('' + state.lastStrategyDialog + '\nThe final sum is ' + logixUX_convertNumberToStringVerbose((state.lastStrategyData as LogixUXServerInnerAddField).sum) + '.').trim()
           });
           console.log(iterations);
           iterations++;
