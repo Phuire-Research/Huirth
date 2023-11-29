@@ -35,11 +35,13 @@ const logixUXServerInnerSubtractFromMethodCreator: MethodCreator = () =>
       if (data) {
         const {sum} = data;
         const final = sum - subtractFrom;
-        strategy.currentNode.actionType = logixUX_convertNumberToStringVerbose(sum) + ' ' + action.type + ' ' + logixUX_convertNumberToStringVerbose(subtractFrom) + ', equals ' + final;
+        let verboseSum = logixUX_convertNumberToStringVerbose(sum);
+        verboseSum = verboseSum[0].toUpperCase() + verboseSum.substring(1);
+        strategy.currentNode.actionType = verboseSum.trim()  + ' ' + action.type + ' ' + logixUX_convertNumberToStringVerbose(subtractFrom).trim() + ', equals ' + logixUX_convertNumberToStringVerbose(final).trim();
         strategy.currentNode.successNotes = {
-          preposition: 'Then'
+          preposition: ''
         };
-        console.log(sum, ' subtract ', subtractFrom, ' equals ', final);
+        console.log(verboseSum, ' subtract ', subtractFrom, ' equals ', final);
         return strategySuccess(strategy, strategyData_unifyData(strategy, {
           sum: final
         }));

@@ -2,28 +2,22 @@
 For the graph programming framework Stratimux and a Concept logixUX, generate a quality that will append the payload data set into state, replacing if it already exists.
 $>*/
 /*<#*/
-import {
-  Action,
-  ActionType,
-  createQuality,
-  defaultMethodCreator,
-  prepareActionWithPayloadCreator,
-  selectPayload,
-} from 'stratimux';
+import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 import { DataSetTypes, NamedDataSet, ProjectStatus, TrainingData } from '../logixUX.model';
 
 export type LogixUXUpdateParsedProjectDataSetPayload = {
-  dataSet: NamedDataSet,
-}
+  dataSet: NamedDataSet;
+};
 export const logixUXUpdateParsedProjectDataSetType: ActionType = 'logixUX update parsed project data set';
-export const logixUXUpdateParsedProjectDataSet =
-  prepareActionWithPayloadCreator<LogixUXUpdateParsedProjectDataSetPayload>(logixUXUpdateParsedProjectDataSetType);
+export const logixUXUpdateParsedProjectDataSet = prepareActionWithPayloadCreator<LogixUXUpdateParsedProjectDataSetPayload>(
+  logixUXUpdateParsedProjectDataSetType
+);
 
 function logixUXUpdateParsedProjectDataSetReducer(state: LogixUXState, action: Action): LogixUXState {
-  const {dataSet} = selectPayload<LogixUXUpdateParsedProjectDataSetPayload>(action);
+  const { dataSet } = selectPayload<LogixUXUpdateParsedProjectDataSetPayload>(action);
   const { dataSetSelection, trainingData } = state;
-  let {projectsStatuses, stratimuxStatus, logixUXStatus} = state;
+  let { projectsStatuses, stratimuxStatus, logixUXStatus } = state;
   const newTrainingData: TrainingData = [];
   let added = false;
   for (const data of trainingData) {
@@ -58,7 +52,7 @@ function logixUXUpdateParsedProjectDataSetReducer(state: LogixUXState, action: A
       if (!added) {
         newStatuses.push({
           name: dataSet.name,
-          status: ProjectStatus.parsed
+          status: ProjectStatus.parsed,
         });
       }
       projectsStatuses = newStatuses;
@@ -69,7 +63,7 @@ function logixUXUpdateParsedProjectDataSetReducer(state: LogixUXState, action: A
     trainingData: newTrainingData,
     stratimuxStatus,
     logixUXStatus,
-    projectsStatuses
+    projectsStatuses,
   };
 }
 

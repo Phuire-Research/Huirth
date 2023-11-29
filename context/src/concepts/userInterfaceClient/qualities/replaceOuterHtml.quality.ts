@@ -14,29 +14,29 @@ import {
 import { userInterface_selectPage } from '../../../model/userInterface';
 
 export type UserInterfaceClientReplaceOuterHtmlPayload = {
-  id: string,
+  id: string;
 };
 export const userInterfaceClientReplaceOuterHtmlType: ActionType =
   'User Interface Client assemble update atomic compositions strategy client';
-export const userInterfaceClientReplaceOuterHtml =
-  prepareActionWithPayloadCreator(userInterfaceClientReplaceOuterHtmlType);
+export const userInterfaceClientReplaceOuterHtml = prepareActionWithPayloadCreator(userInterfaceClientReplaceOuterHtmlType);
 
-const createUserInterfaceClientReplaceOuterHtmlMethod = () => createMethod(action => {
-  if (action.strategy) {
-    const payload = selectPayload<UserInterfaceClientReplaceOuterHtmlPayload>(action);
-    const composition = userInterface_selectPage(action.strategy).compositions.filter(comp => comp.id === payload.id)[0];
-    const element = document.getElementById(composition.id);
-    if (element) {
-      element.outerHTML = composition.html;
+const createUserInterfaceClientReplaceOuterHtmlMethod = () =>
+  createMethod((action) => {
+    if (action.strategy) {
+      const payload = selectPayload<UserInterfaceClientReplaceOuterHtmlPayload>(action);
+      const composition = userInterface_selectPage(action.strategy).compositions.filter((comp) => comp.id === payload.id)[0];
+      const element = document.getElementById(composition.id);
+      if (element) {
+        element.outerHTML = composition.html;
+      }
+      return strategySuccess(action.strategy);
     }
-    return strategySuccess(action.strategy);
-  }
-  return action;
-});
+    return action;
+  });
 
 export const userInterfaceClientReplaceOuterHtmlQuality = createQuality(
   userInterfaceClientReplaceOuterHtmlType,
   defaultReducer,
-  createUserInterfaceClientReplaceOuterHtmlMethod,
+  createUserInterfaceClientReplaceOuterHtmlMethod
 );
 /*#>*/

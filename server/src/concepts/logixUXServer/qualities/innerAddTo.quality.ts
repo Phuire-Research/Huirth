@@ -19,7 +19,7 @@ import { logixUX_convertNumberToStringVerbose } from '../verboseNumber.model';
 export type LogixUXServerInnerAddToPayload = {
   addTo: number
 };
-export const logixUXServerInnerAddToType: ActionType = 'add';
+export const logixUXServerInnerAddToType: ActionType = 'plus';
 export const logixUXServerInnerAddTo =
   prepareActionWithPayloadCreator<LogixUXServerInnerAddToPayload>(logixUXServerInnerAddToType);
 export type LogixUXServerInnerAddField = {
@@ -35,11 +35,13 @@ const logixUXServerInnerAddToMethodCreator: MethodCreator = () =>
       if (data) {
         const {sum} = data;
         const final = sum + addTo;
-        strategy.currentNode.actionType = logixUX_convertNumberToStringVerbose(addTo) + ' ' + action.type + ' to ' + logixUX_convertNumberToStringVerbose(sum) + ', equals ' + final;
+        let verboseSum = logixUX_convertNumberToStringVerbose(sum);
+        verboseSum = verboseSum[0].toUpperCase() + verboseSum.substring(1);
+        strategy.currentNode.actionType = verboseSum.trim() + ' ' + action.type + ' ' + logixUX_convertNumberToStringVerbose(addTo).trim() + ', equals ' + logixUX_convertNumberToStringVerbose(final).trim();
         strategy.currentNode.successNotes = {
-          preposition: 'Then'
+          preposition: ''
         };
-        console.log(addTo, ' add to ', sum, ' is ', final);
+        console.log(verboseSum, ' add to ', addTo, ' is ', final);
         return strategySuccess(strategy, strategyData_unifyData(strategy, {
           sum: final
         }));

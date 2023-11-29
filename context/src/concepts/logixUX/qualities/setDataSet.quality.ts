@@ -2,27 +2,20 @@
 For the graph programming framework Stratimux and a Concept logixUX, generate a quality that set incoming data set into the currently loaded training data.
 $>*/
 /*<#*/
-import {
-  Action,
-  ActionType,
-  createQuality,
-  prepareActionWithPayloadCreator,
-  selectPayload,
-} from 'stratimux';
+import { Action, ActionType, createQuality, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 import { NamedDataSet, TrainingData } from '../logixUX.model';
 
 export type LogixUXSetDataSetPayload = {
-  named: NamedDataSet
-}
+  named: NamedDataSet;
+};
 export const logixUXSetDataSetType: ActionType = 'logixUX set data set to the current training data';
-export const logixUXSetDataSet =
-  prepareActionWithPayloadCreator(logixUXSetDataSetType);
+export const logixUXSetDataSet = prepareActionWithPayloadCreator(logixUXSetDataSetType);
 
 const logixUXSetDataSetReducer = (state: LogixUXState, action: Action) => {
-  const {trainingData} = state;
+  const { trainingData } = state;
   const newTrainingData: TrainingData = [];
-  const {named} = selectPayload<LogixUXSetDataSetPayload>(action);
+  const { named } = selectPayload<LogixUXSetDataSetPayload>(action);
   // eslint-disable-next-line no-useless-escape
   let exists = false;
   for (const data of trainingData) {
@@ -43,8 +36,5 @@ const logixUXSetDataSetReducer = (state: LogixUXState, action: Action) => {
   };
 };
 
-export const logixUXSetDataSetQuality = createQuality(
-  logixUXSetDataSetType,
-  logixUXSetDataSetReducer,
-);
+export const logixUXSetDataSetQuality = createQuality(logixUXSetDataSetType, logixUXSetDataSetReducer);
 /*#>*/

@@ -6,8 +6,10 @@ import { createAction } from 'stratimux';
 import { userInterfaceClientSendActionToServer } from '../../../userInterfaceClient/strategies/sendActionToServer.helper';
 
 export const logixUXTriggerCloneGitRepositoryStrategy = (url: string, name: string) =>
-  (userInterfaceClientSendActionToServer(createAction('logixUXServer trigger clone git repository ActionStrategy', {
-    name,
-    url
-  })));
+  userInterfaceClientSendActionToServer(
+    createAction('logixUXServer trigger clone git repository ActionStrategy', {
+      name,
+      url,
+    })
+  );
 /*#>*/

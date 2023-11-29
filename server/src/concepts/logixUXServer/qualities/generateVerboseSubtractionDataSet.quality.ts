@@ -53,7 +53,7 @@ const logixUXServerGenerateVerboseSubtractionStrategyMethodCreator: MethodCreato
         console.log('Transformation stage 1', iterations < 100, length < limit);
         if (iterations < 100 && length < limit) {
           const newStrategy = logixUXServerVerboseSubtractionStrategy(length);
-          newStrategy.topic += iterations + 1 + '.)' + newStrategy.topic;
+          newStrategy.topic = iterations + 1 + '.)' + newStrategy.topic;
           currentTopic = newStrategy.topic;
           console.log('BEGIN STRATEGY', currentTopic);
           dispatch(strategyBegin(newStrategy), {
@@ -77,7 +77,7 @@ const logixUXServerGenerateVerboseSubtractionStrategyMethodCreator: MethodCreato
           });
           console.log(iterations);
           iterations++;
-          if (iterations === 99) {
+          if (iterations === 100) {
             if (length <= limit) {
               length++;
               iterations = 0;

@@ -3,27 +3,25 @@ For the graph programming framework Stratimux and a logixUX Concept, generate a 
 $>*/
 /*<#*/
 import { Subscriber } from 'rxjs';
-import {
-  Action,
-  Concepts,
-  PrincipleFunction,
-  UnifiedSubject,
-  axiumRegisterStagePlanner,
-  getAxiumState,
-  getUnifiedName,
-} from 'stratimux';
+import { Action, Concepts, PrincipleFunction, UnifiedSubject, axiumRegisterStagePlanner, getAxiumState, getUnifiedName } from 'stratimux';
 import _ws from 'express-ws';
 import { logixUXAppendAxiumDialog } from './qualities/appendAxiumDialog.quality';
 import { userInterfaceClientName } from '../userInterfaceClient/userInterfaceClient.concept';
 
 let topic = '';
-export const logixUXDialogPrinciple: PrincipleFunction =
-  (_: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
-    const plan = concepts$.stage('Observe Axium Dialog and append to State', [
+export const logixUXDialogPrinciple: PrincipleFunction = (
+  _: Subscriber<Action>,
+  cpts: Concepts,
+  concepts$: UnifiedSubject,
+  semaphore: number
+) => {
+  const plan = concepts$.stage(
+    'Observe Axium Dialog and append to State',
+    [
       (concepts, dispatch) => {
         const conceptName = getUnifiedName(concepts, semaphore);
         if (conceptName && conceptName === userInterfaceClientName) {
-          dispatch(axiumRegisterStagePlanner({conceptName, stagePlanner: plan}), {
+          dispatch(axiumRegisterStagePlanner({ conceptName, stagePlanner: plan }), {
             iterateStage: true,
           });
         } else {
@@ -36,13 +34,18 @@ export const logixUXDialogPrinciple: PrincipleFunction =
         // console.log(`TOPIC: ${topic}, AXIUM TOPIC: ${axiumTopic}`);
         if (topic !== axiumTopic) {
           topic = axiumTopic;
-          dispatch(logixUXAppendAxiumDialog({
-            dialog: axiumDialog
-          }), {
-            throttle: 1
-          });
+          dispatch(
+            logixUXAppendAxiumDialog({
+              dialog: axiumDialog,
+            }),
+            {
+              throttle: 1,
+            }
+          );
         }
-      }
-    ], 500);
-  };
+      },
+    ],
+    500
+  );
+};
 /*#>*/
