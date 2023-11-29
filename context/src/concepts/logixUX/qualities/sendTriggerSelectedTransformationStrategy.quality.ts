@@ -18,39 +18,48 @@ import {
 import { LogixUXState } from '../logixUX.concept';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 
-export const logixUXSendTriggerSelectedTransformationStrategyType: ActionType = 'logixUX send trigger selected transformation strategy to server';
-export const logixUXSendTriggerSelectedTransformationStrategy =
-  prepareActionCreator(logixUXSendTriggerSelectedTransformationStrategyType);
+export const logixUXSendTriggerSelectedTransformationStrategyType: ActionType =
+  'logixUX send trigger selected transformation strategy to server';
+export const logixUXSendTriggerSelectedTransformationStrategy = prepareActionCreator(logixUXSendTriggerSelectedTransformationStrategyType);
 
 const logixUXSendTriggerSelectedTransformationStrategyMethodCreator: MethodCreator = (concepts$, semaphore) =>
   createMethodWithState<LogixUXState>(
     (_, state) => {
       const serverActionType = 'logixUXServer trigger passed transformation strategy from payload';
-      const {selectedTransformation} = state;
+      const { selectedTransformation } = state;
       const topic = 'Sent to Web Socket: Trigger : ' + serverActionType + ' ' + selectedTransformation;
-      return strategyBegin(createStrategy({
-        topic,
-        initialNode: createActionNode(userInterfaceClientSendActionToServer(createAction(serverActionType, {
-          selection: selectedTransformation
-        })), {
-          successNode: null,
-          failureNode: null
+      return strategyBegin(
+        createStrategy({
+          topic,
+          initialNode: createActionNode(
+            userInterfaceClientSendActionToServer(
+              createAction(serverActionType, {
+                selection: selectedTransformation,
+              })
+            ),
+            {
+              successNode: null,
+              failureNode: null,
+            }
+          ),
         })
-      }));
-    }, concepts$ as UnifiedSubject, semaphore as number
+      );
+    },
+    concepts$ as UnifiedSubject,
+    semaphore as number
   );
 
 const logixUXSendTriggerSelectedTransformationStrategyReducer = (state: LogixUXState, _: Action): LogixUXState => {
   const dataSetSelection = state.dataSetSelection.map(() => false);
   return {
     ...state,
-    dataSetSelection
+    dataSetSelection,
   };
 };
 
 export const logixUXSendTriggerSelectedTransformationStrategyQuality = createQuality(
   logixUXSendTriggerSelectedTransformationStrategyType,
   logixUXSendTriggerSelectedTransformationStrategyReducer,
-  logixUXSendTriggerSelectedTransformationStrategyMethodCreator,
+  logixUXSendTriggerSelectedTransformationStrategyMethodCreator
 );
 /*#>*/

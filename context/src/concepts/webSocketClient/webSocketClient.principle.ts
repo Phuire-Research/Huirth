@@ -22,28 +22,29 @@ import { webSocketClientSetClientSemaphore } from './strategies/server/setClient
 import { webSocketServerSyncClientState } from './strategies/server/syncServerState.helper';
 
 const notKeys = (key: string) => {
-  return (
-    key !== 'pages' &&
-    key !== 'clientSemaphore' &&
-    key !== 'serverSemaphore' &&
-    key !== 'pageStrategies'
-  );
+  return key !== 'pages' && key !== 'clientSemaphore' && key !== 'serverSemaphore' && key !== 'pageStrategies';
 };
 
-export const webSocketClientPrinciple: PrincipleFunction =
-  (observer: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
-    const url = 'ws://' + window.location.host + '/axium';
-    const ws = new WebSocket(url);
-    let delayDetection = false;
-    ws.addEventListener('open', () => {
-      console.log('SEND');
-      ws.send(JSON.stringify(webSocketClientSetClientSemaphore({semaphore})));
-      const plan = concepts$.stage('Web Socket Planner', [
+export const webSocketClientPrinciple: PrincipleFunction = (
+  observer: Subscriber<Action>,
+  cpts: Concepts,
+  concepts$: UnifiedSubject,
+  semaphore: number
+) => {
+  const url = 'ws://' + window.location.host + '/axium';
+  const ws = new WebSocket(url);
+  let delayDetection = false;
+  ws.addEventListener('open', () => {
+    console.log('SEND');
+    ws.send(JSON.stringify(webSocketClientSetClientSemaphore({ semaphore })));
+    const plan = concepts$.stage(
+      'Web Socket Planner',
+      [
         (concepts, dispatch) => {
           const name = getUnifiedName(concepts, semaphore);
           if (name) {
-            dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
-              iterateStage: true
+            dispatch(axiumRegisterStagePlanner({ conceptName: name, stagePlanner: plan }), {
+              iterateStage: true,
             });
           } else {
             plan.conclude();
@@ -55,7 +56,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
             if (state.actionQue.length > 0) {
               const que = [...state.actionQue];
               state.actionQue = [];
-              que.forEach(action => {
+              que.forEach((action) => {
                 console.log('SENDING', action);
                 action.conceptSemaphore = (state as WebSocketClientState).serverSemaphore;
                 ws.send(JSON.stringify(action));
@@ -65,15 +66,19 @@ export const webSocketClientPrinciple: PrincipleFunction =
           } else {
             plan.conclude();
           }
-        }
-      ], 100);
-      const state: Record<string, unknown> = {};
-      const planOnChange = concepts$.stage('Web Socket Server On Change', [
+        },
+      ],
+      100
+    );
+    const state: Record<string, unknown> = {};
+    const planOnChange = concepts$.stage(
+      'Web Socket Server On Change',
+      [
         (concepts, dispatch) => {
           const name = getUnifiedName(concepts, semaphore);
           if (name) {
-            dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: planOnChange}), {
-              iterateStage: true
+            dispatch(axiumRegisterStagePlanner({ conceptName: name, stagePlanner: planOnChange }), {
+              iterateStage: true,
             });
           } else {
             planOnChange.conclude();
@@ -89,7 +94,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
                   state[key] = newState[key];
                 }
               }
-              ws.send(JSON.stringify(webSocketServerSyncClientState({state})));
+              ws.send(JSON.stringify(webSocketServerSyncClientState({ state })));
             } else {
               for (const key of stateKeys) {
                 let changed = false;
@@ -110,7 +115,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
                       state[key] = newState[key];
                     }
                   }
-                  const sync = webSocketServerSyncClientState({state});
+                  const sync = webSocketServerSyncClientState({ state });
                   sync.conceptSemaphore = (newState as WebSocketClientState).serverSemaphore;
                   ws.send(JSON.stringify(sync));
                   break;
@@ -127,21 +132,23 @@ export const webSocketClientPrinciple: PrincipleFunction =
             setTimeout(() => {
               delayDetection = false;
               dispatch(axiumKick(), {
-                setStage: 1
+                setStage: 1,
               });
             }, 33);
           }
         },
-      ], 33);
-    });
-    ws.addEventListener('message', (message) => {
-      const act = JSON.parse(message.data);
-      if (Object.keys(act).includes('type')) {
-        if (getAxiumState(cpts).logging) {
-          console.log('MESSAGE', (act as Action).type);
-        }
-        observer.next(act);
+      ],
+      33
+    );
+  });
+  ws.addEventListener('message', (message) => {
+    const act = JSON.parse(message.data);
+    if (Object.keys(act).includes('type')) {
+      if (getAxiumState(cpts).logging) {
+        console.log('MESSAGE', (act as Action).type);
       }
-    });
-  };
-  /*#>*/
+      observer.next(act);
+    }
+  });
+};
+/*#>*/

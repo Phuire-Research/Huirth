@@ -23,23 +23,29 @@ import { BoundSelectors } from '../../model/userInterface';
 import { Subscriber } from 'rxjs';
 import {
   UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload,
-  userInterfaceClientAssembleAtomicUpdateCompositionStrategy
+  userInterfaceClientAssembleAtomicUpdateCompositionStrategy,
 } from './qualities/clientAssembleAtomicUpdateCompositionStrategy.quality';
 
-export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
-  (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
-    const atomicCachedState: Record<string, unknown> = {};
-    let delayChanges = false;
-    const plan = concepts$.stage('User Interface Server on Change', [
+export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
+  ___: Subscriber<Action>,
+  cpts: Concepts,
+  concepts$: UnifiedSubject,
+  semaphore: number
+) => {
+  const atomicCachedState: Record<string, unknown> = {};
+  let delayChanges = false;
+  const plan = concepts$.stage(
+    'User Interface Server on Change',
+    [
       (concepts, dispatch) => {
         const name = getUnifiedName(concepts, semaphore);
         if (name) {
-          dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
+          dispatch(axiumRegisterStagePlanner({ conceptName: name, stagePlanner: plan }), {
             on: {
               expected: true,
-              selector: axiumSelectOpen
+              selector: axiumSelectOpen,
             },
-            iterateStage: true
+            iterateStage: true,
           });
         } else {
           plan.conclude();
@@ -51,7 +57,7 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
           const selectors: BoundSelectors[] = [];
           uiState.pages.forEach((page, i) => {
             if (page.title === uiState.currentPage) {
-              page.cachedSelectors.forEach(bound => {
+              page.cachedSelectors.forEach((bound) => {
                 bound.action.conceptSemaphore = semaphore;
                 selectors.push(bound);
               });
@@ -64,7 +70,7 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
           // Update so that the state that is being cached is set by the selectors. Finish this up tomorrow and move on
           const changes: string[] = [];
           const changedSelectors: KeyedSelector[] = [];
-          selectors.forEach(bound => {
+          selectors.forEach((bound) => {
             for (const select of bound.selectors) {
               const value = selectSlice(concepts, select);
               // console.log('HITTING', select, value, atomicCachedState);
@@ -107,7 +113,7 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
             }, 100);
             delayChanges = true;
             dispatch(userInterfaceClientAssembleAtomicUpdateCompositionStrategy(payload), {
-              iterateStage: true
+              iterateStage: true,
             });
           }
         } else if (uiState === undefined) {
@@ -117,11 +123,12 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
       (_, dispatch) => {
         if (!delayChanges) {
           dispatch(axiumKick(), {
-            setStage: 1
+            setStage: 1,
           });
         }
-      }
-    ], 100
-    );
-  };
+      },
+    ],
+    100
+  );
+};
 /*#>*/

@@ -16,20 +16,22 @@ import {
 import { logixUXGenerateCountingStrategy } from '../strategies/generateCountingStrategy.strategy';
 
 export const logixUXTriggerRandomCountingStrategyType: ActionType = 'Create logixUX trigger random counting strategy';
-export const logixUXTriggerRandomCountingStrategy =
-  prepareActionCreator(logixUXTriggerRandomCountingStrategyType);
+export const logixUXTriggerRandomCountingStrategy = prepareActionCreator(logixUXTriggerRandomCountingStrategyType);
 
 const createLogixUXTriggerRandomCountingStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
   createMethodDebounceWithState<CounterState>(
     (_, state) => {
       const strategy = logixUXGenerateCountingStrategy(state.count, semaphore as number);
       return strategyBegin(strategy);
-    }, concepts$ as UnifiedSubject, semaphore as number, 50
+    },
+    concepts$ as UnifiedSubject,
+    semaphore as number,
+    50
   );
 
 export const logixUXTriggerRandomCountingStrategyQuality = createQuality(
   logixUXTriggerRandomCountingStrategyType,
   defaultReducer,
-  createLogixUXTriggerRandomCountingStrategyMethodCreator,
+  createLogixUXTriggerRandomCountingStrategyMethodCreator
 );
 /*#>*/

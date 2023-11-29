@@ -24,14 +24,14 @@ const getName = (url: string): string | undefined => {
   return finalSplit.length > 1 ? finalSplit[0] : undefined;
 };
 
-export const logixUXFilterTriggerInstallGitRepositoryType: ActionType = 'Create logixUX that filters only valid git urls to trigger install git repository';
-export const logixUXFilterTriggerInstallGitRepository =
-  prepareActionCreator(logixUXFilterTriggerInstallGitRepositoryType);
+export const logixUXFilterTriggerInstallGitRepositoryType: ActionType =
+  'Create logixUX that filters only valid git urls to trigger install git repository';
+export const logixUXFilterTriggerInstallGitRepository = prepareActionCreator(logixUXFilterTriggerInstallGitRepositoryType);
 
 const logixUXFilterTriggerInstallGitRepositoryMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
   createMethodWithState<LogixUXState>(
     (action, state) => {
-      const {possibleProject, possibleProjectValid} = state;
+      const { possibleProject, possibleProjectValid } = state;
       const name = getName(possibleProject);
       if (name && possibleProjectValid) {
         console.log('SENDING NAME TO SERVER', name);
@@ -40,10 +40,12 @@ const logixUXFilterTriggerInstallGitRepositoryMethodCreator: MethodCreator = (co
       } else {
         return action;
       }
-    }, concepts$ as UnifiedSubject, semaphore as number
+    },
+    concepts$ as UnifiedSubject,
+    semaphore as number
   );
 const logixUXFilterTriggerInstallGitRepositoryReducer = (state: LogixUXState, action: Action) => {
-  const {trainingData, projectsStatuses, possibleProject, possibleProjectValid} = state;
+  const { trainingData, projectsStatuses, possibleProject, possibleProjectValid } = state;
   const name = getName(possibleProject);
   let exists = false;
   if (name && possibleProjectValid) {
@@ -56,24 +58,24 @@ const logixUXFilterTriggerInstallGitRepositoryReducer = (state: LogixUXState, ac
     if (!exists) {
       projectsStatuses.push({
         name,
-        status: ProjectStatus.installing
+        status: ProjectStatus.installing,
       });
       return {
         ...state,
         projectsStatuses,
-        possibleProject: ''
+        possibleProject: '',
       };
     }
   }
   return {
     ...state,
-    possibleProject: 'INVALID'
+    possibleProject: 'INVALID',
   };
 };
 
 export const logixUXFilterTriggerInstallGitRepositoryQuality = createQuality(
   logixUXFilterTriggerInstallGitRepositoryType,
   logixUXFilterTriggerInstallGitRepositoryReducer,
-  logixUXFilterTriggerInstallGitRepositoryMethodCreator,
+  logixUXFilterTriggerInstallGitRepositoryMethodCreator
 );
 /*#>*/

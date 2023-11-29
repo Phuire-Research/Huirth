@@ -3,13 +3,17 @@ For the graph programming framework Stratimux and the logixUX Project, generate 
 $>*/
 /*<#*/
 export type DPO = {
-  chosen: [{
-    content: string
-  }],
-  rejected: [{
-    content: string
-  }]
-}
+  chosen: [
+    {
+      content: string;
+    }
+  ];
+  rejected: [
+    {
+      content: string;
+    }
+  ];
+};
 export type DataSet<T> = Record<string, T>;
 export type DPO_DataSet = DataSet<DPO>;
 /*#>*/

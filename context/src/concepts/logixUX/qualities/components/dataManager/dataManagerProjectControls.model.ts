@@ -13,20 +13,20 @@ export const determineProjectControls = (statuses: GeneralProjectStatuses): [str
     const dataID = '#projectID-' + generateNumID(i);
     dataStatus = st.status;
     switch (st.status) {
-    case ProjectStatus.installed: {
-      pb.push({
-        action: logixUXSendTriggerParseRepositoryStrategy({name: st.name}),
-        elementId: dataID,
-        eventBinding: elementEventBinding.onclick
-      });
-      dataNote = 'Parse ' + st.name;
-      break;
+      case ProjectStatus.installed: {
+        pb.push({
+          action: logixUXSendTriggerParseRepositoryStrategy({ name: st.name }),
+          elementId: dataID,
+          eventBinding: elementEventBinding.onclick,
+        });
+        dataNote = 'Parse ' + st.name;
+        break;
+      }
+      default: {
+        dataNote = st.name;
+      }
     }
-    default: {
-      dataNote = st.name;
-    }
-    }
-    final += /*html*/`
+    final += /*html*/ `
 <div class="m-4 flex-none flex items-center justify-end w-full">
   <h2 class="w-72 text-white text-center italic">${dataStatus}</h2>
   <button

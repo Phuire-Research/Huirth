@@ -6,7 +6,9 @@ import { createAction } from 'stratimux';
 import { userInterfaceClientSendActionToServer } from '../../../userInterfaceClient/strategies/sendActionToServer.helper';
 
 export const logixUXSendTriggerTransformationStrategy = (selection: string) =>
-  (userInterfaceClientSendActionToServer(createAction('logixUXServer trigger passed transformation strategy from payload', {
-    selection
-  })));
+  userInterfaceClientSendActionToServer(
+    createAction('logixUXServer trigger passed transformation strategy from payload', {
+      selection,
+    })
+  );
 /*#>*/
