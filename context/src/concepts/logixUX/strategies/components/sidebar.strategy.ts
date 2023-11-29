@@ -12,22 +12,19 @@ export const logixUXSidebarComponentStitch: ActionStrategyComponentStitch = (pay
   // HEAD
   const stepLogixUXSidebarEnd = createActionNode(logixUXSideBarEnd(payload), {
     successNode: null,
-    failureNode: null,
+    failureNode: null
   });
   const stepLogixUXSidebarContent = createActionNode(logixUXSideBarContent(payload), {
     successNode: stepLogixUXSidebarEnd,
-    failureNode: null,
+    failureNode: null
   });
   const stepLogixUXSidebarBegin = createActionNode(logixUXSideBarBegin(payload), {
     successNode: stepLogixUXSidebarContent,
-    failureNode: null,
+    failureNode: null
   });
-  return [
-    stepLogixUXSidebarEnd,
-    createStrategy({
-      topic: 'Create logixUX Sidebar',
-      initialNode: stepLogixUXSidebarBegin,
-    }),
-  ];
+  return [stepLogixUXSidebarEnd, createStrategy({
+    topic: 'Create logixUX Sidebar',
+    initialNode: stepLogixUXSidebarBegin,
+  })];
 };
 /*#>*/

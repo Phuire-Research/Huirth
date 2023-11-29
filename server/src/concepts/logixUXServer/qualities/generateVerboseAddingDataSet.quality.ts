@@ -53,7 +53,7 @@ const logixUXServerGenerateVerboseAddingStrategyMethodCreator: MethodCreator = (
         console.log('Transformation stage 1', iterations < 100, length < limit);
         if (iterations < 100 && length < limit) {
           const newStrategy = logixUXServerVerboseAddingStrategy(length);
-          newStrategy.topic += iterations;
+          newStrategy.topic += '.' + iterations;
           currentTopic = newStrategy.topic;
           console.log('BEGIN STRATEGY', currentTopic);
           dispatch(strategyBegin(newStrategy), {

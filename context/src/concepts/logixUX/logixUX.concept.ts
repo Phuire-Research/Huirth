@@ -32,7 +32,7 @@ import {
   generateDefaultTrainingData,
   logixUXVerboseAddingStrategySelect,
   logixUXVerboseAdditionAndSubtractionStrategySelect,
-  logixUXVerboseSubtractionStrategySelect,
+  logixUXVerboseSubtractionStrategySelect
 } from './logixUX.model';
 import { logixUXNewDataSetEntryQuality } from './qualities/newDataSetEntry.quality';
 import { logixUXTriggerMinusCountingStrategyQuality } from './qualities/triggerMinusCounterStrategy.quality';
@@ -73,14 +73,14 @@ export const logixUXName = 'logixUX';
 export type LogixUXState = {
   mock: number;
   dialog: string;
-  transformationStrategies: string[];
-  selectedTransformation: string;
+  transformationStrategies: string[]
+  selectedTransformation: string,
   possibleProject: string;
   possibleProjectValid: boolean;
   stratimuxStatus: ProjectStatus;
   logixUXStatus: ProjectStatus;
   projectsStatuses: GeneralProjectStatuses;
-  dataSetSelection: boolean[];
+  dataSetSelection: boolean[],
   sideBarExpanded: boolean;
   trainingData: TrainingData;
   activeDPO: Active_DPO[];
@@ -93,7 +93,7 @@ const createLogixUXState = (): LogixUXState => {
     transformationStrategies: [
       logixUXVerboseAddingStrategySelect,
       logixUXVerboseSubtractionStrategySelect,
-      logixUXVerboseAdditionAndSubtractionStrategySelect,
+      logixUXVerboseAdditionAndSubtractionStrategySelect
     ],
     selectedTransformation: 'Some Strategy',
     possibleProject: '',
@@ -105,12 +105,15 @@ const createLogixUXState = (): LogixUXState => {
     sideBarExpanded: true,
     trainingData: generateDefaultTrainingData(),
     activeDPO: [generateDPOTrainingData()],
-    pageStrategies: [logixUXIndexPageStrategy, logixUXDataManagerPageStrategy, logixUXErrorPageStrategy],
+    pageStrategies: [logixUXIndexPageStrategy, logixUXDataManagerPageStrategy, logixUXErrorPageStrategy]
   };
 };
 
-export const createLogixUXConcept = (): Concept => {
-  const principles: PrincipleFunction[] = [logixUXDialogPrinciple, logixUXTrainingDataPagePrinciple];
+export const createLogixUXConcept = (): Concept =>  {
+  const principles: PrincipleFunction[] = [
+    logixUXDialogPrinciple,
+    logixUXTrainingDataPagePrinciple
+  ];
   const qualities: Quality[] = [
     logixUXHeadQuality,
     logixUXStyleQuality,
@@ -162,6 +165,16 @@ export const createLogixUXConcept = (): Concept => {
     logixUXSetSelectedTransformationQuality,
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
-  return unifyConcepts([createCounterConcept()], createConcept(logixUXName, createLogixUXState(), qualities, principles, []));
+  return unifyConcepts(
+    [
+      createCounterConcept()
+    ],
+    createConcept(
+      logixUXName,
+      createLogixUXState(),
+      qualities,
+      principles,
+      []
+    ));
 };
 /*#>*/

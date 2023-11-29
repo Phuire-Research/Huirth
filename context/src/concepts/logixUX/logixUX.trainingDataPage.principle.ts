@@ -3,19 +3,7 @@ For the graph programming framework Stratimux and the brand concept logixUX, gen
 $>*/
 /*<#*/
 import { Subscriber } from 'rxjs';
-import {
-  Action,
-  ActionStrategy,
-  Concepts,
-  PrincipleFunction,
-  UnifiedSubject,
-  axiumKick,
-  axiumRegisterStagePlanner,
-  getUnifiedName,
-  selectUnifiedState,
-  strategyBegin,
-  strategySequence,
-} from 'stratimux';
+import { Action, ActionStrategy, Concepts, PrincipleFunction, UnifiedSubject, axiumKick, axiumRegisterStagePlanner, getUnifiedName, selectUnifiedState, strategyBegin, strategySequence } from 'stratimux';
 import { userInterface_isClient } from '../../model/userInterface';
 import { UserInterfaceState } from '../userInterface/userInterface.concept';
 import { LogixUXState } from './logixUX.concept';
@@ -25,24 +13,18 @@ import { logixUXGeneratedTrainingDataPageStrategy } from './strategies/pages/gen
 import { DataSetTypes, ProjectStatus } from './logixUX.model';
 import { logixUXUpdateProjectStatusStrategy } from './strategies/updateProjectStatus.strategy';
 
-export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
-  _: Subscriber<Action>,
-  cpts: Concepts,
-  concepts$: UnifiedSubject,
-  semaphore: number
-) => {
-  let cachedTrainingDataNames: string[] = [];
-  let delayDetection = false;
-  const isClient = userInterface_isClient();
-  const plan = concepts$.stage(
-    'Observe Training Data and modify Pages',
-    [
+export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
+  (_: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
+    let cachedTrainingDataNames: string[] = [];
+    let delayDetection = false;
+    const isClient = userInterface_isClient();
+    const plan = concepts$.stage('Observe Training Data and modify Pages', [
       (concepts, dispatch) => {
         const state = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
         const conceptName = getUnifiedName(concepts, semaphore);
         if (conceptName) {
           if (state && (state.pageStrategies.length === state.pages.length || isClient)) {
-            dispatch(axiumRegisterStagePlanner({ conceptName, stagePlanner: plan }), {
+            dispatch(axiumRegisterStagePlanner({conceptName, stagePlanner: plan}), {
               iterateStage: true,
             });
           }
@@ -55,13 +37,13 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
         const trainingData = state?.trainingData;
         if (state && trainingData && trainingData.length > 0) {
           const add: {
-            i: number;
-            name: string;
+            i: number,
+            name: string
           }[] = [];
           trainingData.forEach((data, i) => {
             add.push({
               i,
-              name: data.name,
+              name: data.name
             });
             return data.name;
           });
@@ -73,9 +55,10 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
               for (let i = 0; i < add.length; i++) {
                 // eslint-disable-next-line max-depth
                 if (currentPage === add[i].name) {
-                  list.push(
-                    userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name), concepts)
-                  );
+                  list.push(userInterfaceAddNewPageStrategy(
+                    logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name),
+                    concepts,
+                  ));
                   found = true;
                 }
                 if (currentPage === 'dataManager' && trainingData[add[i].i].type === DataSetTypes.project) {
@@ -85,19 +68,22 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
               }
               if (!found) {
                 dispatch(axiumKick(), {
-                  setStage: 4,
+                  setStage: 4
                 });
               }
               const strategies = strategySequence(list);
               if (strategies) {
                 dispatch(strategyBegin(strategies), {
-                  setStage: 4,
+                  setStage: 4
                 });
                 // eslint-disable-next-line max-depth
               }
             } else {
               for (let i = 0; i < add.length; i++) {
-                list.push(userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name), concepts));
+                list.push(userInterfaceAddNewPageStrategy(
+                  logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name),
+                  concepts,
+                ));
                 cachedTrainingDataNames.push(add[i].name);
                 break;
               }
@@ -106,7 +92,7 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
                 console.log(strategies);
                 const action = strategyBegin(strategies);
                 dispatch(action, {
-                  setStage: 3,
+                  setStage: 3
                 });
               }
             }
@@ -121,12 +107,12 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
         const trainingData = state?.trainingData;
         if (state && trainingData && cachedTrainingDataNames.length !== trainingData.length) {
           const add: {
-            i: number;
-            name: string;
+            i: number,
+            name: string
           }[] = [];
           const remove: {
-            i: number;
-            name: string;
+            i: number,
+            name: string
           }[] = [];
           for (const [i, data] of trainingData.entries()) {
             let found = false;
@@ -136,7 +122,12 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
                 found = true;
                 break;
               }
-              if (data.name !== name && trainingData.length < cachedTrainingDataNames.length && i === trainingData.length - 1 && !found) {
+              if (
+                data.name !== name &&
+                trainingData.length < cachedTrainingDataNames.length &&
+                i === trainingData.length - 1 &&
+                !found
+              ) {
                 removed = true;
                 remove.push({
                   i: index,
@@ -147,7 +138,7 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
             if (!found && !removed) {
               add.push({
                 i,
-                name: data.name,
+                name: data.name
               });
               break;
             }
@@ -158,7 +149,10 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
               for (let i = 0; i < add.length; i++) {
                 const name = trainingData[add[i].i].name;
                 console.log('CHECK TRAINING DATA NAMES', name, add[i].i);
-                list.push(userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(name), concepts));
+                list.push(userInterfaceAddNewPageStrategy(
+                  logixUXGeneratedTrainingDataPageStrategy(name),
+                  concepts,
+                ));
                 break;
               }
               const strategies = strategySequence(list);
@@ -166,7 +160,7 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
                 console.log('DISPATCHED');
                 cachedTrainingDataNames.push(add[0].name);
                 dispatch(strategyBegin(strategies), {
-                  iterateStage: true,
+                  iterateStage: true
                 });
                 // eslint-disable-next-line max-depth
               }
@@ -183,12 +177,12 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
           setTimeout(() => {
             const state = selectUnifiedState<LogixUXState & UserInterfaceState>(concepts, semaphore);
             if (state) {
-              const pageNames = state.pages.map((p) => p.title);
+              const pageNames = state.pages.map(p => p.title);
               console.log(pageNames, cachedTrainingDataNames);
-              cachedTrainingDataNames = cachedTrainingDataNames.filter((name) => pageNames.includes(name));
+              cachedTrainingDataNames = cachedTrainingDataNames.filter(name => pageNames.includes(name));
               delayDetection = false;
               dispatch(axiumKick(), {
-                setStage: 2,
+                setStage: 2
               });
             } else {
               plan.conclude();
@@ -198,9 +192,7 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
       },
       () => {
         plan.conclude();
-      },
-    ],
-    277
-  );
-};
+      }
+    ], 277);
+  };
 /*#>*/

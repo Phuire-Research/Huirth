@@ -19,16 +19,17 @@ import { DataSetTypes, NamedDataSet, ProjectStatus, TrainingData } from '../logi
 import { logixUXSendTriggerDeleteDataSetsStrategy } from './sendTriggerSaveDeleteDataSetsStrategy.quality';
 
 export const logixUXRemoveDataSetSelectionType: ActionType = 'logixUX remove data set selection';
-export const logixUXRemoveDataSetSelection = prepareActionCreator(logixUXRemoveDataSetSelectionType);
+export const logixUXRemoveDataSetSelection =
+  prepareActionCreator(logixUXRemoveDataSetSelectionType);
 
 const projectIs = (status: ProjectStatus): boolean => {
   switch (status) {
-    case ProjectStatus.parsed: {
-      return true;
-    }
-    default: {
-      return false;
-    }
+  case ProjectStatus.parsed: {
+    return true;
+  }
+  default: {
+    return false;
+  }
   }
 };
 
@@ -41,27 +42,20 @@ const isNot = (dataSet: NamedDataSet, not: string[]) => {
   return true;
 };
 
-const logixUXRemoveDataSetSelectionMethodCreator: MethodCreator = (concepts$, semaphore) =>
-  createMethodWithState<LogixUXState>(
-    (_, state) => {
-      const { trainingData, dataSetSelection } = state;
-      const names = trainingData.filter((__, i) => dataSetSelection[i]).map((d) => d.name);
-      return strategyBegin(
-        createStrategy({
-          topic: 'Send Trigger Delete Data Sets: ' + names.join(', '),
-          initialNode: createActionNode(logixUXSendTriggerDeleteDataSetsStrategy({ names }), { successNode: null, failureNode: null }),
-        })
-      );
-    },
-    concepts$ as UnifiedSubject,
-    semaphore as number
-  );
+const logixUXRemoveDataSetSelectionMethodCreator: MethodCreator = (concepts$, semaphore) => createMethodWithState<LogixUXState>((_, state) => {
+  const {trainingData, dataSetSelection} = state;
+  const names = trainingData.filter((__, i) => dataSetSelection[i]).map(d => d.name);
+  return strategyBegin(createStrategy({
+    topic: 'Send Trigger Delete Data Sets: ' + names.join(', '),
+    initialNode: createActionNode(logixUXSendTriggerDeleteDataSetsStrategy({names}), {successNode: null, failureNode: null})
+  }));
+}, concepts$ as UnifiedSubject, semaphore as number);
 
 function logixUXRemoveDataSetSelectionReducer(state: LogixUXState, action: Action): LogixUXState {
-  const { trainingData, dataSetSelection } = state;
-  let { projectsStatuses, stratimuxStatus, logixUXStatus } = state;
+  const {trainingData, dataSetSelection} = state;
+  let {projectsStatuses, stratimuxStatus, logixUXStatus} = state;
   const newTrainingData: TrainingData = [];
-  const not = trainingData.filter((_, i) => dataSetSelection[i]).map((d) => d.name);
+  const not = trainingData.filter((_, i) => dataSetSelection[i]).map(d => d.name);
   const newStatuses = [];
 
   for (const data of trainingData) {
