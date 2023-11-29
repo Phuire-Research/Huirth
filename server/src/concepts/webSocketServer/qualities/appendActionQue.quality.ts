@@ -29,6 +29,7 @@ function webSocketServerAppendToActionQueReducer(state: WebSocketServerState, ac
     ...state.actionQue,
     ...actionQue
   ];
+  console.log('APPEND TO ACTION QUE', newActionQue);
   return {
     ...state,
     actionQue: newActionQue
