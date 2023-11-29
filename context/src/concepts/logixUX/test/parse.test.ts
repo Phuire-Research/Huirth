@@ -29,7 +29,7 @@ const recursiveParse = (data: BaseDataSet[], content: string): BaseDataSet[] => 
   const index = content.indexOf(ParsingTokens.promptBegin);
   const stop = content.indexOf(ParsingTokens.stop);
   const stopExists = stop !== -1;
-  const willStop = (i: number) => (stopExists ? i < stop : true);
+  const willStop = (i: number) => stopExists ? i < stop : true;
   if (index !== -1 && willStop(index)) {
     let output = '';
     const promptBegin = index + ParsingTokens.promptBegin.length;
@@ -54,12 +54,12 @@ const recursiveParse = (data: BaseDataSet[], content: string): BaseDataSet[] => 
       output = output.trim();
       data.push({
         prompt,
-        content: output,
+        content: output
       });
     }
     const sub = content.substring(contentEnd + ParsingTokens.contentEnd.length);
     const cont = sub.indexOf(ParsingTokens.promptBegin);
-    if (cont !== -1 && willStop(cont)) {
+    if (cont  !== -1 && willStop(cont)) {
       return recursiveParse(data, sub);
     }
   }

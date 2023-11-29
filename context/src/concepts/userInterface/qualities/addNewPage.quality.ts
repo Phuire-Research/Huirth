@@ -3,30 +3,38 @@ For the graph programming framework Stratimux and the User Interface Concept, ge
 To be later added back into state via the add composed page to state quality.
 $>*/
 /*<#*/
-import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';
+import {
+  Action,
+  ActionType,
+  createQuality,
+  defaultMethodCreator,
+  prepareActionWithPayloadCreator,
+  selectPayload,
+} from 'stratimux';
 import { PageStrategyCreators } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 
 export type UserInterfaceAddNewPagePayload = {
   // name: string,
-  pageStrategy: PageStrategyCreators;
-};
-export const userInterfaceAddNewPageType: ActionType = 'User Interface Add New Page Strategy to state';
+  pageStrategy: PageStrategyCreators,
+}
+export const userInterfaceAddNewPageType: ActionType =
+  'User Interface Add New Page Strategy to state';
 export const userInterfaceAddNewPage = prepareActionWithPayloadCreator<UserInterfaceAddNewPagePayload>(userInterfaceAddNewPageType);
 
 const userInterfaceAddNewPageStateReducer = (state: UserInterfaceState, action: Action): UserInterfaceState => {
   const payload = selectPayload<UserInterfaceAddNewPagePayload>(action);
-  const { pageStrategies } = state;
+  const {pageStrategies} = state;
   pageStrategies.push(payload.pageStrategy);
   return {
     ...state,
-    pageStrategies,
+    pageStrategies
   };
 };
 
 export const userInterfaceAddNewPageQuality = createQuality(
   userInterfaceAddNewPageType,
   userInterfaceAddNewPageStateReducer,
-  defaultMethodCreator
+  defaultMethodCreator,
 );
 /*#>*/

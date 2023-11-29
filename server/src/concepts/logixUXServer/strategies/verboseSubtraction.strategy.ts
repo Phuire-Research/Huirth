@@ -10,7 +10,7 @@ function getRandomRange(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
-export const logixUXServerVerboseSubtractionStrategyTopic = (length: number): string => 'Starting from zero subtract' + logixUX_convertNumberToStringVerbose(length) + ' random numbers from a total sum, and then output the final sum.';
+export const logixUXServerVerboseSubtractionStrategyTopic = (length: number): string => 'Starting from zero subtract' + logixUX_convertNumberToStringVerbose(length) + ' random numbers from a total sum, and then output the final sum';
 export const logixUXServerVerboseSubtractionStrategy = (length: number): ActionStrategy => {
   const actions: Action[] = [];
   for (let i = 0; i < length; i++) {

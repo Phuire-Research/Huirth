@@ -2,21 +2,27 @@
 For the graph programming framework Stratimux and a Concept logixUX, generate a quality that will update a project's status to saved.
 $>*/
 /*<#*/
-import { Action, ActionType, createQuality, defaultMethodCreator, prepareActionWithPayloadCreator, selectPayload } from 'stratimux';
+import {
+  Action,
+  ActionType,
+  createQuality,
+  defaultMethodCreator,
+  prepareActionWithPayloadCreator,
+  selectPayload,
+} from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 import { ProjectStatus, TrainingData } from '../logixUX.model';
 
 export type LogixUXUpdateProjectStatusToSavedPayload = {
-  name: string;
-};
+  name: string
+}
 export const logixUXUpdateProjectStatusToSavedType: ActionType = 'logixUX update project status to saved';
-export const logixUXUpdateProjectStatusToSaved = prepareActionWithPayloadCreator<LogixUXUpdateProjectStatusToSavedPayload>(
-  logixUXUpdateProjectStatusToSavedType
-);
+export const logixUXUpdateProjectStatusToSaved =
+  prepareActionWithPayloadCreator<LogixUXUpdateProjectStatusToSavedPayload>(logixUXUpdateProjectStatusToSavedType);
 
 function logixUXUpdateProjectStatusToSavedReducer(state: LogixUXState, action: Action): LogixUXState {
   const { name } = selectPayload<LogixUXUpdateProjectStatusToSavedPayload>(action);
-  let { projectsStatuses, stratimuxStatus, logixUXStatus } = state;
+  let {projectsStatuses, stratimuxStatus, logixUXStatus} = state;
   console.log('HIT UPDATED SAVED STATUS!!', name);
   let added = false;
   if (name.toLowerCase() === 'stratimux') {
@@ -38,7 +44,7 @@ function logixUXUpdateProjectStatusToSavedReducer(state: LogixUXState, action: A
     if (!added) {
       newStatuses.push({
         name: name,
-        status: ProjectStatus.saved,
+        status: ProjectStatus.saved
       });
     }
     projectsStatuses = newStatuses;
@@ -47,7 +53,7 @@ function logixUXUpdateProjectStatusToSavedReducer(state: LogixUXState, action: A
     ...state,
     stratimuxStatus,
     logixUXStatus,
-    projectsStatuses,
+    projectsStatuses
   };
 }
 

@@ -2,7 +2,12 @@
 For the graph programming framework Stratimux and a Concept logixUX, generate a quality that set the possibleProject based on an input value and determine if it is valid url that includes .git.
 $>*/
 /*<#*/
-import { Action, ActionType, createQuality, prepareActionCreator } from 'stratimux';
+import {
+  Action,
+  ActionType,
+  createQuality,
+  prepareActionCreator,
+} from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 import { userInterface_selectInputTarget } from '../../../model/userInterface';
 
@@ -14,10 +19,11 @@ const getName = (url: string): string | undefined => {
 };
 
 export const logixUXSetPossibleProjectType: ActionType = 'logixUX set the possible project and check if it is valid';
-export const logixUXSetPossibleProject = prepareActionCreator(logixUXSetPossibleProjectType);
+export const logixUXSetPossibleProject =
+  prepareActionCreator(logixUXSetPossibleProjectType);
 
 const logixUXSetPossibleProjectReducer = (state: LogixUXState, action: Action) => {
-  const { trainingData } = state;
+  const {trainingData} = state;
   const target = userInterface_selectInputTarget(action);
   const value = target.value;
   // eslint-disable-next-line no-useless-escape
@@ -37,16 +43,19 @@ const logixUXSetPossibleProjectReducer = (state: LogixUXState, action: Action) =
       return {
         ...state,
         possibleProject: value,
-        possibleProjectValid: true,
+        possibleProjectValid: true
       };
     }
   }
   return {
     ...state,
     possibleProject: value,
-    possibleProjectValid: false,
+    possibleProjectValid: false
   };
 };
 
-export const logixUXSetPossibleProjectQuality = createQuality(logixUXSetPossibleProjectType, logixUXSetPossibleProjectReducer);
+export const logixUXSetPossibleProjectQuality = createQuality(
+  logixUXSetPossibleProjectType,
+  logixUXSetPossibleProjectReducer,
+);
 /*#>*/

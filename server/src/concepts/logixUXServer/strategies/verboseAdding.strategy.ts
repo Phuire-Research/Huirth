@@ -10,7 +10,7 @@ function getRandomRange(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
-export const logixUXServerVerboseAddingStrategyTopic = (length: number): string => 'Sum ' + logixUX_convertNumberToStringVerbose(length) + ' random numbers together and then output the final sum.';
+export const logixUXServerVerboseAddingStrategyTopic = (length: number): string => 'Sum ' + logixUX_convertNumberToStringVerbose(length) + ' random numbers together and then output the final sum';
 export const logixUXServerVerboseAddingStrategy = (length: number): ActionStrategy => {
   const actions: Action[] = [];
   for (let i = 0; i < length; i++) {

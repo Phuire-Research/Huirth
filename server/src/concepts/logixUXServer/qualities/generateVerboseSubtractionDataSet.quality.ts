@@ -53,7 +53,7 @@ const logixUXServerGenerateVerboseSubtractionStrategyMethodCreator: MethodCreato
         console.log('Transformation stage 1', iterations < 100, length < limit);
         if (iterations < 100 && length < limit) {
           const newStrategy = logixUXServerVerboseSubtractionStrategy(length);
-          newStrategy.topic += iterations;
+          newStrategy.topic += '.' + iterations;
           currentTopic = newStrategy.topic;
           console.log('BEGIN STRATEGY', currentTopic);
           dispatch(strategyBegin(newStrategy), {
@@ -72,8 +72,8 @@ const logixUXServerGenerateVerboseSubtractionStrategyMethodCreator: MethodCreato
         console.log('Transformation stage 2', iterations, length, currentTopic === state.lastStrategy);
         if (state.lastStrategy === currentTopic) {
           named.dataSet.push({
-            prompt: currentTopic,
-            content: '' + state.lastStrategyDialog + '\nThe final sum: ' + logixUX_convertNumberToStringVerbose((state.lastStrategyData as LogixUXServerInnerAddField).sum) + '.'
+            prompt: (currentTopic.split('.')[0] + '.').trim(),
+            content: ('' + state.lastStrategyDialog + '\nThe final sum ' + logixUX_convertNumberToStringVerbose((state.lastStrategyData as LogixUXServerInnerAddField).sum) + '.').trim()
           });
           console.log(iterations);
           iterations++;

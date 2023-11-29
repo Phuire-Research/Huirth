@@ -18,13 +18,17 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
     title: logixUXDataSetDPOPageStrategyTopic,
     conceptAndProps: [],
     cachedSelectors: [],
-    compositions: [],
+    compositions: []
   });
 
   return userInterfaceCreatePageStrategy(
     logixUXDataSetDPOPageStrategyTopic,
     pageData,
-    [logixUXSidebarComponentStitch, logixUXIndexDPOStrategyStitch, logixUXFooterStitch],
+    [
+      logixUXSidebarComponentStitch,
+      logixUXIndexDPOStrategyStitch,
+      logixUXFooterStitch
+    ],
     logixUXHeaderStitch
   );
 };
@@ -33,22 +37,22 @@ export const logixUXIndexDPOStrategyStitchTopic = 'logixUX Index Training Data S
 export const logixUXIndexDPOStrategyStitch: ActionStrategyComponentStitch = (payload) => {
   const stepLogixUXIndexDPOEnd = createActionNode(logixUXIndexDPOEnd(payload), {
     successNode: null,
-    failureNode: null,
+    failureNode: null
   });
   const stepLogixUXIndexDPOContent = createActionNode(logixUXIndexDPOContent(payload), {
     successNode: stepLogixUXIndexDPOEnd,
-    failureNode: null,
+    failureNode: null
   });
   const stepLogixUXIndexDPOBegin = createActionNode(logixUXIndexDPOBegin(payload), {
     successNode: stepLogixUXIndexDPOContent,
-    failureNode: null,
+    failureNode: null
   });
   return [
     stepLogixUXIndexDPOEnd,
     createStrategy({
       topic: logixUXIndexDPOStrategyStitchTopic,
       initialNode: stepLogixUXIndexDPOBegin,
-    }),
+    })
   ];
 };
 /*#>*/
