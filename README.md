@@ -1,5 +1,12 @@
 ![logixUX](https://github.com/Phuire-Research/logixUX/blob/main/LogixUX.png?raw=true)
 # Stratimux Sidekick
+```bash
+npm i
+npm start
+
+# DEV
+npm run dev:dynamic
+```
 This application is meant to be the equivalent to any other framework's CLI system. The goal is to provide an easy means of quickly scaffolding Stratimux projects. As well as utilizing fine-tuned models to quickly generate potential implementations. While having the user reinforce those implementations with a version that is provably halting. This approach allows for a safe recursive improvement of the fine tuning artificial intelligence that we utilize within this bleeding edge system of design.
 
 We intend to accomplish this via any scaffolded or generated qualities made for your applications by this sidekick and potential future variations. To have that prompt be set as a comment that can later be parsed into a shared dataset.
