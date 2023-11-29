@@ -187,12 +187,12 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
             } else {
               plan.conclude();
             }
-          }, 333);
+          }, 400);
         }
       },
       () => {
         plan.conclude();
       }
-    ], 277);
+    ]);
   };
 /*#>*/
