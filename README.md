@@ -30,6 +30,31 @@ Be safe and responsible. But most importantly, have fun!
 
 **GOAL Beyond MVP: Reduce complexity of working with this pattern via generative AI in combination with a custom UI to quickly scaffold developer applications. And concept libraries.**
 
+## Using logixUX as a Universal Typescript Data Set Parser
+These parsing tokens may be utilized within any TypeScript of JavaScript project, not just Stratimux. The data set parsing is designed to be able to extract out multiple prompts and contents from a single file. While allowing for addition annotation via the import and include section to provide a consistent training context for informing models or fine tuning preexisting models to work with your projects.
+```typescript
+export enum ParsingTokens {
+// This will enclose a prompt you can assign to the content section.
+  promptBegin = '/*<$',
+  promptEnd = '$>*/',
+// This allows for your code to still be used within your code base
+  contentBegin = '/*<#*/',
+  contentEnd = '/*#>*/',
+// Only required when parsing multiple data sets from the same file. This allows you to group imports and content together without effecting code.
+  importBegin = '/*<@',
+  importEnd = '@>*/',
+// Likewise if you are extracting multiple samples from a file, some samples may depend on each other, like a type or helper function being used across the file. This allows you to place that code into a commented section that will be grouped with the parsed sample.
+  includeBegin = '/*<%',
+  includeEnd = '%>*/',
+// Allows you to exclude entire sections within your content from being added as a data set sample. While still operating within code.
+  excludeBegin = '/*<!*/',
+  excludeEnd = '/*!>*/',
+// This will hard stop the parsing from adding any additional samples.
+  stop = '/*<!!>*/'
+}
+```
+If you would like to test out this system for yourself. For the time being simply annotate your public code repository with these parsing tokens. And within the Data Manager, import your project. Then once it has been installed. Simply hit parse then save your data set to your file system. All data sets are added into this project's data/sets/ folder.
+
 # Interested in collaborating?
 *"Provably Unified Recursive Feedback"*
 
