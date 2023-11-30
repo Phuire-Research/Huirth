@@ -20,7 +20,7 @@ import {
   selectState,
   selectUnifiedState,
 } from 'stratimux';
-import { BoundSelectors, Page } from '../../model/userInterface';
+import { BoundSelectors, Page, userInterface_isClient } from '../../model/userInterface';
 import path from 'path';
 import { FileSystemState, fileSystemName } from '../fileSystem/fileSystem.concept';
 import { findRoot } from '../../model/findRoot';
@@ -29,6 +29,7 @@ import {
   UserInterfaceServerAssembleAtomicUpdateCompositionStrategyPayload,
   userInterfaceServerAssembleAtomicUpdateCompositionStrategy
 } from './qualities/serverAssembleAtomicUpdateCompositionStrategy.quality';
+import { logixUXSideBarContentQuality, logixUXSideBarContentType } from '../logixUX/qualities/components/sideBar/sideBarContent.quality';
 
 export const userInterfaceServerPrinciple: PrincipleFunction =
   (_: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
@@ -150,13 +151,20 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
       },
       (concepts, dispatch) => {
         const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
+        const isClient = userInterface_isClient();
         if (uiState && uiState.pagesCached) {
           // console.log('PAGES: ', uiState.pages.map(page => page.title).join(', '));
           const selectors: BoundSelectors[] = [];
-          uiState.pages.forEach(page => page.cachedSelectors.forEach(bound => {
-            bound.action.conceptSemaphore = semaphore;
-            selectors.push(bound);
-          }));
+          uiState.pages.forEach(page => {
+            page.cachedSelectors.forEach(bound => {
+              if (!isClient && bound.action.type === logixUXSideBarContentType) {
+                // Temporary fix till Universal Components are added to User Interface
+              } else {
+                bound.action.conceptSemaphore = semaphore;
+                selectors.push(bound);
+              }
+            });
+          });
           const payload: UserInterfaceServerAssembleAtomicUpdateCompositionStrategyPayload = {
             boundActionQue: []
           };
