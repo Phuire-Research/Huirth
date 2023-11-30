@@ -53,11 +53,13 @@ export enum ParsingTokens {
   stop = '/*<!!>*/'
 }
 ```
-If you would like to test out this system for yourself. For the time being simply annotate your public code repository with these parsing tokens. And within the Data Manager, import your project. Then once it has been installed. Simply hit parse then save your data set to your file system. All data sets are added into this project's data/sets/ folder.
+If you would like to test out this system for yourself. For the time being simply annotate your public code repository with these parsing tokens. And within the Data Manager, import your project. Then once it has been installed. Simply hit parse then save your data set to your file system. All data sets are added into this project's data/sets/.
 
 # Interested in collaborating?
 *"Provably Unified Recursive Feedback"*
 
-As a consequence of Stratimux's dialog system. Each application that is creating within this new class of provably halting algorithms. The design of the dialog system is purposely made to pair code implementations with logical explanations. The goal beyond this project is to prove such as high quality training data. If you would like to jump the gun and independently verify the quality of the data that has already been produced. [Please see this repository and proposal: **PURF**](https://github.com/Phuire-Research/PURF)
+As a consequence of Stratimux's dialog system. Each application that is creating within this new class of provably halting algorithms becomes high quality training data for AI. As AI like this system of design is just a graph of functions. The only true difference is that AI is brute forced and trained, where a Stratimux project is created.
+
+The design of the dialog system is purposely made to pair code implementations with logical explanations. The goal beyond this project is to prove such as high quality training data. If you would like to jump the gun and independently verify the quality of the data that has already been produced. [Please see this repository and proposal: **PURF**](https://github.com/Phuire-Research/PURF)
 
 Cheers! Have fun! And thank you for your valuable time!
