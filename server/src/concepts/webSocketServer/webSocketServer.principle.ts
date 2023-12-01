@@ -54,6 +54,9 @@ export const webSocketServerPrinciple: PrincipleFunction =
               });
               concepts$.next(concepts);
             } else {
+              // Note I shouldn't have to do this.
+              // This demonstrates how branch prediction interferes with graph programming
+              // As if I do not have this mechanism, branch prediction will outright ignore this "branch"
               ws.send(JSON.stringify(axiumKick()));
             }
           } else {
