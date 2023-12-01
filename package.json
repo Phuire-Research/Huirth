@@ -1,13 +1,14 @@
 {
-  "name": "@phuire/stratimux-ui",
+  "name": "logixux",
   "version": "0.0.01",
   "description": "Unified Turing Machine",
+  "main": "./src/main.js",
   "scripts": {
     "build": "concurrently \"cd ./server/ && npm run build\" \"cd ./context/ && npm run build\"",
     "build:static": "cd ./server/ && npm run build:static",
     "prepublishOnly": "concurrently \"cd ./server/ && npm run build\" \"cd ./context/ && npm run build\"",
     "postinstall": "cd ./server/ && npm install && cd ../context/ && npm install",
-    "start": "cd ./server/ && npm run build && npm run start",
+    "start": "concurrently \"wait-on http://localhost:7637 && electron .\" \"cd ./server/ && npm run build && npm run start\"",
     "start:dynamic": "cd ./server/ && npm run start:dynamic",
     "dev": "cd ./server/ && npm run start:dev",
     "dev:dynamic": "cd ./server/ && npm run start:dynamicDev"
@@ -20,7 +21,9 @@
   "author": "Micah T. Keller (public@phuire.org)",
   "devDependencies": {
     "@types/express-ws": "^3.0.4",
-    "concurrently": "^8.2.1"
+    "concurrently": "^8.2.1",
+    "electron": "^27.1.3",
+    "wait-on": "^7.2.0"
   },
   "dependencies": {
     "express-ws": "^5.0.2"
