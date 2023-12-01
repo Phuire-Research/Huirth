@@ -5,11 +5,12 @@ How to test this project:
 # In your console after cloning this repository
 npm i
 npm start
-# Then wait for the server to fully initialize.
-# Finally via your web browser visit localhost:7637
+# A application window should load
 
 # DEV - If you are brave and want to tweak the project
 npm run dev:dynamic
+## Note we can do this because we are only using electron as application bundler
+## This will change once we add specific open directories, etc...
 ```
 This application is meant to be the equivalent to any other framework's CLI system. The goal is to provide an easy means of quickly scaffolding Stratimux projects. As well as utilizing fine-tuned models to quickly generate potential implementations. While having the user reinforce those implementations with a version that is provably halting. This approach allows for a safe recursive improvement of the fine tuning artificial intelligence that we utilize within this bleeding edge system of design.
 

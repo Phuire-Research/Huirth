@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and Brand Concept logixUX that ext
 $>*/
 
 import { Subscriber } from 'rxjs';
-import { Action, Concepts, PrincipleFunction, UnifiedSubject, axiumPreClose, axiumRegisterStagePlanner, getUnifiedName, isConceptLoaded, selectUnifiedState } from 'stratimux';
+import { Action, Concepts, PrincipleFunction, UnifiedSubject, axiumKick, axiumPreClose, axiumRegisterStagePlanner, getUnifiedName, isConceptLoaded, selectUnifiedState } from 'stratimux';
 import { ServerState } from '../server/server.concept';
 
 /*<#*/
@@ -37,12 +37,12 @@ export const logixUXServerExitPrinciple: PrincipleFunction =
           plan.conclude();
         }
       },
-      () => {
+      (__, dispatch) => {
         plan.conclude();
-      }
+      },
     ], 333);
 
-    server.get('/axiumEXIT', (__, req) => {
+    server.get('/server/axiumEXIT', (__, req) => {
       shouldClose = true;
       req.json({
         exit: shouldClose
