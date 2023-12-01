@@ -65,9 +65,9 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "stratimux": "^0.1.0",
     "express": "^4.18.2",
+    "rimraf": "^5.0.5",
     "rxjs": "^7.8.1",
-    "rimraf": "^5.0.5"
+    "stratimux": "^0.1.0"
   }
 }

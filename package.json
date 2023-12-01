@@ -7,7 +7,7 @@
     "build:static": "cd ./server/ && npm run build:static",
     "prepublishOnly": "concurrently \"cd ./server/ && npm run build\" \"cd ./context/ && npm run build\"",
     "postinstall": "cd ./server/ && npm install && cd ../context/ && npm install",
-    "start": "cd ./server/ && npm run build && npm run start",
+    "start": "./server/ && npm run build && npm run start",
     "start:dynamic": "cd ./server/ && npm run start:dynamic",
     "dev": "cd ./server/ && npm run start:dev",
     "dev:dynamic": "cd ./server/ && npm run start:dynamicDev"

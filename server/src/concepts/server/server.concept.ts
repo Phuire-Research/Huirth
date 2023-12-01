@@ -15,7 +15,7 @@ export const serverName = 'server';
 
 const initialServerState = (port?: number): ServerState => {
   return {
-    port: port ? port : 8080,
+    port: port ? port : 7637,
     server: express()
   };
 };

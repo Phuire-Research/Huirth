@@ -6,7 +6,7 @@ How to test this project:
 npm i
 npm start
 # Then wait for the server to fully initialize.
-# Finally via your web browser visit localhost:8080
+# Finally via your web browser visit localhost:7637
 
 # DEV - If you are brave and want to tweak the project
 npm run dev:dynamic
