@@ -11,6 +11,7 @@ import {
   PrincipleFunction,
   UnifiedSubject,
   axiumKick,
+  axiumKickType,
   axiumRegisterStagePlanner,
   getAxiumState,
   getUnifiedName,
@@ -35,6 +36,10 @@ export const webSocketClientPrinciple: PrincipleFunction = (
   const ws = new WebSocket(url);
   let delayDetection = false;
   ws.addEventListener('open', () => {
+    // Temporary amount of being halting incomplete so that the connection remains consistent.
+    setInterval(() => {
+      ws.send(JSON.stringify(axiumKick()));
+    }, 200);
     console.log('SEND');
     ws.send(JSON.stringify(webSocketClientSetClientSemaphore({ semaphore })));
     const plan = concepts$.stage(
@@ -144,7 +149,7 @@ export const webSocketClientPrinciple: PrincipleFunction = (
   ws.addEventListener('message', (message) => {
     const act = JSON.parse(message.data);
     if (Object.keys(act).includes('type')) {
-      if (getAxiumState(cpts).logging) {
+      if (getAxiumState(cpts).logging && (act as Action).type !== axiumKickType) {
         console.log('MESSAGE', (act as Action).type);
       }
       observer.next(act);

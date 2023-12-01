@@ -27,6 +27,7 @@ import { logixUXServerTriggerSelectTransformationStrategyQuality } from './quali
 import { logixUXServerInnerSubtractFromQuality } from './qualities/innerSubtractFrom.quality';
 import { logixUXServerGenerateVerboseSubtractionStrategyQuality } from './qualities/generateVerboseSubtractionDataSet.quality';
 import { logixUXServerGenerateVerboseAdditionAndSubtractionStrategyQuality } from './qualities/generateVerboseAdditionAndSubtractionDataSet.quality';
+import { logixUXServerExitPrinciple } from './logixUXServer.exit.principle';
 
 export const logixUXServerName = 'logixUXServer';
 export type LogixUXServerState = {
@@ -35,7 +36,8 @@ export type LogixUXServerState = {
 
 export const createLogixUXServerConcept = (): Concept =>  {
   const principles: PrincipleFunction[] = [
-    logixUXServerPrinciple
+    logixUXServerPrinciple,
+    logixUXServerExitPrinciple
   ];
   const qualities: Quality[] = [
     logixUXServerTriggerSaveTrainingDataStrategyQuality,

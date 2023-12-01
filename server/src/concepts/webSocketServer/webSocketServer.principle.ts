@@ -11,6 +11,8 @@ import {
   Concepts,
   PrincipleFunction,
   UnifiedSubject,
+  axiumKick,
+  axiumKickType,
   axiumRegisterStagePlanner,
   getAxiumState,
   getUnifiedName,
@@ -51,17 +53,19 @@ export const webSocketServerPrinciple: PrincipleFunction =
                 ws.send(JSON.stringify(action));
               });
               concepts$.next(concepts);
+            } else {
+              ws.send(JSON.stringify(axiumKick()));
             }
           } else {
             plan.conclude();
           }
         }
-      ]);
+      ], 444);
       ws.on('message', (message) => {
         const act = JSON.parse(`${message}`);
         if (Object.keys(act).includes('type')) {
           if ((act as Action).type !== webSocketServerSyncStateType) {
-            if (getAxiumState(cpts).logging) {
+            if (getAxiumState(cpts).logging && (act as Action).type !== axiumKickType) {
               console.log('MESSAGE', (act as Action).type);
             }
           }

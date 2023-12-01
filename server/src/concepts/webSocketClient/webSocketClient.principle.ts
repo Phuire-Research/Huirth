@@ -11,6 +11,7 @@ import {
   PrincipleFunction,
   UnifiedSubject,
   axiumKick,
+  axiumKickType,
   axiumRegisterStagePlanner,
   getAxiumState,
   getUnifiedName,
@@ -141,7 +142,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
     ws.addEventListener('message', (message) => {
       const act = JSON.parse(message.data);
       if (Object.keys(act).includes('type')) {
-        if (getAxiumState(cpts).logging) {
+        if (getAxiumState(cpts).logging && (act as Action).type !== axiumKickType) {
           console.log('MESSAGE', (act as Action).type);
         }
         observer.next(act);

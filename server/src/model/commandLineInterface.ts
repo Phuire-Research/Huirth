@@ -54,12 +54,12 @@ export const commandLineInterfaceDeterminePort = (args: string[]): number => {
     } else if (start && arg.indexOf('--') === -1) {
       const possiblePort = Number(arg);
       if (!Number.isNaN(possiblePort)) {
-        return 8080;
+        return 7637;
       } else {
         return possiblePort;
       }
     }
   }
-  return 8080;
+  return 7637;
 };
 /*#>*/
