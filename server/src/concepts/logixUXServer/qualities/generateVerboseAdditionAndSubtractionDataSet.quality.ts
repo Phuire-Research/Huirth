@@ -32,7 +32,7 @@ const logixUXServerGenerateVerboseAdditionAndSubtractionStrategyMethodCreator: M
   const fileSystemState = selectState<FileSystemState>(cpts, fileSystemName);
   if (concepts$ && fileSystemState) {
     console.log('This had been triggered');
-    const limit = 55;
+    const limit = 7;
     const named: NamedDataSet = {
       name: 'VerboseAdditionAndSubtraction',
       type: DataSetTypes.general,

@@ -37,10 +37,6 @@ export const webSocketClientPrinciple: PrincipleFunction =
     const ws = new WebSocket(url);
     let delayDetection = false;
     ws.addEventListener('open', () => {
-      // Temporary amount of being halting incomplete so that the connection remains consistent.
-      setInterval(() => {
-        ws.send(JSON.stringify(axiumKick()));
-      }, 200);
       console.log('SEND');
       ws.send(JSON.stringify(webSocketClientSetClientSemaphore({semaphore})));
       const plan = concepts$.stage('Web Socket Planner', [
@@ -66,6 +62,8 @@ export const webSocketClientPrinciple: PrincipleFunction =
                 ws.send(JSON.stringify(action));
               });
               concepts$.next(concepts);
+            } else {
+              ws.send(JSON.stringify(axiumKick()));
             }
           } else {
             plan.conclude();
