@@ -64,6 +64,9 @@ export const webSocketServerPrinciple: PrincipleFunction =
           }
         }
       ], 444);
+      ws.addEventListener('close', () => {
+        plan.conclude();
+      });
       ws.on('message', (message) => {
         const act = JSON.parse(`${message}`);
         if (Object.keys(act).includes('type')) {

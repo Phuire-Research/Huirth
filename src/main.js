@@ -28,9 +28,6 @@ const createWindow = () => {
                 final = null;
                 exit = null;
                 win = null;
-                if (window.getChildWindow() !== null) {
-                    window.nullChildWindow();
-                }
                 process.exit()
             })
         })
