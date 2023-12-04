@@ -34,12 +34,7 @@ export const webSocketClientPrinciple: PrincipleFunction = (
 ) => {
   const url = 'ws://' + window.location.host + '/axium';
   const ws = new WebSocket(url);
-  let delayDetection = false;
   ws.addEventListener('open', () => {
-    // Temporary amount of being halting incomplete so that the connection remains consistent.
-    setInterval(() => {
-      ws.send(JSON.stringify(axiumKick()));
-    }, 200);
     console.log('SEND');
     ws.send(JSON.stringify(webSocketClientSetClientSemaphore({ semaphore })));
     const plan = concepts$.stage(
@@ -67,6 +62,8 @@ export const webSocketClientPrinciple: PrincipleFunction = (
                 ws.send(JSON.stringify(action));
               });
               concepts$.next(concepts);
+            } else {
+              ws.send(JSON.stringify(axiumKick()));
             }
           } else {
             plan.conclude();
@@ -132,19 +129,16 @@ export const webSocketClientPrinciple: PrincipleFunction = (
           }
         },
         (__, dispatch) => {
-          if (!delayDetection) {
-            delayDetection = true;
-            setTimeout(() => {
-              delayDetection = false;
-              dispatch(axiumKick(), {
-                setStage: 1,
-              });
-            }, 33);
-          }
+          dispatch(axiumKick(), {
+            setStage: 1,
+          });
         },
       ],
       33
     );
+    ws.addEventListener('close', () => {
+      plan.conclude();
+    });
   });
   ws.addEventListener('message', (message) => {
     const act = JSON.parse(message.data);

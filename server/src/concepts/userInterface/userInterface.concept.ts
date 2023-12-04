@@ -11,6 +11,7 @@ import { userInterfaceRefreshCachedSelectorsQuality } from './qualities/refreshP
 import { userInterfaceEndQuality } from './qualities/end.quality';
 import { userInterfaceAtomicUpdatePageCompositionQuality } from './qualities/atomicUpdatePageComposition.quality';
 import { userInterfaceAddNewPageQuality } from './qualities/addNewPage.quality';
+import { userInterfaceRemovePageQuality } from './qualities/removePage.quality';
 
 export const userInterfaceName = 'userInterface';
 
@@ -37,6 +38,7 @@ export const createUserInterfaceConcept = (pageStrategies: PageStrategyCreators[
       userInterfaceRefreshCachedSelectorsQuality,
       userInterfaceAtomicUpdatePageCompositionQuality,
       userInterfaceAddNewPageQuality,
+      userInterfaceRemovePageQuality,
       userInterfaceEndQuality
     ],
     [
