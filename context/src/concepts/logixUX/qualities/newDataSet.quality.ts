@@ -10,15 +10,21 @@ export const logixUXNewDataSetType: ActionType = 'Create logixUX create a new de
 export const logixUXNewDataSet = prepareActionCreator(logixUXNewDataSetType);
 
 function logixUXNewDataSetReducer(state: LogixUXState, action: Action): LogixUXState {
-  const trainingData = [...state.trainingData];
   const { dataSetSelection } = state;
+  const trainingData = [...state.trainingData];
+  let { trainingDataCounter } = state;
+  if (trainingDataCounter === -1) {
+    trainingDataCounter = trainingData.length;
+  }
   dataSetSelection.push(false);
   console.log('CHECK DATA SET SELECTION', dataSetSelection);
-  trainingData.push(generateDefaultNamedDataSet('newDataSet' + trainingData.length));
+  trainingData.push(generateDefaultNamedDataSet('newDataSet' + trainingDataCounter));
+  trainingDataCounter++;
   return {
     ...state,
     trainingData,
     dataSetSelection,
+    trainingDataCounter,
   };
 }
 

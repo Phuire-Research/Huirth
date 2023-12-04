@@ -35,7 +35,6 @@ export const webSocketClientPrinciple: PrincipleFunction =
   (observer: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     const url = 'ws://' + window.location.host + '/axium';
     const ws = new WebSocket(url);
-    let delayDetection = false;
     ws.addEventListener('open', () => {
       console.log('SEND');
       ws.send(JSON.stringify(webSocketClientSetClientSemaphore({semaphore})));
@@ -125,17 +124,14 @@ export const webSocketClientPrinciple: PrincipleFunction =
           }
         },
         (__, dispatch) => {
-          if (!delayDetection) {
-            delayDetection = true;
-            setTimeout(() => {
-              delayDetection = false;
-              dispatch(axiumKick(), {
-                setStage: 1
-              });
-            }, 33);
-          }
+          dispatch(axiumKick(), {
+            setStage: 1
+          });
         },
       ], 33);
+      ws.addEventListener('close', () => {
+        plan.conclude();
+      });
     });
     ws.addEventListener('message', (message) => {
       const act = JSON.parse(message.data);

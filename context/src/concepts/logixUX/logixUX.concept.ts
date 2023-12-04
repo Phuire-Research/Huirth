@@ -83,6 +83,7 @@ export type LogixUXState = {
   dataSetSelection: boolean[];
   sideBarExpanded: boolean;
   trainingData: TrainingData;
+  trainingDataCounter: number;
   activeDPO: Active_DPO[];
 } & BrandState;
 
@@ -104,6 +105,7 @@ const createLogixUXState = (): LogixUXState => {
     dataSetSelection: [],
     sideBarExpanded: true,
     trainingData: generateDefaultTrainingData(),
+    trainingDataCounter: -1,
     activeDPO: [generateDPOTrainingData()],
     pageStrategies: [logixUXIndexPageStrategy, logixUXDataManagerPageStrategy, logixUXErrorPageStrategy],
   };
