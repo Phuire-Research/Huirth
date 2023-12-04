@@ -93,6 +93,8 @@ export const convertSaveFormatDPOToDPO = (named: NamedDataSet) => {
   return DPO;
 };
 
+export const TRANSFORMATION_DATASET_LIMIT = 25;
+
 /*#>*/
 /*<!!>*/
 // eslint-disable-next-line no-shadow

@@ -23,6 +23,7 @@ import { LogixUXServerInnerAddField } from './innerAddTo.quality';
 import { logixUXServerSaveDataSetStrategy } from '../strategies/saveDataSet.strategy';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUX_convertNumberToStringVerbose } from '../verboseNumber.model';
+import { TRANSFORMATION_DATASET_LIMIT } from '../logixUXServer.model';
 
 export const logixUXServerGenerateVerboseAddingStrategyType: ActionType = 'logixUXServer generate a verbose adding data set';
 export const logixUXServerGenerateVerboseAddingStrategy =
@@ -32,7 +33,7 @@ const logixUXServerGenerateVerboseAddingStrategyMethodCreator: MethodCreator = (
   const fileSystemState = selectState<FileSystemState>(cpts, fileSystemName);
   if (concepts$ && fileSystemState) {
     console.log('This had been triggered');
-    const limit = 7;
+    const limit = TRANSFORMATION_DATASET_LIMIT;
     const named: NamedDataSet = {
       name: 'VerboseAdding',
       type: DataSetTypes.general,

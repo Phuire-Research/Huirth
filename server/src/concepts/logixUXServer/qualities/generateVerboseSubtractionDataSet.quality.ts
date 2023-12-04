@@ -23,6 +23,7 @@ import { logixUXServerSaveDataSetStrategy } from '../strategies/saveDataSet.stra
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXServerVerboseSubtractionStrategy } from '../strategies/verboseSubtraction.strategy';
 import { logixUX_convertNumberToStringVerbose } from '../verboseNumber.model';
+import { TRANSFORMATION_DATASET_LIMIT } from '../logixUXServer.model';
 
 export const logixUXServerGenerateVerboseSubtractionStrategyType: ActionType = 'logixUXServer generate a verbose subtraction data set';
 export const logixUXServerGenerateVerboseSubtractionStrategy =
@@ -32,7 +33,7 @@ const logixUXServerGenerateVerboseSubtractionStrategyMethodCreator: MethodCreato
   const fileSystemState = selectState<FileSystemState>(cpts, fileSystemName);
   if (concepts$ && fileSystemState) {
     console.log('This had been triggered');
-    const limit = 7;
+    const limit = TRANSFORMATION_DATASET_LIMIT;
     const named: NamedDataSet = {
       name: 'VerboseSubtraction',
       type: DataSetTypes.general,
