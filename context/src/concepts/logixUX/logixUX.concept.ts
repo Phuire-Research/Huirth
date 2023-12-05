@@ -62,7 +62,7 @@ import { logixUXSendTriggerParseRepositoryStrategyQuality } from './qualities/se
 import { logixUXSendTriggerSaveDataSetSelectionStrategyQuality } from './qualities/sendTriggerSaveDataSetSelectionStrategy.quality';
 import { logixUXUpdateProjectStatusToSavedQuality } from './qualities/updateProjectToSaved.quality';
 import { logixUXRemoveDataSetSelectionQuality } from './qualities/removeDataSetSelection.quality';
-import { logixUXSendTriggerDeleteDataSetsStrategyQuality } from './qualities/sendTriggerSaveDeleteDataSetsStrategy.quality';
+import { logixUXSendTriggerDeleteDataSetsStrategyQuality } from './qualities/sendTriggerDeleteDataSetsStrategy.quality';
 import { logixUXSetPossibleProjectQuality } from './qualities/setPossibleProject.quality';
 import { logixUXFilterTriggerInstallGitRepositoryQuality } from './qualities/filterTriggerInstallGitRepository.quality';
 import { logixUXSetDataSetQuality } from './qualities/setDataSet.quality';

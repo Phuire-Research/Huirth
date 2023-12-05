@@ -11,7 +11,7 @@ import {
   selectPayload,
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
-import { ProjectStatus, TrainingData } from '../logixUX.model';
+import { PhuirEProjects, ProjectStatus, TrainingData } from '../logixUX.model';
 
 export type LogixUXUpdateProjectStatusToSavedPayload = {
   name: string
@@ -25,9 +25,9 @@ function logixUXUpdateProjectStatusToSavedReducer(state: LogixUXState, action: A
   let {projectsStatuses, stratimuxStatus, logixUXStatus} = state;
   console.log('HIT UPDATED SAVED STATUS!!', name);
   let added = false;
-  if (name.toLowerCase() === 'stratimux') {
+  if (name.toLowerCase() === PhuirEProjects.stratimux) {
     stratimuxStatus = ProjectStatus.saved;
-  } else if (name.toLowerCase() === 'logixux') {
+  } else if (name.toLowerCase() === PhuirEProjects.logixUX) {
     logixUXStatus = ProjectStatus.saved;
   } else {
     added = false;

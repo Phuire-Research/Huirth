@@ -22,6 +22,7 @@ import _ws from 'express-ws';
 import { webSocketClientSetServerSemaphore } from '../webSocketClient/qualities/setServerSemaphore.quality';
 import { WebSocketServerState } from './webSocketServer.concept';
 import { webSocketServerSyncStateType } from './qualities/syncState.quality';
+import { webSocketServerClearActionQue } from './qualities/clearActionQue.quality';
 
 export const webSocketServerPrinciple: PrincipleFunction =
   (observer: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
@@ -41,18 +42,24 @@ export const webSocketServerPrinciple: PrincipleFunction =
             plan.conclude();
           }
         },
-        (concepts, __) => {
+        (concepts, dispatch) => {
           const state = selectUnifiedState<WebSocketServerState>(concepts, semaphore);
           if (state) {
             if (state.actionQue.length > 0) {
               const que = [...state.actionQue];
-              state.actionQue = [];
+              let sent = false;
+              console.log('ATTEMPTING TO SEND', que);
               que.forEach(action => {
+                sent = true;
                 console.log('SENDING', action);
                 action.conceptSemaphore = (state as WebSocketServerState).clientSemaphore;
                 ws.send(JSON.stringify(action));
               });
-              concepts$.next(concepts);
+              if (sent) {
+                dispatch(webSocketServerClearActionQue(), {
+                  throttle: 1
+                });
+              }
             } else {
               // Note I shouldn't have to do this.
               // This demonstrates how branch prediction interferes with graph programming
@@ -60,10 +67,11 @@ export const webSocketServerPrinciple: PrincipleFunction =
               ws.send(JSON.stringify(axiumKick()));
             }
           } else {
+            console.log('SHOUDN\'T CONCLUDE');
             plan.conclude();
           }
         }
-      ], 444);
+      ], 33);
       ws.addEventListener('close', () => {
         plan.conclude();
       });

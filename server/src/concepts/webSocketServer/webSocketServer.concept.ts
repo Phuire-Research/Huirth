@@ -4,6 +4,7 @@ This message stream should establish each governing concept's semaphore so that 
 $>*/
 /*<#*/
 import { webSocketServerAppendToActionQueQuality } from './qualities/appendActionQue.quality';
+import { webSocketServerClearActionQueQuality } from './qualities/clearActionQue.quality';
 import { webSocketServerSetClientSemaphoreQuality } from './qualities/setClientSemaphore.quality';
 import { webSocketServerSyncStateQuality } from './qualities/syncState.quality';
 import { webSocketServerPrinciple } from './webSocketServer.principle';
@@ -30,7 +31,8 @@ export const createWebSocketServerConcept = () => {
     [
       webSocketServerAppendToActionQueQuality,
       webSocketServerSyncStateQuality,
-      webSocketServerSetClientSemaphoreQuality
+      webSocketServerSetClientSemaphoreQuality,
+      webSocketServerClearActionQueQuality,
     ],
     [webSocketServerPrinciple]
   );

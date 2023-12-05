@@ -31,7 +31,7 @@ const namesChanged = (trainingData: TrainingData, cachedTrainingDataNames: strin
     return true;
   } else {
     for (const data of trainingData) {
-      let exists = true;
+      let exists = false;
       for (const name of cachedTrainingDataNames) {
         if (data.name === name) {
           exists = true;
