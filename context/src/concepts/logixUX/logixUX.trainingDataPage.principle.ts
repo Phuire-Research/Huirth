@@ -56,24 +56,33 @@ const determineAddRemove = (trainingData: TrainingData, cachedTrainingDataNames:
   }[] = [];
   for (const [i, data] of trainingData.entries()) {
     let found = false;
-    let removed = false;
-    for (const [index, name] of cachedTrainingDataNames.entries()) {
+    for (let index = 0; index < cachedTrainingDataNames.length; index++) {
+      const name = cachedTrainingDataNames[index];
       if (data.name === name) {
         found = true;
         break;
       }
-      if (data.name !== name && trainingData.length < cachedTrainingDataNames.length && i === trainingData.length - 1 && !found) {
-        removed = true;
-        remove.push({
-          i: index,
-          name,
-        });
-      }
     }
-    if (!found && !removed) {
+    if (!found) {
       add.push({
         i,
         name: data.name,
+      });
+    }
+  }
+  for (let index = 0; index < cachedTrainingDataNames.length; index++) {
+    const name = cachedTrainingDataNames[index];
+    let found = false;
+    for (const data of trainingData) {
+      if (data.name === name) {
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      remove.push({
+        i: index,
+        name,
       });
     }
   }
@@ -133,7 +142,6 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
                   found = true;
                 }
                 if (currentPage === 'dataManager' && trainingData[add[i].i].type === DataSetTypes.project) {
-                  console.log('CHECK SET STATUS TO PARSE', trainingData[add[i].i].name);
                   list.push(logixUXUpdateProjectStatusStrategy(trainingData[add[i].i].name, ProjectStatus.parsed));
                 }
               }
@@ -166,30 +174,32 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
           }
         }
         if (state === undefined) {
+          console.log("THIS PLAN SHOULDN'T CONCLUDE YET");
           plan.conclude();
         }
       },
       (concepts, dispatch) => {
         const state = selectUnifiedState<LogixUXState & UserInterfaceState>(concepts, semaphore);
         const trainingData = state?.trainingData;
-        if (state && trainingData && namesChanged(trainingData, cachedTrainingDataNames)) {
+        const changed = namesChanged(trainingData as TrainingData, cachedTrainingDataNames);
+        if (state && trainingData && changed) {
           const [add, remove] = determineAddRemove(trainingData, cachedTrainingDataNames);
           if (add.length > 0 || remove.length > 0) {
-            const list: ActionStrategy[] = [];
+            let list: ActionStrategy[] = [];
             if (add.length > 0) {
               for (let i = 0; i < add.length; i++) {
                 const name = trainingData[add[i].i].name;
                 cachedTrainingDataNames.push(name);
-                console.log('CHECK TRAINING DATA NAMES', name, add[i].i);
                 list.push(userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(name), concepts));
               }
             }
             if (remove.length > 0) {
               cachedTrainingDataNames = cachedTrainingDataNames.filter((n) => {
                 for (const r of remove) {
-                  if (r.name === n) {
-                    // Punting till tomorrow. System is coming together, just need to take time ironing out the kinks.
-                    // list.push(userInterfaceRemovePageStrategy(n));
+                  if (r.name.toLocaleLowerCase() === n.toLocaleLowerCase()) {
+                    const removeStr = userInterfaceRemovePageStrategy(n);
+                    removeStr.topic += 'Removing : ' + n;
+                    list = [removeStr, ...list];
                     return false;
                   }
                 }

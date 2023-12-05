@@ -6,16 +6,19 @@ import {
   ActionType,
   MethodCreator,
   UnifiedSubject,
+  axiumConclude,
   createMethodDebounceWithConcepts,
   createQuality,
   defaultReducer,
   prepareActionCreator,
   selectPayload,
   selectState,
+  selectUnifiedState,
   strategyBegin,
 } from 'stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXServerDeleteDataSetsStrategy } from '../strategies/deleteDataSets.strategy';
+import { LogixUXState } from '../../logixUX/logixUX.concept';
 
 export type LogixUXServerTriggerDeleteDataSetsStrategyPayload = {
   names: string[]
@@ -29,11 +32,13 @@ const logixUXServerTriggerDeleteDataSetsStrategyMethodCreator: MethodCreator = (
     (action, concepts) => {
       const {names} = selectPayload<LogixUXServerTriggerDeleteDataSetsStrategyPayload>(action);
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
-      if (fileSystemState) {
-        const strategy = logixUXServerDeleteDataSetsStrategy(fileSystemState.root, names);
+      const state = selectUnifiedState<LogixUXState>(concepts, semaphore as number);
+      if (fileSystemState && state) {
+        const {trainingData} = state;
+        const strategy = logixUXServerDeleteDataSetsStrategy(fileSystemState.root, trainingData, names);
         return strategyBegin(strategy);
       } else {
-        return action;
+        return axiumConclude();
       }
     }, concepts$ as UnifiedSubject, semaphore as number, 50
   );

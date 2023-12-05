@@ -17,9 +17,10 @@ import {
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
+import { userInterface_isClient } from '../../../model/userInterface';
 
 export type LogixUXSendTriggerDeleteDataSetsStrategyPayload = {
-  names: string[]
+  names: string[],
 }
 export const logixUXSendTriggerDeleteDataSetsStrategyType: ActionType = 'logixUX send trigger delete data sets strategy';
 export const logixUXSendTriggerDeleteDataSetsStrategy =
@@ -29,6 +30,7 @@ const logixUXSendTriggerDeleteDataSetsStrategyMethodCreator: MethodCreator = () 
   createMethod(
     (action) => {
       const payload = selectPayload<LogixUXSendTriggerDeleteDataSetsStrategyPayload>(action);
+      (payload as any)['isUserClient'] = userInterface_isClient();
       console.log('SENDING DELETE TRIGGER DELETE DATA SETS: ', payload);
       return strategyBegin(createStrategy({
         topic: 'Sent to Web Socket: Trigger Delete Data Sets: ' + payload.names.join(', '),

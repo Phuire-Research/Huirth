@@ -2,21 +2,31 @@
 For the graph programming framework Stratimux and a Concept logixUX Server, generate a ActionStrategy that will delete data sets from the file system.
 $>*/
 /*<#*/
-import { axiumLog, createActionNode, createStrategy } from 'stratimux';
+import { axiumLog, axiumStitch, axium_createStitchNode, createActionNode, createStrategy } from 'stratimux';
 import path from 'path';
 import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
 import { logixUXServerSendUpdateProjectToInstalled } from './client/logixUXServerSendUpdateProjectToInstalled.helper';
+import { DataSetTypes, TrainingData } from '../../logixUX/logixUX.model';
 
 const logixUXServerDeleteDataSetsStrategyTopic = 'logixUXServer delete data sets from file system';
-export const logixUXServerDeleteDataSetsStrategy = (root: string, names: string[]) => {
+export const logixUXServerDeleteDataSetsStrategy = (root: string, trainingData: TrainingData, names: string[]) => {
   // If repositories doesn't exist
   // stepFour does folder repositories exists?
   let first;
   let previous;
   for (const name of names) {
     const dataSetDirectory = path.join(root + '/data/sets/' + name);
+    const isProject = (() => {
+      for (const data of trainingData) {
+        if (data.name === name) {
+          return data.type === DataSetTypes.project;
+        }
+      }
+      return false;
+    })();
+    const action = isProject ? logixUXServerSendUpdateProjectToInstalled(name) : axiumStitch();
     if (first === undefined) {
-      const updateStatus = createActionNode(logixUXServerSendUpdateProjectToInstalled(name), {
+      const updateStatus = createActionNode(action, {
         successNode: null,
         failureNode: null
       });
@@ -26,7 +36,7 @@ export const logixUXServerDeleteDataSetsStrategy = (root: string, names: string[
       });
       previous = updateStatus;
     } else if (previous) {
-      const updateStatus = createActionNode(logixUXServerSendUpdateProjectToInstalled(name), {
+      const updateStatus = createActionNode(action, {
         successNode: null,
         failureNode: null
       });

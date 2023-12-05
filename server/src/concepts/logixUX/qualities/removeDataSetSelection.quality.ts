@@ -17,6 +17,7 @@ import {
 import { LogixUXState } from '../logixUX.concept';
 import { DataSetTypes, NamedDataSet, PhuirEProjects, ProjectStatus, TrainingData } from '../logixUX.model';
 import { logixUXSendTriggerDeleteDataSetsStrategy } from './sendTriggerDeleteDataSetsStrategy.quality';
+import { userInterface_isClient } from '../../../model/userInterface';
 
 export const logixUXRemoveDataSetSelectionType: ActionType = 'logixUX remove data set selection';
 export const logixUXRemoveDataSetSelection =
@@ -31,7 +32,7 @@ const isNot = (dataSet: NamedDataSet, not: string[]) => {
   return true;
 };
 
-const logixUXRemoveDataSetSelectionMethodCreator: MethodCreator = (concepts$, semaphore) => createMethodWithState<LogixUXState>((_, state) => {
+const logixUXRemoveDataSetSelectionMethodCreator: MethodCreator = (concepts$, semaphore) => createMethodWithState<LogixUXState>((action, state) => {
   const {trainingData, dataSetSelection} = state;
   const names = trainingData.filter((__, i) => dataSetSelection[i]).map(d => d.name);
   return strategyBegin(createStrategy({
