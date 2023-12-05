@@ -41,8 +41,9 @@ const logixUXRemoveDataSetSelectionMethodCreator: MethodCreator = (concepts$, se
 }, concepts$ as UnifiedSubject, semaphore as number);
 
 function logixUXRemoveDataSetSelectionReducer(state: LogixUXState, action: Action): LogixUXState {
-  const {trainingData, dataSetSelection} = state;
+  const {trainingData, dataSetSelection } = state;
   let {projectsStatuses, stratimuxStatus, logixUXStatus} = state;
+  const newDataSetSelection = [];
   const newTrainingData: TrainingData = [];
   const not = trainingData.filter((_, i) => dataSetSelection[i]).map(d => d.name);
   const newStatuses = [];
@@ -50,6 +51,7 @@ function logixUXRemoveDataSetSelectionReducer(state: LogixUXState, action: Actio
   for (const data of trainingData) {
     if (isNot(data, not)) {
       newTrainingData.push(data);
+      newDataSetSelection.push(false);
       for (const project of projectsStatuses) {
         if (project.name === data.name) {
           newStatuses.push(project);
@@ -67,21 +69,20 @@ function logixUXRemoveDataSetSelectionReducer(state: LogixUXState, action: Actio
           if (project.name === data.name) {
             project.status = ProjectStatus.installed;
             newStatuses.push(project);
-          } else {
-            newStatuses.push(project);
           }
         }
       }
     }
   }
   projectsStatuses = newStatuses;
-
+  console.log('NEW DATA SET SELECTION', newDataSetSelection);
   return {
     ...state,
     trainingData: newTrainingData,
     stratimuxStatus,
     logixUXStatus,
     projectsStatuses,
+    dataSetSelection: newDataSetSelection
   };
 }
 
