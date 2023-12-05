@@ -24,12 +24,12 @@ export const logixUXUpdateProjectStatus =
 function logixUXUpdateProjectStatusReducer(state: LogixUXState, action: Action): LogixUXState {
   const { name, status } = selectPayload<LogixUXUpdateProjectStatusPayload>(action);
   console.log('CHECK INCOMING STATUS', name, status);
-  if (name === PhuirEProjects.stratimux) {
+  if (name.toLocaleLowerCase() === PhuirEProjects.stratimux) {
     return {
       ...state,
       stratimuxStatus: status
     };
-  } else if (name === PhuirEProjects.logixUX) {
+  } else if (name.toLocaleLowerCase() === PhuirEProjects.logixUX) {
     return {
       ...state,
       logixUXStatus: status

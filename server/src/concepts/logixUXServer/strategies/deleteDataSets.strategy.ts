@@ -5,6 +5,7 @@ $>*/
 import { axiumLog, createActionNode, createStrategy } from 'stratimux';
 import path from 'path';
 import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
+import { logixUXServerSendUpdateProjectToInstalled } from './client/logixUXServerSendUpdateProjectToInstalled.helper';
 
 const logixUXServerDeleteDataSetsStrategyTopic = 'logixUXServer delete data sets from file system';
 export const logixUXServerDeleteDataSetsStrategy = (root: string, names: string[]) => {
@@ -15,18 +16,26 @@ export const logixUXServerDeleteDataSetsStrategy = (root: string, names: string[
   for (const name of names) {
     const dataSetDirectory = path.join(root + '/data/sets/' + name);
     if (first === undefined) {
-      first = createActionNode(fileSystemRemoveTargetDirectory({path: dataSetDirectory}), {
+      const updateStatus = createActionNode(logixUXServerSendUpdateProjectToInstalled(name), {
         successNode: null,
+        failureNode: null
+      });
+      first = createActionNode(fileSystemRemoveTargetDirectory({path: dataSetDirectory}), {
+        successNode: updateStatus,
         failureNode: null,
       });
-      previous = first;
+      previous = updateStatus;
     } else if (previous) {
-      const next = createActionNode(fileSystemRemoveTargetDirectory({path: dataSetDirectory}), {
+      const updateStatus = createActionNode(logixUXServerSendUpdateProjectToInstalled(name), {
         successNode: null,
+        failureNode: null
+      });
+      const next = createActionNode(fileSystemRemoveTargetDirectory({path: dataSetDirectory}), {
+        successNode: updateStatus,
         failureNode: null,
       });
       previous.successNode = next;
-      previous = next;
+      previous = updateStatus;
     }
   }
   return createStrategy({

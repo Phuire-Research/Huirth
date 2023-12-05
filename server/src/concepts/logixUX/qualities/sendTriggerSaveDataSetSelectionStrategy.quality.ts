@@ -58,7 +58,7 @@ const logixUXSendTriggerSaveDataSetSelectionStrategyReducer = (state: LogixUXSta
       const name = trainingData[i].name;
       names.push(name);
       if (name.toLowerCase() === 'stratimux') {
-        stratimuxStatus = ProjectStatus.parsing;
+        stratimuxStatus = ProjectStatus.saving;
       } else if (name.toLowerCase() === 'logixux') {
         logixUXStatus = ProjectStatus.saving;
       } else {

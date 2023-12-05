@@ -15,22 +15,11 @@ import {
   strategyBegin,
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
-import { DataSetTypes, NamedDataSet, ProjectStatus, TrainingData } from '../logixUX.model';
-import { logixUXSendTriggerDeleteDataSetsStrategy } from './sendTriggerSaveDeleteDataSetsStrategy.quality';
+import { DataSetTypes, NamedDataSet, PhuirEProjects, ProjectStatus, TrainingData } from '../logixUX.model';
+import { logixUXSendTriggerDeleteDataSetsStrategy } from './sendTriggerDeleteDataSetsStrategy.quality';
 
 export const logixUXRemoveDataSetSelectionType: ActionType = 'logixUX remove data set selection';
 export const logixUXRemoveDataSetSelection = prepareActionCreator(logixUXRemoveDataSetSelectionType);
-
-const projectIs = (status: ProjectStatus): boolean => {
-  switch (status) {
-    case ProjectStatus.parsed: {
-      return true;
-    }
-    default: {
-      return false;
-    }
-  }
-};
 
 const isNot = (dataSet: NamedDataSet, not: string[]) => {
   for (const n of not) {
@@ -74,13 +63,13 @@ function logixUXRemoveDataSetSelectionReducer(state: LogixUXState, action: Actio
         break;
       }
     } else if (data.type === DataSetTypes.project) {
-      if (data.name.toLowerCase() === 'stratimux' && projectIs(stratimuxStatus)) {
+      if (data.name.toLowerCase() === PhuirEProjects.stratimux) {
         stratimuxStatus = ProjectStatus.installed;
-      } else if (data.name.toLowerCase() === 'logixux' && projectIs(logixUXStatus)) {
+      } else if (data.name.toLowerCase() === PhuirEProjects.logixUX) {
         logixUXStatus = ProjectStatus.installed;
       } else {
         for (const project of projectsStatuses) {
-          if (project.name === data.name && projectIs(project.status)) {
+          if (project.name === data.name) {
             project.status = ProjectStatus.installed;
             newStatuses.push(project);
           } else {

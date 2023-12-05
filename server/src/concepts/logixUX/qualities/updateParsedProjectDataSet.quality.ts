@@ -11,7 +11,7 @@ import {
   selectPayload,
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
-import { DataSetTypes, NamedDataSet, ProjectStatus, TrainingData } from '../logixUX.model';
+import { DataSetTypes, NamedDataSet, PhuirEProjects, ProjectStatus, TrainingData } from '../logixUX.model';
 
 export type LogixUXUpdateParsedProjectDataSetPayload = {
   dataSet: NamedDataSet,
@@ -34,14 +34,15 @@ function logixUXUpdateParsedProjectDataSetReducer(state: LogixUXState, action: A
       newTrainingData.push(data);
     }
   }
+  console.log('CHECK INCOMING NAME', dataSet.name);
   if (!added) {
     newTrainingData.push(dataSet);
     dataSetSelection.push(false);
   }
   if (dataSet.type === DataSetTypes.project) {
-    if (dataSet.name.toLowerCase() === 'stratimux') {
+    if (dataSet.name.toLowerCase() === PhuirEProjects.stratimux) {
       stratimuxStatus = ProjectStatus.parsed;
-    } else if (dataSet.name.toLowerCase() === 'logixux') {
+    } else if (dataSet.name.toLowerCase() === PhuirEProjects.logixUX) {
       logixUXStatus = ProjectStatus.parsed;
     } else {
       added = false;

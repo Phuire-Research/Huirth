@@ -31,12 +31,12 @@ const logixUXServerSetRepositoriesFromDataReducer = (state: LogixUXState, action
       let logixUXExists = false;
       const projectsStatuses: {name: string, status: ProjectStatus}[] = [];
       for (const dir of data.directories) {
-        switch (dir.name) {
-        case PhuirEProjects.stratimux: {
+        switch (dir.name.toLowerCase()) {
+        case PhuirEProjects.stratimux.toLocaleLowerCase(): {
           stratimuxExists = true;
           break;
         }
-        case PhuirEProjects.logixUX: {
+        case PhuirEProjects.logixUX.toLocaleLowerCase(): {
           logixUXExists = true;
           break;
         }

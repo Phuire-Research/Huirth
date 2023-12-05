@@ -19,7 +19,7 @@ export type GeneralProjectStatuses = {name: string, status: ProjectStatus}[];
 export enum PhuirEProjects {
   stratimux = 'stratimux',
   stratimuxURL = 'https://github.com/Phuire-Research/Stratimux',
-  logixUX = 'logixUX',
+  logixUX = 'logixux',
   logixUX_URL = 'https://github.com/Phuire-Research/logixUX'
 }
 

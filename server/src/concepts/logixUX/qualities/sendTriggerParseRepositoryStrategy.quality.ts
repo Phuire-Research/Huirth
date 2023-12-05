@@ -17,7 +17,7 @@ import {
   strategyBegin,
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
-import { ProjectStatus } from '../logixUX.model';
+import { PhuirEProjects, ProjectStatus } from '../logixUX.model';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 
 export type LogixUXSendTriggerParseRepositoryStrategyPayload = {
@@ -47,9 +47,9 @@ const logixUXSendTriggerParseRepositoryStrategyMethodCreator: MethodCreator = ()
 const logixUXSendTriggerParseRepositoryStrategyReducer = (state: LogixUXState, action: Action): LogixUXState => {
   const { name } = selectPayload<LogixUXSendTriggerParseRepositoryStrategyPayload>(action);
   let { stratimuxStatus, logixUXStatus, projectsStatuses } = state;
-  if (name.toLowerCase() === 'stratimux') {
+  if (name.toLowerCase() === PhuirEProjects.stratimux) {
     stratimuxStatus = ProjectStatus.parsing;
-  } else if (name.toLowerCase() === 'logixux') {
+  } else if (name.toLowerCase() === PhuirEProjects.logixUX) {
     logixUXStatus = ProjectStatus.parsing;
   } else {
     const newStatuses = [];
