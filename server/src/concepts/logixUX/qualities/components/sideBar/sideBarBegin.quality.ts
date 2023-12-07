@@ -24,6 +24,7 @@ const createSideBarBeginMethodCreator: MethodCreator = () => createMethod(action
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
       id,
       boundSelectors: [],
+      universal: true,
       action: logixUXSideBarBegin(payload),
       html: /*html*/`
 <aside id=${id} class="fixed left-0 top-0 bottom-0 h-screen w-min overflow-y-scroll bg-white">

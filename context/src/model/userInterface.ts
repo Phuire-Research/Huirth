@@ -119,6 +119,8 @@ export const createBoundSelectors = (id: string, action: Action, selectors: Keye
 
 export type Composition = {
   id: string;
+  universal: boolean;
+  componentSemaphore?: number;
   boundSelectors: BoundSelectors[];
   bindings?: UserInterfaceBindings;
   html: string;

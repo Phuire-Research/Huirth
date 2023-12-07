@@ -22,6 +22,7 @@ const createLogixUXStyleMethodCreator: MethodCreator = () =>
         userInterface_appendCompositionToPage(action.strategy, {
           id: '',
           boundSelectors: [],
+          universal: true,
           action: logixUXStyle(payload),
           html: /*html*/ `
   <style>

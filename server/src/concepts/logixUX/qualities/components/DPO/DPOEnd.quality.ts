@@ -23,6 +23,7 @@ const createIndexDPOEndMethodCreator: MethodCreator = () => createMethod(action 
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
       id,
       boundSelectors: [],
+      universal: false,
       action: logixUXIndexDPOEnd(payload),
       html: /*html*/`
     </div>

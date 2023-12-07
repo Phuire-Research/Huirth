@@ -120,6 +120,7 @@ ${activeDPO[i].rejected}
           userInterface_appendCompositionToPage(action.strategy, {
             id,
             bindings,
+            universal: false,
             boundSelectors: [
               // START HERE
               createBoundSelectors(id, logixUXIndexDPOContent(payload), [logixUX_createDPOSelector(concepts, semaphore) as KeyedSelector]),

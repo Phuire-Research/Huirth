@@ -22,6 +22,7 @@ const createUserInterfaceClientState = (): UserInterfaceClientState => {
   if (id) {
     return {
       pages: [],
+      components: [],
       pagesCached: false,
       pageStrategies: [],
       currentPage: id.split('page#')[1],
@@ -29,6 +30,7 @@ const createUserInterfaceClientState = (): UserInterfaceClientState => {
   } else {
     return {
       pages: [],
+      components: [],
       pageStrategies: [],
       pagesCached: false,
       currentPage: '',

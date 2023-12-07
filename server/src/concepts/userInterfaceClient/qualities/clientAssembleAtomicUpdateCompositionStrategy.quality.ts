@@ -65,6 +65,8 @@ const createUserInterfaceClientAssembleAtomicUpdateCompositionStrategyMethod = (
       failureNode: null
     });
   }
+
+  console.log('CHECK STRATEGY', first);
   if (first) {
     return strategyBegin(createStrategy({
       initialNode: first,

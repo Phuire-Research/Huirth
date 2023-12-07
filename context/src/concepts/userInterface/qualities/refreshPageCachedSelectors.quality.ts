@@ -16,10 +16,12 @@ function userInterfaceRefreshCachedSelectorsReducer(state: UserInterfaceState, a
       const cachedSelectors: BoundSelectors[] = [];
       for (const [compIndex, comp] of p.compositions.entries()) {
         for (const bound of comp.boundSelectors) {
-          cachedSelectors.push({
-            ...bound,
-            semaphore: [i, compIndex],
-          });
+          if (!comp.universal) {
+            cachedSelectors.push({
+              ...bound,
+              semaphore: [i, compIndex],
+            });
+          }
         }
       }
       p.cachedSelectors = cachedSelectors;

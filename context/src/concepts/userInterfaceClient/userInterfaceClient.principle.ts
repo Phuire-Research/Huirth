@@ -63,6 +63,12 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
               });
             }
           });
+          uiState.components.forEach((comp) => {
+            comp.boundSelectors.forEach((bound) => {
+              bound.action.conceptSemaphore = semaphore;
+              selectors.push(bound);
+            });
+          });
           const payload: UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload = {
             action$: getAxiumState(concepts).action$,
             boundActionQue: [],

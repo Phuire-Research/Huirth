@@ -118,6 +118,8 @@ export const createBoundSelectors =
 
 export type Composition = {
   id: string;
+  universal: boolean;
+  componentSemaphore?: number,
   boundSelectors: BoundSelectors[],
   bindings?: UserInterfaceBindings,
   html: string,

@@ -23,6 +23,7 @@ const createIndexDPOBeginMethodCreator: MethodCreator = () => createMethod(actio
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
       id,
       boundSelectors: [],
+      universal: false,
       action: logixUXIndexDPOBegin(payload),
       html: /*html*/`
 <div id='${id}' class="carbon-fiber">

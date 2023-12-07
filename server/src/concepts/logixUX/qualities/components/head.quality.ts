@@ -24,6 +24,7 @@ const createLogixUXHeadMethodCreator: MethodCreator = () => createMethod(
       return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
         id: '',
         boundSelectors: [],
+        universal: true,
         action: logixUXHead(payload),
         html: /*html*/`
     <script src="https://cdn.tailwindcss.com"></script>

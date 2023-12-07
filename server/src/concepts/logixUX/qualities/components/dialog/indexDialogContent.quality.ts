@@ -101,6 +101,7 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
             {elementId: addId, action: counterAdd(), eventBinding: elementEventBinding.onclick},
             {elementId: subtractId, action: counterSubtract(), eventBinding: elementEventBinding.onclick}
           ]),
+          universal: false,
           boundSelectors,
           action: logixUXIndexDialogContent(payload),
           html: /*html*/`

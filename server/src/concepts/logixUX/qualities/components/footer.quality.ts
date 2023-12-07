@@ -23,6 +23,7 @@ const createLogixUXFooterMethodCreator: MethodCreator = () => createMethod(
       return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
         id: '',
         boundSelectors: [],
+        universal: true,
         action: logixUXFooter(payload),
         html: /*html*/`
   <footer

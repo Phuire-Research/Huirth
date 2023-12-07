@@ -30,6 +30,7 @@ const createHtmlHeadMethodCreator: MethodCreator = () =>
         userInterface_appendCompositionToPage(action.strategy, {
           id: '',
           boundSelectors: [],
+          universal: false,
           action: htmlBegin(payload),
           html: /*html*/ `
 <!DOCTYPE html>

@@ -18,7 +18,7 @@ import { userInterfaceServerCreateContextIndexQuality } from './qualities/create
 import { helloWorldPageStrategy } from '../userInterface/strategies.ts/helloWorldPage.strategy';
 import { userInterfaceServerFormatContextQuality } from './qualities/formatContext.quality';
 import { PageStrategyCreators } from '../../model/userInterface';
-import { userInterfaceServerAssembleAtomicUpdateCompositionStrategyQuality } from './qualities/serverAssembleAtomicUpdateCompositionStrategy.quality';
+import { userInterfaceServerAssembleUpdateAtomicCompositionStrategyQuality } from './qualities/serverAssembleUpdateAtomicCompositionStrategy.quality';
 import { createWebSocketServerConcept } from '../webSocketServer/webSocketServer.concept';
 
 // eslint-disable-next-line no-shadow
@@ -39,6 +39,7 @@ const createUserInterfaceServerState =
   (pageStrategies: PageStrategyCreators[], goal: commandLineInterfaceGoals): UserInterfaceServerState => {
     return {
       pages: [],
+      components: [],
       pageStrategies,
       pagesCached: false,
       createClientIndexQue: [],
@@ -69,7 +70,7 @@ const qualityGoal = (goal: commandLineInterfaceGoals): Quality[] => {
   switch (goal) {
   case commandLineInterfaceGoals.simulate: {
     return [
-      userInterfaceServerAssembleAtomicUpdateCompositionStrategyQuality
+      userInterfaceServerAssembleUpdateAtomicCompositionStrategyQuality
     ];
   }
   default: {
@@ -79,7 +80,7 @@ const qualityGoal = (goal: commandLineInterfaceGoals): Quality[] => {
       userInterfaceServerCreateContextIndexQuality,
       userInterfaceServerBuildContextQuality,
       userInterfaceServerFormatContextQuality,
-      userInterfaceServerAssembleAtomicUpdateCompositionStrategyQuality
+      userInterfaceServerAssembleUpdateAtomicCompositionStrategyQuality
     ];
   }
   }

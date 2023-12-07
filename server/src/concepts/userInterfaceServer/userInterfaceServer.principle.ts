@@ -12,7 +12,6 @@ import {
   KeyedSelector,
   PrincipleFunction,
   UnifiedSubject,
-  axiumKick,
   axiumRegisterStagePlanner,
   axiumSelectOpen,
   getUnifiedName,
@@ -20,31 +19,38 @@ import {
   selectState,
   selectUnifiedState,
 } from 'stratimux';
-import { BoundSelectors, Page, userInterface_isClient } from '../../model/userInterface';
+import { BoundSelectors, Composition, Page } from '../../model/userInterface';
 import path from 'path';
 import { FileSystemState, fileSystemName } from '../fileSystem/fileSystem.concept';
 import { findRoot } from '../../model/findRoot';
 import { UserInterfaceServerState } from './userInterfaceServer.concept';
 import {
-  UserInterfaceServerAssembleAtomicUpdateCompositionStrategyPayload,
-  userInterfaceServerAssembleAtomicUpdateCompositionStrategy
-} from './qualities/serverAssembleAtomicUpdateCompositionStrategy.quality';
-import { logixUXSideBarContentQuality, logixUXSideBarContentType } from '../logixUX/qualities/components/sideBar/sideBarContent.quality';
+  UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload,
+  userInterfaceServerAssembleUpdateAtomicCompositionStrategy
+} from './qualities/serverAssembleUpdateAtomicCompositionStrategy.quality';
 
 export const userInterfaceServerPrinciple: PrincipleFunction =
   (_: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     const newState = selectUnifiedState(cpts, semaphore) as Record<string, unknown>;
     const body = 'body response';
     let pages: Page[] = [];
+    let components: Composition[] = [];
     let errorPage: undefined | string;
     concepts$.subscribe(concepts => {
       const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
       if (uiState) {
+        components = uiState.components;
         if (uiState.pages.length > 0) {
           // body = uiState.pages[0].compositions.map(comp => comp.html).join('');
           for (let i = 1; i < uiState.pages.length; i++) {
+            const c = components;
             if (uiState.pages[i].title === 'error') {
-              errorPage = uiState.pages[i].compositions.map(comp => comp.html).join('');
+              errorPage = uiState.pages[i].compositions.map(comp => {
+                if (comp.universal) {
+                  return c[comp.componentSemaphore as number].html;
+                }
+                return comp.html;
+              }).join('');
               break;
             }
             // else if (page.title === 'index') {
@@ -88,7 +94,14 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
       let found = false;
       for (const page of pages) {
         if (page.title === 'index') {
-          res.send(page.compositions.map(comp => comp.html).join(''));
+          const c = components;
+          res.send(page.compositions.map(comp => {
+            if (comp.universal) {
+              console.log('CHECK C', c[comp.componentSemaphore as number]);
+              return c[comp.componentSemaphore as number].html;
+            }
+            return comp.html;
+          }).join(''));
           found = true;
           break;
         }
@@ -106,7 +119,13 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
       let found = false;
       for (const page of pages) {
         if (page.title === req.params.title) {
-          res.send(page.compositions.map(comp => comp.html).join(''));
+          const c = components;
+          res.send(page.compositions.map(comp => {
+            if (comp.universal) {
+              return c[comp.componentSemaphore as number].html;
+            }
+            return comp.html;
+          }).join(''));
           found = true;
           break;
         }
@@ -151,21 +170,22 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
       },
       (concepts, dispatch) => {
         const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
-        const isClient = userInterface_isClient();
         if (uiState && uiState.pagesCached) {
           // console.log('PAGES: ', uiState.pages.map(page => page.title).join(', '));
           const selectors: BoundSelectors[] = [];
           uiState.pages.forEach(page => {
             page.cachedSelectors.forEach(bound => {
-              if (!isClient && bound.action.type === logixUXSideBarContentType) {
-                // Temporary fix till Universal Components are added to User Interface
-              } else {
-                bound.action.conceptSemaphore = semaphore;
-                selectors.push(bound);
-              }
+              bound.action.conceptSemaphore = semaphore;
+              selectors.push(bound);
             });
           });
-          const payload: UserInterfaceServerAssembleAtomicUpdateCompositionStrategyPayload = {
+          uiState.components.forEach(comp => {
+            comp.boundSelectors.forEach(bound => {
+              bound.action.conceptSemaphore = semaphore;
+              selectors.push(bound);
+            });
+          });
+          const payload: UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload = {
             boundActionQue: []
           };
           const changes: string[] = [];
@@ -206,7 +226,7 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
             atomicCachedState[changes[i]] = selectSlice(concepts, changedSelectors[i]);
           }
           if (payload.boundActionQue.length > 0) {
-            dispatch(userInterfaceServerAssembleAtomicUpdateCompositionStrategy(payload), {
+            dispatch(userInterfaceServerAssembleUpdateAtomicCompositionStrategy(payload), {
               throttle: 1
             });
           }

@@ -60,6 +60,7 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
       id,
       boundSelectors,
+      universal: true,
       bindings: createBinding([
         {elementId: expandSideBarId, action: logixUXToggleSidebar(), eventBinding: elementEventBinding.onclick},
       ]),
