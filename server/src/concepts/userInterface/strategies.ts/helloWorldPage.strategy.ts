@@ -31,6 +31,7 @@ export const helloWorldPageStrategy: PageStrategyCreators = () => () => {
     title: 'helloWorld',
     compositions: [],
     cachedSelectors: [],
+    cachedComponentSelectors: [],
     conceptAndProps: [
       {
         name: helloWorldName,

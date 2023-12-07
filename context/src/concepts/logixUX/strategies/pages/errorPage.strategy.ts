@@ -39,6 +39,7 @@ export const logixUXErrorPageStrategy: PageStrategyCreators = () => () => {
     conceptAndProps: [],
     cachedSelectors: [],
     compositions: [],
+    cachedComponentSelectors: [],
   });
 
   return userInterfaceCreatePageStrategy(

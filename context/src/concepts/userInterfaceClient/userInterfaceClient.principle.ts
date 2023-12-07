@@ -34,6 +34,13 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
 ) => {
   const atomicCachedState: Record<string, unknown> = {};
   let delayChanges = false;
+  // const sub = concepts$.subscribe(val => {
+  //   // console.log('SUB HIT');
+  //   const axiumState = getAxiumState(val);
+  //   if (axiumState.badPlans.length > 0) {
+  //     console.log(axiumState.badPlans);
+  //   }
+  // });
   const plan = concepts$.stage(
     'User Interface Server on Change',
     [
@@ -53,6 +60,7 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
       },
       (concepts, dispatch) => {
         const uiState = selectUnifiedState<UserInterfaceClientState>(concepts, semaphore);
+        console.log('HITTING');
         if (uiState && uiState.pagesCached) {
           const selectors: BoundSelectors[] = [];
           uiState.pages.forEach((page, i) => {
@@ -61,14 +69,13 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
                 bound.action.conceptSemaphore = semaphore;
                 selectors.push(bound);
               });
+              page.cachedComponentSelectors.forEach((bound) => {
+                bound.action.conceptSemaphore = semaphore;
+                selectors.push(bound);
+              });
             }
           });
-          uiState.components.forEach((comp) => {
-            comp.boundSelectors.forEach((bound) => {
-              bound.action.conceptSemaphore = semaphore;
-              selectors.push(bound);
-            });
-          });
+          console.log('CHECK BOUND SELECTORS', selectors);
           const payload: UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload = {
             action$: getAxiumState(concepts).action$,
             boundActionQue: [],
@@ -120,16 +127,20 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
             delayChanges = true;
             dispatch(userInterfaceClientAssembleAtomicUpdateCompositionStrategy(payload), {
               iterateStage: true,
+              throttle: 1,
             });
           }
         } else if (uiState === undefined) {
+          console.log("SHOULDN'T CONCLUDE");
           plan.conclude();
         }
       },
       (_, dispatch) => {
+        console.log('HITTING DELAY CHANGE');
         if (!delayChanges) {
           dispatch(axiumKick(), {
             setStage: 1,
+            throttle: 1,
           });
         }
       },

@@ -28,6 +28,12 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
   concepts$: UnifiedSubject,
   semaphore: number
 ) => {
+  const sub = concepts$.subscribe((val) => {
+    const axiumState = getAxiumState(val);
+    if (axiumState.badActions.length > 0) {
+      console.error('BAD ACTIONS: ', axiumState.badActions);
+    }
+  });
   const plan = concepts$.stage('User Interface Page to State initialization plan', [
     (concepts, dispatch) => {
       const name = getUnifiedName(concepts, semaphore);

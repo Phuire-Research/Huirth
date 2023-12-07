@@ -23,6 +23,7 @@ function addComposedPageToState(state: UserInterfaceState, action: Action): User
   if (action.strategy) {
     const page = userInterface_selectPage(action.strategy);
     const newComponents = [...state.components];
+    const cachedComponentSelectors: BoundSelectors[] = [];
     const isUnique: Record<string, boolean> = {};
     const newPages = state.pages.filter((_page) => {
       return page.title !== _page.title;
@@ -58,6 +59,7 @@ function addComposedPageToState(state: UserInterfaceState, action: Action): User
               comp.boundSelectors.forEach((bound) => {
                 // -1 to throw error if this is ever improperly handled
                 bound.semaphore = [-1, setIndex];
+                cachedComponentSelectors.push(bound);
               });
             }
             const composition: Composition = { ...comp };
@@ -66,10 +68,14 @@ function addComposedPageToState(state: UserInterfaceState, action: Action): User
             p.compositions[compIndex] = {
               ...state.components[possibleSemaphore],
             };
+            p.compositions[compIndex].boundSelectors.forEach((bound) => {
+              cachedComponentSelectors.push(bound);
+            });
           }
         }
       }
       p.cachedSelectors = cachedSelectors;
+      p.cachedComponentSelectors;
     }
     return {
       ...state,
