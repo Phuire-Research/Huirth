@@ -17,7 +17,6 @@ import {
   getUnifiedName,
   selectSlice,
   selectUnifiedState,
-  updateUnifiedKeyedSelector,
 } from 'stratimux';
 import { UserInterfaceClientState } from './userInterfaceClient.concept';
 import { BoundSelectors } from '../../model/userInterface';
@@ -31,13 +30,6 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
   (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     const atomicCachedState: Record<string, unknown> = {};
     let delayChanges = false;
-    // const sub = concepts$.subscribe(val => {
-    //   // console.log('SUB HIT');
-    //   const axiumState = getAxiumState(val);
-    //   if (axiumState.badPlans.length > 0) {
-    //     console.log(axiumState.badPlans);
-    //   }
-    // });
     const plan = concepts$.stage('User Interface Server on Change', [
       (concepts, dispatch) => {
         const name = getUnifiedName(concepts, semaphore);
@@ -74,7 +66,6 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
             action$: getAxiumState(concepts).action$,
             boundActionQue: [],
           };
-          // Update so that the state that is being cached is set by the selectors. Finish this up tomorrow and move on
           const changes: string[] = [];
           const changedSelectors: KeyedSelector[] = [];
           selectors.forEach(bound => {
@@ -83,7 +74,6 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
               // The time complexity ruins this stage from operating at all.
               select.conceptName = 'userInterfaceClient';
               const value = selectSlice(concepts, select);
-              // console.log('HITTING', select, value, atomicCachedState);
               let changed = false;
               if (typeof value !== 'object') {
                 changed = (atomicCachedState as Record<string, unknown>)[select.stateKeys] !== value;
