@@ -97,7 +97,6 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
           const c = components;
           res.send(page.compositions.map(comp => {
             if (comp.universal) {
-              console.log('CHECK C', c[comp.componentSemaphore as number]);
               return c[comp.componentSemaphore as number].html;
             }
             return comp.html;

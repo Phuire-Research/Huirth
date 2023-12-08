@@ -82,7 +82,7 @@ function addComposedPageToState(state: UserInterfaceState, action: Action): User
         }
       }
       p.cachedSelectors = cachedSelectors;
-      p.cachedComponentSelectors;
+      p.cachedComponentSelectors = cachedComponentSelectors;
     }
     return {
       ...state,

@@ -8,7 +8,7 @@ import { PageStrategyCreators, userInterface_selectPage } from '../../../model/u
 import { userInterfacePageToStateStrategy } from './pageToState.strategy';
 
 export const userInterfaceAddNewPageStrategyTopic = 'User Interface add new Page Strategy, for: ';
-export function userInterfaceAddNewPageStrategy(pageStrategy: PageStrategyCreators, concepts: Concepts): ActionStrategy {
+export function userInterfaceAddNewPageStrategy(name: string, pageStrategy: PageStrategyCreators, concepts: Concepts): ActionStrategy {
   const strategy = userInterfacePageToStateStrategy(pageStrategy(concepts));
   const stepPageToState = createActionNodeFromStrategy(strategy);
   const stepAddToState = createActionNode(userInterfaceAddNewPage({
@@ -19,7 +19,7 @@ export function userInterfaceAddNewPageStrategy(pageStrategy: PageStrategyCreato
   });
 
   return createStrategy({
-    topic: userInterfaceAddNewPageStrategyTopic,
+    topic: userInterfaceAddNewPageStrategyTopic + name,
     initialNode: stepAddToState,
     data: strategy.data
   });

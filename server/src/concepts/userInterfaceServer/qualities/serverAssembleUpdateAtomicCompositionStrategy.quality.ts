@@ -94,7 +94,6 @@ const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy
   ];
 };
 const stitchUpdateUniversalComponent = (bound: BoundSelectors): [ActionNode, ActionStrategy] => {
-  console.log('CHECK', bound.action.type, bound.semaphore);
   const stepUpdateAtomic = createActionNode(userInterfaceUpdateUniversalComponent({bound}, bound.action.conceptSemaphore as number), {
     successNode: null,
     failureNode: null

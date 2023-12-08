@@ -137,7 +137,11 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
                 // eslint-disable-next-line max-depth
                 if (currentPage === add[i].name) {
                   list.push(
-                    userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name), concepts)
+                    userInterfaceAddNewPageStrategy(
+                      add[i].name,
+                      logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name),
+                      concepts
+                    )
                   );
                   found = true;
                 }
@@ -159,7 +163,13 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
               }
             } else {
               for (let i = 0; i < add.length; i++) {
-                list.push(userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name), concepts));
+                list.push(
+                  userInterfaceAddNewPageStrategy(
+                    add[i].name,
+                    logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name),
+                    concepts
+                  )
+                );
                 cachedTrainingDataNames.push(add[i].name);
               }
               const strategies = strategySequence(list);
@@ -190,7 +200,7 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
               for (let i = 0; i < add.length; i++) {
                 const name = trainingData[add[i].i].name;
                 cachedTrainingDataNames.push(name);
-                list.push(userInterfaceAddNewPageStrategy(logixUXGeneratedTrainingDataPageStrategy(name), concepts));
+                list.push(userInterfaceAddNewPageStrategy(name, logixUXGeneratedTrainingDataPageStrategy(name), concepts));
               }
             }
             if (remove.length > 0) {

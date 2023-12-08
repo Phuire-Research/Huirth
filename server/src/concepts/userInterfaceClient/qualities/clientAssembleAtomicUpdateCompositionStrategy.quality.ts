@@ -40,7 +40,6 @@ const createUserInterfaceClientAssembleAtomicUpdateCompositionStrategyMethod = (
   let previous: ActionNode | undefined;
   let first: ActionNode | undefined;
   for (const bound of boundActionQue) {
-    console.log('CHECK STRATEGY', bound);
     const [
       stitchEnd,
       stitchStrategy

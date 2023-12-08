@@ -6,7 +6,6 @@ import {
   ActionType,
   MethodCreator,
   UnifiedSubject,
-  axiumConclude,
   createMethodDebounceWithConcepts,
   createQuality,
   defaultReducer,
@@ -38,7 +37,7 @@ const logixUXServerTriggerDeleteDataSetsStrategyMethodCreator: MethodCreator = (
         const strategy = logixUXServerDeleteDataSetsStrategy(fileSystemState.root, trainingData, names);
         return strategyBegin(strategy);
       } else {
-        return axiumConclude();
+        return action;
       }
     }, concepts$ as UnifiedSubject, semaphore as number, 50
   );

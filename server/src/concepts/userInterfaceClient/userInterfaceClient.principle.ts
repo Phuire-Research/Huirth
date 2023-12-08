@@ -17,6 +17,7 @@ import {
   getUnifiedName,
   selectSlice,
   selectUnifiedState,
+  updateUnifiedKeyedSelector,
 } from 'stratimux';
 import { UserInterfaceClientState } from './userInterfaceClient.concept';
 import { BoundSelectors } from '../../model/userInterface';
@@ -53,8 +54,8 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
         }
       },
       (concepts, dispatch) => {
+        console.log(getUnifiedName(concepts, semaphore));
         const uiState = selectUnifiedState<UserInterfaceClientState>(concepts, semaphore);
-        console.log('HITTING');
         if (uiState && uiState.pagesCached) {
           const selectors: BoundSelectors[] = [];
           uiState.pages.forEach((page, i) => {
@@ -69,7 +70,6 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
               });
             }
           });
-          console.log('CHECK BOUND SELECTORS', selectors);
           const payload: UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload = {
             action$: getAxiumState(concepts).action$,
             boundActionQue: [],
@@ -79,6 +79,7 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
           const changedSelectors: KeyedSelector[] = [];
           selectors.forEach(bound => {
             for (const select of bound.selectors) {
+              select.conceptName = 'userInterfaceClient';
               const value = selectSlice(concepts, select);
               // console.log('HITTING', select, value, atomicCachedState);
               let changed = false;
@@ -114,7 +115,6 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
             atomicCachedState[changes[i]] = selectSlice(concepts, changedSelectors[i]);
           }
           if (payload.boundActionQue.length > 0) {
-            console.log('Check Length', payload.boundActionQue.length);
             setTimeout(() => {
               delayChanges = false;
             }, 100);
@@ -125,12 +125,11 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
             });
           }
         } else if (uiState === undefined) {
-          console.log('SHOULDN\'T CONCLUDE');
+          console.log('SHOULDN\'T CONCLUDE, unless removed');
           plan.conclude();
         }
       },
       (_, dispatch) => {
-        console.log('HITTING DELAY CHANGE');
         if (!delayChanges) {
           dispatch(axiumKick(), {
             setStage: 1,

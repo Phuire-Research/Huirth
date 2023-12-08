@@ -61,7 +61,6 @@ ${conceptImports}
   }
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   window.onunload = function(){}; 
-  console.warn = () => {};
   console.log('AXIUM INIT');
   /*$ End context template code $*/
 })();
