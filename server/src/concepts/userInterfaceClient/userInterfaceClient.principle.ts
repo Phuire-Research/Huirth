@@ -79,6 +79,8 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
           const changedSelectors: KeyedSelector[] = [];
           selectors.forEach(bound => {
             for (const select of bound.selectors) {
+              // It is interesting to note, that if we attempt to use the updateUnifiedKeyedSelector here.
+              // The time complexity ruins this stage from operating at all.
               select.conceptName = 'userInterfaceClient';
               const value = selectSlice(concepts, select);
               // console.log('HITTING', select, value, atomicCachedState);
