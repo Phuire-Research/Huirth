@@ -18,6 +18,7 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
     title: logixUXDataSetDPOPageStrategyTopic,
     conceptAndProps: [],
     cachedSelectors: [],
+    cachedComponentSelectors: [],
     compositions: [],
   });
 
