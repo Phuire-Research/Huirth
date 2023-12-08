@@ -33,12 +33,22 @@ const createCreateEachPageHtmlMethodCreator: MethodCreator = (concepts$?: Unifie
     for (const page of state.pages) {
       if (page.title.toLocaleLowerCase().indexOf('error') !== -1) {
         pages.push({
-          html: page.compositions.map(comp => comp.html).join(''),
+          html: page.compositions.map(comp => {
+            if (comp.universal) {
+              return state.components[comp.componentSemaphore as number].html;
+            }
+            return comp.html;
+          }).join(''),
           fileName: path.resolve(payload.targetDir + 404 + '.html')
         });
       } else {
         pages.push({
-          html: page.compositions.map(comp => comp.html).join(''),
+          html: page.compositions.map(comp => {
+            if (comp.universal) {
+              return state.components[comp.componentSemaphore as number].html;
+            }
+            return comp.html;
+          }).join(''),
           fileName: path.resolve(payload.targetDir + page.title + '.html')
         });
       }

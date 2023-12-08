@@ -121,6 +121,7 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
                 // eslint-disable-next-line max-depth
                 if (currentPage === add[i].name) {
                   list.push(userInterfaceAddNewPageStrategy(
+                    add[i].name,
                     logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name),
                     concepts,
                   ));
@@ -145,6 +146,7 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
             } else {
               for (let i = 0; i < add.length; i++) {
                 list.push(userInterfaceAddNewPageStrategy(
+                  add[i].name,
                   logixUXGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name),
                   concepts,
                 ));
@@ -182,6 +184,7 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
                 const name = trainingData[add[i].i].name;
                 cachedTrainingDataNames.push(name);
                 list.push(userInterfaceAddNewPageStrategy(
+                  name,
                   logixUXGeneratedTrainingDataPageStrategy(name),
                   concepts,
                 ));

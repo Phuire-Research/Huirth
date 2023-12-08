@@ -23,7 +23,8 @@ export const logixUXGeneratedTrainingDataPageStrategy = (pageTitle: string): Pag
       title,
       conceptAndProps: [],
       cachedSelectors: [],
-      compositions: []
+      compositions: [],
+      cachedComponentSelectors: []
     });
 
     return userInterfaceCreatePageStrategy(

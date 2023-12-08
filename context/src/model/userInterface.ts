@@ -119,6 +119,8 @@ export const createBoundSelectors = (id: string, action: Action, selectors: Keye
 
 export type Composition = {
   id: string;
+  universal: boolean;
+  componentSemaphore?: number;
   boundSelectors: BoundSelectors[];
   bindings?: UserInterfaceBindings;
   html: string;
@@ -130,6 +132,7 @@ export type Page = {
   conceptAndProps: ConceptAndProperties[];
   compositions: Composition[];
   cachedSelectors: BoundSelectors[];
+  cachedComponentSelectors: BoundSelectors[];
 };
 
 export type PrimedConceptAndProperties = {
@@ -150,6 +153,7 @@ export const userInterface_createPage = (page?: Page): Page =>
         conceptAndProps: [],
         compositions: [],
         cachedSelectors: [],
+        cachedComponentSelectors: [],
       };
 
 export type ActionComponentPayload = {

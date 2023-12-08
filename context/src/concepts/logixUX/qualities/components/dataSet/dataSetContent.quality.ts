@@ -140,6 +140,7 @@ ${
           userInterface_appendCompositionToPage(action.strategy, {
             id,
             bindings,
+            universal: false,
             boundSelectors: [
               // START HERE
               createBoundSelectors(id, logixUXDataSetContent(payload), [

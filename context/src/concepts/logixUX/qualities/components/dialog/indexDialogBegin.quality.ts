@@ -23,6 +23,7 @@ const createIndexDialogBeginMethodCreator: MethodCreator = () =>
         userInterface_appendCompositionToPage(action.strategy, {
           id,
           boundSelectors: [],
+          universal: false,
           action: logixUXIndexDialogBegin(payload),
           html: /*html*/ `
 <div id='${id}' class="carbon-fiber">

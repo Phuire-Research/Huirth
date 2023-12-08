@@ -65,6 +65,7 @@ const createUserInterfaceClientAssembleAtomicUpdateCompositionStrategyMethod = (
         failureNode: null,
       });
     }
+
     if (first) {
       return strategyBegin(
         createStrategy({

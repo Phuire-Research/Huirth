@@ -27,6 +27,7 @@ const createHelloWorldMethodCreator: MethodCreator = () =>
       return strategySuccess(action.strategy, userInterface_appendCompositionToPage(action.strategy, {
         id: helloWorldId,
         boundSelectors: [],
+        universal: false,
         action: htmlHelloWorld(),
         html: /*html*/`<h1 id=${helloWorldId}>Hello World</h1>`
       }));

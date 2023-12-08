@@ -41,6 +41,7 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
     conceptAndProps: [],
     cachedSelectors: [],
     compositions: [],
+    cachedComponentSelectors: [],
   });
 
   return userInterfaceCreatePageStrategy(

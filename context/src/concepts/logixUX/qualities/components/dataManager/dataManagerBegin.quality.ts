@@ -22,6 +22,7 @@ const createDataManagerBeginMethodCreator: MethodCreator = () =>
         action.strategy,
         userInterface_appendCompositionToPage(action.strategy, {
           id,
+          universal: false,
           boundSelectors: [],
           action: logixUXDataManagerBegin(payload),
           html: /*html*/ `

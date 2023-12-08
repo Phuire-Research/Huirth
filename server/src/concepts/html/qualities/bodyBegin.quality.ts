@@ -27,6 +27,7 @@ const createHtmlBodyMethodCreator: MethodCreator = () => createMethod(
       return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
         id: '',
         boundSelectors: [],
+        universal: false,
         action: htmlBodyBegin(payload),
         html: /*html*/`
   <body id="${createPageId(payload.pageTitle)}">

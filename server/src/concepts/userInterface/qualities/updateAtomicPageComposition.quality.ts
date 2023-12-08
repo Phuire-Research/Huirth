@@ -13,16 +13,16 @@ import {
 import { BoundSelectors, userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 
-export type UserInterfaceAtomicUpdatePageCompositionPayload = {
+export type UserInterfaceUpdateAtomicPageCompositionPayload = {
   bound: BoundSelectors
 }
-export const userInterfaceAtomicUpdatePageCompositionType: ActionType =
+export const userInterfaceUpdateAtomicPageCompositionType: ActionType =
   'User Interface atomic update composition to State';
-export const userInterfaceAtomicUpdatePageComposition =
-  prepareActionWithPayloadCreator<UserInterfaceAtomicUpdatePageCompositionPayload>(userInterfaceAtomicUpdatePageCompositionType);
+export const userInterfaceUpdateAtomicPageComposition =
+  prepareActionWithPayloadCreator<UserInterfaceUpdateAtomicPageCompositionPayload>(userInterfaceUpdateAtomicPageCompositionType);
 
-function userInterfaceAtomicUpdatePageCompositionReducer(state: UserInterfaceState, action: Action): UserInterfaceState {
-  const payload = selectPayload<UserInterfaceAtomicUpdatePageCompositionPayload>(action);
+function userInterfaceUpdateAtomicPageCompositionReducer(state: UserInterfaceState, action: Action): UserInterfaceState {
+  const payload = selectPayload<UserInterfaceUpdateAtomicPageCompositionPayload>(action);
   if (action.strategy) {
     const pageData = userInterface_selectPage(action.strategy);
     const composition = pageData.compositions.filter(comp => comp.id === payload.bound.id)[0];
@@ -41,9 +41,9 @@ function userInterfaceAtomicUpdatePageCompositionReducer(state: UserInterfaceSta
   };
 }
 
-export const userInterfaceAtomicUpdatePageCompositionQuality = createQuality(
-  userInterfaceAtomicUpdatePageCompositionType,
-  userInterfaceAtomicUpdatePageCompositionReducer,
+export const userInterfaceUpdateAtomicPageCompositionQuality = createQuality(
+  userInterfaceUpdateAtomicPageCompositionType,
+  userInterfaceUpdateAtomicPageCompositionReducer,
   defaultMethodCreator,
 );
 /*#>*/

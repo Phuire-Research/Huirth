@@ -23,6 +23,7 @@ const createIndexDialogEndMethodCreator: MethodCreator = () =>
         userInterface_appendCompositionToPage(action.strategy, {
           id,
           boundSelectors: [],
+          universal: false,
           action: logixUXIndexDialogEnd(payload),
           html: /*html*/ `
     </div>

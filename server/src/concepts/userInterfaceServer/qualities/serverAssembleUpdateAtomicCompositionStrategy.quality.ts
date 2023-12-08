@@ -18,26 +18,31 @@ import {
   strategyBegin,
 } from 'stratimux';
 import { BoundSelectors } from '../../../model/userInterface';
-import { userInterfaceAtomicUpdatePageComposition } from '../../userInterface/qualities/atomicUpdatePageComposition.quality';
+import { userInterfaceUpdateAtomicPageComposition } from '../../userInterface/qualities/updateAtomicPageComposition.quality';
 import { userInterfaceEnd } from '../../userInterface/qualities/end.quality';
+import { userInterfaceUpdateUniversalComponent } from '../../userInterface/qualities/updateUniversalComponent.quality';
 
-export type UserInterfaceServerAssembleAtomicUpdateCompositionStrategyPayload = {
+export type UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload = {
   boundActionQue: BoundSelectors[]
 }
-export const userInterfaceServerAssembleAtomicUpdateCompositionStrategyType: ActionType =
+export const userInterfaceServerAssembleUpdateAtomicCompositionStrategyType: ActionType =
   'User Interface assemble update atomic compositions strategy server';
-export const userInterfaceServerAssembleAtomicUpdateCompositionStrategy =
-  prepareActionWithPayloadCreator(userInterfaceServerAssembleAtomicUpdateCompositionStrategyType);
+export const userInterfaceServerAssembleUpdateAtomicCompositionStrategy =
+  prepareActionWithPayloadCreator(userInterfaceServerAssembleUpdateAtomicCompositionStrategyType);
 
-const createUserInterfaceServerAssembleAtomicUpdateCompositionStrategyMethod = () => createMethod(action => {
-  const boundActionQue = selectPayload<UserInterfaceServerAssembleAtomicUpdateCompositionStrategyPayload>(action).boundActionQue;
+const createUserInterfaceServerAssembleUpdateAtomicCompositionStrategyMethod = () => createMethod(action => {
+  const boundActionQue = selectPayload<UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload>(action).boundActionQue;
   let previous: ActionNode | undefined;
   let first: ActionNode | undefined;
   for (const bound of boundActionQue) {
+    let stitchUpdate = stitchUpdatedLayers;
+    if (bound.semaphore[0] === -1) {
+      stitchUpdate = stitchUpdateUniversalComponent;
+    }
     const [
       stitchEnd,
       stitchStrategy
-    ] = stitchUpdatedLayers(bound);
+    ] = stitchUpdate(bound);
     if (previous) {
       const stitchNode = createActionNodeFromStrategy(stitchStrategy);
       previous.successNode = stitchNode;
@@ -64,15 +69,15 @@ const createUserInterfaceServerAssembleAtomicUpdateCompositionStrategyMethod = (
   return action;
 });
 
-export const userInterfaceServerAssembleAtomicUpdateCompositionStrategyQuality = createQuality(
-  userInterfaceServerAssembleAtomicUpdateCompositionStrategyType,
+export const userInterfaceServerAssembleUpdateAtomicCompositionStrategyQuality = createQuality(
+  userInterfaceServerAssembleUpdateAtomicCompositionStrategyType,
   defaultReducer,
-  createUserInterfaceServerAssembleAtomicUpdateCompositionStrategyMethod,
+  createUserInterfaceServerAssembleUpdateAtomicCompositionStrategyMethod,
 );
 
 // Need to provide semaphore that will update the target composition of some page.
 const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy] => {
-  const stepUpdateAtomic = createActionNode(userInterfaceAtomicUpdatePageComposition({bound}, bound.action.conceptSemaphore as number), {
+  const stepUpdateAtomic = createActionNode(userInterfaceUpdateAtomicPageComposition({bound}, bound.action.conceptSemaphore as number), {
     successNode: null,
     failureNode: null
   });
@@ -85,6 +90,23 @@ const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy
     createStrategy({
       initialNode: stepAction,
       topic: 'STITCH ATOMIC COMPOSITION UPDATE'
+    })
+  ];
+};
+const stitchUpdateUniversalComponent = (bound: BoundSelectors): [ActionNode, ActionStrategy] => {
+  const stepUpdateAtomic = createActionNode(userInterfaceUpdateUniversalComponent({bound}, bound.action.conceptSemaphore as number), {
+    successNode: null,
+    failureNode: null
+  });
+  const stepAction = createActionNode(refreshAction(bound.action), {
+    successNode: stepUpdateAtomic,
+    failureNode: null
+  });
+  return [
+    stepUpdateAtomic,
+    createStrategy({
+      initialNode: stepAction,
+      topic: 'STITCH UNIVERSAL COMPONENT UPDATE'
     })
   ];
 };

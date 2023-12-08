@@ -24,6 +24,7 @@ const createIndexHeroMethodCreator: MethodCreator = () => createMethod(action =>
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage(action.strategy, {
       id,
       boundSelectors: [],
+      universal: false,
       action: logixUXIndexHero(payload),
       html: /*html*/`
 <section id='${id}' class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">

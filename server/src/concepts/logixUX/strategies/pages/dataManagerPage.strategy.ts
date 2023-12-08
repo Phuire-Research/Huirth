@@ -22,7 +22,8 @@ export const logixUXDataManagerPageStrategy: PageStrategyCreators = () => () => 
     title: logixUXDataManagerPageStrategyTopic,
     conceptAndProps: [],
     cachedSelectors: [],
-    compositions: []
+    compositions: [],
+    cachedComponentSelectors: []
   });
 
   return userInterfaceCreatePageStrategy(

@@ -23,6 +23,7 @@ const createDataSetEndMethodCreator: MethodCreator = () =>
         userInterface_appendCompositionToPage(action.strategy, {
           id,
           boundSelectors: [],
+          universal: false,
           action: logixUXDataSetEnd(payload),
           html: /*html*/ `
     </div>

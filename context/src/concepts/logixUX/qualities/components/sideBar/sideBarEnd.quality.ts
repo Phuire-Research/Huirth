@@ -24,6 +24,7 @@ const createSideBarEndMethodCreator: MethodCreator = () =>
         userInterface_appendCompositionToPage(action.strategy, {
           id,
           boundSelectors: [],
+          universal: true,
           action: logixUXSideBarEnd(payload),
           html: /*html*/ `
   </nav>

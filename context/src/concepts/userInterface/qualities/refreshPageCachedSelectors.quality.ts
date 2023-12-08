@@ -14,15 +14,27 @@ function userInterfaceRefreshCachedSelectorsReducer(state: UserInterfaceState, a
     const newPages = { ...state.pages };
     for (const [i, p] of newPages.entries()) {
       const cachedSelectors: BoundSelectors[] = [];
+      const cachedComponentSelectors: BoundSelectors[] = [];
       for (const [compIndex, comp] of p.compositions.entries()) {
         for (const bound of comp.boundSelectors) {
-          cachedSelectors.push({
-            ...bound,
-            semaphore: [i, compIndex],
-          });
+          if (!comp.universal) {
+            cachedSelectors.push({
+              ...bound,
+              semaphore: [i, compIndex],
+            });
+          } else {
+            state.components.forEach((c) => {
+              if (comp.action.type === c.action.type) {
+                comp.boundSelectors.forEach((b) => {
+                  cachedComponentSelectors.push(b);
+                });
+              }
+            });
+          }
         }
       }
       p.cachedSelectors = cachedSelectors;
+      p.cachedComponentSelectors = cachedComponentSelectors;
     }
     return {
       ...state,

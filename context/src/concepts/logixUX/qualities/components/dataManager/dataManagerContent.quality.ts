@@ -222,6 +222,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
           userInterface_appendCompositionToPage(action.strategy, {
             id,
             bindings,
+            universal: false,
             boundSelectors: [
               // START HERE
               createBoundSelectors(id, logixUXDataManagerContent(payload), [

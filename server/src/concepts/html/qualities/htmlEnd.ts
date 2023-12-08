@@ -25,6 +25,7 @@ const createHtmlHeadMethodCreator: MethodCreator = () => createMethod(
       return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
         id: '',
         boundSelectors: [],
+        universal: false,
         action: htmlEnd(),
         html: /*html*/`
 </html>

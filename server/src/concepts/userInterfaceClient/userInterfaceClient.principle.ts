@@ -46,6 +46,7 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
         }
       },
       (concepts, dispatch) => {
+        console.log(getUnifiedName(concepts, semaphore));
         const uiState = selectUnifiedState<UserInterfaceClientState>(concepts, semaphore);
         if (uiState && uiState.pagesCached) {
           const selectors: BoundSelectors[] = [];
@@ -55,19 +56,24 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
                 bound.action.conceptSemaphore = semaphore;
                 selectors.push(bound);
               });
+              page.cachedComponentSelectors.forEach(bound => {
+                bound.action.conceptSemaphore = semaphore;
+                selectors.push(bound);
+              });
             }
           });
           const payload: UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload = {
             action$: getAxiumState(concepts).action$,
             boundActionQue: [],
           };
-          // Update so that the state that is being cached is set by the selectors. Finish this up tomorrow and move on
           const changes: string[] = [];
           const changedSelectors: KeyedSelector[] = [];
           selectors.forEach(bound => {
             for (const select of bound.selectors) {
+              // It is interesting to note, that if we attempt to use the updateUnifiedKeyedSelector here.
+              // The time complexity ruins this stage from operating at all.
+              select.conceptName = 'userInterfaceClient';
               const value = selectSlice(concepts, select);
-              // console.log('HITTING', select, value, atomicCachedState);
               let changed = false;
               if (typeof value !== 'object') {
                 changed = (atomicCachedState as Record<string, unknown>)[select.stateKeys] !== value;
@@ -101,23 +107,25 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
             atomicCachedState[changes[i]] = selectSlice(concepts, changedSelectors[i]);
           }
           if (payload.boundActionQue.length > 0) {
-            console.log('Check Length', payload.boundActionQue.length);
             setTimeout(() => {
               delayChanges = false;
             }, 100);
             delayChanges = true;
             dispatch(userInterfaceClientAssembleAtomicUpdateCompositionStrategy(payload), {
-              iterateStage: true
+              iterateStage: true,
+              throttle: 1
             });
           }
         } else if (uiState === undefined) {
+          console.log('SHOULDN\'T CONCLUDE, unless removed');
           plan.conclude();
         }
       },
       (_, dispatch) => {
         if (!delayChanges) {
           dispatch(axiumKick(), {
-            setStage: 1
+            setStage: 1,
+            throttle: 1
           });
         }
       }

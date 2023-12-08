@@ -29,7 +29,7 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
   const state = selectUnifiedState<UserInterfaceState & LogixUXState>(concepts, semaphore as number);
 
   const payload = selectComponentPayload(action);
-  const id = '#sideBarContent' + payload.pageTitle;
+  const id = '#sideBarContent';
   const expandSideBarId = '#expandSideBarID';
   let liClass = ' relative flex items-center py-2 px-3 my-2 font-medium rounded-md bg-gray-100 hover:bg-white';
   let pages = '';
@@ -60,6 +60,7 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
       id,
       boundSelectors,
+      universal: true,
       bindings: createBinding([
         {elementId: expandSideBarId, action: logixUXToggleSidebar(), eventBinding: elementEventBinding.onclick},
       ]),

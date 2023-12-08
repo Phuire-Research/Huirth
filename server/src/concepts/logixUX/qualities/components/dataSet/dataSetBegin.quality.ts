@@ -23,6 +23,7 @@ const createDataSetBeginMethodCreator: MethodCreator = () => createMethod(action
     return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
       id,
       boundSelectors: [],
+      universal: false,
       action: logixUXDataSetBegin(payload),
       html: /*html*/`
 <div id='${id}' class="carbon-fiber">

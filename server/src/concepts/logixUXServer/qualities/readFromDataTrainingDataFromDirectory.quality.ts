@@ -28,7 +28,6 @@ async function readAllDirectories(fileDirent: FileDirent[]): Promise<TrainingDat
       const contents = (await fs.readdir(path.join(fD.path + '/' + fD.name), {
         withFileTypes: true
       }) as FileDirent[]);
-      console.log('CHECK CONTENTS', contents);
       for (const entry of contents) {
         if (entry.isFile()) {
           try {
