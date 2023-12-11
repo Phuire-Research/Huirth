@@ -8,16 +8,17 @@ import {
   MethodCreator,
   createAction,
   createActionNode,
-  createMethod,
+  createMethodDebounce,
   createQuality,
   createStrategy,
+  defaultReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyBegin,
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
-import { userInterface_isClient } from '../../../model/userInterface';
+import { logixUXClearDataSetSelection } from './clearDataSetSelection.quality';
 
 export type LogixUXSendTriggerDeleteDataSetsStrategyPayload = {
   names: string[],
@@ -27,30 +28,25 @@ export const logixUXSendTriggerDeleteDataSetsStrategy =
   prepareActionWithPayloadCreator<LogixUXSendTriggerDeleteDataSetsStrategyPayload>(logixUXSendTriggerDeleteDataSetsStrategyType);
 
 const logixUXSendTriggerDeleteDataSetsStrategyMethodCreator: MethodCreator = () =>
-  createMethod(
+  createMethodDebounce(
     (action) => {
       const payload = selectPayload<LogixUXSendTriggerDeleteDataSetsStrategyPayload>(action);
       return strategyBegin(createStrategy({
         topic: 'Sent to Web Socket: Trigger Delete Data Sets: ' + payload.names.join(', '),
         initialNode: createActionNode(userInterfaceClientSendActionToServer(createAction('logixUXServer trigger delete data sets strategy', payload)), {
-          successNode: null,
+          successNode: createActionNode(logixUXClearDataSetSelection(), {
+            successNode: null,
+            failureNode: null
+          }),
           failureNode: null
         })
       }));
-    }
+    }, 50
   );
-
-const logixUXSendTriggerDeleteDataSetsStrategyReducer = (state: LogixUXState, _: Action): LogixUXState => {
-  const dataSetSelection = state.dataSetSelection.map(() => false);
-  return {
-    ...state,
-    dataSetSelection
-  };
-};
 
 export const logixUXSendTriggerDeleteDataSetsStrategyQuality = createQuality(
   logixUXSendTriggerDeleteDataSetsStrategyType,
-  logixUXSendTriggerDeleteDataSetsStrategyReducer,
+  defaultReducer,
   logixUXSendTriggerDeleteDataSetsStrategyMethodCreator,
 );
 /*#>*/

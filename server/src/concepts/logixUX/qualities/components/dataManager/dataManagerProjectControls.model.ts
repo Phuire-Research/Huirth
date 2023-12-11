@@ -28,10 +28,10 @@ export const determineProjectControls = (statuses: GeneralProjectStatuses): [str
     }
     final += /*html*/`
 <div class="m-4 flex-none flex items-center justify-end w-full">
-  <h2 class="w-72 text-white text-center italic">${dataStatus}</h2>
+  <h2 class="w-full text-white text-center italic">${dataStatus}</h2>
   <button
     id="${dataID}"
-    class="w-44 m-2 center-m items-center bg-yellow-800/5 hover:bg-yellow-500 text-yellow-50 hover:text-white font-semibold py-2 px-4 border border-yellow-500 hover:border-transparent rounded"
+    class="w-44 m-2 items-center bg-yellow-800/5 hover:bg-yellow-500 text-yellow-50 hover:text-white font-semibold py-2 px-4 border border-yellow-500 hover:border-transparent rounded"
   >
     ${dataNote} <i class="fa-solid fa-campfire"></i>
   </button>

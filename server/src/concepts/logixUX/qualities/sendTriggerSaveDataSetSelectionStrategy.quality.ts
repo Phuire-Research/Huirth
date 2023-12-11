@@ -20,6 +20,7 @@ import { LogixUXState } from '../logixUX.concept';
 import { ProjectStatus } from '../logixUX.model';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 import { LogixUXServerState } from '../../logixUXServer/logixUXServer.concept';
+import { logixUXClearDataSetSelection } from './clearDataSetSelection.quality';
 
 export const logixUXSendTriggerSaveDataSetSelectionStrategyType: ActionType = 'logixUX send trigger save data set selection strategy to server';
 export const logixUXSendTriggerSaveDataSetSelectionStrategy =
@@ -41,7 +42,10 @@ const logixUXSendTriggerSaveDataSetSelectionStrategyMethodCreator: MethodCreator
         initialNode: createActionNode(userInterfaceClientSendActionToServer(createAction('logixUXServer trigger save data set selection strategy', {
           names
         })), {
-          successNode: null,
+          successNode: createActionNode(logixUXClearDataSetSelection(), {
+            successNode: null,
+            failureNode: null
+          }),
           failureNode: null
         })
       });
@@ -50,8 +54,8 @@ const logixUXSendTriggerSaveDataSetSelectionStrategyMethodCreator: MethodCreator
   );
 
 const logixUXSendTriggerSaveDataSetSelectionStrategyReducer = (state: LogixUXState, _: Action): LogixUXState => {
-  const {dataSetSelection, trainingData} = state;
-  let { stratimuxStatus, logixUXStatus, projectsStatuses, } = state;
+  const {trainingData} = state;
+  let { stratimuxStatus, logixUXStatus, projectsStatuses, dataSetSelection } = state;
   const names: string[] = [];
   for (const [i, select] of dataSetSelection.entries()) {
     if (select) {
@@ -87,7 +91,7 @@ const logixUXSendTriggerSaveDataSetSelectionStrategyReducer = (state: LogixUXSta
     ...state,
     stratimuxStatus,
     logixUXStatus,
-    projectsStatuses
+    projectsStatuses,
   };
 };
 

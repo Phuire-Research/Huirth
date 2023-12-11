@@ -50,7 +50,12 @@ export const createBinding =
   (bindings: PreBind[]): UserInterfaceBindings => {
     const binding: UserInterfaceBindings = {};
     bindings.forEach(bind => {
-      binding[bind.elementId] = [{action: bind.action, eventBinding: bind.eventBinding}];
+      const possible = binding[bind.elementId];
+      if (possible !== undefined) {
+        binding[bind.elementId] = [...possible,{action: bind.action, eventBinding: bind.eventBinding}];
+      } else {
+        binding[bind.elementId] = [{action: bind.action, eventBinding: bind.eventBinding}];
+      }
     });
     return binding;
   };

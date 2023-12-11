@@ -101,7 +101,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
         finalOutput += /*html*/`
 <div class="w-full ml-4 mt-2 mb-2">
   <div class="relative flex items-center h-10 w-full min-w-[200px]">
-    <div class="absolute top-2/4 right-48 grid h-5 w-5 -translate-y-2/4 place-items-center text-blue-gray-500">
+    <div class="absolute top-2/4 right-52 grid h-5 w-5 -translate-y-2/4 place-items-center text-blue-gray-500">
       <i class="fa-solid fa-book"></i>
     </div>
     <input
@@ -112,7 +112,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
 'focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50'}"
       value="${trainingData[i].name}"
     />
-    <button class="ml-4 italic cursor-pointer center-m bg-purple-800/5 hover:bg-purple-500 text-purple-50 font-semibold hover:text-white py-2 px-4 border border-purple-400 hover:border-transparent border-solid rounded">
+    <button class="ml-4 italic cursor-pointer bg-purple-800/5 hover:bg-purple-500 text-purple-50 font-semibold hover:text-white py-2 px-4 border border-purple-400 hover:border-transparent border-solid rounded">
       <a href="/${trainingData[i].name}"><i class="fa-solid fa-link"></i></a>
     </button>
     <input
@@ -184,7 +184,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
       bindingsArray.push({
         action: logixUXSetPossibleProject(),
         elementId: projectInputID,
-        eventBinding: elementEventBinding.oninput
+        eventBinding: elementEventBinding.onkeyup
       });
       bindingsArray.push({
         action: logixUXSetPossibleProject(),
@@ -232,19 +232,19 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
           </button>
           <div class="p-8 pt-2 mt-2 bg-black/10 border border-t-2 rounded border-gray-700 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
              <div class="m-4 flex-none flex items-center justify-end w-full">
-              <h2 class="w-72 text-white text-center italic">${stratimuxStatus}</h2>
+              <h2 class="w-full text-white text-center italic">${stratimuxStatus}</h2>
               <button
                 id="${finalStratimuxID}"
-                class="w-44 m-2 center-m items-center bg-red-800/5 hover:bg-red-500 text-red-50 hover:text-white font-semibold py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                class="w-44 m-2 items-center bg-red-800/5 hover:bg-red-500 text-red-50 hover:text-white font-semibold py-2 px-4 border border-red-500 hover:border-transparent rounded"
               >
                 ${finalStratimuxNote} <img class="inline w-[27px]" src="/static/Stratimux-Spiral.png">
               </button>
             </div>
             <div class="m-4 flex-none flex items-center justify-end w-full">
-              <h2 class="w-72 text-white text-center italic">${logixUXStatus}</h2>
+              <h2 class="w-full text-white text-center italic">${logixUXStatus}</h2>
               <button
                 id="${finalLogixUX_ID}"
-                class="w-44 m-2 center-m items-center bg-yellow-800/5 hover:bg-yellow-500 text-yellow-50 hover:text-white font-semibold py-2 px-4 border border-yellow-500 hover:border-transparent rounded"
+                class="w-44 m-2 items-center bg-yellow-800/5 hover:bg-yellow-500 text-yellow-50 hover:text-white font-semibold py-2 px-4 border border-yellow-500 hover:border-transparent rounded"
               >
                 ${finalLogixUX_note} <img class="inline w-[27px]" src="/static/LogixUX-Spiral.png">
               </button>
@@ -270,11 +270,15 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
               </div>
               <button
                 id="${installProjectID}"
-                class="w-44 m-2 center-m bg-/5 bg-orange-800/5 hover:bg-orange-500 text-orange-50 hover:text-white font-semibold py-2 px-4 border border-orange-500 hover:border-transparent rounded"
+                class="${
+  possibleProjectValid ?
+    'w-44 m-2 bg-/5 bg-orange-800/5 hover:bg-orange-500 text-orange-50 hover:text-white font-semibold py-2 px-4 border border-orange-500 hover:border-transparent rounded'
+    :
+    'w-44 m-2 bg-/5 cursor-not-allowed bg-gray-800 hover:bg-gray-500 text-gray-50 hover:text-white font-semibold py-2 px-4 border border-gray-500 hover:border-transparent rounded'
+}"
               >
                 Project <i class="fa-solid fa-plus"></i>
               </button>
-
             </div>
             <div class="m-4 flex-none flex items-center w-full">
               <select id="${transformationSelectionID}" class="${'mr-4 bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-500 ' +
@@ -287,13 +291,13 @@ ${
               </select>
               <button
                 id="${triggerCreateTransformationDataSetID}"
-                class="w-44 m-2 center-m bg-blue-800/5 hover:bg-blue-500 text-blue-50 hover:text-white font-semibold py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                class="w-44 m-2 bg-blue-800/5 hover:bg-blue-500 text-blue-50 hover:text-white font-semibold py-2 px-4 border border-blue-500 hover:border-transparent rounded"
               >
                 Strategy <i class="fa-solid fa-plus"></i>
               </button>
             </div>
             <h1 class="m-4 text-white text-3xl w-full text-center">Data Sets</h1>
-            <div class="flex-none flex items-center w-full">
+            <div class="mb-4 flex-none flex items-center w-full">
               <button id=${addEntryID} class="mb-8 mt-2 center-m bg-green-800/5 hover:bg-green-500 text-green-50 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
                 Custom Data Set <i class="fa-solid fa-plus"></i>
               </button>

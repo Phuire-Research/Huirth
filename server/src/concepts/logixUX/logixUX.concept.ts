@@ -68,6 +68,7 @@ import { logixUXFilterTriggerInstallGitRepositoryQuality } from './qualities/fil
 import { logixUXSetDataSetQuality } from './qualities/setDataSet.quality';
 import { logixUXSetSelectedTransformationQuality } from './qualities/setSelectedTransformation.quality';
 import { logixUXSendTriggerSelectedTransformationStrategyQuality } from './qualities/sendTriggerSelectedTransformationStrategy.quality';
+import { logixUXClearDataSetSelectionQuality } from './qualities/clearDataSetSelection.quality';
 
 export const logixUXName = 'logixUX';
 export type LogixUXState = {
@@ -132,6 +133,7 @@ export const createLogixUXConcept = (): Concept =>  {
     logixUXIndexDPOBeginQuality,
     logixUXIndexDPOContentQuality,
     logixUXIndexDPOEndQuality,
+    logixUXClearDataSetSelectionQuality,
     logixUXDataManagerBeginQuality,
     logixUXDataManagerContentQuality,
     logixUXDataManagerEndQuality,
