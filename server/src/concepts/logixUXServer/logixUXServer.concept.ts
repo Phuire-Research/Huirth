@@ -28,6 +28,8 @@ import { logixUXServerInnerSubtractFromQuality } from './qualities/innerSubtract
 import { logixUXServerGenerateVerboseSubtractionStrategyQuality } from './qualities/generateVerboseSubtractionDataSet.quality';
 import { logixUXServerGenerateVerboseAdditionAndSubtractionStrategyQuality } from './qualities/generateVerboseAdditionAndSubtractionDataSet.quality';
 import { logixUXServerExitPrinciple } from './logixUXServer.exit.principle';
+import { logixUXServerGitPullRepositoryQuality } from './qualities/gitPullRepository.quality';
+import { logixUXServerTriggerGitPullRepositoryStrategyQuality } from './qualities/triggerGitPullRepositoryStrategy.quality';
 
 export const logixUXServerName = 'logixUXServer';
 export type LogixUXServerState = {
@@ -48,6 +50,7 @@ export const createLogixUXServerConcept = (): Concept =>  {
     logixUXServerIsDataDirectorySetUpQuality,
     logixUXServerGitCloneRepoToDirectoryQuality,
     logixUXServerTriggerCloneGitRepositoryStrategyQuality,
+    logixUXServerTriggerGitPullRepositoryStrategyQuality,
     logixUXServerTriggerParseRepositoryStrategyQuality,
     logixUXServerTriggerSaveDataSetSelectionStrategyQuality,
     logixUXServerTriggerDeleteDataSetsStrategyQuality,
@@ -61,7 +64,8 @@ export const createLogixUXServerConcept = (): Concept =>  {
     logixUXServerTriggerSelectTransformationStrategyQuality,
     logixUXServerInnerSubtractFromQuality,
     logixUXServerGenerateVerboseSubtractionStrategyQuality,
-    logixUXServerGenerateVerboseAdditionAndSubtractionStrategyQuality
+    logixUXServerGenerateVerboseAdditionAndSubtractionStrategyQuality,
+    logixUXServerGitPullRepositoryQuality
   ];
   return unifyConcepts(
     [

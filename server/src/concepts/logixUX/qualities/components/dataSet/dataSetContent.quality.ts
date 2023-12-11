@@ -90,9 +90,7 @@ ${
 'text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200' +
 'placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0' +
 'disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50'}" id="${chosenID + elementID}" rows="4" cols="50"
->
-  ${data.content}
-  </textarea>` : /*html*/`
+>${data.content}</textarea>` : /*html*/`
   <input
     readonly
     class="${'input-' + i + ' mb-4 peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent' +
