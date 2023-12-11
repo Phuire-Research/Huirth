@@ -20,7 +20,7 @@ function logixUXUpdateDataSetContentsReducer(state: LogixUXState, action: Action
   const trainingData = [...state.trainingData];
   const named = trainingData[payload.index];
   if (named && target) {
-    named.dataSet[payload.dataSetIndex].content = target.value;
+    named.dataSet[payload.dataSetIndex].content = target.value.trim();
   }
   return {
     ...state,
