@@ -1,5 +1,5 @@
 /*<$
-For the graph programming framework Stratimux and a Concept logixUX Server, generate the model file contents.
+For the graph programming framework Stratimux and a Concept logixUX Server, generate a quality that will trigger the ActionStrategy that will clone a specified git repository.
 $>*/
 /*<#*/
 import {
@@ -15,7 +15,7 @@ import {
   strategyBegin,
 } from 'stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
-import { logixUXServerCloneGitRepositoryToDirectoryStrategy } from '../strategies/cloneGitRespositoryToDirectory.strategy';
+import { logixUXServerCloneGitRepositoryToDirectoryStrategy } from '../strategies/cloneGitRepositoryToDirectory.strategy';
 
 export type LogixUXServerTriggerCloneGitRepositoryStrategyPayload = {
   url: string,

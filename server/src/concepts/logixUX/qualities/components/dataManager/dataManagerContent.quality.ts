@@ -41,6 +41,7 @@ import { logixUXFilterTriggerInstallGitRepository } from '../../filterTriggerIns
 import { logixUXSetSelectedTransformation } from '../../setSelectedTransformation.quality';
 import { logixUXSendTriggerTransformationStrategy } from '../../../strategies/server/triggerTransformationStrategy.helper';
 import { logixUXSendTriggerSelectedTransformationStrategy } from '../../sendTriggerSelectedTransformationStrategy.quality';
+import { logixUXSendTriggerGitPullRepositoryStrategy } from '../../../strategies/server/triggerGitPullRepositoryStrategy.helper';
 
 export const logixUXDataManagerContentType: ActionType = 'create userInterface for DataManagerContent';
 export const logixUXDataManagerContent = prepareActionComponentCreator(logixUXDataManagerContentType);
@@ -57,10 +58,12 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
     const triggerCreateTransformationDataSetID = '#triggerCreateTransformationDataSetID';
     const installProjectID = '#installProjectID';
     const installStratimuxID = '#install_' + PhuirEProjects.stratimux;
+    const pullStratimuxID = '#pull_' + PhuirEProjects.stratimux;
     let finalStratimuxID = '#stratimuxID';
     let finalStratimuxNote = 'Stratimux';
     const parseStratimuxID = '#parse_' + PhuirEProjects.stratimux;
     const installLogixUX_ID = '#install_' + PhuirEProjects.logixUX;
+    const pullLogixUX_ID = '#pull_' + PhuirEProjects.logixUX;
     let finalLogixUX_ID = '#logixUX_ID';
     let finalLogixUX_note = 'logixUX';
     const parseLogixUX_ID = '#parse_' + PhuirEProjects.logixUX;
@@ -131,6 +134,8 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
         elementId: addEntryID,
         eventBinding: elementEventBinding.onclick
       });
+      const stratimuxSaved = trainingData.filter(d => d.name.toLowerCase() === PhuirEProjects.stratimux.toLocaleLowerCase()).length > 0;
+      const logixUXSaved = trainingData.filter(d => d.name.toLowerCase() === PhuirEProjects.logixUX.toLocaleLowerCase()).length > 0;
       if (stratimuxStatus === ProjectStatus.notInstalled) {
         bindingsArray.push({
           action: logixUXTriggerInstallGitRepository({
@@ -142,7 +147,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
         });
         finalStratimuxID = installStratimuxID;
         finalStratimuxNote = 'Install Stratimux';
-      } else if (stratimuxStatus === ProjectStatus.installed) {
+      } else if (stratimuxStatus === ProjectStatus.installed && !stratimuxSaved) {
         bindingsArray.push({
           action: logixUXSendTriggerParseRepositoryStrategy({name: PhuirEProjects.stratimux}),
           elementId: parseStratimuxID,
@@ -150,6 +155,14 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
         });
         finalStratimuxID = parseStratimuxID;
         finalStratimuxNote = 'Parse Stratimux';
+      } else if (stratimuxStatus === ProjectStatus.saved || stratimuxStatus === ProjectStatus.parsed) {
+        bindingsArray.push({
+          action: logixUXSendTriggerGitPullRepositoryStrategy(PhuirEProjects.stratimux),
+          elementId: pullStratimuxID,
+          eventBinding: elementEventBinding.onclick
+        });
+        finalStratimuxID = pullStratimuxID;
+        finalStratimuxNote = 'Pull Stratimux';
       }
       if (logixUXStatus === ProjectStatus.notInstalled) {
         bindingsArray.push({
@@ -162,7 +175,7 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
         });
         finalLogixUX_ID = installLogixUX_ID;
         finalLogixUX_note = 'Install LogixUX';
-      } else if (logixUXStatus === ProjectStatus.installed) {
+      } else if (logixUXStatus === ProjectStatus.installed && !logixUXSaved) {
         bindingsArray.push({
           action: logixUXSendTriggerParseRepositoryStrategy({name: PhuirEProjects.logixUX}),
           elementId: parseLogixUX_ID,
@@ -170,6 +183,14 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Unifie
         });
         finalLogixUX_ID = parseLogixUX_ID;
         finalLogixUX_note = 'Parse LogixUX';
+      } else if (logixUXStatus === ProjectStatus.saved || logixUXStatus === ProjectStatus.parsed) {
+        bindingsArray.push({
+          action: logixUXSendTriggerGitPullRepositoryStrategy(PhuirEProjects.logixUX),
+          elementId: pullLogixUX_ID,
+          eventBinding: elementEventBinding.onclick
+        });
+        finalLogixUX_ID = pullLogixUX_ID;
+        finalLogixUX_note = 'Pull logixUX';
       }
       bindingsArray.push({
         action: logixUXSendTriggerSaveDataSetSelectionStrategy(),

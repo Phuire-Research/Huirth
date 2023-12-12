@@ -10,7 +10,8 @@ export enum ProjectStatus {
   parsing = 'Data Parsing...',
   parsed = 'Data Parsed',
   saving = 'Saving...',
-  saved = 'Saved'
+  saved = 'Saved',
+  pulled = 'Pulled',
 }
 
 export type GeneralProjectStatuses = {name: string, status: ProjectStatus}[];
