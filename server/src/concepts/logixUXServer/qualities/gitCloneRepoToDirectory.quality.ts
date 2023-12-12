@@ -29,9 +29,10 @@ const makeGitCloneRepoToDirectoryMethodCreator: MethodCreator = () =>
   createAsyncMethod((controller, action) => {
     const {path, url} = selectPayload<GitCloneRepoToDirectoryPayload>(action);
     if (action.strategy) {
-      const process = child_process.exec('git clone ' + url + ' ' + path);
+      const process = child_process.exec('git clone ' + url + ' ' + path, (err, stdout, stderr) => {
+        console.log(`GIT CLONE ${url}\nERR: `, err, 'STDOUT: ', stdout, 'STDERR: ', stderr);
+      });
       process.on('message', (message) => console.log(message));
-      process.stdout?.on('data', (data) => console.log(data));
       process.on('exit', () => {
         const newStrategy =
           strategySuccess(action.strategy as ActionStrategy);

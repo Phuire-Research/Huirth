@@ -7,6 +7,7 @@ import {
   ActionType,
   MethodCreator,
   createAsyncMethod,
+  createAsyncMethodDebounce,
   createQuality,
   defaultReducer,
   prepareActionWithPayloadCreator,
@@ -15,6 +16,7 @@ import {
   strategySuccess
 } from 'stratimux';
 import child_process from 'child_process';
+import path from 'path';
 
 export type GitPullRepositoryPayload = {
   path: string
@@ -25,18 +27,19 @@ export const logixUXServerGitPullRepository =
   prepareActionWithPayloadCreator<GitPullRepositoryPayload>(logixUXServerGitPullRepositoryType);
 
 const makeGitPullRepositoryMethodCreator: MethodCreator = () =>
-  createAsyncMethod((controller, action) => {
-    const {path} = selectPayload<GitPullRepositoryPayload>(action);
+  createAsyncMethodDebounce((controller, action) => {
+    const payload = selectPayload<GitPullRepositoryPayload>(action);
     if (action.strategy) {
-      const process = child_process.exec('cd ' + path + '&& git pull', (err, stdout, stderr) => {
-        console.log(stdout);
-      });
-
+      const target = path.join(`${payload.path.split('data')[0]}` + '/server/src/concepts/logixUXServer/model/gitPull.sh');
+      const process = child_process.spawn('sh', [target, payload.path]);
       process.on('exit', (something) => {
         console.log('CHECK THIS SOMETHING', something);
         const newStrategy =
           strategySuccess(action.strategy as ActionStrategy);
         controller.fire(newStrategy);
+      });
+      process.on('message', (message) => {
+        console.log(message);
       });
       process.on('error', (error) => {
         console.error(error);
@@ -47,7 +50,7 @@ const makeGitPullRepositoryMethodCreator: MethodCreator = () =>
     } else {
       controller.fire(action);
     }
-  });
+  }, 50);
 
 export const logixUXServerGitPullRepositoryQuality = createQuality(
   logixUXServerGitPullRepositoryType,
