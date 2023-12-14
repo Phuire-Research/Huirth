@@ -46,11 +46,6 @@ const logixUXServerGenerateVerboseSubtractionStrategyMethodCreator: MethodCreato
     const plan = concepts$.stage('Verbose Subtraction data set generation plan',
     [
       (_, dispatch) => {
-        dispatch(axiumKick(), {
-          iterateStage: true
-        });
-      },
-      (_, dispatch) => {
         console.log('Transformation stage 1', iterations < 100, length < limit);
         if (iterations < 100 && length < limit) {
           const newStrategy = logixUXServerVerboseSubtractionStrategy(length);
@@ -64,7 +59,7 @@ const logixUXServerGenerateVerboseSubtractionStrategyMethodCreator: MethodCreato
         } else {
           console.log('END PLAN');
           dispatch(axiumKick(), {
-            setStage: 3
+            setStage: 2
           });
         }
       },
@@ -86,7 +81,7 @@ const logixUXServerGenerateVerboseSubtractionStrategyMethodCreator: MethodCreato
           }
           console.log('DISPATCH');
           dispatch(axiumKick(), {
-            setStage: 1,
+            setStage: 0,
             throttle: 1
           });
         }
