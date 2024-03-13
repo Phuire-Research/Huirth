@@ -13,6 +13,7 @@ import { userInterfaceUpdateAtomicPageCompositionQuality } from './qualities/upd
 import { userInterfaceAddNewPageQuality } from './qualities/addNewPage.quality';
 import { userInterfaceRemovePageQuality } from './qualities/removePage.quality';
 import { userInterfaceUpdateUniversalComponentQuality } from './qualities/updateUniversalComponent.quality';
+import { userInterfaceNextQuality } from './qualities/next.quality';
 
 export const userInterfaceName = 'userInterface';
 
@@ -46,6 +47,7 @@ export const createUserInterfaceConcept = (pageStrategies: PageStrategyCreators[
         userInterfaceAddNewPageQuality,
         userInterfaceRemovePageQuality,
         userInterfaceEndQuality,
+        userInterfaceNextQuality,
       ],
       [userInterfaceInitializationPrinciple]
     )

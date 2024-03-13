@@ -10,7 +10,7 @@ import {
   UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQuality,
-  defaultReducer,
+  nullReducer,
   selectUnifiedState,
   strategySuccess
 } from 'stratimux';
@@ -367,7 +367,7 @@ ${
 
 export const logixUXDataManagerContentQuality = createQuality(
   logixUXDataManagerContentType,
-  defaultReducer,
+  nullReducer,
   createDataManagerContentMethodCreator,
 );
 /*#>*/

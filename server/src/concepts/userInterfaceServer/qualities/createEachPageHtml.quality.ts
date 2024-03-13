@@ -10,7 +10,7 @@ import {
   axiumConclude,
   createAsyncMethodWithState,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess
@@ -70,7 +70,7 @@ const createCreateEachPageHtmlMethodCreator: MethodCreator = (concepts$?: Unifie
 
 export const userInterfaceServerCreateEachPageHtmlQuality = createQuality(
   userInterfaceServerCreateEachPageHtmlType,
-  defaultReducer,
+  nullReducer,
   createCreateEachPageHtmlMethodCreator,
 );
 /*#>*/

@@ -11,7 +11,7 @@ import {
   createMethodDebounce,
   createQuality,
   createStrategy,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyBegin,
@@ -50,7 +50,7 @@ const logixUXSendTriggerDeleteDataSetsStrategyMethodCreator: MethodCreator = () 
 
 export const logixUXSendTriggerDeleteDataSetsStrategyQuality = createQuality(
   logixUXSendTriggerDeleteDataSetsStrategyType,
-  defaultReducer,
+  nullReducer,
   logixUXSendTriggerDeleteDataSetsStrategyMethodCreator
 );
 /*#>*/

@@ -6,7 +6,7 @@ import {
   ActionType,
   createAsyncMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionCreator,
   strategyData_appendFailure,
   strategyData_select,
@@ -63,7 +63,7 @@ const fileSystemReadFileContentsAndAppendToDataMethodCreator = () =>
 
 export const fileSystemReadFileContentsAndAppendToDataQuality = createQuality(
   fileSystemReadFileContentsAndAppendToDataType,
-  defaultReducer,
+  nullReducer,
   fileSystemReadFileContentsAndAppendToDataMethodCreator,
 );
 /*#>*/

@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the first slice of the DPO DataSet Component.
 $>*/
 /*<#*/
-import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';
+import { ActionType, MethodCreator, createMethod, createQuality, nullReducer, strategySuccess } from 'stratimux';
 
 import {
   prepareActionComponentCreator,
@@ -37,5 +37,5 @@ const createIndexDPOBeginMethodCreator: MethodCreator = () =>
     return action;
   });
 
-export const logixUXIndexDPOBeginQuality = createQuality(logixUXIndexDPOBeginType, defaultReducer, createIndexDPOBeginMethodCreator);
+export const logixUXIndexDPOBeginQuality = createQuality(logixUXIndexDPOBeginType, nullReducer, createIndexDPOBeginMethodCreator);
 /*#>*/

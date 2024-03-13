@@ -19,7 +19,7 @@ const addComposedPageMethodCreator = () =>
     }
   });
 
-function addComposedPageToState(state: UserInterfaceState, action: Action): UserInterfaceState {
+function addComposedPageToStateReducer(state: UserInterfaceState, action: Action): UserInterfaceState {
   if (action.strategy) {
     const page = userInterface_selectPage(action.strategy);
     const newComponents = [...state.components];
@@ -91,7 +91,7 @@ function addComposedPageToState(state: UserInterfaceState, action: Action): User
 
 export const userInterfaceAddComposedPageToStateQuality = createQuality(
   userInterfaceAddComposedPageToStateType,
-  addComposedPageToState,
+  addComposedPageToStateReducer,
   addComposedPageMethodCreator
 );
 /*#>*/

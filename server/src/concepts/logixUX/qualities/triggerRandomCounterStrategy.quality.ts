@@ -9,7 +9,7 @@ import {
   UnifiedSubject,
   createMethodDebounceWithState,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionCreator,
   strategyBegin,
 } from 'stratimux';
@@ -29,7 +29,7 @@ const createLogixUXTriggerRandomCountingStrategyMethodCreator: MethodCreator = (
 
 export const logixUXTriggerRandomCountingStrategyQuality = createQuality(
   logixUXTriggerRandomCountingStrategyType,
-  defaultReducer,
+  nullReducer,
   createLogixUXTriggerRandomCountingStrategyMethodCreator,
 );
 /*#>*/

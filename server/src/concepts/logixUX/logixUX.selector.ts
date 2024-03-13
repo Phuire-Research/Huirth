@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the brand Concept logixUX, generate a series of unified selector creators that will select slices of logixUX's state.
 $>*/
 /*<#*/
-import { Concepts, createUnifiedKeyedSelector } from 'stratimux';
+import { Concepts, createUnifiedKeyedSelector  } from 'stratimux';
 
 export const logixUX_createDialogSelector = (concepts: Concepts, semaphore: number) => {
   return createUnifiedKeyedSelector(concepts, semaphore, 'dialog');
@@ -28,7 +28,7 @@ export const logixUX_createPagesSelector = (concepts: Concepts, semaphore: numbe
 };
 
 export const logixUX_createDataSetSelector = (concepts: Concepts, semaphore: number, index: number) => {
-  return createUnifiedKeyedSelector(concepts, semaphore, `trainingData ${index}`);
+  return createUnifiedKeyedSelector(concepts, semaphore, 'trainingData', [index]);
 };
 
 export const logixUX_createDataSetSelectionSelector = (concepts: Concepts, semaphore: number) => {

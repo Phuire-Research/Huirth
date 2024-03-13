@@ -8,7 +8,7 @@ import {
   UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionCreator,
   selectPayload,
   selectState,
@@ -41,7 +41,7 @@ const createLogixUXServerTriggerCloneGitRepositoryStrategyMethodCreator: MethodC
 
 export const logixUXServerTriggerCloneGitRepositoryStrategyQuality = createQuality(
   logixUXServerTriggerCloneGitRepositoryStrategyType,
-  defaultReducer,
+  nullReducer,
   createLogixUXServerTriggerCloneGitRepositoryStrategyMethodCreator,
 );
 /*#>*/

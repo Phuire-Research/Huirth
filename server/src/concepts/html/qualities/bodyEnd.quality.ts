@@ -7,7 +7,7 @@ import {
   MethodCreator,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionCreator,
   strategySuccess
 } from 'stratimux';
@@ -35,7 +35,7 @@ const createHtmlBodyMethodCreator: MethodCreator = () => createMethod(
 
 export const htmlBodyEndQuality = createQuality(
   htmlBodyEndType,
-  defaultReducer,
+  nullReducer,
   createHtmlBodyMethodCreator,
 );
 /*#>*/

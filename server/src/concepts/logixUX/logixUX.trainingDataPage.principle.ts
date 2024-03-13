@@ -154,7 +154,7 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
               }
               const strategies = strategySequence(list);
               if (strategies) {
-                console.log(strategies);
+                console.log('strategies: ', strategies);
                 const action = strategyBegin(strategies);
                 dispatch(action, {
                   setStage: 3
@@ -218,7 +218,7 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction =
         const state = selectUnifiedState<LogixUXState & UserInterfaceState>(concepts, semaphore);
         if (state) {
           const pageNames = state.pages.map(p => p.title);
-          console.log(pageNames, cachedTrainingDataNames);
+          console.log('pageNames: ', pageNames, cachedTrainingDataNames);
           cachedTrainingDataNames = cachedTrainingDataNames.filter(name => pageNames.includes(name));
           dispatch(axiumKick(), {
             setStage: 2

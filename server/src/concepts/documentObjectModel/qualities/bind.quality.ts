@@ -8,7 +8,7 @@ import {
   MethodCreator,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   refreshAction,
   selectPayload,
@@ -19,6 +19,7 @@ import { Binding } from '../../../model/userInterface';
 import { Subject } from 'rxjs';
 import { elementEventBinding } from '../../../model/html';
 import { documentObjectModelBindActionStrategy } from '../strategies/bindAction.strategy';
+import { nullReducer } from 'stratimux';
 
 export type DocumentObjectModelBindPayload = {
   action$: Subject<Action>,
@@ -45,14 +46,14 @@ const documentObjectModelBindMethodCreator: MethodCreator = (event) => createMet
 
 export const documentObjectModelBindQuality = createQuality(
   documentObjectModelBindType,
-  defaultReducer,
+  nullReducer,
   documentObjectModelBindMethodCreator,
 );
 const setElementBinding = (element: HTMLElement, payload: DocumentObjectModelBindPayload) => {
   const {
     binding
   } = payload;
-  (element as any)[payload.elementEventBinding] = (event) => {
+  (element as any)[binding.eventBinding] = (event: unknown) => {
     payload.action$.next(strategyBegin(documentObjectModelBindActionStrategy({event}, refreshAction(payload.binding.action))));
   };
 };

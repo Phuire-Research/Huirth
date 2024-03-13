@@ -11,7 +11,7 @@ import {
   UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQuality,
-  defaultReducer,
+  nullReducer,
   selectUnifiedState,
   strategySuccess,
 } from 'stratimux';
@@ -150,5 +150,5 @@ ${activeDPO[i].rejected}
     50
   );
 
-export const logixUXIndexDPOContentQuality = createQuality(logixUXIndexDPOContentType, defaultReducer, createIndexDPOContentMethodCreator);
+export const logixUXIndexDPOContentQuality = createQuality(logixUXIndexDPOContentType, nullReducer, createIndexDPOContentMethodCreator);
 /*#>*/

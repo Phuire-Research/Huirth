@@ -8,7 +8,7 @@ import {
   UnifiedSubject,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyBegin,
@@ -34,7 +34,7 @@ const createLogixUXTriggerInstallGitRepositoryMethodCreator: MethodCreator = (co
 
 export const logixUXTriggerInstallGitRepositoryQuality = createQuality(
   logixUXTriggerInstallGitRepositoryType,
-  defaultReducer,
+  nullReducer,
   createLogixUXTriggerInstallGitRepositoryMethodCreator,
 );
 /*#>*/

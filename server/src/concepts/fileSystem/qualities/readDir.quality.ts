@@ -8,7 +8,7 @@ import {
   axiumConclude,
   createAsyncMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyData_appendFailure,
@@ -65,7 +65,7 @@ const createReadDirectoryMethodCreator: MethodCreator = () =>
 
 export const fileSystemReadDirectoryQuality = createQuality(
   fileSystemReadDirectoryType,
-  defaultReducer,
+  nullReducer,
   createReadDirectoryMethodCreator,
 );
 /*#>*/

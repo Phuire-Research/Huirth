@@ -11,7 +11,7 @@ import {
   createMethod,
   createQuality,
   createStrategy,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyData_appendFailure,
@@ -103,7 +103,7 @@ const logixUXServerDetermineReadParseAppendStrategyMethodCreator = () =>
 
 export const logixUXServerDetermineReadParseAppendStrategyQuality = createQuality(
   logixUXServerDetermineReadParseAppendStrategyType,
-  defaultReducer,
+  nullReducer,
   logixUXServerDetermineReadParseAppendStrategyMethodCreator,
 );
 /*#>*/

@@ -8,7 +8,7 @@ import {
   UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionCreator,
   selectState,
   selectUnifiedState,
@@ -38,7 +38,7 @@ const createLogixUXServerTriggerSaveTrainingDataStrategyMethodCreator: MethodCre
 
 export const logixUXServerTriggerSaveTrainingDataStrategyQuality = createQuality(
   logixUXServerTriggerSaveTrainingDataStrategyType,
-  defaultReducer,
+  nullReducer,
   createLogixUXServerTriggerSaveTrainingDataStrategyMethodCreator,
 );
 /*#>*/

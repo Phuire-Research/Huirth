@@ -8,7 +8,7 @@ import {
   axiumConclude,
   createAsyncMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyData_appendFailure,
@@ -29,12 +29,12 @@ const createFormatContextMethodCreator: MethodCreator = () => createAsyncMethod(
       exec(`cd ${payload.contextDir} & npm run prettier-format`, (error, stdout, stderr) => {
         if (action.strategy) {
           if (error) {
-            console.error(stderr);
+            console.error('stderr:', stderr);
             controller.fire(
               strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, stderr))
             );
           } else {
-            console.log(stdout);
+            console.log('stdout:', stdout);
             controller.fire(
               strategySuccess(action.strategy)
             );
@@ -42,7 +42,7 @@ const createFormatContextMethodCreator: MethodCreator = () => createAsyncMethod(
         } else {
           controller.fire(axiumConclude());
         }
-        console.log(stdout);
+        console.log('stdout:', stdout);
       });
     } else {
       controller.fire(axiumConclude());
@@ -52,7 +52,7 @@ const createFormatContextMethodCreator: MethodCreator = () => createAsyncMethod(
 
 export const userInterfaceServerFormatContextQuality = createQuality(
   userInterfaceServerFormatContextType,
-  defaultReducer,
+  nullReducer,
   createFormatContextMethodCreator,
 );
 /*#>*/

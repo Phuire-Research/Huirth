@@ -8,7 +8,7 @@ import {
   UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionCreator,
   selectPayload,
   selectState,
@@ -40,7 +40,7 @@ const createLogixUXServerTriggerParseRepositoryStrategyMethodCreator: MethodCrea
 
 export const logixUXServerTriggerParseRepositoryStrategyQuality = createQuality(
   logixUXServerTriggerParseRepositoryStrategyType,
-  defaultReducer,
+  nullReducer,
   createLogixUXServerTriggerParseRepositoryStrategyMethodCreator,
 );
 /*#>*/

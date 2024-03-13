@@ -8,7 +8,7 @@ import {
   UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionCreator,
   selectPayload,
   selectState,
@@ -44,7 +44,7 @@ const logixUXServerTriggerDeleteDataSetsStrategyMethodCreator: MethodCreator = (
 
 export const logixUXServerTriggerDeleteDataSetsStrategyQuality = createQuality(
   logixUXServerTriggerDeleteDataSetsStrategyType,
-  defaultReducer,
+  nullReducer,
   logixUXServerTriggerDeleteDataSetsStrategyMethodCreator,
 );
 /*#>*/

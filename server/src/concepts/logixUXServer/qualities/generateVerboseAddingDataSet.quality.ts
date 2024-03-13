@@ -11,7 +11,7 @@ import {
   axiumKick,
   createAsyncMethodWithConcepts,
   createQuality,
-  defaultReducer,
+  nullReducer,
   getAxiumState,
   prepareActionCreator,
   selectState,
@@ -97,7 +97,7 @@ const logixUXServerGenerateVerboseAddingStrategyMethodCreator: MethodCreator = (
 
 export const logixUXServerGenerateVerboseAddingStrategyQuality = createQuality(
   logixUXServerGenerateVerboseAddingStrategyType,
-  defaultReducer,
+  nullReducer,
   logixUXServerGenerateVerboseAddingStrategyMethodCreator
 );
 /*#>*/

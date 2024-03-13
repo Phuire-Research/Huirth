@@ -28,7 +28,7 @@ export const logixUX_createPagesSelector = (concepts: Concepts, semaphore: numbe
 };
 
 export const logixUX_createDataSetSelector = (concepts: Concepts, semaphore: number, index: number) => {
-  return createUnifiedKeyedSelector(concepts, semaphore, `trainingData ${index}`);
+  return createUnifiedKeyedSelector(concepts, semaphore, 'trainingData', [index]);
 };
 
 export const logixUX_createDataSetSelectionSelector = (concepts: Concepts, semaphore: number) => {

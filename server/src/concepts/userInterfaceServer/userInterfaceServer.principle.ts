@@ -15,9 +15,11 @@ import {
   axiumRegisterStagePlanner,
   axiumSelectOpen,
   getUnifiedName,
+  select,
   selectSlice,
   selectState,
   selectUnifiedState,
+  updateUnifiedKeyedSelector,
 } from 'stratimux';
 import { BoundSelectors, Composition, Page } from '../../model/userInterface';
 import path from 'path';
@@ -190,13 +192,14 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
           const changes: string[] = [];
           const changedSelectors: KeyedSelector[] = [];
           selectors.forEach(bound => {
-            for (const select of bound.selectors) {
-              const value = selectSlice(concepts, select);
+            for (const ks of bound.selectors) {
+              const s = updateUnifiedKeyedSelector(concepts, semaphore, ks) as KeyedSelector;
+              const value = select.slice(concepts, s);
               let changed = false;
               if (typeof value !== 'object') {
-                changed = (atomicCachedState as Record<string, unknown>)[select.stateKeys] !== value;
+                changed = (atomicCachedState as Record<string, unknown>)[s.keys] !== value;
               } else {
-                const object = (atomicCachedState as Record<string, unknown>)[select.stateKeys];
+                const object = (atomicCachedState as Record<string, unknown>)[s.keys];
                 if (object === undefined) {
                   changed = true;
                 } else {
@@ -204,9 +207,9 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
                 }
               }
               if (changed) {
-                if (!changes.includes(select.stateKeys)) {
-                  changes.push(select.stateKeys);
-                  changedSelectors.push(select);
+                if (!changes.includes(s.keys)) {
+                  changes.push(s.keys);
+                  changedSelectors.push(s);
                 }
                 let exists = false;
                 for (const b of payload.boundActionQue) {

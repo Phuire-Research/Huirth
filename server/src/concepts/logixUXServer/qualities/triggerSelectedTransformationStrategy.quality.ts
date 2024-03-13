@@ -10,7 +10,7 @@ import {
   createMethodDebounce,
   createQuality,
   createStrategy,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyBegin,
@@ -67,7 +67,7 @@ const createLogixUXServerTriggerSelectTransformationStrategyMethodCreator: Metho
 
 export const logixUXServerTriggerSelectTransformationStrategyQuality = createQuality(
   logixUXServerTriggerSelectTransformationStrategyType,
-  defaultReducer,
+  nullReducer,
   createLogixUXServerTriggerSelectTransformationStrategyMethodCreator,
 );
 /*#>*/

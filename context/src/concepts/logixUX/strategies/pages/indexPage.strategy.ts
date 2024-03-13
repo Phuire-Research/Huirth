@@ -2,11 +2,12 @@
 For the graph programming framework Stratimux and a Concept logixUX, generate a Page Strategy Creator called index, that will unify Sidebar, Hero, Dialog, Footer, and Header Action Strategy Component Stitches into a Page Composition.
 $>*/
 /*<#*/
-import { axium_createStitchNode, createActionNode, createStrategy } from 'stratimux';
+import { axium_createStitchNode, createStrategy } from 'stratimux';
 import {
   ActionComponentPayload,
   ActionStrategyComponentStitch,
   PageStrategyCreators,
+  userInterface,
   userInterface_createPage,
 } from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
@@ -24,10 +25,7 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
     pageTitle: logixUXIndexPageStrategyTopic,
   };
   const stepStitch = axium_createStitchNode();
-  const stepLogixUXIndexHero = createActionNode(logixUXIndexHero(page), {
-    successNode: stepStitch,
-    failureNode: null,
-  });
+  const stepLogixUXIndexHero = userInterface.createComponent(logixUXIndexHero(page), stepStitch);
   const logixUXBody: ActionStrategyComponentStitch = (payload: ActionComponentPayload) => [
     stepStitch,
     createStrategy({
@@ -55,18 +53,9 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
 export const logixUXIndexDialogStrategyStitchTopic = 'logixUX Index Dialog Strategy Component Stitch';
 export const logixUXIndexDialogStrategyStitch: ActionStrategyComponentStitch = (payload) => {
   // Body
-  const stepLogixUXIndexDialogEnd = createActionNode(logixUXIndexDialogEnd(payload), {
-    successNode: null,
-    failureNode: null,
-  });
-  const stepLogixUXIndexDialogContent = createActionNode(logixUXIndexDialogContent(payload), {
-    successNode: stepLogixUXIndexDialogEnd,
-    failureNode: null,
-  });
-  const stepLogixUXIndexDialogBegin = createActionNode(logixUXIndexDialogBegin(payload), {
-    successNode: stepLogixUXIndexDialogContent,
-    failureNode: null,
-  });
+  const stepLogixUXIndexDialogEnd = userInterface.createComponent(logixUXIndexDialogEnd(payload));
+  const stepLogixUXIndexDialogContent = userInterface.createComponent(logixUXIndexDialogContent(payload), stepLogixUXIndexDialogEnd);
+  const stepLogixUXIndexDialogBegin = userInterface.createComponent(logixUXIndexDialogBegin(payload), stepLogixUXIndexDialogContent);
   return [
     stepLogixUXIndexDialogEnd,
     createStrategy({
@@ -81,15 +70,15 @@ export const logixUXIndexDialogStrategyStitch: ActionStrategyComponentStitch = (
 // export const logixUXIndexDPOStrategyStitchTopic = 'logixUX Index DPO Strategy Stitch';
 // export const logixUXIndexDPOStrategyStitch: ActionStrategyComponentStitch = (payload) => {
 //   // Body
-//   const stepLogixUXIndexDPOEnd = createActionNode(logixUXIndexDPOEnd(payload), {
+//   const stepLogixUXIndexDPOEnd = userInterface.createComponent(logixUXIndexDPOEnd(payload), {
 //     successNode: null,
 //     failureNode: null
 //   });
-//   const stepLogixUXIndexDPOContent = createActionNode(logixUXIndexDPOContent(payload), {
+//   const stepLogixUXIndexDPOContent = userInterface.createComponent(logixUXIndexDPOContent(payload), {
 //     successNode: stepLogixUXIndexDPOEnd,
 //     failureNode: null
 //   });
-//   const stepLogixUXIndexDPOBegin = createActionNode(logixUXIndexDPOBegin(payload), {
+//   const stepLogixUXIndexDPOBegin = userInterface.createComponent(logixUXIndexDPOBegin(payload), {
 //     successNode: stepLogixUXIndexDPOContent,
 //     failureNode: null
 //   });

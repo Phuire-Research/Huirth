@@ -10,7 +10,7 @@ import {
   axiumConclude,
   createActionController$,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyData_unifyData,
@@ -53,6 +53,6 @@ const createGetDirectoriesMethodCreator: MethodCreator = () => {
 
 export const fileSystemGetDirectoriesQuality = createQuality(
   fileSystemGetDirectoriesType,
-  defaultReducer,
+  nullReducer,
   createGetDirectoriesMethodCreator,
 );

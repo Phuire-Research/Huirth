@@ -12,7 +12,7 @@ import {
   counterSubtract,
   createMethodDebounceWithConcepts,
   createQuality,
-  defaultReducer,
+  nullReducer,
   selectUnifiedState,
   strategySuccess
 } from 'stratimux';
@@ -137,7 +137,7 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
 
 export const logixUXIndexDialogContentQuality = createQuality(
   logixUXIndexDialogContentType,
-  defaultReducer,
+  nullReducer,
   createIndexDialogContentMethodCreator,
 );
 /*#>*/

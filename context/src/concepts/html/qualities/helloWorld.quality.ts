@@ -10,7 +10,7 @@ import {
   createAction,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionCreator,
   strategySuccess,
 } from 'stratimux';
@@ -38,4 +38,4 @@ const createHelloWorldMethodCreator: MethodCreator = () =>
     return createAction(axiumConcludeType);
   });
 
-export const htmlHelloWorldQuality = createQuality(htmlHelloWorldType, defaultReducer, createHelloWorldMethodCreator);
+export const htmlHelloWorldQuality = createQuality(htmlHelloWorldType, nullReducer, createHelloWorldMethodCreator);

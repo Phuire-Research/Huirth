@@ -11,7 +11,7 @@ import {
   createMethod,
   createQuality,
   createStrategy,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   refreshAction,
   selectPayload,
@@ -71,7 +71,7 @@ const createUserInterfaceServerAssembleUpdateAtomicCompositionStrategyMethod = (
 
 export const userInterfaceServerAssembleUpdateAtomicCompositionStrategyQuality = createQuality(
   userInterfaceServerAssembleUpdateAtomicCompositionStrategyType,
-  defaultReducer,
+  nullReducer,
   createUserInterfaceServerAssembleUpdateAtomicCompositionStrategyMethod,
 );
 

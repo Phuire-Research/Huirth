@@ -3,7 +3,12 @@ For the graph programming framework Stratimux and a Concept logixUX, generate a 
 $>*/
 /*<#*/
 import { createActionNode, createStrategy } from 'stratimux';
-import { ActionStrategyComponentStitch, PageStrategyCreators, userInterface_createPage } from '../../../../model/userInterface';
+import {
+  ActionStrategyComponentStitch,
+  PageStrategyCreators,
+  userInterface,
+  userInterface_createPage,
+} from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { logixUXFooterStitch } from '../components/footer.strategy';
 import { logixUXHeaderStitch } from '../components/header.strategy';
@@ -33,18 +38,9 @@ export const logixUXDataManagerPageStrategy: PageStrategyCreators = () => () => 
 export const logixUXDataManagerStrategyStitchTopic = 'logixUX Data Manager Action Strategy Component Stitch';
 export const logixUXDataManagerStrategyStitch: ActionStrategyComponentStitch = (payload) => {
   // Body
-  const stepLogixUXDataManagerEnd = createActionNode(logixUXDataManagerEnd(payload), {
-    successNode: null,
-    failureNode: null,
-  });
-  const stepLogixUXDataManagerContent = createActionNode(logixUXDataManagerContent(payload), {
-    successNode: stepLogixUXDataManagerEnd,
-    failureNode: null,
-  });
-  const stepLogixUXDataManagerBegin = createActionNode(logixUXDataManagerBegin(payload), {
-    successNode: stepLogixUXDataManagerContent,
-    failureNode: null,
-  });
+  const stepLogixUXDataManagerEnd = userInterface.createComponent(logixUXDataManagerEnd(payload));
+  const stepLogixUXDataManagerContent = userInterface.createComponent(logixUXDataManagerContent(payload), stepLogixUXDataManagerEnd);
+  const stepLogixUXDataManagerBegin = userInterface.createComponent(logixUXDataManagerBegin(payload), stepLogixUXDataManagerContent);
   return [
     stepLogixUXDataManagerEnd,
     createStrategy({

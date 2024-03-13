@@ -11,7 +11,7 @@ import {
   axiumKick,
   createAsyncMethodWithConcepts,
   createQuality,
-  defaultReducer,
+  nullReducer,
   getAxiumState,
   prepareActionCreator,
   selectState,
@@ -71,7 +71,7 @@ const logixUXServerGenerateVerboseSubtractionStrategyMethodCreator: MethodCreato
             prompt: (currentTopic + '.').trim(),
             content: ('' + state.lastStrategyDialog + '\nThe final sum ' + logixUX_convertNumberToStringVerbose((state.lastStrategyData as LogixUXServerInnerAddField).sum) + '.').trim()
           });
-          console.log(iterations);
+          console.log('iterations', iterations);
           iterations++;
           if (iterations === 100) {
             if (length <= limit) {
@@ -97,7 +97,7 @@ const logixUXServerGenerateVerboseSubtractionStrategyMethodCreator: MethodCreato
 
 export const logixUXServerGenerateVerboseSubtractionStrategyQuality = createQuality(
   logixUXServerGenerateVerboseSubtractionStrategyType,
-  defaultReducer,
+  nullReducer,
   logixUXServerGenerateVerboseSubtractionStrategyMethodCreator
 );
 /*#>*/

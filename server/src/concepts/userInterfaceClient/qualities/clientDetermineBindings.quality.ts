@@ -9,7 +9,7 @@ import {
   createActionNode,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess,
@@ -51,7 +51,7 @@ const createUserInterfaceClientDetermineBindingsMethod = () => createMethod(acti
 
 export const userInterfaceClientDetermineBindingsQuality = createQuality(
   userInterfaceClientDetermineBindingsType,
-  defaultReducer,
+  nullReducer,
   createUserInterfaceClientDetermineBindingsMethod,
 );
 

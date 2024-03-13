@@ -11,7 +11,7 @@ import {
   createAction,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   strategySuccess,
 } from 'stratimux';
 import {
@@ -50,4 +50,4 @@ const createErrorMethodCreator: MethodCreator = () =>
     return createAction(axiumConcludeType);
   });
 
-export const logixUXErrorQuality = createQuality(logixUXErrorType, defaultReducer, createErrorMethodCreator);
+export const logixUXErrorQuality = createQuality(logixUXErrorType, nullReducer, createErrorMethodCreator);

@@ -8,7 +8,7 @@ import {
   axiumConclude,
   createAsyncMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyRecurse,
@@ -66,7 +66,7 @@ const createRecursivelyCreateEachPageHtmlMethodCreator: MethodCreator = () =>
 
 export const userInterfaceServerRecursivelyCreateEachPageHtmlQuality = createQuality(
   userInterfaceServerRecursivelyCreateEachPageHtmlType,
-  defaultReducer,
+  nullReducer,
   createRecursivelyCreateEachPageHtmlMethodCreator,
 );
 /*#>*/

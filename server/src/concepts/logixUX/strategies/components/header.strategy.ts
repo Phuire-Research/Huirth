@@ -5,17 +5,11 @@ $>*/
 import { createActionNode, createStrategy } from 'stratimux';
 import { logixUXStyle } from '../../qualities/components/style.quality';
 import { logixUXHead } from '../../qualities/components/head.quality';
-import { ActionStrategyComponentStitch } from '../../../../model/userInterface';
+import { ActionStrategyComponentStitch, userInterface } from '../../../../model/userInterface';
 
 export const logixUXHeaderStitch: ActionStrategyComponentStitch = (payload) => {
-  const stepLogixUXStyle = createActionNode(logixUXStyle(payload), {
-    successNode: null,
-    failureNode: null
-  });
-  const stepLogixUXHead = createActionNode(logixUXHead(payload), {
-    successNode: stepLogixUXStyle,
-    failureNode: null
-  });
+  const stepLogixUXStyle = userInterface.createComponent(logixUXStyle(payload));
+  const stepLogixUXHead = userInterface.createComponent(logixUXHead(payload), stepLogixUXStyle);
   return [stepLogixUXStyle, createStrategy({
     topic: 'Create logixUX Header Content',
     initialNode: stepLogixUXHead,

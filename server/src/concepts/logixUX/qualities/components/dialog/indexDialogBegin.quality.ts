@@ -7,7 +7,7 @@ import {
   MethodCreator,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   strategySuccess
 } from 'stratimux';
 
@@ -38,7 +38,7 @@ const createIndexDialogBeginMethodCreator: MethodCreator = () => createMethod(ac
 
 export const logixUXIndexDialogBeginQuality = createQuality(
   logixUXIndexDialogBeginType,
-  defaultReducer,
+  nullReducer,
   createIndexDialogBeginMethodCreator,
 );
 /*#>*/

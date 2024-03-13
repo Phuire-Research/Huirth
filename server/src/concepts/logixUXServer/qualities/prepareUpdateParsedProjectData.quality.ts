@@ -9,7 +9,7 @@ import {
   createActionNode,
   createMethodWithState,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyData_appendFailure,
@@ -51,7 +51,7 @@ const logixUXServerPrepareParsedProjectDataUpdateMethodCreator: MethodCreator = 
 
 export const logixUXServerPrepareParsedProjectDataUpdateQuality = createQuality(
   logixUXServerPrepareParsedProjectDataUpdateType,
-  defaultReducer,
+  nullReducer,
   logixUXServerPrepareParsedProjectDataUpdateMethodCreator,
 );
 /*#>*/

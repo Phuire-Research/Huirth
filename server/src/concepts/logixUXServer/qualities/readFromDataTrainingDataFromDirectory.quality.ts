@@ -6,7 +6,7 @@ import {
   ActionType,
   createAsyncMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionCreator,
   strategyData_appendFailure,
   strategyData_select,
@@ -93,7 +93,7 @@ export const logixUXServerReadFromDataTrainingDataFromDirectoriesMethodCreator =
 
 export const logixUXServerReadFromDataTrainingDataFromDirectoriesQuality = createQuality(
   logixUXServerReadFromDataTrainingDataFromDirectoriesType,
-  defaultReducer,
+  nullReducer,
   logixUXServerReadFromDataTrainingDataFromDirectoriesMethodCreator,
 );
 /*#>*/

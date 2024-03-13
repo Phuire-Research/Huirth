@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality to create the style component necessary for the logixUX page strategies.
 $>*/
 /*<#*/
-import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';
+import { ActionType, MethodCreator, createMethod, createQuality, nullReducer, strategySuccess } from 'stratimux';
 
 import {
   prepareActionComponentCreator,
@@ -80,4 +80,4 @@ const createLogixUXStyleMethodCreator: MethodCreator = () =>
     return action;
   });
 
-export const logixUXStyleQuality = createQuality(logixUXStyleType, defaultReducer, createLogixUXStyleMethodCreator);
+export const logixUXStyleQuality = createQuality(logixUXStyleType, nullReducer, createLogixUXStyleMethodCreator);

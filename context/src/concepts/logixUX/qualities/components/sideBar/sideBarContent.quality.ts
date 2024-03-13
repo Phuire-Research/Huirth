@@ -10,7 +10,7 @@ import {
   UnifiedSubject,
   createMethodWithConcepts,
   createQuality,
-  defaultReducer,
+  nullReducer,
   selectUnifiedState,
   strategySuccess,
 } from 'stratimux';
@@ -106,5 +106,5 @@ const createSideBarContentMethodCreator: MethodCreator = (concepts$, semaphore) 
     semaphore as number
   );
 
-export const logixUXSideBarContentQuality = createQuality(logixUXSideBarContentType, defaultReducer, createSideBarContentMethodCreator);
+export const logixUXSideBarContentQuality = createQuality(logixUXSideBarContentType, nullReducer, createSideBarContentMethodCreator);
 /*#>*/

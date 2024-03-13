@@ -7,6 +7,7 @@ import {
   ActionComponentPayload,
   ActionStrategyComponentStitch,
   PageStrategyCreators,
+  userInterface,
   userInterface_createPage,
 } from '../../../../model/userInterface';
 import { logixUXError } from '../../qualities/components/error/error.quality';
@@ -22,10 +23,7 @@ export const logixUXErrorPageStrategy: PageStrategyCreators = () => () => {
   };
   // Body
   const stepStitch = axium_createStitchNode();
-  const stepLogixUXError = createActionNode(logixUXError(page), {
-    successNode: stepStitch,
-    failureNode: null,
-  });
+  const stepLogixUXError = userInterface.createComponent(logixUXError(page), stepStitch);
   const logixUXErrorStitch: ActionStrategyComponentStitch = () => [
     stepStitch,
     createStrategy({
