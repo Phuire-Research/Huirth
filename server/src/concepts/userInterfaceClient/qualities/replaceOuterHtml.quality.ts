@@ -7,7 +7,6 @@ import {
   createMethod,
   createQuality,
   nullReducer,
-  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess,

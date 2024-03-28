@@ -9,7 +9,9 @@ import {
   UnifiedSubject,
   axiumRegisterStagePlanner,
   axiumSelectOpen,
-  primeAction
+  createStage,
+  primeAction,
+  stageWaitForOpenThenIterate
 } from 'stratimux';
 import { Subscriber } from 'rxjs';
 import { helloWorld } from './qualities/helloWorld.quality';
@@ -21,24 +23,16 @@ export const helloWorldPrinciple: PrincipleFunction = (
   concepts$: UnifiedSubject,
   _semaphore: number
 ) => {
-  const plan = concepts$.stage('Hello World Plan', [
-    (concepts, dispatch) => {
-      dispatch(primeAction(concepts, axiumRegisterStagePlanner({conceptName: helloWorldName, stagePlanner: plan})), {
-        iterateStage: true,
-        on: {
-          selector: axiumSelectOpen,
-          expected: true
-        },
-      });
-    },
-    (__, dispatch) => {
+  const plan = concepts$.plan('Hello World Plan', [
+    stageWaitForOpenThenIterate(() => (axiumRegisterStagePlanner({conceptName: helloWorldName, stagePlanner: plan}))),
+    createStage((__, dispatch) => {
       dispatch(helloWorld(), {
         iterateStage: true
       });
-    },
-    (__, ___) => {
+    }),
+    createStage((__, ___) => {
       plan.conclude();
-    }
+    })
   ]);
 };
 /*#>*/

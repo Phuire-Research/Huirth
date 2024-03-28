@@ -3,17 +3,18 @@ For the graph programming framework Stratimux and Brand Concept logixUX that ext
 $>*/
 
 import { Subscriber } from 'rxjs';
-import { Action, Concepts, PrincipleFunction, UnifiedSubject, axiumKick, axiumPreClose, axiumRegisterStagePlanner, getUnifiedName, isConceptLoaded, selectUnifiedState } from 'stratimux';
+import { Action, Concepts, PrincipleFunction, UnifiedSubject, axiumKick, axiumPreClose, axiumRegisterStagePlanner, createStage, getUnifiedName, isConceptLoaded, selectUnifiedState } from 'stratimux';
 import { ServerState } from '../server/server.concept';
 
 /*<#*/
 export const logixUXServerExitPrinciple: PrincipleFunction =
   (_: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     let shouldClose = false;
+    const beat = 333;
     const initialServerState = selectUnifiedState(cpts, semaphore) as ServerState;
     const server = initialServerState.server;
-    const plan = concepts$.stage('Server listening for exit signal', [
-      (concepts, dispatch) => {
+    const plan = concepts$.plan('Server listening for exit signal', [
+      createStage((concepts, dispatch) => {
         const name = getUnifiedName(concepts, semaphore);
         if (name) {
           dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
@@ -22,8 +23,8 @@ export const logixUXServerExitPrinciple: PrincipleFunction =
         } else {
           plan.conclude();
         }
-      },
-      (concepts, dispatch) => {
+      }),
+      createStage((concepts, dispatch) => {
         const name = getUnifiedName(concepts, semaphore);
         if (name) {
           if (shouldClose) {
@@ -36,11 +37,11 @@ export const logixUXServerExitPrinciple: PrincipleFunction =
         } else {
           plan.conclude();
         }
-      },
-      (__, dispatch) => {
+      }, {beat}),
+      createStage((__, ___) => {
         plan.conclude();
-      },
-    ], 333);
+      }),
+    ]);
 
     server.get('/server/axiumEXIT', (__, req) => {
       shouldClose = true;

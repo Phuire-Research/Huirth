@@ -13,6 +13,7 @@ import {
   axiumKick,
   axiumRegisterStagePlanner,
   axiumSelectOpen,
+  createStage,
   getAxiumState,
   getUnifiedName,
   selectSlice,
@@ -31,22 +32,19 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
   (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     const atomicCachedState: Record<string, unknown> = {};
     let delayChanges = false;
-    const plan = concepts$.stage('User Interface Server on Change', [
-      (concepts, dispatch) => {
+    const beat = 100;
+    const plan = concepts$.plan('User Interface Server on Change', [
+      createStage((concepts, dispatch) => {
         const name = getUnifiedName(concepts, semaphore);
-        if (name) {
+        if (name && selectSlice(concepts, axiumSelectOpen)) {
           dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
-            on: {
-              expected: true,
-              selector: axiumSelectOpen
-            },
             iterateStage: true
           });
         } else {
           plan.conclude();
         }
-      },
-      (concepts, dispatch) => {
+      }, {selectors: [axiumSelectOpen]}),
+      createStage((concepts, dispatch) => {
         console.log('Get unified name', getUnifiedName(concepts, semaphore));
         const uiState = selectUnifiedState<UserInterfaceClientState>(concepts, semaphore);
         if (uiState && uiState.pagesCached) {
@@ -123,16 +121,16 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
           console.log('SHOULDN\'T CONCLUDE, unless removed');
           plan.conclude();
         }
-      },
-      (_, dispatch) => {
+      }, {beat}),
+      createStage((_, dispatch) => {
         if (!delayChanges) {
           dispatch(axiumKick(), {
             setStage: 1,
             throttle: 1
           });
         }
-      }
-    ], 100
+      })
+    ]
     );
   };
 /*#>*/

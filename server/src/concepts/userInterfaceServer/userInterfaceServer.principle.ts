@@ -14,6 +14,7 @@ import {
   UnifiedSubject,
   axiumRegisterStagePlanner,
   axiumSelectOpen,
+  createStage,
   getUnifiedName,
   select,
   selectSlice,
@@ -63,8 +64,8 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
         }
       }
     });
-    const plan = concepts$.stage('State Sync Client Init', [
-      (concepts, dispatch) => {
+    const plan = concepts$.plan('State Sync Client Init', [
+      createStage((concepts, dispatch) => {
         const name = getUnifiedName(concepts, semaphore);
         if (name) {
           dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
@@ -73,8 +74,8 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
         } else {
           plan.conclude();
         }
-      },
-      (concepts, __) => {
+      }),
+      createStage((concepts, __) => {
         const state = selectUnifiedState<Record<string, unknown>>(concepts, semaphore);
         if (state) {
           const stateKeys = Object.keys(state);
@@ -86,7 +87,7 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
         } else {
           plan.conclude();
         }
-      }
+      })
     ]);
 
     const initialServerState = selectUnifiedState(cpts, semaphore) as ServerState;
@@ -154,22 +155,18 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
 export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
   (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     const atomicCachedState: Record<string, unknown> = {};
-    const plan = concepts$.stage('User Interface Server on Change', [
-      (concepts, dispatch) => {
+    const plan = concepts$.plan('User Interface Server on Change', [
+      createStage((concepts, dispatch) => {
         const name = getUnifiedName(concepts, semaphore);
-        if (name) {
+        if (name && selectSlice(concepts, axiumSelectOpen)) {
           dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
-            on: {
-              expected: true,
-              selector: axiumSelectOpen
-            },
             iterateStage: true
           });
         } else {
           plan.conclude();
         }
-      },
-      (concepts, dispatch) => {
+      }, {selectors: [axiumSelectOpen]}),
+      createStage((concepts, dispatch) => {
         const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
         if (uiState && uiState.pagesCached) {
           // console.log('PAGES: ', uiState.pages.map(page => page.title).join(', '));
@@ -235,8 +232,8 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
         } else if (uiState === undefined) {
           plan.conclude();
         }
-      },
-    ], 333
+      }, {beat: 333}),
+    ]
     );
   };
 /*#>*/

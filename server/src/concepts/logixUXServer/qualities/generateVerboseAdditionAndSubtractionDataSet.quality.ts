@@ -16,6 +16,7 @@ import {
   prepareActionCreator,
   selectState,
   strategyBegin,
+  createStage,
 } from 'stratimux';
 import { DataSetTypes, NamedDataSet } from '../../logixUX/logixUX.model';
 import { LogixUXServerInnerAddField } from './innerAddTo.quality';
@@ -43,9 +44,9 @@ const logixUXServerGenerateVerboseAdditionAndSubtractionStrategyMethodCreator: M
     let length = 5;
     let iterations = 0;
     let currentTopic = '';
-    const plan = concepts$.stage('Verbose Addition and Subtraction data set generation plan',
+    const plan = concepts$.plan('Verbose Addition and Subtraction data set generation plan',
     [
-      (_, dispatch) => {
+      createStage((_, dispatch) => {
         console.log('Transformation stage 1', iterations < 100, length < limit);
         if (iterations < 100 && length < limit) {
           const newStrategy = logixUXServerVerboseAdditionAndSubtractionStrategy(length);
@@ -62,8 +63,8 @@ const logixUXServerGenerateVerboseAdditionAndSubtractionStrategyMethodCreator: M
             setStage: 2
           });
         }
-      },
-      (concepts, dispatch) => {
+      }),
+      createStage((concepts, dispatch) => {
         const state = getAxiumState(concepts);
         console.log('Transformation stage 2', iterations, length, currentTopic === state.lastStrategy);
         if (state.lastStrategy === currentTopic) {
@@ -85,12 +86,12 @@ const logixUXServerGenerateVerboseAdditionAndSubtractionStrategyMethodCreator: M
             throttle: 1
           });
         }
-      },
-      () => {
+      }),
+      createStage(() => {
         console.log('Transformation stage 3', iterations, length, named.dataSet.length);
         controller.fire(strategyBegin(logixUXServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseAdditionAndSubtraction')));
         plan.conclude();
-      }
+      })
     ]);
   }
 }, concepts$ as UnifiedSubject, semaphore as number);

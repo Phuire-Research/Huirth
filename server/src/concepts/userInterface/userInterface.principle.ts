@@ -16,6 +16,8 @@ import {
   ActionStrategy,
   getUnifiedName,
   getAxiumState,
+  createStage,
+  selectSlice,
 } from 'stratimux';
 import { UserInterfaceState } from './userInterface.concept';
 import { userInterfacePageToStateStrategy } from './strategies.ts/pageToState.strategy';
@@ -24,28 +26,24 @@ import { UserInterfaceClientState } from '../userInterfaceClient/userInterfaceCl
 
 export const userInterfaceInitializationPrinciple: PrincipleFunction =
   (___: Subscriber<Action>, __: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
-    const sub = concepts$.subscribe(val => {
+    const _diag = concepts$.subscribe(val => {
       const axiumState = getAxiumState(val);
       if (axiumState.badActions.length > 0) {
         console.error('BAD ACTIONS: ', axiumState.badActions);
       }
     });
-    const plan = concepts$.stage('User Interface Page to State initialization plan', [
-      (concepts, dispatch) => {
+    const plan = concepts$.plan('User Interface Page to State initialization plan', [
+      createStage((concepts, dispatch) => {
         const name = getUnifiedName(concepts, semaphore);
-        if (name) {
+        if (name && selectSlice(concepts, axiumSelectOpen)) {
           dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
-            on: {
-              expected: true,
-              selector: axiumSelectOpen
-            },
             iterateStage: true
           });
         } else {
           plan.conclude();
         }
-      },
-      (concepts, dispatch) => {
+      }, {selectors: [axiumSelectOpen]}),
+      createStage((concepts, dispatch) => {
         const uiState = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
         if (uiState) {
           if (uiState.pageStrategies.length === 1) {
@@ -80,10 +78,10 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction =
             plan.conclude();
           }
         }
-      },
-      (____, _____) => {
+      }),
+      createStage((____, _____) => {
         plan.conclude();
-      }]
-    );
+      })
+    ]);
   };
 /*#>*/

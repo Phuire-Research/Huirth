@@ -9,6 +9,7 @@ import {
   PrincipleFunction,
   UnifiedSubject,
   axiumRegisterStagePlanner,
+  createStage,
   getUnifiedName,
   selectState,
   strategyBegin,
@@ -18,8 +19,8 @@ import { logixUXServerInitializationStrategy } from './strategies/initialization
 
 export const logixUXServerPrinciple: PrincipleFunction =
   (_: Subscriber<Action>, _cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
-    const plan = concepts$.stage('logixUXServer initialization plan', [
-      (concepts, dispatch) => {
+    const plan = concepts$.plan('logixUXServer initialization plan', [
+      createStage((concepts, dispatch) => {
         const conceptName = getUnifiedName(concepts, semaphore);
         if (conceptName) {
           dispatch(axiumRegisterStagePlanner({conceptName, stagePlanner: plan}), {
@@ -28,8 +29,8 @@ export const logixUXServerPrinciple: PrincipleFunction =
         } else {
           plan.conclude();
         }
-      },
-      (concepts, dispatch) => {
+      }),
+      createStage((concepts, dispatch) => {
         const root = selectState<FileSystemState>(concepts, fileSystemName)?.root;
         if (root) {
           dispatch(strategyBegin(logixUXServerInitializationStrategy(root)), {
@@ -38,10 +39,10 @@ export const logixUXServerPrinciple: PrincipleFunction =
         } else {
           plan.conclude();
         }
-      },
-      (__, ___) => {
+      }),
+      createStage((__, ___) => {
         plan.conclude();
-      },
+      }),
     ]);
   };
 /*#>*/

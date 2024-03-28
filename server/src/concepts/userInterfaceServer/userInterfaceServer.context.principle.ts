@@ -11,7 +11,9 @@ import {
   areConceptsLoaded,
   axiumRegisterStagePlanner,
   axiumSelectOpen,
+  createStage,
   primeAction,
+  selectSlice,
   selectState,
   selectUnifiedState,
   strategyBegin
@@ -38,31 +40,29 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
   concepts$: UnifiedSubject,
   semaphore: number
 ) => {
-  const plan = concepts$.stage('User Interface Context Principle Plan', [
-    (concepts, dispatch) => {
-      const fileSystemExists = areConceptsLoaded(concepts, [fileSystemName]);
-      if (!fileSystemExists) {
-        console.log('FILE SYSTEM NOT LOADED, CONTEXT PRINCIPLE CONCLUDE');
-        plan.conclude();
-      } else {
-        dispatch(primeAction(concepts, axiumRegisterStagePlanner({conceptName: userInterfaceServerName, stagePlanner: plan})), {
-          iterateStage: true,
-          on: {
-            selector: axiumSelectOpen,
-            expected: true
-          },
-        });
+  const plan = concepts$.plan('User Interface Context Principle Plan', [
+    createStage((concepts, dispatch) => {
+      if (selectSlice(concepts, axiumSelectOpen)) {
+        const fileSystemExists = areConceptsLoaded(concepts, [fileSystemName]);
+        if (!fileSystemExists) {
+          console.log('FILE SYSTEM NOT LOADED, CONTEXT PRINCIPLE CONCLUDE');
+          plan.conclude();
+        } else {
+          dispatch(primeAction(concepts, axiumRegisterStagePlanner({conceptName: userInterfaceServerName, stagePlanner: plan})), {
+            iterateStage: true,
+          });
+        }
       }
-    },
-    (concepts, dispatch) => {
+    }, {selectors: [axiumSelectOpen]}),
+    createStage((concepts, dispatch) => {
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       if (fileSystemState) {
         dispatch(strategyBegin(userInterfaceServerSetConceptDirectoriesFromDataStrategy(fileSystemState.root)), {
           iterateStage: true
         });
       }
-    },
-    (concepts, dispatch) => {
+    }),
+    createStage((concepts, dispatch) => {
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
       if (fileSystemState && uiState) {
@@ -138,10 +138,10 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
           }
         }
       }
-    },
-    () => {
+    }),
+    createStage(() => {
       plan.conclude();
-    },
+    }),
   ]);
 };
 /*#>*/

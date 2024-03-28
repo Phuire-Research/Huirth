@@ -55,7 +55,8 @@ const logixUXSendTriggerSaveDataSetSelectionStrategyMethodCreator: MethodCreator
 
 const logixUXSendTriggerSaveDataSetSelectionStrategyReducer = (state: LogixUXState, _: Action): LogixUXState => {
   const {trainingData} = state;
-  let { stratimuxStatus, logixUXStatus, projectsStatuses, dataSetSelection } = state;
+  let { stratimuxStatus, logixUXStatus, projectsStatuses } = state;
+  const { dataSetSelection } = state;
   const names: string[] = [];
   for (const [i, select] of dataSetSelection.entries()) {
     if (select) {
