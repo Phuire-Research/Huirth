@@ -8,7 +8,7 @@ import {
   axiumConclude,
   createAsyncMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyData_appendFailure,
@@ -34,7 +34,7 @@ const createBuildContextMethodCreator: MethodCreator = () => createAsyncMethod(
               strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, stderr))
             );
           } else {
-            console.log(stdout);
+            console.log('stdout:', stdout);
             controller.fire(
               strategySuccess(action.strategy)
             );
@@ -42,7 +42,7 @@ const createBuildContextMethodCreator: MethodCreator = () => createAsyncMethod(
         } else {
           controller.fire(axiumConclude());
         }
-        console.log(stdout);
+        console.log('stdout:', stdout);
       });
     } else {
       controller.fire(axiumConclude());
@@ -52,7 +52,7 @@ const createBuildContextMethodCreator: MethodCreator = () => createAsyncMethod(
 
 export const userInterfaceServerBuildContextQuality = createQuality(
   userInterfaceServerBuildContextType,
-  defaultReducer,
+  nullReducer,
   createBuildContextMethodCreator,
 );
 /*#>*/

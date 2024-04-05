@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and Html Concept, generate a quality for a User Interface Concept that will add a html body element with the supplied page id.
 $>*/
 /*<#*/
-import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';
+import { ActionType, MethodCreator, createMethod, createQuality, nullReducer, strategySuccess } from 'stratimux';
 import {
   createPageId,
   prepareActionComponentCreator,
@@ -33,5 +33,5 @@ const createHtmlBodyMethodCreator: MethodCreator = () =>
     return action;
   });
 
-export const htmlBodyBeginQuality = createQuality(htmlBodyBeginType, defaultReducer, createHtmlBodyMethodCreator);
+export const htmlBodyBeginQuality = createQuality(htmlBodyBeginType, nullReducer, createHtmlBodyMethodCreator);
 /*#>*/

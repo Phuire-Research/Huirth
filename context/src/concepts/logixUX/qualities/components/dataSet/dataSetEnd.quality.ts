@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality to create the final slice of the DataSet Component with the necessary closing element tags.
 $>*/
 /*<#*/
-import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';
+import { ActionType, MethodCreator, createMethod, createQuality, nullReducer, strategySuccess } from 'stratimux';
 
 import {
   prepareActionComponentCreator,
@@ -36,4 +36,4 @@ const createDataSetEndMethodCreator: MethodCreator = () =>
     return action;
   });
 
-export const logixUXDataSetEndQuality = createQuality(logixUXDataSetEndType, defaultReducer, createDataSetEndMethodCreator);
+export const logixUXDataSetEndQuality = createQuality(logixUXDataSetEndType, nullReducer, createDataSetEndMethodCreator);

@@ -7,7 +7,7 @@ import {
   ActionType,
   createQuality,
   defaultMethodCreator,
-  defaultReducer,
+  nullReducer,
   prepareActionCreator,
 } from 'stratimux';
 import { DocumentObjectModelState } from '../documentObjectModel.concept';
@@ -25,6 +25,6 @@ function documentObjectModelClearBindingQueReducer(state: DocumentObjectModelSta
 
 export const documentObjectModelClearBindingQueQuality = createQuality(
   documentObjectModelClearBindingQueType,
-  defaultReducer,
+  nullReducer,
   defaultMethodCreator,
 );

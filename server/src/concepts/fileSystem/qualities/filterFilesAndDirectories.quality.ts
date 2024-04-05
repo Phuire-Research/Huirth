@@ -8,7 +8,7 @@ import {
   axiumConclude,
   createAsyncMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyData_appendFailure,
@@ -72,7 +72,7 @@ const createFilterFilesAndDirectoriesMethodCreator: MethodCreator = () =>
 
 export const fileSystemFilterFilesAndDirectoriesQuality = createQuality(
   fileSystemFilterFilesAndDirectoriesType,
-  defaultReducer,
+  nullReducer,
   createFilterFilesAndDirectoriesMethodCreator,
 );
 /*#>*/

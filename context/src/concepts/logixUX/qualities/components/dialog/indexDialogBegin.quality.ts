@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the first slice of the Dialog Component.
 $>*/
 /*<#*/
-import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';
+import { ActionType, MethodCreator, createMethod, createQuality, nullReducer, strategySuccess } from 'stratimux';
 
 import {
   prepareActionComponentCreator,
@@ -37,9 +37,5 @@ const createIndexDialogBeginMethodCreator: MethodCreator = () =>
     return action;
   });
 
-export const logixUXIndexDialogBeginQuality = createQuality(
-  logixUXIndexDialogBeginType,
-  defaultReducer,
-  createIndexDialogBeginMethodCreator
-);
+export const logixUXIndexDialogBeginQuality = createQuality(logixUXIndexDialogBeginType, nullReducer, createIndexDialogBeginMethodCreator);
 /*#>*/

@@ -9,7 +9,7 @@ import {
   axiumConclude,
   createAsyncMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess
@@ -41,7 +41,7 @@ const createContextIndexMethodCreator: MethodCreator = () => createAsyncMethod(
 
 export const fileSystemCreateFileWithContentsIndexQuality = createQuality(
   fileSystemCreateFileWithContentsIndexType,
-  defaultReducer,
+  nullReducer,
   createContextIndexMethodCreator,
 );
 /*#>*/

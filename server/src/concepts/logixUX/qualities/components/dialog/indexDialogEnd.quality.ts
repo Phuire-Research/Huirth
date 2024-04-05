@@ -7,7 +7,7 @@ import {
   MethodCreator,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   strategySuccess
 } from 'stratimux';
 
@@ -37,6 +37,6 @@ const createIndexDialogEndMethodCreator: MethodCreator = () => createMethod(acti
 
 export const logixUXIndexDialogEndQuality = createQuality(
   logixUXIndexDialogEndType,
-  defaultReducer,
+  nullReducer,
   createIndexDialogEndMethodCreator,
 );

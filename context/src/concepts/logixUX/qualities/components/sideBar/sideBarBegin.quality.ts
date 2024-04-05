@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and a Concept logixUX, generate a 
 $>*/
 /*<#*/
 /* eslint-disable max-len */
-import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';
+import { ActionType, MethodCreator, createMethod, createQuality, nullReducer, strategySuccess } from 'stratimux';
 
 import {
   prepareActionComponentCreator,
@@ -36,5 +36,5 @@ const createSideBarBeginMethodCreator: MethodCreator = () =>
     return action;
   });
 
-export const logixUXSideBarBeginQuality = createQuality(logixUXSideBarBeginType, defaultReducer, createSideBarBeginMethodCreator);
+export const logixUXSideBarBeginQuality = createQuality(logixUXSideBarBeginType, nullReducer, createSideBarBeginMethodCreator);
 /*#>*/

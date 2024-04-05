@@ -4,11 +4,12 @@ $>*/
 /*<#*/
 import {
   ActionType,
+  Concepts,
   MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionCreator,
   selectPayload,
   selectState,
@@ -18,6 +19,7 @@ import {
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXServerDeleteDataSetsStrategy } from '../strategies/deleteDataSets.strategy';
 import { LogixUXState } from '../../logixUX/logixUX.concept';
+import { Subject } from 'rxjs';
 
 export type LogixUXServerTriggerDeleteDataSetsStrategyPayload = {
   names: string[]
@@ -26,7 +28,7 @@ export const logixUXServerTriggerDeleteDataSetsStrategyType: ActionType = 'logix
 export const logixUXServerTriggerDeleteDataSetsStrategy =
   prepareActionCreator(logixUXServerTriggerDeleteDataSetsStrategyType);
 
-const logixUXServerTriggerDeleteDataSetsStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
+const logixUXServerTriggerDeleteDataSetsStrategyMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, semaphore?: number) =>
   createMethodDebounceWithConcepts(
     (action, concepts) => {
       const {names} = selectPayload<LogixUXServerTriggerDeleteDataSetsStrategyPayload>(action);
@@ -44,7 +46,7 @@ const logixUXServerTriggerDeleteDataSetsStrategyMethodCreator: MethodCreator = (
 
 export const logixUXServerTriggerDeleteDataSetsStrategyQuality = createQuality(
   logixUXServerTriggerDeleteDataSetsStrategyType,
-  defaultReducer,
+  nullReducer,
   logixUXServerTriggerDeleteDataSetsStrategyMethodCreator,
 );
 /*#>*/

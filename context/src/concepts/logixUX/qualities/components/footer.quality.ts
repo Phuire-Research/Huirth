@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality to create the footer component.
 $>*/
 /*<#*/
-import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';
+import { ActionType, MethodCreator, createMethod, createQuality, nullReducer, strategySuccess } from 'stratimux';
 
 import {
   prepareActionComponentCreator,
@@ -38,5 +38,5 @@ const createLogixUXFooterMethodCreator: MethodCreator = () =>
     return action;
   });
 
-export const logixUXFooterQuality = createQuality(logixUXFooterType, defaultReducer, createLogixUXFooterMethodCreator);
+export const logixUXFooterQuality = createQuality(logixUXFooterType, nullReducer, createLogixUXFooterMethodCreator);
 /*#>*/

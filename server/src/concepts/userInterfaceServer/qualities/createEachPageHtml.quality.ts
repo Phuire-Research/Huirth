@@ -5,12 +5,13 @@ $>*/
 import {
   ActionStrategy,
   ActionType,
+  Concepts,
   MethodCreator,
   UnifiedSubject,
   axiumConclude,
   createAsyncMethodWithState,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess
@@ -18,6 +19,7 @@ import {
 import fs from 'fs';
 import path from 'path';
 import { UserInterfaceServerState } from '../userInterfaceServer.concept';
+import { Subject } from 'rxjs';
 
 export type CreateEachPageHtmlPayload = {
   targetDir: string
@@ -26,7 +28,7 @@ export const userInterfaceServerCreateEachPageHtmlType: ActionType = 'User Inter
 export const userInterfaceServerCreateEachPageHtml =
   prepareActionWithPayloadCreator<CreateEachPageHtmlPayload>(userInterfaceServerCreateEachPageHtmlType);
 
-const createCreateEachPageHtmlMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
+const createCreateEachPageHtmlMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, semaphore?: number) =>
   createAsyncMethodWithState<UserInterfaceServerState>((controller, action, state) => {
     const payload = selectPayload<CreateEachPageHtmlPayload>(action);
     const pages = [];
@@ -70,7 +72,7 @@ const createCreateEachPageHtmlMethodCreator: MethodCreator = (concepts$?: Unifie
 
 export const userInterfaceServerCreateEachPageHtmlQuality = createQuality(
   userInterfaceServerCreateEachPageHtmlType,
-  defaultReducer,
+  nullReducer,
   createCreateEachPageHtmlMethodCreator,
 );
 /*#>*/

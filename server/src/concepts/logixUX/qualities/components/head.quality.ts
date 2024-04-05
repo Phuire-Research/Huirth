@@ -8,7 +8,7 @@ import {
   MethodCreator,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   strategySuccess
 } from 'stratimux';
 
@@ -38,7 +38,7 @@ const createLogixUXHeadMethodCreator: MethodCreator = () => createMethod(
 
 export const logixUXHeadQuality = createQuality(
   logixUXHeadType,
-  defaultReducer,
+  nullReducer,
   createLogixUXHeadMethodCreator,
 );
 /*#>*/

@@ -9,7 +9,7 @@ import {
   axiumConclude,
   createAsyncMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyRecurse,
@@ -73,7 +73,7 @@ const createRecursivelyCopyMoveTargetDirectoriesMethodCreator: MethodCreator = (
 
 export const fileSystemRecursivelyCopyMoveTargetDirectoriesQuality = createQuality(
   fileSystemRecursivelyCopyMoveTargetDirectoriesType,
-  defaultReducer,
+  nullReducer,
   createRecursivelyCopyMoveTargetDirectoriesMethodCreator,
 );
 /*#>*/

@@ -5,12 +5,13 @@ $>*/
 import {
   Action,
   ActionType,
+  Concepts,
   KeyedSelector,
   MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQuality,
-  defaultReducer,
+  nullReducer,
   selectUnifiedState,
   strategySuccess,
 } from 'stratimux';
@@ -29,11 +30,12 @@ import { logixUXNewDataSetEntry } from '../../newDataSetEntry.quality';
 import { logixUX_createDataSetSelector, logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
 import { logixUXUpdateDataSetContents } from '../../updateDataSetContents.quality';
 import { logixUXUpdateDataSetPrompt } from '../../updateDataSetPrompt.quality';
+import { Subject } from 'rxjs';
 
 export const logixUXDataSetContentType: ActionType = 'create userInterface for DataSetContent';
 export const logixUXDataSetContent = prepareActionComponentCreator(logixUXDataSetContentType);
 
-const createDataSetContentMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, _semaphore?: number) =>
+const createDataSetContentMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, _semaphore?: number) =>
   createMethodDebounceWithConcepts(
     (action, concepts, semaphore) => {
       const payload = selectComponentPayload(action);
@@ -177,5 +179,5 @@ ${
     50
   );
 
-export const logixUXDataSetContentQuality = createQuality(logixUXDataSetContentType, defaultReducer, createDataSetContentMethodCreator);
+export const logixUXDataSetContentQuality = createQuality(logixUXDataSetContentType, nullReducer, createDataSetContentMethodCreator);
 /*#>*/

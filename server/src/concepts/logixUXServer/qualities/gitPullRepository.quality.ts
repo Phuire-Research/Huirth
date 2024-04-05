@@ -9,7 +9,7 @@ import {
   createAsyncMethod,
   createAsyncMethodDebounce,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyFailed,
@@ -54,7 +54,7 @@ const makeGitPullRepositoryMethodCreator: MethodCreator = () =>
 
 export const logixUXServerGitPullRepositoryQuality = createQuality(
   logixUXServerGitPullRepositoryType,
-  defaultReducer,
+  nullReducer,
   makeGitPullRepositoryMethodCreator,
 );
 /*#>*/

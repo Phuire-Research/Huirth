@@ -5,7 +5,7 @@ $>*/
 import {
   ActionType,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionCreator,
 } from 'stratimux';
 
@@ -15,6 +15,6 @@ export const userInterfaceEnd = prepareActionCreator(userInterfaceEndType);
 
 export const userInterfaceEndQuality = createQuality(
   userInterfaceEndType,
-  defaultReducer
+  nullReducer
 );
 /*#>*/

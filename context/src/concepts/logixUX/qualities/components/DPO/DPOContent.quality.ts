@@ -6,12 +6,13 @@ $>*/
 import {
   Action,
   ActionType,
+  Concepts,
   KeyedSelector,
   MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQuality,
-  defaultReducer,
+  nullReducer,
   selectUnifiedState,
   strategySuccess,
 } from 'stratimux';
@@ -33,11 +34,12 @@ import { logixUXNewDataSetEntry } from '../../newDataSetEntry.quality';
 import { logixUX_createDPOSelector } from '../../../logixUX.selector';
 import { logixUXTriggerSaveDPOStrategy } from '../../../strategies/server/triggerSaveDPOStrategy.helper';
 import { logixUXNewDPOEntry } from '../../newDPOEntry.quality';
+import { Subject } from 'rxjs';
 
 export const logixUXIndexDPOContentType: ActionType = 'create userInterface for IndexDPOContent';
 export const logixUXIndexDPOContent = prepareActionComponentCreator(logixUXIndexDPOContentType);
 
-const createIndexDPOContentMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, _semaphore?: number) =>
+const createIndexDPOContentMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, _semaphore?: number) =>
   createMethodDebounceWithConcepts(
     (action, concepts, semaphore) => {
       const payload = selectComponentPayload(action);
@@ -150,5 +152,5 @@ ${activeDPO[i].rejected}
     50
   );
 
-export const logixUXIndexDPOContentQuality = createQuality(logixUXIndexDPOContentType, defaultReducer, createIndexDPOContentMethodCreator);
+export const logixUXIndexDPOContentQuality = createQuality(logixUXIndexDPOContentType, nullReducer, createIndexDPOContentMethodCreator);
 /*#>*/

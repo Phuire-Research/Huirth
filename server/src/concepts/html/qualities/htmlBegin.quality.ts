@@ -7,7 +7,7 @@ import {
   MethodCreator,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess
@@ -44,7 +44,7 @@ const createHtmlHeadMethodCreator: MethodCreator = () => createMethod(
 
 export const htmlBeginQuality = createQuality(
   htmlBeginType,
-  defaultReducer,
+  nullReducer,
   createHtmlHeadMethodCreator,
 );
 /*#>*/

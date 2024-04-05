@@ -9,7 +9,7 @@ import {
   axiumConclude,
   createAsyncMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess
@@ -56,7 +56,7 @@ const fileSystemCopyMoveTargetDirectoryMethodCreator: MethodCreator = () =>
 
 export const fileSystemCopyMoveTargetDirectoryQuality = createQuality(
   fileSystemCopyMoveTargetDirectoryType,
-  defaultReducer,
+  nullReducer,
   fileSystemCopyMoveTargetDirectoryMethodCreator,
 );
 /*#>*/

@@ -4,11 +4,12 @@ $>*/
 /*<#*/
 import {
   ActionType,
+  Concepts,
   MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionCreator,
   selectPayload,
   selectState,
@@ -16,6 +17,7 @@ import {
 } from 'stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXServerCloneGitRepositoryToDirectoryStrategy } from '../strategies/cloneGitRepositoryToDirectory.strategy';
+import { Subject } from 'rxjs';
 
 export type LogixUXServerTriggerCloneGitRepositoryStrategyPayload = {
   url: string,
@@ -25,7 +27,7 @@ export const logixUXServerTriggerCloneGitRepositoryStrategyType: ActionType = 'l
 export const logixUXServerTriggerCloneGitRepositoryStrategy =
   prepareActionCreator(logixUXServerTriggerCloneGitRepositoryStrategyType);
 
-const createLogixUXServerTriggerCloneGitRepositoryStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
+const createLogixUXServerTriggerCloneGitRepositoryStrategyMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, semaphore?: number) =>
   createMethodDebounceWithConcepts(
     (action, concepts) => {
       const {name, url} = selectPayload<LogixUXServerTriggerCloneGitRepositoryStrategyPayload>(action);
@@ -41,7 +43,7 @@ const createLogixUXServerTriggerCloneGitRepositoryStrategyMethodCreator: MethodC
 
 export const logixUXServerTriggerCloneGitRepositoryStrategyQuality = createQuality(
   logixUXServerTriggerCloneGitRepositoryStrategyType,
-  defaultReducer,
+  nullReducer,
   createLogixUXServerTriggerCloneGitRepositoryStrategyMethodCreator,
 );
 /*#>*/

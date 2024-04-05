@@ -8,7 +8,7 @@ import {
   MethodCreator,
   createAsyncMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyFailed,
@@ -51,7 +51,7 @@ const makeGitCloneRepoToDirectoryMethodCreator: MethodCreator = () =>
 
 export const logixUXServerGitCloneRepoToDirectoryQuality = createQuality(
   logixUXServerGitCloneRepoToDirectoryType,
-  defaultReducer,
+  nullReducer,
   makeGitCloneRepoToDirectoryMethodCreator,
 );
 /*#>*/

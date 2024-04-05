@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality to create the first slice of the DataSet Component.
 $>*/
 /*<#*/
-import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';
+import { ActionType, MethodCreator, createMethod, createQuality, nullReducer, strategySuccess } from 'stratimux';
 
 import {
   prepareActionComponentCreator,
@@ -37,5 +37,5 @@ const createDataSetBeginMethodCreator: MethodCreator = () =>
     return action;
   });
 
-export const logixUXDataSetBeginQuality = createQuality(logixUXDataSetBeginType, defaultReducer, createDataSetBeginMethodCreator);
+export const logixUXDataSetBeginQuality = createQuality(logixUXDataSetBeginType, nullReducer, createDataSetBeginMethodCreator);
 /*#>*/

@@ -14,10 +14,13 @@ import {
   UnifiedSubject,
   axiumRegisterStagePlanner,
   axiumSelectOpen,
+  createStage,
   getUnifiedName,
+  select,
   selectSlice,
   selectState,
   selectUnifiedState,
+  updateUnifiedKeyedSelector,
 } from 'stratimux';
 import { BoundSelectors, Composition, Page } from '../../model/userInterface';
 import path from 'path';
@@ -61,8 +64,8 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
         }
       }
     });
-    const plan = concepts$.stage('State Sync Client Init', [
-      (concepts, dispatch) => {
+    const plan = concepts$.plan('State Sync Client Init', [
+      createStage((concepts, dispatch) => {
         const name = getUnifiedName(concepts, semaphore);
         if (name) {
           dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
@@ -71,8 +74,8 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
         } else {
           plan.conclude();
         }
-      },
-      (concepts, __) => {
+      }),
+      createStage((concepts, __) => {
         const state = selectUnifiedState<Record<string, unknown>>(concepts, semaphore);
         if (state) {
           const stateKeys = Object.keys(state);
@@ -84,7 +87,7 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
         } else {
           plan.conclude();
         }
-      }
+      })
     ]);
 
     const initialServerState = selectUnifiedState(cpts, semaphore) as ServerState;
@@ -152,22 +155,18 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
 export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
   (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     const atomicCachedState: Record<string, unknown> = {};
-    const plan = concepts$.stage('User Interface Server on Change', [
-      (concepts, dispatch) => {
+    const plan = concepts$.plan('User Interface Server on Change', [
+      createStage((concepts, dispatch) => {
         const name = getUnifiedName(concepts, semaphore);
-        if (name) {
+        if (name && selectSlice(concepts, axiumSelectOpen)) {
           dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
-            on: {
-              expected: true,
-              selector: axiumSelectOpen
-            },
             iterateStage: true
           });
         } else {
           plan.conclude();
         }
-      },
-      (concepts, dispatch) => {
+      }, {selectors: [axiumSelectOpen]}),
+      createStage((concepts, dispatch) => {
         const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
         if (uiState && uiState.pagesCached) {
           // console.log('PAGES: ', uiState.pages.map(page => page.title).join(', '));
@@ -190,13 +189,14 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
           const changes: string[] = [];
           const changedSelectors: KeyedSelector[] = [];
           selectors.forEach(bound => {
-            for (const select of bound.selectors) {
-              const value = selectSlice(concepts, select);
+            for (const ks of bound.selectors) {
+              const s = updateUnifiedKeyedSelector(concepts, semaphore, ks) as KeyedSelector;
+              const value = select.slice(concepts, s);
               let changed = false;
               if (typeof value !== 'object') {
-                changed = (atomicCachedState as Record<string, unknown>)[select.stateKeys] !== value;
+                changed = (atomicCachedState as Record<string, unknown>)[s.keys] !== value;
               } else {
-                const object = (atomicCachedState as Record<string, unknown>)[select.stateKeys];
+                const object = (atomicCachedState as Record<string, unknown>)[s.keys];
                 if (object === undefined) {
                   changed = true;
                 } else {
@@ -204,9 +204,9 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
                 }
               }
               if (changed) {
-                if (!changes.includes(select.stateKeys)) {
-                  changes.push(select.stateKeys);
-                  changedSelectors.push(select);
+                if (!changes.includes(s.keys)) {
+                  changes.push(s.keys);
+                  changedSelectors.push(s);
                 }
                 let exists = false;
                 for (const b of payload.boundActionQue) {
@@ -232,8 +232,8 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
         } else if (uiState === undefined) {
           plan.conclude();
         }
-      },
-    ], 333
+      }, {beat: 333}),
+    ]
     );
   };
 /*#>*/

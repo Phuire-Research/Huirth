@@ -7,10 +7,12 @@ import {
   Action,
   ActionStrategy,
   Concepts,
+  KeyedSelector,
   PrincipleFunction,
   UnifiedSubject,
   axiumKick,
   axiumRegisterStagePlanner,
+  createStage,
   getUnifiedName,
   selectUnifiedState,
   strategyBegin,
@@ -25,6 +27,7 @@ import { logixUXGeneratedTrainingDataPageStrategy } from './strategies/pages/gen
 import { DataSetTypes, ProjectStatus, TrainingData } from './logixUX.model';
 import { logixUXUpdateProjectStatusStrategy } from './strategies/updateProjectStatus.strategy';
 import { userInterfaceRemovePageStrategy } from '../userInterface/strategies.ts/removePage.strategy';
+import { logixUX_createTrainingDataSelector } from './logixUX.selector';
 
 const namesChanged = (trainingData: TrainingData, cachedTrainingDataNames: string[]) => {
   if (trainingData.length !== cachedTrainingDataNames.length) {
@@ -96,23 +99,23 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
   semaphore: number
 ) => {
   let cachedTrainingDataNames: string[] = [];
+  const beat = 333;
   const isClient = userInterface_isClient();
-  const plan = concepts$.stage(
-    'Observe Training Data and modify Pages',
-    [
-      (concepts, dispatch) => {
-        const state = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
-        const conceptName = getUnifiedName(concepts, semaphore);
-        if (conceptName) {
-          if (state && (state.pageStrategies.length === state.pages.length || isClient)) {
-            dispatch(axiumRegisterStagePlanner({ conceptName, stagePlanner: plan }), {
-              iterateStage: true,
-            });
-          }
-        } else {
-          plan.conclude();
+  const plan = concepts$.plan('Observe Training Data and modify Pages', [
+    createStage((concepts, dispatch) => {
+      const state = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
+      const conceptName = getUnifiedName(concepts, semaphore);
+      if (conceptName) {
+        if (state && (state.pageStrategies.length === state.pages.length || isClient)) {
+          dispatch(axiumRegisterStagePlanner({ conceptName, stagePlanner: plan }), {
+            iterateStage: true,
+          });
         }
-      },
+      } else {
+        plan.conclude();
+      }
+    }),
+    createStage(
       (concepts, dispatch) => {
         const state = selectUnifiedState<LogixUXState & UserInterfaceState>(concepts, semaphore);
         const trainingData = state?.trainingData;
@@ -174,7 +177,7 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
               }
               const strategies = strategySequence(list);
               if (strategies) {
-                console.log(strategies);
+                console.log('strategies: ', strategies);
                 const action = strategyBegin(strategies);
                 dispatch(action, {
                   setStage: 3,
@@ -188,6 +191,9 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
           plan.conclude();
         }
       },
+      { beat }
+    ),
+    createStage(
       (concepts, dispatch) => {
         const state = selectUnifiedState<LogixUXState & UserInterfaceState>(concepts, semaphore);
         const trainingData = state?.trainingData;
@@ -227,11 +233,14 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
           plan.conclude();
         }
       },
+      { selectors: [logixUX_createTrainingDataSelector(cpts, semaphore) as KeyedSelector] }
+    ),
+    createStage(
       (concepts, dispatch) => {
         const state = selectUnifiedState<LogixUXState & UserInterfaceState>(concepts, semaphore);
         if (state) {
           const pageNames = state.pages.map((p) => p.title);
-          console.log(pageNames, cachedTrainingDataNames);
+          console.log('pageNames: ', pageNames, cachedTrainingDataNames);
           cachedTrainingDataNames = cachedTrainingDataNames.filter((name) => pageNames.includes(name));
           dispatch(axiumKick(), {
             setStage: 2,
@@ -240,11 +249,11 @@ export const logixUXTrainingDataPagePrinciple: PrincipleFunction = (
           plan.conclude();
         }
       },
-      () => {
-        plan.conclude();
-      },
-    ],
-    333
-  );
+      { beat }
+    ),
+    createStage(() => {
+      plan.conclude();
+    }),
+  ]);
 };
 /*#>*/

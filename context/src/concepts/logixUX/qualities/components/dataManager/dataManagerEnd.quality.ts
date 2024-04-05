@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality that will create the final slice for the Data Manager Component.
 $>*/
 /*<#*/
-import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';
+import { ActionType, MethodCreator, createMethod, createQuality, nullReducer, strategySuccess } from 'stratimux';
 
 import {
   prepareActionComponentCreator,
@@ -36,5 +36,5 @@ const createDataManagerEndMethodCreator: MethodCreator = () =>
     return action;
   });
 
-export const logixUXDataManagerEndQuality = createQuality(logixUXDataManagerEndType, defaultReducer, createDataManagerEndMethodCreator);
+export const logixUXDataManagerEndQuality = createQuality(logixUXDataManagerEndType, nullReducer, createDataManagerEndMethodCreator);
 /*#>*/

@@ -6,6 +6,7 @@ import { createActionNode, createStrategy } from 'stratimux';
 import {
   ActionStrategyComponentStitch,
   PageStrategyCreators,
+  userInterface,
   userInterface_createPage
 } from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
@@ -42,18 +43,9 @@ export const logixUXGeneratedTrainingDataPageStrategy = (pageTitle: string): Pag
 
 export const logixUXGeneratedTrainingDataStrategyStitchTopic = 'logixUX Generated Training Data Strategy Component Stitch';
 export const logixUXGeneratedTrainingDataStrategyStitch: ActionStrategyComponentStitch = (payload) => {
-  const stepLogixUXDataSetEnd = createActionNode(logixUXDataSetEnd(payload), {
-    successNode: null,
-    failureNode: null
-  });
-  const stepLogixUXDataManagerContent = createActionNode(logixUXDataSetContent(payload), {
-    successNode: stepLogixUXDataSetEnd,
-    failureNode: null
-  });
-  const stepLogixUXDataSetBegin = createActionNode(logixUXDataSetBegin(payload), {
-    successNode: stepLogixUXDataManagerContent,
-    failureNode: null
-  });
+  const stepLogixUXDataSetEnd = userInterface.createComponent(logixUXDataSetEnd(payload));
+  const stepLogixUXDataManagerContent = userInterface.createComponent(logixUXDataSetContent(payload), stepLogixUXDataSetEnd);
+  const stepLogixUXDataSetBegin = userInterface.createComponent(logixUXDataSetBegin(payload), stepLogixUXDataManagerContent);
   return [
     stepLogixUXDataSetEnd,
     createStrategy({

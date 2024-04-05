@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and a Concept logixUX, generate a 
 $>*/
 /*<#*/
 import { createActionNode, createStrategy } from 'stratimux';
-import { ActionStrategyComponentStitch, PageStrategyCreators, userInterface_createPage } from '../../../../model/userInterface';
+import { ActionStrategyComponentStitch, PageStrategyCreators, userInterface, userInterface_createPage } from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { logixUXFooterStitch } from '../components/footer.strategy';
 import { logixUXHeaderStitch } from '../components/header.strategy';
@@ -36,18 +36,9 @@ export const logixUXIndexPageStrategy: PageStrategyCreators = () => () => {
 
 export const logixUXIndexDPOStrategyStitchTopic = 'logixUX Index Training Data Strategy Component Stitch';
 export const logixUXIndexDPOStrategyStitch: ActionStrategyComponentStitch = (payload) => {
-  const stepLogixUXIndexDPOEnd = createActionNode(logixUXIndexDPOEnd(payload), {
-    successNode: null,
-    failureNode: null
-  });
-  const stepLogixUXIndexDPOContent = createActionNode(logixUXIndexDPOContent(payload), {
-    successNode: stepLogixUXIndexDPOEnd,
-    failureNode: null
-  });
-  const stepLogixUXIndexDPOBegin = createActionNode(logixUXIndexDPOBegin(payload), {
-    successNode: stepLogixUXIndexDPOContent,
-    failureNode: null
-  });
+  const stepLogixUXIndexDPOEnd = userInterface.createComponent(logixUXIndexDPOEnd(payload));
+  const stepLogixUXIndexDPOContent = userInterface.createComponent(logixUXIndexDPOContent(payload), stepLogixUXIndexDPOEnd);
+  const stepLogixUXIndexDPOBegin = userInterface.createComponent(logixUXIndexDPOBegin(payload), stepLogixUXIndexDPOContent);
   return [
     stepLogixUXIndexDPOEnd,
     createStrategy({

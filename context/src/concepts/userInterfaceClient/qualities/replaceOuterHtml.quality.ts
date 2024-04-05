@@ -6,7 +6,7 @@ import {
   ActionType,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess,
@@ -57,7 +57,7 @@ const createUserInterfaceClientReplaceOuterHtmlMethod = () =>
 
 export const userInterfaceClientReplaceOuterHtmlQuality = createQuality(
   userInterfaceClientReplaceOuterHtmlType,
-  defaultReducer,
+  nullReducer,
   createUserInterfaceClientReplaceOuterHtmlMethod
 );
 /*#>*/

@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the last slice of the DPO DataSet Component with the proper closing tags.
 $>*/
 /*<#*/
-import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';
+import { ActionType, MethodCreator, createMethod, createQuality, nullReducer, strategySuccess } from 'stratimux';
 
 import {
   prepareActionComponentCreator,
@@ -36,4 +36,4 @@ const createIndexDPOEndMethodCreator: MethodCreator = () =>
     return action;
   });
 
-export const logixUXIndexDPOEndQuality = createQuality(logixUXIndexDPOEndType, defaultReducer, createIndexDPOEndMethodCreator);
+export const logixUXIndexDPOEndQuality = createQuality(logixUXIndexDPOEndType, nullReducer, createIndexDPOEndMethodCreator);

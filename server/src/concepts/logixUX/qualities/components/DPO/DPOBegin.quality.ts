@@ -7,7 +7,7 @@ import {
   MethodCreator,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   strategySuccess
 } from 'stratimux';
 
@@ -38,7 +38,7 @@ const createIndexDPOBeginMethodCreator: MethodCreator = () => createMethod(actio
 
 export const logixUXIndexDPOBeginQuality = createQuality(
   logixUXIndexDPOBeginType,
-  defaultReducer,
+  nullReducer,
   createIndexDPOBeginMethodCreator,
 );
 /*#>*/

@@ -4,6 +4,7 @@ $>*/
 /*<#*/
 import {
   ActionType,
+  Concepts,
   MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
@@ -17,6 +18,7 @@ import {
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXServerSaveDataSetSelectionStrategy } from '../strategies/saveDataSetSelection.strategy';
 import { LogixUXServerState } from '../logixUXServer.concept';
+import { Subject } from 'rxjs';
 
 export type LogixUXServerTriggerSaveDataSetSelectionStrategyPayload = {
   names: string[]
@@ -25,7 +27,7 @@ export const logixUXServerTriggerSaveDataSetSelectionStrategyType: ActionType = 
 export const logixUXServerTriggerSaveDataSetSelectionStrategy =
   prepareActionCreator(logixUXServerTriggerSaveDataSetSelectionStrategyType);
 
-const logixUXServerTriggerSaveDataSetSelectionStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
+const logixUXServerTriggerSaveDataSetSelectionStrategyMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, semaphore?: number) =>
   createMethodDebounceWithConcepts(
     (action, concepts) => {
       const {names} = selectPayload<LogixUXServerTriggerSaveDataSetSelectionStrategyPayload>(action);

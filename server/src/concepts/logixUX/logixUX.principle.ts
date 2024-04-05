@@ -9,6 +9,7 @@ import {
   PrincipleFunction,
   UnifiedSubject,
   axiumRegisterStagePlanner,
+  createStage,
   getAxiumState,
   getUnifiedName,
 } from 'stratimux';
@@ -19,8 +20,9 @@ import { userInterfaceClientName } from '../userInterfaceClient/userInterfaceCli
 let topic = '';
 export const logixUXDialogPrinciple: PrincipleFunction =
   (_: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
-    const plan = concepts$.stage('Observe Axium Dialog and append to State', [
-      (concepts, dispatch) => {
+    const beat = 500;
+    const plan = concepts$.plan('Observe Axium Dialog and append to State', [
+      createStage((concepts, dispatch) => {
         const conceptName = getUnifiedName(concepts, semaphore);
         if (conceptName && conceptName === userInterfaceClientName) {
           dispatch(axiumRegisterStagePlanner({conceptName, stagePlanner: plan}), {
@@ -29,8 +31,8 @@ export const logixUXDialogPrinciple: PrincipleFunction =
         } else {
           plan.conclude();
         }
-      },
-      (concepts, dispatch) => {
+      }),
+      createStage((concepts, dispatch) => {
         const axiumTopic = getAxiumState(concepts).lastStrategy;
         const axiumDialog = getAxiumState(concepts).lastStrategyDialog;
         // console.log(`TOPIC: ${topic}, AXIUM TOPIC: ${axiumTopic}`);
@@ -42,7 +44,7 @@ export const logixUXDialogPrinciple: PrincipleFunction =
             throttle: 1
           });
         }
-      }
-    ], 500);
+      }, {beat})
+    ]);
   };
 /*#>*/

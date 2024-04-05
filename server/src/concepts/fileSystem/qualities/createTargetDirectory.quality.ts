@@ -9,7 +9,7 @@ import {
   axiumConclude,
   createAsyncMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess
@@ -40,6 +40,6 @@ const makeCreateTargetDirectoryMethodCreator: MethodCreator = () =>
 
 export const fileSystemCreateTargetDirectoryQuality = createQuality(
   fileSystemCreateTargetDirectoryType,
-  defaultReducer,
+  nullReducer,
   makeCreateTargetDirectoryMethodCreator,
 );

@@ -11,7 +11,7 @@ import {
   createAction,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   strategySuccess
 } from 'stratimux';
 import { prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
@@ -45,6 +45,6 @@ const createErrorMethodCreator: MethodCreator = () =>
 
 export const logixUXErrorQuality = createQuality(
   logixUXErrorType,
-  defaultReducer,
+  nullReducer,
   createErrorMethodCreator,
 );

@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality for the last slice of the Dialog Component with the necessary closing element tags.
 $>*/
 /*<#*/
-import { ActionType, MethodCreator, createMethod, createQuality, defaultReducer, strategySuccess } from 'stratimux';
+import { ActionType, MethodCreator, createMethod, createQuality, nullReducer, strategySuccess } from 'stratimux';
 
 import {
   prepareActionComponentCreator,
@@ -36,4 +36,4 @@ const createIndexDialogEndMethodCreator: MethodCreator = () =>
     return action;
   });
 
-export const logixUXIndexDialogEndQuality = createQuality(logixUXIndexDialogEndType, defaultReducer, createIndexDialogEndMethodCreator);
+export const logixUXIndexDialogEndQuality = createQuality(logixUXIndexDialogEndType, nullReducer, createIndexDialogEndMethodCreator);

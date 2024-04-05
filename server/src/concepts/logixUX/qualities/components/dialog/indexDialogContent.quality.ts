@@ -4,6 +4,7 @@ $>*/
 /*<#*/
 import {
   ActionType,
+  Concepts,
   CounterState,
   KeyedSelector,
   MethodCreator,
@@ -12,7 +13,7 @@ import {
   counterSubtract,
   createMethodDebounceWithConcepts,
   createQuality,
-  defaultReducer,
+  nullReducer,
   selectUnifiedState,
   strategySuccess
 } from 'stratimux';
@@ -24,11 +25,12 @@ import { logixUX_createCountSelector, logixUX_createDialogSelector } from '../..
 import { logixUXTriggerMinusCountingStrategy } from '../../triggerMinusCounterStrategy.quality';
 import { logixUXTriggerPlusCountingStrategy } from '../../triggerPlusCounterStrategy.quality';
 import { logixUXTriggerRandomCountingStrategy } from '../../triggerRandomCounterStrategy.quality';
+import { Subject } from 'rxjs';
 
 export const logixUXIndexDialogContentType: ActionType = 'create userInterface for IndexDialogContent';
 export const logixUXIndexDialogContent = prepareActionComponentCreator(logixUXIndexDialogContentType);
 
-const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, _semaphore?: number) =>
+const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, _semaphore?: number) =>
   createMethodDebounceWithConcepts((action, concepts, semaphore) => {
     const payload = selectComponentPayload(action);
     const id = '#dialogID';
@@ -137,7 +139,7 @@ const createIndexDialogContentMethodCreator: MethodCreator = (concepts$?: Unifie
 
 export const logixUXIndexDialogContentQuality = createQuality(
   logixUXIndexDialogContentType,
-  defaultReducer,
+  nullReducer,
   createIndexDialogContentMethodCreator,
 );
 /*#>*/

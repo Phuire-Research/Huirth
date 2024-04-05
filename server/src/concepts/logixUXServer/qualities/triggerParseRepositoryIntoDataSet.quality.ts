@@ -4,11 +4,12 @@ $>*/
 /*<#*/
 import {
   ActionType,
+  Concepts,
   MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionCreator,
   selectPayload,
   selectState,
@@ -16,6 +17,7 @@ import {
 } from 'stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXServerParseRepositoryStrategy } from '../strategies/parseRepositoryIntoDataSet.strategy';
+import { Subject } from 'rxjs';
 
 export type LogixUXServerTriggerParseRepositoryStrategyPayload = {
   name: string
@@ -24,7 +26,7 @@ export const logixUXServerTriggerParseRepositoryStrategyType: ActionType = 'logi
 export const logixUXServerTriggerParseRepositoryStrategy =
   prepareActionCreator(logixUXServerTriggerParseRepositoryStrategyType);
 
-const createLogixUXServerTriggerParseRepositoryStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
+const createLogixUXServerTriggerParseRepositoryStrategyMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, semaphore?: number) =>
   createMethodDebounceWithConcepts(
     (action, concepts) => {
       const { name } = selectPayload<LogixUXServerTriggerParseRepositoryStrategyPayload>(action);
@@ -40,7 +42,7 @@ const createLogixUXServerTriggerParseRepositoryStrategyMethodCreator: MethodCrea
 
 export const logixUXServerTriggerParseRepositoryStrategyQuality = createQuality(
   logixUXServerTriggerParseRepositoryStrategyType,
-  defaultReducer,
+  nullReducer,
   createLogixUXServerTriggerParseRepositoryStrategyMethodCreator,
 );
 /*#>*/

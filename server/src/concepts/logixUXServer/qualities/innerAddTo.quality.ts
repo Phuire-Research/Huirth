@@ -7,7 +7,7 @@ import {
   MethodCreator,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyData_select,
@@ -52,7 +52,7 @@ const logixUXServerInnerAddToMethodCreator: MethodCreator = () =>
 
 export const logixUXServerInnerAddToQuality = createQuality(
   logixUXServerInnerAddToType,
-  defaultReducer,
+  nullReducer,
   logixUXServerInnerAddToMethodCreator
 );
 /*#>*/

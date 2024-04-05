@@ -6,7 +6,7 @@ import {
   ActionType,
   createAsyncMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionCreator,
   strategyData_appendFailure,
   strategyData_select,
@@ -114,7 +114,7 @@ const logixUXServerParseFileFromDataMethodCreator = () =>
 
 export const logixUXServerParseFileFromDataQuality = createQuality(
   logixUXServerParseFileFromDataType,
-  defaultReducer,
+  nullReducer,
   logixUXServerParseFileFromDataMethodCreator,
 );
 /*#>*/

@@ -8,7 +8,7 @@ import {
   MethodCreator,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   strategySuccess
 } from 'stratimux';
 
@@ -37,7 +37,7 @@ const createSideBarEndMethodCreator: MethodCreator = () => createMethod(action =
 
 export const logixUXSideBarEndQuality = createQuality(
   logixUXSideBarEndType,
-  defaultReducer,
+  nullReducer,
   createSideBarEndMethodCreator,
 );
 /*#>*/

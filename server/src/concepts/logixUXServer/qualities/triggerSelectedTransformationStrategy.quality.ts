@@ -4,13 +4,14 @@ $>*/
 /*<#*/
 import {
   ActionType,
+  Concepts,
   MethodCreator,
   UnifiedSubject,
   createActionNode,
   createMethodDebounce,
   createQuality,
   createStrategy,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyBegin,
@@ -19,6 +20,7 @@ import { logixUXVerboseAddingStrategySelect, logixUXVerboseAdditionAndSubtractio
 import { logixUXServerGenerateVerboseAddingStrategy } from './generateVerboseAddingDataSet.quality';
 import { logixUXServerGenerateVerboseSubtractionStrategy } from './generateVerboseSubtractionDataSet.quality';
 import { logixUXServerGenerateVerboseAdditionAndSubtractionStrategy } from './generateVerboseAdditionAndSubtractionDataSet.quality';
+import { Subject } from 'rxjs';
 
 export type LogixUXServerTriggerSelectTransformationStrategyPayload = {
   selection: string
@@ -27,7 +29,7 @@ export const logixUXServerTriggerSelectTransformationStrategyType: ActionType = 
 export const logixUXServerTriggerSelectTransformationStrategy =
   prepareActionWithPayloadCreator<LogixUXServerTriggerSelectTransformationStrategyPayload>(logixUXServerTriggerSelectTransformationStrategyType);
 
-const createLogixUXServerTriggerSelectTransformationStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject) =>
+const createLogixUXServerTriggerSelectTransformationStrategyMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>) =>
   createMethodDebounce(
     (act) => {
       const { selection } = selectPayload<LogixUXServerTriggerSelectTransformationStrategyPayload>(act);
@@ -67,7 +69,7 @@ const createLogixUXServerTriggerSelectTransformationStrategyMethodCreator: Metho
 
 export const logixUXServerTriggerSelectTransformationStrategyQuality = createQuality(
   logixUXServerTriggerSelectTransformationStrategyType,
-  defaultReducer,
+  nullReducer,
   createLogixUXServerTriggerSelectTransformationStrategyMethodCreator,
 );
 /*#>*/

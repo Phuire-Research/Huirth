@@ -14,8 +14,11 @@ import {
   axiumKick,
   axiumKickType,
   axiumRegisterStagePlanner,
+  axiumSelectOpen,
+  createStage,
   getAxiumState,
   getUnifiedName,
+  selectSlice,
   selectUnifiedState,
 } from 'stratimux';
 import _ws from 'express-ws';
@@ -31,18 +34,20 @@ export const webSocketServerPrinciple: PrincipleFunction =
     const socket = _ws(server);
     socket.app.ws('/axium', (ws, req) => {
       ws.send(JSON.stringify(webSocketClientSetServerSemaphore({semaphore})));
-      const plan = concepts$.stage('Web Socket Server Message Que Planner', [
-        (concepts, dispatch) => {
-          const name = getUnifiedName(concepts, semaphore);
-          if (name) {
-            dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
-              iterateStage: true
-            });
-          } else {
-            plan.conclude();
+      const plan = concepts$.plan('Web Socket Server Message Que Planner', [
+        createStage((concepts, dispatch) => {
+          if (selectSlice(concepts, axiumSelectOpen)) {
+            const name = getUnifiedName(concepts, semaphore);
+            if (name) {
+              dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
+                iterateStage: true
+              });
+            } else {
+              plan.conclude();
+            }
           }
-        },
-        (concepts, dispatch) => {
+        }, {selectors: [axiumSelectOpen]}),
+        createStage((concepts, dispatch) => {
           const state = selectUnifiedState<WebSocketServerState>(concepts, semaphore);
           if (state) {
             if (state.actionQue.length > 0) {
@@ -70,8 +75,8 @@ export const webSocketServerPrinciple: PrincipleFunction =
             console.log('SHOUDN\'T CONCLUDE');
             plan.conclude();
           }
-        }
-      ], 33);
+        }, {beat: 33})
+      ]);
       ws.addEventListener('close', () => {
         plan.conclude();
       });

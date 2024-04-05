@@ -7,7 +7,7 @@ import {
   MethodCreator,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess,
@@ -40,7 +40,7 @@ const documentObjectModelBindPayloadMethodCreator: MethodCreator = () => createM
 
 export const documentObjectModelBindPayloadQuality = createQuality(
   documentObjectModelBindPayloadType,
-  defaultReducer,
+  nullReducer,
   documentObjectModelBindPayloadMethodCreator,
 );
 /*#>*/

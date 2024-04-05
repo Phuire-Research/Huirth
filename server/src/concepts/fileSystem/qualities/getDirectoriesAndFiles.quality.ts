@@ -7,7 +7,7 @@ import {
   MethodCreator,
   createAsyncMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyData_appendFailure,
@@ -50,7 +50,7 @@ const fileSystemGetDirectoriesAndFilesMethodCreator: MethodCreator = () =>
 
 export const fileSystemGetDirectoriesAndFilesQuality = createQuality(
   fileSystemGetDirectoriesAndFilesType,
-  defaultReducer,
+  nullReducer,
   fileSystemGetDirectoriesAndFilesMethodCreator,
 );
 /*#>*/

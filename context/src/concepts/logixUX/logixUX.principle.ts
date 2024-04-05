@@ -3,7 +3,16 @@ For the graph programming framework Stratimux and a logixUX Concept, generate a 
 $>*/
 /*<#*/
 import { Subscriber } from 'rxjs';
-import { Action, Concepts, PrincipleFunction, UnifiedSubject, axiumRegisterStagePlanner, getAxiumState, getUnifiedName } from 'stratimux';
+import {
+  Action,
+  Concepts,
+  PrincipleFunction,
+  UnifiedSubject,
+  axiumRegisterStagePlanner,
+  createStage,
+  getAxiumState,
+  getUnifiedName,
+} from 'stratimux';
 import _ws from 'express-ws';
 import { logixUXAppendAxiumDialog } from './qualities/appendAxiumDialog.quality';
 import { userInterfaceClientName } from '../userInterfaceClient/userInterfaceClient.concept';
@@ -15,19 +24,19 @@ export const logixUXDialogPrinciple: PrincipleFunction = (
   concepts$: UnifiedSubject,
   semaphore: number
 ) => {
-  const plan = concepts$.stage(
-    'Observe Axium Dialog and append to State',
-    [
-      (concepts, dispatch) => {
-        const conceptName = getUnifiedName(concepts, semaphore);
-        if (conceptName && conceptName === userInterfaceClientName) {
-          dispatch(axiumRegisterStagePlanner({ conceptName, stagePlanner: plan }), {
-            iterateStage: true,
-          });
-        } else {
-          plan.conclude();
-        }
-      },
+  const beat = 500;
+  const plan = concepts$.plan('Observe Axium Dialog and append to State', [
+    createStage((concepts, dispatch) => {
+      const conceptName = getUnifiedName(concepts, semaphore);
+      if (conceptName && conceptName === userInterfaceClientName) {
+        dispatch(axiumRegisterStagePlanner({ conceptName, stagePlanner: plan }), {
+          iterateStage: true,
+        });
+      } else {
+        plan.conclude();
+      }
+    }),
+    createStage(
       (concepts, dispatch) => {
         const axiumTopic = getAxiumState(concepts).lastStrategy;
         const axiumDialog = getAxiumState(concepts).lastStrategyDialog;
@@ -44,8 +53,8 @@ export const logixUXDialogPrinciple: PrincipleFunction = (
           );
         }
       },
-    ],
-    500
-  );
+      { beat }
+    ),
+  ]);
 };
 /*#>*/

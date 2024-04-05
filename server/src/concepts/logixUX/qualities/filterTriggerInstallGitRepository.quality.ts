@@ -6,6 +6,7 @@ $>*/
 import {
   Action,
   ActionType,
+  Concepts,
   MethodCreator,
   UnifiedSubject,
   createMethodWithState,
@@ -16,6 +17,7 @@ import {
 import { LogixUXState } from '../logixUX.concept';
 import { ProjectStatus } from '../logixUX.model';
 import { logixUXInstallGitRepositoryStrategy } from '../strategies/installGitProject.strategy';
+import { Subject } from 'rxjs';
 
 const getName = (url: string): string | undefined => {
   const split = url.split('/');
@@ -28,7 +30,7 @@ export const logixUXFilterTriggerInstallGitRepositoryType: ActionType = 'Create 
 export const logixUXFilterTriggerInstallGitRepository =
   prepareActionCreator(logixUXFilterTriggerInstallGitRepositoryType);
 
-const logixUXFilterTriggerInstallGitRepositoryMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
+const logixUXFilterTriggerInstallGitRepositoryMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, semaphore?: number) =>
   createMethodWithState<LogixUXState>(
     (action, state) => {
       const {possibleProject, possibleProjectValid} = state;

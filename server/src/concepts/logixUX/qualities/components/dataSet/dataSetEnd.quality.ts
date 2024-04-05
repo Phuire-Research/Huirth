@@ -7,7 +7,7 @@ import {
   MethodCreator,
   createMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   strategySuccess
 } from 'stratimux';
 
@@ -37,6 +37,6 @@ const createDataSetEndMethodCreator: MethodCreator = () => createMethod(action =
 
 export const logixUXDataSetEndQuality = createQuality(
   logixUXDataSetEndType,
-  defaultReducer,
+  nullReducer,
   createDataSetEndMethodCreator,
 );

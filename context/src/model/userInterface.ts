@@ -11,11 +11,13 @@ import {
   Concepts,
   KeyedSelector,
   createAction,
+  createActionNode,
   selectPayload,
   strategyData_select,
 } from 'stratimux';
 import { elementEventBinding } from './html';
 import { documentObjectModelName } from '../concepts/documentObjectModel/documentObjectModel.concept';
+import { userInterfaceNext } from '../concepts/userInterface/qualities/next.quality';
 
 /**
  * Should be ID as #string
@@ -234,5 +236,27 @@ export const userInterface_selectPage = (strategy: ActionStrategy): Page => {
   } else {
     return userInterface_createPage();
   }
+};
+
+export const userInterface_createComponent = (action: Action, success?: ActionNode): ActionNode => {
+  return createActionNode(action, {
+    successNode: success ? success : null,
+    failureNode: createActionNode(userInterfaceNext(), {
+      successNode: null,
+      failureNode: null,
+    }),
+  });
+};
+
+export const userInterface = {
+  selectPage: userInterface_selectPage,
+  appendCompositionToPage: userInterface_appendCompositionToPage,
+  appendBindings: userInterface_appendBindings,
+  bindingsToString: userInterface_bindingsToString,
+  createPage: userInterface_createPage,
+  createComponent: userInterface_createComponent,
+  isClient: userInterface_isClient,
+  pageBindingToString: userInterface_pageBindingsToString,
+  selectInputTarget: userInterface_selectInputTarget,
 };
 /*#>*/

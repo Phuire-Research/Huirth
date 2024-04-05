@@ -6,7 +6,7 @@ import {
   ActionType,
   createAsyncMethod,
   createQuality,
-  defaultReducer,
+  nullReducer,
   prepareActionCreator,
   strategyData_select,
   strategyFailed,
@@ -51,7 +51,7 @@ const logixUXServerIsDataDirectorySetUpMethodCreator = () =>
 
 export const logixUXServerIsDataDirectorySetUpQuality = createQuality(
   logixUXServerIsDataDirectorySetUpType,
-  defaultReducer,
+  nullReducer,
   logixUXServerIsDataDirectorySetUpMethodCreator,
 );
 /*#>*/
