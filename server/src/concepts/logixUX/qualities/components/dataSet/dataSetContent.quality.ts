@@ -5,6 +5,7 @@ $>*/
 import {
   Action,
   ActionType,
+  Concepts,
   KeyedSelector,
   MethodCreator,
   UnifiedSubject,
@@ -23,11 +24,12 @@ import { logixUXNewDataSetEntry } from '../../newDataSetEntry.quality';
 import { logixUX_createDataSetSelector, logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
 import { logixUXUpdateDataSetContents } from '../../updateDataSetContents.quality';
 import { logixUXUpdateDataSetPrompt } from '../../updateDataSetPrompt.quality';
+import { Subject } from 'rxjs';
 
 export const logixUXDataSetContentType: ActionType = 'create userInterface for DataSetContent';
 export const logixUXDataSetContent = prepareActionComponentCreator(logixUXDataSetContentType);
 
-const createDataSetContentMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, _semaphore?: number) =>
+const createDataSetContentMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, _semaphore?: number) =>
   createMethodDebounceWithConcepts((action, concepts, semaphore) => {
     const payload = selectComponentPayload(action);
     const id = '#dataSetID' + payload.pageTitle;

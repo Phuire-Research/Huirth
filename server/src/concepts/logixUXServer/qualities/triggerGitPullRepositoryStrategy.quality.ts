@@ -4,6 +4,7 @@ $>*/
 /*<#*/
 import {
   ActionType,
+  Concepts,
   MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
@@ -16,6 +17,7 @@ import {
 } from 'stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXServerGitPullRepositoryStrategy } from '../strategies/gitPullRepository.strategy';
+import { Subject } from 'rxjs';
 
 export type LogixUXServerTriggerGitPullRepositoryStrategyPayload = {
   name: string
@@ -24,7 +26,7 @@ export const logixUXServerTriggerGitPullRepositoryStrategyType: ActionType = 'lo
 export const logixUXServerTriggerGitPullRepositoryStrategy =
   prepareActionCreator(logixUXServerTriggerGitPullRepositoryStrategyType);
 
-const createLogixUXServerTriggerGitPullRepositoryStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
+const createLogixUXServerTriggerGitPullRepositoryStrategyMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, semaphore?: number) =>
   createMethodDebounceWithConcepts(
     (action, concepts) => {
       const {name} = selectPayload<LogixUXServerTriggerGitPullRepositoryStrategyPayload>(action);

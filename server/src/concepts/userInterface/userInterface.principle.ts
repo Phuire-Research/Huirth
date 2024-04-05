@@ -42,7 +42,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction =
         } else {
           plan.conclude();
         }
-      }, {selectors: [axiumSelectOpen]}),
+      }, { priority: 1, selectors: [axiumSelectOpen]}),
       createStage((concepts, dispatch) => {
         const uiState = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
         if (uiState) {

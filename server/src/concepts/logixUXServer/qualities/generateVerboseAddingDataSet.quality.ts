@@ -31,6 +31,7 @@ export const logixUXServerGenerateVerboseAddingStrategy =
   prepareActionCreator(logixUXServerGenerateVerboseAddingStrategyType);
 
 const logixUXServerGenerateVerboseAddingStrategyMethodCreator: MethodCreator = (concepts$, semaphore) => createAsyncMethodWithConcepts((controller, action, cpts) => {
+  const axiumState = getAxiumState(cpts);
   const fileSystemState = selectState<FileSystemState>(cpts, fileSystemName);
   if (concepts$ && fileSystemState) {
     console.log('This had been triggered');
@@ -44,7 +45,7 @@ const logixUXServerGenerateVerboseAddingStrategyMethodCreator: MethodCreator = (
     let length = 5;
     let iterations = 0;
     let currentTopic = '';
-    const plan = concepts$.plan('Verbose Adding data set generation plan',
+    const plan = axiumState.concepts$.plan('Verbose Adding data set generation plan',
     [
       createStage((_, dispatch) => {
         console.log('Transformation stage 1', iterations < 100, length < limit);

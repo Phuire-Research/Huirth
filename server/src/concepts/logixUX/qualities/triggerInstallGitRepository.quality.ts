@@ -4,6 +4,7 @@ $>*/
 /*<#*/
 import {
   ActionType,
+  Concepts,
   MethodCreator,
   UnifiedSubject,
   createMethod,
@@ -14,6 +15,7 @@ import {
   strategyBegin,
 } from 'stratimux';
 import { logixUXInstallGitRepositoryStrategy } from '../strategies/installGitProject.strategy';
+import { Subject } from 'rxjs';
 
 export type LogixUXTriggerInstallGitRepositoryPayload = {
   url: string,
@@ -23,7 +25,7 @@ export const logixUXTriggerInstallGitRepositoryType: ActionType = 'Create logixU
 export const logixUXTriggerInstallGitRepository =
   prepareActionWithPayloadCreator(logixUXTriggerInstallGitRepositoryType);
 
-const createLogixUXTriggerInstallGitRepositoryMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
+const createLogixUXTriggerInstallGitRepositoryMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, semaphore?: number) =>
   createMethod(
     (action) => {
       const { url, name } = selectPayload<LogixUXTriggerInstallGitRepositoryPayload>(action);

@@ -17,9 +17,7 @@ import {
 } from 'stratimux';
 import { Binding } from '../../../model/userInterface';
 import { Subject } from 'rxjs';
-import { elementEventBinding } from '../../../model/html';
 import { documentObjectModelBindActionStrategy } from '../strategies/bindAction.strategy';
-import { nullReducer } from 'stratimux';
 
 export type DocumentObjectModelBindPayload = {
   action$: Subject<Action>;

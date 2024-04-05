@@ -4,6 +4,7 @@ $>*/
 /*<#*/
 import {
   ActionType,
+  Concepts,
   CounterState,
   MethodCreator,
   UnifiedSubject,
@@ -14,11 +15,12 @@ import {
   strategyBegin,
 } from 'stratimux';
 import { logixUXMinusSevenStrategy } from '../strategies/countMinusSeven.strategy';
+import { Subject } from 'rxjs';
 
 export const logixUXTriggerMinusCountingStrategyType: ActionType = 'Create logixUX trigger minus seven counting strategy';
 export const logixUXTriggerMinusCountingStrategy = prepareActionCreator(logixUXTriggerMinusCountingStrategyType);
 
-const createLogixUXTriggerMinusCountingStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
+const createLogixUXTriggerMinusCountingStrategyMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, semaphore?: number) =>
   createMethodDebounceWithState<CounterState>(
     (_, state) => {
       const strategy = logixUXMinusSevenStrategy(state.count, semaphore as number);

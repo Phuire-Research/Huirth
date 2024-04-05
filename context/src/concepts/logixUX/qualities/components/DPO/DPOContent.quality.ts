@@ -6,6 +6,7 @@ $>*/
 import {
   Action,
   ActionType,
+  Concepts,
   KeyedSelector,
   MethodCreator,
   UnifiedSubject,
@@ -33,11 +34,12 @@ import { logixUXNewDataSetEntry } from '../../newDataSetEntry.quality';
 import { logixUX_createDPOSelector } from '../../../logixUX.selector';
 import { logixUXTriggerSaveDPOStrategy } from '../../../strategies/server/triggerSaveDPOStrategy.helper';
 import { logixUXNewDPOEntry } from '../../newDPOEntry.quality';
+import { Subject } from 'rxjs';
 
 export const logixUXIndexDPOContentType: ActionType = 'create userInterface for IndexDPOContent';
 export const logixUXIndexDPOContent = prepareActionComponentCreator(logixUXIndexDPOContentType);
 
-const createIndexDPOContentMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, _semaphore?: number) =>
+const createIndexDPOContentMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, _semaphore?: number) =>
   createMethodDebounceWithConcepts(
     (action, concepts, semaphore) => {
       const payload = selectComponentPayload(action);

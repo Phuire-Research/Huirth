@@ -5,6 +5,7 @@ $>*/
 import {
   Action,
   ActionType,
+  Concepts,
   KeyedSelector,
   MethodCreator,
   UnifiedSubject,
@@ -42,11 +43,12 @@ import { logixUXSetSelectedTransformation } from '../../setSelectedTransformatio
 import { logixUXSendTriggerTransformationStrategy } from '../../../strategies/server/triggerTransformationStrategy.helper';
 import { logixUXSendTriggerSelectedTransformationStrategy } from '../../sendTriggerSelectedTransformationStrategy.quality';
 import { logixUXSendTriggerGitPullRepositoryStrategy } from '../../../strategies/server/triggerGitPullRepositoryStrategy.helper';
+import { Subject } from 'rxjs';
 
 export const logixUXDataManagerContentType: ActionType = 'create userInterface for DataManagerContent';
 export const logixUXDataManagerContent = prepareActionComponentCreator(logixUXDataManagerContentType);
 
-const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, _semaphore?: number) =>
+const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, _semaphore?: number) =>
   createMethodDebounceWithConcepts((action, concepts, semaphore) => {
     const payload = selectComponentPayload(action);
     const id = '#dataManagerID' + payload.pageTitle;

@@ -4,6 +4,7 @@ $>*/
 /*<#*/
 import {
   ActionType,
+  Concepts,
   MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
@@ -17,12 +18,13 @@ import {
 import { LogixUXServerState } from '../logixUXServer.concept';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXServerSaveTrainingDataStrategy } from '../strategies/saveTrainingData.strategy';
+import { Subject } from 'rxjs';
 
 export const logixUXServerTriggerSaveTrainingDataStrategyType: ActionType = 'logixUXServer trigger save training data strategy';
 export const logixUXServerTriggerSaveTrainingDataStrategy =
   prepareActionCreator(logixUXServerTriggerSaveTrainingDataStrategyType);
 
-const createLogixUXServerTriggerSaveTrainingDataStrategyMethodCreator: MethodCreator = (concepts$?: UnifiedSubject, semaphore?: number) =>
+const createLogixUXServerTriggerSaveTrainingDataStrategyMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, semaphore?: number) =>
   createMethodDebounceWithConcepts(
     (action, concepts) => {
       const state = selectUnifiedState<LogixUXServerState>(concepts, semaphore as number);

@@ -35,7 +35,7 @@ export const documentObjectModelPrinciple: PrincipleFunction = (
           iterateStage: true,
         });
       }
-    }, {selectors: [axiumSelectOpen]}),
+    }, { priority: 1, selectors: [axiumSelectOpen]}),
     createStage((concepts, dispatch) => {
       // console.log('Hello Document Object Model', selectUnifiedState<DocumentObjectModelState>(concepts, semaphore)?.bindingQue);
       const documentObjectModelState = selectUnifiedState<DocumentObjectModelState>(concepts, semaphore);
