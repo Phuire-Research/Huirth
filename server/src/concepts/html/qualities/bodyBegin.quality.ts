@@ -3,44 +3,40 @@ For the graph programming framework Stratimux and Html Concept, generate a quali
 $>*/
 /*<#*/
 import {
-  ActionType,
-  MethodCreator,
   createMethod,
-  createQuality,
   nullReducer,
   strategySuccess
 } from 'stratimux';
 import {
   createPageId,
-  prepareActionComponentCreator,
+  createQualitySetComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage
 } from '../../../model/userInterface';
 
-export const htmlBodyBeginType: ActionType = 'Html create Body Begin';
-export const htmlBodyBegin = prepareActionComponentCreator(htmlBodyBeginType);
-
-const createHtmlBodyMethodCreator: MethodCreator = () => createMethod(
-  (action) => {
-    const payload = selectComponentPayload(action);
-    if (action.strategy) {
-      return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-        id: '',
-        boundSelectors: [],
-        universal: false,
-        action: htmlBodyBegin(payload),
-        html: /*html*/`
-  <body id="${createPageId(payload.pageTitle)}">
-    `
-      }));
-    }
-    return action;
-  }
-);
-
-export const htmlBodyBeginQuality = createQuality(
+export const [
+  htmlBodyBegin,
   htmlBodyBeginType,
-  nullReducer,
-  createHtmlBodyMethodCreator,
-);
+  htmlBodyBeginQuality
+] = createQualitySetComponent({
+  type: 'Html create Body Begin',
+  reducer: nullReducer,
+  methodCreator: () => createMethod(
+    (action) => {
+      const payload = selectComponentPayload(action);
+      if (action.strategy) {
+        return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
+          id: '',
+          boundSelectors: [],
+          universal: false,
+          action: htmlBodyBegin(payload),
+          html: /*html*/`
+    <body id="${createPageId(payload.pageTitle)}">
+      `
+        }));
+      }
+      return action;
+    }
+  )
+});
 /*#>*/

@@ -3,12 +3,9 @@ For the graph programming framework Stratimux and Document Object Model Concept,
 $>*/
 /*<#*/
 import {
-  ActionType,
-  MethodCreator,
   createMethod,
-  createQuality,
+  createQualitySetWithPayload,
   nullReducer,
-  prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess,
 } from 'stratimux';
@@ -16,31 +13,30 @@ import {
 export type DocumentObjectModelBindPayloadPayload = {
   event: unknown
 };
-export const documentObjectModelBindPayloadType: ActionType = 'Document Object Model bind payload';
-export const documentObjectModelBindPayload =
-  prepareActionWithPayloadCreator<DocumentObjectModelBindPayloadPayload>(documentObjectModelBindPayloadType);
 
-const documentObjectModelBindPayloadMethodCreator: MethodCreator = () => createMethod((action) => {
-  if (action.strategy) {
-    const payload = selectPayload<DocumentObjectModelBindPayloadPayload>(action);
-    const act = strategySuccess(action.strategy);
-    if (act.payload) {
-      act.payload = {
-        ...act.payload,
-        ...payload
-      };
-    } else {
-      act.payload = payload;
-    }
-    return act;
-  } else {
-    return action;
-  }
-});
-
-export const documentObjectModelBindPayloadQuality = createQuality(
+export const [
+  documentObjectModelBindPayload,
   documentObjectModelBindPayloadType,
-  nullReducer,
-  documentObjectModelBindPayloadMethodCreator,
-);
+  documentObjectModelBindPayloadQuality
+] = createQualitySetWithPayload<DocumentObjectModelBindPayloadPayload>({
+  type: 'Document Object Model bind payload',
+  reducer: nullReducer,
+  methodCreator: () => createMethod((action) => {
+    if (action.strategy) {
+      const payload = selectPayload<DocumentObjectModelBindPayloadPayload>(action);
+      const act = strategySuccess(action.strategy);
+      if (act.payload) {
+        act.payload = {
+          ...act.payload,
+          ...payload
+        };
+      } else {
+        act.payload = payload;
+      }
+      return act;
+    } else {
+      return action;
+    }
+  })
+});
 /*#>*/

@@ -4,13 +4,10 @@ $>*/
 /*<#*/
 import {
   ActionStrategy,
-  ActionType,
-  MethodCreator,
   axiumConclude,
   createAsyncMethod,
-  createQuality,
+  createQualitySetWithPayload,
   nullReducer,
-  prepareActionWithPayloadCreator,
   selectPayload,
   strategyRecurse,
   strategySuccess
@@ -40,40 +37,39 @@ export type RecursivelyCopyMoveTargetDirectoriesPayload = {
     newLocation: string,
   }[]
 };
-export const fileSystemRecursivelyCopyMoveTargetDirectoriesType: ActionType = 'File System recursively copy move target Directories';
-export const fileSystemRecursivelyCopyMoveTargetDirectories =
-  prepareActionWithPayloadCreator<RecursivelyCopyMoveTargetDirectoriesPayload>(fileSystemRecursivelyCopyMoveTargetDirectoriesType);
 
-const createRecursivelyCopyMoveTargetDirectoriesMethodCreator: MethodCreator = () =>
-  createAsyncMethod((controller, action) => {
-    const payload = selectPayload<RecursivelyCopyMoveTargetDirectoriesPayload>(action);
-    if (action.strategy) {
-      const directory = payload.directories.shift();
-      if (directory) {
-        copyDir(directory.target, directory.newLocation).then(() => {
-          if (payload.directories.length > 0) {
-            controller.fire(
-              strategyRecurse(action.strategy as ActionStrategy, {payload})
-            );
-          } else {
-            const newStrategy =
-              strategySuccess(action.strategy as ActionStrategy);
-            controller.fire(newStrategy);
-          }
-        });
-      } else {
-        controller.fire(
-          strategySuccess(action.strategy as ActionStrategy)
-        );
-      }
-    } else {
-      controller.fire(axiumConclude());
-    }
-  });
-
-export const fileSystemRecursivelyCopyMoveTargetDirectoriesQuality = createQuality(
+export const [
+  fileSystemRecursivelyCopyMoveTargetDirectories,
   fileSystemRecursivelyCopyMoveTargetDirectoriesType,
-  nullReducer,
-  createRecursivelyCopyMoveTargetDirectoriesMethodCreator,
-);
+  fileSystemRecursivelyCopyMoveTargetDirectoriesQuality
+] = createQualitySetWithPayload<RecursivelyCopyMoveTargetDirectoriesPayload>({
+  type: 'File System recursively copy move target Directories',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createAsyncMethod((controller, action) => {
+      const payload = selectPayload<RecursivelyCopyMoveTargetDirectoriesPayload>(action);
+      if (action.strategy) {
+        const directory = payload.directories.shift();
+        if (directory) {
+          copyDir(directory.target, directory.newLocation).then(() => {
+            if (payload.directories.length > 0) {
+              controller.fire(
+                strategyRecurse(action.strategy as ActionStrategy, {payload})
+              );
+            } else {
+              const newStrategy =
+                strategySuccess(action.strategy as ActionStrategy);
+              controller.fire(newStrategy);
+            }
+          });
+        } else {
+          controller.fire(
+            strategySuccess(action.strategy as ActionStrategy)
+          );
+        }
+      } else {
+        controller.fire(axiumConclude());
+      }
+    })
+});
 /*#>*/

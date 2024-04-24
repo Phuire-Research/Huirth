@@ -10,8 +10,12 @@ import {
   ActionType,
   Concepts,
   KeyedSelector,
+  MethodCreator,
+  Quality,
+  Reducer,
   createAction,
   createActionNode,
+  createQuality,
   selectPayload,
   strategyData_select
 } from 'stratimux';
@@ -166,6 +170,14 @@ export type ActionComponentPayload = {
 
 export const selectComponentPayload = (action: Action) => selectPayload<ActionComponentPayload>(action);
 
+export type ActionComponentCreator = (
+    payload: ActionComponentPayload,
+    conceptSemaphore?: number,
+    keyedSelectors?: KeyedSelector[],
+    agreement?: number,
+    semaphore?: [number, number, number, number]
+  ) => Action;
+
 export function prepareActionComponentCreator(actionType: ActionType) {
   return (
     payload: ActionComponentPayload,
@@ -176,6 +188,21 @@ export function prepareActionComponentCreator(actionType: ActionType) {
   ) => {
     return createAction(actionType, payload, keyedSelectors, agreement, semaphore, conceptSemaphore);
   };
+}
+
+export function createQualitySetComponent(q: {
+  type: string,
+  reducer: Reducer,
+  methodCreator?: MethodCreator,
+  keyedSelectors?: KeyedSelector[],
+  meta?: Record<string,unknown>,
+  analytics?: Record<string,unknown>
+}): [ActionComponentCreator, ActionType, Quality] {
+  return [
+    prepareActionComponentCreator(q.type),
+    q.type,
+    createQuality(q.type, q.reducer, q.methodCreator, q.keyedSelectors, q.meta, q.analytics)
+  ];
 }
 
 export const userInterface_appendCompositionToPage =

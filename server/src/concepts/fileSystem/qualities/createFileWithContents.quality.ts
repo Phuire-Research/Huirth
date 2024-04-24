@@ -4,13 +4,10 @@ $>*/
 /*<#*/
 import {
   ActionStrategy,
-  ActionType,
-  MethodCreator,
   axiumConclude,
   createAsyncMethod,
-  createQuality,
+  createQualitySetWithPayload,
   nullReducer,
-  prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess
 } from 'stratimux';
@@ -20,28 +17,26 @@ export type CreateContextIndexPayload = {
   target: string,
   content: string,
 };
-export const fileSystemCreateFileWithContentsIndexType: ActionType = 'File System create File with Contents';
-export const fileSystemCreateFileWithContentsIndex =
-  prepareActionWithPayloadCreator<CreateContextIndexPayload>(fileSystemCreateFileWithContentsIndexType);
 
-const createContextIndexMethodCreator: MethodCreator = () => createAsyncMethod(
-  (controller, action) => {
-    const payload = selectPayload<CreateContextIndexPayload>(action);
-    if (action.strategy) {
-      fs.writeFile(payload.target, payload.content).then(() => {
-        const newStrategy =
-          strategySuccess(action.strategy as ActionStrategy);
-        controller.fire(newStrategy);
-      });
-    } else {
-      controller.fire(axiumConclude());
-    }
-  }
-);
-
-export const fileSystemCreateFileWithContentsIndexQuality = createQuality(
+export const [
+  fileSystemCreateFileWithContentsIndex,
   fileSystemCreateFileWithContentsIndexType,
-  nullReducer,
-  createContextIndexMethodCreator,
-);
+  fileSystemCreateFileWithContentsIndexQuality
+] = createQualitySetWithPayload<CreateContextIndexPayload>({
+  type: 'File System create File with Contents',
+  reducer: nullReducer,
+  methodCreator: () => createAsyncMethod(
+    (controller, action) => {
+      const payload = selectPayload<CreateContextIndexPayload>(action);
+      if (action.strategy) {
+        fs.writeFile(payload.target, payload.content).then(() => {
+          const newStrategy =
+            strategySuccess(action.strategy as ActionStrategy);
+          controller.fire(newStrategy);
+        });
+      } else {
+        controller.fire(axiumConclude());
+      }
+    })
+});
 /*#>*/

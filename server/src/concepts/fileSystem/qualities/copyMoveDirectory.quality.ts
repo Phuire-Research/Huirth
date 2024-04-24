@@ -4,13 +4,10 @@ $>*/
 /*<#*/
 import {
   ActionStrategy,
-  ActionType,
-  MethodCreator,
   axiumConclude,
   createAsyncMethod,
-  createQuality,
+  createQualitySetWithPayload,
   nullReducer,
-  prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess
 } from 'stratimux';
@@ -36,27 +33,26 @@ export type CopyMoveTargetDirectoryPayload = {
   target: string,
   newLocation: string,
 };
-export const fileSystemCopyMoveTargetDirectoryType: ActionType = 'File System copy move target Directory';
-export const fileSystemCopyMoveTargetDirectory =
-  prepareActionWithPayloadCreator<CopyMoveTargetDirectoryPayload>(fileSystemCopyMoveTargetDirectoryType);
 
-const fileSystemCopyMoveTargetDirectoryMethodCreator: MethodCreator = () =>
-  createAsyncMethod((controller, action) => {
-    const payload = selectPayload<CopyMoveTargetDirectoryPayload>(action);
-    if (action.strategy) {
-      copyDir(payload.target, payload.newLocation).then(() => {
-        const newStrategy =
-          strategySuccess(action.strategy as ActionStrategy);
-        controller.fire(newStrategy);
-      });
-    } else {
-      controller.fire(axiumConclude());
-    }
-  });
-
-export const fileSystemCopyMoveTargetDirectoryQuality = createQuality(
+export const [
+  fileSystemCopyMoveTargetDirectory,
   fileSystemCopyMoveTargetDirectoryType,
-  nullReducer,
-  fileSystemCopyMoveTargetDirectoryMethodCreator,
-);
+  fileSystemCopyMoveTargetDirectoryQuality
+] = createQualitySetWithPayload<CopyMoveTargetDirectoryPayload>({
+  type: 'File System copy move target Directory',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createAsyncMethod((controller, action) => {
+      const payload = selectPayload<CopyMoveTargetDirectoryPayload>(action);
+      if (action.strategy) {
+        copyDir(payload.target, payload.newLocation).then(() => {
+          const newStrategy =
+            strategySuccess(action.strategy as ActionStrategy);
+          controller.fire(newStrategy);
+        });
+      } else {
+        controller.fire(axiumConclude());
+      }
+    })
+});
 /*#>*/
