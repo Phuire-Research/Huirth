@@ -33,13 +33,11 @@ export const [
         const payload = selectPayload<LogixUXSendTriggerDeleteDataSetsStrategyPayload>(action);
         return strategyBegin(createStrategy({
           topic: 'Sent to Web Socket: Trigger Delete Data Sets: ' + payload.names.join(', '),
-          initialNode: createActionNode(userInterfaceClientSendActionToServer(createAction('logixUXServer trigger delete data sets strategy', payload)), {
-            successNode: createActionNode(logixUXClearDataSetSelection(), {
-              successNode: null,
-              failureNode: null
-            }),
-            failureNode: null
-          })
+          initialNode: createActionNode(
+            userInterfaceClientSendActionToServer(
+              createAction('logixUXServer trigger delete data sets strategy', payload)), {
+              successNode: createActionNode(logixUXClearDataSetSelection())
+            })
         }));
       }, 50
     )

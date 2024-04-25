@@ -4,43 +4,38 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  createQuality,
+  createQualitySet,
   defaultMethodCreator,
-  prepareActionCreator,
   strategyData_select,
 } from 'stratimux';
 import { LogixUXServerState } from '../logixUXServer.concept';
 import { ReadFromDataTrainingDataFromDirectoriesField } from './readFromDataTrainingDataFromDirectory.quality';
 
-export const logixUXServerSetTrainingDataFromDataType: ActionType =
-  'logixUXServer set parsed Training Data from passed Data';
-export const logixUXServerSetTrainingDataFromData =
-  prepareActionCreator(logixUXServerSetTrainingDataFromDataType);
-
-function logixUXServerSetTrainingDataFromDataReducer(
-  state: LogixUXServerState,
-  action: Action
-): LogixUXServerState {
-  if (action.strategy && action.strategy.data) {
-    const data = strategyData_select(action.strategy) as ReadFromDataTrainingDataFromDirectoriesField;
-    if (data.trainingData) {
-      const trainingData = data.trainingData;
-      return {
-        ...state,
-        trainingData,
-        dataSetSelection: new Array(data.trainingData.length).fill(false)
-      };
-    }
-  }
-  return {
-    ...state,
-  };
-}
-
-export const logixUXServerSetTrainingDataFromDataQuality = createQuality(
+export const [
+  logixUXServerSetTrainingDataFromData,
   logixUXServerSetTrainingDataFromDataType,
-  logixUXServerSetTrainingDataFromDataReducer,
-  defaultMethodCreator
-);
+  logixUXServerSetTrainingDataFromDataQuality
+] = createQualitySet({
+  type: 'logixUXServer set parsed Training Data from passed Data',
+  reducer: (
+    state: LogixUXServerState,
+    action: Action
+  ): LogixUXServerState => {
+    if (action.strategy && action.strategy.data) {
+      const data = strategyData_select(action.strategy) as ReadFromDataTrainingDataFromDirectoriesField;
+      if (data.trainingData) {
+        const trainingData = data.trainingData;
+        return {
+          ...state,
+          trainingData,
+          dataSetSelection: new Array(data.trainingData.length).fill(false)
+        };
+      }
+    }
+    return {
+      ...state,
+    };
+  },
+  methodCreator: defaultMethodCreator
+});
 /*#>*/

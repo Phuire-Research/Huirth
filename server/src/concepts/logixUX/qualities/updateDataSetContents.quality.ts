@@ -4,10 +4,8 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  createQuality,
+  createQualitySetWithPayload,
   defaultMethodCreator,
-  prepareActionWithPayloadCreator,
   selectPayload,
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
@@ -17,27 +15,26 @@ export type LogixUXUpdateDataSetContentsPayload = {
   index: number,
   dataSetIndex: number
 }
-export const logixUXUpdateDataSetContentsType: ActionType = 'Create logixUX UpdateDataSetContents';
-export const logixUXUpdateDataSetContents =
-  prepareActionWithPayloadCreator<LogixUXUpdateDataSetContentsPayload>(logixUXUpdateDataSetContentsType);
 
-function logixUXUpdateDataSetContentsReducer(state: LogixUXState, action: Action): LogixUXState {
-  const payload = selectPayload<LogixUXUpdateDataSetContentsPayload>(action);
-  const target = userInterface_selectInputTarget(action);
-  const trainingData = [...state.trainingData];
-  const named = trainingData[payload.index];
-  if (named && target) {
-    named.dataSet[payload.dataSetIndex].content = target.value.trim();
-  }
-  return {
-    ...state,
-    trainingData,
-  };
-}
-
-export const logixUXUpdateDataSetContentsQuality = createQuality(
+export const [
+  logixUXUpdateDataSetContents,
   logixUXUpdateDataSetContentsType,
-  logixUXUpdateDataSetContentsReducer,
-  defaultMethodCreator
-);
+  logixUXUpdateDataSetContentsQuality
+] = createQualitySetWithPayload<LogixUXUpdateDataSetContentsPayload>({
+  type: 'Create logixUX UpdateDataSetContents',
+  reducer: (state: LogixUXState, action: Action): LogixUXState => {
+    const payload = selectPayload<LogixUXUpdateDataSetContentsPayload>(action);
+    const target = userInterface_selectInputTarget(action);
+    const trainingData = [...state.trainingData];
+    const named = trainingData[payload.index];
+    if (named && target) {
+      named.dataSet[payload.dataSetIndex].content = target.value.trim();
+    }
+    return {
+      ...state,
+      trainingData,
+    };
+  },
+  methodCreator: defaultMethodCreator
+});
 /*#>*/

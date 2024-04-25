@@ -3,46 +3,40 @@ For the graph programming framework Stratimux and a Concept logixUX Server, gene
 $>*/
 /*<#*/
 import {
-  ActionType,
-  Concepts,
-  MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
-  createQuality,
+  createQualitySetWithPayload,
   nullReducer,
-  prepareActionCreator,
   selectPayload,
   selectState,
   strategyBegin,
 } from 'stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXServerParseRepositoryStrategy } from '../strategies/parseRepositoryIntoDataSet.strategy';
-import { Subject } from 'rxjs';
 
 export type LogixUXServerTriggerParseRepositoryStrategyPayload = {
   name: string
 }
-export const logixUXServerTriggerParseRepositoryStrategyType: ActionType = 'logixUXServer trigger parse repository strategy';
-export const logixUXServerTriggerParseRepositoryStrategy =
-  prepareActionCreator(logixUXServerTriggerParseRepositoryStrategyType);
 
-const createLogixUXServerTriggerParseRepositoryStrategyMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, semaphore?: number) =>
-  createMethodDebounceWithConcepts(
-    (action, concepts) => {
-      const { name } = selectPayload<LogixUXServerTriggerParseRepositoryStrategyPayload>(action);
-      const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
-      if (fileSystemState) {
-        const strategy = logixUXServerParseRepositoryStrategy(fileSystemState.root, name);
-        return strategyBegin(strategy);
-      } else {
-        return action;
-      }
-    }, concepts$ as UnifiedSubject, semaphore as number, 50
-  );
-
-export const logixUXServerTriggerParseRepositoryStrategyQuality = createQuality(
+export const [
+  logixUXServerTriggerParseRepositoryStrategy,
   logixUXServerTriggerParseRepositoryStrategyType,
-  nullReducer,
-  createLogixUXServerTriggerParseRepositoryStrategyMethodCreator,
-);
+  logixUXServerTriggerParseRepositoryStrategyQuality
+] = createQualitySetWithPayload<LogixUXServerTriggerParseRepositoryStrategyPayload>({
+  type: 'logixUXServer trigger parse repository strategy',
+  reducer: nullReducer,
+  methodCreator: (concepts$, semaphore) =>
+    createMethodDebounceWithConcepts(
+      (action, concepts) => {
+        const { name } = selectPayload<LogixUXServerTriggerParseRepositoryStrategyPayload>(action);
+        const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
+        if (fileSystemState) {
+          const strategy = logixUXServerParseRepositoryStrategy(fileSystemState.root, name);
+          return strategyBegin(strategy);
+        } else {
+          return action;
+        }
+      }, concepts$ as UnifiedSubject, semaphore as number, 50
+    )
+});
 /*#>*/

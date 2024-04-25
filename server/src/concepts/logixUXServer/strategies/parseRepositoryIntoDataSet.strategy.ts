@@ -16,22 +16,17 @@ export const logixUXServerParseRepositoryStrategy = (root: string, name:string) 
   const stepDetermineReadAndParseStrategy = createActionNode(logixUXServerDetermineReadParseAppendStrategy({
     name,
     type: DataSetTypes.project
-  }), {
-    successNode: null,
-    failureNode: null
-  });
+  }));
   // Step 1 Remove directory if exists based on name
   const stepFilter = createActionNode(fileSystemFilterFilesAndDirectories({
     isTokens: ['.ts'],
     notTokens: [path.join('/context/')]
   }), {
     successNode: stepDetermineReadAndParseStrategy,
-    failureNode: null
   });
   const stepReadDirectory = createActionNode(fileSystemReadDirectory({target: dataPath}), {
     // successNode: stepCreateDirectory,
     successNode: stepFilter,
-    failureNode: null,
     agreement: 20000
   });
   return createStrategy({

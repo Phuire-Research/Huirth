@@ -7,6 +7,7 @@ import {
   ActionType,
   createMethod,
   createQuality,
+  createQualitySetWithPayload,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyData_select,
@@ -22,68 +23,64 @@ export type LogixUXServerAppendParsedDataToNamedDataSetPayload = {
   name: string,
   type: DataSetTypes
 }
-export const logixUXServerAppendParsedDataToNamedDataSetType: ActionType =
-  'logixUXServer append parsed data to named data set, then remove its path from fileAndDirectories field';
-export const logixUXServerAppendParsedDataToNamedDataSet =
-  prepareActionWithPayloadCreator<LogixUXServerAppendParsedDataToNamedDataSetPayload>(logixUXServerAppendParsedDataToNamedDataSetType);
 
-const logixUXServerAppendParsedDataToNamedDataSetMethodCreator = () =>
-  createMethod((action) => {
-    if (action.strategy && action.strategy.data) {
-      const strategy = action.strategy;
-      const data = strategyData_select(action.strategy) as ReadDirectoryField;
-      data.filesAndDirectories.shift();
-      return strategySuccess(strategy, strategyData_unifyData(strategy, data));
-    } else {
-      return action;
-    }
-  });
-
-const logixUXServerAppendParsedDataToNamedDataSetReducer = (state: LogixUXServerState, action: Action): LogixUXServerState => {
-  const {name, type} = selectPayload<LogixUXServerAppendParsedDataToNamedDataSetPayload>(action);
-  if (action.strategy) {
-    const {strategy} = action;
-    const {dataSetSelection} = state;
-    const data = strategyData_select<ParsedFileFromDataField>(strategy);
-    if (data) {
-      const {parsed} = data;
-      const {trainingData} = state;
-      let added = false;
-      for (const set of trainingData) {
-        if (set.name === name) {
-          set.dataSet = [
-            ...set.dataSet,
-            ...parsed
-          ];
-          added = true;
-          console.log(set.dataSet.length, parsed.length);
-          break;
-        }
-      }
-      if (!added) {
-        trainingData.push({
-          name,
-          type,
-          dataSet: parsed,
-          index: 0
-        });
-        dataSetSelection.push(false);
-      }
-      return {
-        ...state,
-        trainingData,
-        dataSetSelection
-      };
-    }
-  }
-  return {
-    ...state,
-  };
-};
-
-export const logixUXServerAppendParsedDataToNamedDataSetQuality = createQuality(
+export const [
+  logixUXServerAppendParsedDataToNamedDataSet,
   logixUXServerAppendParsedDataToNamedDataSetType,
-  logixUXServerAppendParsedDataToNamedDataSetReducer,
-  logixUXServerAppendParsedDataToNamedDataSetMethodCreator,
-);
+  logixUXServerAppendParsedDataToNamedDataSetQuality
+] = createQualitySetWithPayload<LogixUXServerAppendParsedDataToNamedDataSetPayload>({
+  type: 'logixUXServer append parsed data to named data set, then remove its path from fileAndDirectories field',
+  reducer: (state: LogixUXServerState, action: Action): LogixUXServerState => {
+    const {name, type} = selectPayload<LogixUXServerAppendParsedDataToNamedDataSetPayload>(action);
+    if (action.strategy) {
+      const {strategy} = action;
+      const {dataSetSelection} = state;
+      const data = strategyData_select<ParsedFileFromDataField>(strategy);
+      if (data) {
+        const {parsed} = data;
+        const {trainingData} = state;
+        let added = false;
+        for (const set of trainingData) {
+          if (set.name === name) {
+            set.dataSet = [
+              ...set.dataSet,
+              ...parsed
+            ];
+            added = true;
+            console.log(set.dataSet.length, parsed.length);
+            break;
+          }
+        }
+        if (!added) {
+          trainingData.push({
+            name,
+            type,
+            dataSet: parsed,
+            index: 0
+          });
+          dataSetSelection.push(false);
+        }
+        return {
+          ...state,
+          trainingData,
+          dataSetSelection
+        };
+      }
+    }
+    return {
+      ...state,
+    };
+  },
+  methodCreator: () =>
+    createMethod((action) => {
+      if (action.strategy && action.strategy.data) {
+        const strategy = action.strategy;
+        const data = strategyData_select(action.strategy) as ReadDirectoryField;
+        data.filesAndDirectories.shift();
+        return strategySuccess(strategy, strategyData_unifyData(strategy, data));
+      } else {
+        return action;
+      }
+    })
+});
 /*#>*/

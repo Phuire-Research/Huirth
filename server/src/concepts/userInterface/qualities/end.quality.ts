@@ -3,18 +3,16 @@ For the graph programming framework Stratimux and the User Interface Concept, ge
 $>*/
 /*<#*/
 import {
-  ActionType,
-  createQuality,
+  createQualitySet,
   nullReducer,
-  prepareActionCreator,
 } from 'stratimux';
 
-export const userInterfaceEndType: ActionType =
-  'User Interface End Strategy';
-export const userInterfaceEnd = prepareActionCreator(userInterfaceEndType);
-
-export const userInterfaceEndQuality = createQuality(
+export const [
+  userInterfaceEnd,
   userInterfaceEndType,
-  nullReducer
-);
+  userInterfaceEndQuality
+] = createQualitySet({
+  type: 'User Interface End Strategy',
+  reducer: nullReducer,
+});
 /*#>*/

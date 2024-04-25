@@ -4,10 +4,8 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  createQuality,
+  createQualitySetWithPayload,
   defaultMethodCreator,
-  prepareActionWithPayloadCreator,
   selectPayload,
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
@@ -17,39 +15,37 @@ export type LogixUXUpdateProjectStatusPayload = {
   name: string,
   status: ProjectStatus
 }
-export const logixUXUpdateProjectStatusType: ActionType = 'logixUX Update Project Status';
-export const logixUXUpdateProjectStatus =
-  prepareActionWithPayloadCreator<LogixUXUpdateProjectStatusPayload>(logixUXUpdateProjectStatusType);
-
-function logixUXUpdateProjectStatusReducer(state: LogixUXState, action: Action): LogixUXState {
-  const { name, status } = selectPayload<LogixUXUpdateProjectStatusPayload>(action);
-  console.log('CHECK INCOMING STATUS', name, status);
-  if (name.toLocaleLowerCase() === PhuirEProjects.stratimux) {
-    return {
-      ...state,
-      stratimuxStatus: status
-    };
-  } else if (name.toLocaleLowerCase() === PhuirEProjects.logixUX) {
-    return {
-      ...state,
-      logixUXStatus: status
-    };
-  } else {
-    const projectsStatuses = state.projectsStatuses;
-    projectsStatuses.push({
-      name,
-      status,
-    });
-    return {
-      ...state,
-      projectsStatuses,
-    };
-  }
-}
-
-export const logixUXUpdateProjectStatusQuality = createQuality(
+export const [
+  logixUXUpdateProjectStatus,
   logixUXUpdateProjectStatusType,
-  logixUXUpdateProjectStatusReducer,
-  defaultMethodCreator
-);
+  logixUXUpdateProjectStatusQuality
+] = createQualitySetWithPayload<LogixUXUpdateProjectStatusPayload>({
+  type: 'logixUX Update Project Status',
+  reducer: (state: LogixUXState, action: Action): LogixUXState => {
+    const { name, status } = selectPayload<LogixUXUpdateProjectStatusPayload>(action);
+    console.log('CHECK INCOMING STATUS', name, status);
+    if (name.toLocaleLowerCase() === PhuirEProjects.stratimux) {
+      return {
+        ...state,
+        stratimuxStatus: status
+      };
+    } else if (name.toLocaleLowerCase() === PhuirEProjects.logixUX) {
+      return {
+        ...state,
+        logixUXStatus: status
+      };
+    } else {
+      const projectsStatuses = state.projectsStatuses;
+      projectsStatuses.push({
+        name,
+        status,
+      });
+      return {
+        ...state,
+        projectsStatuses,
+      };
+    }
+  },
+  methodCreator: defaultMethodCreator
+});
 /*#>*/

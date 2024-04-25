@@ -3,34 +3,31 @@ For the graph programming framework Stratimux and the User Interface Concept, ge
 $>*/
 /*<#*/
 import {
-  ActionType,
   createMethod,
-  createQuality,
+  createQualitySet,
   nullReducer,
-  prepareActionCreator,
   strategy,
 } from 'stratimux';
 
-export const userInterfaceNextType: ActionType =
-  'User Interface Next Strategy';
-export const userInterfaceNext = prepareActionCreator(userInterfaceNextType);
-const userInterfaceNextMethodCreator = () => createMethod(action => {
-  const st = action.strategy;
-  if (st) {
-    const prev = strategy.backTrack(st);
-    if (prev.strategy) {
-      return strategy.success(prev.strategy);
-    } else {
-      return prev;
-    }
-  } else {
-    return action;
-  }
-});
-
-export const userInterfaceNextQuality = createQuality(
+export const [
+  userInterfaceNext,
   userInterfaceNextType,
-  nullReducer,
-  userInterfaceNextMethodCreator
-);
+  userInterfaceNextQuality
+] = createQualitySet({
+  type: 'User Interface Next Strategy',
+  reducer: nullReducer,
+  methodCreator: () => createMethod(action => {
+    const st = action.strategy;
+    if (st) {
+      const prev = strategy.backTrack(st);
+      if (prev.strategy) {
+        return strategy.success(prev.strategy);
+      } else {
+        return prev;
+      }
+    } else {
+      return action;
+    }
+  })
+});
 /*#>*/

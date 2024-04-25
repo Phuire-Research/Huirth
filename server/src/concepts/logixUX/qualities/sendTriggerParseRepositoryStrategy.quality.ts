@@ -65,16 +65,15 @@ export const [
     createMethodDebounce(
       (action) => {
         const { name } = selectPayload<LogixUXSendTriggerParseRepositoryStrategyPayload>(action);
-        const strategy = createStrategy({
-          topic: `Sending to server trigger parse repository strategy for ${name}`,
-          initialNode: createActionNode(userInterfaceClientSendActionToServer(createAction('logixUXServer trigger parse repository strategy', {
-            name
-          })), {
-            successNode: null,
-            failureNode: null
-          })
-        });
-        return strategyBegin(strategy);
+        return strategyBegin(
+          createStrategy({
+            topic: `Sending to server trigger parse repository strategy for ${name}`,
+            initialNode: createActionNode(
+              userInterfaceClientSendActionToServer(
+                createAction('logixUXServer trigger parse repository strategy', {
+                  name
+                })))
+          }));
       }, 50
     )
 });

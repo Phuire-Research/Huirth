@@ -14,10 +14,7 @@ export const logixUXGenerateCountingStrategy = (count: number, semaphore: number
   let numNeg = 0;
   const firstRand = Math.round(getRandomRange(1, 5));
   const firstAction = firstRand % 2 === 0 ? counterAdd(semaphore) : counterSubtract(semaphore);
-  let previousStep = createActionNode(firstAction, {
-    successNode: null,
-    failureNode: null
-  });
+  let previousStep = createActionNode(firstAction);
   const stepFirst = previousStep;
   if (firstRand % 2 === 0) {
     numPos++;
@@ -27,10 +24,7 @@ export const logixUXGenerateCountingStrategy = (count: number, semaphore: number
   for (let i = 1; i < length; i++) {
     const even = Math.round(getRandomRange(1, 5)) % 2;
     const action = even ? counterAdd(semaphore) : counterSubtract(semaphore);
-    const newStep = createActionNode(action, {
-      successNode: null,
-      failureNode: null
-    });
+    const newStep = createActionNode(action);
     if (even) {
       numPos++;
     } else {

@@ -3,14 +3,10 @@ For the graph programming framework Stratimux and a Concept logixUX Server, gene
 $>*/
 /*<#*/
 import {
-  ActionType,
-  Concepts,
-  MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
-  createQuality,
+  createQualitySetWithPayload,
   nullReducer,
-  prepareActionCreator,
   selectPayload,
   selectState,
   selectUnifiedState,
@@ -19,34 +15,32 @@ import {
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXServerDeleteDataSetsStrategy } from '../strategies/deleteDataSets.strategy';
 import { LogixUXState } from '../../logixUX/logixUX.concept';
-import { Subject } from 'rxjs';
 
 export type LogixUXServerTriggerDeleteDataSetsStrategyPayload = {
   names: string[]
 }
-export const logixUXServerTriggerDeleteDataSetsStrategyType: ActionType = 'logixUXServer trigger delete data sets strategy';
-export const logixUXServerTriggerDeleteDataSetsStrategy =
-  prepareActionCreator(logixUXServerTriggerDeleteDataSetsStrategyType);
 
-const logixUXServerTriggerDeleteDataSetsStrategyMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, semaphore?: number) =>
-  createMethodDebounceWithConcepts(
-    (action, concepts) => {
-      const {names} = selectPayload<LogixUXServerTriggerDeleteDataSetsStrategyPayload>(action);
-      const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
-      const state = selectUnifiedState<LogixUXState>(concepts, semaphore as number);
-      if (fileSystemState && state) {
-        const {trainingData} = state;
-        const strategy = logixUXServerDeleteDataSetsStrategy(fileSystemState.root, trainingData, names);
-        return strategyBegin(strategy);
-      } else {
-        return action;
-      }
-    }, concepts$ as UnifiedSubject, semaphore as number, 50
-  );
-
-export const logixUXServerTriggerDeleteDataSetsStrategyQuality = createQuality(
+export const [
+  logixUXServerTriggerDeleteDataSetsStrategy,
   logixUXServerTriggerDeleteDataSetsStrategyType,
-  nullReducer,
-  logixUXServerTriggerDeleteDataSetsStrategyMethodCreator,
-);
+  logixUXServerTriggerDeleteDataSetsStrategyQuality
+] = createQualitySetWithPayload<LogixUXServerTriggerDeleteDataSetsStrategyPayload>({
+  type: 'logixUXServer trigger delete data sets strategy',
+  reducer: nullReducer,
+  methodCreator: (concepts$, semaphore) =>
+    createMethodDebounceWithConcepts(
+      (action, concepts) => {
+        const {names} = selectPayload<LogixUXServerTriggerDeleteDataSetsStrategyPayload>(action);
+        const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
+        const state = selectUnifiedState<LogixUXState>(concepts, semaphore as number);
+        if (fileSystemState && state) {
+          const {trainingData} = state;
+          const strategy = logixUXServerDeleteDataSetsStrategy(fileSystemState.root, trainingData, names);
+          return strategyBegin(strategy);
+        } else {
+          return action;
+        }
+      }, concepts$ as UnifiedSubject, semaphore as number, 50
+    )
+});
 /*#>*/

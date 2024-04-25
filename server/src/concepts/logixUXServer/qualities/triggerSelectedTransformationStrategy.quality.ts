@@ -3,16 +3,11 @@ For the graph programming framework Stratimux and a Concept logixUX, generate a 
 $>*/
 /*<#*/
 import {
-  ActionType,
-  Concepts,
-  MethodCreator,
-  UnifiedSubject,
   createActionNode,
   createMethodDebounce,
-  createQuality,
+  createQualitySetWithPayload,
   createStrategy,
   nullReducer,
-  prepareActionWithPayloadCreator,
   selectPayload,
   strategyBegin,
 } from 'stratimux';
@@ -20,56 +15,51 @@ import { logixUXVerboseAddingStrategySelect, logixUXVerboseAdditionAndSubtractio
 import { logixUXServerGenerateVerboseAddingStrategy } from './generateVerboseAddingDataSet.quality';
 import { logixUXServerGenerateVerboseSubtractionStrategy } from './generateVerboseSubtractionDataSet.quality';
 import { logixUXServerGenerateVerboseAdditionAndSubtractionStrategy } from './generateVerboseAdditionAndSubtractionDataSet.quality';
-import { Subject } from 'rxjs';
 
 export type LogixUXServerTriggerSelectTransformationStrategyPayload = {
   selection: string
 }
-export const logixUXServerTriggerSelectTransformationStrategyType: ActionType = 'logixUXServer trigger passed transformation strategy from payload';
-export const logixUXServerTriggerSelectTransformationStrategy =
-  prepareActionWithPayloadCreator<LogixUXServerTriggerSelectTransformationStrategyPayload>(logixUXServerTriggerSelectTransformationStrategyType);
 
-const createLogixUXServerTriggerSelectTransformationStrategyMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>) =>
-  createMethodDebounce(
-    (act) => {
-      const { selection } = selectPayload<LogixUXServerTriggerSelectTransformationStrategyPayload>(act);
-      let action;
-      switch (selection) {
-      case logixUXVerboseAddingStrategySelect: {
-        action = logixUXServerGenerateVerboseAddingStrategy(undefined, undefined, 6000000);
-        break;
-      }
-      case logixUXVerboseSubtractionStrategySelect: {
-        action = logixUXServerGenerateVerboseSubtractionStrategy(undefined, undefined, 6000000);
-        break;
-      }
-      case logixUXVerboseAdditionAndSubtractionStrategySelect: {
-        action = logixUXServerGenerateVerboseAdditionAndSubtractionStrategy(undefined, undefined, 6000000);
-        break;
-      }
-      default: {
-        break;
-      }
-      }
-      console.log('This is the trigger action', action);
-      if (action) {
-        return strategyBegin(
-          createStrategy({
-            topic: 'Begin Transformation Strategy',
-            initialNode: createActionNode(action, {
-              successNode: null,
-              failureNode: null
-            })
-          })
-        );
-      }
-      return act;
-    }, 50
-  );
-
-export const logixUXServerTriggerSelectTransformationStrategyQuality = createQuality(
+export const [
+  logixUXServerTriggerSelectTransformationStrategy,
   logixUXServerTriggerSelectTransformationStrategyType,
-  nullReducer,
-  createLogixUXServerTriggerSelectTransformationStrategyMethodCreator,
-);
+  logixUXServerTriggerSelectTransformationStrategyQuality
+] = createQualitySetWithPayload<LogixUXServerTriggerSelectTransformationStrategyPayload>({
+  type: 'logixUXServer trigger passed transformation strategy from payload',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createMethodDebounce(
+      (act) => {
+        const { selection } = selectPayload<LogixUXServerTriggerSelectTransformationStrategyPayload>(act);
+        let action;
+        switch (selection) {
+        case logixUXVerboseAddingStrategySelect: {
+          action = logixUXServerGenerateVerboseAddingStrategy(undefined, undefined, 6000000);
+          break;
+        }
+        case logixUXVerboseSubtractionStrategySelect: {
+          action = logixUXServerGenerateVerboseSubtractionStrategy(undefined, undefined, 6000000);
+          break;
+        }
+        case logixUXVerboseAdditionAndSubtractionStrategySelect: {
+          action = logixUXServerGenerateVerboseAdditionAndSubtractionStrategy(undefined, undefined, 6000000);
+          break;
+        }
+        default: {
+          break;
+        }
+        }
+        console.log('This is the trigger action', action);
+        if (action) {
+          return strategyBegin(
+            createStrategy({
+              topic: 'Begin Transformation Strategy',
+              initialNode: createActionNode(action)
+            })
+          );
+        }
+        return act;
+      }, 50
+    )
+});
 /*#>*/

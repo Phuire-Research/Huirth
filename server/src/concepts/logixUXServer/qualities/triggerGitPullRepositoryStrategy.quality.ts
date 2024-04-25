@@ -3,46 +3,40 @@ For the graph programming framework Stratimux and a Concept logixUX Server, crea
 $>*/
 /*<#*/
 import {
-  ActionType,
-  Concepts,
-  MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
-  createQuality,
+  createQualitySetWithPayload,
   nullReducer,
-  prepareActionCreator,
   selectPayload,
   selectState,
   strategyBegin,
 } from 'stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { logixUXServerGitPullRepositoryStrategy } from '../strategies/gitPullRepository.strategy';
-import { Subject } from 'rxjs';
 
 export type LogixUXServerTriggerGitPullRepositoryStrategyPayload = {
   name: string
 }
-export const logixUXServerTriggerGitPullRepositoryStrategyType: ActionType = 'logixUXServer trigger git pull repository strategy';
-export const logixUXServerTriggerGitPullRepositoryStrategy =
-  prepareActionCreator(logixUXServerTriggerGitPullRepositoryStrategyType);
 
-const createLogixUXServerTriggerGitPullRepositoryStrategyMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, semaphore?: number) =>
-  createMethodDebounceWithConcepts(
-    (action, concepts) => {
-      const {name} = selectPayload<LogixUXServerTriggerGitPullRepositoryStrategyPayload>(action);
-      const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
-      if (fileSystemState) {
-        const strategy = logixUXServerGitPullRepositoryStrategy(fileSystemState.root, name);
-        return strategyBegin(strategy);
-      } else {
-        return action;
-      }
-    }, concepts$ as UnifiedSubject, semaphore as number, 50
-  );
-
-export const logixUXServerTriggerGitPullRepositoryStrategyQuality = createQuality(
+export const [
+  logixUXServerTriggerGitPullRepositoryStrategy,
   logixUXServerTriggerGitPullRepositoryStrategyType,
-  nullReducer,
-  createLogixUXServerTriggerGitPullRepositoryStrategyMethodCreator,
-);
+  logixUXServerTriggerGitPullRepositoryStrategyQuality
+] = createQualitySetWithPayload<LogixUXServerTriggerGitPullRepositoryStrategyPayload>({
+  type: 'logixUXServer trigger git pull repository strategy',
+  reducer: nullReducer,
+  methodCreator: (concepts$, semaphore) =>
+    createMethodDebounceWithConcepts(
+      (action, concepts) => {
+        const {name} = selectPayload<LogixUXServerTriggerGitPullRepositoryStrategyPayload>(action);
+        const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
+        if (fileSystemState) {
+          const strategy = logixUXServerGitPullRepositoryStrategy(fileSystemState.root, name);
+          return strategyBegin(strategy);
+        } else {
+          return action;
+        }
+      }, concepts$ as UnifiedSubject, semaphore as number, 50
+    )
+});
 /*#>*/

@@ -17,6 +17,7 @@ import {
   selectState,
   strategyBegin,
   createStage,
+  createQualitySet,
 } from 'stratimux';
 import { DataSetTypes, NamedDataSet } from '../../logixUX/logixUX.model';
 import { LogixUXServerInnerAddField } from './innerAddTo.quality';
@@ -26,80 +27,78 @@ import { logixUXServerVerboseAdditionAndSubtractionStrategy } from '../strategie
 import { logixUX_convertNumberToStringVerbose } from '../verboseNumber.model';
 import { TRANSFORMATION_DATASET_LIMIT } from '../logixUXServer.model';
 
-export const logixUXServerGenerateVerboseAdditionAndSubtractionStrategyType: ActionType = 'logixUXServer generate a verbose addition and subtraction data set';
-export const logixUXServerGenerateVerboseAdditionAndSubtractionStrategy =
-  prepareActionCreator(logixUXServerGenerateVerboseAdditionAndSubtractionStrategyType);
-
-const logixUXServerGenerateVerboseAdditionAndSubtractionStrategyMethodCreator: MethodCreator = (concepts$, semaphore) => createAsyncMethodWithConcepts((controller, action, cpts) => {
-  const axiumState = getAxiumState(cpts);
-  const fileSystemState = selectState<FileSystemState>(cpts, fileSystemName);
-  if (concepts$ && fileSystemState) {
-    console.log('This had been triggered');
-    const limit = TRANSFORMATION_DATASET_LIMIT;
-    const named: NamedDataSet = {
-      name: 'VerboseAdditionAndSubtraction',
-      type: DataSetTypes.general,
-      dataSet: [],
-      index: 0
-    };
-    let length = 5;
-    let iterations = 0;
-    let currentTopic = '';
-    const plan = axiumState.concepts$.plan('Verbose Addition and Subtraction data set generation plan',
-    [
-      createStage((_, dispatch) => {
-        console.log('Transformation stage 1', iterations < 100, length < limit);
-        if (iterations < 100 && length < limit) {
-          const newStrategy = logixUXServerVerboseAdditionAndSubtractionStrategy(length);
-          newStrategy.topic = iterations + 1 + '.)' + newStrategy.topic;
-          currentTopic = newStrategy.topic;
-          console.log('BEGIN STRATEGY', currentTopic);
-          dispatch(strategyBegin(newStrategy), {
-            iterateStage: true,
-            throttle: 1
-          });
-        } else {
-          console.log('END PLAN');
-          dispatch(axiumKick(), {
-            setStage: 2
-          });
-        }
-      }),
-      createStage((concepts, dispatch) => {
-        const state = getAxiumState(concepts);
-        console.log('Transformation stage 2', iterations, length, currentTopic === state.lastStrategy);
-        if (state.lastStrategy === currentTopic) {
-          named.dataSet.push({
-            prompt: (currentTopic + '.').trim(),
-            content: (state.lastStrategyDialog + '\nThe final sum is ' + logixUX_convertNumberToStringVerbose((state.lastStrategyData as LogixUXServerInnerAddField).sum) + '.').trim()
-          });
-          console.log('iterations: ', iterations);
-          iterations++;
-          if (iterations === 100) {
-            if (length <= limit) {
-              length++;
-              iterations = 0;
-            }
-          }
-          console.log('DISPATCH');
-          dispatch(axiumKick(), {
-            setStage: 0,
-            throttle: 1
-          });
-        }
-      }),
-      createStage(() => {
-        console.log('Transformation stage 3', iterations, length, named.dataSet.length);
-        controller.fire(strategyBegin(logixUXServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseAdditionAndSubtraction')));
-        plan.conclude();
-      })
-    ]);
-  }
-}, concepts$ as UnifiedSubject, semaphore as number);
-
-export const logixUXServerGenerateVerboseAdditionAndSubtractionStrategyQuality = createQuality(
+export const [
+  logixUXServerGenerateVerboseAdditionAndSubtractionStrategy,
   logixUXServerGenerateVerboseAdditionAndSubtractionStrategyType,
-  nullReducer,
-  logixUXServerGenerateVerboseAdditionAndSubtractionStrategyMethodCreator
-);
+  logixUXServerGenerateVerboseAdditionAndSubtractionStrategyQuality
+] = createQualitySet({
+  type: 'logixUXServer generate a verbose addition and subtraction data set',
+  reducer: nullReducer,
+  methodCreator: (concepts$, semaphore) => createAsyncMethodWithConcepts((controller, _, cpts) => {
+    const axiumState = getAxiumState(cpts);
+    const fileSystemState = selectState<FileSystemState>(cpts, fileSystemName);
+    if (concepts$ && fileSystemState) {
+      console.log('This had been triggered');
+      const limit = TRANSFORMATION_DATASET_LIMIT;
+      const named: NamedDataSet = {
+        name: 'VerboseAdditionAndSubtraction',
+        type: DataSetTypes.general,
+        dataSet: [],
+        index: 0
+      };
+      let length = 5;
+      let iterations = 0;
+      let currentTopic = '';
+      const plan = axiumState.concepts$.plan('Verbose Addition and Subtraction data set generation plan',
+      [
+        createStage((__, dispatch) => {
+          console.log('Transformation stage 1', iterations < 100, length < limit);
+          if (iterations < 100 && length < limit) {
+            const newStrategy = logixUXServerVerboseAdditionAndSubtractionStrategy(length);
+            newStrategy.topic = iterations + 1 + '.)' + newStrategy.topic;
+            currentTopic = newStrategy.topic;
+            console.log('BEGIN STRATEGY', currentTopic);
+            dispatch(strategyBegin(newStrategy), {
+              iterateStage: true,
+              throttle: 1
+            });
+          } else {
+            console.log('END PLAN');
+            dispatch(axiumKick(), {
+              setStage: 2
+            });
+          }
+        }),
+        createStage((concepts, dispatch) => {
+          const state = getAxiumState(concepts);
+          console.log('Transformation stage 2', iterations, length, currentTopic === state.lastStrategy);
+          if (state.lastStrategy === currentTopic) {
+            named.dataSet.push({
+              prompt: (currentTopic + '.').trim(),
+              content: (state.lastStrategyDialog + '\nThe final sum is ' + logixUX_convertNumberToStringVerbose((state.lastStrategyData as LogixUXServerInnerAddField).sum) + '.').trim()
+            });
+            console.log('iterations: ', iterations);
+            iterations++;
+            if (iterations === 100) {
+              if (length <= limit) {
+                length++;
+                iterations = 0;
+              }
+            }
+            console.log('DISPATCH');
+            dispatch(axiumKick(), {
+              setStage: 0,
+              throttle: 1
+            });
+          }
+        }),
+        createStage(() => {
+          console.log('Transformation stage 3', iterations, length, named.dataSet.length);
+          controller.fire(strategyBegin(logixUXServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseAdditionAndSubtraction')));
+          plan.conclude();
+        })
+      ]);
+    }
+}, concepts$ as UnifiedSubject, semaphore as number)
+});
 /*#>*/
