@@ -4,40 +4,36 @@ $>*/
 /*<#*/
 /* eslint-disable max-len */
 import {
-  ActionType,
-  MethodCreator,
   createMethod,
-  createQuality,
   nullReducer,
   strategySuccess
 } from 'stratimux';
 
-import { prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
+import { createQualitySetComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 
-export const logixUXSideBarBeginType: ActionType = 'create userInterface for SideBarBegin';
-export const logixUXSideBarBegin = prepareActionComponentCreator(logixUXSideBarBeginType);
-
-const createSideBarBeginMethodCreator: MethodCreator = () => createMethod(action => {
-  const payload = selectComponentPayload(action);
-  const id = '#sideBarBegin';
-  if (action.strategy) {
-    return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-      id,
-      boundSelectors: [],
-      universal: true,
-      action: logixUXSideBarBegin(payload),
-      html: /*html*/`
+export const [
+  logixUXSideBarBegin,
+  logixUXSideBarBeginType,
+  logixUXSideBarBeginQuality
+] = createQualitySetComponent({
+  type: 'create userInterface for SideBarBegin',
+  reducer: nullReducer,
+  componentCreator: (act) => createMethod(action => {
+    const payload = selectComponentPayload(action);
+    const id = '#sideBarBegin';
+    if (action.strategy) {
+      return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
+        id,
+        boundSelectors: [],
+        universal: true,
+        action: act(payload),
+        html: /*html*/`
 <aside id=${id} class="fixed left-0 top-0 bottom-0 h-screen w-min overflow-y-scroll bg-white">
   <nav class="h-full flex flex-col bg-gray-200 border-r shadow-sm">
 `
-    }));
-  }
-  return action;
+      }));
+    }
+    return action;
+  })
 });
-
-export const logixUXSideBarBeginQuality = createQuality(
-  logixUXSideBarBeginType,
-  nullReducer,
-  createSideBarBeginMethodCreator,
-);
 /*#>*/

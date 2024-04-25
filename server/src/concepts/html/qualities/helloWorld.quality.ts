@@ -4,39 +4,36 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  MethodCreator,
   axiumConcludeType,
   createAction,
   createMethod,
-  createQuality,
   nullReducer,
-  prepareActionCreator,
   strategySuccess
 } from 'stratimux';
 
-import { userInterface_appendCompositionToPage } from '../../../model/userInterface';
+import { createQualitySetComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../model/userInterface';
 
-export const htmlHelloWorldType: ActionType = 'Html create hello world composition';
-export const htmlHelloWorld = prepareActionCreator(htmlHelloWorldType);
-
-const createHelloWorldMethodCreator: MethodCreator = () =>
-  createMethod((action: Action) => {
-    if (action.strategy) {
-      const helloWorldId = '#helloWorld';
-      return strategySuccess(action.strategy, userInterface_appendCompositionToPage(action.strategy, {
-        id: helloWorldId,
-        boundSelectors: [],
-        universal: false,
-        action: htmlHelloWorld(),
-        html: /*html*/`<h1 id=${helloWorldId}>Hello World</h1>`
-      }));
-    }
-    return createAction(axiumConcludeType);
-  });
-
-export const htmlHelloWorldQuality = createQuality(
+export const [
+  htmlHelloWorld,
   htmlHelloWorldType,
-  nullReducer,
-  createHelloWorldMethodCreator,
-);
+  htmlHelloWorldQuality,
+] = createQualitySetComponent({
+  type: 'Html create hello world composition',
+  reducer: nullReducer,
+  componentCreator: (act) =>
+    createMethod((action: Action) => {
+      const payload = selectComponentPayload(action);
+      if (action.strategy) {
+        const helloWorldId = '#helloWorld';
+        return strategySuccess(action.strategy, userInterface_appendCompositionToPage(action.strategy, {
+          id: helloWorldId,
+          boundSelectors: [],
+          universal: false,
+          action: act(payload),
+          html: /*html*/`<h1 id=${helloWorldId}>Hello World</h1>`
+        }));
+      }
+      return createAction(axiumConcludeType);
+    })
+});
+/*#>*/

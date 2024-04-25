@@ -3,42 +3,40 @@ For the graph programming framework Stratimux and Html Concept, generate a quali
 $>*/
 /*<#*/
 import {
-  ActionType,
-  MethodCreator,
   createMethod,
-  createQuality,
   nullReducer,
-  prepareActionCreator,
   strategySuccess
 } from 'stratimux';
 
 import {
+  createQualitySetComponent,
+  selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../model/userInterface';
 
-export const htmlEndType: ActionType = 'Create HTML End Element';
-export const htmlEnd = prepareActionCreator(htmlEndType);
-
-const createHtmlHeadMethodCreator: MethodCreator = () => createMethod(
-  (action) => {
-    if (action.strategy) {
-      return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-        id: '',
-        boundSelectors: [],
-        universal: false,
-        action: htmlEnd(),
-        html: /*html*/`
-</html>
-    `
-      }));
-    }
-    return action;
-  }
-);
-
-export const htmlEndQuality = createQuality(
+export const [
+  htmlEnd,
   htmlEndType,
-  nullReducer,
-  createHtmlHeadMethodCreator,
-);
+  htmlEndQuality
+] = createQualitySetComponent({
+  type: 'Create HTML End Element',
+  reducer: nullReducer,
+  componentCreator: (act) => createMethod(
+    (action) => {
+      const payload = selectComponentPayload(action);
+      if (action.strategy) {
+        return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
+          id: '',
+          boundSelectors: [],
+          universal: false,
+          action: act(payload),
+          html: /*html*/`
+  </html>
+      `
+        }));
+      }
+      return action;
+    }
+  )
+});
 /*#>*/

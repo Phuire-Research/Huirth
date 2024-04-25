@@ -4,40 +4,36 @@ $>*/
 /*<#*/
 /* eslint-disable max-len */
 import {
-  ActionType,
-  MethodCreator,
   createMethod,
-  createQuality,
   nullReducer,
   strategySuccess
 } from 'stratimux';
 
-import { prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
+import { createQualitySetComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 
-export const logixUXSideBarEndType: ActionType = 'create userInterface for SideBarEnd';
-export const logixUXSideBarEnd = prepareActionComponentCreator(logixUXSideBarEndType);
-
-const createSideBarEndMethodCreator: MethodCreator = () => createMethod(action => {
-  const payload = selectComponentPayload(action);
-  const id = '#sideBarEnd';
-  if (action.strategy) {
-    return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-      id,
-      boundSelectors: [],
-      universal: true,
-      action: logixUXSideBarEnd(payload),
-      html: /*html*/`
+export const [
+  logixUXSideBarEnd,
+  logixUXSideBarEndType,
+  logixUXSideBarEndQuality
+] = createQualitySetComponent({
+  type: 'create userInterface for SideBarEnd',
+  reducer: nullReducer,
+  componentCreator: (act) => createMethod(action => {
+    const payload = selectComponentPayload(action);
+    const id = '#sideBarEnd';
+    if (action.strategy) {
+      return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
+        id,
+        boundSelectors: [],
+        universal: true,
+        action: act(payload),
+        html: /*html*/`
   </nav>
 </aside> 
 `
-    }));
-  }
-  return action;
+      }));
+    }
+    return action;
+  })
 });
-
-export const logixUXSideBarEndQuality = createQuality(
-  logixUXSideBarEndType,
-  nullReducer,
-  createSideBarEndMethodCreator,
-);
 /*#>*/

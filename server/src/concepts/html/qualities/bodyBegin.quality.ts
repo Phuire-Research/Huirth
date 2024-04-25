@@ -21,15 +21,15 @@ export const [
 ] = createQualitySetComponent({
   type: 'Html create Body Begin',
   reducer: nullReducer,
-  methodCreator: () => createMethod(
+  componentCreator: (act) => createMethod(
     (action) => {
       const payload = selectComponentPayload(action);
       if (action.strategy) {
-        return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
+        return strategySuccess(action.strategy, userInterface_appendCompositionToPage(action.strategy, {
           id: '',
           boundSelectors: [],
           universal: false,
-          action: htmlBodyBegin(payload),
+          action: act(payload),
           html: /*html*/`
     <body id="${createPageId(payload.pageTitle)}">
       `

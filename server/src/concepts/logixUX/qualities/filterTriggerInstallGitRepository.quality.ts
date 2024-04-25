@@ -4,14 +4,9 @@ If valid it will then trigger the strategy that will install the target git repo
 $>*/
 /*<#*/
 import {
-  Action,
-  ActionType,
   Concepts,
-  MethodCreator,
-  UnifiedSubject,
   createMethodWithState,
-  createQuality,
-  prepareActionCreator,
+  createQualitySet,
   strategyBegin,
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
@@ -26,56 +21,53 @@ const getName = (url: string): string | undefined => {
   return finalSplit.length > 1 ? finalSplit[0] : undefined;
 };
 
-export const logixUXFilterTriggerInstallGitRepositoryType: ActionType = 'Create logixUX that filters only valid git urls to trigger install git repository';
-export const logixUXFilterTriggerInstallGitRepository =
-  prepareActionCreator(logixUXFilterTriggerInstallGitRepositoryType);
-
-const logixUXFilterTriggerInstallGitRepositoryMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, semaphore?: number) =>
-  createMethodWithState<LogixUXState>(
-    (action, state) => {
-      const {possibleProject, possibleProjectValid} = state;
-      const name = getName(possibleProject);
-      if (name && possibleProjectValid) {
-        console.log('SENDING NAME TO SERVER', name);
-        const strategy = logixUXInstallGitRepositoryStrategy(possibleProject, name);
-        return strategyBegin(strategy);
-      } else {
-        return action;
-      }
-    }, concepts$ as UnifiedSubject, semaphore as number
-  );
-const logixUXFilterTriggerInstallGitRepositoryReducer = (state: LogixUXState, action: Action) => {
-  const {trainingData, projectsStatuses, possibleProject, possibleProjectValid} = state;
-  const name = getName(possibleProject);
-  let exists = false;
-  if (name && possibleProjectValid) {
-    for (const data of trainingData) {
-      if (data.name === name) {
-        exists = true;
-        break;
-      }
-    }
-    if (!exists) {
-      projectsStatuses.push({
-        name,
-        status: ProjectStatus.installing
-      });
-      return {
-        ...state,
-        projectsStatuses,
-        possibleProject: ''
-      };
-    }
-  }
-  return {
-    ...state,
-    possibleProject: 'INVALID'
-  };
-};
-
-export const logixUXFilterTriggerInstallGitRepositoryQuality = createQuality(
+export const [
+  logixUXFilterTriggerInstallGitRepository,
   logixUXFilterTriggerInstallGitRepositoryType,
-  logixUXFilterTriggerInstallGitRepositoryReducer,
-  logixUXFilterTriggerInstallGitRepositoryMethodCreator,
-);
+  logixUXFilterTriggerInstallGitRepositoryQuality
+] = createQualitySet({
+  type: 'Create logixUX that filters only valid git urls to trigger install git repository',
+  reducer: (state: LogixUXState) => {
+    const {trainingData, projectsStatuses, possibleProject, possibleProjectValid} = state;
+    const name = getName(possibleProject);
+    let exists = false;
+    if (name && possibleProjectValid) {
+      for (const data of trainingData) {
+        if (data.name === name) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        projectsStatuses.push({
+          name,
+          status: ProjectStatus.installing
+        });
+        return {
+          ...state,
+          projectsStatuses,
+          possibleProject: ''
+        };
+      }
+    }
+    return {
+      ...state,
+      possibleProject: 'INVALID'
+    };
+  },
+  methodCreator: (concepts$?: Subject<Concepts>, semaphore?: number) =>
+    createMethodWithState<LogixUXState>(
+      (action, state) => {
+        const {possibleProject, possibleProjectValid} = state;
+        const name = getName(possibleProject);
+        if (name && possibleProjectValid) {
+          console.log('SENDING NAME TO SERVER', name);
+          const strategy = logixUXInstallGitRepositoryStrategy(possibleProject, name);
+          return strategyBegin(strategy);
+        } else {
+          return action;
+        }
+      }, concepts$ as Subject<Concepts>, semaphore as number
+    )
+});
 /*#>*/

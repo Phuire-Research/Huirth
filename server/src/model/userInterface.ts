@@ -10,6 +10,7 @@ import {
   ActionType,
   Concepts,
   KeyedSelector,
+  Method,
   MethodCreator,
   Quality,
   Reducer,
@@ -22,6 +23,7 @@ import {
 import { elementEventBinding } from './html';
 import { documentObjectModelName } from '../concepts/documentObjectModel/documentObjectModel.concept';
 import { userInterfaceNext } from '../concepts/userInterface/qualities/next.quality';
+import { Subject } from 'rxjs';
 
 /**
  * Should be ID as #string
@@ -168,19 +170,19 @@ export type ActionComponentPayload = {
   pageTitle: string
 };
 
-export const selectComponentPayload = (action: Action) => selectPayload<ActionComponentPayload>(action);
+export const selectComponentPayload = <T extends Record<string, unknown>>(action: Action) => selectPayload<ActionComponentPayload & T>(action);
 
-export type ActionComponentCreator = (
-    payload: ActionComponentPayload,
+export type ActionComponentCreator<T extends Record<string, unknown>> = (
+    payload: ActionComponentPayload & T,
     conceptSemaphore?: number,
     keyedSelectors?: KeyedSelector[],
     agreement?: number,
     semaphore?: [number, number, number, number]
   ) => Action;
 
-export function prepareActionComponentCreator(actionType: ActionType) {
+export function prepareActionComponentCreator<T extends Record<string, unknown>>(actionType: ActionType) {
   return (
-    payload: ActionComponentPayload,
+    payload: ActionComponentPayload & T,
     conceptSemaphore?: number,
     keyedSelectors?: KeyedSelector[],
     agreement?: number,
@@ -190,18 +192,29 @@ export function prepareActionComponentCreator(actionType: ActionType) {
   };
 }
 
-export function createQualitySetComponent(q: {
+export type ComponentCreator<T extends Record<string, unknown>> =
+  (action: ActionComponentCreator<T>, concepts$?: Subject<Concepts>, semaphore?: number) => [Method, Subject<Action>];
+
+export function createQualitySetComponent<T extends Record<string, unknown>>(q: {
   type: string,
   reducer: Reducer,
-  methodCreator?: MethodCreator,
+  componentCreator: ComponentCreator<T>,
   keyedSelectors?: KeyedSelector[],
   meta?: Record<string,unknown>,
   analytics?: Record<string,unknown>
-}): [ActionComponentCreator, ActionType, Quality] {
+}): [ActionComponentCreator<T>, ActionType, Quality] {
+  const action = prepareActionComponentCreator<T>(q.type);
   return [
-    prepareActionComponentCreator(q.type),
+    action,
     q.type,
-    createQuality(q.type, q.reducer, q.methodCreator, q.keyedSelectors, q.meta, q.analytics)
+    createQuality(
+      q.type,
+      q.reducer,
+      (concepts$?: Subject<Concepts>, semaphore?: number) => q.componentCreator(action, concepts$, semaphore),
+      q.keyedSelectors,
+      q.meta,
+      q.analytics
+    )
   ];
 }
 

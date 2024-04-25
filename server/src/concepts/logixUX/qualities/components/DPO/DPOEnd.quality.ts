@@ -3,40 +3,37 @@ For the graph programming framework Stratimux and a Concept logixUX, generate a 
 $>*/
 /*<#*/
 import {
-  ActionType,
-  MethodCreator,
   createMethod,
-  createQuality,
   nullReducer,
   strategySuccess
 } from 'stratimux';
 
-import { prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
+import { createQualitySetComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 
-export const logixUXIndexDPOEndType: ActionType = 'create userInterface for IndexDPOEnd';
-export const logixUXIndexDPOEnd = prepareActionComponentCreator(logixUXIndexDPOEndType);
-
-const createIndexDPOEndMethodCreator: MethodCreator = () => createMethod(action => {
-  const payload = selectComponentPayload(action);
-  const id = '';
-  if (action.strategy) {
-    return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-      id,
-      boundSelectors: [],
-      universal: false,
-      action: logixUXIndexDPOEnd(payload),
-      html: /*html*/`
+export const [
+  logixUXIndexDPOEnd,
+  logixUXIndexDPOEndType,
+  logixUXIndexDPOEndQuality
+] = createQualitySetComponent({
+  type: 'create userInterface for IndexDPOEnd',
+  reducer: nullReducer,
+  componentCreator: (act) => createMethod(action => {
+    const payload = selectComponentPayload(action);
+    const id = '';
+    if (action.strategy) {
+      return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
+        id,
+        boundSelectors: [],
+        universal: false,
+        action: act(payload),
+        html: /*html*/`
     </div>
   </section>
 </div>
         `
-    }));
-  }
-  return action;
+      }));
+    }
+    return action;
+  })
 });
-
-export const logixUXIndexDPOEndQuality = createQuality(
-  logixUXIndexDPOEndType,
-  nullReducer,
-  createIndexDPOEndMethodCreator,
-);
+/*#>*/
