@@ -10,19 +10,12 @@ import { fileSystemServerSetConceptDirectoriesFromData } from '../../fileSystem/
 export const userInterfaceServerSetConceptDirectoriesFromDataTopic = 'User Interface Server set Concept Directories from Data';
 export function userInterfaceServerSetConceptDirectoriesFromDataStrategy(root: string): ActionStrategy {
   const stepTwo = createActionNode(fileSystemServerSetConceptDirectoriesFromData(), {
-    successNode: null,
-    failureNode: createActionNode(axiumLog(), {
-      successNode: null,
-      failureNode: null
-    }),
+    failureNode: createActionNode(axiumLog()),
   });
   const conceptDirectory = path.join(root + '/server/src/concepts');
   const stepOne = createActionNode(fileSystemGetDirectories({path: conceptDirectory}), {
     successNode: stepTwo,
-    failureNode: createActionNode(axiumLog(), {
-      successNode: null,
-      failureNode: null
-    }),
+    failureNode: createActionNode(axiumLog()),
   });
 
   const params: ActionStrategyParameters = {

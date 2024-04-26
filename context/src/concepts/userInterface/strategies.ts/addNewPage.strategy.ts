@@ -17,7 +17,6 @@ export function userInterfaceAddNewPageStrategy(name: string, pageStrategy: Page
     }),
     {
       successNode: stepPageToState,
-      failureNode: null,
     }
   );
 

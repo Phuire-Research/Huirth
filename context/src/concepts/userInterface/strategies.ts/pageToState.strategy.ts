@@ -11,10 +11,7 @@ import { userInterfaceAddComposedPageToState } from '../qualities/addComposedPag
  * @returns ActionStrategy
  */
 export function userInterfacePageToStateStrategy(stitch: ActionStrategyStitch): ActionStrategy {
-  const stepAddToState = createActionNode(userInterfaceAddComposedPageToState(), {
-    successNode: null,
-    failureNode: null,
-  });
+  const stepAddToState = createActionNode(userInterfaceAddComposedPageToState());
 
   const [end, strategy] = stitch();
 

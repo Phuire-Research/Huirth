@@ -5,10 +5,8 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  createQuality,
+  createQualitySetWithPayload,
   defaultMethodCreator,
-  prepareActionWithPayloadCreator,
   refreshAction,
   selectPayload,
 } from 'stratimux';
@@ -17,27 +15,25 @@ import { WebSocketClientState } from '../webSocketClient.concept';
 export type WebSocketClientAppendToActionQuePayload = {
   actionQue: Action[]
 }
-export const webSocketClientAppendToActionQueType: ActionType =
-  'Web Socket Client append to action que';
-export const webSocketClientAppendToActionQue =
-  prepareActionWithPayloadCreator<WebSocketClientAppendToActionQuePayload>(webSocketClientAppendToActionQueType);
 
-function webSocketClientAppendToActionQueReducer(state: WebSocketClientState, action: Action): WebSocketClientState {
-  const payload = selectPayload<WebSocketClientAppendToActionQuePayload>(action);
-  const actionQue = payload.actionQue.map(act => refreshAction(act));
-  const newActionQue = [
-    ...state.actionQue,
-    ...actionQue
-  ];
-  return {
-    ...state,
-    actionQue: newActionQue
-  };
-}
-
-export const webSocketClientAppendToActionQueQuality = createQuality(
+export const [
+  webSocketClientAppendToActionQue,
   webSocketClientAppendToActionQueType,
-  webSocketClientAppendToActionQueReducer,
-  defaultMethodCreator,
-);
+  webSocketClientAppendToActionQueQuality
+] = createQualitySetWithPayload<WebSocketClientAppendToActionQuePayload>({
+  type: 'Web Socket Client append to action que',
+  reducer: (state: WebSocketClientState, action: Action): WebSocketClientState => {
+    const payload = selectPayload<WebSocketClientAppendToActionQuePayload>(action);
+    const actionQue = payload.actionQue.map(act => refreshAction(act));
+    const newActionQue = [
+      ...state.actionQue,
+      ...actionQue
+    ];
+    return {
+      ...state,
+      actionQue: newActionQue
+    };
+  },
+  methodCreator: defaultMethodCreator
+});
 /*#>*/

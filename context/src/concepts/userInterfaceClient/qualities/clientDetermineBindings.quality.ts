@@ -5,12 +5,10 @@ $>*/
 import {
   Action,
   ActionNode,
-  ActionType,
   createActionNode,
   createMethod,
-  createQuality,
+  createQualitySetWithPayload,
   nullReducer,
-  prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess,
 } from 'stratimux';
@@ -22,38 +20,6 @@ import { documentObjectModelBind } from '../../documentObjectModel/qualities/bin
 export type UserInterfaceClientActionQueStrategyClientPayload = {
   action$: Subject<Action>;
 };
-export const userInterfaceClientDetermineBindingsType: ActionType = 'User Interface determine bindings of all passed compositions';
-export const userInterfaceClientDetermineBindings = prepareActionWithPayloadCreator(userInterfaceClientDetermineBindingsType);
-
-const createUserInterfaceClientDetermineBindingsMethod = () =>
-  createMethod((action) => {
-    if (action.strategy) {
-      const payload = selectPayload<UserInterfaceClientActionQueStrategyClientPayload>(action);
-      let bindings: UserInterfaceBindings = {};
-      userInterface_selectPage(action.strategy).compositions.forEach((comp) => {
-        if (comp.bindings) {
-          bindings = {
-            ...bindings,
-            ...comp.bindings,
-          };
-        }
-      });
-      const action$ = payload.action$;
-      if (Object.keys(bindings).length > 0) {
-        const stepBinding = createBindingActionNode(action$, bindings);
-        action.strategy.currentNode.successNode = stepBinding;
-        return strategySuccess(action.strategy);
-      }
-    }
-    return action;
-  });
-
-export const userInterfaceClientDetermineBindingsQuality = createQuality(
-  userInterfaceClientDetermineBindingsType,
-  nullReducer,
-  createUserInterfaceClientDetermineBindingsMethod
-);
-
 const createBindingActionNode = (action$: Subject<Action>, bindings: UserInterfaceBindings): ActionNode => {
   let first: ActionNode | undefined;
   let previous: ActionNode | undefined;
@@ -61,26 +27,17 @@ const createBindingActionNode = (action$: Subject<Action>, bindings: UserInterfa
   for (const key of bindingKeys) {
     for (const bind of bindings[key]) {
       if (previous) {
-        const node = createActionNode(documentObjectModelBind({ action$, binding: bind, id: key }), {
-          successNode: null,
-          failureNode: null,
-        });
+        const node = createActionNode(documentObjectModelBind({ action$, binding: bind, id: key }));
         previous.successNode = node;
         previous = node;
       } else {
-        const node = createActionNode(documentObjectModelBind({ action$, binding: bind, id: key }), {
-          successNode: null,
-          failureNode: null,
-        });
+        const node = createActionNode(documentObjectModelBind({ action$, binding: bind, id: key }));
         first = node;
         previous = node;
       }
     }
   }
-  const end = createActionNode(userInterfaceEnd(), {
-    successNode: null,
-    failureNode: null,
-  });
+  const end = createActionNode(userInterfaceEnd());
   if (previous) {
     previous.successNode = end;
   } else {
@@ -88,4 +45,32 @@ const createBindingActionNode = (action$: Subject<Action>, bindings: UserInterfa
   }
   return first as ActionNode;
 };
+
+export const [userInterfaceClientDetermineBindings, userInterfaceClientDetermineBindingsType, userInterfaceClientDetermineBindingsQuality] =
+  createQualitySetWithPayload<UserInterfaceClientActionQueStrategyClientPayload>({
+    type: 'User Interface determine bindings of all passed compositions',
+    reducer: nullReducer,
+    methodCreator: () =>
+      createMethod((action) => {
+        if (action.strategy) {
+          const payload = selectPayload<UserInterfaceClientActionQueStrategyClientPayload>(action);
+          let bindings: UserInterfaceBindings = {};
+          userInterface_selectPage(action.strategy).compositions.forEach((comp) => {
+            if (comp.bindings) {
+              bindings = {
+                ...bindings,
+                ...comp.bindings,
+              };
+            }
+          });
+          const action$ = payload.action$;
+          if (Object.keys(bindings).length > 0) {
+            const stepBinding = createBindingActionNode(action$, bindings);
+            action.strategy.currentNode.successNode = stepBinding;
+            return strategySuccess(action.strategy);
+          }
+        }
+        return action;
+      }),
+  });
 /*#>*/

@@ -5,13 +5,9 @@ $>*/
 /* eslint-disable max-len */
 import {
   Action,
-  ActionType,
-  Concepts,
   KeyedSelector,
-  MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
-  createQuality,
   nullReducer,
   selectUnifiedState,
   strategySuccess,
@@ -20,7 +16,7 @@ import {
 import {
   createBinding,
   createBoundSelectors,
-  prepareActionComponentCreator,
+  createQualitySetComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
@@ -34,44 +30,43 @@ import { logixUXNewDataSetEntry } from '../../newDataSetEntry.quality';
 import { logixUX_createDPOSelector } from '../../../logixUX.selector';
 import { logixUXTriggerSaveDPOStrategy } from '../../../strategies/server/triggerSaveDPOStrategy.helper';
 import { logixUXNewDPOEntry } from '../../newDPOEntry.quality';
-import { Subject } from 'rxjs';
 
-export const logixUXIndexDPOContentType: ActionType = 'create userInterface for IndexDPOContent';
-export const logixUXIndexDPOContent = prepareActionComponentCreator(logixUXIndexDPOContentType);
-
-const createIndexDPOContentMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, _semaphore?: number) =>
-  createMethodDebounceWithConcepts(
-    (action, concepts, semaphore) => {
-      const payload = selectComponentPayload(action);
-      const id = '#trainingDataID' + payload.pageTitle;
-      const addEntryID = '#addEntry' + payload.pageTitle;
-      const saveDPOID = '#saveDPO' + payload.pageTitle;
-      if (action.strategy) {
-        const activeDPO = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState).activeDPO;
-        let finalOutput = '';
-        const bindingsArray: {
-          elementId: string;
-          eventBinding: elementEventBinding;
-          action: Action;
-        }[] = [];
-        for (let i = 0; i < activeDPO.length; i++) {
-          const elementID = generateNumID(i);
-          bindingsArray.push({
-            elementId: promptID + elementID,
-            eventBinding: elementEventBinding.onchange,
-            action: logixUXUpdateFromPromptPayload(),
-          });
-          bindingsArray.push({
-            elementId: chosenID + elementID,
-            eventBinding: elementEventBinding.onchange,
-            action: logixUXUpdateFromChosenPayload(),
-          });
-          bindingsArray.push({
-            elementId: rejectedID + elementID,
-            eventBinding: elementEventBinding.onchange,
-            action: logixUXUpdateFromRejectedPayload(),
-          });
-          finalOutput += /*html*/ `
+export const [logixUXIndexDPOContent, logixUXIndexDPOContentType, logixUXIndexDPOContentQuality] = createQualitySetComponent({
+  type: 'create userInterface for IndexDPOContent',
+  reducer: nullReducer,
+  componentCreator: (act, concepts$, _semaphore) =>
+    createMethodDebounceWithConcepts(
+      (action, concepts, semaphore) => {
+        const payload = selectComponentPayload(action);
+        const id = '#trainingDataID' + payload.pageTitle;
+        const addEntryID = '#addEntry' + payload.pageTitle;
+        const saveDPOID = '#saveDPO' + payload.pageTitle;
+        if (action.strategy) {
+          const activeDPO = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState).activeDPO;
+          let finalOutput = '';
+          const bindingsArray: {
+            elementId: string;
+            eventBinding: elementEventBinding;
+            action: Action;
+          }[] = [];
+          for (let i = 0; i < activeDPO.length; i++) {
+            const elementID = generateNumID(i);
+            bindingsArray.push({
+              elementId: promptID + elementID,
+              eventBinding: elementEventBinding.onchange,
+              action: logixUXUpdateFromPromptPayload(),
+            });
+            bindingsArray.push({
+              elementId: chosenID + elementID,
+              eventBinding: elementEventBinding.onchange,
+              action: logixUXUpdateFromChosenPayload(),
+            });
+            bindingsArray.push({
+              elementId: rejectedID + elementID,
+              eventBinding: elementEventBinding.onchange,
+              action: logixUXUpdateFromRejectedPayload(),
+            });
+            finalOutput += /*html*/ `
 <div class="text-black">
   <label class="text-white pl-2 translate-y-2">
     Prompt
@@ -87,8 +82,8 @@ const createIndexDPOContentMethodCreator: MethodCreator = (concepts$?: Subject<C
   <textarea id="${
     chosenID + elementID
   }" class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50" id="${
-            chosenID + elementID
-          }" rows="4" cols="50">
+              chosenID + elementID
+            }" rows="4" cols="50">
 ${activeDPO[i].chosen}
   </textarea>
   </textarea>
@@ -98,37 +93,39 @@ ${activeDPO[i].chosen}
   <textarea id="${
     rejectedID + elementID
   }" class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50" id="${
-            chosenID + elementID
-          }" rows="4" cols="50">
+              chosenID + elementID
+            }" rows="4" cols="50">
 ${activeDPO[i].rejected}
   </textarea>
 </div>
         `;
-        }
-        bindingsArray.push({
-          action: logixUXNewDPOEntry(),
-          elementId: addEntryID,
-          eventBinding: elementEventBinding.onclick,
-        });
-        bindingsArray.push({
-          action: logixUXTriggerSaveDPOStrategy(),
-          elementId: saveDPOID,
-          eventBinding: elementEventBinding.onclick,
-        });
-        const bindings = createBinding(bindingsArray);
-        // console.log('Check bindings', bindings);
-        const strategy = strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id,
-            bindings,
-            universal: false,
-            boundSelectors: [
-              // START HERE
-              createBoundSelectors(id, logixUXIndexDPOContent(payload), [logixUX_createDPOSelector(concepts, semaphore) as KeyedSelector]),
-            ],
-            action: logixUXIndexDPOContent(payload),
-            html: /*html*/ `
+          }
+          bindingsArray.push({
+            action: logixUXNewDPOEntry(),
+            elementId: addEntryID,
+            eventBinding: elementEventBinding.onclick,
+          });
+          bindingsArray.push({
+            action: logixUXTriggerSaveDPOStrategy(),
+            elementId: saveDPOID,
+            eventBinding: elementEventBinding.onclick,
+          });
+          const bindings = createBinding(bindingsArray);
+          // console.log('Check bindings', bindings);
+          const strategy = strategySuccess(
+            action.strategy,
+            userInterface_appendCompositionToPage(action.strategy, {
+              id,
+              bindings,
+              universal: false,
+              boundSelectors: [
+                // START HERE
+                createBoundSelectors(id, logixUXIndexDPOContent(payload), [
+                  logixUX_createDPOSelector(concepts, semaphore) as KeyedSelector,
+                ]),
+              ],
+              action: act(payload),
+              html: /*html*/ `
         <div class="flex flex-col items-center" id='${id}'>
           <button id=${addEntryID} class="m-2 center-m bg-white/5 hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
             Add Entry
@@ -141,16 +138,15 @@ ${activeDPO[i].rejected}
           </div>
         </div>
   `,
-          })
-        );
-        return strategy;
-      }
-      return action;
-    },
-    concepts$ as UnifiedSubject,
-    _semaphore as number,
-    50
-  );
-
-export const logixUXIndexDPOContentQuality = createQuality(logixUXIndexDPOContentType, nullReducer, createIndexDPOContentMethodCreator);
+            })
+          );
+          return strategy;
+        }
+        return action;
+      },
+      concepts$ as UnifiedSubject,
+      _semaphore as number,
+      50
+    ),
+});
 /*#>*/

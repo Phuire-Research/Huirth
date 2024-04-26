@@ -29,21 +29,16 @@ export function userInterfaceServerPrepareStaticConceptsStrategy(
   const rootLayoutStatic = path.join(root + '/layout/static/');
   const contextPublic = path.join(root + '/context/public/');
   // axium Close
-  const stepCloseProcess = createActionNode(axiumPreClose({ exit: true}), {
-    successNode: null,
-    failureNode: null
-  });
+  const stepCloseProcess = createActionNode(axiumPreClose({ exit: true}));
   const stepRecursivelyCreatePageHtml =
     createActionNode(userInterfaceServerRecursivelyCreateEachPageHtml({targetDir: rootLayout, pages: [...pages]}), {
       successNode: stepCloseProcess,
-      failureNode: null
     });
   const stepCopyMovePublicToLayout = createActionNode(fileSystemCopyMoveTargetDirectory({
     target: contextPublic,
     newLocation: rootLayoutStatic,
   }), {
     successNode: stepRecursivelyCreatePageHtml,
-    failureNode: null
   });
   const [stitchEnd, contextStrategy] = userInterfaceServerPrepareContextConceptsStitch(
     root,
