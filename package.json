@@ -1,5 +1,5 @@
 {
-  "name": "logixux",
+  "name": "huirth",
   "version": "0.0.01",
   "description": "Unified Turing Machine",
   "main": "./src/main.js",
@@ -15,7 +15,7 @@
   },
   "keywords": [
     "Unified Turing Machine",
-    "Graph Programming",
+    "Asynchronous Graph Programming",
     "Framework"
   ],
   "author": "Micah T. Keller (public@phuire.org)",
