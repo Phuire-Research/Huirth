@@ -5,33 +5,24 @@ $>*/
 import { counterAdd, createActionNode, createStrategy } from 'stratimux';
 
 export const logixUXPlusSevenStrategy = (count: number, semaphore: number) => {
-  const stepSeventh = createActionNode(counterAdd(semaphore), {
-    successNode: null,
-    failureNode: null
-  });
+  const stepSeventh = createActionNode(counterAdd(semaphore));
   const stepSix = createActionNode(counterAdd(semaphore), {
     successNode: stepSeventh,
-    failureNode: null
   });
   const stepFifth = createActionNode(counterAdd(semaphore), {
     successNode: stepSix,
-    failureNode: null
   });
   const StepFourth = createActionNode(counterAdd(semaphore), {
     successNode: stepFifth,
-    failureNode: null
   });
   const stepThird = createActionNode(counterAdd(semaphore), {
     successNode: StepFourth,
-    failureNode: null
   });
   const stepSecond = createActionNode(counterAdd(semaphore), {
     successNode: stepThird,
-    failureNode: null
   });
   const stepFirst = createActionNode(counterAdd(semaphore), {
     successNode: stepSecond,
-    failureNode: null
   });
 
   const topic = `Add Seven Strategy from: ${count}`;

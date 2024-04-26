@@ -3,13 +3,10 @@ For the graph programming framework Stratimux and File System Concept, generate 
 $>*/
 /*<#*/
 import {
-  ActionType,
-  MethodCreator,
   axiumConclude,
   createAsyncMethod,
-  createQuality,
+  createQualitySetWithPayload,
   nullReducer,
-  prepareActionWithPayloadCreator,
   selectPayload,
   strategyData_appendFailure,
   strategyData_unifyData,
@@ -42,30 +39,29 @@ export type ReadDirectoryPayload = {
 export type ReadDirectoryField = {
   filesAndDirectories: FileDirent[]
 };
-export const fileSystemReadDirectoryType: ActionType = 'File System read Directory and add to Strategy Data';
-export const fileSystemReadDirectory =
-  prepareActionWithPayloadCreator<ReadDirectoryPayload>(fileSystemReadDirectoryType);
 
-const createReadDirectoryMethodCreator: MethodCreator = () =>
-  createAsyncMethod((controller, action) => {
-    const { target } = selectPayload<ReadDirectoryPayload>(action);
-    if (action.strategy) {
-      const strategy = action.strategy;
-      walk(target).then(data => {
-        controller.fire(strategySuccess(strategy, strategyData_unifyData(strategy, {
-          filesAndDirectories: data
-        })));
-      }).catch((error) => {
-        controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, error)));
-      });
-    } else {
-      controller.fire(axiumConclude());
-    }
-  });
-
-export const fileSystemReadDirectoryQuality = createQuality(
+export const [
+  fileSystemReadDirectory,
   fileSystemReadDirectoryType,
-  nullReducer,
-  createReadDirectoryMethodCreator,
-);
+  fileSystemReadDirectoryQuality
+] = createQualitySetWithPayload<ReadDirectoryPayload>({
+  type: 'File System read Directory and add to Strategy Data',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createAsyncMethod((controller, action) => {
+      const { target } = selectPayload<ReadDirectoryPayload>(action);
+      if (action.strategy) {
+        const strategy = action.strategy;
+        walk(target).then(data => {
+          controller.fire(strategySuccess(strategy, strategyData_unifyData(strategy, {
+            filesAndDirectories: data
+          })));
+        }).catch((error) => {
+          controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, error)));
+        });
+      } else {
+        controller.fire(axiumConclude());
+      }
+    })
+});
 /*#>*/

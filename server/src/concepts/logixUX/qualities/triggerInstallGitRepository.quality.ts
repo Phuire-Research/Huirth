@@ -3,40 +3,33 @@ For the graph programming framework Stratimux and a Concept logixUX, generate a 
 $>*/
 /*<#*/
 import {
-  ActionType,
-  Concepts,
-  MethodCreator,
-  UnifiedSubject,
   createMethod,
-  createQuality,
+  createQualitySetWithPayload,
   nullReducer,
-  prepareActionWithPayloadCreator,
   selectPayload,
   strategyBegin,
 } from 'stratimux';
 import { logixUXInstallGitRepositoryStrategy } from '../strategies/installGitProject.strategy';
-import { Subject } from 'rxjs';
 
 export type LogixUXTriggerInstallGitRepositoryPayload = {
   url: string,
   name: string
 }
-export const logixUXTriggerInstallGitRepositoryType: ActionType = 'Create logixUX trigger install git repository';
-export const logixUXTriggerInstallGitRepository =
-  prepareActionWithPayloadCreator(logixUXTriggerInstallGitRepositoryType);
 
-const createLogixUXTriggerInstallGitRepositoryMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, semaphore?: number) =>
-  createMethod(
-    (action) => {
-      const { url, name } = selectPayload<LogixUXTriggerInstallGitRepositoryPayload>(action);
-      const strategy = logixUXInstallGitRepositoryStrategy(url, name);
-      return strategyBegin(strategy);
-    }
-  );
-
-export const logixUXTriggerInstallGitRepositoryQuality = createQuality(
+export const [
+  logixUXTriggerInstallGitRepository,
   logixUXTriggerInstallGitRepositoryType,
-  nullReducer,
-  createLogixUXTriggerInstallGitRepositoryMethodCreator,
-);
+  logixUXTriggerInstallGitRepositoryQuality
+] = createQualitySetWithPayload<LogixUXTriggerInstallGitRepositoryPayload>({
+  type: 'Create logixUX trigger install git repository',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createMethod(
+      (action) => {
+        const { url, name } = selectPayload<LogixUXTriggerInstallGitRepositoryPayload>(action);
+        const strategy = logixUXInstallGitRepositoryStrategy(url, name);
+        return strategyBegin(strategy);
+      }
+    )
+});
 /*#>*/

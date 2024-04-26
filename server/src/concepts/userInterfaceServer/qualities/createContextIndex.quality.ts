@@ -4,13 +4,10 @@ $>*/
 /*<#*/
 import {
   ActionStrategy,
-  ActionType,
-  MethodCreator,
   axiumConclude,
   createAsyncMethod,
-  createQuality,
+  createQualitySetWithPayload,
   nullReducer,
-  prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess
 } from 'stratimux';
@@ -24,30 +21,29 @@ export type CreateContextIndexPayload = {
   root: string,
   directoryMap: string[]
 };
-export const userInterfaceServerCreateContextIndexType: ActionType = 'User Interface Server create Context index.ts';
-export const userInterfaceServerCreateContextIndex =
-  prepareActionWithPayloadCreator<CreateContextIndexPayload>(userInterfaceServerCreateContextIndexType);
 
-const createCreateContextIndexMethodCreator: MethodCreator = () => createAsyncMethod(
-  (controller, action) => {
-    const payload = selectPayload<CreateContextIndexPayload>(action);
-    if (action.strategy) {
-      const indexTs = path.join(payload.root + '/context/src/index.ts');
-      const content = createContextIndexContent(payload.primedConcepts, payload.directoryMap);
-      fs.writeFile(indexTs, content).then(() => {
-        const newStrategy =
-          strategySuccess(action.strategy as ActionStrategy);
-        controller.fire(newStrategy);
-      });
-    } else {
-      controller.fire(axiumConclude());
-    }
-  }
-);
-
-export const userInterfaceServerCreateContextIndexQuality = createQuality(
+export const [
+  userInterfaceServerCreateContextIndex,
   userInterfaceServerCreateContextIndexType,
-  nullReducer,
-  createCreateContextIndexMethodCreator,
-);
+  userInterfaceServerCreateContextIndexQuality
+] = createQualitySetWithPayload<CreateContextIndexPayload>({
+  type: 'User Interface Server create Context index.ts',
+  reducer: nullReducer,
+  methodCreator: () => createAsyncMethod(
+    (controller, action) => {
+      const payload = selectPayload<CreateContextIndexPayload>(action);
+      if (action.strategy) {
+        const indexTs = path.join(payload.root + '/context/src/index.ts');
+        const content = createContextIndexContent(payload.primedConcepts, payload.directoryMap);
+        fs.writeFile(indexTs, content).then(() => {
+          const newStrategy =
+            strategySuccess(action.strategy as ActionStrategy);
+          controller.fire(newStrategy);
+        });
+      } else {
+        controller.fire(axiumConclude());
+      }
+    }
+  )
+});
 /*#>*/

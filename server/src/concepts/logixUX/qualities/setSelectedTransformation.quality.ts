@@ -4,29 +4,25 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  createQuality,
-  prepareActionCreator,
+  createQualitySet,
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 import { userInterface_selectInputTarget } from '../../../model/userInterface';
 
-export const logixUXSetSelectedTransformationType: ActionType = 'logixUX set the currently selected transformation';
-export const logixUXSetSelectedTransformation =
-  prepareActionCreator(logixUXSetSelectedTransformationType);
-
-const logixUXSetSelectedTransformationReducer = (state: LogixUXState, action: Action): LogixUXState => {
-  const target = userInterface_selectInputTarget(action);
-  const value = target.value;
-  // eslint-disable-next-line no-useless-escape
-  return {
-    ...state,
-    selectedTransformation: value
-  };
-};
-
-export const logixUXSetSelectedTransformationQuality = createQuality(
+export const [
+  logixUXSetSelectedTransformation,
   logixUXSetSelectedTransformationType,
-  logixUXSetSelectedTransformationReducer,
-);
+  logixUXSetSelectedTransformationQuality
+] = createQualitySet({
+  type: 'logixUX set the currently selected transformation',
+  reducer: (state: LogixUXState, action: Action): LogixUXState => {
+    const target = userInterface_selectInputTarget(action);
+    const value = target.value;
+    // eslint-disable-next-line no-useless-escape
+    return {
+      ...state,
+      selectedTransformation: value
+    };
+  }
+});
 /*#>*/

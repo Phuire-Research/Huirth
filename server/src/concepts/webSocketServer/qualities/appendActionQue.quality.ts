@@ -5,10 +5,8 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  createQuality,
+  createQualitySetWithPayload,
   defaultMethodCreator,
-  prepareActionWithPayloadCreator,
   refreshAction,
   selectPayload,
 } from 'stratimux';
@@ -17,28 +15,26 @@ import { WebSocketServerState } from '../webSocketServer.concept';
 export type WebSocketServerAppendToActionQuePayload = {
   actionQue: Action[]
 }
-export const webSocketServerAppendToActionQueType: ActionType =
-  'Web Socket Server append to action que';
-export const webSocketServerAppendToActionQue =
-  prepareActionWithPayloadCreator<WebSocketServerAppendToActionQuePayload>(webSocketServerAppendToActionQueType);
 
-function webSocketServerAppendToActionQueReducer(state: WebSocketServerState, action: Action): WebSocketServerState {
-  const payload = selectPayload<WebSocketServerAppendToActionQuePayload>(action);
-  const actionQue = payload.actionQue.map(act => refreshAction(act));
-  const newActionQue = [
-    ...state.actionQue,
-    ...actionQue
-  ];
-  console.log('APPEND TO ACTION QUE', newActionQue);
-  return {
-    ...state,
-    actionQue: newActionQue
-  };
-}
-
-export const webSocketServerAppendToActionQueQuality = createQuality(
+export const [
+  webSocketServerAppendToActionQue,
   webSocketServerAppendToActionQueType,
-  webSocketServerAppendToActionQueReducer,
-  defaultMethodCreator,
-);
+  webSocketServerAppendToActionQueQuality
+] = createQualitySetWithPayload<WebSocketServerAppendToActionQuePayload>({
+  type: 'Web Socket Server append to action que',
+  reducer: (state: WebSocketServerState, action: Action): WebSocketServerState => {
+    const payload = selectPayload<WebSocketServerAppendToActionQuePayload>(action);
+    const actionQue = payload.actionQue.map(act => refreshAction(act));
+    const newActionQue = [
+      ...state.actionQue,
+      ...actionQue
+    ];
+    console.log('APPEND TO ACTION QUE', newActionQue);
+    return {
+      ...state,
+      actionQue: newActionQue
+    };
+  },
+  methodCreator: defaultMethodCreator
+});
 /*#>*/

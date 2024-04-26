@@ -21,14 +21,8 @@ export const logixUXServerCloneGitRepositoryToDirectoryStrategy = (root: string,
       name,
       status: ProjectStatus.notInstalled
     })
-  ]}), {
-    successNode: null,
-    failureNode: null
-  });
-  const stepUpdateProjectToInstalled = createActionNode(logixUXServerSendUpdateProjectToInstalled(name), {
-    successNode: null,
-    failureNode: null
-  });
+  ]}));
+  const stepUpdateProjectToInstalled = createActionNode(logixUXServerSendUpdateProjectToInstalled(name));
   // Step 2 Git clone into that directory by name
   const stepCloneRepo = createActionNode(logixUXServerGitCloneRepoToDirectory({
     url,
@@ -42,7 +36,6 @@ export const logixUXServerCloneGitRepositoryToDirectoryStrategy = (root: string,
   // Step 1 Remove directory if exists based on name
   const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory({path: dataPath}), {
     successNode: stepCloneRepo,
-    failureNode: null,
     agreement: 60000
   });
   return createStrategy({

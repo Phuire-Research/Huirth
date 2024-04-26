@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept logixUX, generate a strategy that in isolation will transform a count within itself and count out the changes to the number in its action list.
 $>*/
 /*<#*/
-import { Action, ActionStrategy, axium_createGatherNode, createActionNodeFromStrategy, createStrategy } from 'stratimux';
+import { Action, ActionStrategy, axium_createGatherNode, createStrategy } from 'stratimux';
 import { logixUX_convertNumberToStringVerbose } from '../verboseNumber.model';
 import { logixUXServerInnerAddTo } from '../qualities/innerAddTo.quality';
 

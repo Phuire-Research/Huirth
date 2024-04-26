@@ -17,7 +17,9 @@ import { userInterfaceCreatePageStrategy } from './createPage.strategy';
 export const helloWorldPageTopic = 'Hello World Page';
 export const helloWorldPageStrategy: PageStrategyCreators = () => () => {
   const stepStitch = axium_createStitchNode();
-  const stepOne = createActionNode(htmlHelloWorld(), {
+  const stepOne = createActionNode(htmlHelloWorld({
+    pageTitle: helloWorldPageTopic
+  }), {
     successNode: stepStitch,
     failureNode: null,
   });

@@ -4,10 +4,8 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  createQuality,
+  createQualitySet,
   defaultMethodCreator,
-  prepareActionCreator,
   strategyData_select,
 } from 'stratimux';
 import { GetDirectoriesAndFilesDataField } from '../../fileSystem/qualities/getDirectoriesAndFiles.quality';
@@ -15,53 +13,51 @@ import { DPO_DataSet } from '../../../model/logixUX';
 import { LogixUXState } from '../../logixUX/logixUX.concept';
 import { PhuirEProjects, ProjectStatus } from '../../logixUX/logixUX.model';
 
-export const logixUXServerSetRepositoriesFromDataType: ActionType =
-  'logixUX Server set initial project status from data';
-export const logixUXServerSetRepositoriesFromData =
-  prepareActionCreator(logixUXServerSetRepositoriesFromDataType);
 export type SetRepositoriesFromDataField = {
   trainingData: DPO_DataSet
 }
 
-const logixUXServerSetRepositoriesFromDataReducer = (state: LogixUXState, action: Action): LogixUXState => {
-  if (action.strategy) {
-    const data = strategyData_select(action.strategy) as GetDirectoriesAndFilesDataField;
-    if (data) {
-      let stratimuxExists = false;
-      let logixUXExists = false;
-      const projectsStatuses: {name: string, status: ProjectStatus}[] = [];
-      for (const dir of data.directories) {
-        switch (dir.name.toLowerCase()) {
-        case PhuirEProjects.stratimux.toLocaleLowerCase(): {
-          stratimuxExists = true;
-          break;
-        }
-        case PhuirEProjects.logixUX.toLocaleLowerCase(): {
-          logixUXExists = true;
-          break;
-        }
-        default: {
-          projectsStatuses.push({name: dir.name, status: ProjectStatus.installed});
-        }
-        }
-      }
-      console.log('CHECK INSTALLED STATUSES', projectsStatuses);
-      return {
-        ...state,
-        stratimuxStatus: stratimuxExists ? ProjectStatus.installed : ProjectStatus.notInstalled,
-        logixUXStatus: logixUXExists ? ProjectStatus.installed : ProjectStatus.notInstalled,
-        projectsStatuses,
-      };
-    }
-  }
-  return {
-    ...state
-  };
-};
-
-export const logixUXServerSetRepositoriesFromDataQuality = createQuality(
+export const [
+  logixUXServerSetRepositoriesFromData,
   logixUXServerSetRepositoriesFromDataType,
-  logixUXServerSetRepositoriesFromDataReducer,
-  defaultMethodCreator,
-);
+  logixUXServerSetRepositoriesFromDataQuality
+] = createQualitySet({
+  type: 'logixUX Server set initial project status from data',
+  reducer: (state: LogixUXState, action: Action): LogixUXState => {
+    if (action.strategy) {
+      const data = strategyData_select(action.strategy) as GetDirectoriesAndFilesDataField;
+      if (data) {
+        let stratimuxExists = false;
+        let logixUXExists = false;
+        const projectsStatuses: {name: string, status: ProjectStatus}[] = [];
+        for (const dir of data.directories) {
+          switch (dir.name.toLowerCase()) {
+          case PhuirEProjects.stratimux.toLocaleLowerCase(): {
+            stratimuxExists = true;
+            break;
+          }
+          case PhuirEProjects.logixUX.toLocaleLowerCase(): {
+            logixUXExists = true;
+            break;
+          }
+          default: {
+            projectsStatuses.push({name: dir.name, status: ProjectStatus.installed});
+          }
+          }
+        }
+        console.log('CHECK INSTALLED STATUSES', projectsStatuses);
+        return {
+          ...state,
+          stratimuxStatus: stratimuxExists ? ProjectStatus.installed : ProjectStatus.notInstalled,
+          logixUXStatus: logixUXExists ? ProjectStatus.installed : ProjectStatus.notInstalled,
+          projectsStatuses,
+        };
+      }
+    }
+    return {
+      ...state
+    };
+  },
+  methodCreator: defaultMethodCreator
+});
 /*#>*/

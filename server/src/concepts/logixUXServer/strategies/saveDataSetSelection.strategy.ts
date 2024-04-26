@@ -30,26 +30,17 @@ export const logixUXServerSaveDataSetSelectionStrategy = (root: string, training
     })();
     if (dataSet) {
       const saveFormat  = convertNamedDataSetToSaveFormat(dataSet);
-      const stepUpdateProjectStatusToSavedOnClient = createActionNode(logixUXServerSendProjectStatusToSaved(dataSet.name), {
-        successNode: null,
-        failureNode: null
-      });
+      const stepUpdateProjectStatusToSavedOnClient = createActionNode(logixUXServerSendProjectStatusToSaved(dataSet.name));
       const stepCreateFileWithContents = createActionNode(fileSystemCreateFileWithContentsIndex({
         target: path.join(p + '/' + dataSet.name + '.json'),
         content: JSON.stringify(saveFormat)
-      }), {
-        successNode: stepUpdateProjectStatusToSavedOnClient,
-        failureNode: null,
-        agreement: 20000
-      });
+      }));
       const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory({path: p}), {
         successNode: stepCreateFileWithContents,
-        failureNode: null,
         agreement: 20000
       });
       const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory({path: p}), {
         successNode: stepCreateDirectory,
-        failureNode: null,
         agreement: 20000
       });
       if (first === undefined) {
@@ -62,10 +53,7 @@ export const logixUXServerSaveDataSetSelectionStrategy = (root: string, training
     }
   }
   if (first === undefined) {
-    first = createActionNode(axiumLog(), {
-      successNode: null,
-      failureNode: null
-    });
+    first = createActionNode(axiumLog());
     first.payload = {
       message: 'No data sets provided to save selection strategy'
     };

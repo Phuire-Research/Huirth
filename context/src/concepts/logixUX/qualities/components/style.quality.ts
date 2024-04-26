@@ -2,29 +2,25 @@
 For the graph programming framework Stratimux and a Concept logixUX, generate a User Interface Component quality to create the style component necessary for the logixUX page strategies.
 $>*/
 /*<#*/
-import { ActionType, MethodCreator, createMethod, createQuality, nullReducer, strategySuccess } from 'stratimux';
+import { createMethod, nullReducer, strategySuccess } from 'stratimux';
 
-import {
-  prepareActionComponentCreator,
-  selectComponentPayload,
-  userInterface_appendCompositionToPage,
-} from '../../../../model/userInterface';
+import { createQualitySetComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../model/userInterface';
 
-export const logixUXStyleType: ActionType = 'Create logixUX Style';
-export const logixUXStyle = prepareActionComponentCreator(logixUXStyleType);
-
-const createLogixUXStyleMethodCreator: MethodCreator = () =>
-  createMethod((action) => {
-    const payload = selectComponentPayload(action);
-    if (action.strategy) {
-      return strategySuccess(
-        action.strategy,
-        userInterface_appendCompositionToPage(action.strategy, {
-          id: '',
-          boundSelectors: [],
-          universal: true,
-          action: logixUXStyle(payload),
-          html: /*html*/ `
+export const [logixUXStyle, logixUXStyleType, logixUXStyleQuality] = createQualitySetComponent({
+  type: 'Create logixUX Style',
+  reducer: nullReducer,
+  componentCreator: (act) =>
+    createMethod((action) => {
+      const payload = selectComponentPayload(action);
+      if (action.strategy) {
+        return strategySuccess(
+          action.strategy,
+          userInterface_appendCompositionToPage(action.strategy, {
+            id: '',
+            boundSelectors: [],
+            universal: true,
+            action: act(payload),
+            html: /*html*/ `
   <style>
     html, body {
       overflow-x: clip;
@@ -74,10 +70,10 @@ const createLogixUXStyleMethodCreator: MethodCreator = () =>
     }
   </style>
     `,
-        })
-      );
-    }
-    return action;
-  });
-
-export const logixUXStyleQuality = createQuality(logixUXStyleType, nullReducer, createLogixUXStyleMethodCreator);
+          })
+        );
+      }
+      return action;
+    }),
+});
+/*#>*/

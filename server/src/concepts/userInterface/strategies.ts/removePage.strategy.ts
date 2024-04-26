@@ -9,10 +9,7 @@ export const userInterfaceRemovePageStrategyTopic = 'User Interface remove page 
 export function userInterfaceRemovePageStrategy(name: string): ActionStrategy {
   const stepAddToState = createActionNode(userInterfaceRemovePage({
     name,
-  }), {
-    successNode: null,
-    failureNode: null,
-  });
+  }));
 
   return createStrategy({
     topic: userInterfaceRemovePageStrategyTopic,

@@ -4,10 +4,8 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  createQuality,
+  createQualitySetWithPayload,
   defaultMethodCreator,
-  prepareActionWithPayloadCreator,
   selectPayload,
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
@@ -15,27 +13,26 @@ import { LogixUXState } from '../logixUX.concept';
 export type LogixUXUpdateDataSetSelectionPayload = {
   index: number,
 }
-export const logixUXUpdateDataSetSelectionType: ActionType = 'Create logixUX update data set selection';
-export const logixUXUpdateDataSetSelection =
-  prepareActionWithPayloadCreator(logixUXUpdateDataSetSelectionType);
 
-function logixUXUpdateDataSetSelectionReducer(state: LogixUXState, action: Action): LogixUXState {
-  const {index} = selectPayload<LogixUXUpdateDataSetSelectionPayload>(action);
-  const dataSetSelection = [...state.dataSetSelection];
-  console.log('CHECK DATA SET SELECTION BEFORE', dataSetSelection);
-  if (dataSetSelection[index] !== undefined) {
-    dataSetSelection[index] = !dataSetSelection[index];
-  }
-  console.log('CHECK DATA SET SELECTION AFTER', dataSetSelection);
-  return {
-    ...state,
-    dataSetSelection,
-  };
-}
-
-export const logixUXUpdateDataSetSelectionQuality = createQuality(
+export const [
+  logixUXUpdateDataSetSelection,
   logixUXUpdateDataSetSelectionType,
-  logixUXUpdateDataSetSelectionReducer,
-  defaultMethodCreator
-);
+  logixUXUpdateDataSetSelectionQuality
+] = createQualitySetWithPayload<LogixUXUpdateDataSetSelectionPayload>({
+  type: 'Create logixUX update data set selection',
+  reducer: (state: LogixUXState, action: Action): LogixUXState => {
+    const {index} = selectPayload<LogixUXUpdateDataSetSelectionPayload>(action);
+    const dataSetSelection = [...state.dataSetSelection];
+    console.log('CHECK DATA SET SELECTION BEFORE', dataSetSelection);
+    if (dataSetSelection[index] !== undefined) {
+      dataSetSelection[index] = !dataSetSelection[index];
+    }
+    console.log('CHECK DATA SET SELECTION AFTER', dataSetSelection);
+    return {
+      ...state,
+      dataSetSelection,
+    };
+  },
+  methodCreator: defaultMethodCreator
+});
 /*#>*/

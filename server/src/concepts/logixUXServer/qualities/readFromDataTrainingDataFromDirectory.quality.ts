@@ -3,11 +3,9 @@ For the graph programming framework Stratimux and a Concept logixUX Server, gene
 $>*/
 /*<#*/
 import {
-  ActionType,
   createAsyncMethod,
-  createQuality,
+  createQualitySet,
   nullReducer,
-  prepareActionCreator,
   strategyData_appendFailure,
   strategyData_select,
   strategyData_unifyData,
@@ -51,49 +49,47 @@ async function readAllDirectories(fileDirent: FileDirent[]): Promise<TrainingDat
   return data;
 }
 
-export const logixUXServerReadFromDataTrainingDataFromDirectoriesType: ActionType =
-  'logixUX Server read from File System Data, Directories and Files';
-export const logixUXServerReadFromDataTrainingDataFromDirectories =
-  prepareActionCreator(logixUXServerReadFromDataTrainingDataFromDirectoriesType);
 export type ReadFromDataTrainingDataFromDirectoriesField = {
   trainingData: TrainingData
 }
 
-export const logixUXServerReadFromDataTrainingDataFromDirectoriesMethodCreator = () =>
-  createAsyncMethod((controller, action) => {
-    if (action.strategy && action.strategy.data) {
-      const strategy = action.strategy;
-      const data = strategyData_select(action.strategy) as GetDirectoriesAndFilesDataField;
-      console.log('READ FROM DATA TRAINING CHECK', data);
-      if (data.directories) {
-        if (data.directories.length !== 0) {
-          try {
-            readAllDirectories(data.directories).then((trainingData) => {
-              controller.fire(strategySuccess(strategy, strategyData_unifyData(strategy, {
-                trainingData,
-              })));
-            });
-          } catch (error) {
-            controller.fire(strategyFailed(strategy, strategyData_appendFailure(
-              strategy,
-              logixUXServerFailureConditions.failedParsingTrainingData
+export const [
+  logixUXServerReadFromDataTrainingDataFromDirectories,
+  logixUXServerReadFromDataTrainingDataFromDirectoriesType,
+  logixUXServerReadFromDataTrainingDataFromDirectoriesQuality
+] = createQualitySet({
+  type: 'logixUX Server read from File System Data, Directories and Files',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createAsyncMethod((controller, action) => {
+      if (action.strategy && action.strategy.data) {
+        const strategy = action.strategy;
+        const data = strategyData_select(action.strategy) as GetDirectoriesAndFilesDataField;
+        console.log('READ FROM DATA TRAINING CHECK', data);
+        if (data.directories) {
+          if (data.directories.length !== 0) {
+            try {
+              readAllDirectories(data.directories).then((trainingData) => {
+                controller.fire(strategySuccess(strategy, strategyData_unifyData(strategy, {
+                  trainingData,
+                })));
+              });
+            } catch (error) {
+              controller.fire(strategyFailed(strategy, strategyData_appendFailure(
+                strategy,
+                logixUXServerFailureConditions.failedParsingTrainingData
+              )));
+            }
+          } else {
+            controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(
+              action.strategy,
+              logixUXServerFailureConditions.noTrainingData
             )));
           }
-        } else {
-          controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(
-            action.strategy,
-            logixUXServerFailureConditions.noTrainingData
-          )));
         }
+      } else {
+        controller.fire(action);
       }
-    } else {
-      controller.fire(action);
-    }
-  });
-
-export const logixUXServerReadFromDataTrainingDataFromDirectoriesQuality = createQuality(
-  logixUXServerReadFromDataTrainingDataFromDirectoriesType,
-  nullReducer,
-  logixUXServerReadFromDataTrainingDataFromDirectoriesMethodCreator,
-);
+    })
+});
 /*#>*/

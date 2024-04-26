@@ -5,10 +5,8 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  createQuality,
+  createQualitySetWithPayload,
   defaultMethodCreator,
-  prepareActionWithPayloadCreator,
   selectPayload,
 } from 'stratimux';
 import { PageStrategyCreators } from '../../../model/userInterface';
@@ -18,23 +16,22 @@ export type UserInterfaceAddNewPagePayload = {
   // name: string,
   pageStrategy: PageStrategyCreators,
 }
-export const userInterfaceAddNewPageType: ActionType =
-  'User Interface Add New Page Strategy to state';
-export const userInterfaceAddNewPage = prepareActionWithPayloadCreator<UserInterfaceAddNewPagePayload>(userInterfaceAddNewPageType);
 
-const userInterfaceAddNewPageStateReducer = (state: UserInterfaceState, action: Action): UserInterfaceState => {
-  const payload = selectPayload<UserInterfaceAddNewPagePayload>(action);
-  const {pageStrategies} = state;
-  pageStrategies.push(payload.pageStrategy);
-  return {
-    ...state,
-    pageStrategies
-  };
-};
-
-export const userInterfaceAddNewPageQuality = createQuality(
+export const [
+  userInterfaceAddNewPage,
   userInterfaceAddNewPageType,
-  userInterfaceAddNewPageStateReducer,
-  defaultMethodCreator,
-);
+  userInterfaceAddNewPageQuality
+] = createQualitySetWithPayload<UserInterfaceAddNewPagePayload>({
+  type: 'User Interface Add New Page Strategy to state',
+  reducer: (state: UserInterfaceState, action: Action): UserInterfaceState => {
+    const payload = selectPayload<UserInterfaceAddNewPagePayload>(action);
+    const {pageStrategies} = state;
+    pageStrategies.push(payload.pageStrategy);
+    return {
+      ...state,
+      pageStrategies
+    };
+  },
+  methodCreator: defaultMethodCreator
+});
 /*#>*/

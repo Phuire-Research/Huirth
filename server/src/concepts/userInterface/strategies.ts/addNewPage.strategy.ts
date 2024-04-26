@@ -15,7 +15,6 @@ export function userInterfaceAddNewPageStrategy(name: string, pageStrategy: Page
     pageStrategy,
   }), {
     successNode: stepPageToState,
-    failureNode: null,
   });
 
   return createStrategy({

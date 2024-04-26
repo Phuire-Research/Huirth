@@ -3,38 +3,25 @@ For the graph programming framework Stratimux and the Web Socket Client Concept,
 This action que will later be dispatch by the Web Socket Client Principle to the server.
 $>*/
 /*<#*/
-import {
-  Action,
-  ActionType,
-  createQuality,
-  defaultMethodCreator,
-  prepareActionWithPayloadCreator,
-  refreshAction,
-  selectPayload,
-} from 'stratimux';
+import { Action, createQualitySetWithPayload, defaultMethodCreator, refreshAction, selectPayload } from 'stratimux';
 import { WebSocketClientState } from '../webSocketClient.concept';
 
 export type WebSocketClientAppendToActionQuePayload = {
   actionQue: Action[];
 };
-export const webSocketClientAppendToActionQueType: ActionType = 'Web Socket Client append to action que';
-export const webSocketClientAppendToActionQue = prepareActionWithPayloadCreator<WebSocketClientAppendToActionQuePayload>(
-  webSocketClientAppendToActionQueType
-);
 
-function webSocketClientAppendToActionQueReducer(state: WebSocketClientState, action: Action): WebSocketClientState {
-  const payload = selectPayload<WebSocketClientAppendToActionQuePayload>(action);
-  const actionQue = payload.actionQue.map((act) => refreshAction(act));
-  const newActionQue = [...state.actionQue, ...actionQue];
-  return {
-    ...state,
-    actionQue: newActionQue,
-  };
-}
-
-export const webSocketClientAppendToActionQueQuality = createQuality(
-  webSocketClientAppendToActionQueType,
-  webSocketClientAppendToActionQueReducer,
-  defaultMethodCreator
-);
+export const [webSocketClientAppendToActionQue, webSocketClientAppendToActionQueType, webSocketClientAppendToActionQueQuality] =
+  createQualitySetWithPayload<WebSocketClientAppendToActionQuePayload>({
+    type: 'Web Socket Client append to action que',
+    reducer: (state: WebSocketClientState, action: Action): WebSocketClientState => {
+      const payload = selectPayload<WebSocketClientAppendToActionQuePayload>(action);
+      const actionQue = payload.actionQue.map((act) => refreshAction(act));
+      const newActionQue = [...state.actionQue, ...actionQue];
+      return {
+        ...state,
+        actionQue: newActionQue,
+      };
+    },
+    methodCreator: defaultMethodCreator,
+  });
 /*#>*/

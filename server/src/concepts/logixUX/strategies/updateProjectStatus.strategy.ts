@@ -12,13 +12,11 @@ export const logixUXUpdateProjectStatusStrategy = (name:string, status: ProjectS
     name,
     status
   }), {
-    successNode: null,
     // TODO: If failed we can use open to load a window with the git install webpage
     failureNode: null,
   });
   const stepUpdateToInstalling = createActionNode(logixUXUpdateProjectStatus({name, status: ProjectStatus.installing}), {
     successNode: stepSendToServer,
-    failureNode: null,
   });
   return createStrategy({
     topic: logixUXUpdateProjectStatusStrategyTopic,

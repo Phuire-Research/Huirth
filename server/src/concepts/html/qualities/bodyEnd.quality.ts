@@ -3,39 +3,35 @@ For the graph programming framework Stratimux and Html Concept, generate a quali
 $>*/
 /*<#*/
 import {
-  ActionType,
-  MethodCreator,
   createMethod,
-  createQuality,
   nullReducer,
-  prepareActionCreator,
   strategySuccess
 } from 'stratimux';
-import { userInterface_appendCompositionToPage } from '../../../model/userInterface';
+import { createQualitySetComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../model/userInterface';
 
-export const htmlBodyEndType: ActionType = 'Html create Body End';
-export const htmlBodyEnd = prepareActionCreator(htmlBodyEndType);
-
-const createHtmlBodyMethodCreator: MethodCreator = () => createMethod(
-  (action) => {
-    if (action.strategy) {
-      return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-        id: '',
-        boundSelectors: [],
-        universal: false,
-        action: htmlBodyEnd(),
-        html: /*html*/`
-  </body>
-    `
-      }));
-    }
-    return action;
-  }
-);
-
-export const htmlBodyEndQuality = createQuality(
+export const [
+  htmlBodyEnd,
   htmlBodyEndType,
-  nullReducer,
-  createHtmlBodyMethodCreator,
-);
+  htmlBodyEndQuality
+] = createQualitySetComponent({
+  type: 'Html create Body End',
+  reducer: nullReducer,
+  componentCreator: (act) => createMethod(
+    (action) => {
+      if (action.strategy) {
+        const payload = selectComponentPayload(action);
+        return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
+          id: '',
+          boundSelectors: [],
+          universal: false,
+          action: act(payload),
+          html: /*html*/`
+    </body>
+      `
+        }));
+      }
+      return action;
+    }
+  )
+});
 /*#>*/

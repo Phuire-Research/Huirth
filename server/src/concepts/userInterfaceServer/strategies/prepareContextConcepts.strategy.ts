@@ -79,12 +79,8 @@ export function userInterfaceServerPrepareContextConceptsStitch(
     newLocation: path.join(root + '/context/src/concepts/' + webSocketClientName),
     target: path.join(root + '/server/src/concepts/' + webSocketClientName)
   });
-  const stepLog = createActionNode(axiumLog(), {
-    successNode: null,
-    failureNode: null
-  });
+  const stepLog = createActionNode(axiumLog());
   const stepContextBuild = createActionNode(userInterfaceServerBuildContext({contextDir: path.join(root + '/context/')}), {
-    successNode: null,
     failureNode: stepLog,
     agreement: 7000
   });
@@ -99,24 +95,19 @@ export function userInterfaceServerPrepareContextConceptsStitch(
     directoryMap
   }), {
     successNode: stepContextFormat,
-    failureNode: null
   });
   const stepCopyMoveModel = createActionNode(fileSystemRecursivelyCopyMoveTargetDirectories({directories: [modelDirectory]}), {
     successNode: stepCreateContextIndex,
-    failureNode: null
   });
   const stepContextModelRemove = createActionNode(fileSystemRemoveTargetDirectory({path: contextModel}), {
     successNode: stepCopyMoveModel,
-    failureNode: null,
     agreement: 20000
   });
   const stepCopyMoveConcepts = createActionNode(fileSystemRecursivelyCopyMoveTargetDirectories(copyMovePayload), {
     successNode: stepContextModelRemove,
-    failureNode: null
   });
   const stepContextConceptRemove = createActionNode(fileSystemRemoveTargetDirectory({path: contextConcepts}), {
     successNode: stepCopyMoveConcepts,
-    failureNode: null,
     agreement: 20000
   });
 

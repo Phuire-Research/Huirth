@@ -16,10 +16,7 @@ export const documentObjectModelBindingStrategy = (concepts: Concepts, pageName:
   let previous: undefined | ActionNode;
   for (const key of bindingsKeys) {
     for (const binding of bindings[key]) {
-      const node = createActionNode(documentObjectModelBind({ action$, binding, id: key }), {
-        successNode: null,
-        failureNode: null,
-      });
+      const node = createActionNode(documentObjectModelBind({ action$, binding, id: key }));
       if (start === null) {
         start = node;
         previous = start;
@@ -32,7 +29,6 @@ export const documentObjectModelBindingStrategy = (concepts: Concepts, pageName:
 
   const stepBinding = createActionNode(documentObjectModelClearBindingQue(), {
     successNode: start,
-    failureNode: null,
   });
   return createStrategy({
     topic: 'Bind supplied bindingQue',

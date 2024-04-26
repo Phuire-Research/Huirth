@@ -4,28 +4,24 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  createQuality,
+  createQualitySet,
   defaultMethodCreator,
-  prepareActionCreator,
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 
-export const logixUXClearDataSetSelectionType: ActionType = 'logixUX clear the current data set selection';
-export const logixUXClearDataSetSelection =
-  prepareActionCreator(logixUXClearDataSetSelectionType);
-
-const logixUXClearDataSetSelectionReducer = (state: LogixUXState, _: Action): LogixUXState => {
-  const dataSetSelection = state.dataSetSelection.map(() => false);
-  return {
-    ...state,
-    dataSetSelection
-  };
-};
-
-export const logixUXClearDataSetSelectionQuality = createQuality(
+export const [
+  logixUXClearDataSetSelection,
   logixUXClearDataSetSelectionType,
-  logixUXClearDataSetSelectionReducer,
-  defaultMethodCreator
-);
+  logixUXClearDataSetSelectionQuality
+] = createQualitySet({
+  type: 'logixUX clear the current data set selection',
+  reducer: (state: LogixUXState, _: Action): LogixUXState => {
+    const dataSetSelection = state.dataSetSelection.map(() => false);
+    return {
+      ...state,
+      dataSetSelection
+    };
+  },
+  methodCreator: defaultMethodCreator
+});
 /*#>*/

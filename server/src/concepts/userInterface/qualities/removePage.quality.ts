@@ -4,10 +4,8 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  createQuality,
+  createQualitySetWithPayload,
   defaultMethodCreator,
-  prepareActionWithPayloadCreator,
   selectPayload,
 } from 'stratimux';
 import { BoundSelectors, Page, PageStrategyCreators } from '../../../model/userInterface';
@@ -16,43 +14,42 @@ import { UserInterfaceState } from '../userInterface.concept';
 export type UserInterfaceRemovePagePayload = {
   name: string,
 }
-export const userInterfaceRemovePageType: ActionType =
-  'User Interface Remove Page';
-export const userInterfaceRemovePage = prepareActionWithPayloadCreator<UserInterfaceRemovePagePayload>(userInterfaceRemovePageType);
 
-const userInterfaceRemovePageReducer = (state: UserInterfaceState, action: Action): UserInterfaceState => {
-  const payload = selectPayload<UserInterfaceRemovePagePayload>(action);
-  const {pageStrategies, pages} = state;
-  const newPageStrategies: PageStrategyCreators[] = [];
-  const newPages: Page[] = [];
-  for (const [i, page] of pages.entries()) {
-    if (page.title !== payload.name) {
-      const cachedSelectors: BoundSelectors[] = [];
-      for (const [compIndex, comp] of page.compositions.entries()) {
-        if (comp.boundSelectors) {
-          for (const bound of comp.boundSelectors) {
-            cachedSelectors.push({
-              ...bound,
-              semaphore: [i, compIndex]
-            });
+export const [
+  userInterfaceRemovePage,
+  userInterfaceRemovePageType,
+  userInterfaceRemovePageQuality
+] = createQualitySetWithPayload<UserInterfaceRemovePagePayload>({
+  type: 'User Interface Remove Page',
+  reducer: (state: UserInterfaceState, action: Action): UserInterfaceState => {
+    const payload = selectPayload<UserInterfaceRemovePagePayload>(action);
+    const {pageStrategies, pages} = state;
+    const newPageStrategies: PageStrategyCreators[] = [];
+    const newPages: Page[] = [];
+    for (const [i, page] of pages.entries()) {
+      if (page.title !== payload.name) {
+        const cachedSelectors: BoundSelectors[] = [];
+        for (const [compIndex, comp] of page.compositions.entries()) {
+          if (comp.boundSelectors) {
+            for (const bound of comp.boundSelectors) {
+              cachedSelectors.push({
+                ...bound,
+                semaphore: [i, compIndex]
+              });
+            }
           }
         }
+        page.cachedSelectors = cachedSelectors;
+        newPageStrategies.push(pageStrategies[i]);
+        newPages.push(page);
       }
-      page.cachedSelectors = cachedSelectors;
-      newPageStrategies.push(pageStrategies[i]);
-      newPages.push(page);
     }
-  }
-  return {
-    ...state,
-    pages: newPages,
-    pageStrategies: newPageStrategies
-  };
-};
-
-export const userInterfaceRemovePageQuality = createQuality(
-  userInterfaceRemovePageType,
-  userInterfaceRemovePageReducer,
-  defaultMethodCreator
-);
+    return {
+      ...state,
+      pages: newPages,
+      pageStrategies: newPageStrategies
+    };
+  },
+  methodCreator: defaultMethodCreator
+});
 /*#>*/

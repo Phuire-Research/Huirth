@@ -26,23 +26,15 @@ export const logixUXServerDeleteDataSetsStrategy = (root: string, trainingData: 
     })();
     const action = isProject ? logixUXServerSendUpdateProjectToInstalled(name) : axiumStitch();
     if (first === undefined) {
-      const updateStatus = createActionNode(action, {
-        successNode: null,
-        failureNode: null
-      });
+      const updateStatus = createActionNode(action);
       first = createActionNode(fileSystemRemoveTargetDirectory({path: dataSetDirectory}), {
         successNode: updateStatus,
-        failureNode: null,
       });
       previous = updateStatus;
     } else if (previous) {
-      const updateStatus = createActionNode(action, {
-        successNode: null,
-        failureNode: null
-      });
+      const updateStatus = createActionNode(action);
       const next = createActionNode(fileSystemRemoveTargetDirectory({path: dataSetDirectory}), {
         successNode: updateStatus,
-        failureNode: null,
       });
       previous.successNode = next;
       previous = updateStatus;

@@ -4,19 +4,15 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  Concepts,
   KeyedSelector,
-  MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
-  createQuality,
   nullReducer,
   selectUnifiedState,
   strategySuccess
 } from 'stratimux';
 
-import { createBinding, createBoundSelectors, prepareActionComponentCreator, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
+import { createBinding, createBoundSelectors, createQualitySetComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 import { elementEventBinding } from '../../../../../model/html';
 import { LogixUXState } from '../../../logixUX.concept';
 import { BaseDataSet, DataSetTypes, chosenID, contentID, generateNumID, promptID, rejectedID } from '../../../logixUX.model';
@@ -24,52 +20,55 @@ import { logixUXNewDataSetEntry } from '../../newDataSetEntry.quality';
 import { logixUX_createDataSetSelector, logixUX_createTrainingDataSelector } from '../../../logixUX.selector';
 import { logixUXUpdateDataSetContents } from '../../updateDataSetContents.quality';
 import { logixUXUpdateDataSetPrompt } from '../../updateDataSetPrompt.quality';
-import { Subject } from 'rxjs';
 
-export const logixUXDataSetContentType: ActionType = 'create userInterface for DataSetContent';
-export const logixUXDataSetContent = prepareActionComponentCreator(logixUXDataSetContentType);
-
-const createDataSetContentMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, _semaphore?: number) =>
-  createMethodDebounceWithConcepts((action, concepts, semaphore) => {
-    const payload = selectComponentPayload(action);
-    const id = '#dataSetID' + payload.pageTitle;
-    const addEntryID = '#addDataEntry' + payload.pageTitle;
-    if (action.strategy) {
-      const trainingData = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState).trainingData;
-      let finalOutput = '';
-      const bindingsArray: {
-        elementId: string;
-        eventBinding: elementEventBinding;
-        action: Action;
-      }[] = [];
-      let dataSet: BaseDataSet[] | undefined;
-      let index = -1;
-      for (const [i, data] of trainingData.entries()) {
-        if (data.name === payload.pageTitle) {
-          dataSet = data.dataSet;
-          index = i;
-          break;
-        }
-      }
-      if (dataSet) {
-        // console.log('CHECK TRAINING DATA INFO', trainingData[index].name, trainingData[index].type);
-        for (const [i, data] of dataSet.entries()) {
-          // So I don't break anything in the final sprint. Can save pagination if I have time today or tomorrow.
-          if (i === 10) {
+export const [
+  logixUXDataSetContent,
+  logixUXDataSetContentType,
+  logixUXDataSetContentQuality
+] = createQualitySetComponent({
+  type: 'create userInterface for DataSetContent',
+  reducer: nullReducer,
+  componentCreator: (act, concepts$, _semaphore) =>
+    createMethodDebounceWithConcepts((action, concepts, semaphore) => {
+      const payload = selectComponentPayload(action);
+      const id = '#dataSetID' + payload.pageTitle;
+      const addEntryID = '#addDataEntry' + payload.pageTitle;
+      if (action.strategy) {
+        const trainingData = (selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState).trainingData;
+        let finalOutput = '';
+        const bindingsArray: {
+          elementId: string;
+          eventBinding: elementEventBinding;
+          action: Action;
+        }[] = [];
+        let dataSet: BaseDataSet[] | undefined;
+        let index = -1;
+        for (const [i, data] of trainingData.entries()) {
+          if (data.name === payload.pageTitle) {
+            dataSet = data.dataSet;
+            index = i;
             break;
           }
-          const elementID = generateNumID(i);
-          bindingsArray.push({
-            elementId: promptID + elementID,
-            eventBinding: elementEventBinding.onchange,
-            action: logixUXUpdateDataSetPrompt({index, dataSetIndex: i})
-          });
-          bindingsArray.push({
-            elementId: contentID + elementID,
-            eventBinding: elementEventBinding.onchange,
-            action: logixUXUpdateDataSetContents({index, dataSetIndex: i})
-          });
-          finalOutput += /*html*/`
+        }
+        if (dataSet) {
+          // console.log('CHECK TRAINING DATA INFO', trainingData[index].name, trainingData[index].type);
+          for (const [i, data] of dataSet.entries()) {
+            // So I don't break anything in the final sprint. Can save pagination if I have time today or tomorrow.
+            if (i === 10) {
+              break;
+            }
+            const elementID = generateNumID(i);
+            bindingsArray.push({
+              elementId: promptID + elementID,
+              eventBinding: elementEventBinding.onchange,
+              action: logixUXUpdateDataSetPrompt({index, dataSetIndex: i})
+            });
+            bindingsArray.push({
+              elementId: contentID + elementID,
+              eventBinding: elementEventBinding.onchange,
+              action: logixUXUpdateDataSetContents({index, dataSetIndex: i})
+            });
+            finalOutput += /*html*/`
 <div class="text-black m-4">
   <label class="text-white pl-2 translate-y-2">
     Prompt
@@ -107,28 +106,28 @@ ${
   </button>
 </div>
         `;
+          }
         }
-      }
-      bindingsArray.push({
-        action: logixUXNewDataSetEntry({index}),
-        elementId: addEntryID,
-        eventBinding: elementEventBinding.onclick
-      });
-      const bindings = createBinding(bindingsArray);
-      // console.log('Check bindings', bindings);
-      const strategy = strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-        id,
-        bindings,
-        universal: false,
-        boundSelectors: [
-          // START HERE
-          createBoundSelectors(id, logixUXDataSetContent(payload), [
-            logixUX_createTrainingDataSelector(concepts, semaphore) as KeyedSelector,
-            logixUX_createDataSetSelector(concepts, semaphore, index) as KeyedSelector
-          ])
-        ],
-        action: logixUXDataSetContent(payload),
-        html: /*html*/`
+        bindingsArray.push({
+          action: logixUXNewDataSetEntry({index}),
+          elementId: addEntryID,
+          eventBinding: elementEventBinding.onclick
+        });
+        const bindings = createBinding(bindingsArray);
+        // console.log('Check bindings', bindings);
+        const strategy = strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
+          id,
+          bindings,
+          universal: false,
+          boundSelectors: [
+            // START HERE
+            createBoundSelectors(id, logixUXDataSetContent(payload), [
+              logixUX_createTrainingDataSelector(concepts, semaphore) as KeyedSelector,
+              logixUX_createDataSetSelector(concepts, semaphore, index) as KeyedSelector
+            ])
+          ],
+          action: act(payload),
+          html: /*html*/`
         <div class="flex flex-col items-center" id='${id}'>
           <div class="flex-none flex items-center w-full">
             <button id=${addEntryID} class="mb-8 mt-2 center-m bg-green-800/5 hover:bg-green-500 text-green-50 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
@@ -145,15 +144,10 @@ ${
           </div>
         </div>
   `
-      }));
-      return strategy;
-    }
-    return action;
-  }, concepts$ as UnifiedSubject, _semaphore as number, 50);
-
-export const logixUXDataSetContentQuality = createQuality(
-  logixUXDataSetContentType,
-  nullReducer,
-  createDataSetContentMethodCreator,
-);
+        }));
+        return strategy;
+      }
+      return action;
+    }, concepts$ as UnifiedSubject, _semaphore as number, 50)
+});
 /*#>*/

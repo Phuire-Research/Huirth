@@ -5,14 +5,12 @@ $>*/
 import {
   ActionNode,
   ActionStrategy,
-  ActionType,
   createActionNode,
   createActionNodeFromStrategy,
   createMethod,
-  createQuality,
+  createQualitySetWithPayload,
   createStrategy,
   nullReducer,
-  prepareActionWithPayloadCreator,
   selectPayload,
   strategyData_appendFailure,
   strategyData_select,
@@ -30,19 +28,12 @@ export type LogixUXServerDetermineReadParseAppendStrategyPayload = {
   name: string,
   type: DataSetTypes
 }
-export const logixUXServerDetermineReadParseAppendStrategyType: ActionType =
-  'logixUXServer determine read, parse, and append strategy for the incoming raw data set';
-export const logixUXServerDetermineReadParseAppendStrategy =
-  prepareActionWithPayloadCreator<LogixUXServerDetermineReadParseAppendStrategyPayload>(logixUXServerDetermineReadParseAppendStrategyType);
 
 const readAndParseStitch = (name: string, type: DataSetTypes): [ActionNode, ActionStrategy] => {
   const stepAppendParsedDataToNamedDataSet = createActionNode(logixUXServerAppendParsedDataToNamedDataSet({
     name,
     type
-  }), {
-    successNode: null,
-    failureNode: null
-  });
+  }));
   const stepParseFile = createActionNode(logixUXServerParseFileFromData(), {
     successNode: stepAppendParsedDataToNamedDataSet,
     // TODO: If failed we can use open to load a window with the git install webpage
@@ -50,7 +41,6 @@ const readAndParseStitch = (name: string, type: DataSetTypes): [ActionNode, Acti
   });
   const stepReadFileContents = createActionNode(fileSystemReadFileContentsAndAppendToData(), {
     successNode: stepParseFile,
-    failureNode: null
   });
   return [
     stepAppendParsedDataToNamedDataSet,
@@ -61,49 +51,48 @@ const readAndParseStitch = (name: string, type: DataSetTypes): [ActionNode, Acti
   ];
 };
 
-const logixUXServerDetermineReadParseAppendStrategyMethodCreator = () =>
-  createMethod((action) => {
-    if (action.strategy && action.strategy.data) {
-      const strategy = action.strategy;
-      const data = strategyData_select(action.strategy) as ReadDirectoryField & ReadFileContentsAndAppendToDataField;
-      const { name, type } = selectPayload<LogixUXServerDetermineReadParseAppendStrategyPayload>(action);
-      if (data.filesAndDirectories && data.filesAndDirectories.length > 0) {
-        const filesAndDirectories = data.filesAndDirectories;
-        const [
-          end,
-          start
-        ] = readAndParseStitch(name, type);
-        let prevHead = end;
-        for (let i = 1; i < filesAndDirectories.length; i++) {
-          const [
-            stitchEnd,
-            stitchStrategy
-          ] = readAndParseStitch(name, type);
-          const stitchHead = createActionNodeFromStrategy(stitchStrategy);
-          prevHead.successNode = stitchHead;
-          // console.log('PREV HEAD', prevHead, i);
-          prevHead = stitchEnd;
-          // console.log('STITCH HEAD', stitchHead, i);
-        }
-        prevHead.successNode = createActionNode(logixUXServerPrepareParsedProjectDataUpdate({
-          name,
-        }), {
-          successNode: null,
-          failureNode: null
-        });
-        strategy.currentNode.successNode = createActionNodeFromStrategy(start);
-        return strategySuccess(strategy);
-      } else {
-        return strategyFailed(strategy, strategyData_appendFailure(strategy, 'No entries found in filesAndDirectories field'));
-      }
-    } else {
-      return action;
-    }
-  });
-
-export const logixUXServerDetermineReadParseAppendStrategyQuality = createQuality(
+export const [
+  logixUXServerDetermineReadParseAppendStrategy,
   logixUXServerDetermineReadParseAppendStrategyType,
-  nullReducer,
-  logixUXServerDetermineReadParseAppendStrategyMethodCreator,
-);
+  logixUXServerDetermineReadParseAppendStrategyQuality
+] = createQualitySetWithPayload<LogixUXServerDetermineReadParseAppendStrategyPayload>({
+  type: 'logixUXServer determine read, parse, and append strategy for the incoming raw data set',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createMethod((action) => {
+      if (action.strategy && action.strategy.data) {
+        const strategy = action.strategy;
+        const data = strategyData_select(action.strategy) as ReadDirectoryField & ReadFileContentsAndAppendToDataField;
+        const { name, type } = selectPayload<LogixUXServerDetermineReadParseAppendStrategyPayload>(action);
+        if (data.filesAndDirectories && data.filesAndDirectories.length > 0) {
+          const filesAndDirectories = data.filesAndDirectories;
+          const [
+            end,
+            start
+          ] = readAndParseStitch(name, type);
+          let prevHead = end;
+          for (let i = 1; i < filesAndDirectories.length; i++) {
+            const [
+              stitchEnd,
+              stitchStrategy
+            ] = readAndParseStitch(name, type);
+            const stitchHead = createActionNodeFromStrategy(stitchStrategy);
+            prevHead.successNode = stitchHead;
+            // console.log('PREV HEAD', prevHead, i);
+            prevHead = stitchEnd;
+            // console.log('STITCH HEAD', stitchHead, i);
+          }
+          prevHead.successNode = createActionNode(logixUXServerPrepareParsedProjectDataUpdate({
+            name,
+          }));
+          strategy.currentNode.successNode = createActionNodeFromStrategy(start);
+          return strategySuccess(strategy);
+        } else {
+          return strategyFailed(strategy, strategyData_appendFailure(strategy, 'No entries found in filesAndDirectories field'));
+        }
+      } else {
+        return action;
+      }
+    })
+});
 /*#>*/

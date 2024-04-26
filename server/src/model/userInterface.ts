@@ -10,14 +10,20 @@ import {
   ActionType,
   Concepts,
   KeyedSelector,
+  Method,
+  MethodCreator,
+  Quality,
+  Reducer,
   createAction,
   createActionNode,
+  createQuality,
   selectPayload,
   strategyData_select
 } from 'stratimux';
 import { elementEventBinding } from './html';
 import { documentObjectModelName } from '../concepts/documentObjectModel/documentObjectModel.concept';
 import { userInterfaceNext } from '../concepts/userInterface/qualities/next.quality';
+import { Subject } from 'rxjs';
 
 /**
  * Should be ID as #string
@@ -164,11 +170,19 @@ export type ActionComponentPayload = {
   pageTitle: string
 };
 
-export const selectComponentPayload = (action: Action) => selectPayload<ActionComponentPayload>(action);
+export const selectComponentPayload = <T extends Record<string, unknown>>(action: Action) => selectPayload<ActionComponentPayload & T>(action);
 
-export function prepareActionComponentCreator(actionType: ActionType) {
+export type ActionComponentCreator<T extends Record<string, unknown>> = (
+    payload: ActionComponentPayload & T,
+    conceptSemaphore?: number,
+    keyedSelectors?: KeyedSelector[],
+    agreement?: number,
+    semaphore?: [number, number, number, number]
+  ) => Action;
+
+export function prepareActionComponentCreator<T extends Record<string, unknown>>(actionType: ActionType) {
   return (
-    payload: ActionComponentPayload,
+    payload: ActionComponentPayload & T,
     conceptSemaphore?: number,
     keyedSelectors?: KeyedSelector[],
     agreement?: number,
@@ -176,6 +190,32 @@ export function prepareActionComponentCreator(actionType: ActionType) {
   ) => {
     return createAction(actionType, payload, keyedSelectors, agreement, semaphore, conceptSemaphore);
   };
+}
+
+export type ComponentCreator<T extends Record<string, unknown>> =
+  (action: ActionComponentCreator<T>, concepts$?: Subject<Concepts>, semaphore?: number) => [Method, Subject<Action>];
+
+export function createQualitySetComponent<T extends Record<string, unknown>>(q: {
+  type: string,
+  reducer: Reducer,
+  componentCreator: ComponentCreator<T>,
+  keyedSelectors?: KeyedSelector[],
+  meta?: Record<string,unknown>,
+  analytics?: Record<string,unknown>
+}): [ActionComponentCreator<T>, ActionType, Quality] {
+  const action = prepareActionComponentCreator<T>(q.type);
+  return [
+    action,
+    q.type,
+    createQuality(
+      q.type,
+      q.reducer,
+      (concepts$?: Subject<Concepts>, semaphore?: number) => q.componentCreator(action, concepts$, semaphore),
+      q.keyedSelectors,
+      q.meta,
+      q.analytics
+    )
+  ];
 }
 
 export const userInterface_appendCompositionToPage =

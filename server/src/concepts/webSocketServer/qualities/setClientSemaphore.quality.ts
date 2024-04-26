@@ -4,10 +4,8 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  createQuality,
+  createQualitySetWithPayload,
   defaultMethodCreator,
-  prepareActionWithPayloadCreator,
   selectPayload,
 } from 'stratimux';
 import { WebSocketServerState } from '../webSocketServer.concept';
@@ -15,22 +13,20 @@ import { WebSocketServerState } from '../webSocketServer.concept';
 export type WebSocketServerSetClientSemaphorePayload = {
   semaphore: number,
 }
-export const webSocketServerSetClientSemaphoreType: ActionType =
-  'Web Socket Server set Client Semaphore';
-export const webSocketServerSetClientSemaphore =
-  prepareActionWithPayloadCreator<WebSocketServerSetClientSemaphorePayload>(webSocketServerSetClientSemaphoreType);
 
-function webSocketServerSetClientSemaphoreReducer(state: WebSocketServerState, action: Action): WebSocketServerState {
-  const payload = selectPayload<WebSocketServerSetClientSemaphorePayload>(action);
-  return {
-    ...state,
-    clientSemaphore: payload.semaphore
-  };
-}
-
-export const webSocketServerSetClientSemaphoreQuality = createQuality(
+export const [
+  webSocketServerSetClientSemaphore,
   webSocketServerSetClientSemaphoreType,
-  webSocketServerSetClientSemaphoreReducer,
-  defaultMethodCreator,
-);
+  webSocketServerSetClientSemaphoreQuality
+] = createQualitySetWithPayload<WebSocketServerSetClientSemaphorePayload>({
+  type: 'Web Socket Server set Client Semaphore',
+  reducer: (state: WebSocketServerState, action: Action): WebSocketServerState => {
+    const payload = selectPayload<WebSocketServerSetClientSemaphorePayload>(action);
+    return {
+      ...state,
+      clientSemaphore: payload.semaphore
+    };
+  },
+  methodCreator: defaultMethodCreator
+});
 /*#>*/

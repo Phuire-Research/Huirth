@@ -5,10 +5,8 @@ $>*/
 /* eslint-disable max-len */
 import {
   Action,
-  ActionType,
-  createQuality,
+  createQualitySetWithPayload,
   defaultMethodCreator,
-  prepareActionWithPayloadCreator,
   selectPayload,
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
@@ -16,20 +14,20 @@ import { LogixUXState } from '../logixUX.concept';
 export type LogixUXAppendAxiumDialogTypePayload = {
   dialog: string;
 }
-export const logixUXAppendAxiumDialogType: ActionType = 'logixUX append Axium Dialog';
-export const logixUXAppendAxiumDialog = prepareActionWithPayloadCreator<LogixUXAppendAxiumDialogTypePayload>(logixUXAppendAxiumDialogType);
 
-function logixUXAppendAxiumDialogReducer(state: LogixUXState, action: Action): LogixUXState {
-  const dialog = selectPayload<LogixUXAppendAxiumDialogTypePayload>(action).dialog;
-  return {
-    ...state,
-    dialog: state.dialog + dialog
-  };
-}
-
-export const logixUXAppendAxiumDialogQuality = createQuality(
+export const [
+  logixUXAppendAxiumDialog,
   logixUXAppendAxiumDialogType,
-  logixUXAppendAxiumDialogReducer,
-  defaultMethodCreator
-);
+  logixUXAppendAxiumDialogQuality
+] = createQualitySetWithPayload<LogixUXAppendAxiumDialogTypePayload>({
+  type: 'logixUX append Axium Dialog',
+  reducer: (state: LogixUXState, action: Action): LogixUXState => {
+    const dialog = selectPayload<LogixUXAppendAxiumDialogTypePayload>(action).dialog;
+    return {
+      ...state,
+      dialog: state.dialog + dialog
+    };
+  },
+  methodCreator: defaultMethodCreator
+});
 /*#>*/

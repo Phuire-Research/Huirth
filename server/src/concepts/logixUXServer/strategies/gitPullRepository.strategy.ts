@@ -4,9 +4,6 @@ $>*/
 /*<#*/
 import path from 'path';
 import { createActionNode, createStrategy } from 'stratimux';
-import { logixUXServerSendUpdateProjectToInstalled } from './client/logixUXServerSendUpdateProjectToInstalled.helper';
-import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
-import { logixUXServerGitCloneRepoToDirectory } from '../qualities/gitCloneRepoToDirectory.quality';
 import { logixUXServerGitPullRepository } from '../qualities/gitPullRepository.quality';
 import { ProjectStatus } from '../../logixUX/logixUX.model';
 import { webSocketServerAppendToActionQue } from '../../webSocketServer/qualities/appendActionQue.quality';
@@ -22,15 +19,11 @@ export const logixUXServerGitPullRepositoryStrategy = (root: string, name:string
         status: ProjectStatus.pulled
       })
     ]
-  }), {
-    successNode: null,
-    failureNode: null
-  });
+  }));
   const stepGitPull = createActionNode(logixUXServerGitPullRepository({
     path: dataPath
   }), {
     successNode: stepUpdateProjectStatusToPulled,
-    failureNode: null,
     agreement: 60000
   });
   return createStrategy({

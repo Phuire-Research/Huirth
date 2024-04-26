@@ -4,28 +4,23 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  createQuality,
+  createQualitySet,
   defaultMethodCreator,
-  prepareActionCreator,
 } from 'stratimux';
 import { WebSocketServerState } from '../webSocketServer.concept';
 
-export const webSocketServerClearActionQueType: ActionType =
-  'Web Socket Server clear action que';
-export const webSocketServerClearActionQue =
-  prepareActionCreator(webSocketServerClearActionQueType);
-
-function webSocketServerClearActionQueReducer(state: WebSocketServerState, action: Action): WebSocketServerState {
-  return {
-    ...state,
-    actionQue: []
-  };
-}
-
-export const webSocketServerClearActionQueQuality = createQuality(
+export const [
+  webSocketServerClearActionQue,
   webSocketServerClearActionQueType,
-  webSocketServerClearActionQueReducer,
-  defaultMethodCreator,
-);
+  webSocketServerClearActionQueQuality
+] = createQualitySet({
+  type: 'Web Socket Server clear action que',
+  reducer: (state: WebSocketServerState, action: Action): WebSocketServerState => {
+    return {
+      ...state,
+      actionQue: []
+    };
+  },
+  methodCreator: defaultMethodCreator
+});
 /*#>*/

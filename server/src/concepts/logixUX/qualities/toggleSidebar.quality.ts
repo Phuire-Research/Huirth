@@ -4,27 +4,23 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  createQuality,
+  createQualitySet,
   defaultMethodCreator,
-  prepareActionCreator,
 } from 'stratimux';
 import { LogixUXState } from '../logixUX.concept';
 
-export const logixUXToggleSidebarType: ActionType = 'Create logixUX ToggleSidebar';
-export const logixUXToggleSidebar =
-  prepareActionCreator(logixUXToggleSidebarType);
-
-function logixUXToggleSidebarReducer(state: LogixUXState, action: Action): LogixUXState {
-  return {
-    ...state,
-    sideBarExpanded: !state.sideBarExpanded,
-  };
-}
-
-export const logixUXToggleSidebarQuality = createQuality(
+export const [
+  logixUXToggleSidebar,
   logixUXToggleSidebarType,
-  logixUXToggleSidebarReducer,
-  defaultMethodCreator
-);
+  logixUXToggleSidebarQuality
+] = createQualitySet({
+  type: 'Create logixUX ToggleSidebar',
+  reducer: (state: LogixUXState): LogixUXState => {
+    return {
+      ...state,
+      sideBarExpanded: !state.sideBarExpanded,
+    };
+  },
+  methodCreator: defaultMethodCreator
+});
 /*#>*/

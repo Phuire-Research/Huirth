@@ -3,12 +3,9 @@ For the graph programming framework Stratimux and File System Concept, generate 
 $>*/
 /*<#*/
 import {
-  ActionType,
-  MethodCreator,
   createAsyncMethod,
-  createQuality,
+  createQualitySetWithPayload,
   nullReducer,
-  prepareActionWithPayloadCreator,
   selectPayload,
   strategyData_appendFailure,
   strategyData_unifyData,
@@ -21,36 +18,35 @@ import { FileDirent } from '../fileSystem.model';
 export type GetDirectoriesAndFilesPayload = {
   path: string
 };
-export const fileSystemGetDirectoriesAndFilesType: ActionType = 'File System get target Directories and Files';
-export const fileSystemGetDirectoriesAndFiles =
-  prepareActionWithPayloadCreator<GetDirectoriesAndFilesPayload>(fileSystemGetDirectoriesAndFilesType);
 export type GetDirectoriesAndFilesDataField = {
   directories: FileDirent[]
 }
 
-const fileSystemGetDirectoriesAndFilesMethodCreator: MethodCreator = () =>
-  createAsyncMethod((controller, action) => {
-    const payload = selectPayload<GetDirectoriesAndFilesPayload>(action);
-    if (action.strategy) {
-      const strategy = action.strategy;
-      fs.readdir(payload.path, {
-        withFileTypes: true
-      }).then(directories => {
-        console.log('DIRECTORIES AND FILES LENGTH', directories.length);
-        const newStrategy =
-          strategySuccess(strategy, strategyData_unifyData(strategy, {directories}));
-        controller.fire(newStrategy);
-      }).catch(error => {
-        controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, `${error}`)));
-      });
-    } else {
-      controller.fire(action);
-    }
-  });
-
-export const fileSystemGetDirectoriesAndFilesQuality = createQuality(
+export const [
+  fileSystemGetDirectoriesAndFiles,
   fileSystemGetDirectoriesAndFilesType,
-  nullReducer,
-  fileSystemGetDirectoriesAndFilesMethodCreator,
-);
+  fileSystemGetDirectoriesAndFilesQuality
+] = createQualitySetWithPayload<GetDirectoriesAndFilesPayload>({
+  type: 'File System get target Directories and Files',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createAsyncMethod((controller, action) => {
+      const payload = selectPayload<GetDirectoriesAndFilesPayload>(action);
+      if (action.strategy) {
+        const strategy = action.strategy;
+        fs.readdir(payload.path, {
+          withFileTypes: true
+        }).then(directories => {
+          console.log('DIRECTORIES AND FILES LENGTH', directories.length);
+          const newStrategy =
+            strategySuccess(strategy, strategyData_unifyData(strategy, {directories}));
+          controller.fire(newStrategy);
+        }).catch(error => {
+          controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, `${error}`)));
+        });
+      } else {
+        controller.fire(action);
+      }
+    })
+});
 /*#>*/

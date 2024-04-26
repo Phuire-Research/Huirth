@@ -6,6 +6,7 @@ import {
   ActionType,
   createAsyncMethod,
   createQuality,
+  createQualitySet,
   nullReducer,
   prepareActionCreator,
   strategyData_appendFailure,
@@ -20,10 +21,6 @@ import { ReadFileContentsAndAppendToDataField } from '../../fileSystem/qualities
 import { ParsingTokens } from '../logixUXServer.model';
 import { FileDirent } from '../../fileSystem/fileSystem.model';
 
-export const logixUXServerParseFileFromDataType: ActionType =
-  'logixUXServer parse file from data';
-export const logixUXServerParseFileFromData =
-  prepareActionCreator(logixUXServerParseFileFromDataType);
 export type ParsedFileFromDataField = {
   parsed: BaseDataSet[]
 }
@@ -92,29 +89,31 @@ const recursiveParse = (data: BaseDataSet[], content: string, file: FileDirent):
   return data;
 };
 
-const logixUXServerParseFileFromDataMethodCreator = () =>
-  createAsyncMethod((controller, action) => {
-    if (action.strategy && action.strategy.data) {
-      const strategy = action.strategy;
-      const data = strategyData_select(action.strategy) as ReadDirectoryField & ReadFileContentsAndAppendToDataField;
-      if (data.filesAndDirectories && data.content) {
-        // console.log('CHECK CONTENT', data.content);
-        const parsed = recursiveParse([], data.content, data.dirent);
-        // console.log('CHECK PARSE', parsed);
-        controller.fire(strategySuccess(action.strategy, strategyData_unifyData(strategy, {
-          parsed,
-        })));
-      } else {
-        controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, 'No filesAndData field provided')));
-      }
-    } else {
-      controller.fire(action);
-    }
-  });
-
-export const logixUXServerParseFileFromDataQuality = createQuality(
+export const [
+  logixUXServerParseFileFromData,
   logixUXServerParseFileFromDataType,
-  nullReducer,
-  logixUXServerParseFileFromDataMethodCreator,
-);
+  logixUXServerParseFileFromDataQuality
+] = createQualitySet({
+  type: 'logixUXServer parse file from data',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createAsyncMethod((controller, action) => {
+      if (action.strategy && action.strategy.data) {
+        const strategy = action.strategy;
+        const data = strategyData_select(action.strategy) as ReadDirectoryField & ReadFileContentsAndAppendToDataField;
+        if (data.filesAndDirectories && data.content) {
+          // console.log('CHECK CONTENT', data.content);
+          const parsed = recursiveParse([], data.content, data.dirent);
+          // console.log('CHECK PARSE', parsed);
+          controller.fire(strategySuccess(action.strategy, strategyData_unifyData(strategy, {
+            parsed,
+          })));
+        } else {
+          controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, 'No filesAndData field provided')));
+        }
+      } else {
+        controller.fire(action);
+      }
+    })
+});
 /*#>*/

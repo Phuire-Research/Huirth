@@ -3,14 +3,9 @@ For the graph programming framework Stratimux and a Concept logixUX, generate a 
 $>*/
 /*<#*/
 import {
-  Action,
-  ActionType,
-  Concepts,
   KeyedSelector,
-  MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
-  createQuality,
   nullReducer,
   selectUnifiedState,
   strategySuccess,
@@ -19,7 +14,7 @@ import {
 import {
   createBinding,
   createBoundSelectors,
-  prepareActionComponentCreator,
+  createQualitySetComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
@@ -49,68 +44,67 @@ import { logixUXSetSelectedTransformation } from '../../setSelectedTransformatio
 import { logixUXSendTriggerTransformationStrategy } from '../../../strategies/server/triggerTransformationStrategy.helper';
 import { logixUXSendTriggerSelectedTransformationStrategy } from '../../sendTriggerSelectedTransformationStrategy.quality';
 import { logixUXSendTriggerGitPullRepositoryStrategy } from '../../../strategies/server/triggerGitPullRepositoryStrategy.helper';
-import { Subject } from 'rxjs';
 
-export const logixUXDataManagerContentType: ActionType = 'create userInterface for DataManagerContent';
-export const logixUXDataManagerContent = prepareActionComponentCreator(logixUXDataManagerContentType);
-
-const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, _semaphore?: number) =>
-  createMethodDebounceWithConcepts(
-    (action, concepts, semaphore) => {
-      const payload = selectComponentPayload(action);
-      const id = '#dataManagerID' + payload.pageTitle;
-      const projectInputID = '#projectInputID';
-      const saveID = '#saveID';
-      const addEntryID = '#addEntry' + payload.pageTitle;
-      const removeID = '#removeID';
-      const transformationSelectionID = '#transformationSelectionID';
-      const triggerCreateTransformationDataSetID = '#triggerCreateTransformationDataSetID';
-      const installProjectID = '#installProjectID';
-      const installStratimuxID = '#install_' + PhuirEProjects.stratimux;
-      const pullStratimuxID = '#pull_' + PhuirEProjects.stratimux;
-      let finalStratimuxID = '#stratimuxID';
-      let finalStratimuxNote = 'Stratimux';
-      const parseStratimuxID = '#parse_' + PhuirEProjects.stratimux;
-      const installLogixUX_ID = '#install_' + PhuirEProjects.logixUX;
-      const pullLogixUX_ID = '#pull_' + PhuirEProjects.logixUX;
-      let finalLogixUX_ID = '#logixUX_ID';
-      let finalLogixUX_note = 'logixUX';
-      const parseLogixUX_ID = '#parse_' + PhuirEProjects.logixUX;
-      if (action.strategy) {
-        const {
-          trainingData,
-          stratimuxStatus,
-          logixUXStatus,
-          dataSetSelection,
-          projectsStatuses,
-          possibleProject,
-          possibleProjectValid,
-          selectedTransformation,
-          transformationStrategies,
-        } = selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState;
-        const anySelected = (() => {
-          for (const selected of dataSetSelection) {
-            if (selected) {
-              return true;
+export const [logixUXDataManagerContent, logixUXDataManagerContentType, logixUXDataManagerContentQuality] = createQualitySetComponent({
+  type: 'create userInterface for DataManagerContent',
+  reducer: nullReducer,
+  componentCreator: (act, concepts$, _semaphore) =>
+    createMethodDebounceWithConcepts(
+      (action, concepts, semaphore) => {
+        const payload = selectComponentPayload(action);
+        const id = '#dataManagerID' + payload.pageTitle;
+        const projectInputID = '#projectInputID';
+        const saveID = '#saveID';
+        const addEntryID = '#addEntry' + payload.pageTitle;
+        const removeID = '#removeID';
+        const transformationSelectionID = '#transformationSelectionID';
+        const triggerCreateTransformationDataSetID = '#triggerCreateTransformationDataSetID';
+        const installProjectID = '#installProjectID';
+        const installStratimuxID = '#install_' + PhuirEProjects.stratimux;
+        const pullStratimuxID = '#pull_' + PhuirEProjects.stratimux;
+        let finalStratimuxID = '#stratimuxID';
+        let finalStratimuxNote = 'Stratimux';
+        const parseStratimuxID = '#parse_' + PhuirEProjects.stratimux;
+        const installLogixUX_ID = '#install_' + PhuirEProjects.logixUX;
+        const pullLogixUX_ID = '#pull_' + PhuirEProjects.logixUX;
+        let finalLogixUX_ID = '#logixUX_ID';
+        let finalLogixUX_note = 'logixUX';
+        const parseLogixUX_ID = '#parse_' + PhuirEProjects.logixUX;
+        if (action.strategy) {
+          const {
+            trainingData,
+            stratimuxStatus,
+            logixUXStatus,
+            dataSetSelection,
+            projectsStatuses,
+            possibleProject,
+            possibleProjectValid,
+            selectedTransformation,
+            transformationStrategies,
+          } = selectUnifiedState<LogixUXState>(concepts, semaphore) as LogixUXState;
+          const anySelected = (() => {
+            for (const selected of dataSetSelection) {
+              if (selected) {
+                return true;
+              }
             }
-          }
-          return false;
-        })();
-        let finalOutput = '';
-        const [finalProjects, bindingsArray] = determineProjectControls(projectsStatuses);
-        for (let i = 0; i < trainingData.length; i++) {
-          const elementID = generateNumID(i);
-          bindingsArray.push({
-            elementId: dataSetNameID + elementID,
-            eventBinding: elementEventBinding.onchange,
-            action: logixUXUpdateDataSetName({ index: i }),
-          });
-          bindingsArray.push({
-            elementId: dataSetSelectionID + elementID,
-            eventBinding: elementEventBinding.onchange,
-            action: logixUXUpdateDataSetSelection({ index: i }),
-          });
-          finalOutput += /*html*/ `
+            return false;
+          })();
+          let finalOutput = '';
+          const [finalProjects, bindingsArray] = determineProjectControls(projectsStatuses);
+          for (let i = 0; i < trainingData.length; i++) {
+            const elementID = generateNumID(i);
+            bindingsArray.push({
+              elementId: dataSetNameID + elementID,
+              eventBinding: elementEventBinding.onchange,
+              action: logixUXUpdateDataSetName({ index: i }),
+            });
+            bindingsArray.push({
+              elementId: dataSetSelectionID + elementID,
+              eventBinding: elementEventBinding.onchange,
+              action: logixUXUpdateDataSetSelection({ index: i }),
+            });
+            finalOutput += /*html*/ `
 <div class="w-full ml-4 mt-2 mb-2">
   <div class="relative flex items-center h-10 w-full min-w-[200px]">
     <div class="absolute top-2/4 right-52 grid h-5 w-5 -translate-y-2/4 place-items-center text-blue-gray-500">
@@ -138,128 +132,129 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Subjec
   </div>
 </div>
         `;
-        }
-        finalOutput += '</div>';
-        bindingsArray.push({
-          action: logixUXNewDataSet(),
-          elementId: addEntryID,
-          eventBinding: elementEventBinding.onclick,
-        });
-        const stratimuxSaved = trainingData.filter((d) => d.name.toLowerCase() === PhuirEProjects.stratimux.toLocaleLowerCase()).length > 0;
-        const logixUXSaved = trainingData.filter((d) => d.name.toLowerCase() === PhuirEProjects.logixUX.toLocaleLowerCase()).length > 0;
-        if (stratimuxStatus === ProjectStatus.notInstalled) {
+          }
+          finalOutput += '</div>';
           bindingsArray.push({
-            action: logixUXTriggerInstallGitRepository({
-              url: PhuirEProjects.stratimuxURL,
-              name: PhuirEProjects.stratimux,
-            }),
-            elementId: installStratimuxID,
+            action: logixUXNewDataSet(),
+            elementId: addEntryID,
             eventBinding: elementEventBinding.onclick,
           });
-          finalStratimuxID = installStratimuxID;
-          finalStratimuxNote = 'Install Stratimux';
-        } else if (stratimuxStatus === ProjectStatus.installed && !stratimuxSaved) {
+          const stratimuxSaved =
+            trainingData.filter((d) => d.name.toLowerCase() === PhuirEProjects.stratimux.toLocaleLowerCase()).length > 0;
+          const logixUXSaved = trainingData.filter((d) => d.name.toLowerCase() === PhuirEProjects.logixUX.toLocaleLowerCase()).length > 0;
+          if (stratimuxStatus === ProjectStatus.notInstalled) {
+            bindingsArray.push({
+              action: logixUXTriggerInstallGitRepository({
+                url: PhuirEProjects.stratimuxURL,
+                name: PhuirEProjects.stratimux,
+              }),
+              elementId: installStratimuxID,
+              eventBinding: elementEventBinding.onclick,
+            });
+            finalStratimuxID = installStratimuxID;
+            finalStratimuxNote = 'Install Stratimux';
+          } else if (stratimuxStatus === ProjectStatus.installed && !stratimuxSaved) {
+            bindingsArray.push({
+              action: logixUXSendTriggerParseRepositoryStrategy({ name: PhuirEProjects.stratimux }),
+              elementId: parseStratimuxID,
+              eventBinding: elementEventBinding.onclick,
+            });
+            finalStratimuxID = parseStratimuxID;
+            finalStratimuxNote = 'Parse Stratimux';
+          } else if (stratimuxStatus === ProjectStatus.saved || stratimuxStatus === ProjectStatus.parsed) {
+            bindingsArray.push({
+              action: logixUXSendTriggerGitPullRepositoryStrategy(PhuirEProjects.stratimux),
+              elementId: pullStratimuxID,
+              eventBinding: elementEventBinding.onclick,
+            });
+            finalStratimuxID = pullStratimuxID;
+            finalStratimuxNote = 'Pull Stratimux';
+          }
+          if (logixUXStatus === ProjectStatus.notInstalled) {
+            bindingsArray.push({
+              action: logixUXTriggerInstallGitRepository({
+                url: PhuirEProjects.logixUX_URL,
+                name: PhuirEProjects.logixUX,
+              }),
+              elementId: installLogixUX_ID,
+              eventBinding: elementEventBinding.onclick,
+            });
+            finalLogixUX_ID = installLogixUX_ID;
+            finalLogixUX_note = 'Install LogixUX';
+          } else if (logixUXStatus === ProjectStatus.installed && !logixUXSaved) {
+            bindingsArray.push({
+              action: logixUXSendTriggerParseRepositoryStrategy({ name: PhuirEProjects.logixUX }),
+              elementId: parseLogixUX_ID,
+              eventBinding: elementEventBinding.onclick,
+            });
+            finalLogixUX_ID = parseLogixUX_ID;
+            finalLogixUX_note = 'Parse LogixUX';
+          } else if (logixUXStatus === ProjectStatus.saved || logixUXStatus === ProjectStatus.parsed) {
+            bindingsArray.push({
+              action: logixUXSendTriggerGitPullRepositoryStrategy(PhuirEProjects.logixUX),
+              elementId: pullLogixUX_ID,
+              eventBinding: elementEventBinding.onclick,
+            });
+            finalLogixUX_ID = pullLogixUX_ID;
+            finalLogixUX_note = 'Pull logixUX';
+          }
           bindingsArray.push({
-            action: logixUXSendTriggerParseRepositoryStrategy({ name: PhuirEProjects.stratimux }),
-            elementId: parseStratimuxID,
+            action: logixUXSendTriggerSaveDataSetSelectionStrategy(),
+            elementId: saveID,
             eventBinding: elementEventBinding.onclick,
           });
-          finalStratimuxID = parseStratimuxID;
-          finalStratimuxNote = 'Parse Stratimux';
-        } else if (stratimuxStatus === ProjectStatus.saved || stratimuxStatus === ProjectStatus.parsed) {
           bindingsArray.push({
-            action: logixUXSendTriggerGitPullRepositoryStrategy(PhuirEProjects.stratimux),
-            elementId: pullStratimuxID,
+            action: logixUXRemoveDataSetSelection(),
+            elementId: removeID,
             eventBinding: elementEventBinding.onclick,
           });
-          finalStratimuxID = pullStratimuxID;
-          finalStratimuxNote = 'Pull Stratimux';
-        }
-        if (logixUXStatus === ProjectStatus.notInstalled) {
           bindingsArray.push({
-            action: logixUXTriggerInstallGitRepository({
-              url: PhuirEProjects.logixUX_URL,
-              name: PhuirEProjects.logixUX,
-            }),
-            elementId: installLogixUX_ID,
+            action: logixUXSetPossibleProject(),
+            elementId: projectInputID,
+            eventBinding: elementEventBinding.onkeyup,
+          });
+          bindingsArray.push({
+            action: logixUXSetPossibleProject(),
+            elementId: projectInputID,
+            eventBinding: elementEventBinding.onpaste,
+          });
+          bindingsArray.push({
+            action: logixUXFilterTriggerInstallGitRepository(),
+            elementId: installProjectID,
             eventBinding: elementEventBinding.onclick,
           });
-          finalLogixUX_ID = installLogixUX_ID;
-          finalLogixUX_note = 'Install LogixUX';
-        } else if (logixUXStatus === ProjectStatus.installed && !logixUXSaved) {
           bindingsArray.push({
-            action: logixUXSendTriggerParseRepositoryStrategy({ name: PhuirEProjects.logixUX }),
-            elementId: parseLogixUX_ID,
+            action: logixUXSetSelectedTransformation(),
+            elementId: transformationSelectionID,
+            eventBinding: elementEventBinding.onchange,
+          });
+          bindingsArray.push({
+            action: logixUXSendTriggerSelectedTransformationStrategy(),
+            elementId: triggerCreateTransformationDataSetID,
             eventBinding: elementEventBinding.onclick,
           });
-          finalLogixUX_ID = parseLogixUX_ID;
-          finalLogixUX_note = 'Parse LogixUX';
-        } else if (logixUXStatus === ProjectStatus.saved || logixUXStatus === ProjectStatus.parsed) {
-          bindingsArray.push({
-            action: logixUXSendTriggerGitPullRepositoryStrategy(PhuirEProjects.logixUX),
-            elementId: pullLogixUX_ID,
-            eventBinding: elementEventBinding.onclick,
-          });
-          finalLogixUX_ID = pullLogixUX_ID;
-          finalLogixUX_note = 'Pull logixUX';
-        }
-        bindingsArray.push({
-          action: logixUXSendTriggerSaveDataSetSelectionStrategy(),
-          elementId: saveID,
-          eventBinding: elementEventBinding.onclick,
-        });
-        bindingsArray.push({
-          action: logixUXRemoveDataSetSelection(),
-          elementId: removeID,
-          eventBinding: elementEventBinding.onclick,
-        });
-        bindingsArray.push({
-          action: logixUXSetPossibleProject(),
-          elementId: projectInputID,
-          eventBinding: elementEventBinding.onkeyup,
-        });
-        bindingsArray.push({
-          action: logixUXSetPossibleProject(),
-          elementId: projectInputID,
-          eventBinding: elementEventBinding.onpaste,
-        });
-        bindingsArray.push({
-          action: logixUXFilterTriggerInstallGitRepository(),
-          elementId: installProjectID,
-          eventBinding: elementEventBinding.onclick,
-        });
-        bindingsArray.push({
-          action: logixUXSetSelectedTransformation(),
-          elementId: transformationSelectionID,
-          eventBinding: elementEventBinding.onchange,
-        });
-        bindingsArray.push({
-          action: logixUXSendTriggerSelectedTransformationStrategy(),
-          elementId: triggerCreateTransformationDataSetID,
-          eventBinding: elementEventBinding.onclick,
-        });
-        const bindings = createBinding(bindingsArray);
-        // console.log('Check bindings', bindings);
-        const strategy = strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id,
-            bindings,
-            universal: false,
-            boundSelectors: [
-              // START HERE
-              createBoundSelectors(id, logixUXDataManagerContent(payload), [
-                logixUX_createTrainingDataSelector(concepts, semaphore) as KeyedSelector,
-                logixUX_createStratimuxStatusSelector(concepts, semaphore) as KeyedSelector,
-                logixUX_createLogixUXStatusSelector(concepts, semaphore) as KeyedSelector,
-                logixUX_createDataSetSelectionSelector(concepts, semaphore) as KeyedSelector,
-                logixUX_createProjectStatusSelector(concepts, semaphore) as KeyedSelector,
-                logixUX_createPossibleProjectValidSelector(concepts, semaphore) as KeyedSelector,
-                logixUX_createSelectedTransformationSelector(concepts, semaphore) as KeyedSelector,
-              ]),
-            ],
-            action: logixUXDataManagerContent(payload),
-            html: /*html*/ `
+          const bindings = createBinding(bindingsArray);
+          // console.log('Check bindings', bindings);
+          const strategy = strategySuccess(
+            action.strategy,
+            userInterface_appendCompositionToPage(action.strategy, {
+              id,
+              bindings,
+              universal: false,
+              boundSelectors: [
+                // START HERE
+                createBoundSelectors(id, logixUXDataManagerContent(payload), [
+                  logixUX_createTrainingDataSelector(concepts, semaphore) as KeyedSelector,
+                  logixUX_createStratimuxStatusSelector(concepts, semaphore) as KeyedSelector,
+                  logixUX_createLogixUXStatusSelector(concepts, semaphore) as KeyedSelector,
+                  logixUX_createDataSetSelectionSelector(concepts, semaphore) as KeyedSelector,
+                  logixUX_createProjectStatusSelector(concepts, semaphore) as KeyedSelector,
+                  logixUX_createPossibleProjectValidSelector(concepts, semaphore) as KeyedSelector,
+                  logixUX_createSelectedTransformationSelector(concepts, semaphore) as KeyedSelector,
+                ]),
+              ],
+              action: act(payload),
+              html: /*html*/ `
         <div class="flex flex-col items-center text-black" id='${id}'>
           <button class="italic cursor-not-allowed mb-4 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
             Open <i class="fa-solid fa-folder"></i>
@@ -319,10 +314,10 @@ const createDataManagerContentMethodCreator: MethodCreator = (concepts$?: Subjec
             </div>
             <div class="m-4 flex-none flex items-center w-full">
               <select id="${transformationSelectionID}" class="${
-              'mr-4 bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-500 ' +
-              'focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500' +
-              'dark:focus:border-blue-500'
-            }">
+                'mr-4 bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-500 ' +
+                'focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500' +
+                'dark:focus:border-blue-500'
+              }">
             <option>Select a Data Transformation Strategy</option>
 ${transformationStrategies
   .map((str) => `<option ${selectedTransformation === str ? 'selected' : ''} value="${str}"> ${str}</option>`)
@@ -379,22 +374,17 @@ ${
           </div>
         </div>
   `,
-          })
-        );
-        return strategy;
-      }
-      return action;
-    },
-    concepts$ as UnifiedSubject,
-    _semaphore as number,
-    50
-  );
-
-export const logixUXDataManagerContentQuality = createQuality(
-  logixUXDataManagerContentType,
-  nullReducer,
-  createDataManagerContentMethodCreator
-);
+            })
+          );
+          return strategy;
+        }
+        return action;
+      },
+      concepts$ as UnifiedSubject,
+      _semaphore as number,
+      50
+    ),
+});
 /*#>*/
 
 // <button

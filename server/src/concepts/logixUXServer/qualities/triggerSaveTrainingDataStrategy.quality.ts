@@ -3,14 +3,11 @@ For the graph programming framework Stratimux and a Concept logixUX Server, gene
 $>*/
 /*<#*/
 import {
-  ActionType,
   Concepts,
-  MethodCreator,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
-  createQuality,
+  createQualitySet,
   nullReducer,
-  prepareActionCreator,
   selectState,
   selectUnifiedState,
   strategyBegin,
@@ -20,27 +17,25 @@ import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.con
 import { logixUXServerSaveTrainingDataStrategy } from '../strategies/saveTrainingData.strategy';
 import { Subject } from 'rxjs';
 
-export const logixUXServerTriggerSaveTrainingDataStrategyType: ActionType = 'logixUXServer trigger save training data strategy';
-export const logixUXServerTriggerSaveTrainingDataStrategy =
-  prepareActionCreator(logixUXServerTriggerSaveTrainingDataStrategyType);
-
-const createLogixUXServerTriggerSaveTrainingDataStrategyMethodCreator: MethodCreator = (concepts$?: Subject<Concepts>, semaphore?: number) =>
-  createMethodDebounceWithConcepts(
-    (action, concepts) => {
-      const state = selectUnifiedState<LogixUXServerState>(concepts, semaphore as number);
-      const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
-      if (state && fileSystemState) {
-        const strategy = logixUXServerSaveTrainingDataStrategy(fileSystemState.root, state.trainingData);
-        return strategyBegin(strategy);
-      } else {
-        return action;
-      }
-    }, concepts$ as UnifiedSubject, semaphore as number, 50
-  );
-
-export const logixUXServerTriggerSaveTrainingDataStrategyQuality = createQuality(
+export const [
+  logixUXServerTriggerSaveTrainingDataStrategy,
   logixUXServerTriggerSaveTrainingDataStrategyType,
-  nullReducer,
-  createLogixUXServerTriggerSaveTrainingDataStrategyMethodCreator,
-);
+  logixUXServerTriggerSaveTrainingDataStrategyQuality
+] = createQualitySet({
+  type: 'logixUXServer trigger save training data strategy',
+  reducer: nullReducer,
+  methodCreator: (concepts$?: Subject<Concepts>, semaphore?: number) =>
+    createMethodDebounceWithConcepts(
+      (action, concepts) => {
+        const state = selectUnifiedState<LogixUXServerState>(concepts, semaphore as number);
+        const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
+        if (state && fileSystemState) {
+          const strategy = logixUXServerSaveTrainingDataStrategy(fileSystemState.root);
+          return strategyBegin(strategy);
+        } else {
+          return action;
+        }
+      }, concepts$ as UnifiedSubject, semaphore as number, 50
+    )
+});
 /*#>*/

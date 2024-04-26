@@ -9,17 +9,14 @@ import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/remo
 import { fileSystemCreateTargetDirectory } from '../../fileSystem/qualities/createTargetDirectory.quality';
 
 export const logixUXServerSaveTrainingDataStrategyTopic = 'Save training data currently loaded in state';
-export const logixUXServerSaveTrainingDataStrategy = (root: string, trainingData: TrainingData) => {
+export const logixUXServerSaveTrainingDataStrategy = (root: string) => {
   const dataPath = path.join(root + '/data/logixUX/');
   // Still need to create the rest of the steps here.
   const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory({path: dataPath}), {
-    successNode: null,
-    failureNode: null,
     agreement: 20000
   });
   const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory({path: dataPath}), {
     successNode: stepCreateDirectory,
-    failureNode: null,
     agreement: 20000
   });
   return createStrategy({

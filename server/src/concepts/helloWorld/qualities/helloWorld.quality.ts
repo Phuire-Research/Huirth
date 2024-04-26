@@ -4,31 +4,27 @@ $>*/
 /*<#*/
 import {
   Action,
-  ActionType,
-  MethodCreator,
   axiumConclude,
   createMethod,
-  createQuality,
+  createQualitySet,
   nullReducer,
-  prepareActionCreator,
   strategySuccess,
 } from 'stratimux';
 
-export const helloWorldType: ActionType = 'Hello World logs Hello World!';
-export const helloWorld = prepareActionCreator(helloWorldType);
-
-const createHelloWorldCreator: MethodCreator = () =>
-  createMethod((action: Action) => {
-    console.log('Hello World!');
-    if (action.strategy) {
-      return strategySuccess(action.strategy);
-    }
-    return axiumConclude();
-  });
-
-export const helloWorldQuality = createQuality(
+export const [
+  helloWorld,
   helloWorldType,
-  nullReducer,
-  createHelloWorldCreator,
-);
+  helloWorldQuality,
+] = createQualitySet({
+  type: 'Hello World logs Hello World!',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createMethod((action: Action) => {
+      console.log('Hello World!');
+      if (action.strategy) {
+        return strategySuccess(action.strategy);
+      }
+      return axiumConclude();
+    })
+});
 /*#>*/
