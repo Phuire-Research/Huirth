@@ -1,4 +1,8 @@
 ![Huirth](https://github.com/Phuire-Research/logixUX/blob/main/LogixUX.png?raw=true)
+# Huirth OS POC
+Refactor and rebrand begin!
+## **NOTE** If demoing this project, be mindful that this current version is round around the edges and requires two consecutive runs of dev:dynamic to have the client load correctly, etc...
+This will be patched up over the course of the month, majority of work has been focused on Stratimux and exploring how we might take full responsibility of the Operating System. The handy aspect of the ActionStrategy pattern, is that because it represents a baseline abstraction majority of the logic already written via the original logixUX, may be translated to that new paradigm in the future. For now this has merely been a test project to ensure that Stratimux's updates does not break the underlying ActionStrategy pattern from 2018.
 ## Change Log
 ### Sync to v0.1.55 and initial rebrand to Huirth 4/25/24 
 ### Sync to Stratimux v0.1.52 4/05/24
