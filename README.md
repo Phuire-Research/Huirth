@@ -1,5 +1,6 @@
-![logixUX](https://github.com/Phuire-Research/logixUX/blob/main/LogixUX.png?raw=true)
+![Huirth](https://github.com/Phuire-Research/logixUX/blob/main/LogixUX.png?raw=true)
 ## Change Log
+### Sync to v0.1.55 and initial rebrand to Huirth 4/25/24 
 ### Sync to Stratimux v0.1.52 4/05/24
 * Quick drop in replacement, need to strip down on change logix to include the incoming changes list provided as a planning feature.
 # Stratimux Sidekick
