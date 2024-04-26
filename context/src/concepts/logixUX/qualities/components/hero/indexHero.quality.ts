@@ -30,7 +30,7 @@ export const [logixUXIndexHero, logixUXIndexHeroType, logixUXIndexHeroQuality] =
 <section id='${id}' class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">
   <div class="flex-1 flex items-center">
     <div class="flex flex-col items-center text-center mx-auto">
-      <img class="flex-none" src="/static/logixUX.png" alt="logixUX">
+      <img class="flex-none" src="/static/Huirth.png" alt="logixUX">
     </div>
   </div>
 </section>
