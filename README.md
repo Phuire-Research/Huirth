@@ -1,4 +1,4 @@
-![Huirth](https://github.com/Phuire-Research/logixUX/blob/main/LogixUX.png?raw=true)
+![Huirth](https://github.com/Phuire-Research/logixUX/blob/main/Huirth.png?raw=true)
 # Huirth OS POC
 Refactor and rebrand begin!
 ## **NOTE** If demoing this project, be mindful that this current version is rough around the edges and requires two consecutive runs of dev:dynamic to have the client load correctly, etc...
