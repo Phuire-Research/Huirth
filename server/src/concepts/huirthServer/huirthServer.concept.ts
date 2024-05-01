@@ -36,7 +36,7 @@ export type huirthServerState = {
   //
 } & huirthState;
 
-export const createhuirthServerConcept = (): Concept =>  {
+export const createHuirthServerConcept = (): Concept =>  {
   const principles: PrincipleFunction[] = [
     huirthServerPrinciple,
     huirthServerExitPrinciple

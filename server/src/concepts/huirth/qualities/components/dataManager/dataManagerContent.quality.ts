@@ -60,7 +60,7 @@ export const [
       const installStratimuxID = '#install_' + PhuirEProjects.stratimux;
       const pullStratimuxID = '#pull_' + PhuirEProjects.stratimux;
       let finalStratimuxID = '#stratimuxID';
-      let finalStratimuxNote = 'Stratimux';
+      let finalStratimuxNote = 'stratimux';
       const parseStratimuxID = '#parse_' + PhuirEProjects.stratimux;
       const installHuirth_ID = '#install_' + PhuirEProjects.huirth;
       const pullHuirth_ID = '#pull_' + PhuirEProjects.huirth;

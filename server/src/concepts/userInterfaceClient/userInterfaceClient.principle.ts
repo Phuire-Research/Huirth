@@ -27,11 +27,12 @@ import {
   UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload,
   userInterfaceClientAssembleAtomicUpdateCompositionStrategy
 } from './qualities/clientAssembleAtomicUpdateCompositionStrategy.quality';
+import { userInterface_createBoundSelectorsSelector } from '../userInterface/userInterface.selector';
 
 export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
   (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
-    const atomicCachedState: Record<string, unknown> = {};
-    let delayChanges = false;
+    // const atomicCachedState: Record<string, unknown> = {};
+    const boundSelectorsSelector = userInterface_createBoundSelectorsSelector(cpts, semaphore) as KeyedSelector;
     const beat = 100;
     const plan = concepts$.plan('User Interface Server on Change', [
       createStage((concepts, dispatch) => {
@@ -44,92 +45,46 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
           plan.conclude();
         }
       }, {selectors: [axiumSelectOpen]}),
-      createStage((concepts, dispatch) => {
-        console.log('Get unified name', getUnifiedName(concepts, semaphore));
+      createStage((concepts, dispatch, changes) => {
+        // console.log('Get unified name', getUnifiedName(concepts, semaphore));
         const uiState = selectUnifiedState<UserInterfaceClientState>(concepts, semaphore);
         if (uiState && uiState.pagesCached) {
-          const selectors: BoundSelectors[] = [];
-          uiState.pages.forEach((page, i) => {
-            if (page.title === uiState.currentPage) {
-              page.cachedSelectors.forEach(bound => {
-                bound.action.conceptSemaphore = semaphore;
-                selectors.push(bound);
-              });
-              page.cachedComponentSelectors.forEach(bound => {
-                bound.action.conceptSemaphore = semaphore;
-                selectors.push(bound);
-              });
-            }
-          });
+          const newSelectors = [boundSelectorsSelector, ...uiState.selectors];
+          const changed: Record<string, boolean> = {};
           const payload: UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload = {
             action$: getAxiumState(concepts).action$,
             boundActionQue: [],
           };
-          const changes: string[] = [];
-          const changedSelectors: KeyedSelector[] = [];
-          selectors.forEach(bound => {
-            for (const s of bound.selectors) {
-              // It is interesting to note, that if we attempt to use the updateUnifiedKeyedSelector here.
-              // The time complexity ruins this stage from operating at all.
-              const updated = updateUnifiedKeyedSelector(concepts, semaphore, s);
-              if (updated) {
-                const value = selectSlice(concepts, updated);
-                let changed = false;
-                if (typeof value !== 'object') {
-                  changed = (atomicCachedState as Record<string, unknown>)[updated.keys] !== value;
+          changes?.forEach(change => {
+            const bound = uiState.boundSelectors[change.keys];
+            if (bound) {
+              bound.forEach(b => {
+                b.action.conceptSemaphore = semaphore;
+                if (changed[b.action.type] === undefined) {
+                  payload.boundActionQue.push(b);
                 } else {
-                  const object = (atomicCachedState as Record<string, unknown>)[updated.keys];
-                  if (object === undefined) {
-                    changed = true;
-                  } else {
-                    changed = !Object.is(object, value);
-                  }
+                  changed[b.action.type] = true;
                 }
-                if (changed) {
-                  if (!changes.includes(updated.keys)) {
-                    changes.push(updated.keys);
-                    changedSelectors.push(updated);
-                  }
-                  let exists = false;
-                  for (const b of payload.boundActionQue) {
-                    if (b.id === bound.id) {
-                      exists = true;
-                      break;
-                    }
-                  }
-                  if (!exists) {
-                    payload.boundActionQue.push(bound);
-                  }
-                }
-              }
+              });
             }
           });
-          for (let i = 0; i < changes.length; i++) {
-            atomicCachedState[changes[i]] = selectSlice(concepts, changedSelectors[i]);
-          }
+          console.log('CHECK', newSelectors);
           if (payload.boundActionQue.length > 0) {
-            setTimeout(() => {
-              delayChanges = false;
-            }, 100);
-            delayChanges = true;
             dispatch(userInterfaceClientAssembleAtomicUpdateCompositionStrategy(payload), {
-              iterateStage: true,
-              throttle: 1
+              throttle: 0,
+              newSelectors
+            });
+          } else {
+            dispatch(axiumKick(), {
+              throttle: 0,
+              newSelectors
             });
           }
         } else if (uiState === undefined) {
           console.log('SHOULDN\'T CONCLUDE, unless removed');
           plan.conclude();
         }
-      }, {beat}),
-      createStage((_, dispatch) => {
-        if (!delayChanges) {
-          dispatch(axiumKick(), {
-            setStage: 1,
-            throttle: 1
-          });
-        }
-      })
+      }, {beat, selectors: [boundSelectorsSelector]}),
     ]
     );
   };

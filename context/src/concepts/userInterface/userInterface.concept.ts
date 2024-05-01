@@ -2,8 +2,8 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a principle that will dispatch a sequence of page to state strategies that will cache the required pages for the client.
 $>*/
 /*<#*/
-import { Concept, createConcept, unifyConcepts } from 'stratimux';
-import { Composition, Page, PageStrategyCreators } from '../../model/userInterface';
+import { Concept, KeyedSelector, createConcept, unifyConcepts } from 'stratimux';
+import { BoundSelectors, Composition, Page, PageStrategyCreators } from '../../model/userInterface';
 import { userInterfaceAddComposedPageToStateQuality } from './qualities/addComposedPageToState.quality';
 import { userInterfaceInitializationPrinciple } from './userInterface.principle';
 import { createHtmlConcept } from '../html/html.concepts';
@@ -22,6 +22,11 @@ export type UserInterfaceState = {
   components: Composition[];
   pageStrategies: PageStrategyCreators[];
   pagesCached: boolean;
+  // string represents the verbose key of a KeyedSelector
+  // This allows us to ensure that when changes are detected we select only valid entries from this primed record
+  // Then use entries to assemble a new Record that only records each unique BoundSelector to be dispatch
+  boundSelectors: Record<string, BoundSelectors[]>;
+  selectors: KeyedSelector[];
 };
 
 const createUserInterfaceState = (pageStrategies: PageStrategyCreators[]): UserInterfaceState => {
@@ -30,6 +35,8 @@ const createUserInterfaceState = (pageStrategies: PageStrategyCreators[]): UserI
     components: [],
     pageStrategies,
     pagesCached: false,
+    boundSelectors: {},
+    selectors: [],
   };
 };
 

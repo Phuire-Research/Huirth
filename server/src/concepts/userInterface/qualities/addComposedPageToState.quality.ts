@@ -4,6 +4,7 @@ $>*/
 /*<#*/
 import {
   Action,
+  KeyedSelector,
   createMethod,
   createQualitySet,
   strategySuccess,
@@ -19,6 +20,8 @@ export const [
   type: 'User Interface add composed Page to State',
   reducer: (state: UserInterfaceState, action: Action): UserInterfaceState => {
     if (action.strategy) {
+      const boundSelectors: Record<string, BoundSelectors[]> = {};
+      const mapSelectors: Map<string, KeyedSelector> = new Map();
       const page = userInterface_selectPage(action.strategy);
       const newComponents = [...state.components];
       const cachedComponentSelectors: BoundSelectors[] = [];
@@ -32,6 +35,16 @@ export const [
         for (const [compIndex, comp] of p.compositions.entries()) {
           if (comp.boundSelectors && !comp.universal) {
             for (const bound of comp.boundSelectors) {
+              comp.boundSelectors.forEach(b => {
+                b.selectors.forEach(s => {
+                  if (boundSelectors[s.keys]) {
+                    boundSelectors[s.keys].push(b);
+                  } else {
+                    mapSelectors.set(s.keys, s);
+                    boundSelectors[s.keys] = [b];
+                  }
+                });
+              });
               cachedSelectors.push({
                 ...bound,
                 semaphore: [i, compIndex]
@@ -58,6 +71,14 @@ export const [
                   // -1 to throw error if this is ever improperly handled
                   bound.semaphore = [-1, setIndex];
                   cachedComponentSelectors.push(bound);
+                  bound.selectors.forEach(s => {
+                    if (boundSelectors[s.keys]) {
+                      boundSelectors[s.keys].push(bound);
+                    } else {
+                      boundSelectors[s.keys] = [bound];
+                    }
+                    mapSelectors.set(s.keys, s);
+                  });
                 });
               }
               const composition: Composition = {...comp};
@@ -75,11 +96,17 @@ export const [
         p.cachedSelectors = cachedSelectors;
         p.cachedComponentSelectors = cachedComponentSelectors;
       }
+      const selectors: KeyedSelector[] = [];
+      mapSelectors.forEach((keyed) => {
+        selectors.push(keyed);
+      });
       return {
         ...state,
         pages: newPages,
         components: newComponents,
         pagesCached: true,
+        boundSelectors,
+        selectors
       };
     }
     return {

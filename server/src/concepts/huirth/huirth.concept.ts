@@ -88,7 +88,7 @@ export type huirthState = {
   activeDPO: Active_DPO[];
 } & BrandState;
 
-const createhuirthState = (): huirthState => {
+const createHuirthState = (): huirthState => {
   return {
     mock: 0,
     dialog: '',
@@ -112,7 +112,7 @@ const createhuirthState = (): huirthState => {
   };
 };
 
-export const createhuirthConcept = (): Concept =>  {
+export const createHuirthConcept = (): Concept =>  {
   const principles: PrincipleFunction[] = [
     huirthDialogPrinciple,
     huirthTrainingDataPagePrinciple
@@ -175,7 +175,7 @@ export const createhuirthConcept = (): Concept =>  {
     ],
     createConcept(
       huirthName,
-      createhuirthState(),
+      createHuirthState(),
       qualities,
       principles,
       []
