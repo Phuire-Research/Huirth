@@ -73,8 +73,3 @@ export enum ParsingTokens {
 }
 ```
 If you would like to test out this system for yourself. For the time being simply annotate your public code repository with these parsing tokens. And within the Data Manager, import your project. Then once it has been installed. Simply hit parse then save your data set to your file system. All data sets are added into this project's data/sets/.
-
-# Interested in collaborating?
-*"Provably Unified Recursive Feedback"*
-
-As a consequence of Stratimux's dialog system. Each application that is creating within this new class of provably halting algorithms becomes high quality training data for AI. As AI like this system of design is just a graph of functions. The only true difference is that AI is brute forced and trained, where a Stratimux project is written in plain text and accounts for specifics.
