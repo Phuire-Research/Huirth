@@ -1,8 +1,8 @@
-![Huirth](https://github.com/Phuire-Research/logixUX/blob/main/Huirth.png?raw=true)
+![Huirth](https://github.com/Phuire-Research/huirth/blob/main/Huirth.png?raw=true)
 # Huirth OS POC
 Refactor and rebrand begin!
 ## **NOTE** If demoing this project, be mindful that this current version is rough around the edges and requires two consecutive runs of dev:dynamic to have the client load correctly, etc...
-This will be patched up over the course of the month, majority of work has been focused on Stratimux and exploring how we might take full responsibility of the Operating System. The handy aspect of the ActionStrategy pattern, is that because it represents a baseline abstraction majority of the logic already written via the original logixUX, may be translated to that new paradigm in the future. For now this has merely been a test project to ensure that Stratimux's updates does not break the underlying ActionStrategy pattern from 2018.
+This will be patched up over the course of the month, majority of work has been focused on Stratimux and exploring how we might take full responsibility of the Operating System. The handy aspect of the ActionStrategy pattern, is that because it represents a baseline abstraction majority of the logic already written via the original huirth, may be translated to that new paradigm in the future. For now this has merely been a test project to ensure that Stratimux's updates does not break the underlying ActionStrategy pattern from 2018.
 ## Change Log
 ### Sync to v0.1.55 and initial rebrand to Huirth 4/25/24 
 ### Sync to Stratimux v0.1.52 4/05/24
@@ -29,7 +29,7 @@ What this system demonstrates even in its rough form. Is a system of design that
 ## Digital Embodiment of AI
 The purpose of this project is to build in public a proof of concept of three parts. 
 1. [Stratimux](https://github.com/Phuire-Research/Stratimux/) - In its capacity to perform as a universal transformer.
-2. logixUX represents an MVP of "User Interface Concept," and Turing Complete application.
+2. huirth represents an MVP of "User Interface Concept," and Turing Complete application.
    1. Reminder Stratimux is a recursive provably terminating algorithm that still performs turing complete operations, this is supposed to be **impossible.**
 3. A method of safe recursive improvement of AI via Stratimux as a surrogate ABI (Autonomous Baseline Intelligence), written in plain text.
 
@@ -37,13 +37,13 @@ The greatest benefit to this approach. Is that by way of creating purposely craf
 
 In the now, this is a critical junction between hyper reliance upon black boxes(something you cannot understand the inner workings of) and the downplay of merited creation. Thus, what this system proposes, is understanding of all that parts that black box unlimited pleasure button of generative AI. This system provides a method of merit, by way of understanding all that parts that our systems would come to rely upon. As everything written and submitted as training data would just be plain text in the spirit of the open internet.
 
-It is also important to note that Stratimux and logixUX have been handwritten projects to this point, with no use of generative AI. Beyond this commit and the fine tuning of an AI using this system. I'll be finally breaking that limitation I placed upon myself in the creation of this system. As a way to enjoy the last bits of bashing my head into a wall, with only myself to blame.
+It is also important to note that Stratimux and huirth have been handwritten projects to this point, with no use of generative AI. Beyond this commit and the fine tuning of an AI using this system. I'll be finally breaking that limitation I placed upon myself in the creation of this system. As a way to enjoy the last bits of bashing my head into a wall, with only myself to blame.
 
 Be safe and responsible. But most importantly, have fun!
 
 **GOAL Beyond MVP: Reduce complexity of working with this pattern via generative AI in combination with a custom UI to quickly scaffold developer applications. And concept libraries.**
 
-## Using logixUX as a Universal Typescript Data Set Parser
+## Using huirth as a Universal Typescript Data Set Parser
 These parsing tokens may be utilized within any TypeScript, not just Stratimux. And in the future may encompass any other programming paradigm. The data set parsing is designed to be able to extract out multiple prompts and contents from a single file. While allowing for addition annotation via the import and include section to provide a consistent training context for informing models or fine tuning preexisting models to work with your projects.
 ```typescript
 export enum ParsingTokens {

@@ -1,5 +1,5 @@
 /*<$
-For the graph programming framework Stratimux and the logixUX Project, generate a test to output the current project root.
+For the graph programming framework Stratimux and the huirth Project, generate a test to output the current project root.
 $>*/
 /*<#*/
 import { findRoot } from '../model/findRoot';

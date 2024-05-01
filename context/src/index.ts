@@ -2,7 +2,7 @@
 import { createAxium } from 'stratimux';
 import { createDocumentObjectModelConcept } from './concepts/documentObjectModel/documentObjectModel.concept';
 import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient/userInterfaceClient.concept';
-import { createLogixUXConcept } from './concepts/logixUX/logixUX.concept';
+import { createHuirthConcept } from './concepts/huirth/huirth.concept';
 
 /*$ End template imports $*/
 
@@ -16,7 +16,7 @@ import { createLogixUXConcept } from './concepts/logixUX/logixUX.concept';
       if (init && state) {
         createAxium(
           'contextAxium',
-          [createDocumentObjectModelConcept({}), createUserInterfaceClientConcept(state, createLogixUXConcept)],
+          [createDocumentObjectModelConcept({}), createUserInterfaceClientConcept(state, createHuirthConcept)],
           true,
           true
         );

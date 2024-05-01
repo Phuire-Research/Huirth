@@ -1,5 +1,5 @@
 /*<$
-For the graph programming framework Stratimux and the logixUX Project, generate a model that would enable all functionality required for the User Interface base concept.
+For the graph programming framework Stratimux and the huirth Project, generate a model that would enable all functionality required for the User Interface base concept.
 $>*/
 /*<#*/
 import {
