@@ -1,5 +1,5 @@
 /*<$
-For the graph programming framework Stratimux and the logixUX Project, generate a model for to contain the function used to create the context index.ts file.
+For the graph programming framework Stratimux and the huirth Project, generate a model for to contain the function used to create the context index.ts file.
 $>*/
 /*<#*/
 import { userInterfaceClientName } from '../concepts/userInterfaceClient/userInterfaceClient.concept';

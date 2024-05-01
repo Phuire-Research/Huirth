@@ -1,10 +1,10 @@
 /*<$
-For the graph programming framework Stratimux, generate a index file for a branded project logixUX that utilizes the Stratimux advanced project template to formalize a unified application.
+For the graph programming framework Stratimux, generate a index file for a branded project huirth that utilizes the Stratimux advanced project template to formalize a unified application.
 $>*/
 /*<#*/
 import { createAxium, unifyConcepts } from 'stratimux';
 import { createFileSystemConcept } from './concepts/fileSystem/fileSystem.concept';
-import { createLogixUXConcept } from './concepts/logixUX/logixUX.concept';
+import { createhuirthConcept } from './concepts/huirth/huirth.concept';
 
 import { argv } from 'process';
 import {
@@ -13,7 +13,7 @@ import {
   commandLineInterfaceGoals
 } from './model/commandLineInterface';
 import { createUserInterfaceServerConcept } from './concepts/userInterfaceServer/userInterfaceServer.concept';
-import { createLogixUXServerConcept } from './concepts/logixUXServer/logixUXServer.concept';
+import { createhuirthServerConcept } from './concepts/huirthServer/huirthServer.concept';
 
 (() => {
   const goal = commandLineInterfaceDetermineGoal(argv);
@@ -21,17 +21,17 @@ import { createLogixUXServerConcept } from './concepts/logixUXServer/logixUXServ
   console.log('GOAL', goal);
   switch (goal) {
   case commandLineInterfaceGoals.simulate: {
-    createAxium(`axium ${goal} logixUX`, [
+    createAxium(`axium ${goal} huirth`, [
       createUserInterfaceServerConcept(goal, {
-        concept: unifyConcepts([createLogixUXServerConcept()], createLogixUXConcept()),
+        concept: unifyConcepts([createhuirthServerConcept()], createhuirthConcept()),
       }, port),
     ], true, true);
     break;
   }
   default: {
-    createAxium(`axium ${goal} logixUX`, [
+    createAxium(`axium ${goal} huirth`, [
       createUserInterfaceServerConcept(goal, {
-        concept: unifyConcepts([createLogixUXServerConcept()], createLogixUXConcept()),
+        concept: unifyConcepts([createhuirthServerConcept()], createhuirthConcept()),
       }, port),
       createFileSystemConcept()
     ], true, true);

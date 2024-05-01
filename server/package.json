@@ -1,5 +1,5 @@
 {
-  "name": "logixux",
+  "name": "huirth",
   "version": "0.0.01",
   "description": "Unified Turing Machine",
   "main": "dist/index.js",
@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "directory": "https://github.com/Phuire-Research/logixUX.git"
+    "directory": "https://github.com/Phuire-Research/huirth.git"
   },
   "scripts": {
     "build": "rimraf ./dist && tsup src/index.ts --format cjs,esm --dts",

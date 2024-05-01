@@ -5,7 +5,7 @@
 // Can be massively improved upon.
 /*!>*/
 /*<$
-For the graph programming framework Stratimux and the logixUX Project, generate a model for a command line interface that would handle incoming arguments passed upon the processes creation.
+For the graph programming framework Stratimux and the huirth Project, generate a model for a command line interface that would handle incoming arguments passed upon the processes creation.
 $>*/
 /*<#*/
 const GOAL = '--goal';

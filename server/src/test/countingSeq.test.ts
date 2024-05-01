@@ -1,9 +1,9 @@
 /*<$
-For the graph programming framework Stratimux and the logixUX Project, generate a test to ensure that the file system is loaded and working as intended.
+For the graph programming framework Stratimux and the huirth Project, generate a test to ensure that the file system is loaded and working as intended.
 $>*/
 /*<#*/
 import { ActionStrategy, CounterState, axiumSelectOpen, counterName, createAxium, createCounterConcept, createStage, selectSlice, selectState, strategyBegin, strategySequence } from 'stratimux';
-import { logixUXPlusSevenStrategy } from '../concepts/logixUX/strategies/countPlusSeven.strategy';
+import { huirthPlusSevenStrategy } from '../concepts/huirth/strategies/countPlusSeven.strategy';
 
 test('Stratimux test sequence of counting strategies', (done) => {
   console.log('BEGIN');
@@ -16,10 +16,10 @@ test('Stratimux test sequence of counting strategies', (done) => {
       if (selectSlice(concepts, axiumSelectOpen)) {
         dispatch(strategyBegin(
           strategySequence([
-            logixUXPlusSevenStrategy(0, 1),
-            logixUXPlusSevenStrategy(7, 1),
-            logixUXPlusSevenStrategy(14, 1),
-            logixUXPlusSevenStrategy(21, 1),
+            huirthPlusSevenStrategy(0, 1),
+            huirthPlusSevenStrategy(7, 1),
+            huirthPlusSevenStrategy(14, 1),
+            huirthPlusSevenStrategy(21, 1),
           ]) as ActionStrategy
         ), {
           iterateStage: true,

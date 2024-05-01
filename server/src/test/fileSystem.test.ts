@@ -1,5 +1,5 @@
 /*<$
-For the graph programming framework Stratimux and the logixUX Project, generate a test to ensure that the file system is loaded and working as intended.
+For the graph programming framework Stratimux and the huirth Project, generate a test to ensure that the file system is loaded and working as intended.
 $>*/
 /*<#*/
 import { Concepts, axiumSelectOpen, createAxium, createStage, selectSlice, selectState, strategyBegin } from 'stratimux';

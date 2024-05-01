@@ -1,5 +1,5 @@
 /*<$
-For the graph programming framework Stratimux and the logixUX Project, generate a model that would contain the function that would determine the root of the logixUX Project.
+For the graph programming framework Stratimux and the huirth Project, generate a model that would contain the function that would determine the root of the huirth Project.
 $>*/
 /*<#*/
 import path from 'path';
