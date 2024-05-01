@@ -275,7 +275,7 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
                 id="${finalHuirth_ID}"
                 class="w-44 m-2 items-center bg-yellow-800/5 hover:bg-yellow-500 text-yellow-50 hover:text-white font-semibold py-2 px-4 border border-yellow-500 hover:border-transparent rounded"
               >
-                ${finalHuirth_note} <img class="inline w-[27px]" src="/static/logixUX-Spiral.png">
+                ${finalHuirth_note} <img class="inline w-[27px]" src="/static/Huirth-Tiny.png">
               </button>
             </div>
             ${finalProjects}
