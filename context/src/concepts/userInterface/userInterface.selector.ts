@@ -8,4 +8,7 @@ import { UserInterfaceState } from './userInterface.concept';
 export const userInterface_createBoundSelectorsSelector = (concepts: Concepts, semaphore: number) => {
   return createUnifiedKeyedSelector<UserInterfaceState>(concepts, semaphore, 'boundSelectors');
 };
+export const userInterface_createPagesSelector = (concepts: Concepts, semaphore: number) => {
+  return createUnifiedKeyedSelector<UserInterfaceState>(concepts, semaphore, 'pages');
+};
 /*#>*/

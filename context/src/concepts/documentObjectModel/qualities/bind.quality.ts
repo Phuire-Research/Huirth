@@ -38,6 +38,7 @@ export const [documentObjectModelBind, documentObjectModelBindType, documentObje
       createMethod((action) => {
         const payload = selectPayload<DocumentObjectModelBindPayload>(action);
         const element = document.getElementById(payload.id);
+        console.log('Binding: ', element, payload);
         if (element) {
           setElementBinding(element, payload);
         }

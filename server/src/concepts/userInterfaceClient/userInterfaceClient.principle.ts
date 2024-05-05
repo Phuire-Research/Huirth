@@ -18,6 +18,7 @@ import {
   getUnifiedName,
   selectSlice,
   selectUnifiedState,
+  strategyBegin,
   updateUnifiedKeyedSelector,
 } from 'stratimux';
 import { UserInterfaceClientState } from './userInterfaceClient.concept';
@@ -27,7 +28,9 @@ import {
   UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload,
   userInterfaceClientAssembleAtomicUpdateCompositionStrategy
 } from './qualities/clientAssembleAtomicUpdateCompositionStrategy.quality';
-import { userInterface_createBoundSelectorsSelector } from '../userInterface/userInterface.selector';
+import { userInterface_createBoundSelectorsSelector, userInterface_createPagesSelector } from '../userInterface/userInterface.selector';
+import { huirth_createDialogSelector } from '../huirth/huirth.selector';
+import { userInterfaceInitialBindingStrategy } from './qualities/initialBinding.strategy';
 
 export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
   (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
@@ -45,11 +48,24 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
           plan.conclude();
         }
       }, {selectors: [axiumSelectOpen]}),
+      createStage((concepts, dispatch) => {
+        //
+        const pages = selectUnifiedState<UserInterfaceClientState>(concepts, semaphore)?.pages;
+        if (pages) {
+          if (pages.length > 0) {
+            dispatch(strategyBegin(userInterfaceInitialBindingStrategy(getAxiumState(concepts).action$, pages)), {
+              iterateStage: true,
+            });
+          }
+        } else {
+          plan.conclude();
+        }
+      }, { selectors: [userInterface_createPagesSelector(cpts, semaphore) as KeyedSelector] }),
       createStage((concepts, dispatch, changes) => {
         // console.log('Get unified name', getUnifiedName(concepts, semaphore));
         const uiState = selectUnifiedState<UserInterfaceClientState>(concepts, semaphore);
         if (uiState && uiState.pagesCached) {
-          const newSelectors = [boundSelectorsSelector, ...uiState.selectors];
+          const newSelectors = [boundSelectorsSelector, huirth_createDialogSelector(concepts, semaphore) as KeyedSelector, ...uiState.selectors];
           const changed: Record<string, boolean> = {};
           const payload: UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload = {
             action$: getAxiumState(concepts).action$,
@@ -68,7 +84,6 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
               });
             }
           });
-          console.log('CHECK', newSelectors);
           if (payload.boundActionQue.length > 0) {
             dispatch(userInterfaceClientAssembleAtomicUpdateCompositionStrategy(payload), {
               throttle: 0,

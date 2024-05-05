@@ -37,7 +37,7 @@ export const documentObjectModelPrinciple: PrincipleFunction = (
       }
     }, { priority: 1, selectors: [axiumSelectOpen]}),
     createStage((concepts, dispatch) => {
-      // console.log('Hello Document Object Model', selectUnifiedState<DocumentObjectModelState>(concepts, semaphore)?.bindingQue);
+      console.log('Hello Document Object Model', selectUnifiedState<DocumentObjectModelState>(concepts, semaphore)?.bindingQue, pageID);
       const documentObjectModelState = selectUnifiedState<DocumentObjectModelState>(concepts, semaphore);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const userInterfaceState = selectState<any>(concepts, 'userInterfaceClient');
