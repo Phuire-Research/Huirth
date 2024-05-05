@@ -30,7 +30,8 @@ export const [
         key !== 'serverSemaphore' &&
         key !== 'clientSemaphore' &&
         key !== 'pageStrategies' &&
-        key !== 'actionQue') {
+        key !== 'actionQue' &&
+        key !== 'boundSelectors') {
         newState[key] = payload.state[key];
       }
     }

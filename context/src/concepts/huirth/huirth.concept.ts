@@ -88,7 +88,7 @@ export type huirthState = {
   activeDPO: Active_DPO[];
 } & BrandState;
 
-const createhuirthState = (): huirthState => {
+const createHuirthState = (): huirthState => {
   return {
     mock: 0,
     dialog: '',
@@ -112,7 +112,7 @@ const createhuirthState = (): huirthState => {
   };
 };
 
-export const createhuirthConcept = (): Concept => {
+export const createHuirthConcept = (): Concept => {
   const principles: PrincipleFunction[] = [huirthDialogPrinciple, huirthTrainingDataPagePrinciple];
   const qualities: Quality[] = [
     huirthHeadQuality,
@@ -166,6 +166,6 @@ export const createhuirthConcept = (): Concept => {
     huirthSetSelectedTransformationQuality,
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
-  return unifyConcepts([createCounterConcept()], createConcept(huirthName, createhuirthState(), qualities, principles, []));
+  return unifyConcepts([createCounterConcept()], createConcept(huirthName, createHuirthState(), qualities, principles, []));
 };
 /*#>*/

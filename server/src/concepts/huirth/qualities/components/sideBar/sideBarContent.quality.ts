@@ -28,7 +28,6 @@ export const [
   reducer: nullReducer,
   componentCreator: (act, concepts$, semaphore) => createMethodWithConcepts((action, concepts) => {
     const state = selectUnifiedState<UserInterfaceState & huirthState>(concepts, semaphore as number);
-
     const payload = selectComponentPayload(action);
     const id = '#sideBarContent';
     const expandSideBarId = '#expandSideBarID';

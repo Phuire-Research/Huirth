@@ -12,6 +12,7 @@ import { fileSystemCreateTargetDirectory } from '../../fileSystem/qualities/crea
 import { dataDirectories } from '../huirthServer.model';
 import { huirthServerSetRepositoriesFromData } from '../qualities/setRepositoriesFromData.quality';
 import { huirthServerSetTrainingDataFromData } from '../qualities/setTrainingDataFromData.quality';
+import { kMaxLength } from 'buffer';
 
 const huirthServerInitializationStrategyTopic = 'huirth Server Initialization Strategy';
 export const huirthServerInitializationStrategy = (root: string) => {
@@ -57,8 +58,15 @@ export const huirthServerInitializationStrategy = (root: string) => {
     successNode: stepReadDataRepoDirectory,
     failureNode: stepCreateRepoDirectory
   });
+  const stepReadDataDirectoryAgain = createActionNode(fileSystemGetDirectoriesAndFiles({path: dataDirectory}), {
+    successNode: stepIsTheDataDirectorySetUp,
+  });
+  const stepFailedFindingDataDirector = createActionNode(fileSystemCreateTargetDirectory({path: dataDirectory}), {
+    successNode: stepReadDataDirectoryAgain
+  });
   const stepReadDataDirectory = createActionNode(fileSystemGetDirectoriesAndFiles({path: dataDirectory}), {
     successNode: stepIsTheDataDirectorySetUp,
+    failureNode: stepFailedFindingDataDirector
   });
   return createStrategy({
     topic: huirthServerInitializationStrategyTopic,

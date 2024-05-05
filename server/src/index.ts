@@ -4,7 +4,7 @@ $>*/
 /*<#*/
 import { createAxium, unifyConcepts } from 'stratimux';
 import { createFileSystemConcept } from './concepts/fileSystem/fileSystem.concept';
-import { createhuirthConcept } from './concepts/huirth/huirth.concept';
+import { createHuirthConcept } from './concepts/huirth/huirth.concept';
 
 import { argv } from 'process';
 import {
@@ -13,7 +13,7 @@ import {
   commandLineInterfaceGoals
 } from './model/commandLineInterface';
 import { createUserInterfaceServerConcept } from './concepts/userInterfaceServer/userInterfaceServer.concept';
-import { createhuirthServerConcept } from './concepts/huirthServer/huirthServer.concept';
+import { createHuirthServerConcept } from './concepts/huirthServer/huirthServer.concept';
 
 (() => {
   const goal = commandLineInterfaceDetermineGoal(argv);
@@ -23,7 +23,7 @@ import { createhuirthServerConcept } from './concepts/huirthServer/huirthServer.
   case commandLineInterfaceGoals.simulate: {
     createAxium(`axium ${goal} huirth`, [
       createUserInterfaceServerConcept(goal, {
-        concept: unifyConcepts([createhuirthServerConcept()], createhuirthConcept()),
+        concept: unifyConcepts([createHuirthServerConcept()], createHuirthConcept()),
       }, port),
     ], true, true);
     break;
@@ -31,7 +31,7 @@ import { createhuirthServerConcept } from './concepts/huirthServer/huirthServer.
   default: {
     createAxium(`axium ${goal} huirth`, [
       createUserInterfaceServerConcept(goal, {
-        concept: unifyConcepts([createhuirthServerConcept()], createhuirthConcept()),
+        concept: unifyConcepts([createHuirthServerConcept()], createHuirthConcept()),
       }, port),
       createFileSystemConcept()
     ], true, true);

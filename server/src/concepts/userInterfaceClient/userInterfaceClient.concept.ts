@@ -26,6 +26,8 @@ const createUserInterfaceClientState = (): UserInterfaceClientState => {
       pagesCached: false,
       pageStrategies: [],
       currentPage: id.split('page#')[1],
+      boundSelectors: {},
+      selectors: []
     };
   } else {
     return {
@@ -34,6 +36,8 @@ const createUserInterfaceClientState = (): UserInterfaceClientState => {
       pageStrategies: [],
       pagesCached: false,
       currentPage: '',
+      boundSelectors: {},
+      selectors: []
     };
   }
 };

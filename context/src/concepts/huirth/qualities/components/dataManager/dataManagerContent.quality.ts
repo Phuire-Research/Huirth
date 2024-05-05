@@ -51,6 +51,7 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
   componentCreator: (act, concepts$, _semaphore) =>
     createMethodDebounceWithConcepts(
       (action, concepts, semaphore) => {
+        console.log('HITTING DATA MANAGER COMPONENT');
         const payload = selectComponentPayload(action);
         const id = '#dataManagerID' + payload.pageTitle;
         const projectInputID = '#projectInputID';
@@ -63,7 +64,7 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
         const installStratimuxID = '#install_' + PhuirEProjects.stratimux;
         const pullStratimuxID = '#pull_' + PhuirEProjects.stratimux;
         let finalStratimuxID = '#stratimuxID';
-        let finalStratimuxNote = 'Stratimux';
+        let finalStratimuxNote = 'stratimux';
         const parseStratimuxID = '#parse_' + PhuirEProjects.stratimux;
         const installHuirth_ID = '#install_' + PhuirEProjects.huirth;
         const pullHuirth_ID = '#pull_' + PhuirEProjects.huirth;

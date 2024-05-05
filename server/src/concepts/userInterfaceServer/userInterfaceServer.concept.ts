@@ -43,7 +43,9 @@ const createUserInterfaceServerState =
       pageStrategies,
       pagesCached: false,
       createClientIndexQue: [],
-      goal
+      goal,
+      boundSelectors: {},
+      selectors: []
     };
   };
 
