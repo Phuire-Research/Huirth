@@ -51,6 +51,7 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
   componentCreator: (act, concepts$, _semaphore) =>
     createMethodDebounceWithConcepts(
       (action, concepts, semaphore) => {
+        console.log('HITTING DATA MANAGER COMPONENT');
         const payload = selectComponentPayload(action);
         const id = '#dataManagerID' + payload.pageTitle;
         const projectInputID = '#projectInputID';

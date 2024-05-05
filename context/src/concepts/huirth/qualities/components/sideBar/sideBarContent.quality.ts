@@ -25,7 +25,6 @@ export const [huirthSideBarContent, huirthSideBarContentType, huirthSideBarConte
     createMethodWithConcepts(
       (action, concepts) => {
         const state = selectUnifiedState<UserInterfaceState & huirthState>(concepts, semaphore as number);
-
         const payload = selectComponentPayload(action);
         const id = '#sideBarContent';
         const expandSideBarId = '#expandSideBarID';

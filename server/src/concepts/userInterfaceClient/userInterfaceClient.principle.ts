@@ -65,7 +65,7 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
         // console.log('Get unified name', getUnifiedName(concepts, semaphore));
         const uiState = selectUnifiedState<UserInterfaceClientState>(concepts, semaphore);
         if (uiState && uiState.pagesCached) {
-          const newSelectors = [boundSelectorsSelector, huirth_createDialogSelector(concepts, semaphore) as KeyedSelector, ...uiState.selectors];
+          const newSelectors = [boundSelectorsSelector, ...uiState.selectors];
           const changed: Record<string, boolean> = {};
           const payload: UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload = {
             action$: getAxiumState(concepts).action$,
@@ -75,11 +75,11 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
             const bound = uiState.boundSelectors[change.keys];
             if (bound) {
               bound.forEach(b => {
-                b.action.conceptSemaphore = semaphore;
-                if (changed[b.action.type] === undefined) {
+                const exists = changed[b.semaphore.toString()];
+                if (exists === undefined) {
+                  changed[b.semaphore.toString()] = true;
+                  b.action.conceptSemaphore = semaphore;
                   payload.boundActionQue.push(b);
-                } else {
-                  changed[b.action.type] = true;
                 }
               });
             }

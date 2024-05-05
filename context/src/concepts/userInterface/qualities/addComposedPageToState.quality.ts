@@ -14,6 +14,7 @@ export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageT
         const boundSelectors: Record<string, BoundSelectors[]> = {};
         const mapSelectors: Map<string, KeyedSelector> = new Map();
         const page = userInterface_selectPage(action.strategy);
+        console.log('CHECK PAGE COUNT', state.pages.length);
         const newComponents = [...state.components];
         const cachedComponentSelectors: BoundSelectors[] = [];
         const isUnique: Record<string, boolean> = {};
@@ -26,6 +27,8 @@ export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageT
           for (const [compIndex, comp] of p.compositions.entries()) {
             if (comp.boundSelectors && !comp.universal) {
               for (const bound of comp.boundSelectors) {
+                bound.semaphore = [i, compIndex];
+                // console.log('SET', bound.action, bound.semaphore);
                 comp.boundSelectors.forEach((b) => {
                   b.selectors.forEach((s) => {
                     if (boundSelectors[s.keys]) {
@@ -36,10 +39,7 @@ export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageT
                     }
                   });
                 });
-                cachedSelectors.push({
-                  ...bound,
-                  semaphore: [i, compIndex],
-                });
+                cachedSelectors.push(bound);
               }
             } else if (comp.boundSelectors && comp.universal) {
               let unique = true;
@@ -68,6 +68,7 @@ export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageT
                       } else {
                         boundSelectors[s.keys] = [bound];
                       }
+                      console.log('SETTING', s.keys, s);
                       mapSelectors.set(s.keys, s);
                     });
                   });
