@@ -269,6 +269,7 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
             return uiState.boundSelectors[key].map(b => b).map(some => `${key} ${some.semaphore}`);
           }));
           console.log('CHECK PAYLOAD', payload);
+          // console.log('CHECK COMPONENTS', uiState.components);
           if (payload.boundActionQue.length > 0) {
             console.log('ATOMIC UPDATE', payload.boundActionQue.map(bound => bound.semaphore));
             dispatch(userInterfaceServerAssembleUpdateAtomicCompositionStrategy(payload), {

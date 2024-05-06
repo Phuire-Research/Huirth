@@ -3,7 +3,15 @@ For the graph programming framework Stratimux and a Concept huirth, generate a U
 $>*/
 /*<#*/
 /* eslint-disable max-len */
-import { KeyedSelector, UnifiedSubject, createMethodWithConcepts, nullReducer, selectUnifiedState, strategySuccess } from 'stratimux';
+import {
+  KeyedSelector,
+  UnifiedSubject,
+  createMethodWithConcepts,
+  nullReducer,
+  selectUnifiedState,
+  strategySuccess,
+  select,
+} from 'stratimux';
 
 import {
   createBinding,
@@ -17,6 +25,7 @@ import { UserInterfaceState } from '../../../../userInterface/userInterface.conc
 import { huirth_createSideBarExpandedSelector, huirth_createTrainingDataSelector } from '../../../huirth.selector';
 import { huirthToggleSidebar } from '../../toggleSidebar.quality';
 import { elementEventBinding } from '../../../../../model/html';
+import { userInterface_createPagesSelector } from '../../../../userInterface/userInterface.selector';
 
 export const [huirthSideBarContent, huirthSideBarContentType, huirthSideBarContentQuality] = createQualitySetComponent({
   type: 'create userInterface for SideBarContent',
@@ -44,9 +53,17 @@ export const [huirthSideBarContent, huirthSideBarContentType, huirthSideBarConte
 <li class="${liClass} cursor-pointer"><a href="/dataManager"><i class="fa-solid fa-book"></i> Data Manager</a></li>
 `;
           for (const data of state.trainingData) {
+            // let add = false;
+            // state.pages.forEach(page => {
+            //   if (page.title === data.name) {
+            //     add = true;
+            //   }
+            // });
+            // if (add) {
             pages += /*html*/ `
 <li class='${liClass}'><a href="/${data.name}"><i class="fa-solid fa-file"></i> ${data.name}</a></li>
 `;
+            // }
           }
         }
         const boundSelectors = [
