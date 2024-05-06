@@ -4,6 +4,7 @@ $>*/
 /*<#*/
 import {
   createAsyncMethod,
+  createAsyncMethodDebounce,
   createQualitySetWithPayload,
   nullReducer,
   selectPayload,
@@ -30,7 +31,7 @@ export const [
   type: 'File System get target Directories and Files',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethod((controller, action) => {
+    createAsyncMethodDebounce((controller, action) => {
       const payload = selectPayload<GetDirectoriesAndFilesPayload>(action);
       if (action.strategy) {
         const strategy = action.strategy;
@@ -42,11 +43,12 @@ export const [
             strategySuccess(strategy, strategyData_unifyData(strategy, {directories}));
           controller.fire(newStrategy);
         }).catch(error => {
+          console.error('CHECK ERROR', error);
           controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, `${error}`)));
         });
       } else {
         controller.fire(action);
       }
-    })
+    }, 300)
 });
 /*#>*/

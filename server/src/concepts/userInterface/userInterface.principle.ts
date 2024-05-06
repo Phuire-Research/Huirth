@@ -19,6 +19,7 @@ import {
   createStage,
   selectSlice,
   KeyedSelector,
+  axiumKick,
 } from 'stratimux';
 import { UserInterfaceState } from './userInterface.concept';
 import { userInterfacePageToStateStrategy } from './strategies.ts/pageToState.strategy';
@@ -33,9 +34,12 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction =
       if (axiumState.badActions.length > 0) {
         console.error('BAD ACTIONS: ', axiumState.badActions);
       }
+      console.log('BAD ACTIONS', axiumState.badActions);
+      // console.log('CHECK FOR SIDEBAR CONTENT', val[1].qualities[56]);
     });
     const plan = concepts$.plan('User Interface Page to State initialization plan', [
       createStage((concepts, dispatch) => {
+        console.log('USER INTERFACE PAGE TO STATE INIT 1');
         const name = getUnifiedName(concepts, semaphore);
         if (name && selectSlice(concepts, axiumSelectOpen)) {
           dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
@@ -45,8 +49,14 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction =
           plan.conclude();
         }
       }, { priority: 1000, selectors: [axiumSelectOpen]}),
+      createStage((_, dispatch) => {
+        dispatch(axiumKick(), {
+          iterateStage: true
+        });
+      }),
       createStage((concepts, dispatch) => {
         const uiState = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
+        console.log('USER INTERFACE PAGE TO STATE INIT 2', uiState?.pages.length, uiState?.pageStrategies.length);
         if (uiState) {
           if (uiState.pageStrategies.length === 1) {
             dispatch(strategyBegin(userInterfacePageToStateStrategy(uiState.pageStrategies[0](concepts))), {
@@ -69,6 +79,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction =
             });
             const strategy = strategySequence(list);
             if (strategy) {
+              console.log('DISPATCHED', uiState.pages.length, strategy);
               dispatch(strategyBegin(strategy), {
                 iterateStage: true,
               });
@@ -82,6 +93,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction =
         }
       }, {beat: 100, selectors: [userInterface_createPagesSelector(cpts, semaphore) as KeyedSelector]}),
       createStage((____, _____) => {
+        console.log('USER INTERFACE PAGE TO STATE INIT 3');
         plan.conclude();
       })
     ]);

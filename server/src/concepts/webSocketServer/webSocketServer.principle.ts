@@ -19,6 +19,7 @@ import {
   createStage,
   getAxiumState,
   getUnifiedName,
+  primeAction,
   selectSlice,
   selectUnifiedState,
 } from 'stratimux';
@@ -90,6 +91,7 @@ export const webSocketServerPrinciple: PrincipleFunction =
               console.log('MESSAGE', (act as Action).type);
             }
           }
+          act.conceptSemaphore = semaphore;
           observer.next(act);
         }
       });

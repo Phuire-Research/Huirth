@@ -44,6 +44,7 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
     concepts$.subscribe(concepts => {
       const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
       if (uiState) {
+        console.log('CHECK PAGES LENGTH', uiState.pages.length);
         components = uiState.components;
         if (uiState.pages.length > 0) {
           // body = uiState.pages[0].compositions.map(comp => comp.html).join('');
@@ -158,6 +159,7 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
   (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     const plan = concepts$.plan('User Interface Server on Change', [
       createStage((concepts, dispatch) => {
+        console.log('INIT USER INTERFACE SERVER ON CHANGE');
         const name = getUnifiedName(concepts, semaphore);
         if (name && selectSlice(concepts, axiumSelectOpen)) {
           dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {

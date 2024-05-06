@@ -11,6 +11,7 @@ import {
   selectUnifiedState,
   strategySuccess,
   select,
+  createMethodDebounceWithConcepts,
 } from 'stratimux';
 
 import {
@@ -31,8 +32,9 @@ export const [huirthSideBarContent, huirthSideBarContentType, huirthSideBarConte
   type: 'create userInterface for SideBarContent',
   reducer: nullReducer,
   componentCreator: (act, concepts$, semaphore) =>
-    createMethodWithConcepts(
+    createMethodDebounceWithConcepts(
       (action, concepts) => {
+        console.log('SIDEBAR CONTENT', action.strategy);
         const state = selectUnifiedState<UserInterfaceState & huirthState>(concepts, semaphore as number);
         const payload = selectComponentPayload(action);
         const id = '#sideBarContent';
@@ -109,7 +111,8 @@ export const [huirthSideBarContent, huirthSideBarContentType, huirthSideBarConte
         return action;
       },
       concepts$ as UnifiedSubject,
-      semaphore as number
+      semaphore as number,
+      10
     ),
 });
 /*#>*/

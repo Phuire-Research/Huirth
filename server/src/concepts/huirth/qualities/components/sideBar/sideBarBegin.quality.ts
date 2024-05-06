@@ -19,6 +19,7 @@ export const [
   type: 'create userInterface for SideBarBegin',
   reducer: nullReducer,
   componentCreator: (act) => createMethod(action => {
+    // console.log('SIDEBAR BEGIN', action.strategy);
     const payload = selectComponentPayload(action);
     const id = '#sideBarBegin';
     if (action.strategy) {
