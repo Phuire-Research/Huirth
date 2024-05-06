@@ -65,7 +65,7 @@ export const webSocketClientPrinciple: PrincipleFunction = (
               });
               concepts$.next(concepts);
             } else {
-              ws.send(JSON.stringify(axiumKick()));
+              // ws.send(JSON.stringify(axiumKick()));
             }
           } else {
             plan.conclude();
