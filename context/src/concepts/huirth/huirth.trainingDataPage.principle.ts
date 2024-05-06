@@ -27,7 +27,7 @@ import { huirthGeneratedTrainingDataPageStrategy } from './strategies/pages/gene
 import { DataSetTypes, ProjectStatus, TrainingData } from './huirth.model';
 import { huirthUpdateProjectStatusStrategy } from './strategies/updateProjectStatus.strategy';
 import { userInterfaceRemovePageStrategy } from '../userInterface/strategies.ts/removePage.strategy';
-import { huirth_createTrainingDataSelector } from './huirth.selector';
+import { huirth_createPageStrategiesSelector, huirth_createPagesSelector, huirth_createTrainingDataSelector } from './huirth.selector';
 
 const namesChanged = (trainingData: TrainingData, cachedTrainingDataNames: string[]) => {
   if (trainingData.length !== cachedTrainingDataNames.length) {
@@ -102,19 +102,27 @@ export const huirthTrainingDataPagePrinciple: PrincipleFunction = (
   const beat = 333;
   const isClient = userInterface_isClient();
   const plan = concepts$.plan('Observe Training Data and modify Pages', [
-    createStage((concepts, dispatch) => {
-      const state = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
-      const conceptName = getUnifiedName(concepts, semaphore);
-      if (conceptName) {
-        if (state && (state.pageStrategies.length === state.pages.length || isClient)) {
-          dispatch(axiumRegisterStagePlanner({ conceptName, stagePlanner: plan }), {
-            iterateStage: true,
-          });
+    createStage(
+      (concepts, dispatch) => {
+        const state = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
+        const conceptName = getUnifiedName(concepts, semaphore);
+        if (conceptName) {
+          if (state && (state.pageStrategies.length === state.pages.length || isClient)) {
+            dispatch(axiumRegisterStagePlanner({ conceptName, stagePlanner: plan }), {
+              iterateStage: true,
+            });
+          }
+        } else {
+          plan.conclude();
         }
-      } else {
-        plan.conclude();
+      },
+      {
+        selectors: [
+          huirth_createPagesSelector(cpts, semaphore) as KeyedSelector,
+          huirth_createPageStrategiesSelector(cpts, semaphore) as KeyedSelector,
+        ],
       }
-    }),
+    ),
     createStage(
       (concepts, dispatch) => {
         const state = selectUnifiedState<huirthState & UserInterfaceState>(concepts, semaphore);

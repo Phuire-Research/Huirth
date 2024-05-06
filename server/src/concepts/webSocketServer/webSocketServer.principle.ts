@@ -9,6 +9,7 @@ import { ServerState } from '../server/server.concept';
 import {
   Action,
   Concepts,
+  KeyedSelector,
   PrincipleFunction,
   UnifiedSubject,
   axiumKick,
@@ -26,6 +27,7 @@ import { webSocketClientSetServerSemaphore } from '../webSocketClient/qualities/
 import { WebSocketServerState } from './webSocketServer.concept';
 import { webSocketServerSyncStateType } from './qualities/syncState.quality';
 import { webSocketServerClearActionQue } from './qualities/clearActionQue.quality';
+// import { webSocketServer_createActionQueSelector } from './webSocketServer.selectors';
 
 export const webSocketServerPrinciple: PrincipleFunction =
   (observer: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
@@ -62,7 +64,7 @@ export const webSocketServerPrinciple: PrincipleFunction =
               });
               if (sent) {
                 dispatch(webSocketServerClearActionQue(), {
-                  throttle: 1
+                  throttle: 0
                 });
               }
             } else {
@@ -93,3 +95,5 @@ export const webSocketServerPrinciple: PrincipleFunction =
       });
     });
   };
+/*#>*/
+// , selectors: [webSocketServer_createActionQueSelector(cpts, semaphore) as KeyedSelector]

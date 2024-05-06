@@ -44,11 +44,19 @@ ${conceptImports}
   fetch(window.location.protocol + '//' + window.location.host + '/stateSync').then(response => {
     response.json().then(value => {
       state = value;
-      if (init && state) {
-        createAxium('contextAxium', [
-          ${creators}
-        ], true, true);
+      console.log('FETCH SYNC STATE', state);
+      const simmer = (func) => {
+        setTimeout(() => {
+        if (init && state) {
+            const axium = createAxium('contextAxium', [
+              ${creators}
+            ], true, true);
+          } else {
+            func();
+          } 
+        }, 100);
       }
+      simmer(simmer);
     });
   });
   document.onreadystatechange = () => {

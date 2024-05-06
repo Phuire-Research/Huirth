@@ -8,6 +8,7 @@ import { Subscriber } from 'rxjs';
 import {
   Action,
   Concepts,
+  KeyedSelector,
   PrincipleFunction,
   UnifiedSubject,
   axiumKick,
@@ -22,6 +23,7 @@ import _ws from 'express-ws';
 import { WebSocketClientState } from './webSocketClient.concept';
 import { webSocketClientSetClientSemaphore } from './strategies/server/setClientSemaphore.helper';
 import { webSocketServerSyncClientState } from './strategies/server/syncServerState.helper';
+import { webSocketClient_createActionQueSelector } from './webSocketClient.selectors';
 
 const notKeys = (key: string) => {
   return key !== 'pages' && key !== 'clientSemaphore' && key !== 'serverSemaphore' && key !== 'pageStrategies';
@@ -69,7 +71,7 @@ export const webSocketClientPrinciple: PrincipleFunction = (
             plan.conclude();
           }
         },
-        { beat: 100 }
+        { beat: 33, selectors: [webSocketClient_createActionQueSelector(cpts, semaphore) as KeyedSelector] }
       ),
     ]);
     const state: Record<string, unknown> = {};

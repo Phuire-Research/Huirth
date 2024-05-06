@@ -18,14 +18,16 @@ import {
   getAxiumState,
   createStage,
   selectSlice,
+  KeyedSelector,
 } from 'stratimux';
 import { UserInterfaceState } from './userInterface.concept';
 import { userInterfacePageToStateStrategy } from './strategies.ts/pageToState.strategy';
 import { userInterface_isClient } from '../../model/userInterface';
 import { UserInterfaceClientState } from '../userInterfaceClient/userInterfaceClient.concept';
+import { userInterface_createPagesSelector } from './userInterface.selector';
 
 export const userInterfaceInitializationPrinciple: PrincipleFunction =
-  (___: Subscriber<Action>, __: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
+  (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     const _diag = concepts$.subscribe(val => {
       const axiumState = getAxiumState(val);
       if (axiumState.badActions.length > 0) {
@@ -42,7 +44,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction =
         } else {
           plan.conclude();
         }
-      }, { priority: 1, selectors: [axiumSelectOpen]}),
+      }, { priority: 1000, selectors: [axiumSelectOpen]}),
       createStage((concepts, dispatch) => {
         const uiState = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
         if (uiState) {
@@ -78,7 +80,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction =
             plan.conclude();
           }
         }
-      }),
+      }, {beat: 100, selectors: [userInterface_createPagesSelector(cpts, semaphore) as KeyedSelector]}),
       createStage((____, _____) => {
         plan.conclude();
       })
