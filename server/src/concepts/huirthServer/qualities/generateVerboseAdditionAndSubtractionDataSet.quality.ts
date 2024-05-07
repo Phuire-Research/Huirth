@@ -18,6 +18,7 @@ import {
   strategyBegin,
   createStage,
   createQualitySet,
+  axiumSelectLastStrategy,
 } from 'stratimux';
 import { DataSetTypes, NamedDataSet } from '../../huirth/huirth.model';
 import { huirthServerInnerAddField } from './innerAddTo.quality';
@@ -88,10 +89,10 @@ export const [
             console.log('DISPATCH');
             dispatch(axiumKick(), {
               setStage: 0,
-              throttle: 1
+              throttle: 0
             });
           }
-        }),
+        }, {beat: 3, selectors: [axiumSelectLastStrategy]}),
         createStage(() => {
           console.log('Transformation stage 3', iterations, length, named.dataSet.length);
           controller.fire(strategyBegin(huirthServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseAdditionAndSubtraction')));
