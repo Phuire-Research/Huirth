@@ -161,11 +161,11 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
       createStage((concepts, dispatch) => {
         console.log('INIT USER INTERFACE SERVER ON CHANGE');
         const name = getUnifiedName(concepts, semaphore);
-        if (name && selectSlice(concepts, axiumSelectOpen)) {
+        if (name && selectSlice(concepts, axiumSelectOpen) === true) {
           dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
             iterateStage: true
           });
-        } else {
+        } else if (name === undefined) {
           plan.conclude();
         }
       }, {selectors: [axiumSelectOpen]}),

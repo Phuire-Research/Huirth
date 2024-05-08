@@ -32,7 +32,7 @@ export const documentObjectModelPrinciple: PrincipleFunction = (
   const plan = concepts$.plan('Document Object Model initial page bindings plan', [
     createStage(
       (concepts, dispatch) => {
-        if (selectSlice(concepts, axiumSelectOpen)) {
+        if (selectSlice(concepts, axiumSelectOpen) === true) {
           dispatch(primeAction(concepts, axiumRegisterStagePlanner({ conceptName: documentObjectModelName, stagePlanner: plan })), {
             iterateStage: true,
           });

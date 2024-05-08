@@ -13,7 +13,7 @@ test('Stratimux test sequence of counting strategies', (done) => {
   const plan = axium.plan('File System Map Concept Directory Test', [
     createStage((concepts, dispatch) => {
       console.log('STEP 1');
-      if (selectSlice(concepts, axiumSelectOpen)) {
+      if (selectSlice(concepts, axiumSelectOpen) === true) {
         dispatch(strategyBegin(
           strategySequence([
             huirthPlusSevenStrategy(0, 1),

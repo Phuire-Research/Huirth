@@ -39,7 +39,7 @@ export const webSocketServerPrinciple: PrincipleFunction =
       ws.send(JSON.stringify(webSocketClientSetServerSemaphore({semaphore})));
       const plan = concepts$.plan('Web Socket Server Message Que Planner', [
         createStage((concepts, dispatch) => {
-          if (selectSlice(concepts, axiumSelectOpen)) {
+          if (selectSlice(concepts, axiumSelectOpen) === true) {
             const name = getUnifiedName(concepts, semaphore);
             if (name) {
               dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {

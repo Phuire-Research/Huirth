@@ -45,11 +45,11 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction = (
     createStage(
       (concepts, dispatch) => {
         const name = getUnifiedName(concepts, semaphore);
-        if (name && selectSlice(concepts, axiumSelectOpen)) {
+        if (name && selectSlice(concepts, axiumSelectOpen) === true) {
           dispatch(axiumRegisterStagePlanner({ conceptName: name, stagePlanner: plan }), {
             iterateStage: true,
           });
-        } else {
+        } else if (name === undefined) {
           plan.conclude();
         }
       },

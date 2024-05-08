@@ -38,7 +38,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
     if (axiumState.badActions.length > 0) {
       console.error('BAD ACTIONS: ', axiumState.badActions);
     }
-    console.log('BAD ACTIONS', axiumState.badActions);
+    console.log('BAD PLANS', axiumState.badPlans);
     // console.log('CHECK FOR SIDEBAR CONTENT', val[1].qualities[56]);
   });
   const plan = concepts$.plan('User Interface Page to State initialization plan', [
@@ -46,21 +46,17 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
       (concepts, dispatch) => {
         console.log('USER INTERFACE PAGE TO STATE INIT 1');
         const name = getUnifiedName(concepts, semaphore);
-        if (name && selectSlice(concepts, axiumSelectOpen)) {
+        if (name && selectSlice(concepts, axiumSelectOpen) === true) {
           dispatch(axiumRegisterStagePlanner({ conceptName: name, stagePlanner: plan }), {
             iterateStage: true,
           });
-        } else {
+        } else if (name === undefined) {
+          console.log('THIS IS CONCLUDING EARLY', name, selectSlice(concepts, axiumSelectOpen));
           plan.conclude();
         }
       },
       { priority: 1000, selectors: [axiumSelectOpen] }
     ),
-    createStage((_, dispatch) => {
-      dispatch(axiumKick(), {
-        iterateStage: true,
-      });
-    }),
     createStage(
       (concepts, dispatch) => {
         const uiState = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
@@ -100,7 +96,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
           }
         }
       },
-      { beat: 100, selectors: [userInterface_createPagesSelector(cpts, semaphore) as KeyedSelector] }
+      { selectors: [userInterface_createPagesSelector(cpts, semaphore) as KeyedSelector] }
     ),
     createStage((____, _____) => {
       console.log('USER INTERFACE PAGE TO STATE INIT 3');
