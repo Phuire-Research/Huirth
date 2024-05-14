@@ -26,7 +26,7 @@ export const [
       (_, state) => {
         const strategy = huirthMinusSevenStrategy(state.count, semaphore as number);
         return strategyBegin(strategy);
-      }, concepts$ as UnifiedSubject, semaphore as number, 50
+      }, concepts$ as UnifiedSubject, semaphore as number, 3
     )
 });
 /*#>*/

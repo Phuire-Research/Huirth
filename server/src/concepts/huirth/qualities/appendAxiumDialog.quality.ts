@@ -23,7 +23,6 @@ export const [
   type: 'huirth append Axium Dialog',
   reducer: (state: huirthState, action: Action): huirthState => {
     const dialog = selectPayload<huirthAppendAxiumDialogTypePayload>(action).dialog;
-    console.log('CHECK DIALOG 2', dialog);
     return {
       ...state,
       dialog: state.dialog + dialog

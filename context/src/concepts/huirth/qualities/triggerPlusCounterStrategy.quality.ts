@@ -26,7 +26,7 @@ export const [huirthTriggerPlusCountingStrategy, huirthTriggerPlusCountingStrate
         },
         concepts$ as UnifiedSubject,
         semaphore as number,
-        50
+        3
       ),
   });
 /*#>*/
