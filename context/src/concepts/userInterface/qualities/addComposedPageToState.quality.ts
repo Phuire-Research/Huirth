@@ -25,10 +25,10 @@ export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageT
         for (const [i, p] of newPages.entries()) {
           const cachedSelectors: BoundSelectors[] = [];
           for (const [compIndex, comp] of p.compositions.entries()) {
-            if (comp.boundSelectors && !comp.universal) {
+            if (!comp.universal) {
               for (const bound of comp.boundSelectors) {
                 bound.semaphore = [i, compIndex];
-                // console.log('SET', bound.action, bound.semaphore);
+                console.log('SET', bound.action, bound.semaphore);
                 comp.boundSelectors.forEach((b) => {
                   b.selectors.forEach((s) => {
                     if (boundSelectors[s.keys]) {
@@ -41,41 +41,40 @@ export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageT
                 });
                 cachedSelectors.push(bound);
               }
-            } else if (comp.boundSelectors && comp.universal) {
+            } else if (comp.universal) {
               let unique = true;
               let possibleSemaphore = -1;
               for (const [index, cmp] of state.components.entries()) {
                 // eslint-disable-next-line max-depth
                 // eslint-disable-next-line max-depth
                 if (cmp.action.type === comp.action.type) {
-                  unique = false;
                   possibleSemaphore = index;
+                  break;
                 }
               }
-              if (unique && isUnique[comp.action.type] === undefined) {
+              console.log('CHECK UNIQUE', comp.action.type, unique, isUnique[comp.action.type]);
+              if (isUnique[comp.action.type] === undefined) {
                 isUnique[comp.action.type] = false;
                 const setIndex = newComponents.length;
                 comp.componentSemaphore = setIndex;
-                // eslint-disable-next-line max-depth
-                if (comp.boundSelectors) {
-                  comp.boundSelectors.forEach((bound) => {
-                    // -1 to throw error if this is ever improperly handled
-                    bound.semaphore = [-1, setIndex];
-                    cachedComponentSelectors.push(bound);
-                    bound.selectors.forEach((s) => {
-                      if (boundSelectors[s.keys]) {
-                        boundSelectors[s.keys].push(bound);
-                      } else {
-                        boundSelectors[s.keys] = [bound];
-                      }
-                      console.log('SETTING', s.keys, s);
-                      mapSelectors.set(s.keys, s);
-                    });
+                comp.boundSelectors.forEach((bound) => {
+                  // -1 to throw error if this is ever improperly handled
+                  bound.semaphore = [-1, setIndex];
+                  cachedComponentSelectors.push(bound);
+                  bound.selectors.forEach((s) => {
+                    if (boundSelectors[s.keys]) {
+                      boundSelectors[s.keys].push(bound);
+                    } else {
+                      boundSelectors[s.keys] = [bound];
+                    }
+
+                    console.log('SETTING', s.keys, s);
+                    mapSelectors.set(s.keys, s);
                   });
-                }
+                });
                 const composition: Composition = { ...comp };
                 newComponents.push(composition);
-              } else {
+              } else if (possibleSemaphore !== -1) {
                 p.compositions[compIndex] = {
                   ...state.components[possibleSemaphore],
                 };
@@ -92,6 +91,7 @@ export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageT
         mapSelectors.forEach((keyed) => {
           selectors.push(keyed);
         });
+        console.log('SETTING BOUND SELECTORS', boundSelectors, newComponents.length);
         return {
           ...state,
           pages: newPages,

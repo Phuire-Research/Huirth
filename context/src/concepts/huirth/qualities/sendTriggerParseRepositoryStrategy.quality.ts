@@ -70,7 +70,9 @@ export const [
           initialNode: createActionNode(
             userInterfaceClientSendActionToServer(
               createAction('huirthServer trigger parse repository strategy', {
-                name,
+                payload: {
+                  name,
+                },
               })
             )
           ),

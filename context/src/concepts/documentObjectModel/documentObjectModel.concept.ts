@@ -13,11 +13,13 @@ export const documentObjectModelName = 'documentObjectModel';
 
 export type DocumentObjectModelState = {
   bindingQue: UserInterfacePageBindings;
+  bound: boolean;
 };
 
 const createDocumentObjectModelState = (bindingQue?: UserInterfacePageBindings): DocumentObjectModelState => {
   return {
     bindingQue: bindingQue ? bindingQue : {},
+    bound: false,
   };
 };
 

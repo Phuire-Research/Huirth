@@ -12,12 +12,14 @@ import { documentObjectModelClearBindingQueQuality } from './qualities/clearBind
 export const documentObjectModelName = 'documentObjectModel';
 
 export type DocumentObjectModelState = {
-  bindingQue: UserInterfacePageBindings
+  bindingQue: UserInterfacePageBindings,
+  bound: boolean
 };
 
 const createDocumentObjectModelState = (bindingQue?: UserInterfacePageBindings) : DocumentObjectModelState => {
   return {
-    bindingQue: bindingQue ? bindingQue : {}
+    bindingQue: bindingQue ? bindingQue : {},
+    bound: false
   };
 };
 

@@ -13,14 +13,25 @@ import { createHuirthConcept } from './concepts/huirth/huirth.concept';
   fetch(window.location.protocol + '//' + window.location.host + '/stateSync').then((response) => {
     response.json().then((value) => {
       state = value;
-      if (init && state) {
-        createAxium(
-          'contextAxium',
-          [createDocumentObjectModelConcept({}), createUserInterfaceClientConcept(state, createHuirthConcept)],
-          true,
-          true
-        );
-      }
+      // console.log('FETCH SYNC STATE', state);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const simmer = (func: (s?: any) => void) => {
+        setTimeout(() => {
+          if (init && state) {
+            createAxium(
+              'contextAxium',
+              [createDocumentObjectModelConcept({}), createUserInterfaceClientConcept(state, createHuirthConcept)],
+              {
+                logging: true,
+                storeDialog: true,
+              }
+            );
+          } else {
+            func();
+          }
+        }, 100);
+      };
+      simmer(simmer);
     });
   });
   document.onreadystatechange = () => {

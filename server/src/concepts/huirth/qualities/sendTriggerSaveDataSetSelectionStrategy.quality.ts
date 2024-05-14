@@ -80,9 +80,9 @@ export const [
         }
         const strategy = createStrategy({
           topic: `Sending to server trigger save data set selection for: ${names.join(', ')}`,
-          initialNode: createActionNode(userInterfaceClientSendActionToServer(createAction('huirthServer trigger save data set selection strategy', {
+          initialNode: createActionNode(userInterfaceClientSendActionToServer(createAction('huirthServer trigger save data set selection strategy', {payload: {
             names
-          })), {
+          }})), {
             successNode: createActionNode(huirthClearDataSetSelection()),
           })
         });

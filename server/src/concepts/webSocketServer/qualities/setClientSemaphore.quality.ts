@@ -22,6 +22,7 @@ export const [
   type: 'Web Socket Server set Client Semaphore',
   reducer: (state: WebSocketServerState, action: Action): WebSocketServerState => {
     const payload = selectPayload<WebSocketServerSetClientSemaphorePayload>(action);
+    console.log('CHECK', action);
     return {
       ...state,
       clientSemaphore: payload.semaphore

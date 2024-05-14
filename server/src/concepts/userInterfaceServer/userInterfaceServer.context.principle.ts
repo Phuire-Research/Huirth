@@ -44,7 +44,7 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
   const plan = concepts$.plan('User Interface Context Principle Plan', [
     createStage((concepts, dispatch, changes) => {
       console.log('CHECK IF THIS HITS', selectSlice(concepts, axiumSelectOpen), getAxiumState(concepts).modeIndex, axiumSelectOpen.keys, changes , 'stuff');
-      if (selectSlice(concepts, axiumSelectOpen)) {
+      if (selectSlice(concepts, axiumSelectOpen) === true) {
         const fileSystemExists = areConceptsLoaded(concepts, [fileSystemName]);
         if (!fileSystemExists) {
           console.log('FILE SYSTEM NOT LOADED, CONTEXT PRINCIPLE CONCLUDE');

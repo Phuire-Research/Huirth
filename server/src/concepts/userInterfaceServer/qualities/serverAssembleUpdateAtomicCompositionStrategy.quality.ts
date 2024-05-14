@@ -26,7 +26,7 @@ export type UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload = 
 
 // Need to provide semaphore that will update the target composition of some page.
 const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy] => {
-  const stepUpdateAtomic = createActionNode(userInterfaceUpdateAtomicPageComposition({bound}, bound.action.conceptSemaphore as number));
+  const stepUpdateAtomic = createActionNode(userInterfaceUpdateAtomicPageComposition({bound}, {conceptSemaphore: bound.action.conceptSemaphore as number}));
   const stepAction = createActionNode(refreshAction(bound.action), {
     successNode: stepUpdateAtomic,
   });
@@ -39,7 +39,7 @@ const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy
   ];
 };
 const stitchUpdateUniversalComponent = (bound: BoundSelectors): [ActionNode, ActionStrategy] => {
-  const stepUpdateAtomic = createActionNode(userInterfaceUpdateUniversalComponent({bound}, bound.action.conceptSemaphore as number));
+  const stepUpdateAtomic = createActionNode(userInterfaceUpdateUniversalComponent({bound}, {conceptSemaphore: bound.action.conceptSemaphore as number}));
   const stepAction = createActionNode(refreshAction(bound.action), {
     successNode: stepUpdateAtomic,
   });

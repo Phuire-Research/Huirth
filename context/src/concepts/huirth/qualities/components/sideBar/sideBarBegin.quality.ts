@@ -16,6 +16,7 @@ export const [huirthSideBarBegin, huirthSideBarBeginType, huirthSideBarBeginQual
   reducer: nullReducer,
   componentCreator: (act) =>
     createMethod((action) => {
+      // console.log('SIDEBAR BEGIN', action.strategy);
       const payload = selectComponentPayload(action);
       const id = '#sideBarBegin';
       if (action.strategy) {

@@ -9,6 +9,7 @@ import { ServerState } from '../server/server.concept';
 import {
   Action,
   Concepts,
+  KeyedSelector,
   PrincipleFunction,
   UnifiedSubject,
   axiumKick,
@@ -18,6 +19,7 @@ import {
   createStage,
   getAxiumState,
   getUnifiedName,
+  primeAction,
   selectSlice,
   selectUnifiedState,
 } from 'stratimux';
@@ -26,6 +28,7 @@ import { webSocketClientSetServerSemaphore } from '../webSocketClient/qualities/
 import { WebSocketServerState } from './webSocketServer.concept';
 import { webSocketServerSyncStateType } from './qualities/syncState.quality';
 import { webSocketServerClearActionQue } from './qualities/clearActionQue.quality';
+// import { webSocketServer_createActionQueSelector } from './webSocketServer.selectors';
 
 export const webSocketServerPrinciple: PrincipleFunction =
   (observer: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
@@ -33,10 +36,12 @@ export const webSocketServerPrinciple: PrincipleFunction =
     const server = initialServerState.server;
     const socket = _ws(server);
     socket.app.ws('/axium', (ws, req) => {
-      ws.send(JSON.stringify(webSocketClientSetServerSemaphore({semaphore})));
+      const setServerSemaphoreMessage = JSON.stringify(webSocketClientSetServerSemaphore({semaphore}));
+      console.log('CHECK THIS MESSAGE', setServerSemaphoreMessage);
+      ws.send(setServerSemaphoreMessage);
       const plan = concepts$.plan('Web Socket Server Message Que Planner', [
         createStage((concepts, dispatch) => {
-          if (selectSlice(concepts, axiumSelectOpen)) {
+          if (selectSlice(concepts, axiumSelectOpen) === true) {
             const name = getUnifiedName(concepts, semaphore);
             if (name) {
               dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
@@ -62,14 +67,14 @@ export const webSocketServerPrinciple: PrincipleFunction =
               });
               if (sent) {
                 dispatch(webSocketServerClearActionQue(), {
-                  throttle: 1
+                  throttle: 0
                 });
               }
             } else {
               // Note I shouldn't have to do this.
               // This demonstrates how branch prediction interferes with graph programming
               // As if I do not have this mechanism, branch prediction will outright ignore this "branch"
-              ws.send(JSON.stringify(axiumKick()));
+              // ws.send(JSON.stringify(axiumKick()));
             }
           } else {
             console.log('SHOUDN\'T CONCLUDE');
@@ -82,14 +87,18 @@ export const webSocketServerPrinciple: PrincipleFunction =
       });
       ws.on('message', (message) => {
         const act = JSON.parse(`${message}`);
+        console.log('CHECK ACTION', act);
         if (Object.keys(act).includes('type')) {
           if ((act as Action).type !== webSocketServerSyncStateType) {
             if (getAxiumState(cpts).logging && (act as Action).type !== axiumKickType) {
               console.log('MESSAGE', (act as Action).type);
             }
           }
+          act.conceptSemaphore = semaphore;
           observer.next(act);
         }
       });
     });
   };
+/*#>*/
+// , selectors: [webSocketServer_createActionQueSelector(cpts, semaphore) as KeyedSelector]

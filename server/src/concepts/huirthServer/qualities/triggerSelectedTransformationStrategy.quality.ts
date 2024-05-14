@@ -34,15 +34,15 @@ export const [
         let action;
         switch (selection) {
         case huirthVerboseAddingStrategySelect: {
-          action = huirthServerGenerateVerboseAddingStrategy(undefined, undefined, 6000000);
+          action = huirthServerGenerateVerboseAddingStrategy({agreement: 6000000000000});
           break;
         }
         case huirthVerboseSubtractionStrategySelect: {
-          action = huirthServerGenerateVerboseSubtractionStrategy(undefined, undefined, 6000000);
+          action = huirthServerGenerateVerboseSubtractionStrategy({agreement: 6000000000000});
           break;
         }
         case huirthVerboseAdditionAndSubtractionStrategySelect: {
-          action = huirthServerGenerateVerboseAdditionAndSubtractionStrategy(undefined, undefined, 6000000);
+          action = huirthServerGenerateVerboseAdditionAndSubtractionStrategy({agreement: 6000000000000});
           break;
         }
         default: {
@@ -54,7 +54,9 @@ export const [
           return strategyBegin(
             createStrategy({
               topic: 'Begin Transformation Strategy',
-              initialNode: createActionNode(action)
+              initialNode: createActionNode(action, {
+                agreement: 60000000000
+              })
             })
           );
         }

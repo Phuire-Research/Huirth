@@ -6,7 +6,7 @@ import { createAction } from 'stratimux';
 import { userInterfaceClientSendActionToServer } from '../../../userInterfaceClient/strategies/sendActionToServer.helper';
 
 export const huirthSendTriggerGitPullRepositoryStrategy = (name: string) =>
-  (userInterfaceClientSendActionToServer(createAction('huirthServer trigger git pull repository strategy', {
+  (userInterfaceClientSendActionToServer(createAction('huirthServer trigger git pull repository strategy', {payload: {
     name,
-  })));
+  }})));
 /*#>*/

@@ -19,6 +19,10 @@ import {
   createQuality,
   selectPayload,
   strategyData_select,
+  ActionWithPayloadOptions,
+  ActionOptions,
+  ActionCreator,
+  ActionCreatorWithPayload,
 } from 'stratimux';
 import { elementEventBinding } from './html';
 import { documentObjectModelName } from '../concepts/documentObjectModel/documentObjectModel.concept';
@@ -184,20 +188,20 @@ export type ActionComponentCreator<T extends Record<string, unknown>> = (
   semaphore?: [number, number, number, number]
 ) => Action;
 
-export function prepareActionComponentCreator<T extends Record<string, unknown>>(actionType: ActionType) {
-  return (
-    payload: ActionComponentPayload & T,
-    conceptSemaphore?: number,
-    keyedSelectors?: KeyedSelector[],
-    agreement?: number,
-    semaphore?: [number, number, number, number]
-  ) => {
-    return createAction(actionType, payload, keyedSelectors, agreement, semaphore, conceptSemaphore);
+export function prepareActionComponentCreator<T extends Record<string, unknown> & ActionComponentPayload>(
+  actionType: ActionType
+): ActionCreatorWithPayload<T> {
+  return (payload: T, options?: ActionOptions) => {
+    const opts: ActionWithPayloadOptions<T> = {
+      ...options,
+      payload,
+    };
+    return createAction(actionType, opts);
   };
 }
 
 export type ComponentCreator<T extends Record<string, unknown>> = (
-  action: ActionComponentCreator<T>,
+  action: ActionCreatorWithPayload<T>,
   concepts$?: Subject<Concepts>,
   semaphore?: number
 ) => [Method, Subject<Action>];
@@ -205,12 +209,12 @@ export type ComponentCreator<T extends Record<string, unknown>> = (
 export function createQualitySetComponent<T extends Record<string, unknown>>(q: {
   type: string;
   reducer: Reducer;
-  componentCreator: ComponentCreator<T>;
+  componentCreator: ComponentCreator<T & ActionComponentPayload>;
   keyedSelectors?: KeyedSelector[];
   meta?: Record<string, unknown>;
   analytics?: Record<string, unknown>;
-}): [ActionComponentCreator<T>, ActionType, Quality] {
-  const action = prepareActionComponentCreator<T>(q.type);
+}): [ActionCreatorWithPayload<T & ActionComponentPayload>, ActionType, Quality] {
+  const action = prepareActionComponentCreator<T & ActionComponentPayload>(q.type);
   return [
     action,
     q.type,

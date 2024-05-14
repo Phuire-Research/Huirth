@@ -43,14 +43,12 @@ export const huirthDialogPrinciple: PrincipleFunction = (
         // console.log(`TOPIC: ${topic}, AXIUM TOPIC: ${axiumTopic}`);
         if (topic !== axiumTopic) {
           topic = axiumTopic;
-          dispatch(
-            huirthAppendAxiumDialog({
-              dialog: axiumDialog,
-            }),
-            {
-              throttle: 1,
-            }
-          );
+          const setDialog = huirthAppendAxiumDialog({
+            dialog: axiumDialog,
+          });
+          dispatch(setDialog, {
+            throttle: 1,
+          });
         }
       },
       { beat }

@@ -13,7 +13,7 @@ import { huirthGeneratedTrainingDataPageStrategy } from './strategies/pages/gene
 import { DataSetTypes, ProjectStatus, TrainingData } from './huirth.model';
 import { huirthUpdateProjectStatusStrategy } from './strategies/updateProjectStatus.strategy';
 import { userInterfaceRemovePageStrategy } from '../userInterface/strategies.ts/removePage.strategy';
-import { huirth_createTrainingDataSelector } from './huirth.selector';
+import { huirth_createPageStrategiesSelector, huirth_createPagesSelector, huirth_createTrainingDataSelector } from './huirth.selector';
 
 const namesChanged = (trainingData: TrainingData, cachedTrainingDataNames: string[]) => {
   if (trainingData.length !== cachedTrainingDataNames.length) {
@@ -98,7 +98,10 @@ export const huirthTrainingDataPagePrinciple: PrincipleFunction =
         } else {
           plan.conclude();
         }
-      }),
+      }, { selectors: [
+        huirth_createPagesSelector(cpts, semaphore) as KeyedSelector,
+        huirth_createPageStrategiesSelector(cpts, semaphore) as KeyedSelector,
+      ]}),
       createStage((concepts, dispatch) => {
         const state = selectUnifiedState<huirthState & UserInterfaceState>(concepts, semaphore);
         const trainingData = state?.trainingData;

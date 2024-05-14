@@ -15,6 +15,7 @@ import {
 import { Binding } from '../../../model/userInterface';
 import { Subject } from 'rxjs';
 import { documentObjectModelBindActionStrategy } from '../strategies/bindAction.strategy';
+import { DocumentObjectModelState } from '../documentObjectModel.concept';
 
 const setElementBinding = (element: HTMLElement, payload: DocumentObjectModelBindPayload) => {
   const {
@@ -38,7 +39,12 @@ export const [
   documentObjectModelBindQuality
 ] = createQualitySetWithPayload<DocumentObjectModelBindPayload>({
   type: 'Document Object Model bind element',
-  reducer: nullReducer,
+  reducer: (state: DocumentObjectModelState) : DocumentObjectModelState => {
+    return {
+      ...state,
+      bound: true
+    };
+  },
   methodCreator: () => createMethod((action) => {
     const payload = selectPayload<DocumentObjectModelBindPayload>(action);
     const element = document.getElementById(payload.id);

@@ -3,6 +3,7 @@ For the graph programming framework Stratimux and the brand Concept huirth, gene
 $>*/
 /*<#*/
 import { Concepts, createUnifiedKeyedSelector  } from 'stratimux';
+import { huirthState } from './huirth.concept';
 
 export const huirth_createDialogSelector = (concepts: Concepts, semaphore: number) => {
   return createUnifiedKeyedSelector(concepts, semaphore, 'dialog');
@@ -25,6 +26,10 @@ export const huirth_createSideBarExpandedSelector = (concepts: Concepts, semapho
 
 export const huirth_createPagesSelector = (concepts: Concepts, semaphore: number) => {
   return createUnifiedKeyedSelector(concepts, semaphore, 'pages');
+};
+
+export const huirth_createPageStrategiesSelector = (concepts: Concepts, semaphore: number) => {
+  return createUnifiedKeyedSelector<huirthState>(concepts, semaphore, 'pageStrategies');
 };
 
 export const huirth_createDataSetSelector = (concepts: Concepts, semaphore: number, index: number) => {

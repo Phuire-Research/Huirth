@@ -24,7 +24,7 @@ test('FileSystem get Concept Directory Test', (done) => {
   const plan = axium.plan('File System Map Concept Directory Test', [
     createStage((concepts, dispatch) => {
       console.log('CHECK UNIFIED', selectUnifiedState(concepts, 2));
-      if (selectSlice(concepts, axiumSelectOpen)) {
+      if (selectSlice(concepts, axiumSelectOpen) === true) {
         const fileSystemState = selectState(concepts, fileSystemName) as FileSystemState;
         dispatch(strategyBegin(userInterfaceServerSetConceptDirectoriesFromDataStrategy(fileSystemState.root)), {
           iterateStage: true,

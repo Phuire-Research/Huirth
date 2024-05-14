@@ -7,6 +7,7 @@ import {
   Concepts,
   PrincipleFunction,
   UnifiedSubject,
+  axiumKick,
   axiumRegisterStagePlanner,
   axiumSelectOpen,
   createStage,
@@ -30,31 +31,42 @@ export const documentObjectModelPrinciple: PrincipleFunction = (
   const pageID = document.querySelector('[id^="page#"]')?.id;
   const plan = concepts$.plan('Document Object Model initial page bindings plan', [
     createStage((concepts, dispatch) => {
-      if (selectSlice(concepts, axiumSelectOpen)) {
+      if (selectSlice(concepts, axiumSelectOpen) === true) {
         dispatch(primeAction(concepts, axiumRegisterStagePlanner({conceptName: documentObjectModelName, stagePlanner: plan})), {
           iterateStage: true,
         });
       }
-    }, { priority: 1, selectors: [axiumSelectOpen]}),
+    }, { priority: 100 }),
     createStage((concepts, dispatch) => {
-      console.log('Hello Document Object Model', selectUnifiedState<DocumentObjectModelState>(concepts, semaphore)?.bindingQue, pageID);
       const documentObjectModelState = selectUnifiedState<DocumentObjectModelState>(concepts, semaphore);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const userInterfaceState = selectState<any>(concepts, 'userInterfaceClient');
-      let ready = false;
-      userInterfaceState?.pages.forEach((page: {title: string}) => {
-        pageID && page.title === pageID ? ready = true : ready = false;
-      });
-      const binding = documentObjectModelState?.bindingQue;
-      if (binding && pageID && ready) {
-        dispatch(strategyBegin(documentObjectModelBindingStrategy(concepts, pageID.split('page#')[1], binding)), {
-          iterateStage: true
-        });
+      // console.log('Hello Document Object Model', documentObjectModelState, pageID, concepts);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (documentObjectModelState?.bindingQue) {
+        let ready = false;
+        // userInterfaceState?.pages.forEach((page: {title: string}) => {
+        //   pageID && page.title === pageID ? ready = true : ready = false;
+        // });
+        for (const page of userInterfaceState.pages) {
+          if (pageID && page.title === pageID) {
+            ready = true;
+            break;
+          }
+        }
+        const binding = documentObjectModelState?.bindingQue;
+        // console.log('Hello Document Object Model', binding, pageID, ready);
+        if (binding && pageID && ready) {
+          dispatch(strategyBegin(documentObjectModelBindingStrategy(concepts, pageID.split('page#')[1], binding)), {
+            iterateStage: true
+          });
+        }
       }
-    }, {selectors: [documentObjectModelSelectBindingQue]}),
+      if (documentObjectModelState?.bound) {
+        plan.conclude();
+      }
+    }, {beat: 100}),
     createStage((__, ___) => {
       plan.conclude();
-      // console.log('Plan can conclude.');
     })
   ]);
 };

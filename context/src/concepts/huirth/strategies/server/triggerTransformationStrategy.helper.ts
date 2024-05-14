@@ -8,7 +8,9 @@ import { userInterfaceClientSendActionToServer } from '../../../userInterfaceCli
 export const huirthSendTriggerTransformationStrategy = (selection: string) =>
   userInterfaceClientSendActionToServer(
     createAction('huirthServer trigger passed transformation strategy from payload', {
-      selection,
+      payload: {
+        selection,
+      },
     })
   );
 /*#>*/

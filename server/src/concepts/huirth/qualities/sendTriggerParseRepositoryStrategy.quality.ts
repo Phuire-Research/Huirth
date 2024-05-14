@@ -70,9 +70,9 @@ export const [
             topic: `Sending to server trigger parse repository strategy for ${name}`,
             initialNode: createActionNode(
               userInterfaceClientSendActionToServer(
-                createAction('huirthServer trigger parse repository strategy', {
+                createAction('huirthServer trigger parse repository strategy', {payload: {
                   name
-                })))
+                }})))
           }));
       }, 50
     )

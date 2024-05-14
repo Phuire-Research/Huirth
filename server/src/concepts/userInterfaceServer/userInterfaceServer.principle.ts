@@ -44,6 +44,7 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
     concepts$.subscribe(concepts => {
       const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
       if (uiState) {
+        console.log('CHECK PAGES LENGTH', uiState.pages.length);
         components = uiState.components;
         if (uiState.pages.length > 0) {
           // body = uiState.pages[0].compositions.map(comp => comp.html).join('');
@@ -158,12 +159,13 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
   (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     const plan = concepts$.plan('User Interface Server on Change', [
       createStage((concepts, dispatch) => {
+        console.log('INIT USER INTERFACE SERVER ON CHANGE');
         const name = getUnifiedName(concepts, semaphore);
-        if (name && selectSlice(concepts, axiumSelectOpen)) {
+        if (name && selectSlice(concepts, axiumSelectOpen) === true) {
           dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
             iterateStage: true
           });
-        } else {
+        } else if (name === undefined) {
           plan.conclude();
         }
       }, {selectors: [axiumSelectOpen]}),
@@ -269,6 +271,7 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
             return uiState.boundSelectors[key].map(b => b).map(some => `${key} ${some.semaphore}`);
           }));
           console.log('CHECK PAYLOAD', payload);
+          // console.log('CHECK COMPONENTS', uiState.components);
           if (payload.boundActionQue.length > 0) {
             console.log('ATOMIC UPDATE', payload.boundActionQue.map(bound => bound.semaphore));
             dispatch(userInterfaceServerAssembleUpdateAtomicCompositionStrategy(payload), {

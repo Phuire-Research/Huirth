@@ -1,14 +1,18 @@
 ![Huirth](https://github.com/Phuire-Research/huirth/blob/main/Huirth.png?raw=true)
 # Huirth OS POC
-Refactor begin!
 
 ## **NOTE** POC Notes
-If demoing this project, be mindful that this current version is rough around the edges and may require two consecutive runs of dev:dynamic to have the client load correctly, etc...  
 This will be patched up over the course of the month, majority of work has been focused on Stratimux and exploring how we might take full responsibility of the Operating System. The handy aspect of the ActionStrategy pattern, is that because it represents a baseline abstraction majority of the logic already written via the original huirth, may be translated to that new paradigm in the future. For now this has merely been a test project to ensure that Stratimux's updates does not break the underlying ActionStrategy pattern from 2018.
 
 After the refactor however, this will serve as a form of backwards compatibility, while Huirth becomes increasingly responsible for its stack.
 
 ## Change Log
+### Sync to v0.1.67
+* Still essentially a drop in POC, need to iron out some logic.
+* Most importantly is demoing the current consistency of Stratimux via the counter and dialog section on the index page.
+  * Managed to reduce 50 debounce to just 3 and can probably go lower, if not remove it entirely.
+### Strong and Fast Update POC 5/06/24
+* Roughly implemented v0.1.60, will have to tune and adjust some logic to account for performance increase.
 ### Rebranded to Huirth 3/01/24
 ### Sync to v0.1.55 and initial rebrand to Huirth 4/25/24 
 ### Sync to Stratimux v0.1.52 4/05/24

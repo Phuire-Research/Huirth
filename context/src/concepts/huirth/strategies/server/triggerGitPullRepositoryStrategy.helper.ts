@@ -8,7 +8,9 @@ import { userInterfaceClientSendActionToServer } from '../../../userInterfaceCli
 export const huirthSendTriggerGitPullRepositoryStrategy = (name: string) =>
   userInterfaceClientSendActionToServer(
     createAction('huirthServer trigger git pull repository strategy', {
-      name,
+      payload: {
+        name,
+      },
     })
   );
 /*#>*/
