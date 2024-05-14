@@ -9,7 +9,7 @@ After the refactor however, this will serve as a form of backwards compatibility
 ## Change Log
 ### Sync to v0.1.67
 * Still essentially a drop in POC, need to iron out some logic.
-* Most importantly is demoing the current consistency of Stratimux via the counter and dialog section on the index page.
+* What is important is demoing the current consistency of Stratimux via the counter and dialog section on the index page.
   * Managed to reduce 50 debounce to just 3 and can probably go lower, if not remove it entirely.
 ### Strong and Fast Update POC 5/06/24
 * Roughly implemented v0.1.60, will have to tune and adjust some logic to account for performance increase.
