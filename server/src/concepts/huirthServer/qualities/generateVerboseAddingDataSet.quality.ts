@@ -58,7 +58,7 @@ export const [
             console.log('BEGIN STRATEGY', currentTopic);
             dispatch(strategyBegin(newStrategy), {
               iterateStage: true,
-              throttle: 1
+              throttle: 0
             });
           } else {
             console.log('END PLAN');
@@ -69,7 +69,7 @@ export const [
         }),
         createStage((concepts, dispatch) => {
           const state = getAxiumState(concepts);
-          console.log('Transformation stage 2', iterations, length, currentTopic === state.lastStrategy);
+          console.log('Transformation stage 2', iterations, length, currentTopic === state.lastStrategy, currentTopic, state.lastStrategy);
           if (state.lastStrategy === currentTopic) {
             named.dataSet.push({
               prompt: (currentTopic + '.').trim(),
@@ -89,7 +89,7 @@ export const [
               throttle: 0
             });
           }
-        }, {beat: 3, selectors: [axiumSelectLastStrategy]}),
+        }, {beat: 30, selectors: [axiumSelectLastStrategy]}),
         createStage(() => {
           console.log('Transformation stage 3', iterations, length, named.dataSet.length);
           controller.fire(strategyBegin(huirthServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseAdding')));
