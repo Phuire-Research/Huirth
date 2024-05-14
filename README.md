@@ -11,6 +11,11 @@ After the refactor however, this will serve as a form of backwards compatibility
 * Still essentially a drop in POC, need to iron out some logic.
 * What is important is demoing the current consistency of Stratimux via the counter and dialog section on the index page.
   * Managed to reduce 50 debounce to just 3 and can probably go lower, if not remove it entirely.
+* Managed to get the transformation quality plans to properly reach their conclusion via changing beat from 3 to 30.
+  * This points how a limitation in our current generally good enough computers, as in a strong context the beat for these plans could be removed entirely.
+  * Last remaining issue on this point, is having the final returns of strategies moving between client and server to properly set their intended value.
+    * Noting that axiumKick cycle was removed and was previously added to ensure that the final value can be set.
+    * Punting this issue for now as their is a another MVP that can be pursued that would making debugging this process easier.
 ### Strong and Fast Update POC 5/06/24
 * Roughly implemented v0.1.60, will have to tune and adjust some logic to account for performance increase.
 ### Rebranded to Huirth 3/01/24
