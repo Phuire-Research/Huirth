@@ -13,11 +13,12 @@ import { createHuirthConcept } from './concepts/huirth/huirth.concept';
   fetch(window.location.protocol + '//' + window.location.host + '/stateSync').then((response) => {
     response.json().then((value) => {
       state = value;
-      console.log('FETCH SYNC STATE', state);
-      const simmer = (func) => {
+      // console.log('FETCH SYNC STATE', state);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const simmer = (func: (s?: any) => void) => {
         setTimeout(() => {
           if (init && state) {
-            const axium = createAxium(
+            createAxium(
               'contextAxium',
               [createDocumentObjectModelConcept({}), createUserInterfaceClientConcept(state, createHuirthConcept)],
               true,
