@@ -35,10 +35,14 @@ export const webSocketServerPrinciple: PrincipleFunction =
     const initialServerState = selectUnifiedState(cpts, semaphore) as ServerState;
     const server = initialServerState.server;
     const socket = _ws(server);
+    let interval: undefined | NodeJS.Timer;
     socket.app.ws('/axium', (ws, req) => {
       const setServerSemaphoreMessage = JSON.stringify(webSocketClientSetServerSemaphore({semaphore}));
-      console.log('CHECK THIS MESSAGE', setServerSemaphoreMessage);
+      // console.log('CHECK THIS MESSAGE', setServerSemaphoreMessage);
       ws.send(setServerSemaphoreMessage);
+      interval = setInterval(() => {
+        ws.send('ping');
+      }, 3000);
       const plan = concepts$.plan('Web Socket Server Message Que Planner', [
         createStage((concepts, dispatch) => {
           if (selectSlice(concepts, axiumSelectOpen) === true) {
@@ -83,19 +87,24 @@ export const webSocketServerPrinciple: PrincipleFunction =
         }, {beat: 33})
       ]);
       ws.addEventListener('close', () => {
+        if (interval) {
+          clearInterval(interval);
+        }
         plan.conclude();
       });
-      ws.on('message', (message) => {
-        const act = JSON.parse(`${message}`);
-        console.log('CHECK ACTION', act);
-        if (Object.keys(act).includes('type')) {
-          if ((act as Action).type !== webSocketServerSyncStateType) {
-            if (getAxiumState(cpts).logging && (act as Action).type !== axiumKickType) {
-              console.log('MESSAGE', (act as Action).type);
+      ws.on('message', (message: any) => {
+        if (message.data !== 'ping') {
+          const act = JSON.parse(`${message}`);
+          // console.log('CHECK ACTION', act);
+          if (Object.keys(act).includes('type')) {
+            if ((act as Action).type !== webSocketServerSyncStateType) {
+              if (getAxiumState(cpts).logging && (act as Action).type !== axiumKickType) {
+                console.log('MESSAGE', (act as Action).type);
+              }
             }
+            act.conceptSemaphore = semaphore;
+            observer.next(act);
           }
-          act.conceptSemaphore = semaphore;
-          observer.next(act);
         }
       });
     });

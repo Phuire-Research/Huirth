@@ -120,7 +120,7 @@ export const webSocketClientPrinciple: PrincipleFunction = (
                   }
                   const sync = webSocketServerSyncClientState({ state });
                   sync.conceptSemaphore = (newState as WebSocketClientState).serverSemaphore;
-                  console.log('CHECK SYNC', sync);
+                  // console.log('CHECK SYNC', sync);
                   ws.send(JSON.stringify(sync));
                   break;
                 }
@@ -142,13 +142,16 @@ export const webSocketClientPrinciple: PrincipleFunction = (
       plan.conclude();
     });
   });
-  ws.addEventListener('message', (message) => {
-    const act = JSON.parse(message.data);
-    if (Object.keys(act).includes('type')) {
-      if (getAxiumState(cpts).logging && (act as Action).type !== axiumKickType) {
-        console.log('MESSAGE', (act as Action).type);
+  ws.addEventListener('message', (message: any) => {
+    // console.log('CHECK MESSAGE', message);
+    if (message.data !== 'ping') {
+      const act = JSON.parse(message.data);
+      if (Object.keys(act).includes('type')) {
+        if (getAxiumState(cpts).logging && (act as Action).type !== axiumKickType) {
+          console.log('MESSAGE', (act as Action).type);
+        }
+        observer.next(act);
       }
-      observer.next(act);
     }
   });
 };
