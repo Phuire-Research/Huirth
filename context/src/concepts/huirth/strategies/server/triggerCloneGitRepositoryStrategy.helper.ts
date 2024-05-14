@@ -8,8 +8,10 @@ import { userInterfaceClientSendActionToServer } from '../../../userInterfaceCli
 export const huirthTriggerCloneGitRepositoryStrategy = (url: string, name: string) =>
   userInterfaceClientSendActionToServer(
     createAction('huirthServer trigger clone git repository ActionStrategy', {
-      name,
-      url,
+      payload: {
+        name,
+        url,
+      },
     })
   );
 /*#>*/

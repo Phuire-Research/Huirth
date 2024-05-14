@@ -37,9 +37,9 @@ export const [
           topic,
           initialNode: createActionNode(
             userInterfaceClientSendActionToServer(
-              createAction(serverActionType, {
+              createAction(serverActionType, {payload: {
                 selection: selectedTransformation
-              })))
+              }})))
         }));
       }, concepts$ as UnifiedSubject, semaphore as number
     )

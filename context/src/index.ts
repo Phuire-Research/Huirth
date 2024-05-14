@@ -21,8 +21,10 @@ import { createHuirthConcept } from './concepts/huirth/huirth.concept';
             createAxium(
               'contextAxium',
               [createDocumentObjectModelConcept({}), createUserInterfaceClientConcept(state, createHuirthConcept)],
-              true,
-              true
+              {
+                logging: true,
+                storeDialog: true,
+              }
             );
           } else {
             func();

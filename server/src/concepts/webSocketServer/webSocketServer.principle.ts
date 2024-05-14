@@ -36,7 +36,9 @@ export const webSocketServerPrinciple: PrincipleFunction =
     const server = initialServerState.server;
     const socket = _ws(server);
     socket.app.ws('/axium', (ws, req) => {
-      ws.send(JSON.stringify(webSocketClientSetServerSemaphore({semaphore})));
+      const setServerSemaphoreMessage = JSON.stringify(webSocketClientSetServerSemaphore({semaphore}));
+      console.log('CHECK THIS MESSAGE', setServerSemaphoreMessage);
+      ws.send(setServerSemaphoreMessage);
       const plan = concepts$.plan('Web Socket Server Message Que Planner', [
         createStage((concepts, dispatch) => {
           if (selectSlice(concepts, axiumSelectOpen) === true) {
@@ -85,6 +87,7 @@ export const webSocketServerPrinciple: PrincipleFunction =
       });
       ws.on('message', (message) => {
         const act = JSON.parse(`${message}`);
+        console.log('CHECK ACTION', act);
         if (Object.keys(act).includes('type')) {
           if ((act as Action).type !== webSocketServerSyncStateType) {
             if (getAxiumState(cpts).logging && (act as Action).type !== axiumKickType) {

@@ -35,15 +35,15 @@ const notKeys = (key: string) => {
 };
 
 export const webSocketClientPrinciple: PrincipleFunction =
-  (observer: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
+  (observer: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, conceptSemaphore: number) => {
     const url = 'ws://' + window.location.host + '/axium';
     const ws = new WebSocket(url);
     ws.addEventListener('open', () => {
       console.log('SEND');
-      ws.send(JSON.stringify(webSocketClientSetClientSemaphore({semaphore})));
+      ws.send(JSON.stringify(webSocketClientSetClientSemaphore({semaphore: conceptSemaphore})));
       const plan = concepts$.plan('Web Socket Planner', [
         createStage((concepts, dispatch) => {
-          const name = getUnifiedName(concepts, semaphore);
+          const name = getUnifiedName(concepts, conceptSemaphore);
           if (name) {
             dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
               iterateStage: true
@@ -53,7 +53,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
           }
         }),
         createStage((concepts, __) => {
-          const state = selectUnifiedState<WebSocketClientState>(concepts, semaphore);
+          const state = selectUnifiedState<WebSocketClientState>(concepts, conceptSemaphore);
           if (state) {
             if (state.actionQue.length > 0) {
               const que = [...state.actionQue];
@@ -70,12 +70,12 @@ export const webSocketClientPrinciple: PrincipleFunction =
           } else {
             plan.conclude();
           }
-        }, {beat: 33, selectors: [webSocketClient_createActionQueSelector(cpts, semaphore) as KeyedSelector]})
+        }, {beat: 33, selectors: [webSocketClient_createActionQueSelector(cpts, conceptSemaphore) as KeyedSelector]})
       ]);
       const state: Record<string, unknown> = {};
       const planOnChange = concepts$.plan('Web Socket Server On Change', [
         createStage((concepts, dispatch) => {
-          const name = getUnifiedName(concepts, semaphore);
+          const name = getUnifiedName(concepts, conceptSemaphore);
           if (name) {
             dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: planOnChange}), {
               iterateStage: true
@@ -85,7 +85,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
           }
         }),
         createStage((concepts) => {
-          const newState = selectUnifiedState<Record<string, unknown>>(concepts, semaphore);
+          const newState = selectUnifiedState<Record<string, unknown>>(concepts, conceptSemaphore);
           if (newState) {
             const stateKeys = Object.keys(newState);
             if (stateKeys.length === 0) {
@@ -117,6 +117,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
                   }
                   const sync = webSocketServerSyncClientState({state});
                   sync.conceptSemaphore = (newState as WebSocketClientState).serverSemaphore;
+                  console.log('CHECK SYNC', sync);
                   ws.send(JSON.stringify(sync));
                   break;
                 }

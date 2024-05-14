@@ -1,27 +1,27 @@
 /*<$
-For the graph programming framework Stratimux and a Concept huirth, generate an ActionStrategy that accepts the current count and semaphore to have a unified Counter Concept be decremented seven times.
+For the graph programming framework Stratimux and a Concept huirth, generate an ActionStrategy that accepts the current count and conceptSemaphore to have a unified Counter Concept be decremented seven times.
 $>*/
 /*<#*/
 import { counterSubtract, createActionNode, createStrategy } from 'stratimux';
 
-export const huirthMinusSevenStrategy = (count: number, semaphore: number) => {
-  const stepSeventh = createActionNode(counterSubtract(semaphore));
-  const stepSix = createActionNode(counterSubtract(semaphore), {
+export const huirthMinusSevenStrategy = (count: number, conceptSemaphore: number) => {
+  const stepSeventh = createActionNode(counterSubtract({conceptSemaphore}));
+  const stepSix = createActionNode(counterSubtract({conceptSemaphore}), {
     successNode: stepSeventh,
   });
-  const stepFifth = createActionNode(counterSubtract(semaphore), {
+  const stepFifth = createActionNode(counterSubtract({conceptSemaphore}), {
     successNode: stepSix,
   });
-  const StepFourth = createActionNode(counterSubtract(semaphore), {
+  const StepFourth = createActionNode(counterSubtract({conceptSemaphore}), {
     successNode: stepFifth,
   });
-  const stepThird = createActionNode(counterSubtract(semaphore), {
+  const stepThird = createActionNode(counterSubtract({conceptSemaphore}), {
     successNode: StepFourth,
   });
-  const stepSecond = createActionNode(counterSubtract(semaphore), {
+  const stepSecond = createActionNode(counterSubtract({conceptSemaphore}), {
     successNode: stepThird,
   });
-  const stepFirst = createActionNode(counterSubtract(semaphore), {
+  const stepFirst = createActionNode(counterSubtract({conceptSemaphore}), {
     successNode: stepSecond,
   });
 

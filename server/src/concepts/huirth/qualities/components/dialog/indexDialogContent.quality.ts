@@ -45,6 +45,7 @@ export const [
         const isClient = userInterface_isClient();
         if (isClient !== undefined) {
           const dialog = (selectUnifiedState<huirthState>(concepts, semaphore) as huirthState).dialog.trim();
+          console.log('CHECK DIALOG', dialog);
           const counter = selectUnifiedState<CounterState>(concepts, semaphore);
           const count = counter ? counter.count : 0;
           let finalDialog = '';

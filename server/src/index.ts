@@ -25,7 +25,7 @@ import { createHuirthServerConcept } from './concepts/huirthServer/huirthServer.
       createUserInterfaceServerConcept(goal, {
         concept: unifyConcepts([createHuirthServerConcept()], createHuirthConcept()),
       }, port),
-    ], true, true, true);
+    ], {logging: true, storeDialog: true, logActionStream: true});
     break;
   }
   default: {
@@ -34,7 +34,7 @@ import { createHuirthServerConcept } from './concepts/huirthServer/huirthServer.
         concept: unifyConcepts([createHuirthServerConcept()], createHuirthConcept()),
       }, port),
       createFileSystemConcept()
-    ], true, true, true);
+    ], {logging: true, storeDialog: true, logActionStream: true});
     break;
   }
   }

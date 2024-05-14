@@ -55,9 +55,10 @@ ${conceptImports}
             createAxium(
               'contextAxium',
               [createDocumentObjectModelConcept({}), createUserInterfaceClientConcept(state, createHuirthConcept)],
-              true,
-              true
-            );
+              {
+                logging: true,
+                storeDialog: true
+              });
           } else {
             func();
           }

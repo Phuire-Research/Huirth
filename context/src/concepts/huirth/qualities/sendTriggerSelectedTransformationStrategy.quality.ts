@@ -39,7 +39,9 @@ export const [
             initialNode: createActionNode(
               userInterfaceClientSendActionToServer(
                 createAction(serverActionType, {
-                  selection: selectedTransformation,
+                  payload: {
+                    selection: selectedTransformation,
+                  },
                 })
               )
             ),

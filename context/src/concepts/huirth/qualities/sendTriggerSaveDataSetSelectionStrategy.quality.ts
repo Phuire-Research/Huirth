@@ -83,7 +83,9 @@ export const [
           initialNode: createActionNode(
             userInterfaceClientSendActionToServer(
               createAction('huirthServer trigger save data set selection strategy', {
-                names,
+                payload: {
+                  names,
+                },
               })
             ),
             {

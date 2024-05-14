@@ -35,7 +35,7 @@ export const [
           topic: 'Sent to Web Socket: Trigger Delete Data Sets: ' + payload.names.join(', '),
           initialNode: createActionNode(
             userInterfaceClientSendActionToServer(
-              createAction('huirthServer trigger delete data sets strategy', payload)), {
+              createAction('huirthServer trigger delete data sets strategy', {payload})), {
               successNode: createActionNode(huirthClearDataSetSelection())
             })
         }));
