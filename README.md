@@ -6,10 +6,13 @@ This will be patched up over the course of the month, majority of work has been 
 
 After the refactor however, this will serve as a form of backwards compatibility, while Huirth becomes increasingly responsible for its stack.
 
+## Change Log
+### Sync to v0.1.67
+* Still essentially a drop in POC, need to iron out some logic.
+* Most importantly is demoing the current consistency of Stratimux via the counter and dialog section on the index page.
+  * Managed to reduce 50 debounce to just 3 and can probably go lower, if not remove it entirely.
 ### Strong and Fast Update POC 5/06/24
 * Roughly implemented v0.1.60, will have to tune and adjust some logic to account for performance increase.
-
-## Change Log
 ### Rebranded to Huirth 3/01/24
 ### Sync to v0.1.55 and initial rebrand to Huirth 4/25/24 
 ### Sync to Stratimux v0.1.52 4/05/24
