@@ -37,6 +37,7 @@ export const webSocketClientPrinciple: PrincipleFunction = (
 ) => {
   const url = 'ws://' + window.location.host + '/axium';
   const ws = new WebSocket(url);
+  const syncState: Record<string, unknown> = {};
   ws.addEventListener('open', () => {
     console.log('SEND');
     ws.send(JSON.stringify(webSocketClientSetClientSemaphore({ semaphore: conceptSemaphore })));
@@ -74,7 +75,6 @@ export const webSocketClientPrinciple: PrincipleFunction = (
         { beat: 3, selectors: [webSocketClient_createActionQueSelector(cpts, conceptSemaphore) as KeyedSelector] }
       ),
     ]);
-    const state: Record<string, unknown> = {};
     const planOnChange = concepts$.plan('Web Socket Server On Change', [
       createStage((concepts, dispatch) => {
         const name = getUnifiedName(concepts, conceptSemaphore);
@@ -91,39 +91,29 @@ export const webSocketClientPrinciple: PrincipleFunction = (
           const newState = selectUnifiedState<Record<string, unknown>>(concepts, conceptSemaphore);
           if (newState) {
             const stateKeys = Object.keys(newState);
-            if (stateKeys.length === 0) {
+            if (Object.keys(syncState).length === 0) {
               for (const key of stateKeys) {
                 if (notKeys(key)) {
-                  state[key] = newState[key];
+                  syncState[key] = newState[key];
                 }
               }
-              ws.send(JSON.stringify(webSocketServerSyncClientState({ state })));
+              ws.send(JSON.stringify(webSocketServerSyncClientState({ state: syncState })));
             } else {
+              let changed = false;
               for (const key of stateKeys) {
-                let changed = false;
-                if (
-                  notKeys(key) &&
-                  // typeof newState[key] !== 'object' &&
-                  newState[key] !== state[key]
-                ) {
+                if (notKeys(key) && typeof newState[key] !== 'object' && newState[key] !== syncState[key]) {
+                  syncState[key] = newState[key];
+                  changed = true;
+                } else if (notKeys(key) && typeof newState[key] === 'object' && !Object.is(newState[key], syncState[key])) {
+                  syncState[key] = newState[key];
                   changed = true;
                 }
-                // else if (notKeys(key) && typeof newState[key] === 'object' && !Object.is(newState[key], state[key])) {
-                //   changed = true;
-                // }
-                if (changed) {
-                  for (const k of stateKeys) {
-                    // eslint-disable-next-line max-depth
-                    if (notKeys(k)) {
-                      state[key] = newState[key];
-                    }
-                  }
-                  const sync = webSocketServerSyncClientState({ state });
-                  sync.conceptSemaphore = (newState as WebSocketClientState).serverSemaphore;
-                  // console.log('CHECK SYNC', sync);
-                  ws.send(JSON.stringify(sync));
-                  break;
-                }
+              }
+              if (changed) {
+                const sync = webSocketServerSyncClientState({ state: syncState });
+                sync.conceptSemaphore = (newState as WebSocketClientState).serverSemaphore;
+                // console.log('CHECK SYNC', sync);
+                ws.send(JSON.stringify(sync));
               }
             }
           } else {
