@@ -65,15 +65,36 @@ export const [
     const boundActionQue = selectPayload<UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload>(action).boundActionQue;
     let previous: ActionNode | undefined;
     let first: ActionNode | undefined;
+    const body = [];
+    const tail = [];
     for (const bound of boundActionQue) {
-      let stitchUpdate = stitchUpdatedLayers;
+      // let stitchUpdate = stitchUpdatedLayers;
       if (bound.semaphore[0] === -1) {
-        stitchUpdate = stitchUpdateUniversalComponent;
+        tail.push(stitchUpdateUniversalComponent(bound));
+      } else {
+        body.push(stitchUpdatedLayers(bound));
       }
+    }
+    for (const stitch of body) {
       const [
         stitchEnd,
         stitchStrategy
-      ] = stitchUpdate(bound);
+      ] = stitch;
+      if (previous) {
+        const stitchNode = createActionNodeFromStrategy(stitchStrategy);
+        previous.successNode = stitchNode;
+        previous = stitchEnd;
+      } else {
+        const stitchNode = createActionNodeFromStrategy(stitchStrategy);
+        first = stitchNode;
+        previous = stitchEnd;
+      }
+    }
+    for (const stitch of tail) {
+      const [
+        stitchEnd,
+        stitchStrategy
+      ] = stitch;
       if (previous) {
         const stitchNode = createActionNodeFromStrategy(stitchStrategy);
         previous.successNode = stitchNode;
