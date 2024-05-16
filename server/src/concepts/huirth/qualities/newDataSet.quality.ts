@@ -4,6 +4,7 @@ $>*/
 /*<#*/
 import {
   Concepts,
+  axiumKick,
   createActionNode,
   createMethodWithConcepts,
   createQualitySet,
@@ -23,15 +24,17 @@ export const [
 ] = createQualitySet({
   type: 'Huirth create a new default DataSet',
   reducer: (state: huirthState): huirthState => {
-    const {dataSetSelection} = state;
+    const dataSetSelection: boolean[] = [];
     const trainingData = [...state.trainingData];
     let {trainingDataCounter} = state;
     if (trainingDataCounter === -1) {
       trainingDataCounter = trainingData.length;
     }
-    dataSetSelection.push(false);
     console.log('CHECK DATA SET SELECTION', dataSetSelection);
     trainingData.push(generateDefaultNamedDataSet('newDataSet' + trainingDataCounter));
+    trainingData.forEach(_ => {
+      dataSetSelection.push(false);
+    });
     trainingDataCounter++;
     return {
       ...state,
@@ -47,9 +50,13 @@ export const [
       trainingDataCounter = trainingData.length;
     }
     const name = 'newDataSet' + trainingDataCounter;
+    const send = createActionNode(huirthSendAddTrainingPageStrategy({name}));
+    const kick = createActionNode(axiumKick(), {
+      successNode: send
+    });
     const sendAddTrainingDataPage = createStrategy({
       topic: 'Send to server to trigger add training data page strategy',
-      initialNode: createActionNode(huirthSendAddTrainingPageStrategy({name}))
+      initialNode: kick
     });
     return strategyBegin(sendAddTrainingDataPage);
   }, concepts$ as Subject<Concepts>, semaphore as number)

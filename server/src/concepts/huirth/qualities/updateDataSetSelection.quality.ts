@@ -23,7 +23,7 @@ export const [
   reducer: (state: huirthState, action: Action): huirthState => {
     const {index} = selectPayload<huirthUpdateDataSetSelectionPayload>(action);
     const dataSetSelection = [...state.dataSetSelection];
-    console.log('CHECK DATA SET SELECTION BEFORE', dataSetSelection);
+    console.log('CHECK DATA SET SELECTION BEFORE', dataSetSelection, index);
     if (dataSetSelection[index] !== undefined) {
       dataSetSelection[index] = !dataSetSelection[index];
     }

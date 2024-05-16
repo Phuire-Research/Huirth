@@ -24,6 +24,7 @@ import { WebSocketClientState } from './webSocketClient.concept';
 import { webSocketClientSetClientSemaphore } from './strategies/server/setClientSemaphore.helper';
 import { webSocketServerSyncClientState } from './strategies/server/syncServerState.helper';
 import { webSocketClient_createActionQueSelector } from './webSocketClient.selectors';
+import { WebSocketServerState } from '../webSocketServer/webSocketServer.concept';
 
 const notKeys = (key: string) => {
   return (
@@ -57,16 +58,20 @@ export const webSocketClientPrinciple: PrincipleFunction =
           const state = selectUnifiedState<WebSocketClientState>(concepts, conceptSemaphore);
           if (state) {
             if (state.actionQue.length > 0) {
-              const que = [...state.actionQue];
-              state.actionQue = [];
-              que.forEach(action => {
-                console.log('SENDING', action);
-                action.conceptSemaphore = (state as WebSocketClientState).serverSemaphore;
-                ws.send(JSON.stringify(action));
-              });
-              concepts$.next(concepts);
-            } else {
-              // ws.send(JSON.stringify(axiumKick()));
+              const que = state.actionQue;
+              console.log('ATTEMPTING TO SEND', que);
+              const emptyQue = () => {
+                if (que.length) {
+                  const action = que.shift();
+                  if (action) {
+                    console.log('SENDING', action);
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    action.conceptSemaphore = (state as any).clientSemaphore;
+                    ws.send(JSON.stringify(action));
+                  }
+                }
+              };
+              emptyQue();
             }
           } else {
             plan.conclude();
@@ -126,7 +131,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
           } else {
             planOnChange.conclude();
           }
-        }, {beat: 3, priority: 2000}),
+        }, {priority: 2000}),
         createStage((__, dispatch) => {
           dispatch(axiumKick(), {
             setStage: 1

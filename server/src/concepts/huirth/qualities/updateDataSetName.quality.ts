@@ -1,16 +1,24 @@
 /*<$
-For the graph programming framework Stratimux and a Concept huirth, generate a quality that updates a DataSet's name by index and set by event target value.
+For the graph programming framework Stratimux and a Concept huirth, generate a quality that updates a DataSet's associated Page name by index and set by event target value.
 $>*/
 /*<#*/
 import {
   Action,
+  Concepts,
+  axiumKick,
+  createActionNode,
+  createMethodWithState,
   createQualitySetWithPayload,
-  defaultMethodCreator,
+  createStrategy,
   selectPayload,
+  strategyBegin,
 } from 'stratimux';
 import { huirthState } from '../huirth.concept';
 import { userInterface_selectInputTarget } from '../../../model/userInterface';
 import { DataSetTypes, PhuirEProjects, ProjectStatus } from '../huirth.model';
+import { Subject } from 'rxjs';
+import { huirthSendRemoveAddTrainingPageStrategy } from './sendTriggerRemoveAddTrainingPageStrategy.quality';
+import { webSocketClientForceSync } from '../../webSocketClient/qualities/forceSync.quality';
 
 export type huirthUpdateDataSetNamePayload = {
   index: number,
@@ -54,6 +62,25 @@ export const [
       projectsStatuses
     };
   },
-  methodCreator: defaultMethodCreator
+  methodCreator: (concepts$, semaphore) => createMethodWithState<huirthState>((action, state) => {
+    const payload = selectPayload<huirthUpdateDataSetNamePayload>(action);
+    const oldName = state.trainingData[payload.index].name;
+    const newName = userInterface_selectInputTarget(action).value;
+    const removeAdd = createActionNode(huirthSendRemoveAddTrainingPageStrategy({oldName, newName}));
+    const kick = createActionNode(axiumKick(), {
+      successNode: removeAdd
+    });
+    const forceSync = createActionNode(webSocketClientForceSync({
+      keys: ['trainingData']
+    }) , {
+      successNode: kick
+    });
+    const sendRemoveAddTrainingDataPage = createStrategy({
+      topic: 'Send to server to trigger remove add training data page strategy',
+      initialNode: forceSync,
+      priority: 3000
+    });
+    return strategyBegin(sendRemoveAddTrainingDataPage);
+  }, concepts$ as Subject<Concepts>, semaphore as number)
 });
 /*#>*/

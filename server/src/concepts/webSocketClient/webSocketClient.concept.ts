@@ -4,6 +4,7 @@ This message stream should establish each governing concept's semaphore so that 
 $>*/
 /*<#*/
 import { webSocketClientAppendToActionQueQuality } from './qualities/appendActionQue.quality';
+import { webSocketClientForceSyncQuality } from './qualities/forceSync.quality';
 import { webSocketClientSetServerSemaphoreQuality } from './qualities/setServerSemaphore.quality';
 import { webSocketClientPrinciple } from './webSocketClient.principle';
 import { Action, createConcept } from 'stratimux';
@@ -29,6 +30,7 @@ export const createWebSocketClientConcept = () => {
     [
       webSocketClientAppendToActionQueQuality,
       webSocketClientSetServerSemaphoreQuality,
+      webSocketClientForceSyncQuality
     ],
     [webSocketClientPrinciple]
   );

@@ -83,7 +83,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
             });
             const strategy = strategySequence(list);
             if (strategy) {
-              console.log('DISPATCHED', uiState.pages.length, strategy);
+              // console.log('DISPATCHED', uiState.pages.length, strategy);
               dispatch(strategyBegin(strategy), {
                 iterateStage: true,
               });

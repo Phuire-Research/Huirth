@@ -27,8 +27,10 @@ import _ws from 'express-ws';
 import { webSocketClientSetServerSemaphore } from '../webSocketClient/qualities/setServerSemaphore.quality';
 import { WebSocketServerState } from './webSocketServer.concept';
 import { webSocketServerSyncStateType } from './qualities/syncState.quality';
-import { webSocketServerClearActionQue } from './qualities/clearActionQue.quality';
+import { webSocketServer_createActionQueSelector } from './webSocketServer.selectors';
 // import { webSocketServer_createActionQueSelector } from './webSocketServer.selectors';
+
+
 
 export const webSocketServerPrinciple: PrincipleFunction =
   (observer: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
@@ -56,32 +58,29 @@ export const webSocketServerPrinciple: PrincipleFunction =
             }
           }
         }, {selectors: [axiumSelectOpen]}),
-        createStage((concepts, dispatch) => {
+        createStage((concepts) => {
           const state = selectUnifiedState<WebSocketServerState>(concepts, semaphore);
           if (state) {
             if (state.actionQue.length > 0) {
-              const que = [...state.actionQue];
-              let sent = false;
+              const que = state.actionQue;
               console.log('ATTEMPTING TO SEND', que);
-              que.forEach(action => {
-                sent = true;
-                console.log('SENDING', action);
-                action.conceptSemaphore = (state as WebSocketServerState).clientSemaphore;
-                ws.send(JSON.stringify(action));
-              });
-              if (sent) {
-                dispatch(webSocketServerClearActionQue({
-                  priority: 2000
-                }), {
-                  throttle: 0
-                });
-              }
+              const emptyQue = () => {
+                if (que.length) {
+                  const action = que.shift();
+                  if (action) {
+                    console.log('SENDING', action);
+                    action.conceptSemaphore = (state as WebSocketServerState).clientSemaphore;
+                    ws.send(JSON.stringify(action));
+                  }
+                }
+              };
+              emptyQue();
             }
           } else {
             console.log('SHOUDN\'T CONCLUDE');
             plan.conclude();
           }
-        }, {beat: 3, priority: 2000})
+        }, {priority: 2000, selectors: [webSocketServer_createActionQueSelector(cpts, semaphore) as KeyedSelector]})
       ]);
       ws.addEventListener('close', () => {
         if (interval) {

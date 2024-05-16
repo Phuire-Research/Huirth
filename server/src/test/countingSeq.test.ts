@@ -9,7 +9,7 @@ test('Stratimux test sequence of counting strategies', (done) => {
   console.log('BEGIN');
   const axium = createAxium('axium Counting Sequence', [
     createCounterConcept(),
-  ], true, true);
+  ]);
   const plan = axium.plan('File System Map Concept Directory Test', [
     createStage((concepts, dispatch) => {
       console.log('STEP 1');

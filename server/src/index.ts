@@ -25,7 +25,11 @@ import { createHuirthServerConcept } from './concepts/huirthServer/huirthServer.
       createUserInterfaceServerConcept(goal, {
         concept: unifyConcepts([createHuirthServerConcept()], createHuirthConcept()),
       }, port),
-    ], {logging: true, storeDialog: true, logActionStream: true});
+    ], {
+      logging: true,
+      storeDialog: true,
+      // logActionStream: true
+    });
     break;
   }
   default: {
@@ -34,7 +38,11 @@ import { createHuirthServerConcept } from './concepts/huirthServer/huirthServer.
         concept: unifyConcepts([createHuirthServerConcept()], createHuirthConcept()),
       }, port),
       createFileSystemConcept()
-    ], {logging: true, storeDialog: true, logActionStream: true});
+    ], {
+      logging: true,
+      storeDialog: true,
+      // logActionStream: true
+    });
     break;
   }
   }

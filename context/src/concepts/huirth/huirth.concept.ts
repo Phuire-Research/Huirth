@@ -74,6 +74,8 @@ import { huirthFilterTrainingDataPageQuality } from './qualities/filterTrainingD
 import { huirthSetTrainingDataInitializedQuality } from './qualities/setTrainingDataInitialized.quality';
 import { huirthTriggerAddTrainingDataPageQuality } from './qualities/triggerAddTrainingDataPageStrategy.quality';
 import { huirthSendAddTrainingPageStrategyQuality } from './qualities/sendTriggerAddTrainingPageStrategy.quality';
+import { huirthSendRemoveAddTrainingPageStrategyQuality } from './qualities/sendTriggerRemoveAddTrainingPageStrategy.quality';
+import { huirthTriggerRemoveAddTrainingDataPageQuality } from './qualities/triggerRemoveAddTrainingDataPageStrategy.quality';
 
 export const huirthName = 'huirth';
 export type huirthState = {
@@ -178,6 +180,8 @@ export const createHuirthConcept = (): Concept => {
     huirthSetTrainingDataInitializedQuality,
     huirthSendAddTrainingPageStrategyQuality,
     huirthTriggerAddTrainingDataPageQuality,
+    huirthSendRemoveAddTrainingPageStrategyQuality,
+    huirthTriggerRemoveAddTrainingDataPageQuality,
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
   return unifyConcepts([createCounterConcept()], createConcept(huirthName, createHuirthState(), qualities, principles, []));

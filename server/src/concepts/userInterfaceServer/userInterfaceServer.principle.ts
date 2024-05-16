@@ -44,7 +44,7 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
     concepts$.subscribe(concepts => {
       const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
       if (uiState) {
-        console.log('CHECK PAGES LENGTH', uiState.pages.length);
+        // console.log('CHECK PAGES LENGTH', uiState.pages.length);
         components = uiState.components;
         if (uiState.pages.length > 0) {
           // body = uiState.pages[0].compositions.map(comp => comp.html).join('');
@@ -256,14 +256,14 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
           const payload: UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload = {
             boundActionQue: []
           };
-          console.log('CHANGES: ', changes);
+          // console.log('CHANGES: ', changes);
           changes?.forEach(change => {
             // const chunk = change.keys.split('Server');
             // const client = chunk[0] + 'Client' + chunk[1];
             const bound = uiState.boundSelectors[change.keys];
             // console.log('HIT', bound, uiState.boundSelectors, chunk, client);
             if (bound) {
-              console.log('CHECK BOUND', bound);
+              // console.log('CHECK BOUND', bound);
               bound.forEach(b => {
                 const exists = changed[b.semaphore.toString()];
                 if (exists === undefined) {
@@ -277,13 +277,13 @@ export const userInterfaceServerOnChangePrinciple: PrincipleFunction =
           // console.log('CHECK CHANGES', changes);
           // console.log('CHECK UI STATE SELECTORS', uiState.selectors);
           // console.log('CHECK NEW SELECTORS', newSelectors);
-          console.log('CHECK BOUND SELECTORS', Object.keys(uiState.boundSelectors).map(key => {
-            return uiState.boundSelectors[key].map(b => b).map(some => `${key} ${some.semaphore}`);
-          }));
-          console.log('CHECK PAYLOAD', payload);
+          // console.log('CHECK BOUND SELECTORS', Object.keys(uiState.boundSelectors).map(key => {
+          //   return uiState.boundSelectors[key].map(b => b).map(some => `${key} ${some.semaphore}`);
+          // }));
+          // console.log('CHECK PAYLOAD', payload);
           // console.log('CHECK COMPONENTS', uiState.components);
           if (payload.boundActionQue.length > 0) {
-            console.log('ATOMIC UPDATE', payload.boundActionQue.map(bound => bound.semaphore));
+            // console.log('ATOMIC UPDATE', payload.boundActionQue.map(bound => bound.semaphore));
             dispatch(userInterfaceServerAssembleUpdateAtomicCompositionStrategy(payload), {
               throttle: 0,
               newSelectors

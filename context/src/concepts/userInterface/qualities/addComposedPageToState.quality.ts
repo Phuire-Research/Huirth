@@ -28,7 +28,7 @@ export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageT
             if (!comp.universal) {
               for (const bound of comp.boundSelectors) {
                 bound.semaphore = [i, compIndex];
-                console.log('SET', bound.action, bound.semaphore);
+                // console.log('SET', bound.action, bound.semaphore);
                 comp.boundSelectors.forEach((b) => {
                   b.selectors.forEach((s) => {
                     if (boundSelectors[s.keys]) {
@@ -42,7 +42,7 @@ export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageT
                 cachedSelectors.push(bound);
               }
             } else if (comp.universal) {
-              let unique = true;
+              // let unique = true;
               let possibleSemaphore = -1;
               for (const [index, cmp] of state.components.entries()) {
                 // eslint-disable-next-line max-depth
@@ -52,7 +52,7 @@ export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageT
                   break;
                 }
               }
-              console.log('CHECK UNIQUE', comp.action.type, unique, isUnique[comp.action.type]);
+              // console.log('CHECK UNIQUE', comp.action.type, unique, isUnique[comp.action.type]);
               if (isUnique[comp.action.type] === undefined) {
                 isUnique[comp.action.type] = false;
                 const setIndex = newComponents.length;

@@ -30,7 +30,7 @@ export const [
   type: 'create userInterface for SideBarContent',
   reducer: nullReducer,
   componentCreator: (act, concepts$, semaphore) => createMethodWithConcepts((action, concepts) => {
-    console.log('SIDEBAR CONTENT', action.strategy);
+    // console.log('SIDEBAR CONTENT', action.strategy);
     const state = selectUnifiedState<UserInterfaceState & huirthState>(concepts, semaphore as number);
     const payload = selectComponentPayload(action);
     const id = '#sideBarContent';

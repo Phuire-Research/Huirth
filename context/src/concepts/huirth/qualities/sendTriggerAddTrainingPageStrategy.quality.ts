@@ -7,6 +7,7 @@ import {
   createMethod,
   createQualitySetWithPayload,
   createStrategy,
+  defaultReducer,
   nullReducer,
   selectPayload,
   strategyBegin,
@@ -21,9 +22,10 @@ type SendTriggerAddTrainingPageStrategy = {
 export const [huirthSendAddTrainingPageStrategy, huirthSendAddTrainingPageStrategyType, huirthSendAddTrainingPageStrategyQuality] =
   createQualitySetWithPayload<SendTriggerAddTrainingPageStrategy>({
     type: 'Huirth send add training page strategy',
-    reducer: nullReducer,
-    methodCreator: () =>
+    reducer: defaultReducer,
+    methodCreator: (concepts$, semaphore) =>
       createMethod((action) => {
+        console.log('DOES THIS HIT');
         const { name } = selectPayload<SendTriggerAddTrainingPageStrategy>(action);
         return strategyBegin(
           createStrategy({
