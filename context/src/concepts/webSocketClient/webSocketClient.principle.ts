@@ -71,7 +71,7 @@ export const webSocketClientPrinciple: PrincipleFunction = (
             plan.conclude();
           }
         },
-        { beat: 33, selectors: [webSocketClient_createActionQueSelector(cpts, conceptSemaphore) as KeyedSelector] }
+        { beat: 3, selectors: [webSocketClient_createActionQueSelector(cpts, conceptSemaphore) as KeyedSelector] }
       ),
     ]);
     const state: Record<string, unknown> = {};
@@ -130,7 +130,7 @@ export const webSocketClientPrinciple: PrincipleFunction = (
             planOnChange.conclude();
           }
         },
-        { beat: 33 }
+        { beat: 3, priority: 2000 }
       ),
       createStage((__, dispatch) => {
         dispatch(axiumKick(), {

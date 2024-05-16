@@ -77,7 +77,6 @@ export const [
                     boundSelectors[s.keys] = [bound];
                   }
 
-                  console.log('SETTING', s.keys, s);
                   mapSelectors.set(s.keys, s);
                 });
               });
@@ -100,7 +99,6 @@ export const [
       mapSelectors.forEach((keyed) => {
         selectors.push(keyed);
       });
-      console.log('SETTING BOUND SELECTORS', boundSelectors, newComponents.length);
       return {
         ...state,
         pages: newPages,

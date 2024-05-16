@@ -17,7 +17,7 @@ export const [htmlBodyBegin, htmlBodyBeginType, htmlBodyBeginQuality] = createQu
     createMethod((action) => {
       const payload = selectComponentPayload(action);
       if (action.strategy) {
-        return strategySuccess(
+        const cont = strategySuccess(
           action.strategy,
           userInterface_appendCompositionToPage(action.strategy, {
             id: '',
@@ -29,6 +29,7 @@ export const [htmlBodyBegin, htmlBodyBeginType, htmlBodyBeginQuality] = createQu
       `,
           })
         );
+        return cont;
       }
       return action;
     }),

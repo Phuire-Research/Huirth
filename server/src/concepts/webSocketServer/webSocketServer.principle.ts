@@ -70,21 +70,18 @@ export const webSocketServerPrinciple: PrincipleFunction =
                 ws.send(JSON.stringify(action));
               });
               if (sent) {
-                dispatch(webSocketServerClearActionQue(), {
+                dispatch(webSocketServerClearActionQue({
+                  priority: 2000
+                }), {
                   throttle: 0
                 });
               }
-            } else {
-              // Note I shouldn't have to do this.
-              // This demonstrates how branch prediction interferes with graph programming
-              // As if I do not have this mechanism, branch prediction will outright ignore this "branch"
-              // ws.send(JSON.stringify(axiumKick()));
             }
           } else {
             console.log('SHOUDN\'T CONCLUDE');
             plan.conclude();
           }
-        }, {beat: 33})
+        }, {beat: 3, priority: 2000})
       ]);
       ws.addEventListener('close', () => {
         if (interval) {

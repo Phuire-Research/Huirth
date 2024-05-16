@@ -68,7 +68,6 @@ export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageT
                       boundSelectors[s.keys] = [bound];
                     }
 
-                    console.log('SETTING', s.keys, s);
                     mapSelectors.set(s.keys, s);
                   });
                 });
@@ -91,7 +90,6 @@ export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageT
         mapSelectors.forEach((keyed) => {
           selectors.push(keyed);
         });
-        console.log('SETTING BOUND SELECTORS', boundSelectors, newComponents.length);
         return {
           ...state,
           pages: newPages,

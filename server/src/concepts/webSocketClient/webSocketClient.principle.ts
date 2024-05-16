@@ -27,10 +27,10 @@ import { webSocketClient_createActionQueSelector } from './webSocketClient.selec
 
 const notKeys = (key: string) => {
   return (
-    key !== 'pages' &&
-    key !== 'clientSemaphore' &&
-    key !== 'serverSemaphore' &&
-    key !== 'pageStrategies'
+    key !== 'pages'
+    && key !== 'clientSemaphore'
+    && key !== 'serverSemaphore'
+    && key !== 'pageStrategies'
   );
 };
 
@@ -70,7 +70,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
           } else {
             plan.conclude();
           }
-        }, {beat: 33, selectors: [webSocketClient_createActionQueSelector(cpts, conceptSemaphore) as KeyedSelector]})
+        }, {beat: 3, selectors: [webSocketClient_createActionQueSelector(cpts, conceptSemaphore) as KeyedSelector]})
       ]);
       const state: Record<string, unknown> = {};
       const planOnChange = concepts$.plan('Web Socket Server On Change', [
@@ -126,7 +126,7 @@ export const webSocketClientPrinciple: PrincipleFunction =
           } else {
             planOnChange.conclude();
           }
-        }, {beat: 33}),
+        }, {beat: 3, priority: 2000}),
         createStage((__, dispatch) => {
           dispatch(axiumKick(), {
             setStage: 1

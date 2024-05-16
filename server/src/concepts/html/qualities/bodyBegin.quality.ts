@@ -25,7 +25,7 @@ export const [
     (action) => {
       const payload = selectComponentPayload(action);
       if (action.strategy) {
-        return strategySuccess(action.strategy, userInterface_appendCompositionToPage(action.strategy, {
+        const cont = strategySuccess(action.strategy, userInterface_appendCompositionToPage(action.strategy, {
           id: '',
           boundSelectors: [],
           universal: false,
@@ -34,6 +34,7 @@ export const [
     <body id="${createPageId(payload.pageTitle)}">
       `
         }));
+        return cont;
       }
       return action;
     }

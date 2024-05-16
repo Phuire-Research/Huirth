@@ -136,7 +136,9 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
           }
           finalOutput += '</div>';
           bindingsArray.push({
-            action: huirthNewDataSet(),
+            action: huirthNewDataSet({
+              priority: 1000,
+            }),
             elementId: addEntryID,
             eventBinding: elementEventBinding.onclick,
           });

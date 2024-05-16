@@ -34,7 +34,8 @@ const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy
     stepUpdateAtomic,
     createStrategy({
       initialNode: stepAction,
-      topic: 'STITCH ATOMIC COMPOSITION UPDATE'
+      topic: 'STITCH ATOMIC COMPOSITION UPDATE',
+      priority: 1000
     })
   ];
 };
@@ -47,7 +48,8 @@ const stitchUpdateUniversalComponent = (bound: BoundSelectors): [ActionNode, Act
     stepUpdateAtomic,
     createStrategy({
       initialNode: stepAction,
-      topic: 'STITCH UNIVERSAL COMPONENT UPDATE'
+      topic: 'STITCH UNIVERSAL COMPONENT UPDATE',
+      priority: 1000
     })
   ];
 };
@@ -90,6 +92,7 @@ export const [
       return strategyBegin(createStrategy({
         initialNode: first,
         topic: 'User Interface atomic update compositions',
+        priority: 1000
       }));
     }
     return action;

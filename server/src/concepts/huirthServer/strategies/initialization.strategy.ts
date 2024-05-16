@@ -12,6 +12,7 @@ import { fileSystemCreateTargetDirectory } from '../../fileSystem/qualities/crea
 import { dataDirectories } from '../huirthServer.model';
 import { huirthServerSetRepositoriesFromData } from '../qualities/setRepositoriesFromData.quality';
 import { huirthServerSetTrainingDataFromData } from '../qualities/setTrainingDataFromData.quality';
+import { huirthSetTrainingDataInitialized } from '../../huirth/qualities/setTrainingDataInitialized.quality';
 
 const huirthServerInitializationStrategyTopic = 'huirth Server Initialization Strategy';
 export const huirthServerInitializationStrategy = (root: string) => {
@@ -22,7 +23,10 @@ export const huirthServerInitializationStrategy = (root: string) => {
   const gitSetsDirectory = path.join(root + '/data/' + dataDirectories.sets + '/');
   // If repositories doesn't exist
   // stepFour does folder repositories exists?
-  const stepSetTrainingDataFromData = createActionNode(huirthServerSetTrainingDataFromData());
+  const stepSetTrainingDataInitialized = createActionNode(huirthSetTrainingDataInitialized());
+  const stepSetTrainingDataFromData = createActionNode(huirthServerSetTrainingDataFromData(), {
+    successNode: stepSetTrainingDataInitialized
+  });
   const stepReadTrainingDataFromData = createActionNode(huirthServerReadFromDataTrainingDataFromDirectories(), {
     successNode: stepSetTrainingDataFromData,
   });

@@ -32,7 +32,7 @@ export const [huirthSideBarContent, huirthSideBarContentType, huirthSideBarConte
   type: 'create userInterface for SideBarContent',
   reducer: nullReducer,
   componentCreator: (act, concepts$, semaphore) =>
-    createMethodDebounceWithConcepts(
+    createMethodWithConcepts(
       (action, concepts) => {
         console.log('SIDEBAR CONTENT', action.strategy);
         const state = selectUnifiedState<UserInterfaceState & huirthState>(concepts, semaphore as number);
@@ -111,8 +111,7 @@ export const [huirthSideBarContent, huirthSideBarContentType, huirthSideBarConte
         return action;
       },
       concepts$ as UnifiedSubject,
-      semaphore as number,
-      10
+      semaphore as number
     ),
 });
 /*#>*/

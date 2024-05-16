@@ -57,7 +57,8 @@ ${conceptImports}
               [createDocumentObjectModelConcept({}), createUserInterfaceClientConcept(state, createHuirthConcept)],
               {
                 logging: true,
-                storeDialog: true
+                storeDialog: true,
+                logActionStream: true
               });
           } else {
             func();

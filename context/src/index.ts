@@ -24,6 +24,7 @@ import { createHuirthConcept } from './concepts/huirth/huirth.concept';
               {
                 logging: true,
                 storeDialog: true,
+                logActionStream: true,
               }
             );
           } else {

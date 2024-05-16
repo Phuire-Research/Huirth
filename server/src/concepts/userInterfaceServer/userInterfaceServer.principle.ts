@@ -97,6 +97,11 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
     const initialFileSystemState = selectState<FileSystemState>(cpts, fileSystemName);
     const server = initialServerState.server;
     server.get('/', (__, res) => {
+      res.set({
+        'Cache-Control': 'no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': 0
+      });
       let found = false;
       for (const page of pages) {
         if (page.title === 'index') {
@@ -121,6 +126,11 @@ export const userInterfaceServerPrinciple: PrincipleFunction =
       res.json(newState);
     });
     server.get('/:title', (req, res) => {
+      res.set({
+        'Cache-Control': 'no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': 0
+      });
       let found = false;
       for (const page of pages) {
         if (page.title === req.params.title) {
