@@ -29,8 +29,8 @@ export const [
 ] = createQualitySetComponent({
   type: 'create userInterface for SideBarContent',
   reducer: nullReducer,
-  componentCreator: (act, concepts$, semaphore) => createMethodDebounceWithConcepts((action, concepts) => {
-    console.log('SIDEBAR CONTENT', action.strategy);
+  componentCreator: (act, concepts$, semaphore) => createMethodWithConcepts((action, concepts) => {
+    // console.log('SIDEBAR CONTENT', action.strategy);
     const state = selectUnifiedState<UserInterfaceState & huirthState>(concepts, semaphore as number);
     const payload = selectComponentPayload(action);
     const id = '#sideBarContent';
@@ -98,6 +98,6 @@ export const [
       }));
     }
     return action;
-  }, concepts$ as UnifiedSubject, semaphore as number, 10)
+  }, concepts$ as UnifiedSubject, semaphore as number)
 });
 /*#>*/

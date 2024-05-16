@@ -34,7 +34,8 @@ const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy
     stepUpdateAtomic,
     createStrategy({
       initialNode: stepAction,
-      topic: 'STITCH ATOMIC COMPOSITION UPDATE'
+      topic: 'STITCH ATOMIC COMPOSITION UPDATE',
+      priority: 1000
     })
   ];
 };
@@ -47,7 +48,8 @@ const stitchUpdateUniversalComponent = (bound: BoundSelectors): [ActionNode, Act
     stepUpdateAtomic,
     createStrategy({
       initialNode: stepAction,
-      topic: 'STITCH UNIVERSAL COMPONENT UPDATE'
+      topic: 'STITCH UNIVERSAL COMPONENT UPDATE',
+      priority: 1000
     })
   ];
 };
@@ -63,15 +65,36 @@ export const [
     const boundActionQue = selectPayload<UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload>(action).boundActionQue;
     let previous: ActionNode | undefined;
     let first: ActionNode | undefined;
+    const body = [];
+    const tail = [];
     for (const bound of boundActionQue) {
-      let stitchUpdate = stitchUpdatedLayers;
+      // let stitchUpdate = stitchUpdatedLayers;
       if (bound.semaphore[0] === -1) {
-        stitchUpdate = stitchUpdateUniversalComponent;
+        tail.push(stitchUpdateUniversalComponent(bound));
+      } else {
+        body.push(stitchUpdatedLayers(bound));
       }
+    }
+    for (const stitch of body) {
       const [
         stitchEnd,
         stitchStrategy
-      ] = stitchUpdate(bound);
+      ] = stitch;
+      if (previous) {
+        const stitchNode = createActionNodeFromStrategy(stitchStrategy);
+        previous.successNode = stitchNode;
+        previous = stitchEnd;
+      } else {
+        const stitchNode = createActionNodeFromStrategy(stitchStrategy);
+        first = stitchNode;
+        previous = stitchEnd;
+      }
+    }
+    for (const stitch of tail) {
+      const [
+        stitchEnd,
+        stitchStrategy
+      ] = stitch;
       if (previous) {
         const stitchNode = createActionNodeFromStrategy(stitchStrategy);
         previous.successNode = stitchNode;
@@ -90,6 +113,7 @@ export const [
       return strategyBegin(createStrategy({
         initialNode: first,
         topic: 'User Interface atomic update compositions',
+        priority: 1000
       }));
     }
     return action;

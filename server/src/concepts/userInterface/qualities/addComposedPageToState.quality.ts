@@ -37,7 +37,7 @@ export const [
           if (!comp.universal) {
             for (const bound of comp.boundSelectors) {
               bound.semaphore = [i, compIndex];
-              console.log('SET', bound.action, bound.semaphore);
+              // console.log('SET', bound.action, bound.semaphore);
               comp.boundSelectors.forEach(b => {
                 b.selectors.forEach(s => {
                   if (boundSelectors[s.keys]) {
@@ -51,7 +51,7 @@ export const [
               cachedSelectors.push(bound);
             }
           } else if (comp.universal) {
-            let unique = true;
+            // let unique = true;
             let possibleSemaphore = -1;
             for (const [index, cmp] of state.components.entries()) {
               // eslint-disable-next-line max-depth
@@ -61,7 +61,7 @@ export const [
                 break;
               }
             }
-            console.log('CHECK UNIQUE', comp.action.type, unique, isUnique[comp.action.type]);
+            // console.log('CHECK UNIQUE', comp.action.type, unique, isUnique[comp.action.type]);
             if (isUnique[comp.action.type] === undefined) {
               isUnique[comp.action.type] = false;
               const setIndex = newComponents.length;
@@ -77,7 +77,6 @@ export const [
                     boundSelectors[s.keys] = [bound];
                   }
 
-                  console.log('SETTING', s.keys, s);
                   mapSelectors.set(s.keys, s);
                 });
               });
@@ -100,7 +99,6 @@ export const [
       mapSelectors.forEach((keyed) => {
         selectors.push(keyed);
       });
-      console.log('SETTING BOUND SELECTORS', boundSelectors, newComponents.length);
       return {
         ...state,
         pages: newPages,

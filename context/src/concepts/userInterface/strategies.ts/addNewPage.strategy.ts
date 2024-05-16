@@ -24,6 +24,7 @@ export function userInterfaceAddNewPageStrategy(name: string, pageStrategy: Page
     topic: userInterfaceAddNewPageStrategyTopic + name,
     initialNode: stepAddToState,
     data: strategy.data,
+    priority: 500,
   });
 }
 /*#>*/

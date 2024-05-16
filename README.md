@@ -7,6 +7,9 @@ This will be patched up over the course of the month, majority of work has been 
 After the refactor however, this will serve as a form of backwards compatibility, while Huirth becomes increasingly responsible for its stack.
 
 ## Change Log
+### Sync to v0.1.71
+* Revamped the majority of logic and have a few timing issues to take care of in regards to state syncing and when pages are being updated.
+  * Originally planned to use a new Buffer Method to have to skip over some extra logic, but found a new computation limit with Stratimux. The tests work fine side by side in isolation, but in a complex environment generally good enough computing jumps out of the bushes.
 ### Sync to v0.1.67
 * Still essentially a drop in POC, need to iron out some logic.
 * What is important is demoing the current consistency of Stratimux via the counter and dialog section on the index page.
@@ -15,8 +18,7 @@ After the refactor however, this will serve as a form of backwards compatibility
   * This points a limitation in our current *generally good enough computers* that Stratimux pushes to some limit
     * In a **strong fast computation context** the beat for these plans could be removed entirely.
   * Last remaining issue on this point, is having the final returns of strategies moving between client and server to properly set their intended value.
-    * Noting that axiumKick cycle was removed and was previously added to ensure that the final value can be set.
-    * Punting this issue for now as their is a another MVP that can be pursued that would making debugging this process easier.
+    * *Update* Managed to have the strategies to save to file and render on client via the Data Manager, but the individual pages are currently not being created.
 ### Strong and Fast Update POC 5/06/24
 * Roughly implemented v0.1.60, will have to tune and adjust some logic to account for performance increase.
 ### Rebranded to Huirth 3/01/24

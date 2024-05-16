@@ -14,7 +14,7 @@ test('userInterfaceBindingsToString', (done) => {
     1: experiment,
   };
   const entry = generateBaseDataSetEntry();
-  const selector = createUnifiedKeyedSelector(concepts, 1, 'trainingData 0 dataSet 0 prompt') as KeyedSelector;
+  const selector = createUnifiedKeyedSelector(concepts, 1, 'trainingData.0.dataSet.0.prompt') as KeyedSelector;
   const getUndefined = { ...selector };
   getUndefined.conceptName = 'something';
   expect(selectSlice(concepts, selector)).toBe(entry.prompt);

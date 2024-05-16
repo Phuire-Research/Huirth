@@ -20,7 +20,8 @@ export function userInterfaceAddNewPageStrategy(name: string, pageStrategy: Page
   return createStrategy({
     topic: userInterfaceAddNewPageStrategyTopic + name,
     initialNode: stepAddToState,
-    data: strategy.data
+    data: strategy.data,
+    priority: 500
   });
 }
 /*#>*/

@@ -11,7 +11,7 @@ export type huirthNewDataSetEntryPayload = {
 };
 export const [huirthNewDataSetEntry, huirthNewDataSetEntryType, huirthNewDataSetEntryQuality] =
   createQualitySetWithPayload<huirthNewDataSetEntryPayload>({
-    type: 'Create huirth create a new default DataSet entry at target index',
+    type: 'Huirth create a new default DataSet entry at target index',
     reducer: (state: huirthState, action): huirthState => {
       const payload = selectPayload<huirthNewDataSetEntryPayload>(action);
       const trainingData = [...state.trainingData];

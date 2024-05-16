@@ -24,15 +24,16 @@ export const [
   type: 'Web Socket Server append to action que',
   reducer: (state: WebSocketServerState, action: Action): WebSocketServerState => {
     const payload = selectPayload<WebSocketServerAppendToActionQuePayload>(action);
-    const actionQue = payload.actionQue.map(act => refreshAction(act));
-    const newActionQue = [
-      ...state.actionQue,
-      ...actionQue
-    ];
-    console.log('APPEND TO ACTION QUE', newActionQue);
+    console.log('APPENDING TO SEND', payload);
+    const actionQue = state.actionQue;
+    payload.actionQue.forEach(act => {
+      actionQue.push(refreshAction(act));
+    });
     return {
       ...state,
-      actionQue: newActionQue
+      actionQue: [
+        ...actionQue
+      ]
     };
   },
   methodCreator: defaultMethodCreator

@@ -13,6 +13,7 @@ import { huirthServerSendUpdateParsedProjectData } from './client/huirthServerSe
 
 export const huirthServerSaveDataSetStrategyTopic = 'Save a data set to its own directory';
 export const huirthServerSaveDataSetStrategy = (root: string, dataSet: NamedDataSet, name: string) => {
+  console.log('HITTING HERE');
   const dataPath = path.join(root + '/data/sets/' + name);
   const saveFormat  = convertNamedDataSetToSaveFormat(dataSet);
   const stepUpdateProjectUpdateParsedProjectDataToClient = createActionNode(huirthServerSendUpdateParsedProjectData(dataSet));

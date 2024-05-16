@@ -38,7 +38,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
     if (axiumState.badActions.length > 0) {
       console.error('BAD ACTIONS: ', axiumState.badActions);
     }
-    console.log('BAD PLANS', axiumState.badPlans);
+    // console.log('BAD PLANS', axiumState.badPlans);
     // console.log('CHECK FOR SIDEBAR CONTENT', val[1].qualities[56]);
   });
   const plan = concepts$.plan('User Interface Page to State initialization plan', [
@@ -83,7 +83,7 @@ export const userInterfaceInitializationPrinciple: PrincipleFunction = (
             });
             const strategy = strategySequence(list);
             if (strategy) {
-              console.log('DISPATCHED', uiState.pages.length, strategy);
+              // console.log('DISPATCHED', uiState.pages.length, strategy);
               dispatch(strategyBegin(strategy), {
                 iterateStage: true,
               });

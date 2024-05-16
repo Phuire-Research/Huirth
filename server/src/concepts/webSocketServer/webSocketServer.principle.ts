@@ -27,18 +27,24 @@ import _ws from 'express-ws';
 import { webSocketClientSetServerSemaphore } from '../webSocketClient/qualities/setServerSemaphore.quality';
 import { WebSocketServerState } from './webSocketServer.concept';
 import { webSocketServerSyncStateType } from './qualities/syncState.quality';
-import { webSocketServerClearActionQue } from './qualities/clearActionQue.quality';
+import { webSocketServer_createActionQueSelector } from './webSocketServer.selectors';
 // import { webSocketServer_createActionQueSelector } from './webSocketServer.selectors';
+
+
 
 export const webSocketServerPrinciple: PrincipleFunction =
   (observer: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
     const initialServerState = selectUnifiedState(cpts, semaphore) as ServerState;
     const server = initialServerState.server;
     const socket = _ws(server);
+    let interval: undefined | NodeJS.Timer;
     socket.app.ws('/axium', (ws, req) => {
       const setServerSemaphoreMessage = JSON.stringify(webSocketClientSetServerSemaphore({semaphore}));
-      console.log('CHECK THIS MESSAGE', setServerSemaphoreMessage);
+      // console.log('CHECK THIS MESSAGE', setServerSemaphoreMessage);
       ws.send(setServerSemaphoreMessage);
+      interval = setInterval(() => {
+        ws.send('ping');
+      }, 3000);
       const plan = concepts$.plan('Web Socket Server Message Que Planner', [
         createStage((concepts, dispatch) => {
           if (selectSlice(concepts, axiumSelectOpen) === true) {
@@ -52,50 +58,49 @@ export const webSocketServerPrinciple: PrincipleFunction =
             }
           }
         }, {selectors: [axiumSelectOpen]}),
-        createStage((concepts, dispatch) => {
+        createStage((concepts) => {
           const state = selectUnifiedState<WebSocketServerState>(concepts, semaphore);
           if (state) {
             if (state.actionQue.length > 0) {
-              const que = [...state.actionQue];
-              let sent = false;
+              const que = state.actionQue;
               console.log('ATTEMPTING TO SEND', que);
-              que.forEach(action => {
-                sent = true;
-                console.log('SENDING', action);
-                action.conceptSemaphore = (state as WebSocketServerState).clientSemaphore;
-                ws.send(JSON.stringify(action));
-              });
-              if (sent) {
-                dispatch(webSocketServerClearActionQue(), {
-                  throttle: 0
-                });
-              }
-            } else {
-              // Note I shouldn't have to do this.
-              // This demonstrates how branch prediction interferes with graph programming
-              // As if I do not have this mechanism, branch prediction will outright ignore this "branch"
-              // ws.send(JSON.stringify(axiumKick()));
+              const emptyQue = () => {
+                if (que.length) {
+                  const action = que.shift();
+                  if (action) {
+                    console.log('SENDING', action);
+                    action.conceptSemaphore = (state as WebSocketServerState).clientSemaphore;
+                    ws.send(JSON.stringify(action));
+                  }
+                }
+              };
+              emptyQue();
             }
           } else {
             console.log('SHOUDN\'T CONCLUDE');
             plan.conclude();
           }
-        }, {beat: 33})
+        }, {priority: 2000, selectors: [webSocketServer_createActionQueSelector(cpts, semaphore) as KeyedSelector]})
       ]);
       ws.addEventListener('close', () => {
+        if (interval) {
+          clearInterval(interval);
+        }
         plan.conclude();
       });
-      ws.on('message', (message) => {
-        const act = JSON.parse(`${message}`);
-        console.log('CHECK ACTION', act);
-        if (Object.keys(act).includes('type')) {
-          if ((act as Action).type !== webSocketServerSyncStateType) {
-            if (getAxiumState(cpts).logging && (act as Action).type !== axiumKickType) {
-              console.log('MESSAGE', (act as Action).type);
+      ws.on('message', (message: any) => {
+        if (message.data !== 'ping') {
+          const act = JSON.parse(`${message}`);
+          // console.log('CHECK ACTION', act);
+          if (Object.keys(act).includes('type')) {
+            if ((act as Action).type !== webSocketServerSyncStateType) {
+              if (getAxiumState(cpts).logging && (act as Action).type !== axiumKickType) {
+                console.log('MESSAGE', (act as Action).type);
+              }
             }
+            act.conceptSemaphore = semaphore;
+            observer.next(act);
           }
-          act.conceptSemaphore = semaphore;
-          observer.next(act);
         }
       });
     });

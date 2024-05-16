@@ -3,6 +3,7 @@ For the graph programming framework Stratimux and a Concept huirth, generate a q
 $>*/
 /*<#*/
 import {
+  axiumLog,
   createActionNode,
   createMethodDebounce,
   createQualitySetWithPayload,
@@ -34,28 +35,33 @@ export const [
         let action;
         switch (selection) {
         case huirthVerboseAddingStrategySelect: {
-          action = huirthServerGenerateVerboseAddingStrategy({agreement: 6000000000000});
+          action = huirthServerGenerateVerboseAddingStrategy({agreement: 600000});
           break;
         }
         case huirthVerboseSubtractionStrategySelect: {
-          action = huirthServerGenerateVerboseSubtractionStrategy({agreement: 6000000000000});
+          action = huirthServerGenerateVerboseSubtractionStrategy({agreement: 600000});
           break;
         }
         case huirthVerboseAdditionAndSubtractionStrategySelect: {
-          action = huirthServerGenerateVerboseAdditionAndSubtractionStrategy({agreement: 6000000000000});
+          action = huirthServerGenerateVerboseAdditionAndSubtractionStrategy({agreement: 600000});
           break;
         }
         default: {
           break;
         }
         }
+        // action = axiumLog();
+        // action.payload = {
+        //   time: Date.now(),
+        //   agreement: 6000000
+        // };
         console.log('This is the trigger action', action);
         if (action) {
           return strategyBegin(
             createStrategy({
               topic: 'Begin Transformation Strategy',
               initialNode: createActionNode(action, {
-                agreement: 60000000000
+                agreement: 600000
               })
             })
           );

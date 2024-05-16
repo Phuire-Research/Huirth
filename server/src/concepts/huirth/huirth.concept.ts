@@ -69,6 +69,13 @@ import { huirthSetDataSetQuality } from './qualities/setDataSet.quality';
 import { huirthSetSelectedTransformationQuality } from './qualities/setSelectedTransformation.quality';
 import { huirthSendTriggerSelectedTransformationStrategyQuality } from './qualities/sendTriggerSelectedTransformationStrategy.quality';
 import { huirthClearDataSetSelectionQuality } from './qualities/clearDataSetSelection.quality';
+import { huirthSetTrainingDataPageQuality } from './qualities/setTrainingDataPage.quality';
+import { huirthFilterTrainingDataPageQuality } from './qualities/filterTrainingDataPage.quality';
+import { huirthSetTrainingDataInitializedQuality } from './qualities/setTrainingDataInitialized.quality';
+import { huirthTriggerAddTrainingDataPageQuality } from './qualities/triggerAddTrainingDataPageStrategy.quality';
+import { huirthSendAddTrainingPageStrategyQuality } from './qualities/sendTriggerAddTrainingPageStrategy.quality';
+import { huirthSendRemoveAddTrainingPageStrategyQuality } from './qualities/sendTriggerRemoveAddTrainingPageStrategy.quality';
+import { huirthTriggerRemoveAddTrainingDataPageQuality } from './qualities/triggerRemoveAddTrainingDataPageStrategy.quality';
 
 export const huirthName = 'huirth';
 export type huirthState = {
@@ -83,7 +90,9 @@ export type huirthState = {
   projectsStatuses: GeneralProjectStatuses;
   dataSetSelection: boolean[],
   sideBarExpanded: boolean;
+  trainingDataInitialized: boolean;
   trainingData: TrainingData;
+  trainingDataPages: string[];
   trainingDataCounter: number;
   activeDPO: Active_DPO[];
 } & BrandState;
@@ -105,7 +114,9 @@ const createHuirthState = (): huirthState => {
     projectsStatuses: [],
     dataSetSelection: [],
     sideBarExpanded: true,
+    trainingDataInitialized: false,
     trainingData: generateDefaultTrainingData(),
+    trainingDataPages: [],
     trainingDataCounter: -1,
     activeDPO: [generateDPOTrainingData()],
     pageStrategies: [huirthIndexPageStrategy, huirthDataManagerPageStrategy, huirthErrorPageStrategy]
@@ -167,6 +178,13 @@ export const createHuirthConcept = (): Concept =>  {
     huirthFilterTriggerInstallGitRepositoryQuality,
     huirthSetDataSetQuality,
     huirthSetSelectedTransformationQuality,
+    huirthSetTrainingDataPageQuality,
+    huirthFilterTrainingDataPageQuality,
+    huirthSetTrainingDataInitializedQuality,
+    huirthSendAddTrainingPageStrategyQuality,
+    huirthTriggerAddTrainingDataPageQuality,
+    huirthSendRemoveAddTrainingPageStrategyQuality,
+    huirthTriggerRemoveAddTrainingDataPageQuality
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
   return unifyConcepts(

@@ -20,7 +20,7 @@ function selectUnifiedState<T>(concepts: Concepts, semaphore: number): T | undef
 test('FileSystem get Concept Directory Test', (done) => {
   const axium = createAxium('axiumStrategyTest', [
     createFileSystemConcept()
-  ], true, true);
+  ]);
   const plan = axium.plan('File System Map Concept Directory Test', [
     createStage((concepts, dispatch) => {
       console.log('CHECK UNIFIED', selectUnifiedState(concepts, 2));
