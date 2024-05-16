@@ -88,6 +88,8 @@ export const webSocketClientPrinciple: PrincipleFunction = (
       }),
       createStage(
         (concepts) => {
+          // Bucket State
+          const state: Record<string, unknown> = {};
           const newState = selectUnifiedState<Record<string, unknown>>(concepts, conceptSemaphore);
           if (newState) {
             const stateKeys = Object.keys(newState);
@@ -95,22 +97,25 @@ export const webSocketClientPrinciple: PrincipleFunction = (
               for (const key of stateKeys) {
                 if (notKeys(key)) {
                   syncState[key] = newState[key];
+                  state[key] = newState[key];
                 }
               }
-              ws.send(JSON.stringify(webSocketServerSyncClientState({ state: syncState })));
+              ws.send(JSON.stringify(webSocketServerSyncClientState({ state })));
             } else {
               let changed = false;
               for (const key of stateKeys) {
                 if (notKeys(key) && typeof newState[key] !== 'object' && newState[key] !== syncState[key]) {
                   syncState[key] = newState[key];
+                  state[key] = newState[key];
                   changed = true;
                 } else if (notKeys(key) && typeof newState[key] === 'object' && !Object.is(newState[key], syncState[key])) {
                   syncState[key] = newState[key];
+                  state[key] = newState[key];
                   changed = true;
                 }
               }
               if (changed) {
-                const sync = webSocketServerSyncClientState({ state: syncState });
+                const sync = webSocketServerSyncClientState({ state });
                 sync.conceptSemaphore = (newState as WebSocketClientState).serverSemaphore;
                 // console.log('CHECK SYNC', sync);
                 ws.send(JSON.stringify(sync));
