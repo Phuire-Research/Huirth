@@ -31,6 +31,7 @@ export const [
   reducer: nullReducer,
   methodCreator: (concepts$, semaphore) => createMethodWithConcepts((action, concepts) => {
     const {newName, oldName} = selectPayload<TriggerRemoveAddTrainingDataPage>(action);
+    console.log('CHECK NAMES newName', newName, 'Old Name', oldName);
     const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(newName);
     const strategyAdd = huirthAddTrainingDataPageStrategy(
       newName,

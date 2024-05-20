@@ -91,36 +91,17 @@ export const [huirthDataSetContent, huirthDataSetContentType, huirthDataSetConte
   <label class="text-white pl-2 translate-y-2">
     Content
   </label>
-${
-  trainingData[index].type === DataSetTypes.general
-    ? /*html*/ `
-  <textarea id="${contentID + elementID}" class="${
-        'peer h-full min-h-[100px] w-full resize-none rounded-[7px] ' +
-        'border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal' +
-        'text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200' +
-        'placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0' +
-        'disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50'
-      }" id="${chosenID + elementID}" rows="4" cols="50"
->${data.content}</textarea>`
-    : /*html*/ `
-  <input
-    readonly
-    class="${
-      'input-' +
-      i +
-      ' mb-4 peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent' +
-      'bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all' +
-      'placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200' +
-      'focus:border-2 focus:border-teal-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50'
-    }"
-    value="Tokens: ${data.content.split(' ').length}"
-  />`
-}
-  <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
-    Remove <i class="fa-solid fa-trash"></i>
-  </button>
+  <textarea contentEditable="true" id="${contentID + elementID}" class="${
+                'peer h-full min-h-[300px] w-full resize-none rounded-[7px] ' +
+                'border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal' +
+                'text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200' +
+                'placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0' +
+                'disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50'
+              }" id="${chosenID + elementID}" rows="4" cols="50"
+>${data.content}</textarea>
 </div>
-        `;
+`;
+              //
             }
           }
           bindingsArray.push({

@@ -18,7 +18,8 @@ export type GeneralProjectStatuses = {name: string, status: ProjectStatus}[];
 
 // eslint-disable-next-line no-shadow
 export enum PhuirEProjects {
-  stratimux = 'stratimux',
+  // eslint-disable-next-line quotes
+  stratimux = "stratimux",
   stratimuxURL = 'https://github.com/Phuire-Research/Stratimux',
   huirth = 'huirth',
   huirth_URL = 'https://github.com/Phuire-Research/huirth'

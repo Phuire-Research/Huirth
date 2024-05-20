@@ -64,6 +64,7 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
         const installStratimuxID = '#install_' + PhuirEProjects.stratimux;
         const pullStratimuxID = '#pull_' + PhuirEProjects.stratimux;
         let finalStratimuxID = '#stratimuxID';
+        // eslint-disable-next-line quotes
         let finalStratimuxNote = 'stratimux';
         const parseStratimuxID = '#parse_' + PhuirEProjects.stratimux;
         const installHuirth_ID = '#install_' + PhuirEProjects.huirth;
@@ -93,6 +94,7 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
           })();
           let finalOutput = '';
           const [finalProjects, bindingsArray] = determineProjectControls(projectsStatuses);
+          console.log('CHECK HICCUP', projectsStatuses, trainingData);
           for (let i = 0; i < trainingData.length; i++) {
             const elementID = generateNumID(i);
             bindingsArray.push({
