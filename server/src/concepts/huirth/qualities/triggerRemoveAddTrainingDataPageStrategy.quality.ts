@@ -48,9 +48,11 @@ export const [
         generatedTrainingDataPage,
         cpts,
       );
+      strategyAdd.priority = 3000;
       const strategyRemove = huirthRemoveTrainingDataPageStrategy(
         oldName,
       );
+      strategyRemove.priority = 3000;
       return strategyBegin(strategySequence([strategyRemove, strategyAdd]) as ActionStrategy);
     } else {
       return action;

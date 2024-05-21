@@ -9,6 +9,8 @@ import {
   createMethodWithConcepts,
   nullReducer,
   selectUnifiedState,
+  strategyData_appendFailure,
+  strategyFailed,
   strategySuccess
 } from 'stratimux';
 
@@ -46,7 +48,7 @@ export const [
         for (const [i, data] of trainingData.entries()) {
           if (data.name === payload.pageTitle) {
             dataSet = data.dataSet;
-            console.log('CHECK DATASET IN CONTENT', data.name, payload.pageTitle, dataSet.length);
+            console.log('CHECK DATASET IN CONTENT', data.name, payload.pageTitle, dataSet.length, i);
             index = i;
             break;
           }
@@ -104,37 +106,42 @@ export const [
         });
         const bindings = createBinding(bindingsArray);
         // console.log('Check bindings', bindings);
-        const strategy = strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-          id,
-          bindings,
-          universal: false,
-          boundSelectors: [
-            // START HERE
-            createBoundSelectors(id, huirthDataSetContent(payload), [
-              huirth_createTrainingDataSelector(concepts, semaphore) as KeyedSelector,
-              huirth_createDataSetSelector(concepts, semaphore, index) as KeyedSelector
-            ])
-          ],
-          action: act(payload),
-          html: /*html*/`
-        <div class="flex flex-col items-center" id='${id}'>
-          <div class="flex-none flex items-center w-full">
-            <button id=${addEntryID} class="mb-8 mt-2 center-m bg-green-800/5 hover:bg-green-500 text-green-50 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
-              Entry <i class="fa-solid fa-plus"></i>
-            </button>
-            <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
-              Save <i class="fa-solid fa-floppy-disk"></i>
-            </button>
+        console.log('CHECK THIS', trainingData[index], trainingData[index]?.dataSet, index, payload);
+        if (index !== -1) {
+          const strategy = strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
+            id,
+            bindings,
+            universal: false,
+            boundSelectors: [
+              // START HERE
+              createBoundSelectors(id, huirthDataSetContent(payload), [
+                huirth_createTrainingDataSelector(concepts, semaphore) as KeyedSelector,
+                huirth_createDataSetSelector(concepts, semaphore, index) as KeyedSelector
+              ])
+            ],
+            action: act(payload),
+            html: /*html*/`
+          <div class="flex flex-col items-center" id='${id}'>
+            <div class="flex-none flex items-center w-full">
+              <button id=${addEntryID} class="mb-8 mt-2 center-m bg-green-800/5 hover:bg-green-500 text-green-50 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+                Entry <i class="fa-solid fa-plus"></i>
+              </button>
+              <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
+                Save <i class="fa-solid fa-floppy-disk"></i>
+              </button>
+            </div>
+            <h1>Entries: ${trainingData[index] && trainingData[index].dataSet ? trainingData[index].dataSet.length : 'Data Set Removed'}</h1>
+            <h1>Page: ${trainingData[index] ? trainingData[index].index + 1 + '/' + Math.round((trainingData[index].dataSet.length / 10) + 1) : '0/0'}</h1>
+            <div class="flex-1 p-4 pt-0 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
+              ${finalOutput}
+            </div>
           </div>
-          <h1>Entries: ${trainingData[index] ? trainingData[index].dataSet.length : 'Data Set Removed'}</h1>
-          <h1>Page: ${trainingData[index] ? trainingData[index].index + 1 + '/' + Math.round((trainingData[index].dataSet.length / 10) + 1) : '0/0'}</h1>
-          <div class="flex-1 p-4 pt-0 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
-            ${finalOutput}
-          </div>
-        </div>
-  `
-        }));
-        return strategy;
+    `
+          }));
+          return strategy;
+        } else {
+          return strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, 'Data Set for ' + payload.pageTitle + ' not found!'));
+        }
       }
       return action;
     }, concepts$ as UnifiedSubject, _semaphore as number)

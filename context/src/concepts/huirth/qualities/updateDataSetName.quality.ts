@@ -84,21 +84,12 @@ export const [huirthUpdateDataSetName, huirthUpdateDataSetNameType, huirthUpdate
               successNode: timeOut,
             }
           );
-          const sendRemoveAddTrainingDataPage = createStrategy({
-            topic: 'Send to server to trigger remove add training data page strategy',
-            initialNode: forceSync,
-            priority: 3000,
-          });
           // return strategyBegin(sendRemoveAddTrainingDataPage);
           return strategyBegin(
             createStrategy({
-              topic: 'Time out ' + sendRemoveAddTrainingDataPage.topic,
-              initialNode: createActionNode(
-                axiumRegisterTimeOut({
-                  act: strategyBegin(sendRemoveAddTrainingDataPage),
-                  timeOut: 50,
-                })
-              ),
+              topic: 'Force Sync Training Data then time out send trigger remove add training data page',
+              initialNode: forceSync,
+              priority: 4000,
             })
           );
         },

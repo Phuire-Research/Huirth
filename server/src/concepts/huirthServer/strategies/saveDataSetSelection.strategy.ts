@@ -34,7 +34,9 @@ export const huirthServerSaveDataSetSelectionStrategy = (root: string, trainingD
       const stepCreateFileWithContents = createActionNode(fileSystemCreateFileWithContentsIndex({
         target: path.join(p + '/' + dataSet.name + '.json'),
         content: JSON.stringify(saveFormat)
-      }));
+      }), {
+        successNode: stepUpdateProjectStatusToSavedOnClient
+      });
       const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory({path: p}), {
         successNode: stepCreateFileWithContents,
         agreement: 20000

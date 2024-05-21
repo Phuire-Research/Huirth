@@ -46,7 +46,9 @@ export const [
           const { newName, oldName } = selectPayload<TriggerRemoveAddTrainingDataPage>(action);
           const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(newName);
           const strategyAdd = huirthAddTrainingDataPageStrategy(newName, generatedTrainingDataPage, cpts);
+          strategyAdd.priority = 3000;
           const strategyRemove = huirthRemoveTrainingDataPageStrategy(oldName);
+          strategyRemove.priority = 3000;
           return strategyBegin(strategySequence([strategyRemove, strategyAdd]) as ActionStrategy);
         } else {
           return action;
