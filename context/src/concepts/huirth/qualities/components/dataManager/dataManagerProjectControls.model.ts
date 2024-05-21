@@ -22,6 +22,15 @@ export const determineProjectControls = (statuses: GeneralProjectStatuses): [str
         dataNote = 'Parse ' + st.name;
         break;
       }
+      case ProjectStatus.pulled: {
+        pb.push({
+          action: huirthSendTriggerParseRepositoryStrategy({ name: st.name }),
+          elementId: dataID,
+          eventBinding: elementEventBinding.onclick,
+        });
+        dataNote = 'Parse ' + st.name;
+        break;
+      }
       default: {
         dataNote = st.name;
       }

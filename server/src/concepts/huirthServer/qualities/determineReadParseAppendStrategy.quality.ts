@@ -5,16 +5,20 @@ $>*/
 import {
   ActionNode,
   ActionStrategy,
+  axiumConclude,
   createActionNode,
   createActionNodeFromStrategy,
   createMethod,
+  createMethodWithConcepts,
   createQualitySetWithPayload,
   createStrategy,
   nullReducer,
   selectPayload,
   strategyData_appendFailure,
   strategyData_select,
+  strategyData_unifyData,
   strategyFailed,
+  strategySequence,
   strategySuccess,
 } from 'stratimux';
 import { ReadDirectoryField } from '../../fileSystem/qualities/readDir.quality';
@@ -23,6 +27,8 @@ import { huirthServerParseFileFromData } from './parseFileFromData.quality';
 import { huirthServerPrepareParsedProjectDataUpdate } from './prepareUpdateParsedProjectData.quality';
 import { huirthServerAppendParsedDataToNamedDataSet } from './appendParsedDataToNamedDataSet.quality';
 import { DataSetTypes } from '../../huirth/huirth.model';
+import { huirthGeneratedTrainingDataPageStrategy } from '../../huirth/strategies/pages/generatedTrainingDataPage.strategy';
+import { huirthAddTrainingDataPageStrategy } from '../../huirth/strategies/addPageTrainingData.strategy';
 
 export type huirthServerDetermineReadParseAppendStrategyPayload = {
   name: string,
@@ -58,8 +64,8 @@ export const [
 ] = createQualitySetWithPayload<huirthServerDetermineReadParseAppendStrategyPayload>({
   type: 'huirthServer determine read, parse, and append strategy for the incoming raw data set',
   reducer: nullReducer,
-  methodCreator: () =>
-    createMethod((action) => {
+  methodCreator: (concepts$, semaphore) =>
+    createMethodWithConcepts((action, concepts) => {
       if (action.strategy && action.strategy.data) {
         const strategy = action.strategy;
         const data = strategyData_select(action.strategy) as ReadDirectoryField & ReadFileContentsAndAppendToDataField;
@@ -82,17 +88,23 @@ export const [
             prevHead = stitchEnd;
             // console.log('STITCH HEAD', stitchHead, i);
           }
+          const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(name);
+          const strategyAdd = huirthAddTrainingDataPageStrategy(
+            name,
+            generatedTrainingDataPage,
+            concepts,
+          ) as ActionStrategy;
           prevHead.successNode = createActionNode(huirthServerPrepareParsedProjectDataUpdate({
             name,
           }));
           strategy.currentNode.successNode = createActionNodeFromStrategy(start);
-          return strategySuccess(strategy);
+          return strategySuccess(strategySequence([strategy, strategyAdd]) as ActionStrategy);
         } else {
           return strategyFailed(strategy, strategyData_appendFailure(strategy, 'No entries found in filesAndDirectories field'));
         }
       } else {
-        return action;
+        return axiumConclude();
       }
-    })
+    }, concepts$, semaphore)
 });
 /*#>*/

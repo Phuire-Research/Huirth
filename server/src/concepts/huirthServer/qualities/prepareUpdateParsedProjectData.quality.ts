@@ -3,14 +3,18 @@ For the graph programming framework Stratimux and a Concept huirth Server, gener
 $>*/
 /*<#*/
 import {
+  ActionStrategy,
   UnifiedSubject,
   createActionNode,
   createMethodWithState,
   createQualitySetWithPayload,
+  createStrategy,
   nullReducer,
   selectPayload,
+  strategyBegin,
   strategyData_appendFailure,
   strategyFailed,
+  strategySequence,
   strategySuccess,
 } from 'stratimux';
 import { huirthServerState } from '../huirthServer.concept';
@@ -29,17 +33,21 @@ export const [
   reducer: nullReducer,
   methodCreator: (concepts$, semaphore) =>
     createMethodWithState<huirthServerState>((action, state) => {
-      if (action.strategy && action.strategy) {
+      if (action.strategy) {
         const strategy = action.strategy;
         const { name } = selectPayload<huirthServerPrepareParsedProjectDataUpdatePayload>(action);
         const { trainingData } = state;
         for (const dataSet of trainingData) {
           if (dataSet.name === name) {
             console.log('FOUND DATA SET', dataSet);
-            strategy.currentNode.successNode = createActionNode(huirthServerSendUpdateParsedProjectData(dataSet), {
-              successNode: null,
-              failureNode: null
+            const nextStrategy = createStrategy({
+              initialNode: createActionNode(huirthServerSendUpdateParsedProjectData(dataSet), {
+                successNode: null,
+                failureNode: null
+              }),
+              topic: 'Update Client of Parsed Project'
             });
+            strategy.puntedStrategy?.push(nextStrategy);
             return strategySuccess(strategy);
           }
         }

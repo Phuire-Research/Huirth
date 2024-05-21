@@ -64,6 +64,7 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
         const installStratimuxID = '#install_' + PhuirEProjects.stratimux;
         const pullStratimuxID = '#pull_' + PhuirEProjects.stratimux;
         let finalStratimuxID = '#stratimuxID';
+        // eslint-disable-next-line quotes
         let finalStratimuxNote = 'stratimux';
         const parseStratimuxID = '#parse_' + PhuirEProjects.stratimux;
         const installHuirth_ID = '#install_' + PhuirEProjects.huirth;

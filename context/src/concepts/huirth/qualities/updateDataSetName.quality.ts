@@ -6,6 +6,7 @@ import {
   Action,
   Concepts,
   axiumKick,
+  axiumRegisterTimeOut,
   createActionNode,
   createMethodWithState,
   createQualitySetWithPayload,
@@ -65,24 +66,32 @@ export const [huirthUpdateDataSetName, huirthUpdateDataSetNameType, huirthUpdate
           const payload = selectPayload<huirthUpdateDataSetNamePayload>(action);
           const oldName = state.trainingData[payload.index].name;
           const newName = userInterface_selectInputTarget(action).value;
-          const removeAdd = createActionNode(huirthSendRemoveAddTrainingPageStrategy({ oldName, newName }));
-          const kick = createActionNode(axiumKick(), {
-            successNode: removeAdd,
+          const removeAdd = createStrategy({
+            topic: 'Finally send trigger remove add training data page strategy',
+            initialNode: createActionNode(huirthSendRemoveAddTrainingPageStrategy({ oldName, newName })),
           });
+          const timeOut = createActionNode(
+            axiumRegisterTimeOut({
+              act: strategyBegin(removeAdd),
+              timeOut: 50,
+            })
+          );
           const forceSync = createActionNode(
             webSocketClientForceSync({
               keys: ['trainingData'],
             }),
             {
-              successNode: kick,
+              successNode: timeOut,
             }
           );
-          const sendRemoveAddTrainingDataPage = createStrategy({
-            topic: 'Send to server to trigger remove add training data page strategy',
-            initialNode: forceSync,
-            priority: 3000,
-          });
-          return strategyBegin(sendRemoveAddTrainingDataPage);
+          // return strategyBegin(sendRemoveAddTrainingDataPage);
+          return strategyBegin(
+            createStrategy({
+              topic: 'Force Sync Training Data then time out send trigger remove add training data page',
+              initialNode: forceSync,
+              priority: 4000,
+            })
+          );
         },
         concepts$ as Subject<Concepts>,
         semaphore as number
