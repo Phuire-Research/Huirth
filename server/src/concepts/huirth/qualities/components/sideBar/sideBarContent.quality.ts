@@ -35,7 +35,7 @@ export const [
     const payload = selectComponentPayload(action);
     const id = '#sideBarContent';
     const expandSideBarId = '#expandSideBarID';
-    let liClass = ' relative flex items-center py-2 px-3 my-2 font-medium rounded-md bg-gray-100 hover:bg-white';
+    let liClass = 'w-48 overflow-hidden relative flex items-center py-2 px-3 my-2 font-medium rounded-md bg-gray-100 hover:bg-white';
     let pages = '';
     if (state) {
       if (!state.sideBarExpanded) {

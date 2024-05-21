@@ -115,7 +115,6 @@ export const [huirthDataSetContent, huirthDataSetContentType, huirthDataSetConte
           });
           const bindings = createBinding(bindingsArray);
           // console.log('Check bindings', bindings);
-          console.log('CHECK THIS', trainingData[index], trainingData[index]?.dataSet, index, payload);
           if (index !== -1) {
             const strategy = strategySuccess(
               action.strategy,

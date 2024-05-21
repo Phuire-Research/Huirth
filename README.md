@@ -7,6 +7,9 @@ This will be patched up over the course of the month, majority of work has been 
 After the refactor however, this will serve as a form of backwards compatibility, while Huirth becomes increasingly responsible for its stack.
 
 ## Change Log
+### Sync to v0.1.72 5/21/2024
+* Improved the internal consistency when handling the creation of pages for training data sets.
+  * Still tracking down some odds and ends in regards to the handling of project statuses.
 ### Sync to v0.1.71
 * Revamped the majority of logic and have a few timing issues to take care of in regards to state syncing and when pages are being updated.
   * Originally planned to use a new Buffer Method to have to skip over some extra logic, but found a new computation limit with Stratimux. The tests work fine side by side in isolation, but in a complex environment generally good enough computing jumps out of the bushes.
