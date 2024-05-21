@@ -6,7 +6,7 @@ import {
   Action,
   KeyedSelector,
   UnifiedSubject,
-  createMethodDebounceWithConcepts,
+  createMethodWithConcepts,
   nullReducer,
   selectUnifiedState,
   strategySuccess,
@@ -21,7 +21,7 @@ import {
 } from '../../../../../model/userInterface';
 import { elementEventBinding } from '../../../../../model/html';
 import { huirthState } from '../../../huirth.concept';
-import { BaseDataSet, DataSetTypes, chosenID, contentID, generateNumID, promptID, rejectedID } from '../../../huirth.model';
+import { BaseDataSet, chosenID, contentID, generateNumID, promptID, rejectedID } from '../../../huirth.model';
 import { huirthNewDataSetEntry } from '../../newDataSetEntry.quality';
 import { huirth_createDataSetSelector, huirth_createTrainingDataSelector } from '../../../huirth.selector';
 import { huirthUpdateDataSetContents } from '../../updateDataSetContents.quality';
@@ -31,7 +31,7 @@ export const [huirthDataSetContent, huirthDataSetContentType, huirthDataSetConte
   type: 'create userInterface for DataSetContent',
   reducer: nullReducer,
   componentCreator: (act, concepts$, _semaphore) =>
-    createMethodDebounceWithConcepts(
+    createMethodWithConcepts(
       (action, concepts, semaphore) => {
         const payload = selectComponentPayload(action);
         const id = '#dataSetID' + payload.pageTitle;
@@ -49,10 +49,12 @@ export const [huirthDataSetContent, huirthDataSetContentType, huirthDataSetConte
           for (const [i, data] of trainingData.entries()) {
             if (data.name === payload.pageTitle) {
               dataSet = data.dataSet;
+              console.log('CHECK DATASET IN CONTENT', data.name, payload.pageTitle, dataSet.length);
               index = i;
               break;
             }
           }
+          // console.log('CHECK DATASET IN CONTENT', dataSet);
           if (dataSet) {
             // console.log('CHECK TRAINING DATA INFO', trainingData[index].name, trainingData[index].type);
             for (const [i, data] of dataSet.entries()) {
@@ -151,8 +153,7 @@ export const [huirthDataSetContent, huirthDataSetContentType, huirthDataSetConte
         return action;
       },
       concepts$ as UnifiedSubject,
-      _semaphore as number,
-      50
+      _semaphore as number
     ),
 });
 /*#>*/

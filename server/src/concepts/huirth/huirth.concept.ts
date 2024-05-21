@@ -81,14 +81,14 @@ export const huirthName = 'huirth';
 export type huirthState = {
   mock: number;
   dialog: string;
-  transformationStrategies: string[]
-  selectedTransformation: string,
+  transformationStrategies: string[];
+  selectedTransformation: string;
   possibleProject: string;
   possibleProjectValid: boolean;
   stratimuxStatus: ProjectStatus;
   huirthStatus: ProjectStatus;
   projectsStatuses: GeneralProjectStatuses;
-  dataSetSelection: boolean[],
+  dataSetSelection: boolean[];
   sideBarExpanded: boolean;
   trainingDataInitialized: boolean;
   trainingData: TrainingData;

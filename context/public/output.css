@@ -678,12 +678,12 @@ video {
   min-height: 100px;
 }
 
-.min-h-screen {
-  min-height: 100vh;
-}
-
 .min-h-\[300px\] {
   min-height: 300px;
+}
+
+.min-h-screen {
+  min-height: 100vh;
 }
 
 .w-0 {

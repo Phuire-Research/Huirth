@@ -91,7 +91,6 @@ export const [
         })();
         let finalOutput = '';
         const [finalProjects, bindingsArray] = determineProjectControls(projectsStatuses);
-        console.log('CHECK HICCUP', projectsStatuses, trainingData);
         for (let i = 0; i < trainingData.length; i++) {
           const elementID = generateNumID(i);
           bindingsArray.push({

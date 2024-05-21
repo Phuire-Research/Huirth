@@ -52,7 +52,7 @@ export const [
           console.log('Transformation stage 1', iterations < 100, length < limit);
           if (iterations < 100 && length < limit) {
             const newStrategy = huirthServerVerboseSubtractionStrategy(length);
-            newStrategy.topic = iterations + 1 + '.)' + newStrategy.topic;
+            newStrategy.topic = iterations + 1 + '.) ' + newStrategy.topic;
             currentTopic = newStrategy.topic;
             console.log('BEGIN STRATEGY', currentTopic);
             dispatch(strategyBegin(newStrategy), {
@@ -89,9 +89,9 @@ export const [
             });
           }
         }, {beat: 30, selectors: [axiumSelectLastStrategy]}),
-        createStage(() => {
+        createStage((concepts) => {
           console.log('Transformation stage 3', iterations, length, named.dataSet.length);
-          controller.fire(strategyBegin(huirthServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseSubtraction')));
+          controller.fire(strategyBegin(huirthServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseSubtraction', concepts)));
           plan.conclude();
         })
       ]);
