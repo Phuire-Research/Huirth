@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the Web Socket Client Concept, generate a quality that will set the server's semaphore.
 $>*/
 /*<#*/
-import { Action, createQualitySetWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
+import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
 import { WebSocketClientState } from '../webSocketClient.concept';
 
 export type WebSocketClientSetServerSemaphorePayload = {
@@ -10,7 +10,7 @@ export type WebSocketClientSetServerSemaphorePayload = {
 };
 
 export const [webSocketClientSetServerSemaphore, webSocketClientSetServerSemaphoreType, webSocketClientSetServerSemaphoreQuality] =
-  createQualitySetWithPayload<WebSocketClientSetServerSemaphorePayload>({
+  createQualityCardWithPayload<WebSocketClientSetServerSemaphorePayload>({
     type: 'Web Socket Client set Server Semaphore',
     reducer: (state: WebSocketClientState, action: Action): WebSocketClientState => {
       const payload = selectPayload<WebSocketClientSetServerSemaphorePayload>(action);

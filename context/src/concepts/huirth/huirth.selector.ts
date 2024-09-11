@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the brand Concept huirth, generate a series of unified selector creators that will select slices of huirth's state.
 $>*/
 /*<#*/
-import { Concepts, createUnifiedKeyedSelector } from 'stratimux';
+import { Concepts, createUnifiedKeyedSelector } from '@phuire/stratimux';
 import { huirthState } from './huirth.concept';
 
 export const huirth_createDialogSelector = (concepts: Concepts, semaphore: number) => {

@@ -5,58 +5,54 @@ $>*/
 import {
   Action,
   createMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   refreshAction,
   selectPayload,
   strategyBegin,
   strategySuccess,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { Binding } from '../../../model/userInterface';
 import { Subject } from 'rxjs';
 import { documentObjectModelBindActionStrategy } from '../strategies/bindAction.strategy';
 import { DocumentObjectModelState } from '../documentObjectModel.concept';
 
 const setElementBinding = (element: HTMLElement, payload: DocumentObjectModelBindPayload) => {
-  const {
-    binding
-  } = payload;
+  const { binding } = payload;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (element as any)[binding.eventBinding] = (event: unknown) => {
-    payload.action$.next(strategyBegin(documentObjectModelBindActionStrategy({event}, refreshAction(payload.binding.action))));
+    payload.action$.next(strategyBegin(documentObjectModelBindActionStrategy({ event }, refreshAction(payload.binding.action))));
   };
 };
 
 export type DocumentObjectModelBindPayload = {
-  action$: Subject<Action>,
-  id: string,
-  binding: Binding
-}
+  action$: Subject<Action>;
+  id: string;
+  binding: Binding;
+};
 
-export const [
-  documentObjectModelBind,
-  documentObjectModelBindType,
-  documentObjectModelBindQuality
-] = createQualitySetWithPayload<DocumentObjectModelBindPayload>({
-  type: 'Document Object Model bind element',
-  reducer: (state: DocumentObjectModelState) : DocumentObjectModelState => {
-    return {
-      ...state,
-      bound: true
-    };
-  },
-  methodCreator: () => createMethod((action) => {
-    const payload = selectPayload<DocumentObjectModelBindPayload>(action);
-    const element = document.getElementById(payload.id);
-    if (element) {
-      setElementBinding(element, payload);
-    }
-    if (action.strategy) {
-      const success = strategySuccess(action.strategy);
-      return success;
-    } else {
-      return action;
-    }
-  })
-});
+export const [documentObjectModelBind, documentObjectModelBindType, documentObjectModelBindQuality] =
+  createQualityCardWithPayload<DocumentObjectModelBindPayload>({
+    type: 'Document Object Model bind element',
+    reducer: (state: DocumentObjectModelState): DocumentObjectModelState => {
+      return {
+        ...state,
+        bound: true,
+      };
+    },
+    methodCreator: () =>
+      createMethod((action) => {
+        const payload = selectPayload<DocumentObjectModelBindPayload>(action);
+        const element = document.getElementById(payload.id);
+        if (element) {
+          setElementBinding(element, payload);
+        }
+        if (action.strategy) {
+          const success = strategySuccess(action.strategy);
+          return success;
+        } else {
+          return action;
+        }
+      }),
+  });
 /*#>*/

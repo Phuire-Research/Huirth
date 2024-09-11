@@ -5,15 +5,15 @@ $>*/
 import {
   axiumConclude,
   createAsyncMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
   strategyData_appendFailure,
   strategyData_select,
   strategyData_unifyData,
   strategyFailed,
-  strategySuccess
-} from 'stratimux';
+  strategySuccess,
+} from '@phuire/stratimux';
 import { ReadDirectoryField } from './readDir.quality';
 import path from 'path';
 
@@ -44,31 +44,28 @@ export type FilterFilesAndDirectoriesPayload = {
   notTokens: string[];
 };
 
-export const [
-  fileSystemFilterFilesAndDirectories,
-  fileSystemFilterFilesAndDirectoriesType,
-  fileSystemFilterFilesAndDirectoriesQuality
-] = createQualitySetWithPayload<FilterFilesAndDirectoriesPayload>({
-  type: 'File System filter from Data Files and Directories field via token',
-  reducer: nullReducer,
-  methodCreator: () =>
-    createAsyncMethod((controller, action) => {
-      if (action.strategy) {
-        const strategy = action.strategy;
-        const data = strategyData_select<ReadDirectoryField>(strategy);
-        const {isTokens, notTokens} = selectPayload<FilterFilesAndDirectoriesPayload>(action);
-        if (data && data.filesAndDirectories) {
-          data.filesAndDirectories = data?.filesAndDirectories.filter(dirent => {
-            const check = path.join(dirent.path + '/' + dirent.name);
-            return is(check, isTokens) && isNot(check, notTokens);
-          });
-          controller.fire(strategySuccess(strategy, strategyData_unifyData(strategy, data)));
+export const [fileSystemFilterFilesAndDirectories, fileSystemFilterFilesAndDirectoriesType, fileSystemFilterFilesAndDirectoriesQuality] =
+  createQualityCardWithPayload<FilterFilesAndDirectoriesPayload>({
+    type: 'File System filter from Data Files and Directories field via token',
+    reducer: nullReducer,
+    methodCreator: () =>
+      createAsyncMethod((controller, action) => {
+        if (action.strategy) {
+          const strategy = action.strategy;
+          const data = strategyData_select<ReadDirectoryField>(strategy);
+          const { isTokens, notTokens } = selectPayload<FilterFilesAndDirectoriesPayload>(action);
+          if (data && data.filesAndDirectories) {
+            data.filesAndDirectories = data?.filesAndDirectories.filter((dirent) => {
+              const check = path.join(dirent.path + '/' + dirent.name);
+              return is(check, isTokens) && isNot(check, notTokens);
+            });
+            controller.fire(strategySuccess(strategy, strategyData_unifyData(strategy, data)));
+          } else {
+            controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, 'No filesAndDirectories passed to quality')));
+          }
         } else {
-          controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, 'No filesAndDirectories passed to quality')));
+          controller.fire(axiumConclude());
         }
-      } else {
-        controller.fire(axiumConclude());
-      }
-    })
-});
+      }),
+  });
 /*#>*/

@@ -6,7 +6,7 @@ import {
   ActionType,
   createAsyncMethod,
   createQuality,
-  createQualitySet,
+  createQualityCard,
   nullReducer,
   prepareActionCreator,
   strategyData_appendFailure,
@@ -14,7 +14,7 @@ import {
   strategyData_unifyData,
   strategyFailed,
   strategySuccess,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { ReadDirectoryField } from '../../fileSystem/qualities/readDir.quality';
 import { BaseDataSet } from '../../huirth/huirth.model';
 import { ReadFileContentsAndAppendToDataField } from '../../fileSystem/qualities/readFileContentsAndAppendToData.quality';
@@ -22,8 +22,8 @@ import { ParsingTokens } from '../huirthServer.model';
 import { FileDirent } from '../../fileSystem/fileSystem.model';
 
 export type ParsedFileFromDataField = {
-  parsed: BaseDataSet[]
-}
+  parsed: BaseDataSet[];
+};
 
 const recurseExclude = (content: string, file: FileDirent): string => {
   const excludeBegin = content.indexOf(ParsingTokens.excludeBegin);
@@ -52,7 +52,7 @@ const recursiveParse = (data: BaseDataSet[], content: string, file: FileDirent):
   const index = content.indexOf(ParsingTokens.promptBegin);
   const stop = content.indexOf(ParsingTokens.stop);
   const stopExists = stop !== -1;
-  const willStop = (i: number) => stopExists ? i < stop : true;
+  const willStop = (i: number) => (stopExists ? i < stop : true);
   if (index !== -1 && willStop(index)) {
     let output = '';
     const promptBegin = index + ParsingTokens.promptBegin.length;
@@ -77,23 +77,19 @@ const recursiveParse = (data: BaseDataSet[], content: string, file: FileDirent):
       output = output.trim();
       data.push({
         prompt,
-        content: output
+        content: output,
       });
     }
     const sub = content.substring(contentEnd + ParsingTokens.contentEnd.length);
     const cont = sub.indexOf(ParsingTokens.promptBegin);
-    if (cont  !== -1 && willStop(cont)) {
+    if (cont !== -1 && willStop(cont)) {
       return recursiveParse(data, sub, file);
     }
   }
   return data;
 };
 
-export const [
-  huirthServerParseFileFromData,
-  huirthServerParseFileFromDataType,
-  huirthServerParseFileFromDataQuality
-] = createQualitySet({
+export const [huirthServerParseFileFromData, huirthServerParseFileFromDataType, huirthServerParseFileFromDataQuality] = createQualityCard({
   type: 'huirthServer parse file from data',
   reducer: nullReducer,
   methodCreator: () =>
@@ -105,15 +101,20 @@ export const [
           // console.log('CHECK CONTENT', data.content);
           const parsed = recursiveParse([], data.content, data.dirent);
           // console.log('CHECK PARSE', parsed);
-          controller.fire(strategySuccess(action.strategy, strategyData_unifyData(strategy, {
-            parsed,
-          })));
+          controller.fire(
+            strategySuccess(
+              action.strategy,
+              strategyData_unifyData(strategy, {
+                parsed,
+              })
+            )
+          );
         } else {
           controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, 'No filesAndData field provided')));
         }
       } else {
         controller.fire(action);
       }
-    })
+    }),
 });
 /*#>*/

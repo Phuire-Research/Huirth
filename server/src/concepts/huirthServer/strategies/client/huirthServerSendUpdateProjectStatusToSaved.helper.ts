@@ -6,5 +6,5 @@ import { userInterfaceServerSendActionToClient } from '../../../userInterfaceSer
 import { huirthUpdateProjectStatusToSaved } from '../../../huirth/qualities/updateProjectToSaved.quality';
 
 export const huirthServerSendProjectStatusToSaved = (name: string) =>
-  (userInterfaceServerSendActionToClient(huirthUpdateProjectStatusToSaved({name})));
+  userInterfaceServerSendActionToClient(huirthUpdateProjectStatusToSaved({ name }));
 /*#>*/

@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and a Concept huirth, generate a q
 If valid it will then trigger the strategy that will install the target git repository via a supplied url to a directory of the given name.
 $>*/
 /*<#*/
-import { Concepts, createMethodWithState, createQualitySet, strategyBegin } from 'stratimux';
+import { Concepts, createMethodWithState, createQualityCard, strategyBegin } from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { ProjectStatus } from '../huirth.model';
 import { huirthInstallGitRepositoryStrategy } from '../strategies/installGitProject.strategy';
@@ -20,7 +20,7 @@ export const [
   huirthFilterTriggerInstallGitRepository,
   huirthFilterTriggerInstallGitRepositoryType,
   huirthFilterTriggerInstallGitRepositoryQuality,
-] = createQualitySet({
+] = createQualityCard({
   type: 'Create huirth that filters only valid git urls to trigger install git repository',
   reducer: (state: huirthState) => {
     const { trainingData, projectsStatuses, possibleProject, possibleProjectValid } = state;

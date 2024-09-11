@@ -7,7 +7,7 @@ import {
   Action,
   Concepts,
   PrincipleFunction,
-  UnifiedSubject,
+  MuxifiedSubject,
   areConceptsLoaded,
   axiumRegisterStagePlanner,
   axiumSelectOpen,
@@ -16,17 +16,19 @@ import {
   primeAction,
   selectSlice,
   selectState,
-  selectUnifiedState,
-  strategyBegin
-} from 'stratimux';
+  selectMuxifiedState,
+  strategyBegin,
+  AxiumQualities,
+  AxiumDeck,
+} from '@phuire/stratimux';
 import { Subscriber } from 'rxjs';
 import { FileSystemState, fileSystemName } from '../fileSystem/fileSystem.concept';
-import { UserInterfaceServerState, userInterfaceServerName } from './userInterfaceServer.concept';
+import { UserInterfaceServerDeck, UserInterfaceServerState, userInterfaceQualities, userInterfaceServerName } from './userInterfaceServer.concept';
 import {
   ConceptAndProperties,
   UserInterfaceBindings,
   UserInterfacePageBindings,
-  userInterface_pageBindingsToString
+  userInterface_pageBindingsToString,
 } from '../../model/userInterface';
 import { userInterfaceServerPrepareContextConceptsStitch } from './strategies/prepareContextConcepts.strategy';
 import { userInterfaceServerSetConceptDirectoriesFromDataStrategy } from './strategies/setConceptDirectories.strategy';
@@ -35,49 +37,60 @@ import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
 import { userInterfaceServerPrepareStaticConceptsStrategy } from './strategies/prepareStaticConcepts.strategy';
 import { userInterfaceClientName } from '../userInterfaceClient/userInterfaceClient.concept';
 
-export const userInterfaceServerContextPrinciple: PrincipleFunction = (
-  _: Subscriber<Action>,
-  _concepts: Concepts,
-  concepts$: UnifiedSubject,
-  semaphore: number
-) => {
-  const plan = concepts$.plan('User Interface Context Principle Plan', [
-    createStage((concepts, dispatch, changes) => {
-      console.log('CHECK IF THIS HITS', selectSlice(concepts, axiumSelectOpen), getAxiumState(concepts).modeIndex, axiumSelectOpen.keys, changes , 'stuff');
-      if (selectSlice(concepts, axiumSelectOpen) === true) {
-        const fileSystemExists = areConceptsLoaded(concepts, [fileSystemName]);
-        if (!fileSystemExists) {
-          console.log('FILE SYSTEM NOT LOADED, CONTEXT PRINCIPLE CONCLUDE');
-          plan.conclude();
-        } else {
-          dispatch(primeAction(concepts, axiumRegisterStagePlanner({conceptName: userInterfaceServerName, stagePlanner: plan})), {
-            iterateStage: true,
-          });
+export const userInterfaceServerContextPrinciple: PrincipleFunction<typeof userInterfaceQualities, AxiumDeck & UserInterfaceServerDeck, UserInterfaceServerState> = ({
+  conceptSemaphore,
+  plan
+}) => {
+  plan('User Interface Context Principle Plan', ({
+    stage,
+    d__
+  }) => [
+    stage(
+      ({concepts, dispatch, changes, stagePlanner, d}) => {
+        console.log(
+          'CHECK IF THIS HITS',
+          selectSlice(concepts, axiumSelectOpen),
+          getAxiumState(concepts).modeIndex,
+          axiumSelectOpen.keys,
+          changes,
+          'stuff'
+        );
+        if (selectSlice(concepts, axiumSelectOpen) === true) {
+          const fileSystemExists = areConceptsLoaded(concepts, [fileSystemName]);
+          if (!fileSystemExists) {
+            console.log('FILE SYSTEM NOT LOADED, CONTEXT PRINCIPLE CONCLUDE');
+            stagePlanner.conclude();
+          } else {
+            dispatch(primeAction(concepts, d.axium.e.axiumRegisterStagePlanner({ conceptName: userInterfaceServerName, stagePlanner })), {
+              iterateStage: true,
+            });
+          }
         }
-      }
-    }, { selectors: [axiumSelectOpen] }),
-    createStage((concepts, dispatch) => {
+      },
+      { selectors: [d__.axium.k.open] }
+    ),
+    stage(({concepts, dispatch, d}) => {
       console.log('CHECK IF THIS HITS 2');
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       if (fileSystemState) {
-        dispatch(strategyBegin(userInterfaceServerSetConceptDirectoriesFromDataStrategy(fileSystemState.root)), {
-          iterateStage: true
+        dispatch(strategyBegin(userInterfaceServerSetConceptDirectoriesFromDataStrategy(fileSystemState.root, d)), {
+          iterateStage: true,
         });
       }
     }),
-    createStage((concepts, dispatch) => {
+    stage(({concepts, dispatch, d, k}) => {
       console.log('CHECK IF THIS HITS 3');
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
-      const uiState = selectUnifiedState<UserInterfaceServerState>(concepts, semaphore);
+      const uiState = k.state(concepts);
       if (fileSystemState && uiState) {
         if (fileSystemState.conceptDirectoryMap.length > 0 && uiState.pageStrategies.length > 0) {
           if (uiState.pageStrategies.length === uiState.pages.length) {
             const conceptsAndProps: ConceptAndProperties[] = [];
             const finalBindingsList: UserInterfacePageBindings = {};
             for (const page of uiState.pages) {
-              page.conceptAndProps.forEach(conceptAndProp => {
+              page.conceptAndProps.forEach((conceptAndProp) => {
                 let exists = false;
-                conceptsAndProps.forEach(cap => {
+                conceptsAndProps.forEach((cap) => {
                   if (cap.name === conceptAndProp.name) {
                     exists = true;
                   }
@@ -85,7 +98,7 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
                 if (!exists) {
                   conceptsAndProps.push({
                     name: conceptAndProp.name,
-                    properties: conceptAndProp.properties
+                    properties: conceptAndProp.properties,
                   });
                 }
                 if (uiState.brand) {
@@ -94,7 +107,7 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
                     if (comp.bindings) {
                       bindingsList = {
                         ...bindingsList,
-                        ...comp.bindings
+                        ...comp.bindings,
                       };
                     }
                   }
@@ -109,12 +122,12 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
             if (uiState.brand) {
               conceptsAndProps.push({
                 name: userInterfaceClientName,
-                properties: ['state', uiState.brand]
+                properties: ['state', uiState.brand],
               });
             } else {
               conceptsAndProps.push({
                 name: userInterfaceClientName,
-                properties: ['state']
+                properties: ['state'],
               });
             }
             if (uiState.goal === commandLineInterfaceGoals.dynamicDeployment) {
@@ -122,30 +135,32 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction = (
               const [____, contextStrategy] = userInterfaceServerPrepareContextConceptsStitch(
                 fileSystemState.root,
                 conceptsAndProps,
-                concepts[semaphore].unified,
-                fileSystemState.conceptDirectoryMap
+                concepts[conceptSemaphore].muxified,
+                fileSystemState.conceptDirectoryMap,
+                d
               );
               dispatch(strategyBegin(contextStrategy), {
-                iterateStage: true
+                iterateStage: true,
               });
             } else {
               const contextStrategy = userInterfaceServerPrepareStaticConceptsStrategy(
                 fileSystemState.root,
                 conceptsAndProps,
-                concepts[semaphore].unified,
+                concepts[conceptSemaphore].muxified,
                 fileSystemState.conceptDirectoryMap,
-                uiState.pages
+                uiState.pages,
+                d
               );
               dispatch(strategyBegin(contextStrategy), {
-                iterateStage: true
+                iterateStage: true,
               });
             }
           }
         }
       }
     }),
-    createStage(() => {
-      plan.conclude();
+    createStage(({stagePlanner}) => {
+      stagePlanner.conclude();
     }),
   ]);
 };

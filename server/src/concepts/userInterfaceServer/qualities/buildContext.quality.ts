@@ -5,50 +5,42 @@ $>*/
 import {
   axiumConclude,
   createAsyncMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
   strategyData_appendFailure,
   strategyFailed,
   strategySuccess,
-} from 'stratimux';
-import {exec} from 'child_process';
+} from '@phuire/stratimux';
+import { exec } from 'child_process';
 
-export type BuildContextPayload = {contextDir: string};
+export type BuildContextPayload = { contextDir: string };
 
-export const [
-  userInterfaceServerBuildContext,
-  userInterfaceServerBuildContextType,
-  userInterfaceServerBuildContextQuality
-] = createQualitySetWithPayload<BuildContextPayload>({
-  type: 'User Interface Server build Context',
-  reducer: nullReducer,
-  methodCreator: () => createAsyncMethod(
-    (controller, action) => {
-      const payload = selectPayload<BuildContextPayload>(action);
-      if (action.strategy) {
-        exec(`cd ${payload.contextDir} & npm run build`, (error, stdout, stderr) => {
-          if (action.strategy) {
-            if (error) {
-              console.error(`error: ${error}, stdout: ${stdout}, stderr: ${stderr}`);
-              controller.fire(
-                strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, stderr))
-              );
+export const userInterfaceServerBuildContext =
+  createQualityCardWithPayload<BuildContextPayload, any>({
+    type: 'User Interface Server build Context',
+    reducer: nullReducer,
+    methodCreator: () =>
+      createAsyncMethod((controller, action) => {
+        const payload = selectPayload<BuildContextPayload>(action);
+        if (action.strategy) {
+          exec(`cd ${payload.contextDir} & npm run build`, (error, stdout, stderr) => {
+            if (action.strategy) {
+              if (error) {
+                console.error(`error: ${error}, stdout: ${stdout}, stderr: ${stderr}`);
+                controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, stderr)));
+              } else {
+                console.log('stdout:', stdout);
+                controller.fire(strategySuccess(action.strategy));
+              }
             } else {
-              console.log('stdout:', stdout);
-              controller.fire(
-                strategySuccess(action.strategy)
-              );
+              controller.fire(axiumConclude());
             }
-          } else {
-            controller.fire(axiumConclude());
-          }
-          console.log('stdout:', stdout);
-        });
-      } else {
-        controller.fire(axiumConclude());
-      }
-    }
-  )
-});
+            console.log('stdout:', stdout);
+          });
+        } else {
+          controller.fire(axiumConclude());
+        }
+      }),
+  });
 /*#>*/

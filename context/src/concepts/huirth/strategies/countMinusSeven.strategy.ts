@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate an ActionStrategy that accepts the current count and conceptSemaphore to have a unified Counter Concept be decremented seven times.
 $>*/
 /*<#*/
-import { counterSubtract, createActionNode, createStrategy } from 'stratimux';
+import { counterSubtract, createActionNode, createStrategy } from '@phuire/stratimux';
 
 export const huirthMinusSevenStrategy = (count: number, conceptSemaphore: number) => {
   const stepSeventh = createActionNode(counterSubtract({ conceptSemaphore }));

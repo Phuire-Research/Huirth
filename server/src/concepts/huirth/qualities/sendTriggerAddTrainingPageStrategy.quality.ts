@@ -5,39 +5,34 @@ $>*/
 import {
   createActionNode,
   createMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStrategy,
   defaultReducer,
   nullReducer,
   selectPayload,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 import { huirthTriggerAddTrainingDataPage } from './triggerAddTrainingDataPageStrategy.quality';
 
 type SendTriggerAddTrainingPageStrategy = {
-  name: string
-}
+  name: string;
+};
 
-export const [
-  huirthSendAddTrainingPageStrategy,
-  huirthSendAddTrainingPageStrategyType,
-  huirthSendAddTrainingPageStrategyQuality
-] = createQualitySetWithPayload<SendTriggerAddTrainingPageStrategy>({
-  type: 'Huirth send add training page strategy',
-  reducer: defaultReducer,
-  methodCreator: (concepts$, semaphore) =>
-    createMethod(
-      (action) => {
+export const [huirthSendAddTrainingPageStrategy, huirthSendAddTrainingPageStrategyType, huirthSendAddTrainingPageStrategyQuality] =
+  createQualityCardWithPayload<SendTriggerAddTrainingPageStrategy>({
+    type: 'Huirth send add training page strategy',
+    reducer: defaultReducer,
+    methodCreator: (concepts$, semaphore) =>
+      createMethod((action) => {
         console.log('DOES THIS HIT');
-        const {name} = selectPayload<SendTriggerAddTrainingPageStrategy>(action);
-        return strategyBegin(createStrategy({
-          topic: 'Send to Web Socket: Trigger Add Training Data Page: ' + name,
-          initialNode: createActionNode(
-            userInterfaceClientSendActionToServer(
-              huirthTriggerAddTrainingDataPage({name})))
-        }));
-      }
-    )
-});
+        const { name } = selectPayload<SendTriggerAddTrainingPageStrategy>(action);
+        return strategyBegin(
+          createStrategy({
+            topic: 'Send to Web Socket: Trigger Add Training Data Page: ' + name,
+            initialNode: createActionNode(userInterfaceClientSendActionToServer(huirthTriggerAddTrainingDataPage({ name }))),
+          })
+        );
+      }),
+  });
 /*#>*/

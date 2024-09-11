@@ -2,20 +2,9 @@
 For the graph programming framework Stratimux and Hello World Concept, generate a quality that will console log 'Hello World!'
 $>*/
 /*<#*/
-import {
-  Action,
-  axiumConclude,
-  createMethod,
-  createQualitySet,
-  nullReducer,
-  strategySuccess,
-} from 'stratimux';
+import { Action, axiumConclude, createMethod, createQualityCard, nullReducer, strategySuccess } from '@phuire/stratimux';
 
-export const [
-  helloWorld,
-  helloWorldType,
-  helloWorldQuality,
-] = createQualitySet({
+export const [helloWorld, helloWorldType, helloWorldQuality] = createQualityCard({
   type: 'Hello World logs Hello World!',
   reducer: nullReducer,
   methodCreator: () =>
@@ -25,6 +14,6 @@ export const [
         return strategySuccess(action.strategy);
       }
       return axiumConclude();
-    })
+    }),
 });
 /*#>*/

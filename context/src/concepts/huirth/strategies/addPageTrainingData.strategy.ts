@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a strategy that will append each page strategy's page composition to the state pages property.
 $>*/
 /*<#*/
-import { ActionStrategy, Concepts, createActionNode, createActionNodeFromStrategy, createStrategy } from 'stratimux';
+import { ActionStrategy, Concepts, createActionNode, createActionNodeFromStrategy, createStrategy } from '@phuire/stratimux';
 import { PageStrategyCreators } from '../../../model/userInterface';
 import {
   userInterfacePageToStateStrategy,

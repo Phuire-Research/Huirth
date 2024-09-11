@@ -6,37 +6,36 @@ import {
   ActionStrategy,
   axiumConclude,
   createAsyncMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
-  strategySuccess
-} from 'stratimux';
+  strategySuccess,
+} from '@phuire/stratimux';
 import fs from 'fs/promises';
 
 export type CreateContextIndexPayload = {
-  target: string,
-  content: string,
+  target: string;
+  content: string;
 };
 
 export const [
   fileSystemCreateFileWithContentsIndex,
   fileSystemCreateFileWithContentsIndexType,
-  fileSystemCreateFileWithContentsIndexQuality
-] = createQualitySetWithPayload<CreateContextIndexPayload>({
+  fileSystemCreateFileWithContentsIndexQuality,
+] = createQualityCardWithPayload<CreateContextIndexPayload>({
   type: 'File System create File with Contents',
   reducer: nullReducer,
-  methodCreator: () => createAsyncMethod(
-    (controller, action) => {
+  methodCreator: () =>
+    createAsyncMethod((controller, action) => {
       const payload = selectPayload<CreateContextIndexPayload>(action);
       if (action.strategy) {
         fs.writeFile(payload.target, payload.content).then(() => {
-          const newStrategy =
-            strategySuccess(action.strategy as ActionStrategy);
+          const newStrategy = strategySuccess(action.strategy as ActionStrategy);
           controller.fire(newStrategy);
         });
       } else {
         controller.fire(axiumConclude());
       }
-    })
+    }),
 });
 /*#>*/

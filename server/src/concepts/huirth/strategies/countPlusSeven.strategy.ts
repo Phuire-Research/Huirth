@@ -2,26 +2,26 @@
 For the graph programming framework Stratimux and a Concept huirth, generate an ActionStrategy that accepts the current count and conceptSemaphore to have a unified Counter Concept be incremented seven times.
 $>*/
 /*<#*/
-import { counterAdd, createActionNode, createStrategy } from 'stratimux';
+import { counterAdd, createActionNode, createStrategy } from '@phuire/stratimux';
 
 export const huirthPlusSevenStrategy = (count: number, conceptSemaphore: number) => {
-  const stepSeventh = createActionNode(counterAdd({conceptSemaphore}));
-  const stepSix = createActionNode(counterAdd({conceptSemaphore}), {
+  const stepSeventh = createActionNode(counterAdd({ conceptSemaphore }));
+  const stepSix = createActionNode(counterAdd({ conceptSemaphore }), {
     successNode: stepSeventh,
   });
-  const stepFifth = createActionNode(counterAdd({conceptSemaphore}), {
+  const stepFifth = createActionNode(counterAdd({ conceptSemaphore }), {
     successNode: stepSix,
   });
-  const StepFourth = createActionNode(counterAdd({conceptSemaphore}), {
+  const StepFourth = createActionNode(counterAdd({ conceptSemaphore }), {
     successNode: stepFifth,
   });
-  const stepThird = createActionNode(counterAdd({conceptSemaphore}), {
+  const stepThird = createActionNode(counterAdd({ conceptSemaphore }), {
     successNode: StepFourth,
   });
-  const stepSecond = createActionNode(counterAdd({conceptSemaphore}), {
+  const stepSecond = createActionNode(counterAdd({ conceptSemaphore }), {
     successNode: stepThird,
   });
-  const stepFirst = createActionNode(counterAdd({conceptSemaphore}), {
+  const stepFirst = createActionNode(counterAdd({ conceptSemaphore }), {
     successNode: stepSecond,
   });
 

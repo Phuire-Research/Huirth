@@ -16,7 +16,7 @@ import {
   selectState,
   selectUnifiedState,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { Subscriber } from 'rxjs';
 import { DocumentObjectModelState, documentObjectModelName } from './documentObjectModel.concept';
 import { documentObjectModelBindingStrategy } from './strategies/composeBindings.strategy';

@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality to add a new base data set entry to the training data at the target index.
 $>*/
 /*<#*/
-import { createQualitySetWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
+import { createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { generateBaseDataSetEntry } from '../huirth.model';
 
@@ -10,7 +10,7 @@ export type huirthNewDataSetEntryPayload = {
   index: number;
 };
 export const [huirthNewDataSetEntry, huirthNewDataSetEntryType, huirthNewDataSetEntryQuality] =
-  createQualitySetWithPayload<huirthNewDataSetEntryPayload>({
+  createQualityCardWithPayload<huirthNewDataSetEntryPayload>({
     type: 'Huirth create a new default DataSet entry at target index',
     reducer: (state: huirthState, action): huirthState => {
       const payload = selectPayload<huirthNewDataSetEntryPayload>(action);

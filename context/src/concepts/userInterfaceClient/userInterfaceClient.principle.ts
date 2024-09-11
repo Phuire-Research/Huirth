@@ -20,7 +20,7 @@ import {
   selectUnifiedState,
   strategyBegin,
   updateUnifiedKeyedSelector,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { UserInterfaceClientState } from './userInterfaceClient.concept';
 import { BoundSelectors } from '../../model/userInterface';
 import { Subscriber } from 'rxjs';

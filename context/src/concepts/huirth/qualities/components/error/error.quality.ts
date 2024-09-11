@@ -3,14 +3,14 @@ For the graph programming framework Stratimux and a Concept huirth, generate a U
 $>*/
 /*<#*/
 /* eslint-disable max-len */
-import { Action, axiumConcludeType, createAction, createMethod, nullReducer, strategySuccess } from 'stratimux';
+import { Action, axiumConcludeType, createAction, createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 import {
-  createQualitySetComponent,
+  createQualityCardComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthError, huirthErrorType, huirthErrorQuality] = createQualitySetComponent({
+export const [huirthError, huirthErrorType, huirthErrorQuality] = createQualityCardComponent({
   type: 'Create huirth Error Composition',
   reducer: nullReducer,
   componentCreator: (act) =>

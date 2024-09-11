@@ -23,7 +23,7 @@ import {
   ActionOptions,
   ActionCreator,
   ActionCreatorWithPayload,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { elementEventBinding } from './html';
 import { documentObjectModelName } from '../concepts/documentObjectModel/documentObjectModel.concept';
 import { userInterfaceNext } from '../concepts/userInterface/qualities/next.quality';
@@ -206,7 +206,7 @@ export type ComponentCreator<T extends Record<string, unknown>> = (
   semaphore?: number
 ) => [Method, Subject<Action>];
 
-export function createQualitySetComponent<T extends Record<string, unknown>>(q: {
+export function createQualityCardComponent<T extends Record<string, unknown>>(q: {
   type: string;
   reducer: Reducer;
   componentCreator: ComponentCreator<T & ActionComponentPayload>;

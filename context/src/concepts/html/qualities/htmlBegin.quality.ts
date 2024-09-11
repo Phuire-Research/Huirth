@@ -11,15 +11,15 @@ import {
   prepareActionWithPayloadCreator,
   selectPayload,
   strategySuccess,
-} from 'stratimux';
+} from '@phuire/stratimux';
 
-import { createQualitySetComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../model/userInterface';
+import { createQualityCardComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../model/userInterface';
 
 export type HtmlBeginPayload = {
   language?: string;
 };
 
-export const [htmlBegin, htmlBeginType, htmlBeginQuality] = createQualitySetComponent<HtmlBeginPayload>({
+export const [htmlBegin, htmlBeginType, htmlBeginQuality] = createQualityCardComponent<HtmlBeginPayload>({
   type: 'Create HTML Element',
   reducer: nullReducer,
   componentCreator: (act) =>

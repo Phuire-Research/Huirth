@@ -7,7 +7,7 @@ import {
   UnifiedSubject,
   createActionNode,
   createMethodWithState,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStrategy,
   nullReducer,
   selectPayload,
@@ -16,45 +16,49 @@ import {
   strategyFailed,
   strategySequence,
   strategySuccess,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirthServerState } from '../huirthServer.concept';
 import { huirthServerSendUpdateParsedProjectData } from '../strategies/client/huirthServerSendUpdateParsedProjectData.helper';
 
 export type huirthServerPrepareParsedProjectDataUpdatePayload = {
-  name: string,
-}
+  name: string;
+};
 
 export const [
   huirthServerPrepareParsedProjectDataUpdate,
   huirthServerPrepareParsedProjectDataUpdateType,
-  huirthServerPrepareParsedProjectDataUpdateQuality
-] = createQualitySetWithPayload<huirthServerPrepareParsedProjectDataUpdatePayload>({
+  huirthServerPrepareParsedProjectDataUpdateQuality,
+] = createQualityCardWithPayload<huirthServerPrepareParsedProjectDataUpdatePayload>({
   type: 'huirthServer prepare parsed data set to be sent to client',
   reducer: nullReducer,
   methodCreator: (concepts$, semaphore) =>
-    createMethodWithState<huirthServerState>((action, state) => {
-      if (action.strategy) {
-        const strategy = action.strategy;
-        const { name } = selectPayload<huirthServerPrepareParsedProjectDataUpdatePayload>(action);
-        const { trainingData } = state;
-        for (const dataSet of trainingData) {
-          if (dataSet.name === name) {
-            console.log('FOUND DATA SET', dataSet);
-            const nextStrategy = createStrategy({
-              initialNode: createActionNode(huirthServerSendUpdateParsedProjectData(dataSet), {
-                successNode: null,
-                failureNode: null
-              }),
-              topic: 'Update Client of Parsed Project'
-            });
-            strategy.puntedStrategy?.push(nextStrategy);
-            return strategySuccess(strategy);
+    createMethodWithState<huirthServerState>(
+      (action, state) => {
+        if (action.strategy) {
+          const strategy = action.strategy;
+          const { name } = selectPayload<huirthServerPrepareParsedProjectDataUpdatePayload>(action);
+          const { trainingData } = state;
+          for (const dataSet of trainingData) {
+            if (dataSet.name === name) {
+              console.log('FOUND DATA SET', dataSet);
+              const nextStrategy = createStrategy({
+                initialNode: createActionNode(huirthServerSendUpdateParsedProjectData(dataSet), {
+                  successNode: null,
+                  failureNode: null,
+                }),
+                topic: 'Update Client of Parsed Project',
+              });
+              strategy.puntedStrategy?.push(nextStrategy);
+              return strategySuccess(strategy);
+            }
           }
+          return strategyFailed(strategy, strategyData_appendFailure(strategy, 'Did not find data set'));
+        } else {
+          return action;
         }
-        return strategyFailed(strategy, strategyData_appendFailure(strategy, 'Did not find data set'));
-      } else {
-        return action;
-      }
-    }, concepts$ as UnifiedSubject, semaphore as number)
+      },
+      concepts$ as UnifiedSubject,
+      semaphore as number
+    ),
 });
 /*#>*/

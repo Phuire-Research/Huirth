@@ -5,52 +5,50 @@ This will set up and bind the selectors to state to determine which atomic opera
 $>*/
 /*<#*/
 import {
-  Action,
-  Concepts,
   KeyedSelector,
-  PrincipleFunction,
-  UnifiedSubject,
   axiumKick,
   axiumRegisterStagePlanner,
   axiumSelectOpen,
   createStage,
   getAxiumState,
-  getUnifiedName,
   selectSlice,
-  selectUnifiedState,
   strategyBegin,
-  updateUnifiedKeyedSelector,
-} from 'stratimux';
-import { UserInterfaceClientState } from './userInterfaceClient.concept';
-import { BoundSelectors } from '../../model/userInterface';
-import { Subscriber } from 'rxjs';
+} from '@phuire/stratimux';
+import { UserInterfaceClientPrinciple, UserInterfaceClientState } from './userInterfaceClient.concept';
 import {
   UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload,
-  userInterfaceClientAssembleAtomicUpdateCompositionStrategy
+  userInterfaceClientAssembleAtomicUpdateCompositionStrategy,
 } from './qualities/clientAssembleAtomicUpdateCompositionStrategy.quality';
 import { userInterface_createBoundSelectorsSelector, userInterface_createPagesSelector } from '../userInterface/userInterface.selector';
-import { huirth_createDialogSelector } from '../huirth/huirth.selector';
-import { userInterfaceInitialBindingStrategy } from './qualities/initialBinding.strategy';
+import { userInterfaceInitialBindingStrategy } from './strategies/initialBinding.strategy';
+import { Page } from '../../model/userInterface';
 
-export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
-  (___: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
-    // const atomicCachedState: Record<string, unknown> = {};
-    const boundSelectorsSelector = userInterface_createBoundSelectorsSelector(cpts, semaphore) as KeyedSelector;
-    const beat = 100;
-    const plan = concepts$.plan('User Interface Server on Change', [
-      createStage((concepts, dispatch) => {
-        const name = getUnifiedName(concepts, semaphore);
+export const userInterfaceClientOnChangePrinciple: UserInterfaceClientPrinciple = ({
+  plan,
+  k_,
+  conceptSemaphore
+}) => {
+  // const atomicCachedState: Record<string, unknown> = {};
+  const boundSelectorsSelector = k_.boundSelectors;
+  const beat = 100;
+  plan('User Interface Server on Change', ({stage, k__, d__}) => [
+    stage(
+      ({concepts, dispatch, k, d, stagePlanner}) => {
+        const name = k.name(concepts);
         if (name && selectSlice(concepts, axiumSelectOpen) === true) {
-          dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
-            iterateStage: true
+          dispatch(d.axium.e.axiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
+            iterateStage: true,
           });
         } else if (name === undefined) {
-          plan.conclude();
+          stagePlanner.conclude();
         }
-      }, {selectors: [axiumSelectOpen]}),
-      createStage((concepts, dispatch) => {
+      },
+      { selectors: [axiumSelectOpen] }
+    ),
+    stage(
+      ({concepts, dispatch, k, stagePlanner}) => {
         //
-        const pages = selectUnifiedState<UserInterfaceClientState>(concepts, semaphore)?.pages;
+        const pages = selectSlice<Page[]>(concepts, k.pages);
         if (pages) {
           if (pages.length > 0) {
             dispatch(strategyBegin(userInterfaceInitialBindingStrategy(getAxiumState(concepts).action$, pages)), {
@@ -58,12 +56,15 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
             });
           }
         } else {
-          plan.conclude();
+          stagePlanner.conclude();
         }
-      }, { selectors: [userInterface_createPagesSelector(cpts, semaphore) as KeyedSelector] }),
-      createStage((concepts, dispatch, changes) => {
+      },
+      { selectors: [k_.pages] }
+    ),
+    stage(
+      ({concepts, dispatch, changes, d, e, k, stagePlanner}) => {
         // console.log('Get unified name', getUnifiedName(concepts, semaphore));
-        const uiState = selectUnifiedState<UserInterfaceClientState>(concepts, semaphore);
+        const uiState = k.state(concepts);
         if (uiState && uiState.pagesCached) {
           const newSelectors = [boundSelectorsSelector, ...uiState.selectors];
           const changed: Record<string, boolean> = {};
@@ -71,36 +72,37 @@ export const userInterfaceClientOnChangePrinciple: PrincipleFunction =
             action$: getAxiumState(concepts).action$,
             boundActionQue: [],
           };
-          changes?.forEach(change => {
+          changes?.forEach((change) => {
             const bound = uiState.boundSelectors[change.keys];
             if (bound) {
-              bound.forEach(b => {
+              bound.forEach((b) => {
                 const exists = changed[b.semaphore.toString()];
                 if (exists === undefined) {
                   changed[b.semaphore.toString()] = true;
-                  b.action.conceptSemaphore = semaphore;
+                  b.action.conceptSemaphore = conceptSemaphore;
                   payload.boundActionQue.push(b);
                 }
               });
             }
           });
           if (payload.boundActionQue.length > 0) {
-            dispatch(userInterfaceClientAssembleAtomicUpdateCompositionStrategy(payload), {
+            dispatch(e.userInterfaceClientAssembleAtomicUpdateCompositionStrategy(payload), {
               throttle: 0,
-              newSelectors
+              newSelectors,
             });
           } else {
-            dispatch(axiumKick(), {
+            dispatch(d.axium.e.axiumKick(), {
               throttle: 0,
-              newSelectors
+              newSelectors,
             });
           }
         } else if (uiState === undefined) {
           console.log('SHOULDN\'T CONCLUDE, unless removed');
-          plan.conclude();
+          stagePlanner.conclude();
         }
-      }, {beat, selectors: [boundSelectorsSelector]}),
-    ]
-    );
-  };
+      },
+      { beat, selectors: [boundSelectorsSelector] }
+    ),
+  ]);
+};
 /*#>*/

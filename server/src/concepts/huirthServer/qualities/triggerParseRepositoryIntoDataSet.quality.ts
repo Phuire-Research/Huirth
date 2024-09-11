@@ -5,24 +5,24 @@ $>*/
 import {
   UnifiedSubject,
   createMethodDebounceWithConcepts,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
   selectState,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirthServerParseRepositoryStrategy } from '../strategies/parseRepositoryIntoDataSet.strategy';
 
 export type huirthServerTriggerParseRepositoryStrategyPayload = {
-  name: string
-}
+  name: string;
+};
 
 export const [
   huirthServerTriggerParseRepositoryStrategy,
   huirthServerTriggerParseRepositoryStrategyType,
-  huirthServerTriggerParseRepositoryStrategyQuality
-] = createQualitySetWithPayload<huirthServerTriggerParseRepositoryStrategyPayload>({
+  huirthServerTriggerParseRepositoryStrategyQuality,
+] = createQualityCardWithPayload<huirthServerTriggerParseRepositoryStrategyPayload>({
   type: 'huirthServer trigger parse repository strategy',
   reducer: nullReducer,
   methodCreator: (concepts$, semaphore) =>
@@ -36,7 +36,10 @@ export const [
         } else {
           return action;
         }
-      }, concepts$ as UnifiedSubject, semaphore as number, 50
-    )
+      },
+      concepts$ as UnifiedSubject,
+      semaphore as number,
+      50
+    ),
 });
 /*#>*/

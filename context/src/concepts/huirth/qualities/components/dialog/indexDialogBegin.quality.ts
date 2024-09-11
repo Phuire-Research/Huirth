@@ -2,15 +2,15 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a User Interface Component quality for the first slice of the Dialog Component.
 $>*/
 /*<#*/
-import { createMethod, nullReducer, strategySuccess } from 'stratimux';
+import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
 import {
-  createQualitySetComponent,
+  createQualityCardComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthIndexDialogBegin, huirthIndexDialogBeginType, huirthIndexDialogBeginQuality] = createQualitySetComponent({
+export const [huirthIndexDialogBegin, huirthIndexDialogBeginType, huirthIndexDialogBeginQuality] = createQualityCardComponent({
   type: 'create userInterface for IndexDialogBegin',
   reducer: nullReducer,
   componentCreator: (act) =>

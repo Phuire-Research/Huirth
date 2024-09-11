@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a principle that will dispatch a sequence of page to state strategies that will cache the required pages for the client.
 $>*/
 /*<#*/
-import { Concept, KeyedSelector, createConcept, unifyConcepts } from 'stratimux';
+import { AnyConcept, AxiumDeck, Concept, KeyedSelector, PrincipleFunction, createConcept, muxifyConcepts } from '@phuire/stratimux';
 import { BoundSelectors, Composition, Page, PageStrategyCreators } from '../../model/userInterface';
 import { userInterfaceAddComposedPageToStateQuality } from './qualities/addComposedPageToState.quality';
 import { userInterfaceInitializationPrinciple } from './userInterface.principle';
@@ -18,16 +18,16 @@ import { userInterfaceNextQuality } from './qualities/next.quality';
 export const userInterfaceName = 'userInterface';
 
 export type UserInterfaceState = {
-  pages: Page[],
-  components: Composition[],
-  pageStrategies: PageStrategyCreators[],
+  pages: Page[];
+  components: Composition[];
+  pageStrategies: PageStrategyCreators[];
   pagesCached: boolean;
   // string represents the verbose key of a KeyedSelector
   // This allows us to ensure that when changes are detected we select only valid entries from this primed record
   // Then use entries to assemble a new Record that only records each unique BoundSelector to be dispatch
   boundSelectors: Record<string, BoundSelectors[]>;
   selectors: KeyedSelector[];
-}
+};
 
 const createUserInterfaceState = (pageStrategies: PageStrategyCreators[]): UserInterfaceState => {
   return {
@@ -36,27 +36,35 @@ const createUserInterfaceState = (pageStrategies: PageStrategyCreators[]): UserI
     pageStrategies,
     pagesCached: false,
     boundSelectors: {},
-    selectors: []
+    selectors: [],
   };
 };
 
-export const createUserInterfaceConcept = (pageStrategies: PageStrategyCreators[]): Concept => {
-  return unifyConcepts([createHtmlConcept()], createConcept(
-    userInterfaceName,
-    createUserInterfaceState(pageStrategies),
-    [
-      userInterfaceAddComposedPageToStateQuality,
-      userInterfaceRefreshCachedSelectorsQuality,
-      userInterfaceUpdateAtomicPageCompositionQuality,
-      userInterfaceUpdateUniversalComponentQuality,
-      userInterfaceAddNewPageQuality,
-      userInterfaceRemovePageQuality,
-      userInterfaceEndQuality,
-      userInterfaceNextQuality,
-    ],
-    [
-      userInterfaceInitializationPrinciple
-    ]
-  ));
+export const userInterfaceQualities = {
+  userInterfaceAddComposedPageToStateQuality,
+  userInterfaceRefreshCachedSelectorsQuality,
+  userInterfaceUpdateAtomicPageCompositionQuality,
+  userInterfaceUpdateUniversalComponentQuality,
+  userInterfaceAddNewPageQuality,
+  userInterfaceRemovePageQuality,
+  userInterfaceEndQuality,
+  userInterfaceNextQuality,
+};
+
+export type UserInterfaceDeck = {
+  userInterface: Concept<UserInterfaceState, typeof userInterfaceQualities>
+}
+export type UserInterfacePrinciple = PrincipleFunction<typeof userInterfaceQualities, AxiumDeck & UserInterfaceDeck, UserInterfaceState>;
+
+export const createUserInterfaceConcept = (pageStrategies: PageStrategyCreators[]): AnyConcept => {
+  return muxifyConcepts(
+    [createHtmlConcept()],
+    createConcept(
+      userInterfaceName,
+      createUserInterfaceState(pageStrategies),
+      userInterfaceQualities,
+      [userInterfaceInitializationPrinciple as unknown as PrincipleFunction<typeof userInterfaceQualities>]
+    )
+  );
 };
 /*#>*/

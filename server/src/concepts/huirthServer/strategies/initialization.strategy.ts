@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a ActionStrategy that will set up the data directory as needed, otherwise will record its contents to the state.
 $>*/
 /*<#*/
-import { createActionNode, createStrategy } from 'stratimux';
+import { createActionNode, createStrategy } from '@phuire/stratimux';
 import path from 'path';
 import { fileSystemGetDirectoriesAndFiles } from '../../fileSystem/qualities/getDirectoriesAndFiles.quality';
 import { huirthServerReadFromDataTrainingDataFromDirectories } from '../qualities/readFromDataTrainingDataFromDirectory.quality';
@@ -25,12 +25,12 @@ export const huirthServerInitializationStrategy = (root: string) => {
   // stepFour does folder repositories exists?
   const stepSetTrainingDataInitialized = createActionNode(huirthSetTrainingDataInitialized());
   const stepSetTrainingDataFromData = createActionNode(huirthServerSetTrainingDataFromData(), {
-    successNode: stepSetTrainingDataInitialized
+    successNode: stepSetTrainingDataInitialized,
   });
   const stepReadTrainingDataFromData = createActionNode(huirthServerReadFromDataTrainingDataFromDirectories(), {
     successNode: stepSetTrainingDataFromData,
   });
-  const stepVerifyDataSets = createActionNode(fileSystemGetDirectoriesAndFiles({path: dataSetsDirectory}), {
+  const stepVerifyDataSets = createActionNode(fileSystemGetDirectoriesAndFiles({ path: dataSetsDirectory }), {
     successNode: stepReadTrainingDataFromData,
   });
   // const stepSetDPO_data = createActionNode(huirthServerSetDPOFromData(), {
@@ -46,30 +46,30 @@ export const huirthServerInitializationStrategy = (root: string) => {
     // No need to worry about setting status beyond installed here. In the next steps we will verify all currently installed data sources.
     successNode: stepVerifyDataSets,
   });
-  const stepReadDataRepoDirectory = createActionNode(fileSystemGetDirectoriesAndFiles({path: gitRepoDirectory}), {
+  const stepReadDataRepoDirectory = createActionNode(fileSystemGetDirectoriesAndFiles({ path: gitRepoDirectory }), {
     successNode: stepSetRepositoriesFromData,
   });
-  const stepCreateSetsDirectory = createActionNode(fileSystemCreateTargetDirectory({path: gitSetsDirectory}), {
+  const stepCreateSetsDirectory = createActionNode(fileSystemCreateTargetDirectory({ path: gitSetsDirectory }), {
     successNode: stepVerifyDataSets,
-    agreement: 20000
+    agreement: 20000,
   });
-  const stepCreateRepoDirectory = createActionNode(fileSystemCreateTargetDirectory({path: gitRepoDirectory}), {
+  const stepCreateRepoDirectory = createActionNode(fileSystemCreateTargetDirectory({ path: gitRepoDirectory }), {
     successNode: stepCreateSetsDirectory,
-    agreement: 20000
+    agreement: 20000,
   });
   const stepIsTheDataDirectorySetUp = createActionNode(huirthServerIsDataDirectorySetUp(), {
     successNode: stepReadDataRepoDirectory,
-    failureNode: stepCreateRepoDirectory
+    failureNode: stepCreateRepoDirectory,
   });
-  const stepReadDataDirectoryAgain = createActionNode(fileSystemGetDirectoriesAndFiles({path: dataDirectory}), {
+  const stepReadDataDirectoryAgain = createActionNode(fileSystemGetDirectoriesAndFiles({ path: dataDirectory }), {
     successNode: stepIsTheDataDirectorySetUp,
   });
-  const stepFailedFindingDataDirector = createActionNode(fileSystemCreateTargetDirectory({path: dataDirectory}), {
-    successNode: stepReadDataDirectoryAgain
+  const stepFailedFindingDataDirector = createActionNode(fileSystemCreateTargetDirectory({ path: dataDirectory }), {
+    successNode: stepReadDataDirectoryAgain,
   });
-  const stepReadDataDirectory = createActionNode(fileSystemGetDirectoriesAndFiles({path: dataDirectory}), {
+  const stepReadDataDirectory = createActionNode(fileSystemGetDirectoriesAndFiles({ path: dataDirectory }), {
     successNode: stepIsTheDataDirectorySetUp,
-    failureNode: stepFailedFindingDataDirector
+    failureNode: stepFailedFindingDataDirector,
   });
   return createStrategy({
     topic: huirthServerInitializationStrategyTopic,

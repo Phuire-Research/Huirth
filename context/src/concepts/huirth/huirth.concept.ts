@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a Brand Concept called huirth that will act as a Sidekick Application for the Stratimux Framework.
 $>*/
 /*<#*/
-import { createConcept, Concept, unifyConcepts, createCounterConcept, PrincipleFunction, Quality } from 'stratimux';
+import { createConcept, Concept, unifyConcepts, createCounterConcept, PrincipleFunction, Quality } from '@phuire/stratimux';
 import { BrandState } from '../../model/userInterface';
 import { huirthErrorQuality } from './qualities/components/error/error.quality';
 import { huirthHeadQuality } from './qualities/components/head.quality';

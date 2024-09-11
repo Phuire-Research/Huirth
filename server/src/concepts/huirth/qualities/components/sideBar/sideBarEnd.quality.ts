@@ -3,37 +3,37 @@ For the graph programming framework Stratimux and a Concept huirth, generate a U
 $>*/
 /*<#*/
 /* eslint-disable max-len */
+import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
+
 import {
-  createMethod,
-  nullReducer,
-  strategySuccess
-} from 'stratimux';
+  createQualityCardComponent,
+  selectComponentPayload,
+  userInterface_appendCompositionToPage,
+} from '../../../../../model/userInterface';
 
-import { createQualitySetComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
-
-export const [
-  huirthSideBarEnd,
-  huirthSideBarEndType,
-  huirthSideBarEndQuality
-] = createQualitySetComponent({
+export const [huirthSideBarEnd, huirthSideBarEndType, huirthSideBarEndQuality] = createQualityCardComponent({
   type: 'create userInterface for SideBarEnd',
   reducer: nullReducer,
-  componentCreator: (act) => createMethod(action => {
-    const payload = selectComponentPayload(action);
-    const id = '#sideBarEnd';
-    if (action.strategy) {
-      return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-        id,
-        boundSelectors: [],
-        universal: true,
-        action: act(payload),
-        html: /*html*/`
+  componentCreator: (act) =>
+    createMethod((action) => {
+      const payload = selectComponentPayload(action);
+      const id = '#sideBarEnd';
+      if (action.strategy) {
+        return strategySuccess(
+          action.strategy,
+          userInterface_appendCompositionToPage(action.strategy, {
+            id,
+            boundSelectors: [],
+            universal: true,
+            action: act(payload),
+            html: /*html*/ `
   </nav>
 </aside> 
-`
-      }));
-    }
-    return action;
-  })
+`,
+          })
+        );
+      }
+      return action;
+    }),
 });
 /*#>*/

@@ -3,15 +3,15 @@ For the graph programming framework Stratimux generate a Web Socket Client Conce
 This message stream should establish each governing concept's semaphore so that messages are not invalidated.
 $>*/
 /*<#*/
-import { webSocketClientAppendToActionQueQuality } from './qualities/appendActionQue.quality';
-import { webSocketClientForceSyncQuality } from './qualities/forceSync.quality';
-import { webSocketClientSetServerSemaphoreQuality } from './qualities/setServerSemaphore.quality';
+import { webSocketClientAppendToActionQue } from './qualities/appendActionQue.quality';
+import { webSocketClientForceSync } from './qualities/forceSync.quality';
+import { webSocketClientSetServerSemaphore } from './qualities/setServerSemaphore.quality';
 import { webSocketClientPrinciple } from './webSocketClient.principle';
-import { Action, createConcept } from 'stratimux';
+import { AnyAction, AxiumDeck, Concept, createConcept, PrincipleFunction } from '@phuire/stratimux';
 
 export type WebSocketClientState = {
-  actionQue: Action[],
-  serverSemaphore: number,
+  actionQue: AnyAction[];
+  serverSemaphore: number;
 };
 
 export const webSocketClientName = 'webSocketClient';
@@ -19,20 +19,22 @@ export const webSocketClientName = 'webSocketClient';
 const initialWebSocketClientState = (): WebSocketClientState => {
   return {
     actionQue: [],
-    serverSemaphore: -1
+    serverSemaphore: -1,
   };
 };
 
+export const webSocketClientQualities = {webSocketClientAppendToActionQue, webSocketClientSetServerSemaphore, webSocketClientForceSync};
+export type WebSocketClientDeck = {
+  webSocketClient: Concept<typeof webSocketClientQualities, WebSocketClientState>;
+}
+export type WebSocketClientPrinciple = PrincipleFunction<typeof webSocketClientQualities, AxiumDeck & WebSocketClientDeck, WebSocketClientState>;
+
 export const createWebSocketClientConcept = () => {
-  return createConcept(
+  return createConcept<WebSocketClientState, typeof webSocketClientQualities>(
     webSocketClientName,
     initialWebSocketClientState(),
-    [
-      webSocketClientAppendToActionQueQuality,
-      webSocketClientSetServerSemaphoreQuality,
-      webSocketClientForceSyncQuality
-    ],
-    [webSocketClientPrinciple]
+    webSocketClientQualities,
+    [webSocketClientPrinciple as unknown as PrincipleFunction<typeof webSocketClientQualities>]
   );
 };
 /*#>*/

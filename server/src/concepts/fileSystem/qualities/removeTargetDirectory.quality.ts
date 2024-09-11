@@ -6,46 +6,42 @@ import {
   ActionStrategy,
   axiumConclude,
   createAsyncMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
   strategyData_appendFailure,
   strategyFailed,
-  strategySuccess
-} from 'stratimux';
+  strategySuccess,
+} from '@phuire/stratimux';
 import { rimraf } from 'rimraf';
 
 export type RemoveTargetDirectoryPayload = {
-  path: string
+  path: string;
 };
 
-export const [
-  fileSystemRemoveTargetDirectory,
-  fileSystemRemoveTargetDirectoryType,
-  fileSystemRemoveTargetDirectoryQuality
-] = createQualitySetWithPayload<RemoveTargetDirectoryPayload>({
-  type: 'File System remove target Directory',
-  reducer: nullReducer,
-  methodCreator: () =>
-    createAsyncMethod((controller, action) => {
-      const path = selectPayload<RemoveTargetDirectoryPayload>(action).path;
-      if (action.strategy) {
-        if (path.split('\\server\\src\\').length > 1) {
-          console.error('ERROR IN REMOVE TARGET DIR', action);
-          controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, 'cannot delete server directory')));
+export const [fileSystemRemoveTargetDirectory, fileSystemRemoveTargetDirectoryType, fileSystemRemoveTargetDirectoryQuality] =
+  createQualityCardWithPayload<RemoveTargetDirectoryPayload>({
+    type: 'File System remove target Directory',
+    reducer: nullReducer,
+    methodCreator: () =>
+      createAsyncMethod((controller, action) => {
+        const path = selectPayload<RemoveTargetDirectoryPayload>(action).path;
+        if (action.strategy) {
+          if (path.split('\\server\\src\\').length > 1) {
+            console.error('ERROR IN REMOVE TARGET DIR', action);
+            controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, 'cannot delete server directory')));
+          } else {
+            rimraf(path).then((error) => {
+              if (error) {
+                console.error(error);
+              }
+              const newStrategy = strategySuccess(action.strategy as ActionStrategy);
+              controller.fire(newStrategy);
+            });
+          }
         } else {
-          rimraf(path).then((error) => {
-            if (error) {
-              console.error(error);
-            }
-            const newStrategy =
-              strategySuccess(action.strategy as ActionStrategy);
-            controller.fire(newStrategy);
-          });
+          controller.fire(axiumConclude());
         }
-      } else {
-        controller.fire(axiumConclude());
-      }
-    })
-});
+      }),
+  });
 /*#>*/

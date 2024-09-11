@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that updates a DataSet's selection within state by index by toggling the boolean value.
 $>*/
 /*<#*/
-import { Action, createQualitySetWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
+import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 
 export type huirthUpdateDataSetSelectionPayload = {
@@ -10,7 +10,7 @@ export type huirthUpdateDataSetSelectionPayload = {
 };
 
 export const [huirthUpdateDataSetSelection, huirthUpdateDataSetSelectionType, huirthUpdateDataSetSelectionQuality] =
-  createQualitySetWithPayload<huirthUpdateDataSetSelectionPayload>({
+  createQualityCardWithPayload<huirthUpdateDataSetSelectionPayload>({
     type: 'Create huirth update data set selection',
     reducer: (state: huirthState, action: Action): huirthState => {
       const { index } = selectPayload<huirthUpdateDataSetSelectionPayload>(action);

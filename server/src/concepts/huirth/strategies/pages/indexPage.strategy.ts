@@ -2,13 +2,13 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a Page Strategy Creator called index, that will unify Sidebar, Hero, Dialog, Footer, and Header Action Strategy Component Stitches into a Page Composition.
 $>*/
 /*<#*/
-import { axium_createStitchNode, createStrategy } from 'stratimux';
+import { axium_createStitchNode, createStrategy } from '@phuire/stratimux';
 import {
   ActionComponentPayload,
   ActionStrategyComponentStitch,
   PageStrategyCreators,
   userInterface,
-  userInterface_createPage
+  userInterface_createPage,
 } from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { huirthFooterStitch } from '../components/footer.strategy';
@@ -26,28 +26,26 @@ export const huirthIndexPageStrategy: PageStrategyCreators = () => () => {
   };
   const stepStitch = axium_createStitchNode();
   const stephuirthIndexHero = userInterface.createComponent(huirthIndexHero(page), stepStitch);
-  const huirthBody: ActionStrategyComponentStitch = (payload: ActionComponentPayload) => [stepStitch, createStrategy({
-    topic: 'Create huirth Body Content',
-    initialNode: stephuirthIndexHero,
-  })];
+  const huirthBody: ActionStrategyComponentStitch = (payload: ActionComponentPayload) => [
+    stepStitch,
+    createStrategy({
+      topic: 'Create huirth Body Content',
+      initialNode: stephuirthIndexHero,
+    }),
+  ];
 
   const pageData = userInterface_createPage({
     title: huirthIndexPageStrategyTopic,
     conceptAndProps: [],
     cachedSelectors: [],
     compositions: [],
-    cachedComponentSelectors: []
+    cachedComponentSelectors: [],
   });
 
   return userInterfaceCreatePageStrategy(
     huirthIndexPageStrategyTopic,
     pageData,
-    [
-      huirthSidebarComponentStitch,
-      huirthBody,
-      huirthIndexDialogStrategyStitch,
-      huirthFooterStitch
-    ],
+    [huirthSidebarComponentStitch, huirthBody, huirthIndexDialogStrategyStitch, huirthFooterStitch],
     huirthHeaderStitch
   );
 };
@@ -63,7 +61,7 @@ export const huirthIndexDialogStrategyStitch: ActionStrategyComponentStitch = (p
     createStrategy({
       topic: huirthIndexDialogStrategyStitchTopic,
       initialNode: stephuirthIndexDialogBegin,
-    })
+    }),
   ];
 };
 /*#>*/

@@ -2,15 +2,15 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a User Interface Component quality to create the final slice of the DataSet Component with the necessary closing element tags.
 $>*/
 /*<#*/
-import { createMethod, nullReducer, strategySuccess } from 'stratimux';
+import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
 import {
-  createQualitySetComponent,
+  createQualityCardComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthDataSetEnd, huirthDataSetEndType, huirthDataSetEndQuality] = createQualitySetComponent({
+export const [huirthDataSetEnd, huirthDataSetEndType, huirthDataSetEndQuality] = createQualityCardComponent({
   type: 'create userInterface for DataSetEnd',
   reducer: nullReducer,
   componentCreator: (act) =>

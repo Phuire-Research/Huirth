@@ -5,5 +5,5 @@ export default defineConfig({
   splitting: false,
   sourcemap: true,
   clean: true,
-  noExternal: ['stratimux', 'rxjs']
+  noExternal: ['@phuire/stratimux', 'rxjs']
 });

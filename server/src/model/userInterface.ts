@@ -22,8 +22,8 @@ import {
   ActionWithPayloadOptions,
   ActionOptions,
   ActionCreator,
-  ActionCreatorWithPayload
-} from 'stratimux';
+  ActionCreatorWithPayload,
+} from '@phuire/stratimux';
 import { elementEventBinding } from './html';
 import { documentObjectModelName } from '../concepts/documentObjectModel/documentObjectModel.concept';
 import { userInterfaceNext } from '../concepts/userInterface/qualities/next.quality';
@@ -38,14 +38,14 @@ export type ElementIdentifier = string;
 export type Binding = {
   action: Action;
   eventBinding: elementEventBinding | string;
-}
+};
 export type UserInterfaceBindings = Record<ElementIdentifier, Binding[]>;
 export type UserInterfacePageBindings = Record<string, UserInterfaceBindings>;
 export type PageStrategyCreators = (concepts?: Concepts, semaphore?: number) => ActionStrategyStitch;
 export type ActionStrategyComponentStitch = (payload: ActionComponentPayload) => [ActionNode, ActionStrategy];
 
 export type BrandState = {
-  pageStrategies: PageStrategyCreators[]
+  pageStrategies: PageStrategyCreators[];
 };
 
 export const createPageId = (pageName: string) => {
@@ -53,28 +53,27 @@ export const createPageId = (pageName: string) => {
 };
 
 export type PreBind = {
-  elementId: string,
-  eventBinding: elementEventBinding,
-  action: Action
-}
+  elementId: string;
+  eventBinding: elementEventBinding;
+  action: Action;
+};
 
-export const createBinding =
-  (bindings: PreBind[]): UserInterfaceBindings => {
-    const binding: UserInterfaceBindings = {};
-    bindings.forEach(bind => {
-      const possible = binding[bind.elementId];
-      if (possible !== undefined) {
-        binding[bind.elementId] = [...possible,{action: bind.action, eventBinding: bind.eventBinding}];
-      } else {
-        binding[bind.elementId] = [{action: bind.action, eventBinding: bind.eventBinding}];
-      }
-    });
-    return binding;
-  };
+export const createBinding = (bindings: PreBind[]): UserInterfaceBindings => {
+  const binding: UserInterfaceBindings = {};
+  bindings.forEach((bind) => {
+    const possible = binding[bind.elementId];
+    if (possible !== undefined) {
+      binding[bind.elementId] = [...possible, { action: bind.action, eventBinding: bind.eventBinding }];
+    } else {
+      binding[bind.elementId] = [{ action: bind.action, eventBinding: bind.eventBinding }];
+    }
+  });
+  return binding;
+};
 
 type ActionEventPayload = {
-  event: Event
-}
+  event: Event;
+};
 
 export const userInterface_selectInputTarget = (action: Action) => {
   const payload = selectPayload<ActionEventPayload>(action).event;
@@ -103,8 +102,7 @@ const userInterface_bindingsToString = (bindings: UserInterfaceBindings): string
     output += `'${key}' : [\n`;
     const bind = bindings[key];
     for (const b of bind) {
-      output +=
-        `\t{\n\t\taction: ${JSON.stringify(b.action).replace(/"/g,'\'')},\n\t\teventBinding: '${b.eventBinding}'\n\t},`;
+      output += `\t{\n\t\taction: ${JSON.stringify(b.action).replace(/"/g, "'")},\n\t\teventBinding: '${b.eventBinding}'\n\t},`;
     }
     output += '\n],';
   }
@@ -123,92 +121,100 @@ export type UserInterfacePageStrategies = Record<string, PageStrategyCreators>;
  */
 
 export type BoundSelectors = {
-  id: string
-  action: Action,
-  selectors: KeyedSelector[],
-  semaphore: [number, number],
-}
+  id: string;
+  action: Action;
+  selectors: KeyedSelector[];
+  semaphore: [number, number];
+};
 
-export const createBoundSelectors =
-  (id: string, action: Action, selectors: KeyedSelector[]): BoundSelectors =>
-    ({id, action, selectors, semaphore: [-1, -1]});
+export const createBoundSelectors = (id: string, action: Action, selectors: KeyedSelector[]): BoundSelectors => ({
+  id,
+  action,
+  selectors,
+  semaphore: [-1, -1],
+});
 
 export type Composition = {
   id: string;
   universal: boolean;
-  componentSemaphore?: number,
-  boundSelectors: BoundSelectors[],
-  bindings?: UserInterfaceBindings,
-  html: string,
+  componentSemaphore?: number;
+  boundSelectors: BoundSelectors[];
+  bindings?: UserInterfaceBindings;
+  html: string;
   action: Action;
-}
-
-export type Page = {
-  title: string,
-  conceptAndProps: ConceptAndProperties[],
-  compositions: Composition[]
-  cachedSelectors: BoundSelectors[]
-  cachedComponentSelectors: BoundSelectors[]
-}
-
-export type PrimedConceptAndProperties = {
-  name: string,
-  nameCapitalized: string,
-  properties?: string[]
-}
-export type ConceptAndProperties = {
-  name: string,
-  properties?: string[]
-}
-
-export const userInterface_createPage = (page?: Page): Page => (
-  page ? page : {
-    title: '',
-    conceptAndProps: [],
-    compositions: [],
-    cachedSelectors: [],
-    cachedComponentSelectors: []
-  });
-
-export type ActionComponentPayload = {
-  pageTitle: string
 };
 
-export const selectComponentPayload = <T extends Record<string, unknown>>(action: Action) => selectPayload<ActionComponentPayload & T>(action);
+export type Page = {
+  title: string;
+  conceptAndProps: ConceptAndProperties[];
+  compositions: Composition[];
+  cachedSelectors: BoundSelectors[];
+  cachedComponentSelectors: BoundSelectors[];
+};
+
+export type PrimedConceptAndProperties = {
+  name: string;
+  nameCapitalized: string;
+  properties?: string[];
+};
+export type ConceptAndProperties = {
+  name: string;
+  properties?: string[];
+};
+
+export const userInterface_createPage = (page?: Page): Page =>
+  page
+    ? page
+    : {
+        title: '',
+        conceptAndProps: [],
+        compositions: [],
+        cachedSelectors: [],
+        cachedComponentSelectors: [],
+      };
+
+export type ActionComponentPayload = {
+  pageTitle: string;
+};
+
+export const selectComponentPayload = <T extends Record<string, unknown>>(action: Action) =>
+  selectPayload<ActionComponentPayload & T>(action);
 
 export type ActionComponentCreator<T extends Record<string, unknown>> = (
-    payload: ActionComponentPayload & T,
-    conceptSemaphore?: number,
-    keyedSelectors?: KeyedSelector[],
-    agreement?: number,
-    semaphore?: [number, number, number, number]
-  ) => Action;
+  payload: ActionComponentPayload & T,
+  conceptSemaphore?: number,
+  keyedSelectors?: KeyedSelector[],
+  agreement?: number,
+  semaphore?: [number, number, number, number]
+) => Action;
 
-export function prepareActionComponentCreator<T extends Record<string, unknown> & ActionComponentPayload>(actionType: ActionType): ActionCreatorWithPayload<T> {
-  return (
-    payload: T,
-    options?: ActionOptions
-  ) => {
+export function prepareActionComponentCreator<T extends Record<string, unknown> & ActionComponentPayload>(
+  actionType: ActionType
+): ActionCreatorWithPayload<T> {
+  return (payload: T, options?: ActionOptions) => {
     const opts: ActionWithPayloadOptions<T> = {
       ...options,
-      payload
+      payload,
     };
     return createAction(actionType, opts);
   };
 }
 
-export type ComponentCreator<T extends Record<string, unknown>> =
-  (action: ActionCreatorWithPayload<T>, concepts$?: Subject<Concepts>, semaphore?: number) => [Method, Subject<Action>];
+export type ComponentCreator<T extends Record<string, unknown>> = (
+  action: ActionCreatorWithPayload<T>,
+  concepts$?: Subject<Concepts>,
+  semaphore?: number
+) => [Method, Subject<Action>];
 
-export function createQualitySetComponent<T extends Record<string, unknown>>(q: {
-  type: string,
-  reducer: Reducer,
-  componentCreator: ComponentCreator<T & ActionComponentPayload>,
-  keyedSelectors?: KeyedSelector[],
-  meta?: Record<string,unknown>,
-  analytics?: Record<string,unknown>
+export function createQualityCardComponent<T extends Record<string, unknown>>(q: {
+  type: string;
+  reducer: Reducer;
+  componentCreator: ComponentCreator<T & ActionComponentPayload>;
+  keyedSelectors?: KeyedSelector[];
+  meta?: Record<string, unknown>;
+  analytics?: Record<string, unknown>;
 }): [ActionCreatorWithPayload<T & ActionComponentPayload>, ActionType, Quality] {
-  const action = prepareActionComponentCreator<T & ActionComponentPayload >(q.type);
+  const action = prepareActionComponentCreator<T & ActionComponentPayload>(q.type);
   return [
     action,
     q.type,
@@ -219,23 +225,22 @@ export function createQualitySetComponent<T extends Record<string, unknown>>(q: 
       q.keyedSelectors,
       q.meta,
       q.analytics
-    )
+    ),
   ];
 }
 
-export const userInterface_appendCompositionToPage =
-  (strategy: ActionStrategy, composition: Composition): Page => {
-    const data = strategyData_select<Page>(strategy);
-    if (data) {
-      const page = data;
-      page.compositions.push(composition);
-      return page;
-    } else {
-      const newPage = userInterface_createPage();
-      newPage.compositions.push(composition);
-      return newPage;
-    }
-  };
+export const userInterface_appendCompositionToPage = (strategy: ActionStrategy, composition: Composition): Page => {
+  const data = strategyData_select<Page>(strategy);
+  if (data) {
+    const page = data;
+    page.compositions.push(composition);
+    return page;
+  } else {
+    const newPage = userInterface_createPage();
+    newPage.compositions.push(composition);
+    return newPage;
+  }
+};
 
 export const userInterface_appendBindings = (strategy: ActionStrategy, bindings: UserInterfaceBindings[]): Page => {
   const data = strategyData_select<Page>(strategy);
@@ -254,14 +259,11 @@ export const userInterface_appendBindings = (strategy: ActionStrategy, bindings:
       }
     }
     if (page.conceptAndProps[index].properties && index !== -1) {
-      page.conceptAndProps[index].properties = [
-        ...(page.conceptAndProps[index].properties as string[]),
-        ...newProps,
-      ];
+      page.conceptAndProps[index].properties = [...(page.conceptAndProps[index].properties as string[]), ...newProps];
     } else {
       page.conceptAndProps.push({
         name: documentObjectModelName,
-        properties: newProps
+        properties: newProps,
       });
     }
     return page;
@@ -269,7 +271,7 @@ export const userInterface_appendBindings = (strategy: ActionStrategy, bindings:
     const page = userInterface_createPage();
     page.conceptAndProps.push({
       name: documentObjectModelName,
-      properties: newProps
+      properties: newProps,
     });
     return userInterface_createPage();
   }
@@ -289,7 +291,7 @@ export const userInterface_createComponent = (action: Action, success?: ActionNo
     successNode: success ? success : null,
     failureNode: createActionNode(userInterfaceNext(), {
       successNode: null,
-      failureNode: null
+      failureNode: null,
     }),
   });
 };

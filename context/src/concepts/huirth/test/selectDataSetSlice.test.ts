@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a test that will ensure that the selectSlice helper function from Stratimux is operating as intended.
 $>*/
 /*<#*/
-import { Concepts, KeyedSelector, createConcept, createUnifiedKeyedSelector, selectSlice } from 'stratimux';
+import { Concepts, KeyedSelector, createConcept, createUnifiedKeyedSelector, selectSlice } from '@phuire/stratimux';
 import { generateBaseDataSetEntry, generateDefaultNamedDataSet } from '../huirth.model';
 
 test('userInterfaceBindingsToString', (done) => {

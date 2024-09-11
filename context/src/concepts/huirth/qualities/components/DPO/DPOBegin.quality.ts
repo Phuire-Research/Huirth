@@ -2,15 +2,15 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a User Interface Component quality for the first slice of the DPO DataSet Component.
 $>*/
 /*<#*/
-import { createMethod, nullReducer, strategySuccess } from 'stratimux';
+import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
 import {
-  createQualitySetComponent,
+  createQualityCardComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthIndexDPOBegin, huirthIndexDPOBeginType, huirthIndexDPOBeginQuality] = createQualitySetComponent({
+export const [huirthIndexDPOBegin, huirthIndexDPOBeginType, huirthIndexDPOBeginQuality] = createQualityCardComponent({
   type: 'create userInterface for IndexDPOBegin',
   reducer: nullReducer,
   componentCreator: (act) =>

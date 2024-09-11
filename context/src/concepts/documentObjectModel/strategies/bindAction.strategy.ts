@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and Document Object Model Concept, generate an ActionStrategy that will bind a event to a target action.
 $>*/
 /*<#*/
-import { Action, createActionNode, createStrategy } from 'stratimux';
+import { Action, createActionNode, createStrategy } from '@phuire/stratimux';
 import { DocumentObjectModelBindPayloadPayload, documentObjectModelBindPayload } from '../qualities/bindPayload.quality';
 
 export const documentObjectModelBindActionStrategyTopic = 'Document Object Model bind target Action with Payload';

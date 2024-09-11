@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a principle that will dispatch a sequence of page to state strategies that will cache the required pages for the client.
 $>*/
 /*<#*/
-import { Concept, KeyedSelector, createConcept, unifyConcepts } from 'stratimux';
+import { Concept, KeyedSelector, createConcept, unifyConcepts } from '@phuire/stratimux';
 import { BoundSelectors, Composition, Page, PageStrategyCreators } from '../../model/userInterface';
 import { userInterfaceAddComposedPageToStateQuality } from './qualities/addComposedPageToState.quality';
 import { userInterfaceInitializationPrinciple } from './userInterface.principle';

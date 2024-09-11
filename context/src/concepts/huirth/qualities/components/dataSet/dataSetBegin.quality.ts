@@ -2,15 +2,15 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a User Interface Component quality to create the first slice of the DataSet Component.
 $>*/
 /*<#*/
-import { createMethod, nullReducer, strategySuccess } from 'stratimux';
+import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
 import {
-  createQualitySetComponent,
+  createQualityCardComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthDataSetBegin, huirthDataSetBeginType, huirthDataSetBeginQuality] = createQualitySetComponent({
+export const [huirthDataSetBegin, huirthDataSetBeginType, huirthDataSetBeginQuality] = createQualityCardComponent({
   type: 'create userInterface for DataSetBegin',
   reducer: nullReducer,
   componentCreator: (act) =>

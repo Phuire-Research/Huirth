@@ -7,26 +7,26 @@ import {
   CounterState,
   UnifiedSubject,
   createMethodDebounceWithState,
-  createQualitySet,
+  createQualityCard,
   nullReducer,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirthGenerateCountingStrategy } from '../strategies/generateCountingStrategy.strategy';
 import { Subject } from 'rxjs';
 
-export const [
-  huirthTriggerRandomCountingStrategy,
-  huirthTriggerRandomCountingStrategyType,
-  huirthTriggerRandomCountingStrategyQuality
-] = createQualitySet({
-  type: 'Create huirth trigger random counting strategy',
-  reducer: nullReducer,
-  methodCreator: (concepts$?: Subject<Concepts>, semaphore?: number) =>
-    createMethodDebounceWithState<CounterState>(
-      (_, state) => {
-        const strategy = huirthGenerateCountingStrategy(state.count, semaphore as number);
-        return strategyBegin(strategy);
-      }, concepts$ as UnifiedSubject, semaphore as number, 3
-    )
-});
+export const [huirthTriggerRandomCountingStrategy, huirthTriggerRandomCountingStrategyType, huirthTriggerRandomCountingStrategyQuality] =
+  createQualityCard({
+    type: 'Create huirth trigger random counting strategy',
+    reducer: nullReducer,
+    methodCreator: (concepts$?: Subject<Concepts>, semaphore?: number) =>
+      createMethodDebounceWithState<CounterState>(
+        (_, state) => {
+          const strategy = huirthGenerateCountingStrategy(state.count, semaphore as number);
+          return strategyBegin(strategy);
+        },
+        concepts$ as UnifiedSubject,
+        semaphore as number,
+        3
+      ),
+  });
 /*#>*/

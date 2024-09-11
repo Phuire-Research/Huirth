@@ -8,11 +8,11 @@ import {
   createAction,
   createActionNode,
   createMethodDebounce,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStrategy,
   selectPayload,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { PhuirEProjects, ProjectStatus } from '../huirth.model';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
@@ -25,7 +25,7 @@ export const [
   huirthSendTriggerParseRepositoryStrategy,
   huirthSendTriggerParseRepositoryStrategyType,
   huirthSendTriggerParseRepositoryStrategyQuality,
-] = createQualitySetWithPayload<huirthSendTriggerParseRepositoryStrategyPayload>({
+] = createQualityCardWithPayload<huirthSendTriggerParseRepositoryStrategyPayload>({
   type: 'huirth send trigger parse repository to the server',
   reducer: (state: huirthState, action: Action): huirthState => {
     const { name } = selectPayload<huirthSendTriggerParseRepositoryStrategyPayload>(action);

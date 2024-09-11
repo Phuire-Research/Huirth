@@ -2,8 +2,8 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a strategy that will save a selection of data sets by the passed parameter of names, to the file system, and to their own directory.
 $>*/
 /*<#*/
-import { axiumLog, createActionNode, createStrategy } from 'stratimux';
-import { TrainingData  } from '../../huirth/huirth.model';
+import { axiumLog, createActionNode, createStrategy } from '@phuire/stratimux';
+import { TrainingData } from '../../huirth/huirth.model';
 import path from 'path';
 import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
 import { fileSystemCreateTargetDirectory } from '../../fileSystem/qualities/createTargetDirectory.quality';
@@ -13,7 +13,7 @@ import { huirthServerSendProjectStatusToSaved } from './client/huirthServerSendU
 
 export const huirthServerSaveDataSetSelectionStrategyTopic = 'Save a selection of data sets to their own directories';
 export const huirthServerSaveDataSetSelectionStrategy = (root: string, trainingData: TrainingData, names: string[]) => {
-  const dataPaths = names.map(name => path.join(root + '/data/sets/' + name));
+  const dataPaths = names.map((name) => path.join(root + '/data/sets/' + name));
   let first;
   let previous;
   for (const [i, p] of dataPaths.entries()) {
@@ -29,21 +29,24 @@ export const huirthServerSaveDataSetSelectionStrategy = (root: string, trainingD
       return possible;
     })();
     if (dataSet) {
-      const saveFormat  = convertNamedDataSetToSaveFormat(dataSet);
+      const saveFormat = convertNamedDataSetToSaveFormat(dataSet);
       const stepUpdateProjectStatusToSavedOnClient = createActionNode(huirthServerSendProjectStatusToSaved(dataSet.name));
-      const stepCreateFileWithContents = createActionNode(fileSystemCreateFileWithContentsIndex({
-        target: path.join(p + '/' + dataSet.name + '.json'),
-        content: JSON.stringify(saveFormat)
-      }), {
-        successNode: stepUpdateProjectStatusToSavedOnClient
-      });
-      const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory({path: p}), {
+      const stepCreateFileWithContents = createActionNode(
+        fileSystemCreateFileWithContentsIndex({
+          target: path.join(p + '/' + dataSet.name + '.json'),
+          content: JSON.stringify(saveFormat),
+        }),
+        {
+          successNode: stepUpdateProjectStatusToSavedOnClient,
+        }
+      );
+      const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory({ path: p }), {
         successNode: stepCreateFileWithContents,
-        agreement: 20000
+        agreement: 20000,
       });
-      const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory({path: p}), {
+      const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory({ path: p }), {
         successNode: stepCreateDirectory,
-        agreement: 20000
+        agreement: 20000,
       });
       if (first === undefined) {
         first = stepRemoveDirectory;
@@ -57,7 +60,7 @@ export const huirthServerSaveDataSetSelectionStrategy = (root: string, trainingD
   if (first === undefined) {
     first = createActionNode(axiumLog());
     first.payload = {
-      message: 'No data sets provided to save selection strategy'
+      message: 'No data sets provided to save selection strategy',
     };
   }
   return createStrategy({

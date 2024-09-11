@@ -7,5 +7,5 @@ import { NamedDataSet } from '../../../huirth/huirth.model';
 import { huirthUpdateParsedProjectDataSet } from '../../../huirth/qualities/updateParsedProjectDataSet.quality';
 
 export const huirthServerSendUpdateParsedProjectData = (dataSet: NamedDataSet) =>
-  (userInterfaceServerSendActionToClient(huirthUpdateParsedProjectDataSet({dataSet})));
+  userInterfaceServerSendActionToClient(huirthUpdateParsedProjectDataSet({ dataSet }));
 /*#>*/

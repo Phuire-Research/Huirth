@@ -7,41 +7,49 @@ import {
   createAction,
   createActionNode,
   createMethodWithState,
-  createQualitySet,
+  createQualityCard,
   createStrategy,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 
 export const [
   huirthSendTriggerSelectedTransformationStrategy,
   huirthSendTriggerSelectedTransformationStrategyType,
-  huirthSendTriggerSelectedTransformationStrategyQuality
-] = createQualitySet({
+  huirthSendTriggerSelectedTransformationStrategyQuality,
+] = createQualityCard({
   type: 'huirth send trigger selected transformation strategy to server',
   reducer: (state: huirthState): huirthState => {
     const dataSetSelection = state.dataSetSelection.map(() => false);
     return {
       ...state,
-      dataSetSelection
+      dataSetSelection,
     };
   },
   methodCreator: (concepts$, semaphore) =>
     createMethodWithState<huirthState>(
       (_, state) => {
         const serverActionType = 'huirthServer trigger passed transformation strategy from payload';
-        const {selectedTransformation} = state;
+        const { selectedTransformation } = state;
         const topic = 'Sent to Web Socket: Trigger : ' + serverActionType + ' ' + selectedTransformation;
-        return strategyBegin(createStrategy({
-          topic,
-          initialNode: createActionNode(
-            userInterfaceClientSendActionToServer(
-              createAction(serverActionType, {payload: {
-                selection: selectedTransformation
-              }})))
-        }));
-      }, concepts$ as UnifiedSubject, semaphore as number
-    )
+        return strategyBegin(
+          createStrategy({
+            topic,
+            initialNode: createActionNode(
+              userInterfaceClientSendActionToServer(
+                createAction(serverActionType, {
+                  payload: {
+                    selection: selectedTransformation,
+                  },
+                })
+              )
+            ),
+          })
+        );
+      },
+      concepts$ as UnifiedSubject,
+      semaphore as number
+    ),
 });
 /*#>*/

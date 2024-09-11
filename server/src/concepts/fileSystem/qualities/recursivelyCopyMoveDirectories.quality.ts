@@ -6,12 +6,12 @@ import {
   ActionStrategy,
   axiumConclude,
   createAsyncMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
   strategyRecurse,
-  strategySuccess
-} from 'stratimux';
+  strategySuccess,
+} from '@phuire/stratimux';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -23,26 +23,24 @@ async function copyDir(src: string, dest: string) {
     if (entry.name) {
       const srcPath = path.join(src, entry.name);
       const destPath = path.join(dest, entry.name);
-      entry.isDirectory() ?
-        await copyDir(srcPath, destPath) :
-        await fs.copyFile(srcPath, destPath);
+      entry.isDirectory() ? await copyDir(srcPath, destPath) : await fs.copyFile(srcPath, destPath);
     }
   }
 }
 
 export type RecursivelyCopyMoveTargetDirectoriesPayload = {
   directories: {
-    name: string,
-    target: string,
-    newLocation: string,
-  }[]
+    name: string;
+    target: string;
+    newLocation: string;
+  }[];
 };
 
 export const [
   fileSystemRecursivelyCopyMoveTargetDirectories,
   fileSystemRecursivelyCopyMoveTargetDirectoriesType,
-  fileSystemRecursivelyCopyMoveTargetDirectoriesQuality
-] = createQualitySetWithPayload<RecursivelyCopyMoveTargetDirectoriesPayload>({
+  fileSystemRecursivelyCopyMoveTargetDirectoriesQuality,
+] = createQualityCardWithPayload<RecursivelyCopyMoveTargetDirectoriesPayload>({
   type: 'File System recursively copy move target Directories',
   reducer: nullReducer,
   methodCreator: () =>
@@ -53,23 +51,18 @@ export const [
         if (directory) {
           copyDir(directory.target, directory.newLocation).then(() => {
             if (payload.directories.length > 0) {
-              controller.fire(
-                strategyRecurse(action.strategy as ActionStrategy, {payload})
-              );
+              controller.fire(strategyRecurse(action.strategy as ActionStrategy, { payload }));
             } else {
-              const newStrategy =
-                strategySuccess(action.strategy as ActionStrategy);
+              const newStrategy = strategySuccess(action.strategy as ActionStrategy);
               controller.fire(newStrategy);
             }
           });
         } else {
-          controller.fire(
-            strategySuccess(action.strategy as ActionStrategy)
-          );
+          controller.fire(strategySuccess(action.strategy as ActionStrategy));
         }
       } else {
         controller.fire(axiumConclude());
       }
-    })
+    }),
 });
 /*#>*/

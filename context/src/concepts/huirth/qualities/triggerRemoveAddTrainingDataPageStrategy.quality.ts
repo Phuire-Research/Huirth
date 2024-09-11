@@ -9,7 +9,7 @@ import {
   axiumKick,
   createAsyncMethodWithConcepts,
   createMethodWithConcepts,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStage,
   getAxiumState,
   nullReducer,
@@ -18,7 +18,7 @@ import {
   stageWaitForOpenThenIterate,
   strategyBegin,
   strategySequence,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirthGeneratedTrainingDataPageStrategy } from '../strategies/pages/generatedTrainingDataPage.strategy';
 import { Subject } from 'rxjs';
 import { huirthRemoveTrainingDataPageStrategy } from '../strategies/removeTrainingDataPage.strategy';
@@ -35,7 +35,7 @@ export const [
   huirthTriggerRemoveAddTrainingDataPage,
   huirthTriggerRemoveAddTrainingDataPageType,
   huirthTriggerRemoveAddTrainingDataPageQuality,
-] = createQualitySetWithPayload<TriggerRemoveAddTrainingDataPage>({
+] = createQualityCardWithPayload<TriggerRemoveAddTrainingDataPage>({
   type: 'Huirth trigger remove old page then add new generated training data page',
   reducer: nullReducer,
   methodCreator: (concepts$, semaphore) =>

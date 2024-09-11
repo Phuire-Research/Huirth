@@ -14,7 +14,7 @@ export enum huirthServerFailureConditions {
 // eslint-disable-next-line no-shadow
 export enum dataDirectories {
   gitRepo = 'repositories',
-  sets = 'sets'
+  sets = 'sets',
 }
 
 export const convertDPOToSaveFormatDPO = (trainingData: Active_DPO[]) => {
@@ -31,18 +31,18 @@ export const convertDPOToSaveFormatDPO = (trainingData: Active_DPO[]) => {
 };
 
 export type SavedFormat = {
-  [prompt: string]: ({
-    type: string
-    content: string
-  } & Record<string, string>)
-}
+  [prompt: string]: {
+    type: string;
+    content: string;
+  } & Record<string, string>;
+};
 
 export const convertNamedDataSetToSaveFormat = (named: NamedDataSet) => {
   const saveFormat: SavedFormat = {};
   named.dataSet.forEach((entry) => {
     saveFormat[entry.prompt] = {
       type: named.type,
-      content: entry.content
+      content: entry.content,
     };
     const keys = Object.keys(entry);
     for (const key of keys) {
@@ -59,13 +59,13 @@ export const convertSavedFormatToNamedDataSet = (saved: SavedFormat, name: strin
     name,
     type: DataSetTypes.general,
     dataSet: [],
-    index: 0
+    index: 0,
   };
   const keys = Object.keys(saved);
   for (const key of keys) {
     const final: BaseDataSet = {
       prompt: key,
-      content: ''
+      content: '',
     };
     const data = saved[key];
     const dataKeys = Object.keys(data);
@@ -109,5 +109,5 @@ export enum ParsingTokens {
   includeEnd = '%>*/',
   excludeBegin = '/*<!*/',
   excludeEnd = '/*!>*/',
-  stop = '/*<!!>*/'
+  stop = '/*<!!>*/',
 }

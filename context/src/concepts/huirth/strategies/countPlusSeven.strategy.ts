@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate an ActionStrategy that accepts the current count and conceptSemaphore to have a unified Counter Concept be incremented seven times.
 $>*/
 /*<#*/
-import { counterAdd, createActionNode, createStrategy } from 'stratimux';
+import { counterAdd, createActionNode, createStrategy } from '@phuire/stratimux';
 
 export const huirthPlusSevenStrategy = (count: number, conceptSemaphore: number) => {
   const stepSeventh = createActionNode(counterAdd({ conceptSemaphore }));

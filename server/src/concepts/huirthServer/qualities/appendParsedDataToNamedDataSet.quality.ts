@@ -7,45 +7,42 @@ import {
   ActionType,
   createMethod,
   createQuality,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   prepareActionWithPayloadCreator,
   selectPayload,
   strategyData_select,
   strategyData_unifyData,
   strategySuccess,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { ReadDirectoryField } from '../../fileSystem/qualities/readDir.quality';
 import { ParsedFileFromDataField } from './parseFileFromData.quality';
 import { huirthServerState } from '../huirthServer.concept';
 import { DataSetTypes } from '../../huirth/huirth.model';
 
 export type huirthServerAppendParsedDataToNamedDataSetPayload = {
-  name: string,
-  type: DataSetTypes
-}
+  name: string;
+  type: DataSetTypes;
+};
 
 export const [
   huirthServerAppendParsedDataToNamedDataSet,
   huirthServerAppendParsedDataToNamedDataSetType,
-  huirthServerAppendParsedDataToNamedDataSetQuality
-] = createQualitySetWithPayload<huirthServerAppendParsedDataToNamedDataSetPayload>({
+  huirthServerAppendParsedDataToNamedDataSetQuality,
+] = createQualityCardWithPayload<huirthServerAppendParsedDataToNamedDataSetPayload>({
   type: 'huirthServer append parsed data to named data set, then remove its path from fileAndDirectories field',
   reducer: (state: huirthServerState, action: Action): huirthServerState => {
-    const {name, type} = selectPayload<huirthServerAppendParsedDataToNamedDataSetPayload>(action);
+    const { name, type } = selectPayload<huirthServerAppendParsedDataToNamedDataSetPayload>(action);
     if (action.strategy) {
-      const {strategy} = action;
-      const {dataSetSelection} = state;
+      const { strategy } = action;
+      const { dataSetSelection } = state;
       const data = strategyData_select<ParsedFileFromDataField>(strategy);
       if (data) {
-        const {parsed} = data;
-        const {trainingData} = state;
+        const { parsed } = data;
+        const { trainingData } = state;
         let added = false;
         for (const set of trainingData) {
           if (set.name === name) {
-            set.dataSet = [
-              ...set.dataSet,
-              ...parsed
-            ];
+            set.dataSet = [...set.dataSet, ...parsed];
             added = true;
             console.log(set.dataSet.length, parsed.length);
             break;
@@ -56,14 +53,14 @@ export const [
             name,
             type,
             dataSet: parsed,
-            index: 0
+            index: 0,
           });
           dataSetSelection.push(false);
         }
         return {
           ...state,
           trainingData,
-          dataSetSelection
+          dataSetSelection,
         };
       }
     }
@@ -81,6 +78,6 @@ export const [
       } else {
         return action;
       }
-    })
+    }),
 });
 /*#>*/

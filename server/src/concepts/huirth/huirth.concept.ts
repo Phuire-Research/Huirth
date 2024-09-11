@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a Brand Concept called huirth that will act as a Sidekick Application for the Stratimux Framework.
 $>*/
 /*<#*/
-import { createConcept, Concept, unifyConcepts, createCounterConcept, PrincipleFunction, Quality } from 'stratimux';
+import { createConcept, Concept, unifyConcepts, createCounterConcept, PrincipleFunction, Quality } from '@phuire/stratimux';
 import { BrandState } from '../../model/userInterface';
 import { huirthErrorQuality } from './qualities/components/error/error.quality';
 import { huirthHeadQuality } from './qualities/components/head.quality';
@@ -32,7 +32,7 @@ import {
   generateDefaultTrainingData,
   huirthVerboseAddingStrategySelect,
   huirthVerboseAdditionAndSubtractionStrategySelect,
-  huirthVerboseSubtractionStrategySelect
+  huirthVerboseSubtractionStrategySelect,
 } from './huirth.model';
 import { huirthNewDataSetEntryQuality } from './qualities/newDataSetEntry.quality';
 import { huirthTriggerMinusCountingStrategyQuality } from './qualities/triggerMinusCounterStrategy.quality';
@@ -104,7 +104,7 @@ const createHuirthState = (): huirthState => {
     transformationStrategies: [
       huirthVerboseAddingStrategySelect,
       huirthVerboseSubtractionStrategySelect,
-      huirthVerboseAdditionAndSubtractionStrategySelect
+      huirthVerboseAdditionAndSubtractionStrategySelect,
     ],
     selectedTransformation: 'Some Strategy',
     possibleProject: '',
@@ -119,15 +119,12 @@ const createHuirthState = (): huirthState => {
     trainingDataPages: [],
     trainingDataCounter: -1,
     activeDPO: [generateDPOTrainingData()],
-    pageStrategies: [huirthIndexPageStrategy, huirthDataManagerPageStrategy, huirthErrorPageStrategy]
+    pageStrategies: [huirthIndexPageStrategy, huirthDataManagerPageStrategy, huirthErrorPageStrategy],
   };
 };
 
-export const createHuirthConcept = (): Concept =>  {
-  const principles: PrincipleFunction[] = [
-    huirthDialogPrinciple,
-    huirthTrainingDataPagePrinciple
-  ];
+export const createHuirthConcept = (): Concept => {
+  const principles: PrincipleFunction[] = [huirthDialogPrinciple, huirthTrainingDataPagePrinciple];
   const qualities: Quality[] = [
     huirthHeadQuality,
     huirthStyleQuality,
@@ -184,19 +181,9 @@ export const createHuirthConcept = (): Concept =>  {
     huirthSendAddTrainingPageStrategyQuality,
     huirthTriggerAddTrainingDataPageQuality,
     huirthSendRemoveAddTrainingPageStrategyQuality,
-    huirthTriggerRemoveAddTrainingDataPageQuality
+    huirthTriggerRemoveAddTrainingDataPageQuality,
   ];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
-  return unifyConcepts(
-    [
-      createCounterConcept()
-    ],
-    createConcept(
-      huirthName,
-      createHuirthState(),
-      qualities,
-      principles,
-      []
-    ));
+  return unifyConcepts([createCounterConcept()], createConcept(huirthName, createHuirthState(), qualities, principles, []));
 };
 /*#>*/

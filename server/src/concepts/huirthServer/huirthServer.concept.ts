@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a Brand Server Concept called huirth Server that will be responsible for all server side qualities and principle.
 $>*/
 /*<#*/
-import { createConcept, Concept, unifyConcepts, PrincipleFunction, Quality } from 'stratimux';
+import { createConcept, Concept, unifyConcepts, PrincipleFunction, Quality } from '@phuire/stratimux';
 import { huirthState } from '../huirth/huirth.concept';
 import { huirthServerTriggerSaveTrainingDataStrategyQuality } from './qualities/triggerSaveTrainingDataStrategy.quality';
 import { huirthServerPrinciple } from './huirthServer.principle';
@@ -36,11 +36,8 @@ export type huirthServerState = {
   //
 } & huirthState;
 
-export const createHuirthServerConcept = (): Concept =>  {
-  const principles: PrincipleFunction[] = [
-    huirthServerPrinciple,
-    huirthServerExitPrinciple
-  ];
+export const createHuirthServerConcept = (): Concept => {
+  const principles: PrincipleFunction[] = [huirthServerPrinciple, huirthServerExitPrinciple];
   const qualities: Quality[] = [
     huirthServerTriggerSaveTrainingDataStrategyQuality,
     huirthServerTriggerSaveDPOStrategyQuality,
@@ -65,17 +62,8 @@ export const createHuirthServerConcept = (): Concept =>  {
     huirthServerInnerSubtractFromQuality,
     huirthServerGenerateVerboseSubtractionStrategyQuality,
     huirthServerGenerateVerboseAdditionAndSubtractionStrategyQuality,
-    huirthServerGitPullRepositoryQuality
+    huirthServerGitPullRepositoryQuality,
   ];
-  return unifyConcepts(
-    [
-    ],
-    createConcept(
-      huirthServerName,
-      {},
-      qualities,
-      principles,
-      []
-    ));
+  return unifyConcepts([], createConcept(huirthServerName, {}, qualities, principles, []));
 };
 /*#>*/

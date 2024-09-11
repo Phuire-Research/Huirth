@@ -7,32 +7,28 @@ import {
   axiumKick,
   createActionNode,
   createMethodWithConcepts,
-  createQualitySet,
+  createQualityCard,
   createStrategy,
   selectUnifiedState,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { generateDefaultNamedDataSet } from '../huirth.model';
 import { Subject } from 'rxjs';
 import { huirthSendAddTrainingPageStrategy } from './sendTriggerAddTrainingPageStrategy.quality';
 
-export const [
-  huirthNewDataSet,
-  huirthNewDataSetType,
-  huirthNewDataSetQuality
-] = createQualitySet({
+export const [huirthNewDataSet, huirthNewDataSetType, huirthNewDataSetQuality] = createQualityCard({
   type: 'Huirth create a new default DataSet',
   reducer: (state: huirthState): huirthState => {
     const dataSetSelection: boolean[] = [];
     const trainingData = [...state.trainingData];
-    let {trainingDataCounter} = state;
+    let { trainingDataCounter } = state;
     if (trainingDataCounter === -1) {
       trainingDataCounter = trainingData.length;
     }
     console.log('CHECK DATA SET SELECTION', dataSetSelection);
     trainingData.push(generateDefaultNamedDataSet('newDataSet' + trainingDataCounter));
-    trainingData.forEach(_ => {
+    trainingData.forEach((_) => {
       dataSetSelection.push(false);
     });
     trainingDataCounter++;
@@ -40,25 +36,30 @@ export const [
       ...state,
       trainingData,
       dataSetSelection,
-      trainingDataCounter
+      trainingDataCounter,
     };
   },
-  methodCreator: (concepts$, semaphore) => createMethodWithConcepts((_, concepts) => {
-    let {trainingDataCounter} = selectUnifiedState(concepts, semaphore as number) as huirthState;
-    const {trainingData} = selectUnifiedState(concepts, semaphore as number) as huirthState;
-    if (trainingDataCounter === -1) {
-      trainingDataCounter = trainingData.length;
-    }
-    const name = 'newDataSet' + trainingDataCounter;
-    const send = createActionNode(huirthSendAddTrainingPageStrategy({name}));
-    const kick = createActionNode(axiumKick(), {
-      successNode: send
-    });
-    const sendAddTrainingDataPage = createStrategy({
-      topic: 'Send to server to trigger add training data page strategy',
-      initialNode: kick
-    });
-    return strategyBegin(sendAddTrainingDataPage);
-  }, concepts$ as Subject<Concepts>, semaphore as number)
+  methodCreator: (concepts$, semaphore) =>
+    createMethodWithConcepts(
+      (_, concepts) => {
+        let { trainingDataCounter } = selectUnifiedState(concepts, semaphore as number) as huirthState;
+        const { trainingData } = selectUnifiedState(concepts, semaphore as number) as huirthState;
+        if (trainingDataCounter === -1) {
+          trainingDataCounter = trainingData.length;
+        }
+        const name = 'newDataSet' + trainingDataCounter;
+        const send = createActionNode(huirthSendAddTrainingPageStrategy({ name }));
+        const kick = createActionNode(axiumKick(), {
+          successNode: send,
+        });
+        const sendAddTrainingDataPage = createStrategy({
+          topic: 'Send to server to trigger add training data page strategy',
+          initialNode: kick,
+        });
+        return strategyBegin(sendAddTrainingDataPage);
+      },
+      concepts$ as Subject<Concepts>,
+      semaphore as number
+    ),
 });
 /*#>*/

@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a HTML Concept.
 $>*/
 /*<#*/
-import { createConcept, Concept } from 'stratimux';
+import { createConcept, Concept } from '@phuire/stratimux';
 import { htmlHelloWorldQuality } from './qualities/helloWorld.quality';
 import { htmlBeginQuality } from './qualities/htmlBegin.quality';
 import { htmlEndQuality } from './qualities/htmlEnd';

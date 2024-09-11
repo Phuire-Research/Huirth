@@ -17,7 +17,7 @@ import {
   selectUnifiedState,
   strategyBegin,
   strategySequence,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { userInterface_isClient } from '../../model/userInterface';
 import { UserInterfaceState } from '../userInterface/userInterface.concept';
 import { huirthState } from './huirth.concept';

@@ -7,7 +7,7 @@ import { webSocketClientAppendToActionQueQuality } from './qualities/appendActio
 import { webSocketClientForceSyncQuality } from './qualities/forceSync.quality';
 import { webSocketClientSetServerSemaphoreQuality } from './qualities/setServerSemaphore.quality';
 import { webSocketClientPrinciple } from './webSocketClient.principle';
-import { Action, createConcept } from 'stratimux';
+import { Action, createConcept } from '@phuire/stratimux';
 
 export type WebSocketClientState = {
   actionQue: Action[];

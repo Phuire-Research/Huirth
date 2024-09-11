@@ -2,10 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that set the possibleProject based on an input value and determine if it is valid url that includes .git.
 $>*/
 /*<#*/
-import {
-  Action,
-  createQualitySet,
-} from 'stratimux';
+import { Action, createQualityCard } from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { userInterface_selectInputTarget } from '../../../model/userInterface';
 
@@ -16,14 +13,10 @@ const getName = (url: string): string | undefined => {
   return finalSplit.length > 1 ? finalSplit[0] : undefined;
 };
 
-export const [
-  huirthSetPossibleProject,
-  huirthSetPossibleProjectType,
-  huirthSetPossibleProjectQuality
-] = createQualitySet({
+export const [huirthSetPossibleProject, huirthSetPossibleProjectType, huirthSetPossibleProjectQuality] = createQualityCard({
   type: 'huirth set the possible project and check if it is valid',
   reducer: (state: huirthState, action: Action) => {
-    const {trainingData} = state;
+    const { trainingData } = state;
     const target = userInterface_selectInputTarget(action);
     const value = target.value;
     // eslint-disable-next-line no-useless-escape
@@ -43,14 +36,14 @@ export const [
         return {
           ...state,
           possibleProject: value,
-          possibleProjectValid: true
+          possibleProjectValid: true,
         };
       }
     }
     return {
       ...state,
       possibleProject: value,
-      possibleProjectValid: false
+      possibleProjectValid: false,
     };
   },
 });

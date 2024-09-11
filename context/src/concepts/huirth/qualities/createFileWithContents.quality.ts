@@ -6,11 +6,11 @@ import {
   ActionStrategy,
   axiumConclude,
   createAsyncMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
   strategySuccess,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import fs from 'fs/promises';
 import path from 'path';
 import { PrimedConceptAndProperties } from '../../../model/userInterface';
@@ -26,7 +26,7 @@ export const [
   userInterfaceServerCreateContextIndex,
   userInterfaceServerCreateContextIndexType,
   userInterfaceServerCreateContextIndexQuality,
-] = createQualitySetWithPayload<CreateContextIndexPayload>({
+] = createQualityCardWithPayload<CreateContextIndexPayload>({
   type: 'User Interface Server create Context index.ts',
   reducer: nullReducer,
   methodCreator: () =>

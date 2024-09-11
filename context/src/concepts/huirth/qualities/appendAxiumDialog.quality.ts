@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and a Concept huirth, generate a q
 $>*/
 /*<#*/
 /* eslint-disable max-len */
-import { Action, createQualitySetWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
+import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 
 export type huirthAppendAxiumDialogTypePayload = {
@@ -11,7 +11,7 @@ export type huirthAppendAxiumDialogTypePayload = {
 };
 
 export const [huirthAppendAxiumDialog, huirthAppendAxiumDialogType, huirthAppendAxiumDialogQuality] =
-  createQualitySetWithPayload<huirthAppendAxiumDialogTypePayload>({
+  createQualityCardWithPayload<huirthAppendAxiumDialogTypePayload>({
     type: 'huirth append Axium Dialog',
     reducer: (state: huirthState, action: Action): huirthState => {
       const dialog = selectPayload<huirthAppendAxiumDialogTypePayload>(action).dialog;

@@ -6,12 +6,12 @@ import {
   createAction,
   createActionNode,
   createMethodDebounce,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStrategy,
   nullReducer,
   selectPayload,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 import { huirthClearDataSetSelection } from './clearDataSetSelection.quality';
@@ -24,7 +24,7 @@ export const [
   huirthSendTriggerDeleteDataSetsStrategy,
   huirthSendTriggerDeleteDataSetsStrategyType,
   huirthSendTriggerDeleteDataSetsStrategyQuality,
-] = createQualitySetWithPayload<huirthSendTriggerDeleteDataSetsStrategyPayload>({
+] = createQualityCardWithPayload<huirthSendTriggerDeleteDataSetsStrategyPayload>({
   type: 'huirth send trigger delete data sets strategy',
   reducer: nullReducer,
   methodCreator: () =>

@@ -7,15 +7,15 @@ import {
   CounterState,
   UnifiedSubject,
   createMethodDebounceWithState,
-  createQualitySet,
+  createQualityCard,
   nullReducer,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirthMinusSevenStrategy } from '../strategies/countMinusSeven.strategy';
 import { Subject } from 'rxjs';
 
 export const [huirthTriggerMinusCountingStrategy, huirthTriggerMinusCountingStrategyType, huirthTriggerMinusCountingStrategyQuality] =
-  createQualitySet({
+  createQualityCard({
     type: 'Create huirth trigger minus seven counting strategy',
     reducer: nullReducer,
     methodCreator: (concepts$?: Subject<Concepts>, semaphore?: number) =>

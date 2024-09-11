@@ -2,11 +2,11 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a User Interface Component quality to create the footer component.
 $>*/
 /*<#*/
-import { createMethod, nullReducer, strategySuccess } from 'stratimux';
+import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
-import { createQualitySetComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../model/userInterface';
+import { createQualityCardComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../model/userInterface';
 
-export const [huirthFooter, huirthFooterType, huirthFooterQuality] = createQualitySetComponent({
+export const [huirthFooter, huirthFooterType, huirthFooterQuality] = createQualityCardComponent({
   type: 'Create huirth Footer',
   reducer: nullReducer,
   componentCreator: (act) =>

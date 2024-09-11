@@ -3,7 +3,21 @@ For the graph programming framework Stratimux and the brand concept huirth, gene
 $>*/
 /*<#*/
 import { Subscriber } from 'rxjs';
-import { Action, ActionStrategy, Concepts, KeyedSelector, PrincipleFunction, UnifiedSubject, axiumKick, axiumRegisterStagePlanner, createStage, getUnifiedName, selectUnifiedState, strategyBegin, strategySequence } from 'stratimux';
+import {
+  Action,
+  ActionStrategy,
+  Concepts,
+  KeyedSelector,
+  PrincipleFunction,
+  UnifiedSubject,
+  axiumKick,
+  axiumRegisterStagePlanner,
+  createStage,
+  getUnifiedName,
+  selectUnifiedState,
+  strategyBegin,
+  strategySequence,
+} from '@phuire/stratimux';
 import { userInterface_isClient } from '../../model/userInterface';
 import { UserInterfaceState } from '../userInterface/userInterface.concept';
 import { huirthState } from './huirth.concept';
@@ -82,40 +96,50 @@ import { huirthAddTrainingDataPageStrategy, huirthAddTrainingDataPageStrategyTop
 //   ];
 // };
 
-export const huirthTrainingDataPagePrinciple: PrincipleFunction =
-  (_: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
-    const cachedTrainingDataNames: string[] = [];
-    const beat = 33;
-    const isClient = userInterface_isClient();
-    const plan = concepts$.plan('Observe Training Data and modify Pages', [
-      createStage((concepts, dispatch) => {
+export const huirthTrainingDataPagePrinciple: PrincipleFunction = (
+  _: Subscriber<Action>,
+  cpts: Concepts,
+  concepts$: UnifiedSubject,
+  semaphore: number
+) => {
+  const cachedTrainingDataNames: string[] = [];
+  const beat = 33;
+  const isClient = userInterface_isClient();
+  const plan = concepts$.plan('Observe Training Data and modify Pages', [
+    createStage(
+      (concepts, dispatch) => {
         const state = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
         const conceptName = getUnifiedName(concepts, semaphore);
         if (conceptName) {
           if (state && (state.pageStrategies.length === state.pages.length || isClient)) {
-            dispatch(axiumRegisterStagePlanner({conceptName, stagePlanner: plan}), {
+            dispatch(axiumRegisterStagePlanner({ conceptName, stagePlanner: plan }), {
               iterateStage: true,
             });
           }
         } else {
           plan.conclude();
         }
-      }, { selectors: [
-        huirth_createPagesSelector(cpts, semaphore) as KeyedSelector,
-        huirth_createPageStrategiesSelector(cpts, semaphore) as KeyedSelector,
-      ]}),
-      createStage((concepts, dispatch) => {
+      },
+      {
+        selectors: [
+          huirth_createPagesSelector(cpts, semaphore) as KeyedSelector,
+          huirth_createPageStrategiesSelector(cpts, semaphore) as KeyedSelector,
+        ],
+      }
+    ),
+    createStage(
+      (concepts, dispatch) => {
         const state = selectUnifiedState<huirthState & UserInterfaceState>(concepts, semaphore);
         const trainingData = state?.trainingData;
         if (state && trainingData && state?.trainingDataInitialized) {
           const add: {
-            i: number,
-            name: string
+            i: number;
+            name: string;
           }[] = [];
           trainingData.forEach((data, i) => {
             add.push({
               i,
-              name: data.name
+              name: data.name,
             });
             return data.name;
           });
@@ -127,11 +151,13 @@ export const huirthTrainingDataPagePrinciple: PrincipleFunction =
               for (let i = 0; i < add.length; i++) {
                 // eslint-disable-next-line max-depth
                 if (currentPage === add[i].name) {
-                  list.push(huirthAddTrainingDataPageStrategy(
-                    add[i].name,
-                    huirthGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name),
-                    concepts,
-                  ));
+                  list.push(
+                    huirthAddTrainingDataPageStrategy(
+                      add[i].name,
+                      huirthGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name),
+                      concepts
+                    )
+                  );
                   found = true;
                 }
                 if (currentPage === 'dataManager' && trainingData[add[i].i].type === DataSetTypes.project) {
@@ -140,23 +166,25 @@ export const huirthTrainingDataPagePrinciple: PrincipleFunction =
               }
               if (!found) {
                 dispatch(axiumKick(), {
-                  iterateStage: true
+                  iterateStage: true,
                 });
               }
               const strategies = strategySequence(list);
               if (strategies) {
                 dispatch(strategyBegin(strategies), {
-                  iterateStage: true
+                  iterateStage: true,
                 });
                 // eslint-disable-next-line max-depth
               }
             } else {
               for (let i = 0; i < add.length; i++) {
-                list.push(userInterfaceAddNewPageStrategy(
-                  add[i].name,
-                  huirthGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name),
-                  concepts,
-                ));
+                list.push(
+                  userInterfaceAddNewPageStrategy(
+                    add[i].name,
+                    huirthGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name),
+                    concepts
+                  )
+                );
                 cachedTrainingDataNames.push(add[i].name);
               }
               const strategies = strategySequence(list);
@@ -164,83 +192,85 @@ export const huirthTrainingDataPagePrinciple: PrincipleFunction =
                 console.log('strategies: ', strategies);
                 const action = strategyBegin(strategies);
                 dispatch(action, {
-                  iterateStage: true
+                  iterateStage: true,
                 });
               }
             }
           }
         }
         if (state === undefined) {
-          console.log('THIS PLAN SHOULDN\'T CONCLUDE YET');
+          console.log("THIS PLAN SHOULDN'T CONCLUDE YET");
           plan.conclude();
         }
-      }, {beat}),
-      createStage(() => {
-        plan.conclude();
-      }),
-      // createStage((concepts, dispatch, changes) => {
-      //   const state = selectUnifiedState<huirthState & UserInterfaceState>(concepts, semaphore);
-      //   const trainingData = state?.trainingData;
-      //   // const changed = namesChanged(trainingData as TrainingData, cachedTrainingDataNames);
-      //   if (state && trainingData && changes.length > 0) {
-      //     const [
-      //       add,
-      //       remove
-      //     ] = determineAddRemove(trainingData, cachedTrainingDataNames);
-      //     if (add.length > 0 || (remove.length > 0)) {
-      //       let list: ActionStrategy[] = [];
-      //       if (remove.length > 0) {
-      //         cachedTrainingDataNames = cachedTrainingDataNames.filter((n) => {
-      //           for (const r of remove) {
-      //             if (r.name.toLocaleLowerCase() === n.toLocaleLowerCase()) {
-      //               const removeStr = huirthRemoveTrainingDataPageStrategy(n);
-      //               removeStr.topic += 'Removing : ' + n;
-      //               list = [removeStr, ...list];
-      //               return false;
-      //             }
-      //           }
-      //           return true;
-      //         });
-      //       }
-      //       if (add.length > 0) {
-      //         for (let i = 0; i < add.length; i++) {
-      //           const name = trainingData[add[i].i].name;
-      //           cachedTrainingDataNames.push(name);
-      //           list.push(userInterfaceAddNewPageStrategy(
-      //             name,
-      //             huirthGeneratedTrainingDataPageStrategy(name),
-      //             concepts,
-      //           ));
-      //         }
-      //       }
-      //       if (list.length > 0) {
-      //         const strategies = strategySequence(list) as ActionStrategy;
-      //         dispatch(strategyBegin(strategies), {
-      //           // iterateStage: true
-      //           throttle: 0,
-      //         });
-      //       }
-      //     }
-      //   } else if (state === undefined) {
-      //     plan.conclude();
-      //   }
-      // }, {beat, selectors: [huirth_createTrainingDataSelector(cpts, semaphore) as KeyedSelector]}),
-      // createStage((concepts, dispatch) => {
-      //   const state = selectUnifiedState<huirthState & UserInterfaceState>(concepts, semaphore);
-      //   if (state) {
-      //     const pageNames = state.pages.map(p => p.title);
-      //     console.log('pageNames: ', pageNames, cachedTrainingDataNames);
-      //     cachedTrainingDataNames = cachedTrainingDataNames.filter(name => pageNames.includes(name));
-      //     dispatch(axiumKick(), {
-      //       setStage: 2
-      //     });
-      //   } else {
-      //     plan.conclude();
-      //   }
-      // }, {beat}),
-      createStage(() => {
-        plan.conclude();
-      })
-    ]);
-  };
+      },
+      { beat }
+    ),
+    createStage(() => {
+      plan.conclude();
+    }),
+    // createStage((concepts, dispatch, changes) => {
+    //   const state = selectUnifiedState<huirthState & UserInterfaceState>(concepts, semaphore);
+    //   const trainingData = state?.trainingData;
+    //   // const changed = namesChanged(trainingData as TrainingData, cachedTrainingDataNames);
+    //   if (state && trainingData && changes.length > 0) {
+    //     const [
+    //       add,
+    //       remove
+    //     ] = determineAddRemove(trainingData, cachedTrainingDataNames);
+    //     if (add.length > 0 || (remove.length > 0)) {
+    //       let list: ActionStrategy[] = [];
+    //       if (remove.length > 0) {
+    //         cachedTrainingDataNames = cachedTrainingDataNames.filter((n) => {
+    //           for (const r of remove) {
+    //             if (r.name.toLocaleLowerCase() === n.toLocaleLowerCase()) {
+    //               const removeStr = huirthRemoveTrainingDataPageStrategy(n);
+    //               removeStr.topic += 'Removing : ' + n;
+    //               list = [removeStr, ...list];
+    //               return false;
+    //             }
+    //           }
+    //           return true;
+    //         });
+    //       }
+    //       if (add.length > 0) {
+    //         for (let i = 0; i < add.length; i++) {
+    //           const name = trainingData[add[i].i].name;
+    //           cachedTrainingDataNames.push(name);
+    //           list.push(userInterfaceAddNewPageStrategy(
+    //             name,
+    //             huirthGeneratedTrainingDataPageStrategy(name),
+    //             concepts,
+    //           ));
+    //         }
+    //       }
+    //       if (list.length > 0) {
+    //         const strategies = strategySequence(list) as ActionStrategy;
+    //         dispatch(strategyBegin(strategies), {
+    //           // iterateStage: true
+    //           throttle: 0,
+    //         });
+    //       }
+    //     }
+    //   } else if (state === undefined) {
+    //     plan.conclude();
+    //   }
+    // }, {beat, selectors: [huirth_createTrainingDataSelector(cpts, semaphore) as KeyedSelector]}),
+    // createStage((concepts, dispatch) => {
+    //   const state = selectUnifiedState<huirthState & UserInterfaceState>(concepts, semaphore);
+    //   if (state) {
+    //     const pageNames = state.pages.map(p => p.title);
+    //     console.log('pageNames: ', pageNames, cachedTrainingDataNames);
+    //     cachedTrainingDataNames = cachedTrainingDataNames.filter(name => pageNames.includes(name));
+    //     dispatch(axiumKick(), {
+    //       setStage: 2
+    //     });
+    //   } else {
+    //     plan.conclude();
+    //   }
+    // }, {beat}),
+    createStage(() => {
+      plan.conclude();
+    }),
+  ]);
+};
 /*#>*/

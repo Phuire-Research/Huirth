@@ -3,31 +3,30 @@ For the graph programming framework Stratimux and a Concept huirth, generate a U
 $>*/
 /*<#*/
 /* eslint-disable max-len */
+import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
+
 import {
-  createMethod,
-  nullReducer,
-  strategySuccess
-} from 'stratimux';
+  createQualityCardComponent,
+  selectComponentPayload,
+  userInterface_appendCompositionToPage,
+} from '../../../../../model/userInterface';
 
-import { createQualitySetComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
-
-export const [
-  huirthIndexHero,
-  huirthIndexHeroType,
-  huirthIndexHeroQuality
-] = createQualitySetComponent({
+export const [huirthIndexHero, huirthIndexHeroType, huirthIndexHeroQuality] = createQualityCardComponent({
   type: 'create userInterface for IndexHero',
   reducer: nullReducer,
-  componentCreator: (act) => createMethod(action => {
-    const payload = selectComponentPayload(action);
-    const id = '#heroId';
-    if (action.strategy) {
-      return strategySuccess(action.strategy, userInterface_appendCompositionToPage(action.strategy, {
-        id,
-        boundSelectors: [],
-        universal: false,
-        action: act(payload),
-        html: /*html*/`
+  componentCreator: (act) =>
+    createMethod((action) => {
+      const payload = selectComponentPayload(action);
+      const id = '#heroId';
+      if (action.strategy) {
+        return strategySuccess(
+          action.strategy,
+          userInterface_appendCompositionToPage(action.strategy, {
+            id,
+            boundSelectors: [],
+            universal: false,
+            action: act(payload),
+            html: /*html*/ `
 <section id='${id}' class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">
   <div class="flex-1 flex items-center">
     <div class="flex flex-col items-center text-center mx-auto">
@@ -35,10 +34,11 @@ export const [
     </div>
   </div>
 </section>
-        `
-      }));
-    }
-    return action;
-  })
+        `,
+          })
+        );
+      }
+      return action;
+    }),
 });
 /*#>*/

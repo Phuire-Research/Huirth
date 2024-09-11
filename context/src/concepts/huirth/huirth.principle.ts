@@ -12,7 +12,7 @@ import {
   createStage,
   getAxiumState,
   getUnifiedName,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import _ws from 'express-ws';
 import { huirthAppendAxiumDialog } from './qualities/appendAxiumDialog.quality';
 import { userInterfaceClientName } from '../userInterfaceClient/userInterfaceClient.concept';

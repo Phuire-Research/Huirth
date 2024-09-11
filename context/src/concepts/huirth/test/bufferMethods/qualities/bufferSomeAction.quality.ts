@@ -8,19 +8,19 @@ import {
   Action,
   createActionNode,
   createMethodBuffer,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStrategy,
   defaultReducer,
   selectPayload,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 
 type ExperimentBufferNextActionPayload = {
   action: Action;
 };
 
 export const [experimentBufferNextAction, experimentBufferNextActionType, experimentBufferNextActionQuality] =
-  createQualitySetWithPayload<ExperimentBufferNextActionPayload>({
+  createQualityCardWithPayload<ExperimentBufferNextActionPayload>({
     type: 'Experiment will buffer incoming actions for a set duration',
     reducer: defaultReducer,
     methodCreator: () =>

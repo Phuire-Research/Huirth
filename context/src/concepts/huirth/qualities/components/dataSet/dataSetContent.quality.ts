@@ -12,12 +12,12 @@ import {
   strategyData_appendFailure,
   strategyFailed,
   strategySuccess,
-} from 'stratimux';
+} from '@phuire/stratimux';
 
 import {
   createBinding,
   createBoundSelectors,
-  createQualitySetComponent,
+  createQualityCardComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
@@ -29,7 +29,7 @@ import { huirth_createDataSetSelector, huirth_createTrainingDataSelector } from 
 import { huirthUpdateDataSetContents } from '../../updateDataSetContents.quality';
 import { huirthUpdateDataSetPrompt } from '../../updateDataSetPrompt.quality';
 
-export const [huirthDataSetContent, huirthDataSetContentType, huirthDataSetContentQuality] = createQualitySetComponent({
+export const [huirthDataSetContent, huirthDataSetContentType, huirthDataSetContentQuality] = createQualityCardComponent({
   type: 'create userInterface for DataSetContent',
   reducer: nullReducer,
   componentCreator: (act, concepts$, _semaphore) =>

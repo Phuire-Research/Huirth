@@ -2,15 +2,15 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a User Interface Component quality that will create the Data Manager's initial slice and append to the page composition data field.
 $>*/
 /*<#*/
-import { createMethod, nullReducer, strategySuccess } from 'stratimux';
+import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
 import {
-  createQualitySetComponent,
+  createQualityCardComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthDataManagerBegin, huirthDataManagerBeginType, huirthDataManagerBeginQuality] = createQualitySetComponent({
+export const [huirthDataManagerBegin, huirthDataManagerBeginType, huirthDataManagerBeginQuality] = createQualityCardComponent({
   type: 'create userInterface for DataManagerBegin',
   reducer: nullReducer,
   componentCreator: (act) =>

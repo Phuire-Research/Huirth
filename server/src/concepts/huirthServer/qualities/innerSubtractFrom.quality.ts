@@ -4,51 +4,58 @@ $>*/
 /*<#*/
 import {
   createMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
   strategyData_select,
   strategyData_unifyData,
   strategySuccess,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirth_convertNumberToStringVerbose } from '../verboseNumber.model';
 
 export type huirthServerInnerSubtractFromPayload = {
-  subtractFrom: number
+  subtractFrom: number;
 };
 export type huirthServerInnerAddField = {
-  sum: number
-}
+  sum: number;
+};
 
-export const [
-  huirthServerInnerSubtractFrom,
-  huirthServerInnerSubtractFromType,
-  huirthServerInnerSubtractFromQuality
-] = createQualitySetWithPayload<huirthServerInnerSubtractFromPayload>({
-  type: 'subtract',
-  reducer: nullReducer,
-  methodCreator: () =>
-    createMethod((action) => {
-      const {subtractFrom} = selectPayload<huirthServerInnerSubtractFromPayload>(action);
-      if (action.strategy) {
-        const strategy = action.strategy;
-        const data = strategyData_select<huirthServerInnerAddField>(strategy);
-        if (data) {
-          const {sum} = data;
-          const final = sum - subtractFrom;
-          let verboseSum = huirth_convertNumberToStringVerbose(sum);
-          verboseSum = verboseSum[0].toUpperCase() + verboseSum.substring(1);
-          strategy.currentNode.actionType = verboseSum.trim()  + ' ' + action.type + ' ' + huirth_convertNumberToStringVerbose(subtractFrom).trim() + ', equals ' + huirth_convertNumberToStringVerbose(final).trim();
-          strategy.currentNode.successNotes = {
-            preposition: ''
-          };
-          console.log(verboseSum, ' subtract ', subtractFrom, ' equals ', final);
-          return strategySuccess(strategy, strategyData_unifyData(strategy, {
-            sum: final
-          }));
+export const [huirthServerInnerSubtractFrom, huirthServerInnerSubtractFromType, huirthServerInnerSubtractFromQuality] =
+  createQualityCardWithPayload<huirthServerInnerSubtractFromPayload>({
+    type: 'subtract',
+    reducer: nullReducer,
+    methodCreator: () =>
+      createMethod((action) => {
+        const { subtractFrom } = selectPayload<huirthServerInnerSubtractFromPayload>(action);
+        if (action.strategy) {
+          const strategy = action.strategy;
+          const data = strategyData_select<huirthServerInnerAddField>(strategy);
+          if (data) {
+            const { sum } = data;
+            const final = sum - subtractFrom;
+            let verboseSum = huirth_convertNumberToStringVerbose(sum);
+            verboseSum = verboseSum[0].toUpperCase() + verboseSum.substring(1);
+            strategy.currentNode.actionType =
+              verboseSum.trim() +
+              ' ' +
+              action.type +
+              ' ' +
+              huirth_convertNumberToStringVerbose(subtractFrom).trim() +
+              ', equals ' +
+              huirth_convertNumberToStringVerbose(final).trim();
+            strategy.currentNode.successNotes = {
+              preposition: '',
+            };
+            console.log(verboseSum, ' subtract ', subtractFrom, ' equals ', final);
+            return strategySuccess(
+              strategy,
+              strategyData_unifyData(strategy, {
+                sum: final,
+              })
+            );
+          }
         }
-      }
-      return action;
-    })
-});
+        return action;
+      }),
+  });
 /*#>*/

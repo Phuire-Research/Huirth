@@ -2,20 +2,15 @@
 For the graph programming framework Stratimux and File System Concept, generate a quality that will set the concept's concept directory map property from the supplied ActionStrategy data field.
 $>*/
 /*<#*/
-import {
-  Action,
-  createQualitySet,
-  defaultMethodCreator,
-  strategyData_select,
-} from 'stratimux';
+import { Action, createQualityCard, defaultMethodCreator, strategyData_select } from '@phuire/stratimux';
 import { FileSystemState } from '../fileSystem.concept';
 import { GetDirectoriesDataField } from './getDirectories.quality';
 
 export const [
   fileSystemServerSetConceptDirectoriesFromData,
   fileSystemServerSetConceptDirectoriesFromDataType,
-  fileSystemServerSetConceptDirectoriesFromDataQuality
-] = createQualitySet({
+  fileSystemServerSetConceptDirectoriesFromDataQuality,
+] = createQualityCard({
   type: 'File System set Concept Directories from Strategy Data',
   reducer: (state: FileSystemState, action: Action): FileSystemState => {
     if (action.strategy && action.strategy.data) {
@@ -23,7 +18,7 @@ export const [
       if (data.directories) {
         return {
           ...state,
-          conceptDirectoryMap: data.directories
+          conceptDirectoryMap: data.directories,
         };
       }
     }
@@ -31,6 +26,6 @@ export const [
       ...state,
     };
   },
-  methodCreator: defaultMethodCreator
+  methodCreator: defaultMethodCreator,
 });
 /*#>*/

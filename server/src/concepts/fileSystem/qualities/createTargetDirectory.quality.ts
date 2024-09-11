@@ -6,37 +6,33 @@ import {
   ActionStrategy,
   axiumConclude,
   createAsyncMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
-  strategySuccess
-} from 'stratimux';
+  strategySuccess,
+} from '@phuire/stratimux';
 import fs from 'fs';
 
 export type CreateTargetDirectoryPayload = {
-  path: string
+  path: string;
 };
 
-export const [
-  fileSystemCreateTargetDirectory,
-  fileSystemCreateTargetDirectoryType,
-  fileSystemCreateTargetDirectoryQuality
-] = createQualitySetWithPayload<CreateTargetDirectoryPayload>({
-  type: 'File System create target Directory',
-  reducer: nullReducer,
-  methodCreator: () =>
-    createAsyncMethod((controller, action) => {
-      const path = selectPayload<CreateTargetDirectoryPayload>(action).path;
-      if (action.strategy) {
-        if (!fs.existsSync(path)) {
-          fs.mkdirSync(path);
+export const [fileSystemCreateTargetDirectory, fileSystemCreateTargetDirectoryType, fileSystemCreateTargetDirectoryQuality] =
+  createQualityCardWithPayload<CreateTargetDirectoryPayload>({
+    type: 'File System create target Directory',
+    reducer: nullReducer,
+    methodCreator: () =>
+      createAsyncMethod((controller, action) => {
+        const path = selectPayload<CreateTargetDirectoryPayload>(action).path;
+        if (action.strategy) {
+          if (!fs.existsSync(path)) {
+            fs.mkdirSync(path);
+          }
+          const newStrategy = strategySuccess(action.strategy as ActionStrategy);
+          controller.fire(newStrategy);
+        } else {
+          controller.fire(axiumConclude());
         }
-        const newStrategy =
-          strategySuccess(action.strategy as ActionStrategy);
-        controller.fire(newStrategy);
-      } else {
-        controller.fire(axiumConclude());
-      }
-    })
-});
+      }),
+  });
 /*#>*/

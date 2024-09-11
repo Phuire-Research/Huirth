@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a Document Object Model Concept
 $>*/
 /*<#*/
-import { createConcept, Concept } from 'stratimux';
+import { createConcept, Concept } from '@phuire/stratimux';
 import { documentObjectModelPrinciple } from './documentObjectModel.principle';
 import { UserInterfacePageBindings } from '../../model/userInterface';
 import { documentObjectModelBindQuality } from './qualities/bind.quality';
@@ -12,29 +12,23 @@ import { documentObjectModelClearBindingQueQuality } from './qualities/clearBind
 export const documentObjectModelName = 'documentObjectModel';
 
 export type DocumentObjectModelState = {
-  bindingQue: UserInterfacePageBindings,
-  bound: boolean
+  bindingQue: UserInterfacePageBindings;
+  bound: boolean;
 };
 
-const createDocumentObjectModelState = (bindingQue?: UserInterfacePageBindings) : DocumentObjectModelState => {
+const createDocumentObjectModelState = (bindingQue?: UserInterfacePageBindings): DocumentObjectModelState => {
   return {
     bindingQue: bindingQue ? bindingQue : {},
-    bound: false
+    bound: false,
   };
 };
 
-export const createDocumentObjectModelConcept = (bindingQue?: UserInterfacePageBindings): Concept =>  {
+export const createDocumentObjectModelConcept = (bindingQue?: UserInterfacePageBindings): Concept => {
   return createConcept(
     documentObjectModelName,
     createDocumentObjectModelState(bindingQue),
-    [
-      documentObjectModelBindQuality,
-      documentObjectModelBindPayloadQuality,
-      documentObjectModelClearBindingQueQuality
-    ],
-    [
-      documentObjectModelPrinciple
-    ]
+    [documentObjectModelBindQuality, documentObjectModelBindPayloadQuality, documentObjectModelClearBindingQueQuality],
+    [documentObjectModelPrinciple]
   );
 };
 /*#>*/

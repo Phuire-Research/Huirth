@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a HTML Concept.
 $>*/
 /*<#*/
-import { createConcept, Concept } from 'stratimux';
+import { createConcept, Concept } from '@phuire/stratimux';
 import { htmlHelloWorldQuality } from './qualities/helloWorld.quality';
 import { htmlBeginQuality } from './qualities/htmlBegin.quality';
 import { htmlEndQuality } from './qualities/htmlEnd';
@@ -17,25 +17,21 @@ export type HtmlState = {
   //
 };
 
-const createHtmlState = () : HtmlState => {
+const createHtmlState = (): HtmlState => {
   return {
     //
   };
 };
 
-export const createHtmlConcept = (): Concept =>  {
-  return createConcept(
-    htmlName,
-    createHtmlState(),
-    [
-      htmlHelloWorldQuality,
-      htmlBeginQuality,
-      htmlEndQuality,
-      htmlBodyBeginQuality,
-      htmlBodyEndQuality,
-      htmlHeadBeginQuality,
-      htmlHeadEndQuality
-    ]
-  );
+export const createHtmlConcept = (): Concept => {
+  return createConcept(htmlName, createHtmlState(), [
+    htmlHelloWorldQuality,
+    htmlBeginQuality,
+    htmlEndQuality,
+    htmlBodyBeginQuality,
+    htmlBodyEndQuality,
+    htmlHeadBeginQuality,
+    htmlHeadEndQuality,
+  ]);
 };
 /*#>*/

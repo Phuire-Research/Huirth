@@ -18,7 +18,7 @@ import {
   getAxiumState,
   getUnifiedName,
   selectUnifiedState,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import _ws from 'express-ws';
 import { WebSocketClientState } from './webSocketClient.concept';
 import { webSocketClientSetClientSemaphore } from './strategies/server/setClientSemaphore.helper';

@@ -20,7 +20,7 @@ import {
   selectSlice,
   KeyedSelector,
   axiumKick,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { UserInterfaceState } from './userInterface.concept';
 import { userInterfacePageToStateStrategy } from './strategies.ts/pageToState.strategy';
 import { userInterface_isClient } from '../../model/userInterface';

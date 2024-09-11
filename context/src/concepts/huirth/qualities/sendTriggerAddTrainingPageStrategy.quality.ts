@@ -5,13 +5,13 @@ $>*/
 import {
   createActionNode,
   createMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStrategy,
   defaultReducer,
   nullReducer,
   selectPayload,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 import { huirthTriggerAddTrainingDataPage } from './triggerAddTrainingDataPageStrategy.quality';
 
@@ -20,7 +20,7 @@ type SendTriggerAddTrainingPageStrategy = {
 };
 
 export const [huirthSendAddTrainingPageStrategy, huirthSendAddTrainingPageStrategyType, huirthSendAddTrainingPageStrategyQuality] =
-  createQualitySetWithPayload<SendTriggerAddTrainingPageStrategy>({
+  createQualityCardWithPayload<SendTriggerAddTrainingPageStrategy>({
     type: 'Huirth send add training page strategy',
     reducer: defaultReducer,
     methodCreator: (concepts$, semaphore) =>

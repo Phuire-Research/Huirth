@@ -4,13 +4,13 @@ $>*/
 /*<#*/
 import { Action, ActionStrategy, createActionNode, createStrategy, strategySequence } from '@phuire/stratimux';
 import { Page } from '../../../model/userInterface';
-import { userInterfaceClientDetermineBindings } from './clientDetermineBindings.quality';
+import { userInterfaceClientDetermineBindings } from '../qualities/clientDetermineBindings.quality';
 import { Subject } from 'rxjs';
 
 export const userInterfaceInitialBindingTopic = 'User Interface create Page Strategy';
 
 export function userInterfaceInitialBindingStrategy(action$: Subject<Action>, pages: Page[]): ActionStrategy {
-  const initialStep = createActionNode(userInterfaceClientDetermineBindings({ action$ }));
+  const initialStep = createActionNode(userInterfaceClientDetermineBindings.actionCreator({ action$ }));
   const initialStrategy = createStrategy({
     topic: userInterfaceInitialBindingTopic,
     initialNode: initialStep,

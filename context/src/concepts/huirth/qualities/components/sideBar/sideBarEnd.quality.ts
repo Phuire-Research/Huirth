@@ -3,15 +3,15 @@ For the graph programming framework Stratimux and a Concept huirth, generate a U
 $>*/
 /*<#*/
 /* eslint-disable max-len */
-import { createMethod, nullReducer, strategySuccess } from 'stratimux';
+import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
 import {
-  createQualitySetComponent,
+  createQualityCardComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthSideBarEnd, huirthSideBarEndType, huirthSideBarEndQuality] = createQualitySetComponent({
+export const [huirthSideBarEnd, huirthSideBarEndType, huirthSideBarEndQuality] = createQualityCardComponent({
   type: 'create userInterface for SideBarEnd',
   reducer: nullReducer,
   componentCreator: (act) =>

@@ -2,15 +2,15 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a User Interface Component quality that will create the final slice for the Data Manager Component.
 $>*/
 /*<#*/
-import { createMethod, nullReducer, strategySuccess } from 'stratimux';
+import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
 import {
-  createQualitySetComponent,
+  createQualityCardComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthDataManagerEnd, huirthDataManagerEndType, huirthDataManagerEndQuality] = createQualitySetComponent({
+export const [huirthDataManagerEnd, huirthDataManagerEndType, huirthDataManagerEndQuality] = createQualityCardComponent({
   type: 'create userInterface for DataManagerEnd',
   reducer: nullReducer,
   componentCreator: (act) =>

@@ -9,12 +9,12 @@ import {
   nullReducer,
   selectUnifiedState,
   strategySuccess,
-} from 'stratimux';
+} from '@phuire/stratimux';
 
 import {
   createBinding,
   createBoundSelectors,
-  createQualitySetComponent,
+  createQualityCardComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
@@ -45,7 +45,7 @@ import { huirthSendTriggerTransformationStrategy } from '../../../strategies/ser
 import { huirthSendTriggerSelectedTransformationStrategy } from '../../sendTriggerSelectedTransformationStrategy.quality';
 import { huirthSendTriggerGitPullRepositoryStrategy } from '../../../strategies/server/triggerGitPullRepositoryStrategy.helper';
 
-export const [huirthDataManagerContent, huirthDataManagerContentType, huirthDataManagerContentQuality] = createQualitySetComponent({
+export const [huirthDataManagerContent, huirthDataManagerContentType, huirthDataManagerContentQuality] = createQualityCardComponent({
   type: 'create userInterface for DataManagerContent',
   reducer: nullReducer,
   componentCreator: (act, concepts$, _semaphore) =>
@@ -65,7 +65,7 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
         const pullStratimuxID = '#pull_' + PhuirEProjects.stratimux;
         let finalStratimuxID = '#stratimuxID';
         // eslint-disable-next-line quotes
-        let finalStratimuxNote = 'stratimux';
+        let finalStratimuxNote = '@phuire/stratimux';
         const parseStratimuxID = '#parse_' + PhuirEProjects.stratimux;
         const installHuirth_ID = '#install_' + PhuirEProjects.huirth;
         const pullHuirth_ID = '#pull_' + PhuirEProjects.huirth;

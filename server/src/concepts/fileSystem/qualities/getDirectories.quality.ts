@@ -5,38 +5,35 @@ $>*/
 import {
   axiumConclude,
   createAsyncMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
   strategyData_unifyData,
-  strategySuccess
-} from 'stratimux';
+  strategySuccess,
+} from '@phuire/stratimux';
 import fs from 'fs';
 
 export type GetDirectoriesPayload = {
-  path: string
+  path: string;
 };
 export type GetDirectoriesDataField = {
-  directories: string[]
-}
+  directories: string[];
+};
 
-export const [
-  fileSystemGetDirectories,
-  fileSystemGetDirectoriesType,
-  fileSystemGetDirectoriesQuality
-] = createQualitySetWithPayload<GetDirectoriesPayload>({
-  type: 'File System get target Directories',
-  reducer: nullReducer,
-  methodCreator: () => createAsyncMethod((controller, action) => {
-    const payload = selectPayload<GetDirectoriesPayload>(action);
-    const directories = fs.readdirSync(payload.path);
-    if (action.strategy) {
-      console.log('DIRECTORIES LENGTH', directories.length);
-      const newStrategy =
-        strategySuccess(action.strategy, strategyData_unifyData(action.strategy, {directories}));
-      controller.fire(newStrategy);
-    }
-    controller.fire(axiumConclude());
-  })
-});
+export const [fileSystemGetDirectories, fileSystemGetDirectoriesType, fileSystemGetDirectoriesQuality] =
+  createQualityCardWithPayload<GetDirectoriesPayload>({
+    type: 'File System get target Directories',
+    reducer: nullReducer,
+    methodCreator: () =>
+      createAsyncMethod((controller, action) => {
+        const payload = selectPayload<GetDirectoriesPayload>(action);
+        const directories = fs.readdirSync(payload.path);
+        if (action.strategy) {
+          console.log('DIRECTORIES LENGTH', directories.length);
+          const newStrategy = strategySuccess(action.strategy, strategyData_unifyData(action.strategy, { directories }));
+          controller.fire(newStrategy);
+        }
+        controller.fire(axiumConclude());
+      }),
+  });
 /*#>*/

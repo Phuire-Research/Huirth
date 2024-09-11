@@ -3,51 +3,73 @@ For the graph programming framework Stratimux and Brand Concept huirth that exte
 $>*/
 
 import { Subscriber } from 'rxjs';
-import { Action, Concepts, PrincipleFunction, UnifiedSubject, axiumKick, axiumPreClose, axiumRegisterStagePlanner, createStage, getUnifiedName, isConceptLoaded, selectUnifiedState } from 'stratimux';
+import {
+  Action,
+  Concepts,
+  PrincipleFunction,
+  UnifiedSubject,
+  axiumKick,
+  axiumPreClose,
+  axiumRegisterStagePlanner,
+  createStage,
+  getUnifiedName,
+  isConceptLoaded,
+  selectUnifiedState,
+} from '@phuire/stratimux';
 import { ServerState } from '../server/server.concept';
 
 /*<#*/
-export const huirthServerExitPrinciple: PrincipleFunction =
-  (_: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
-    let shouldClose = false;
-    const beat = 333;
-    const initialServerState = selectUnifiedState(cpts, semaphore) as ServerState;
-    const server = initialServerState.server;
-    const plan = concepts$.plan('Server listening for exit signal', [
-      createStage((concepts, dispatch) => {
-        const name = getUnifiedName(concepts, semaphore);
-        if (name) {
-          dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
-            iterateStage: true
-          });
-        } else {
-          plan.conclude();
-        }
-      }),
-      createStage((concepts, dispatch) => {
+export const huirthServerExitPrinciple: PrincipleFunction = (
+  _: Subscriber<Action>,
+  cpts: Concepts,
+  concepts$: UnifiedSubject,
+  semaphore: number
+) => {
+  let shouldClose = false;
+  const beat = 333;
+  const initialServerState = selectUnifiedState(cpts, semaphore) as ServerState;
+  const server = initialServerState.server;
+  const plan = concepts$.plan('Server listening for exit signal', [
+    createStage((concepts, dispatch) => {
+      const name = getUnifiedName(concepts, semaphore);
+      if (name) {
+        dispatch(axiumRegisterStagePlanner({ conceptName: name, stagePlanner: plan }), {
+          iterateStage: true,
+        });
+      } else {
+        plan.conclude();
+      }
+    }),
+    createStage(
+      (concepts, dispatch) => {
         const name = getUnifiedName(concepts, semaphore);
         if (name) {
           if (shouldClose) {
-            dispatch(axiumPreClose({
-              exit: true
-            }), {
-              iterateStage: true
-            });
+            dispatch(
+              axiumPreClose({
+                exit: true,
+              }),
+              {
+                iterateStage: true,
+              }
+            );
           }
         } else {
           plan.conclude();
         }
-      }, {beat}),
-      createStage((__, ___) => {
-        plan.conclude();
-      }),
-    ]);
+      },
+      { beat }
+    ),
+    createStage((__, ___) => {
+      plan.conclude();
+    }),
+  ]);
 
-    server.get('/server/axiumEXIT', (__, req) => {
-      shouldClose = true;
-      req.json({
-        exit: shouldClose
-      });
+  server.get('/server/axiumEXIT', (__, req) => {
+    shouldClose = true;
+    req.json({
+      exit: shouldClose,
     });
-  };
+  });
+};
 /*#>*/

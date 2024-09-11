@@ -4,51 +4,58 @@ $>*/
 /*<#*/
 import {
   createMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
   strategyData_select,
   strategyData_unifyData,
   strategySuccess,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirth_convertNumberToStringVerbose } from '../verboseNumber.model';
 
 export type huirthServerInnerAddToPayload = {
-  addTo: number
+  addTo: number;
 };
 export type huirthServerInnerAddField = {
-  sum: number
-}
+  sum: number;
+};
 
-export const [
-  huirthServerInnerAddTo,
-  huirthServerInnerAddToType,
-  huirthServerInnerAddToQuality
-] = createQualitySetWithPayload<huirthServerInnerAddToPayload>({
-  type: 'plus',
-  reducer: nullReducer,
-  methodCreator: () =>
-    createMethod((action) => {
-      const {addTo} = selectPayload<huirthServerInnerAddToPayload>(action);
-      if (action.strategy) {
-        const strategy = action.strategy;
-        const data = strategyData_select<huirthServerInnerAddField>(strategy);
-        if (data) {
-          const {sum} = data;
-          const final = sum + addTo;
-          let verboseSum = huirth_convertNumberToStringVerbose(sum);
-          verboseSum = verboseSum[0].toUpperCase() + verboseSum.substring(1);
-          strategy.currentNode.actionType = verboseSum.trim() + ' ' + action.type + ' ' + huirth_convertNumberToStringVerbose(addTo).trim() + ', equals ' + huirth_convertNumberToStringVerbose(final).trim();
-          strategy.currentNode.successNotes = {
-            preposition: ''
-          };
-          console.log(verboseSum, ' add to ', addTo, ' is ', final);
-          return strategySuccess(strategy, strategyData_unifyData(strategy, {
-            sum: final
-          }));
+export const [huirthServerInnerAddTo, huirthServerInnerAddToType, huirthServerInnerAddToQuality] =
+  createQualityCardWithPayload<huirthServerInnerAddToPayload>({
+    type: 'plus',
+    reducer: nullReducer,
+    methodCreator: () =>
+      createMethod((action) => {
+        const { addTo } = selectPayload<huirthServerInnerAddToPayload>(action);
+        if (action.strategy) {
+          const strategy = action.strategy;
+          const data = strategyData_select<huirthServerInnerAddField>(strategy);
+          if (data) {
+            const { sum } = data;
+            const final = sum + addTo;
+            let verboseSum = huirth_convertNumberToStringVerbose(sum);
+            verboseSum = verboseSum[0].toUpperCase() + verboseSum.substring(1);
+            strategy.currentNode.actionType =
+              verboseSum.trim() +
+              ' ' +
+              action.type +
+              ' ' +
+              huirth_convertNumberToStringVerbose(addTo).trim() +
+              ', equals ' +
+              huirth_convertNumberToStringVerbose(final).trim();
+            strategy.currentNode.successNotes = {
+              preposition: '',
+            };
+            console.log(verboseSum, ' add to ', addTo, ' is ', final);
+            return strategySuccess(
+              strategy,
+              strategyData_unifyData(strategy, {
+                sum: final,
+              })
+            );
+          }
         }
-      }
-      return action;
-    })
-});
+        return action;
+      }),
+  });
 /*#>*/

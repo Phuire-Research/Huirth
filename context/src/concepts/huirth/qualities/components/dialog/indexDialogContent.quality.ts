@@ -13,12 +13,12 @@ import {
   nullReducer,
   selectUnifiedState,
   strategySuccess,
-} from 'stratimux';
+} from '@phuire/stratimux';
 
 import {
   createBinding,
   createBoundSelectors,
-  createQualitySetComponent,
+  createQualityCardComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage,
   userInterface_isClient,
@@ -31,7 +31,7 @@ import { huirthTriggerPlusCountingStrategy } from '../../triggerPlusCounterStrat
 import { huirthTriggerRandomCountingStrategy } from '../../triggerRandomCounterStrategy.quality';
 import { Subject } from 'rxjs';
 
-export const [huirthIndexDialogContent, huirthIndexDialogContentType, huirthIndexDialogContentQuality] = createQualitySetComponent({
+export const [huirthIndexDialogContent, huirthIndexDialogContentType, huirthIndexDialogContentQuality] = createQualityCardComponent({
   type: 'create userInterface for IndexDialogContent',
   reducer: nullReducer,
   componentCreator: (act, concepts$?: Subject<Concepts>, _semaphore?: number) =>

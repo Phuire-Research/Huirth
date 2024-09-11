@@ -11,8 +11,8 @@ import {
   axiumSelectOpen,
   createStage,
   primeAction,
-  stageWaitForOpenThenIterate
-} from 'stratimux';
+  stageWaitForOpenThenIterate,
+} from '@phuire/stratimux';
 import { Subscriber } from 'rxjs';
 import { helloWorld } from './qualities/helloWorld.quality';
 import { helloWorldName } from './helloWorld.concept';
@@ -24,15 +24,15 @@ export const helloWorldPrinciple: PrincipleFunction = (
   _semaphore: number
 ) => {
   const plan = concepts$.plan('Hello World Plan', [
-    stageWaitForOpenThenIterate(() => (axiumRegisterStagePlanner({conceptName: helloWorldName, stagePlanner: plan}))),
+    stageWaitForOpenThenIterate(() => axiumRegisterStagePlanner({ conceptName: helloWorldName, stagePlanner: plan })),
     createStage((__, dispatch) => {
       dispatch(helloWorld(), {
-        iterateStage: true
+        iterateStage: true,
       });
     }),
     createStage((__, ___) => {
       plan.conclude();
-    })
+    }),
   ]);
 };
 /*#>*/

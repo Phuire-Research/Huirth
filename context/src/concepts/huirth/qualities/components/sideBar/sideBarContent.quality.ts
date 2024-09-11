@@ -12,12 +12,12 @@ import {
   strategySuccess,
   select,
   createMethodDebounceWithConcepts,
-} from 'stratimux';
+} from '@phuire/stratimux';
 
 import {
   createBinding,
   createBoundSelectors,
-  createQualitySetComponent,
+  createQualityCardComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
@@ -28,7 +28,7 @@ import { huirthToggleSidebar } from '../../toggleSidebar.quality';
 import { elementEventBinding } from '../../../../../model/html';
 import { userInterface_createPagesSelector } from '../../../../userInterface/userInterface.selector';
 
-export const [huirthSideBarContent, huirthSideBarContentType, huirthSideBarContentQuality] = createQualitySetComponent({
+export const [huirthSideBarContent, huirthSideBarContentType, huirthSideBarContentQuality] = createQualityCardComponent({
   type: 'create userInterface for SideBarContent',
   reducer: nullReducer,
   componentCreator: (act, concepts$, semaphore) =>

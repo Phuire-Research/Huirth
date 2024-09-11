@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that updates a DataSet's prompt by index and set by event target value.
 $>*/
 /*<#*/
-import { Action, createQualitySetWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
+import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { userInterface_selectInputTarget } from '../../../model/userInterface';
 
@@ -12,7 +12,7 @@ export type huirthUpdateDataSetPromptPayload = {
 };
 
 export const [huirthUpdateDataSetPrompt, huirthUpdateDataSetPromptType, huirthUpdateDataSetPromptQuality] =
-  createQualitySetWithPayload<huirthUpdateDataSetPromptPayload>({
+  createQualityCardWithPayload<huirthUpdateDataSetPromptPayload>({
     type: 'Create huirth UpdateDataSetPrompt',
     reducer: (state: huirthState, action: Action): huirthState => {
       const payload = selectPayload<huirthUpdateDataSetPromptPayload>(action);

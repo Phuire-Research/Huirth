@@ -6,12 +6,12 @@ import {
   Concepts,
   UnifiedSubject,
   createMethodDebounceWithConcepts,
-  createQualitySet,
+  createQualityCard,
   nullReducer,
   selectState,
   selectUnifiedState,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirthServerState } from '../huirthServer.concept';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirthServerSaveTrainingDataStrategy } from '../strategies/saveTrainingData.strategy';
@@ -20,8 +20,8 @@ import { Subject } from 'rxjs';
 export const [
   huirthServerTriggerSaveTrainingDataStrategy,
   huirthServerTriggerSaveTrainingDataStrategyType,
-  huirthServerTriggerSaveTrainingDataStrategyQuality
-] = createQualitySet({
+  huirthServerTriggerSaveTrainingDataStrategyQuality,
+] = createQualityCard({
   type: 'huirthServer trigger save training data strategy',
   reducer: nullReducer,
   methodCreator: (concepts$?: Subject<Concepts>, semaphore?: number) =>
@@ -35,7 +35,10 @@ export const [
         } else {
           return action;
         }
-      }, concepts$ as UnifiedSubject, semaphore as number, 50
-    )
+      },
+      concepts$ as UnifiedSubject,
+      semaphore as number,
+      50
+    ),
 });
 /*#>*/

@@ -2,12 +2,12 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a Page Strategy Creator that will unify Sidebar, DataSet, Footer, and Header Action Strategy Component Stitches into a Page Composition.
 $>*/
 /*<#*/
-import { createActionNode, createStrategy } from 'stratimux';
+import { createActionNode, createStrategy } from '@phuire/stratimux';
 import {
   ActionStrategyComponentStitch,
   PageStrategyCreators,
   userInterface,
-  userInterface_createPage
+  userInterface_createPage,
 } from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { huirthFooterStitch } from '../components/footer.strategy';
@@ -25,17 +25,13 @@ export const huirthGeneratedTrainingDataPageStrategy = (pageTitle: string): Page
       conceptAndProps: [],
       cachedSelectors: [],
       compositions: [],
-      cachedComponentSelectors: []
+      cachedComponentSelectors: [],
     });
 
     return userInterfaceCreatePageStrategy(
       title,
       pageData,
-      [
-        huirthSidebarComponentStitch,
-        huirthGeneratedTrainingDataStrategyStitch,
-        huirthFooterStitch
-      ],
+      [huirthSidebarComponentStitch, huirthGeneratedTrainingDataStrategyStitch, huirthFooterStitch],
       huirthHeaderStitch
     );
   };
@@ -51,7 +47,7 @@ export const huirthGeneratedTrainingDataStrategyStitch: ActionStrategyComponentS
     createStrategy({
       topic: `huirth Generated ${payload.pageTitle} Training Data Strategy Stitch`,
       initialNode: stephuirthDataSetBegin,
-    })
+    }),
   ];
 };
 /*#>*/

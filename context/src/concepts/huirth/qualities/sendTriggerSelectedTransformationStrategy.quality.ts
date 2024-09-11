@@ -7,10 +7,10 @@ import {
   createAction,
   createActionNode,
   createMethodWithState,
-  createQualitySet,
+  createQualityCard,
   createStrategy,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 
@@ -18,7 +18,7 @@ export const [
   huirthSendTriggerSelectedTransformationStrategy,
   huirthSendTriggerSelectedTransformationStrategyType,
   huirthSendTriggerSelectedTransformationStrategyQuality,
-] = createQualitySet({
+] = createQualityCard({
   type: 'huirth send trigger selected transformation strategy to server',
   reducer: (state: huirthState): huirthState => {
     const dataSetSelection = state.dataSetSelection.map(() => false);

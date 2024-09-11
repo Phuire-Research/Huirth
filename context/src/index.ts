@@ -1,8 +1,7 @@
 /*$ Start template imports $*/
-import { createAxium } from 'stratimux';
+import { createAxium } from '@phuire/stratimux';
 import { createDocumentObjectModelConcept } from './concepts/documentObjectModel/documentObjectModel.concept';
-import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient/userInterfaceClient.concept';
-import { createHuirthConcept } from './concepts/huirth/huirth.concept';
+import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient/userInterfaceClient.concept';import { createHuirthConcept } from './concepts/huirth/huirth.concept';
 
 /*$ End template imports $*/
 
@@ -10,12 +9,12 @@ import { createHuirthConcept } from './concepts/huirth/huirth.concept';
   /*$ Start context template code $*/
   let init = false;
   let state: Record<string, unknown> | undefined;
-  fetch(window.location.protocol + '//' + window.location.host + '/stateSync').then((response) => {
-    response.json().then((value) => {
+  fetch(window.location.protocol + '//' + window.location.host + '/stateSync').then(response => {
+    response.json().then(value => {
       state = value;
       // console.log('FETCH SYNC STATE', state);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const simmer = (func: (s?: any) => void) => {
+      const simmer = (func: ((s?: any) => void)) => {
         setTimeout(() => {
           if (init && state) {
             createAxium(
@@ -24,8 +23,7 @@ import { createHuirthConcept } from './concepts/huirth/huirth.concept';
               {
                 logging: true,
                 storeDialog: true,
-              }
-            );
+              });
           } else {
             func();
           }
@@ -38,9 +36,9 @@ import { createHuirthConcept } from './concepts/huirth/huirth.concept';
     if (!init) {
       init = true;
     }
-  };
+  }
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  window.onunload = function () {};
+  window.onunload = function(){}; 
   console.log('AXIUM INIT');
   /*$ End context template code $*/
 })();

@@ -8,14 +8,14 @@ import {
   UnifiedSubject,
   createActionNode,
   createMethodWithState,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStrategy,
   nullReducer,
   selectPayload,
   strategyBegin,
   strategyPunt,
   strategySuccess,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { webSocketClientAppendToActionQue } from './appendActionQue.quality';
 import { webSocketServerSyncClientState } from '../strategies/server/syncServerState.helper';
 
@@ -24,7 +24,7 @@ export type WebSocketClientForceSyncPayload = {
 };
 
 export const [webSocketClientForceSync, webSocketClientForceSyncType, webSocketClientForceSyncQuality] =
-  createQualitySetWithPayload<WebSocketClientForceSyncPayload>({
+  createQualityCardWithPayload<WebSocketClientForceSyncPayload>({
     type: 'Web Socket Client force client sync',
     reducer: nullReducer,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

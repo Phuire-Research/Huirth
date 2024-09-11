@@ -9,13 +9,13 @@ import {
   createActionNode,
   createActionNodeFromStrategy,
   createMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStrategy,
   nullReducer,
   refreshAction,
   selectPayload,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { BoundSelectors } from '../../../model/userInterface';
 import { userInterfaceClientReplaceOuterHtml } from './replaceOuterHtml.quality';
 import { Subject } from 'rxjs';
@@ -48,7 +48,7 @@ export const [
   userInterfaceClientAssembleAtomicUpdateCompositionStrategy,
   userInterfaceClientAssembleAtomicUpdateCompositionStrategyType,
   userInterfaceClientAssembleAtomicUpdateCompositionStrategyQuality,
-] = createQualitySetWithPayload<UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload>({
+] = createQualityCardWithPayload<UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload>({
   type: 'User Interface Client assemble update atomic compositions strategy',
   reducer: nullReducer,
   methodCreator: () =>

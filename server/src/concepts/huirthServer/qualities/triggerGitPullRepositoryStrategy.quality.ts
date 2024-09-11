@@ -5,30 +5,30 @@ $>*/
 import {
   UnifiedSubject,
   createMethodDebounceWithConcepts,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
   selectState,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirthServerGitPullRepositoryStrategy } from '../strategies/gitPullRepository.strategy';
 
 export type huirthServerTriggerGitPullRepositoryStrategyPayload = {
-  name: string
-}
+  name: string;
+};
 
 export const [
   huirthServerTriggerGitPullRepositoryStrategy,
   huirthServerTriggerGitPullRepositoryStrategyType,
-  huirthServerTriggerGitPullRepositoryStrategyQuality
-] = createQualitySetWithPayload<huirthServerTriggerGitPullRepositoryStrategyPayload>({
+  huirthServerTriggerGitPullRepositoryStrategyQuality,
+] = createQualityCardWithPayload<huirthServerTriggerGitPullRepositoryStrategyPayload>({
   type: 'huirthServer trigger git pull repository strategy',
   reducer: nullReducer,
   methodCreator: (concepts$, semaphore) =>
     createMethodDebounceWithConcepts(
       (action, concepts) => {
-        const {name} = selectPayload<huirthServerTriggerGitPullRepositoryStrategyPayload>(action);
+        const { name } = selectPayload<huirthServerTriggerGitPullRepositoryStrategyPayload>(action);
         const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
         if (fileSystemState) {
           const strategy = huirthServerGitPullRepositoryStrategy(fileSystemState.root, name);
@@ -36,7 +36,10 @@ export const [
         } else {
           return action;
         }
-      }, concepts$ as UnifiedSubject, semaphore as number, 50
-    )
+      },
+      concepts$ as UnifiedSubject,
+      semaphore as number,
+      50
+    ),
 });
 /*#>*/

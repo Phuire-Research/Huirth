@@ -12,20 +12,20 @@ import {
   createActionNode,
   createMethodBuffer,
   createMethodBufferWithConcepts,
-  createQualitySet,
-  createQualitySetWithPayload,
+  createQualityCard,
+  createQualityCardWithPayload,
   createStrategy,
   defaultReducer,
   selectPayload,
   selectState,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 
 export const [
   experimentBufferMultiplyByCountFromConcepts,
   experimentBufferMultiplyByCountFromConceptsType,
   experimentBufferMultiplyByCountFromConceptsQuality,
-] = createQualitySet({
+] = createQualityCard({
   type: 'Experiment will buffer multiply count using concepts accessing counter state',
   reducer: defaultReducer,
   methodCreator: (c, s) =>

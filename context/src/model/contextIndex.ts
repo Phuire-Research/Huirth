@@ -36,7 +36,7 @@ export function createContextIndexContent(primedConcepts: PrimedConceptAndProper
   const content =
     /*typescript*/
     `/*$ Start template imports $*/
-import { ${axiumImports.join(', ')} } from 'stratimux';
+import { ${axiumImports.join(', ')} } from '@phuire/stratimux';
 ${conceptImports}
 /*$ End template imports $*/
 

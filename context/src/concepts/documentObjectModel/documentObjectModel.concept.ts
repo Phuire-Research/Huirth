@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a Document Object Model Concept
 $>*/
 /*<#*/
-import { createConcept, Concept } from 'stratimux';
+import { createConcept, Concept } from '@phuire/stratimux';
 import { documentObjectModelPrinciple } from './documentObjectModel.principle';
 import { UserInterfacePageBindings } from '../../model/userInterface';
 import { documentObjectModelBindQuality } from './qualities/bind.quality';

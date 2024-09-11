@@ -4,7 +4,7 @@ $>*/
 /*<#*/
 import { Subscriber } from 'rxjs';
 import { ServerState } from './server.concept';
-import { Action, Concepts, PrincipleFunction, UnifiedSubject, selectUnifiedState } from 'stratimux';
+import { Action, Concepts, PrincipleFunction, UnifiedSubject, selectUnifiedState } from '@phuire/stratimux';
 
 export const serverPrinciple: PrincipleFunction = (_: Subscriber<Action>, concepts: Concepts, __: UnifiedSubject, semaphore: number) => {
   const HOST = '0.0.0.0';

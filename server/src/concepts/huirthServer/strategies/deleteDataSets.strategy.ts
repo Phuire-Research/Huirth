@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a ActionStrategy that will delete data sets from the file system.
 $>*/
 /*<#*/
-import { axiumLog, axiumStitch, axium_createStitchNode, createActionNode, createStrategy } from 'stratimux';
+import { axiumLog, axiumStitch, axium_createStitchNode, createActionNode, createStrategy } from '@phuire/stratimux';
 import path from 'path';
 import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
 import { huirthServerSendUpdateProjectToInstalled } from './client/huirthServerSendUpdateProjectToInstalled.helper';
@@ -27,13 +27,13 @@ export const huirthServerDeleteDataSetsStrategy = (root: string, trainingData: T
     const action = isProject ? huirthServerSendUpdateProjectToInstalled(name) : axiumStitch();
     if (first === undefined) {
       const updateStatus = createActionNode(action);
-      first = createActionNode(fileSystemRemoveTargetDirectory({path: dataSetDirectory}), {
+      first = createActionNode(fileSystemRemoveTargetDirectory({ path: dataSetDirectory }), {
         successNode: updateStatus,
       });
       previous = updateStatus;
     } else if (previous) {
       const updateStatus = createActionNode(action);
-      const next = createActionNode(fileSystemRemoveTargetDirectory({path: dataSetDirectory}), {
+      const next = createActionNode(fileSystemRemoveTargetDirectory({ path: dataSetDirectory }), {
         successNode: updateStatus,
       });
       previous.successNode = next;
@@ -42,7 +42,7 @@ export const huirthServerDeleteDataSetsStrategy = (root: string, trainingData: T
   }
   return createStrategy({
     topic: huirthServerDeleteDataSetsStrategyTopic,
-    initialNode: first ? first : createActionNode(axiumLog(), { successNode: null, failureNode: null}),
+    initialNode: first ? first : createActionNode(axiumLog(), { successNode: null, failureNode: null }),
   });
 };
 /*#>*/

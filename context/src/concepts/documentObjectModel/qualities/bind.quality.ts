@@ -5,13 +5,13 @@ $>*/
 import {
   Action,
   createMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   refreshAction,
   selectPayload,
   strategyBegin,
   strategySuccess,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { Binding } from '../../../model/userInterface';
 import { Subject } from 'rxjs';
 import { documentObjectModelBindActionStrategy } from '../strategies/bindAction.strategy';
@@ -32,7 +32,7 @@ export type DocumentObjectModelBindPayload = {
 };
 
 export const [documentObjectModelBind, documentObjectModelBindType, documentObjectModelBindQuality] =
-  createQualitySetWithPayload<DocumentObjectModelBindPayload>({
+  createQualityCardWithPayload<DocumentObjectModelBindPayload>({
     type: 'Document Object Model bind element',
     reducer: (state: DocumentObjectModelState): DocumentObjectModelState => {
       return {

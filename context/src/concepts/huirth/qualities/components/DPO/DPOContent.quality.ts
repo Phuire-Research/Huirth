@@ -11,12 +11,12 @@ import {
   nullReducer,
   selectUnifiedState,
   strategySuccess,
-} from 'stratimux';
+} from '@phuire/stratimux';
 
 import {
   createBinding,
   createBoundSelectors,
-  createQualitySetComponent,
+  createQualityCardComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
@@ -31,7 +31,7 @@ import { huirth_createDPOSelector } from '../../../huirth.selector';
 import { huirthTriggerSaveDPOStrategy } from '../../../strategies/server/triggerSaveDPOStrategy.helper';
 import { huirthNewDPOEntry } from '../../newDPOEntry.quality';
 
-export const [huirthIndexDPOContent, huirthIndexDPOContentType, huirthIndexDPOContentQuality] = createQualitySetComponent({
+export const [huirthIndexDPOContent, huirthIndexDPOContentType, huirthIndexDPOContentQuality] = createQualityCardComponent({
   type: 'create userInterface for IndexDPOContent',
   reducer: nullReducer,
   componentCreator: (act, concepts$, _semaphore) =>

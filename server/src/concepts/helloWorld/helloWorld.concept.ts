@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a Hello World Concept.
 $>*/
 /*<#*/
-import { createConcept, Concept } from 'stratimux';
+import { createConcept, Concept } from '@phuire/stratimux';
 import { helloWorldQuality } from './qualities/helloWorld.quality';
 import { helloWorldPrinciple } from './helloWorld.principle';
 
@@ -18,15 +18,7 @@ const createHelloWorldState = (): HelloWorldState => {
   };
 };
 
-export const createHelloWorldConcept = (something?: string): Concept =>  {
-  return createConcept(
-    helloWorldName,
-    createHelloWorldState(),
-    [
-      helloWorldQuality
-    ],
-    [helloWorldPrinciple],
-    []
-  );
+export const createHelloWorldConcept = (something?: string): Concept => {
+  return createConcept(helloWorldName, createHelloWorldState(), [helloWorldQuality], [helloWorldPrinciple], []);
 };
 /*#>*/

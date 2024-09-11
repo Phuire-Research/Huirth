@@ -2,29 +2,26 @@
 For the graph programming framework Stratimux generate a User Interface Server Concept, that will unify itself with the User Interface and incoming Brand concept to be loaded on the server.
 $>*/
 /*<#*/
-import { Concept, PrincipleFunction, Quality, createConcept, unifyConcepts } from 'stratimux';
+import { AnyConcept, AxiumDeck, Concept, PrincipleFunction, Qualities, Quality, createConcept, muxifyConcepts } from '@phuire/stratimux';
 import { createServerConcept } from '../server/server.concept';
 import { userInterfaceServerOnChangePrinciple, userInterfaceServerPrinciple } from './userInterfaceServer.principle';
 import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
-import {
-  UserInterfaceState,
-  createUserInterfaceConcept,
-} from '../userInterface/userInterface.concept';
-import { userInterfaceServerBuildContextQuality } from './qualities/buildContext.quality';
+import { UserInterfaceState, createUserInterfaceConcept } from '../userInterface/userInterface.concept';
+import { userInterfaceServerBuildContext } from './qualities/buildContext.quality';
 import { userInterfaceServerContextPrinciple } from './userInterfaceServer.context.principle';
-import { userInterfaceServerCreateEachPageHtmlQuality } from './qualities/createEachPageHtml.quality';
-import { userInterfaceServerRecursivelyCreateEachPageHtmlQuality } from './qualities/recursivelyCreateEachPageHtml.quality';
-import { userInterfaceServerCreateContextIndexQuality } from './qualities/createContextIndex.quality';
+import { userInterfaceServerCreateEachPageHtml } from './qualities/createEachPageHtml.quality';
+import { userInterfaceServerRecursivelyCreateEachPageHtml } from './qualities/recursivelyCreateEachPageHtml.quality';
+import { userInterfaceServerCreateContextIndex } from './qualities/createContextIndex.quality';
 import { helloWorldPageStrategy } from '../userInterface/strategies.ts/helloWorldPage.strategy';
-import { userInterfaceServerFormatContextQuality } from './qualities/formatContext.quality';
+import { userInterfaceServerFormatContext } from './qualities/formatContext.quality';
 import { PageStrategyCreators } from '../../model/userInterface';
-import { userInterfaceServerAssembleUpdateAtomicCompositionStrategyQuality } from './qualities/serverAssembleUpdateAtomicCompositionStrategy.quality';
+import { userInterfaceServerAssembleUpdateAtomicCompositionStrategy } from './qualities/serverAssembleUpdateAtomicCompositionStrategy.quality';
 import { createWebSocketServerConcept } from '../webSocketServer/webSocketServer.concept';
 
 // eslint-disable-next-line no-shadow
 export enum workingConceptCategory {
   folder = 'folder',
-  import = 'import'
+  import = 'import',
 }
 
 export const userInterfaceServerName = 'userInterfaceServer';
@@ -32,112 +29,117 @@ export const userInterfaceServerName = 'userInterfaceServer';
 export type UserInterfaceServerState = {
   createClientIndexQue: string[];
   brand?: string;
-  goal: string,
-} & UserInterfaceState
+  goal: string;
+} & UserInterfaceState;
 
-const createUserInterfaceServerState =
-  (pageStrategies: PageStrategyCreators[], goal: commandLineInterfaceGoals): UserInterfaceServerState => {
-    return {
-      pages: [],
-      components: [],
-      pageStrategies,
-      pagesCached: false,
-      createClientIndexQue: [],
-      goal,
-      boundSelectors: {},
-      selectors: []
-    };
+const createUserInterfaceServerState = (
+  pageStrategies: PageStrategyCreators[],
+  goal: commandLineInterfaceGoals
+): UserInterfaceServerState => {
+  return {
+    pages: [],
+    components: [],
+    pageStrategies,
+    pagesCached: false,
+    createClientIndexQue: [],
+    goal,
+    boundSelectors: {},
+    selectors: [],
   };
-
-const principleGoal = (goal: commandLineInterfaceGoals): PrincipleFunction[] => {
-  switch (goal) {
-  case commandLineInterfaceGoals.simulate: {
-    return [
-      userInterfaceServerOnChangePrinciple
-    ];
-  }
-  case commandLineInterfaceGoals.none: {
-    return [];
-  }
-  default: {
-    return [
-      userInterfaceServerContextPrinciple,
-      userInterfaceServerOnChangePrinciple
-    ];
-  }
-  }
 };
 
-const qualityGoal = (goal: commandLineInterfaceGoals): Quality[] => {
+export type UserInterfaceServerPrinciple = PrincipleFunction<typeof userInterfaceQualities, AxiumDeck & UserInterfaceServerDeck, UserInterfaceServerState>
+
+const principleGoal = <Q>(goal: commandLineInterfaceGoals): PrincipleFunction<Q>[] => {
+  let principles: UserInterfaceServerPrinciple[] = [];
   switch (goal) {
   case commandLineInterfaceGoals.simulate: {
-    return [
-      userInterfaceServerAssembleUpdateAtomicCompositionStrategyQuality
-    ];
+    principles = [userInterfaceServerOnChangePrinciple];
+    break;
+  }
+  case commandLineInterfaceGoals.none: {
+    principles = [];
+    break;
   }
   default: {
-    return [
-      userInterfaceServerCreateEachPageHtmlQuality,
-      userInterfaceServerRecursivelyCreateEachPageHtmlQuality,
-      userInterfaceServerCreateContextIndexQuality,
-      userInterfaceServerBuildContextQuality,
-      userInterfaceServerFormatContextQuality,
-      userInterfaceServerAssembleUpdateAtomicCompositionStrategyQuality
-    ];
+    principles = [userInterfaceServerContextPrinciple, userInterfaceServerOnChangePrinciple];
+    break;
+  }
+  }
+  return principles as unknown as PrincipleFunction<Q>[];
+};
+
+export const userInterfaceQualities = {
+  userInterfaceServerCreateEachPageHtml,
+  userInterfaceServerRecursivelyCreateEachPageHtml,
+  userInterfaceServerCreateContextIndex,
+  userInterfaceServerBuildContext,
+  userInterfaceServerFormatContext,
+  userInterfaceServerAssembleUpdateAtomicCompositionStrategy,
+};
+
+const qualityGoal = (goal: commandLineInterfaceGoals): Qualities => {
+  switch (goal) {
+  case commandLineInterfaceGoals.simulate: {
+    return {userInterfaceServerAssembleUpdateAtomicCompositionStrategy};
+  }
+  default: {
+    return userInterfaceQualities;
   }
   }
 };
 
 const baseUserInterfaceServerConcept = (goal: commandLineInterfaceGoals, pageStrategies: PageStrategyCreators[]) => {
-  return unifyConcepts([
-    createUserInterfaceConcept([]),
-  ],
-  createConcept(
-    userInterfaceServerName,
-    createUserInterfaceServerState(pageStrategies, goal),
-    [
-      userInterfaceServerBuildContextQuality,
-      ...qualityGoal(goal)
-    ],
-    [
-      userInterfaceServerPrinciple,
-      ...principleGoal(goal),
-    ],
-  ));
+  const qualities = {userInterfaceServerBuildContext, ...qualityGoal(goal)};
+  return muxifyConcepts(
+    [createUserInterfaceConcept([])],
+    createConcept<UserInterfaceServerState, typeof qualities>(
+      userInterfaceServerName,
+      createUserInterfaceServerState(pageStrategies, goal),
+      qualities,
+      [userInterfaceServerPrinciple as unknown as PrincipleFunction<typeof qualities>, ...principleGoal<typeof qualities>(goal)]
+    )
+  );
 };
 
-const unifyBrandConcept = (goal: commandLineInterfaceGoals, brand: {
-  concept: Concept,
-}) => {
+const unifyBrandConcept = (
+  goal: commandLineInterfaceGoals,
+  brand: {
+    concept: AnyConcept;
+  }
+) => {
   const base = baseUserInterfaceServerConcept(goal, []);
   base.name = '';
-  const unified = unifyConcepts([
-    base,
-    brand.concept,
-  ],
-  createConcept(
-    userInterfaceServerName,
-    {}
-  )
-  );
+  const unified = muxifyConcepts([base, brand.concept], createConcept(userInterfaceServerName, {}));
   (unified.state as UserInterfaceServerState).brand = brand.concept.name;
   return unified;
 };
 
-const userInterfaceServerConcept = (goal: commandLineInterfaceGoals, brand?: {
-  concept: Concept,
-}): Concept =>  {
+const userInterfaceServerConcept = (
+  goal: commandLineInterfaceGoals,
+  brand?: {
+    concept: AnyConcept;
+  }
+) => {
   if (brand) {
     return unifyBrandConcept(goal, brand);
   }
   return baseUserInterfaceServerConcept(goal, [helloWorldPageStrategy]);
 };
 
-export const createUserInterfaceServerConcept = (goal: commandLineInterfaceGoals, brand?: {
-  concept: Concept,
-}, port?: number) => {
+export type UserInterfaceServerDeck = {
+  userInterfaceServer: Concept<UserInterfaceServerState, typeof userInterfaceQualities>
+};
+
+export const createUserInterfaceServerConcept = (
+  goal: commandLineInterfaceGoals,
+  brand?: {
+    concept: AnyConcept;
+  },
+  port?: number
+) => {
   const serverConcept = createServerConcept(port);
-  const unified = unifyConcepts([createWebSocketServerConcept(), serverConcept], userInterfaceServerConcept(goal, brand));
+  const unified = muxifyConcepts([createWebSocketServerConcept(), serverConcept], userInterfaceServerConcept(goal, brand));
   return unified;
 };
 /*#>*/

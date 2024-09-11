@@ -10,43 +10,37 @@ import {
   nullReducer,
   prepareActionWithPayloadCreator,
   selectPayload,
-  strategySuccess
-} from 'stratimux';
+  strategySuccess,
+} from '@phuire/stratimux';
 
-import {
-  createQualitySetComponent,
-  selectComponentPayload,
-  userInterface_appendCompositionToPage,
-} from '../../../model/userInterface';
+import { createQualityCardComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../model/userInterface';
 
 export type HtmlBeginPayload = {
   language?: string;
-}
+};
 
-export const [
-  htmlBegin,
-  htmlBeginType,
-  htmlBeginQuality
-] = createQualitySetComponent<HtmlBeginPayload>({
+export const [htmlBegin, htmlBeginType, htmlBeginQuality] = createQualityCardComponent<HtmlBeginPayload>({
   type: 'Create HTML Element',
   reducer: nullReducer,
-  componentCreator: (act) => createMethod(
-    (action) => {
+  componentCreator: (act) =>
+    createMethod((action) => {
       if (action.strategy) {
         const payload = selectComponentPayload<HtmlBeginPayload>(action);
-        return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-          id: '',
-          boundSelectors: [],
-          universal: false,
-          action: act(payload),
-          html: /*html*/`
+        return strategySuccess(
+          action.strategy,
+          userInterface_appendCompositionToPage(action.strategy, {
+            id: '',
+            boundSelectors: [],
+            universal: false,
+            action: act(payload),
+            html: /*html*/ `
   <!DOCTYPE html>
   <html lang="${payload.language ? payload.language : 'en'}">
-      `
-        }));
+      `,
+          })
+        );
       }
       return action;
-    }
-  )
+    }),
 });
 /*#>*/

@@ -4,14 +4,14 @@ $>*/
 /*<#*/
 import {
   createAsyncMethod,
-  createQualitySet,
+  createQualityCard,
   nullReducer,
   strategyData_appendFailure,
   strategyData_select,
   strategyData_unifyData,
   strategyFailed,
   strategySuccess,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { GetDirectoriesAndFilesDataField } from '../../fileSystem/qualities/getDirectoriesAndFiles.quality';
 import fs from 'fs/promises';
 import { convertSavedFormatToNamedDataSet, huirthServerFailureConditions } from '../huirthServer.model';
@@ -24,8 +24,8 @@ async function readAllDirectories(fileDirent: FileDirent[]): Promise<TrainingDat
   for (const fD of fileDirent) {
     if (fD.isDirectory()) {
       const contents = (await fs.readdir(path.join(fD.path + '/' + fD.name), {
-        withFileTypes: true
-      }) as FileDirent[]);
+        withFileTypes: true,
+      })) as FileDirent[];
       for (const entry of contents) {
         if (entry.isFile()) {
           try {
@@ -33,10 +33,7 @@ async function readAllDirectories(fileDirent: FileDirent[]): Promise<TrainingDat
             const keys = Object.keys(json);
             // eslint-disable-next-line max-depth
             if (json[keys[0]] && Object.keys(json[keys[0]]).includes('content')) {
-              const set: NamedDataSet = convertSavedFormatToNamedDataSet(
-                json,
-                fD.name,
-              );
+              const set: NamedDataSet = convertSavedFormatToNamedDataSet(json, fD.name);
               data.push(set);
             }
           } catch (error) {
@@ -50,14 +47,14 @@ async function readAllDirectories(fileDirent: FileDirent[]): Promise<TrainingDat
 }
 
 export type ReadFromDataTrainingDataFromDirectoriesField = {
-  trainingData: TrainingData
-}
+  trainingData: TrainingData;
+};
 
 export const [
   huirthServerReadFromDataTrainingDataFromDirectories,
   huirthServerReadFromDataTrainingDataFromDirectoriesType,
-  huirthServerReadFromDataTrainingDataFromDirectoriesQuality
-] = createQualitySet({
+  huirthServerReadFromDataTrainingDataFromDirectoriesQuality,
+] = createQualityCard({
   type: 'huirth Server read from File System Data, Directories and Files',
   reducer: nullReducer,
   methodCreator: () =>
@@ -70,26 +67,29 @@ export const [
           if (data.directories.length !== 0) {
             try {
               readAllDirectories(data.directories).then((trainingData) => {
-                controller.fire(strategySuccess(strategy, strategyData_unifyData(strategy, {
-                  trainingData,
-                })));
+                controller.fire(
+                  strategySuccess(
+                    strategy,
+                    strategyData_unifyData(strategy, {
+                      trainingData,
+                    })
+                  )
+                );
               });
             } catch (error) {
-              controller.fire(strategyFailed(strategy, strategyData_appendFailure(
-                strategy,
-                huirthServerFailureConditions.failedParsingTrainingData
-              )));
+              controller.fire(
+                strategyFailed(strategy, strategyData_appendFailure(strategy, huirthServerFailureConditions.failedParsingTrainingData))
+              );
             }
           } else {
-            controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(
-              action.strategy,
-              huirthServerFailureConditions.noTrainingData
-            )));
+            controller.fire(
+              strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, huirthServerFailureConditions.noTrainingData))
+            );
           }
         }
       } else {
         controller.fire(action);
       }
-    })
+    }),
 });
 /*#>*/

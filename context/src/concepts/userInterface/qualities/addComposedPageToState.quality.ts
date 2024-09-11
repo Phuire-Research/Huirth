@@ -2,12 +2,12 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a quality that will add a page and its compositions to the state, while update the cached selectors to enable atomic operations.
 $>*/
 /*<#*/
-import { Action, KeyedSelector, createMethod, createQualitySet, strategySuccess } from 'stratimux';
+import { Action, KeyedSelector, createMethod, createQualityCard, strategySuccess } from '@phuire/stratimux';
 import { BoundSelectors, Composition, userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 
 export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageToStateType, userInterfaceAddComposedPageToStateQuality] =
-  createQualitySet({
+  createQualityCard({
     type: 'User Interface add composed Page to State',
     reducer: (state: UserInterfaceState, action: Action): UserInterfaceState => {
       if (action.strategy) {

@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that will set a new training data page to state.
 $>*/
 /*<#*/
-import { Action, createQualitySetWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
+import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 
 export type HuirthSetTrainingDataPagePayload = {
@@ -10,7 +10,7 @@ export type HuirthSetTrainingDataPagePayload = {
 };
 
 export const [huirthSetTrainingDataPage, huirthSetTrainingDataPageType, huirthSetTrainingDataPageQuality] =
-  createQualitySetWithPayload<HuirthSetTrainingDataPagePayload>({
+  createQualityCardWithPayload<HuirthSetTrainingDataPagePayload>({
     type: 'huirth set a new training data page',
     reducer: (state: huirthState, action: Action): huirthState => {
       const { trainingDataName } = selectPayload<HuirthSetTrainingDataPagePayload>(action);

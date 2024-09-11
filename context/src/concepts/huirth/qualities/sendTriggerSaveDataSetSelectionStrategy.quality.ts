@@ -9,10 +9,10 @@ import {
   createAction,
   createActionNode,
   createMethodDebounceWithState,
-  createQualitySet,
+  createQualityCard,
   createStrategy,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { ProjectStatus } from '../huirth.model';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
@@ -23,7 +23,7 @@ export const [
   huirthSendTriggerSaveDataSetSelectionStrategy,
   huirthSendTriggerSaveDataSetSelectionStrategyType,
   huirthSendTriggerSaveDataSetSelectionStrategyQuality,
-] = createQualitySet({
+] = createQualityCard({
   type: 'huirth send trigger save data set selection strategy to server',
   reducer: (state: huirthState, _: Action): huirthState => {
     const { trainingData } = state;
@@ -34,7 +34,7 @@ export const [
       if (select) {
         const name = trainingData[i].name;
         names.push(name);
-        if (name.toLowerCase() === 'stratimux') {
+        if (name.toLowerCase() === '@phuire/stratimux') {
           stratimuxStatus = ProjectStatus.saving;
         } else if (name.toLowerCase() === 'huirth') {
           huirthStatus = ProjectStatus.saving;

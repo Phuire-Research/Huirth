@@ -5,35 +5,35 @@ $>*/
 import {
   UnifiedSubject,
   createMethodDebounceWithConcepts,
-  createQualitySet,
+  createQualityCard,
   nullReducer,
   selectState,
   selectUnifiedState,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirthServerState } from '../huirthServer.concept';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirthServerSaveDPOStrategy } from '../strategies/saveDPO.strategy';
 
-export const [
-  huirthServerTriggerSaveDPOStrategy,
-  huirthServerTriggerSaveDPOStrategyType,
-  huirthServerTriggerSaveDPOStrategyQuality
-] = createQualitySet({
-  type: 'huirthServer trigger save DPO strategy',
-  reducer: nullReducer,
-  methodCreator: (concepts$, semaphore) =>
-    createMethodDebounceWithConcepts(
-      (action, concepts) => {
-        const state = selectUnifiedState<huirthServerState>(concepts, semaphore as number);
-        const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
-        if (state && fileSystemState) {
-          const strategy = huirthServerSaveDPOStrategy(fileSystemState.root, state.activeDPO);
-          return strategyBegin(strategy);
-        } else {
-          return action;
-        }
-      }, concepts$ as UnifiedSubject, semaphore as number, 50
-    )
-});
+export const [huirthServerTriggerSaveDPOStrategy, huirthServerTriggerSaveDPOStrategyType, huirthServerTriggerSaveDPOStrategyQuality] =
+  createQualityCard({
+    type: 'huirthServer trigger save DPO strategy',
+    reducer: nullReducer,
+    methodCreator: (concepts$, semaphore) =>
+      createMethodDebounceWithConcepts(
+        (action, concepts) => {
+          const state = selectUnifiedState<huirthServerState>(concepts, semaphore as number);
+          const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
+          if (state && fileSystemState) {
+            const strategy = huirthServerSaveDPOStrategy(fileSystemState.root, state.activeDPO);
+            return strategyBegin(strategy);
+          } else {
+            return action;
+          }
+        },
+        concepts$ as UnifiedSubject,
+        semaphore as number,
+        50
+      ),
+  });
 /*#>*/

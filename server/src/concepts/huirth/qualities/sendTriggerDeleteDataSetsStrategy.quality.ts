@@ -6,40 +6,41 @@ import {
   createAction,
   createActionNode,
   createMethodDebounce,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStrategy,
   nullReducer,
   selectPayload,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 import { huirthClearDataSetSelection } from './clearDataSetSelection.quality';
 
 export type huirthSendTriggerDeleteDataSetsStrategyPayload = {
-  names: string[],
-}
+  names: string[];
+};
 
 export const [
   huirthSendTriggerDeleteDataSetsStrategy,
   huirthSendTriggerDeleteDataSetsStrategyType,
-  huirthSendTriggerDeleteDataSetsStrategyQuality
-] = createQualitySetWithPayload<huirthSendTriggerDeleteDataSetsStrategyPayload>({
+  huirthSendTriggerDeleteDataSetsStrategyQuality,
+] = createQualityCardWithPayload<huirthSendTriggerDeleteDataSetsStrategyPayload>({
   type: 'huirth send trigger delete data sets strategy',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethodDebounce(
-      (action) => {
-        const payload = selectPayload<huirthSendTriggerDeleteDataSetsStrategyPayload>(action);
-        return strategyBegin(createStrategy({
+    createMethodDebounce((action) => {
+      const payload = selectPayload<huirthSendTriggerDeleteDataSetsStrategyPayload>(action);
+      return strategyBegin(
+        createStrategy({
           topic: 'Sent to Web Socket: Trigger Delete Data Sets: ' + payload.names.join(', '),
           initialNode: createActionNode(
-            userInterfaceClientSendActionToServer(
-              createAction('huirthServer trigger delete data sets strategy', {payload})), {
-              successNode: createActionNode(huirthClearDataSetSelection())
-            })
-        }));
-      }, 50
-    )
+            userInterfaceClientSendActionToServer(createAction('huirthServer trigger delete data sets strategy', { payload })),
+            {
+              successNode: createActionNode(huirthClearDataSetSelection()),
+            }
+          ),
+        })
+      );
+    }, 50),
 });
 /*#>*/

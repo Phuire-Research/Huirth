@@ -3,14 +3,27 @@ For the asynchronous graph programming framework Stratimux, generate a tests and
 $>*/
 /*<#*/
 
-import { CounterState, axiumKick, counterAdd, counterName, counterSelectCount, createAxium, createCounterConcept, createExperimentConcept, createExperimentState, createStage, selectState, stageWaitForOpenThenIterate } from 'stratimux';
+import {
+  CounterState,
+  axiumKick,
+  counterAdd,
+  counterName,
+  counterSelectCount,
+  createAxium,
+  createCounterConcept,
+  createExperimentConcept,
+  createExperimentState,
+  createStage,
+  selectState,
+  stageWaitForOpenThenIterate,
+} from '@phuire/stratimux';
 import {
   experimentAsyncBufferMultiplyByCountFromConcepts,
-  experimentAsyncBufferMultiplyByCountFromConceptsQuality
+  experimentAsyncBufferMultiplyByCountFromConceptsQuality,
 } from './qualities/asyncBufferMultiplyByCountFromConceptsAction.quality';
 import {
   experimentBufferMultiplyByCountFromConcepts,
-  experimentBufferMultiplyByCountFromConceptsQuality
+  experimentBufferMultiplyByCountFromConceptsQuality,
 } from './qualities/bufferMultiplyByCountFromConceptsAction.quality';
 import { experimentBufferNextAction, experimentBufferNextActionQuality } from './qualities/bufferSomeAction.quality';
 
@@ -20,53 +33,68 @@ test('Buffer method periodic count', (done) => {
   const plan = axium.plan('Experiment buffer add 4 after 10ms', [
     stageWaitForOpenThenIterate(() => axiumKick()),
     createStage((_, dispatch) => {
-      dispatch(experimentBufferNextAction({
-        action: counterAdd()
-      }), {
-        iterateStage: true,
-      });
+      dispatch(
+        experimentBufferNextAction({
+          action: counterAdd(),
+        }),
+        {
+          iterateStage: true,
+        }
+      );
     }),
     createStage((concepts, dispatch) => {
       const counterState = selectState<CounterState>(concepts, counterName);
       expect(counterState?.count).toBe(0);
-      dispatch(experimentBufferNextAction({
-        action: counterAdd()
-      }), {
-        iterateStage: true,
-      });
+      dispatch(
+        experimentBufferNextAction({
+          action: counterAdd(),
+        }),
+        {
+          iterateStage: true,
+        }
+      );
     }),
     createStage((concepts, dispatch) => {
       const counterState = selectState<CounterState>(concepts, counterName);
       expect(counterState?.count).toBe(0);
-      dispatch(experimentBufferNextAction({
-        action: counterAdd()
-      }), {
-        iterateStage: true,
-      });
+      dispatch(
+        experimentBufferNextAction({
+          action: counterAdd(),
+        }),
+        {
+          iterateStage: true,
+        }
+      );
     }),
     createStage((concepts, dispatch) => {
       const counterState = selectState<CounterState>(concepts, counterName);
       expect(counterState?.count).toBe(0);
-      dispatch(experimentBufferNextAction({
-        action: counterAdd()
-      }), {
-        iterateStage: true,
-      });
+      dispatch(
+        experimentBufferNextAction({
+          action: counterAdd(),
+        }),
+        {
+          iterateStage: true,
+        }
+      );
     }),
-    createStage((concepts, _dispatch, changes) => {
-      const counterState = selectState<CounterState>(concepts, counterName);
-      if (changes.length > 0) {
-        expect(counterState?.count).toBe(4);
-        setTimeout(() => {
-          plan.conclude();
-          axium.close();
-          done();
-        }, 10);
-      }
-    }, {selectors: [counterSelectCount], beat: 200}),
+    createStage(
+      (concepts, _dispatch, changes) => {
+        const counterState = selectState<CounterState>(concepts, counterName);
+        if (changes.length > 0) {
+          expect(counterState?.count).toBe(4);
+          setTimeout(() => {
+            plan.conclude();
+            axium.close();
+            done();
+          }, 10);
+        }
+      },
+      { selectors: [counterSelectCount], beat: 200 }
+    ),
     createStage(() => {
       plan.conclude();
-    })
+    }),
   ]);
 });
 

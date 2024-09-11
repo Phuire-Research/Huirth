@@ -3,21 +3,14 @@ For the graph programming framework Stratimux and a Concept huirth, generate a U
 $>*/
 /*<#*/
 /* eslint-disable max-len */
+import { Action, axiumConcludeType, createAction, createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 import {
-  Action,
-  axiumConcludeType,
-  createAction,
-  createMethod,
-  nullReducer,
-  strategySuccess
-} from 'stratimux';
-import { createQualitySetComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
+  createQualityCardComponent,
+  selectComponentPayload,
+  userInterface_appendCompositionToPage,
+} from '../../../../../model/userInterface';
 
-export const [
-  huirthError,
-  huirthErrorType,
-  huirthErrorQuality
-] = createQualitySetComponent({
+export const [huirthError, huirthErrorType, huirthErrorQuality] = createQualityCardComponent({
   type: 'Create huirth Error Composition',
   reducer: nullReducer,
   componentCreator: (act) =>
@@ -25,12 +18,14 @@ export const [
       const payload = selectComponentPayload(action);
       if (action.strategy) {
         const id = '#errorID';
-        return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
-          id,
-          boundSelectors: [],
-          universal: false,
-          action: act(payload),
-          html: /*html*/`
+        return strategySuccess(
+          action.strategy,
+          userInterface_appendCompositionToPage(action.strategy, {
+            id,
+            boundSelectors: [],
+            universal: false,
+            action: act(payload),
+            html: /*html*/ `
 <section id='${id}' class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">
   <div class="flex-1 flex items-center">
     <div class="flex flex-col items-center text-center mx-auto">
@@ -38,10 +33,11 @@ export const [
     </div>
   </div>
 </section>
-`
-        }));
+`,
+          })
+        );
       }
       return createAction(axiumConcludeType);
-    })
+    }),
 });
 /*#>*/

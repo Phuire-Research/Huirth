@@ -9,11 +9,11 @@ import {
   axiumRegisterTimeOut,
   createActionNode,
   createMethodWithState,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStrategy,
   selectPayload,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { userInterface_selectInputTarget } from '../../../model/userInterface';
 import { DataSetTypes, PhuirEProjects, ProjectStatus } from '../huirth.model';
@@ -26,7 +26,7 @@ export type huirthUpdateDataSetNamePayload = {
 };
 
 export const [huirthUpdateDataSetName, huirthUpdateDataSetNameType, huirthUpdateDataSetNameQuality] =
-  createQualitySetWithPayload<huirthUpdateDataSetNamePayload>({
+  createQualityCardWithPayload<huirthUpdateDataSetNamePayload>({
     type: 'Create huirth UpdateDataSetName',
     reducer: (state: huirthState, action: Action): huirthState => {
       const payload = selectPayload<huirthUpdateDataSetNamePayload>(action);

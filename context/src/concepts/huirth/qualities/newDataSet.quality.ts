@@ -7,17 +7,17 @@ import {
   axiumKick,
   createActionNode,
   createMethodWithConcepts,
-  createQualitySet,
+  createQualityCard,
   createStrategy,
   selectUnifiedState,
   strategyBegin,
-} from 'stratimux';
+} from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { generateDefaultNamedDataSet } from '../huirth.model';
 import { Subject } from 'rxjs';
 import { huirthSendAddTrainingPageStrategy } from './sendTriggerAddTrainingPageStrategy.quality';
 
-export const [huirthNewDataSet, huirthNewDataSetType, huirthNewDataSetQuality] = createQualitySet({
+export const [huirthNewDataSet, huirthNewDataSetType, huirthNewDataSetQuality] = createQualityCard({
   type: 'Huirth create a new default DataSet',
   reducer: (state: huirthState): huirthState => {
     const dataSetSelection: boolean[] = [];

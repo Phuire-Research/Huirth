@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a quality that will update a specific page and composition based on the incoming payload. And set by the data field supplied by the strategy.
 $>*/
 /*<#*/
-import { Action, createQualitySetWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
+import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
 import { BoundSelectors, userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 
@@ -14,7 +14,7 @@ export const [
   userInterfaceUpdateAtomicPageComposition,
   userInterfaceUpdateAtomicPageCompositionType,
   userInterfaceUpdateAtomicPageCompositionQuality,
-] = createQualitySetWithPayload<UserInterfaceUpdateAtomicPageCompositionPayload>({
+] = createQualityCardWithPayload<UserInterfaceUpdateAtomicPageCompositionPayload>({
   type: 'User Interface atomic update composition to State',
   reducer: (state: UserInterfaceState, action: Action): UserInterfaceState => {
     const payload = selectPayload<UserInterfaceUpdateAtomicPageCompositionPayload>(action);
