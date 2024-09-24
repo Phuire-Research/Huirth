@@ -13,7 +13,7 @@ export const huirthServerGitPullRepositoryTopic = 'huirthServer git pull target 
 export const huirthServerGitPullRepositoryStrategy = (root: string, name: string) => {
   const dataPath = path.join(root + '/data/repositories/' + name);
   const stepUpdateProjectStatusToPulled = createActionNode(
-    webSocketServerAppendToActionQue({
+    webSocketServerAppendToActionQue.actionCreator({
       actionQue: [
         huirthUpdateProjectStatus({
           name,
@@ -23,7 +23,7 @@ export const huirthServerGitPullRepositoryStrategy = (root: string, name: string
     })
   );
   const stepGitPull = createActionNode(
-    huirthServerGitPullRepository({
+    huirthServerGitPullRepository.actionCreator({
       path: dataPath,
     }),
     {

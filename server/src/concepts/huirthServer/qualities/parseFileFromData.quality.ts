@@ -3,15 +3,12 @@ For the graph programming framework Stratimux and a Concept huirth Server, gener
 $>*/
 /*<#*/
 import {
-  ActionType,
   createAsyncMethod,
-  createQuality,
   createQualityCard,
   nullReducer,
-  prepareActionCreator,
   strategyData_appendFailure,
   strategyData_select,
-  strategyData_unifyData,
+  strategyData_muxifyData,
   strategyFailed,
   strategySuccess,
 } from '@phuire/stratimux';
@@ -89,7 +86,7 @@ const recursiveParse = (data: BaseDataSet[], content: string, file: FileDirent):
   return data;
 };
 
-export const [huirthServerParseFileFromData, huirthServerParseFileFromDataType, huirthServerParseFileFromDataQuality] = createQualityCard({
+export const huirthServerParseFileFromData = createQualityCard({
   type: 'huirthServer parse file from data',
   reducer: nullReducer,
   methodCreator: () =>
@@ -104,7 +101,7 @@ export const [huirthServerParseFileFromData, huirthServerParseFileFromDataType, 
           controller.fire(
             strategySuccess(
               action.strategy,
-              strategyData_unifyData(strategy, {
+              strategyData_muxifyData(strategy, {
                 parsed,
               })
             )

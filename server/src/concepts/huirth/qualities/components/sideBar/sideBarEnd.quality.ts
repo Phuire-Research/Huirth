@@ -11,12 +11,12 @@ import {
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthSideBarEnd, huirthSideBarEndType, huirthSideBarEndQuality] = createQualityCardComponent({
+export const huirthSideBarEnd = createQualityCardComponent({
   type: 'create userInterface for SideBarEnd',
   reducer: nullReducer,
-  componentCreator: (act) =>
+  componentCreator:
     createMethod((action) => {
-      const payload = selectComponentPayload(action);
+      const payload = action.payload;
       const id = '#sideBarEnd';
       if (action.strategy) {
         return strategySuccess(
@@ -25,7 +25,7 @@ export const [huirthSideBarEnd, huirthSideBarEndType, huirthSideBarEndQuality] =
             id,
             boundSelectors: [],
             universal: true,
-            action: act(payload),
+            action,
             html: /*html*/ `
   </nav>
 </aside> 

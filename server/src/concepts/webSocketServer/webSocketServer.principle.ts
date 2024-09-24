@@ -4,22 +4,13 @@ That will notify new client's of its own semaphore, then pass new action added t
 As well as receive actions from the client, the parse and dispatch them into the server's action stream.
 $>*/
 /*<#*/
-import { Subscriber } from 'rxjs';
 import { ServerState } from '../server/server.concept';
 import {
   Action,
-  Concepts,
-  KeyedSelector,
-  PrincipleFunction,
-  MuxifiedSubject,
   axiumKick,
-  axiumRegisterStagePlanner,
   axiumSelectOpen,
-  createStage,
   getAxiumState,
-  primeAction,
   selectSlice,
-  selectMuxifiedState,
 } from '@phuire/stratimux';
 import _ws from 'express-ws';
 import { webSocketClientSetServerSemaphore } from '../webSocketClient/qualities/setServerSemaphore.quality';
@@ -32,8 +23,6 @@ export const webSocketServerPrinciple: WebSocketServerPrinciple = ({
   k_,
   plan,
   concepts_,
-  e_,
-  c_,
   observer,
   conceptSemaphore
 }) => {

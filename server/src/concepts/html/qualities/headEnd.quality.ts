@@ -3,14 +3,13 @@ For the graph programming framework Stratimux and Html Concept, generate a quali
 $>*/
 /*<#*/
 import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
-import { createQualityCardComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../model/userInterface';
+import { createQualityCardComponent, userInterface_appendCompositionToPage } from '../../../model/userInterface';
 
-export const [htmlHeadEnd, htmlHeadEndType, htmlHeadEndQuality] = createQualityCardComponent({
+export const htmlHeadEnd = createQualityCardComponent({
   type: 'Html create Head End',
   reducer: nullReducer,
-  componentCreator: (act) =>
+  componentCreator:
     createMethod((action) => {
-      const payload = selectComponentPayload(action);
       if (action.strategy) {
         return strategySuccess(
           action.strategy,
@@ -18,7 +17,7 @@ export const [htmlHeadEnd, htmlHeadEndType, htmlHeadEndQuality] = createQualityC
             id: '',
             boundSelectors: [],
             universal: false,
-            action: act(payload),
+            action,
             html: /*html*/ `
     </head>
       `,

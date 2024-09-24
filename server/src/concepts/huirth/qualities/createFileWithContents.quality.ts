@@ -15,6 +15,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { PrimedConceptAndProperties } from '../../../model/userInterface';
 import { createContextIndexContent } from '../../../model/contextIndex';
+import { huirthState } from '../huirth.concept';
 
 export type CreateContextIndexPayload = {
   primedConcepts: PrimedConceptAndProperties[];
@@ -22,11 +23,7 @@ export type CreateContextIndexPayload = {
   directoryMap: string[];
 };
 
-export const [
-  userInterfaceServerCreateContextIndex,
-  userInterfaceServerCreateContextIndexType,
-  userInterfaceServerCreateContextIndexQuality,
-] = createQualityCardWithPayload<CreateContextIndexPayload>({
+export const userInterfaceServerCreateContextIndex = createQualityCardWithPayload<huirthState, CreateContextIndexPayload>({
   type: 'User Interface Server create Context index.ts',
   reducer: nullReducer,
   methodCreator: () =>

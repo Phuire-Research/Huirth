@@ -4,7 +4,7 @@ $>*/
 /*<#*/
 import { createQualityCard, nullReducer } from '@phuire/stratimux';
 
-export const [userInterfaceEnd, userInterfaceEndType, userInterfaceEndQuality] = createQualityCard({
+export const userInterfaceEnd = createQualityCard({
   type: 'User Interface End Strategy',
   reducer: nullReducer,
 });

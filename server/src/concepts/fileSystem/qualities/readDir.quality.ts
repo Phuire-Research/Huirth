@@ -7,9 +7,8 @@ import {
   createAsyncMethod,
   createQualityCardWithPayload,
   nullReducer,
-  selectPayload,
   strategyData_appendFailure,
-  strategyData_unifyData,
+  strategyData_muxifyData,
   strategyFailed,
   strategySuccess,
 } from '@phuire/stratimux';
@@ -17,6 +16,7 @@ import fs from 'fs/promises';
 import { Dirent } from 'fs';
 import path from 'path';
 import { FileDirent } from '../fileSystem.model';
+import { FileSystemState } from '../fileSystem.concept';
 
 async function walk(target: string): Promise<({ path: string } & Dirent)[]> {
   const entries = await fs.readdir(target, {
@@ -40,13 +40,13 @@ export type ReadDirectoryField = {
   filesAndDirectories: FileDirent[];
 };
 
-export const [fileSystemReadDirectory, fileSystemReadDirectoryType, fileSystemReadDirectoryQuality] =
-  createQualityCardWithPayload<ReadDirectoryPayload>({
+export const fileSystemReadDirectory =
+  createQualityCardWithPayload<FileSystemState, ReadDirectoryPayload>({
     type: 'File System read Directory and add to Strategy Data',
     reducer: nullReducer,
     methodCreator: () =>
       createAsyncMethod((controller, action) => {
-        const { target } = selectPayload<ReadDirectoryPayload>(action);
+        const { target } = action.payload;
         if (action.strategy) {
           const strategy = action.strategy;
           walk(target)
@@ -54,7 +54,7 @@ export const [fileSystemReadDirectory, fileSystemReadDirectoryType, fileSystemRe
               controller.fire(
                 strategySuccess(
                   strategy,
-                  strategyData_unifyData(strategy, {
+                  strategyData_muxifyData(strategy, {
                     filesAndDirectories: data,
                   })
                 )

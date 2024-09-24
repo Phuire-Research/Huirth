@@ -10,10 +10,10 @@ export type UserInterfaceRemovePagePayload = {
   name: string;
 };
 
-export const [userInterfaceRemovePage, userInterfaceRemovePageType, userInterfaceRemovePageQuality] =
-  createQualityCardWithPayload<UserInterfaceRemovePagePayload>({
+export const userInterfaceRemovePage =
+  createQualityCardWithPayload<UserInterfaceState, UserInterfaceRemovePagePayload>({
     type: 'User Interface Remove Page',
-    reducer: (state: UserInterfaceState, action: Action): UserInterfaceState => {
+    reducer: (state, action) => {
       const payload = selectPayload<UserInterfaceRemovePagePayload>(action);
       const { pageStrategies, pages } = state;
       const newPageStrategies: PageStrategyCreators[] = [];
@@ -37,7 +37,6 @@ export const [userInterfaceRemovePage, userInterfaceRemovePageType, userInterfac
         }
       }
       return {
-        ...state,
         pages: newPages,
         pageStrategies: newPageStrategies,
       };

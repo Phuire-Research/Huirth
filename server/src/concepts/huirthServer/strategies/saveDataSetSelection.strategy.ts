@@ -32,7 +32,7 @@ export const huirthServerSaveDataSetSelectionStrategy = (root: string, trainingD
       const saveFormat = convertNamedDataSetToSaveFormat(dataSet);
       const stepUpdateProjectStatusToSavedOnClient = createActionNode(huirthServerSendProjectStatusToSaved(dataSet.name));
       const stepCreateFileWithContents = createActionNode(
-        fileSystemCreateFileWithContentsIndex({
+        fileSystemCreateFileWithContentsIndex.actionCreator({
           target: path.join(p + '/' + dataSet.name + '.json'),
           content: JSON.stringify(saveFormat),
         }),
@@ -40,11 +40,11 @@ export const huirthServerSaveDataSetSelectionStrategy = (root: string, trainingD
           successNode: stepUpdateProjectStatusToSavedOnClient,
         }
       );
-      const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory({ path: p }), {
+      const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory.actionCreator({ path: p }), {
         successNode: stepCreateFileWithContents,
         agreement: 20000,
       });
-      const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory({ path: p }), {
+      const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory.actionCreator({ path: p }), {
         successNode: stepCreateDirectory,
         agreement: 20000,
       });
@@ -58,7 +58,7 @@ export const huirthServerSaveDataSetSelectionStrategy = (root: string, trainingD
     }
   }
   if (first === undefined) {
-    first = createActionNode(axiumLog());
+    first = createActionNode(axiumLog.actionCreator());
     first.payload = {
       message: 'No data sets provided to save selection strategy',
     };

@@ -7,16 +7,14 @@ import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
 import {
   createQualityCardComponent,
-  selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthIndexHero, huirthIndexHeroType, huirthIndexHeroQuality] = createQualityCardComponent({
+export const huirthIndexHero = createQualityCardComponent({
   type: 'create userInterface for IndexHero',
   reducer: nullReducer,
-  componentCreator: (act) =>
+  componentCreator:
     createMethod((action) => {
-      const payload = selectComponentPayload(action);
       const id = '#heroId';
       if (action.strategy) {
         return strategySuccess(
@@ -25,7 +23,7 @@ export const [huirthIndexHero, huirthIndexHeroType, huirthIndexHeroQuality] = cr
             id,
             boundSelectors: [],
             universal: false,
-            action: act(payload),
+            action,
             html: /*html*/ `
 <section id='${id}' class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">
   <div class="flex-1 flex items-center">

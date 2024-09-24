@@ -13,6 +13,7 @@ import {
 } from '@phuire/stratimux';
 import fs from 'fs/promises';
 import path from 'path';
+import { FileSystemState } from '../fileSystem.concept';
 
 async function copyDir(src: string, dest: string) {
   await fs.mkdir(dest, { recursive: true });
@@ -32,8 +33,8 @@ export type CopyMoveTargetDirectoryPayload = {
   newLocation: string;
 };
 
-export const [fileSystemCopyMoveTargetDirectory, fileSystemCopyMoveTargetDirectoryType, fileSystemCopyMoveTargetDirectoryQuality] =
-  createQualityCardWithPayload<CopyMoveTargetDirectoryPayload>({
+export const fileSystemCopyMoveTargetDirectory =
+  createQualityCardWithPayload<FileSystemState, CopyMoveTargetDirectoryPayload>({
     type: 'File System copy move target Directory',
     reducer: nullReducer,
     methodCreator: () =>

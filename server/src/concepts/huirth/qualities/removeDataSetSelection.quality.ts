@@ -2,11 +2,10 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that remove a dataset and if it is a project, update the status to installed.
 $>*/
 /*<#*/
-import { UnifiedSubject, createActionNode, createMethodWithState, createQualityCard, createStrategy, strategyBegin } from '@phuire/stratimux';
+import { createActionNode, createMethodWithState, createQualityCard, createStrategy, strategyBegin } from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { DataSetTypes, NamedDataSet, PhuirEProjects, ProjectStatus, TrainingData } from '../huirth.model';
 import { huirthSendTriggerDeleteDataSetsStrategy } from './sendTriggerDeleteDataSetsStrategy.quality';
-import { userInterface_isClient } from '../../../model/userInterface';
 
 const isNot = (dataSet: NamedDataSet, not: string[]) => {
   for (const n of not) {
@@ -17,9 +16,9 @@ const isNot = (dataSet: NamedDataSet, not: string[]) => {
   return true;
 };
 
-export const [huirthRemoveDataSetSelection, huirthRemoveDataSetSelectionType, huirthRemoveDataSetSelectionQuality] = createQualityCard({
+export const huirthRemoveDataSetSelection = createQualityCard<huirthState>({
   type: 'huirth remove data set selection',
-  reducer: (state: huirthState): huirthState => {
+  reducer: (state) => {
     const { trainingData, dataSetSelection } = state;
     let { projectsStatuses, stratimuxStatus, huirthStatus } = state;
     const newDataSetSelection = [];
@@ -63,20 +62,18 @@ export const [huirthRemoveDataSetSelection, huirthRemoveDataSetSelectionType, hu
       dataSetSelection: newDataSetSelection,
     };
   },
-  methodCreator: (concepts$, semaphore) =>
+  methodCreator: () =>
     createMethodWithState<huirthState>(
-      (action, state) => {
+      (_, state) => {
         const { trainingData, dataSetSelection } = state;
         const names = trainingData.filter((__, i) => dataSetSelection[i]).map((d) => d.name);
         return strategyBegin(
           createStrategy({
             topic: 'Send Trigger Delete Data Sets: ' + names.join(', '),
-            initialNode: createActionNode(huirthSendTriggerDeleteDataSetsStrategy({ names }), { successNode: null, failureNode: null }),
+            initialNode: createActionNode(huirthSendTriggerDeleteDataSetsStrategy.actionCreator({ names }), { successNode: null, failureNode: null }),
           })
         );
       },
-      concepts$ as UnifiedSubject,
-      semaphore as number
     ),
 });
 /*#>*/

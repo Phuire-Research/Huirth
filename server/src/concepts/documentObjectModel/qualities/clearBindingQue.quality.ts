@@ -5,12 +5,11 @@ $>*/
 import { createQualityCard, defaultMethodCreator } from '@phuire/stratimux';
 import { DocumentObjectModelState } from '../documentObjectModel.concept';
 
-export const [documentObjectModelClearBindingQue, documentObjectModelClearBindingQueType, documentObjectModelClearBindingQueQuality] =
-  createQualityCard({
+export const documentObjectModelClearBindingQue =
+  createQualityCard<DocumentObjectModelState>({
     type: 'Document Object Model clear binding que',
-    reducer: (state: DocumentObjectModelState): DocumentObjectModelState => {
+    reducer: () => {
       return {
-        ...state,
         bindingQue: {},
       };
     },

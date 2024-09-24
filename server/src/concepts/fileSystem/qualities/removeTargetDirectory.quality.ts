@@ -8,24 +8,24 @@ import {
   createAsyncMethod,
   createQualityCardWithPayload,
   nullReducer,
-  selectPayload,
   strategyData_appendFailure,
   strategyFailed,
   strategySuccess,
 } from '@phuire/stratimux';
 import { rimraf } from 'rimraf';
+import { FileSystemState } from '../fileSystem.concept';
 
 export type RemoveTargetDirectoryPayload = {
   path: string;
 };
 
-export const [fileSystemRemoveTargetDirectory, fileSystemRemoveTargetDirectoryType, fileSystemRemoveTargetDirectoryQuality] =
-  createQualityCardWithPayload<RemoveTargetDirectoryPayload>({
+export const fileSystemRemoveTargetDirectory =
+  createQualityCardWithPayload<FileSystemState, RemoveTargetDirectoryPayload>({
     type: 'File System remove target Directory',
     reducer: nullReducer,
     methodCreator: () =>
       createAsyncMethod((controller, action) => {
-        const path = selectPayload<RemoveTargetDirectoryPayload>(action).path;
+        const {path} = action.payload;
         if (action.strategy) {
           if (path.split('\\server\\src\\').length > 1) {
             console.error('ERROR IN REMOVE TARGET DIR', action);

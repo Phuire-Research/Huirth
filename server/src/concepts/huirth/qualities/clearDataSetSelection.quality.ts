@@ -5,12 +5,11 @@ $>*/
 import { Action, createQualityCard, defaultMethodCreator } from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 
-export const [huirthClearDataSetSelection, huirthClearDataSetSelectionType, huirthClearDataSetSelectionQuality] = createQualityCard({
+export const huirthClearDataSetSelection = createQualityCard<huirthState>({
   type: 'huirth clear the current data set selection',
-  reducer: (state: huirthState, _: Action): huirthState => {
+  reducer: (state) => {
     const dataSetSelection = state.dataSetSelection.map(() => false);
     return {
-      ...state,
       dataSetSelection,
     };
   },

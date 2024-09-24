@@ -3,18 +3,18 @@ For the graph programming framework Stratimux generate a File System Concept tha
 $>*/
 /*<#*/
 import { createConcept, Concept } from '@phuire/stratimux';
-import { fileSystemGetDirectoriesQuality } from './qualities/getDirectories.quality';
-import { fileSystemRemoveTargetDirectoryQuality } from './qualities/removeTargetDirectory.quality';
-import { fileSystemCreateTargetDirectoryQuality } from './qualities/createTargetDirectory.quality';
-import { fileSystemCopyMoveTargetDirectoryQuality } from './qualities/copyMoveDirectory.quality';
+import { fileSystemGetDirectories } from './qualities/getDirectories.quality';
+import { fileSystemRemoveTargetDirectory } from './qualities/removeTargetDirectory.quality';
+import { fileSystemCreateTargetDirectory } from './qualities/createTargetDirectory.quality';
+import { fileSystemCopyMoveTargetDirectory } from './qualities/copyMoveDirectory.quality';
 import { findRoot } from '../../model/findRoot';
-import { fileSystemRecursivelyCopyMoveTargetDirectoriesQuality } from './qualities/recursivelyCopyMoveDirectories.quality';
-import { fileSystemServerSetConceptDirectoriesFromDataQuality } from './qualities/setConceptDirectoriesFromData.quality';
-import { fileSystemCreateFileWithContentsIndexQuality } from './qualities/createFileWithContents.quality';
-import { fileSystemGetDirectoriesAndFilesQuality } from './qualities/getDirectoriesAndFiles.quality';
-import { fileSystemReadDirectoryQuality } from './qualities/readDir.quality';
-import { fileSystemFilterFilesAndDirectoriesQuality } from './qualities/filterFilesAndDirectories.quality';
-import { fileSystemReadFileContentsAndAppendToDataQuality } from './qualities/readFileContentsAndAppendToData.quality';
+import { fileSystemRecursivelyCopyMoveTargetDirectories } from './qualities/recursivelyCopyMoveDirectories.quality';
+import { fileSystemServerSetConceptDirectoriesFromData } from './qualities/setConceptDirectoriesFromData.quality';
+import { fileSystemCreateFileWithContentsIndex } from './qualities/createFileWithContents.quality';
+import { fileSystemGetDirectoriesAndFiles } from './qualities/getDirectoriesAndFiles.quality';
+import { fileSystemReadDirectory } from './qualities/readDir.quality';
+import { fileSystemFilterFilesAndDirectories } from './qualities/filterFilesAndDirectories.quality';
+import { fileSystemReadFileContentsAndAppendToData } from './qualities/readFileContentsAndAppendToData.quality';
 
 export type FileSystemState = {
   conceptDirectoryMap: string[];
@@ -30,23 +30,29 @@ const createFileSystemState = (): FileSystemState => {
   };
 };
 
-export const createFileSystemConcept = (): Concept => {
+const qualities = {
+  fileSystemGetDirectories,
+  fileSystemRemoveTargetDirectory,
+  fileSystemCreateTargetDirectory,
+  fileSystemCopyMoveTargetDirectory,
+  fileSystemRecursivelyCopyMoveTargetDirectories,
+  fileSystemServerSetConceptDirectoriesFromData,
+  fileSystemCreateFileWithContentsIndex,
+  fileSystemGetDirectoriesAndFiles,
+  fileSystemReadDirectory,
+  fileSystemFilterFilesAndDirectories,
+  fileSystemReadFileContentsAndAppendToData,
+};
+
+export type FileSystemDeck = {
+  fileSystem: Concept<FileSystemState, typeof qualities>
+};
+
+export const createFileSystemConcept = () => {
   return createConcept(
     fileSystemName,
     createFileSystemState(),
-    [
-      fileSystemGetDirectoriesQuality,
-      fileSystemRemoveTargetDirectoryQuality,
-      fileSystemCreateTargetDirectoryQuality,
-      fileSystemCopyMoveTargetDirectoryQuality,
-      fileSystemRecursivelyCopyMoveTargetDirectoriesQuality,
-      fileSystemServerSetConceptDirectoriesFromDataQuality,
-      fileSystemCreateFileWithContentsIndexQuality,
-      fileSystemGetDirectoriesAndFilesQuality,
-      fileSystemReadDirectoryQuality,
-      fileSystemFilterFilesAndDirectoriesQuality,
-      fileSystemReadFileContentsAndAppendToDataQuality,
-    ],
+    qualities,
     [],
     []
   );

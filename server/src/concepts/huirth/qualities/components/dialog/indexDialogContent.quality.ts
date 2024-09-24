@@ -6,12 +6,10 @@ import {
   Concepts,
   CounterState,
   KeyedSelector,
-  UnifiedSubject,
   counterAdd,
   counterSubtract,
   createMethodDebounceWithConcepts,
   nullReducer,
-  selectUnifiedState,
   strategySuccess,
 } from '@phuire/stratimux';
 
@@ -31,13 +29,13 @@ import { huirthTriggerPlusCountingStrategy } from '../../triggerPlusCounterStrat
 import { huirthTriggerRandomCountingStrategy } from '../../triggerRandomCounterStrategy.quality';
 import { Subject } from 'rxjs';
 
-export const [huirthIndexDialogContent, huirthIndexDialogContentType, huirthIndexDialogContentQuality] = createQualityCardComponent({
+export const huirthIndexDialogContent = createQualityCardComponent({
   type: 'create userInterface for IndexDialogContent',
   reducer: nullReducer,
-  componentCreator: (act, concepts$?: Subject<Concepts>, _semaphore?: number) =>
+  componentCreator:
     createMethodDebounceWithConcepts(
       (action, concepts, semaphore) => {
-        const payload = selectComponentPayload(action);
+        const payload = action.payload;
         const id = '#dialogID';
         const strategyId = '#strategyID';
         const strategyPlusId = '#strategyPlusID';

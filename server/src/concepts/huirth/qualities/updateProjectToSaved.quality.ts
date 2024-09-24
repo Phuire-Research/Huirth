@@ -10,11 +10,11 @@ export type huirthUpdateProjectStatusToSavedPayload = {
   name: string;
 };
 
-export const [huirthUpdateProjectStatusToSaved, huirthUpdateProjectStatusToSavedType, huirthUpdateProjectStatusToSavedQuality] =
-  createQualityCardWithPayload<huirthUpdateProjectStatusToSavedPayload>({
+export const huirthUpdateProjectStatusToSaved =
+  createQualityCardWithPayload<huirthState, huirthUpdateProjectStatusToSavedPayload>({
     type: 'huirth update project status to saved',
-    reducer: (state: huirthState, action: Action): huirthState => {
-      const { name } = selectPayload<huirthUpdateProjectStatusToSavedPayload>(action);
+    reducer: (state, action) => {
+      const { name } = action.payload;
       let { projectsStatuses, stratimuxStatus, huirthStatus } = state;
       console.log('HIT UPDATED SAVED STATUS!!', name);
       let added = false;
@@ -43,7 +43,6 @@ export const [huirthUpdateProjectStatusToSaved, huirthUpdateProjectStatusToSaved
         projectsStatuses = newStatuses;
       }
       return {
-        ...state,
         stratimuxStatus,
         huirthStatus,
         projectsStatuses,

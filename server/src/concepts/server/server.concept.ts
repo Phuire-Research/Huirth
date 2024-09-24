@@ -3,7 +3,7 @@ For the graph programming framework Stratimux generate a Server Concept, that ac
 $>*/
 /*<#*/
 import { serverPrinciple } from './server.principle';
-import { createConcept } from '@phuire/stratimux';
+import { AxiumDeck, AxiumState, createConcept, PrincipleFunction } from '@phuire/stratimux';
 import express, { Application } from 'express';
 
 export type ServerState = {
@@ -20,7 +20,9 @@ const initialServerState = (port?: number): ServerState => {
   };
 };
 
+export type ServerPrinciple = PrincipleFunction<void, AxiumDeck, ServerState>;
+
 export const createServerConcept = (port?: number) => {
-  return createConcept(serverName, initialServerState(port), [], [serverPrinciple]);
+  return createConcept(serverName, initialServerState(port), {}, [serverPrinciple]);
 };
 /*#>*/

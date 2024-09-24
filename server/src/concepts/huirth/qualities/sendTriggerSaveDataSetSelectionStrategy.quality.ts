@@ -5,7 +5,6 @@ $>*/
 /*<#*/
 import {
   Action,
-  UnifiedSubject,
   createAction,
   createActionNode,
   createMethodDebounceWithState,
@@ -19,13 +18,9 @@ import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient
 import { huirthServerState } from '../../huirthServer/huirthServer.concept';
 import { huirthClearDataSetSelection } from './clearDataSetSelection.quality';
 
-export const [
-  huirthSendTriggerSaveDataSetSelectionStrategy,
-  huirthSendTriggerSaveDataSetSelectionStrategyType,
-  huirthSendTriggerSaveDataSetSelectionStrategyQuality,
-] = createQualityCard({
+export const huirthSendTriggerSaveDataSetSelectionStrategy = createQualityCard<huirthState>({
   type: 'huirth send trigger save data set selection strategy to server',
-  reducer: (state: huirthState, _: Action): huirthState => {
+  reducer: (state) => {
     const { trainingData } = state;
     let { stratimuxStatus, huirthStatus, projectsStatuses } = state;
     const { dataSetSelection } = state;
@@ -61,13 +56,12 @@ export const [
       }
     }
     return {
-      ...state,
       stratimuxStatus,
       huirthStatus,
       projectsStatuses,
     };
   },
-  methodCreator: (concepts$, semaphore) =>
+  methodCreator: () =>
     createMethodDebounceWithState<huirthServerState>(
       (_, state) => {
         const { dataSetSelection, trainingData } = state;
@@ -89,15 +83,12 @@ export const [
               })
             ),
             {
-              successNode: createActionNode(huirthClearDataSetSelection()),
+              successNode: createActionNode(huirthClearDataSetSelection.actionCreator()),
             }
           ),
         });
         return strategyBegin(strategy);
-      },
-      concepts$ as UnifiedSubject,
-      semaphore as number,
-      50
+      }, 50
     ),
 });
 /*#>*/

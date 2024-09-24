@@ -5,27 +5,26 @@ $>*/
 import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 import { createQualityCardComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../model/userInterface';
 
-export const [htmlBodyEnd, htmlBodyEndType, htmlBodyEndQuality] = createQualityCardComponent({
+export const htmlBodyEnd = createQualityCardComponent({
   type: 'Html create Body End',
   reducer: nullReducer,
-  componentCreator: (act) =>
-    createMethod((action) => {
-      if (action.strategy) {
-        const payload = selectComponentPayload(action);
-        return strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id: '',
-            boundSelectors: [],
-            universal: false,
-            action: act(payload),
-            html: /*html*/ `
-    </body>
-      `,
-          })
-        );
-      }
-      return action;
-    }),
+  componentCreator: createMethod((action) => {
+    if (action.strategy) {
+      const payload = action.payload;
+      return strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
+          id: '',
+          boundSelectors: [],
+          universal: false,
+          action,
+          html: /*html*/ `
+  </body>
+    `,
+        })
+      );
+    }
+    return action;
+  }),
 });
 /*#>*/

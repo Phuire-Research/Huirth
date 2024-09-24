@@ -13,27 +13,27 @@ export const determineProjectControls = (statuses: GeneralProjectStatuses): [str
     const dataID = '#projectID-' + generateNumID(i);
     dataStatus = st.status;
     switch (st.status) {
-      case ProjectStatus.installed: {
-        pb.push({
-          action: huirthSendTriggerParseRepositoryStrategy({ name: st.name }),
-          elementId: dataID,
-          eventBinding: elementEventBinding.onclick,
-        });
-        dataNote = 'Parse ' + st.name;
-        break;
-      }
-      case ProjectStatus.pulled: {
-        pb.push({
-          action: huirthSendTriggerParseRepositoryStrategy({ name: st.name }),
-          elementId: dataID,
-          eventBinding: elementEventBinding.onclick,
-        });
-        dataNote = 'Parse ' + st.name;
-        break;
-      }
-      default: {
-        dataNote = st.name;
-      }
+    case ProjectStatus.installed: {
+      pb.push({
+        action: huirthSendTriggerParseRepositoryStrategy.actionCreator({ name: st.name }),
+        elementId: dataID,
+        eventBinding: elementEventBinding.onclick,
+      });
+      dataNote = 'Parse ' + st.name;
+      break;
+    }
+    case ProjectStatus.pulled: {
+      pb.push({
+        action: huirthSendTriggerParseRepositoryStrategy.actionCreator({ name: st.name }),
+        elementId: dataID,
+        eventBinding: elementEventBinding.onclick,
+      });
+      dataNote = 'Parse ' + st.name;
+      break;
+    }
+    default: {
+      dataNote = st.name;
+    }
     }
     final += /*html*/ `
 <div class="m-4 flex-none flex items-center justify-end w-full">

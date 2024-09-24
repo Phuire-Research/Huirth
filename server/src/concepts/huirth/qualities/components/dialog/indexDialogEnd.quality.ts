@@ -10,12 +10,12 @@ import {
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthIndexDialogEnd, huirthIndexDialogEndType, huirthIndexDialogEndQuality] = createQualityCardComponent({
+export const huirthIndexDialogEnd = createQualityCardComponent({
   type: 'create userInterface for IndexDialogEnd',
   reducer: nullReducer,
-  componentCreator: (act) =>
+  componentCreator:
     createMethod((action) => {
-      const payload = selectComponentPayload(action);
+      const payload = action.payload;
       const id = '';
       if (action.strategy) {
         return strategySuccess(
@@ -24,7 +24,7 @@ export const [huirthIndexDialogEnd, huirthIndexDialogEndType, huirthIndexDialogE
             id,
             boundSelectors: [],
             universal: false,
-            action: act(payload),
+            action,
             html: /*html*/ `
     </div>
   </section>

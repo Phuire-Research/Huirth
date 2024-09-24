@@ -28,15 +28,15 @@ import { huirthToggleSidebar } from '../../toggleSidebar.quality';
 import { elementEventBinding } from '../../../../../model/html';
 import { userInterface_createPagesSelector } from '../../../../userInterface/userInterface.selector';
 
-export const [huirthSideBarContent, huirthSideBarContentType, huirthSideBarContentQuality] = createQualityCardComponent({
+export const huirthSideBarContent = createQualityCardComponent({
   type: 'create userInterface for SideBarContent',
   reducer: nullReducer,
-  componentCreator: (act, concepts$, semaphore) =>
+  componentCreator:
     createMethodWithConcepts(
       (action, concepts) => {
         // console.log('SIDEBAR CONTENT', action.strategy);
         const state = selectUnifiedState<UserInterfaceState & huirthState>(concepts, semaphore as number);
-        const payload = selectComponentPayload(action);
+        const payload = action.payload;
         const id = '#sideBarContent';
         const expandSideBarId = '#expandSideBarID';
         let liClass = 'w-48 overflow-hidden relative flex items-center py-2 px-3 my-2 font-medium rounded-md bg-gray-100 hover:bg-white';

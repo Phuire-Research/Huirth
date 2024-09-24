@@ -9,18 +9,15 @@ import {
   Concepts,
   KeyedSelector,
   PrincipleFunction,
-  UnifiedSubject,
   axiumKick,
   axiumRegisterStagePlanner,
   createStage,
-  getUnifiedName,
-  selectUnifiedState,
   strategyBegin,
   strategySequence,
 } from '@phuire/stratimux';
 import { userInterface_isClient } from '../../model/userInterface';
 import { UserInterfaceState } from '../userInterface/userInterface.concept';
-import { huirthState } from './huirth.concept';
+import { HuirthPrinciple, huirthState } from './huirth.concept';
 import { UserInterfaceClientState } from '../userInterfaceClient/userInterfaceClient.concept';
 import { userInterfaceAddNewPageStrategy } from '../userInterface/strategies.ts/addNewPage.strategy';
 import { huirthGeneratedTrainingDataPageStrategy } from './strategies/pages/generatedTrainingDataPage.strategy';
@@ -96,40 +93,37 @@ import { huirthAddTrainingDataPageStrategy, huirthAddTrainingDataPageStrategyTop
 //   ];
 // };
 
-export const huirthTrainingDataPagePrinciple: PrincipleFunction = (
-  _: Subscriber<Action>,
-  cpts: Concepts,
-  concepts$: UnifiedSubject,
-  semaphore: number
-) => {
+export const huirthTrainingDataPagePrinciple: HuirthPrinciple = ({
+  plan
+}) => {
   const cachedTrainingDataNames: string[] = [];
   const beat = 33;
   const isClient = userInterface_isClient();
-  const plan = concepts$.plan('Observe Training Data and modify Pages', [
-    createStage(
-      (concepts, dispatch) => {
-        const state = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
-        const conceptName = getUnifiedName(concepts, semaphore);
-        if (conceptName) {
+  plan('Observe Training Data and modify Pages', ({stage, k__}) => [
+    stage(
+      ({concepts, dispatch, d, k, stagePlanner}) => {
+        const state = k.state(concepts) as unknown as UserInterfaceState;
+        const conceptName = k.name(concepts);
+        if (conceptName && state.pages) {
           if (state && (state.pageStrategies.length === state.pages.length || isClient)) {
-            dispatch(axiumRegisterStagePlanner({ conceptName, stagePlanner: plan }), {
+            dispatch(d.axium.e.axiumRegisterStagePlanner({ conceptName, stagePlanner }), {
               iterateStage: true,
             });
           }
         } else {
-          plan.conclude();
+          stagePlanner.conclude();
         }
       },
       {
         selectors: [
-          huirth_createPagesSelector(cpts, semaphore) as KeyedSelector,
-          huirth_createPageStrategiesSelector(cpts, semaphore) as KeyedSelector,
+          k__.pages,
+          k__.pageStrategies,
         ],
       }
     ),
-    createStage(
-      (concepts, dispatch) => {
-        const state = selectUnifiedState<huirthState & UserInterfaceState>(concepts, semaphore);
+    stage(
+      ({concepts, dispatch, d, k, stagePlanner}) => {
+        const state = k.state(concepts);
         const trainingData = state?.trainingData;
         if (state && trainingData && state?.trainingDataInitialized) {
           const add: {
@@ -146,7 +140,7 @@ export const huirthTrainingDataPagePrinciple: PrincipleFunction = (
           if (add.length > 0) {
             const list: ActionStrategy[] = [];
             if (isClient) {
-              const currentPage = (selectUnifiedState(concepts, semaphore) as UserInterfaceClientState).currentPage;
+              const currentPage = (state as unknown as UserInterfaceClientState).currentPage;
               let found = false;
               for (let i = 0; i < add.length; i++) {
                 // eslint-disable-next-line max-depth
@@ -165,7 +159,7 @@ export const huirthTrainingDataPagePrinciple: PrincipleFunction = (
                 }
               }
               if (!found) {
-                dispatch(axiumKick(), {
+                dispatch(d.axium.e.axiumKick(), {
                   iterateStage: true,
                 });
               }
@@ -199,14 +193,14 @@ export const huirthTrainingDataPagePrinciple: PrincipleFunction = (
           }
         }
         if (state === undefined) {
-          console.log("THIS PLAN SHOULDN'T CONCLUDE YET");
-          plan.conclude();
+          console.log('THIS PLAN SHOULDN\'T CONCLUDE YET');
+          stagePlanner.conclude();
         }
       },
       { beat }
     ),
-    createStage(() => {
-      plan.conclude();
+    stage(({stagePlanner}) => {
+      stagePlanner.conclude();
     }),
     // createStage((concepts, dispatch, changes) => {
     //   const state = selectUnifiedState<huirthState & UserInterfaceState>(concepts, semaphore);
@@ -268,8 +262,8 @@ export const huirthTrainingDataPagePrinciple: PrincipleFunction = (
     //     plan.conclude();
     //   }
     // }, {beat}),
-    createStage(() => {
-      plan.conclude();
+    stage(({stagePlanner}) => {
+      stagePlanner.conclude();
     }),
   ]);
 };

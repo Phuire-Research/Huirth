@@ -3,26 +3,24 @@ For the graph programming framework Stratimux and a Concept huirth Server, gener
 $>*/
 /*<#*/
 import {
-  UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQualityCard,
   nullReducer,
   selectState,
-  selectUnifiedState,
   strategyBegin,
 } from '@phuire/stratimux';
-import { huirthServerState } from '../huirthServer.concept';
+import { huirthServerName, huirthServerState } from '../huirthServer.concept';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirthServerSaveDPOStrategy } from '../strategies/saveDPO.strategy';
 
-export const [huirthServerTriggerSaveDPOStrategy, huirthServerTriggerSaveDPOStrategyType, huirthServerTriggerSaveDPOStrategyQuality] =
+export const huirthServerTriggerSaveDPOStrategy =
   createQualityCard({
     type: 'huirthServer trigger save DPO strategy',
     reducer: nullReducer,
-    methodCreator: (concepts$, semaphore) =>
+    methodCreator: () =>
       createMethodDebounceWithConcepts(
         (action, concepts) => {
-          const state = selectUnifiedState<huirthServerState>(concepts, semaphore as number);
+          const state = selectState<huirthServerState>(concepts, huirthServerName);
           const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
           if (state && fileSystemState) {
             const strategy = huirthServerSaveDPOStrategy(fileSystemState.root, state.activeDPO);
@@ -30,10 +28,7 @@ export const [huirthServerTriggerSaveDPOStrategy, huirthServerTriggerSaveDPOStra
           } else {
             return action;
           }
-        },
-        concepts$ as UnifiedSubject,
-        semaphore as number,
-        50
+        }, 50
       ),
   });
 /*#>*/

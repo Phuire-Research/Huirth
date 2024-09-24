@@ -24,7 +24,7 @@ export const huirthServerSaveDataSetStrategy = (root: string, dataSet: NamedData
     successNode: stepAdd,
   });
   const stepCreateFileWithContents = createActionNode(
-    fileSystemCreateFileWithContentsIndex({
+    fileSystemCreateFileWithContentsIndex.actionCreator({
       target: path.join(dataPath + '/' + dataSet.name + '.json'),
       content: JSON.stringify(saveFormat),
     }),
@@ -33,11 +33,11 @@ export const huirthServerSaveDataSetStrategy = (root: string, dataSet: NamedData
       agreement: 20000,
     }
   );
-  const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory({ path: dataPath }), {
+  const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory.actionCreator({ path: dataPath }), {
     successNode: stepCreateFileWithContents,
     agreement: 20000,
   });
-  const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory({ path: dataPath }), {
+  const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory.actionCreator({ path: dataPath }), {
     successNode: stepCreateDirectory,
     agreement: 20000,
   });

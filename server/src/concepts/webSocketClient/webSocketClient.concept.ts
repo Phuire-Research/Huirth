@@ -34,7 +34,7 @@ export const createWebSocketClientConcept = () => {
     webSocketClientName,
     initialWebSocketClientState(),
     webSocketClientQualities,
-    [webSocketClientPrinciple as unknown as PrincipleFunction<typeof webSocketClientQualities>]
+    [webSocketClientPrinciple]
   );
 };
 /*#>*/

@@ -8,7 +8,7 @@ import {
   nullReducer,
   strategyData_appendFailure,
   strategyData_select,
-  strategyData_unifyData,
+  strategyData_muxifyData,
   strategyFailed,
   strategySuccess,
 } from '@phuire/stratimux';
@@ -22,11 +22,7 @@ export type ReadFileContentsAndAppendToDataField = {
   content: string;
 };
 
-export const [
-  fileSystemReadFileContentsAndAppendToData,
-  fileSystemReadFileContentsAndAppendToDataType,
-  fileSystemReadFileContentsAndAppendToDataQuality,
-] = createQualityCard({
+export const fileSystemReadFileContentsAndAppendToData = createQualityCard({
   type: 'File System read from File and Append to Data Field',
   reducer: nullReducer,
   methodCreator: () =>
@@ -43,7 +39,7 @@ export const [
                 dirent,
                 content: contents.toString(),
               };
-              controller.fire(strategySuccess(strategy, strategyData_unifyData(strategy, newData)));
+              controller.fire(strategySuccess(strategy, strategyData_muxifyData(strategy, newData)));
             } catch (error) {
               controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, `${error}`)));
             }

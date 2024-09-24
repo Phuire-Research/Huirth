@@ -14,7 +14,7 @@ import { huirthSetTrainingDataPage } from '../qualities/setTrainingDataPage.qual
 export const huirthAddTrainingDataPageStrategyTopic = 'User Interface add new Page Strategy, for: ';
 export function huirthAddTrainingDataPageStrategy(name: string, pageStrategy: PageStrategyCreators, concepts: Concepts): ActionStrategy {
   const setToTrainingDataPages = createActionNode(
-    huirthSetTrainingDataPage({
+    huirthSetTrainingDataPage.actionCreator({
       trainingDataName: name,
     })
   );
@@ -22,7 +22,7 @@ export function huirthAddTrainingDataPageStrategy(name: string, pageStrategy: Pa
   step.successNode = setToTrainingDataPages;
   const stepPageToState = createActionNodeFromStrategy(strategy);
   const stepAddToState = createActionNode(
-    userInterfaceAddNewPage({
+    userInterfaceAddNewPage.actionCreator({
       pageStrategy,
     }),
     {

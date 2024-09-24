@@ -3,27 +3,28 @@ For the graph programming framework Stratimux and Document Object Model Concept,
 $>*/
 /*<#*/
 import { createMethod, createQualityCardWithPayload, nullReducer, selectPayload, strategySuccess } from '@phuire/stratimux';
+import { DocumentObjectModelState } from '../documentObjectModel.concept';
 
 export type DocumentObjectModelBindPayloadPayload = {
   event: unknown;
 };
 
-export const [documentObjectModelBindPayload, documentObjectModelBindPayloadType, documentObjectModelBindPayloadQuality] =
-  createQualityCardWithPayload<DocumentObjectModelBindPayloadPayload>({
+export const documentObjectModelBindPayload =
+  createQualityCardWithPayload<DocumentObjectModelState, DocumentObjectModelBindPayloadPayload>({
     type: 'Document Object Model bind payload',
     reducer: nullReducer,
     methodCreator: () =>
       createMethod((action) => {
         if (action.strategy) {
-          const payload = selectPayload<DocumentObjectModelBindPayloadPayload>(action);
+          const payload = action.payload;
           const act = strategySuccess(action.strategy);
           if (act.payload) {
-            act.payload = {
-              ...act.payload,
+            (act.payload as unknown) = {
+              ...act.payload as object,
               ...payload,
             };
           } else {
-            act.payload = payload;
+            (act.payload as unknown) = payload;
           }
           return act;
         } else {

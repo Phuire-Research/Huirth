@@ -3,11 +3,10 @@ For the graph programming framework Stratimux and a Concept huirth, generate a q
 If valid it will then trigger the strategy that will install the target git repository via a supplied url to a directory of the given name.
 $>*/
 /*<#*/
-import { Concepts, createMethodWithState, createQualityCard, strategyBegin } from '@phuire/stratimux';
+import { createMethodWithState, createQualityCard, strategyBegin } from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { ProjectStatus } from '../huirth.model';
 import { huirthInstallGitRepositoryStrategy } from '../strategies/installGitProject.strategy';
-import { Subject } from 'rxjs';
 
 const getName = (url: string): string | undefined => {
   const split = url.split('/');
@@ -16,13 +15,9 @@ const getName = (url: string): string | undefined => {
   return finalSplit.length > 1 ? finalSplit[0] : undefined;
 };
 
-export const [
-  huirthFilterTriggerInstallGitRepository,
-  huirthFilterTriggerInstallGitRepositoryType,
-  huirthFilterTriggerInstallGitRepositoryQuality,
-] = createQualityCard({
+export const huirthFilterTriggerInstallGitRepository = createQualityCard<huirthState>({
   type: 'Create huirth that filters only valid git urls to trigger install git repository',
-  reducer: (state: huirthState) => {
+  reducer: (state) => {
     const { trainingData, projectsStatuses, possibleProject, possibleProjectValid } = state;
     const name = getName(possibleProject);
     let exists = false;
@@ -50,7 +45,7 @@ export const [
       possibleProject: 'INVALID',
     };
   },
-  methodCreator: (concepts$?: Subject<Concepts>, semaphore?: number) =>
+  methodCreator: () =>
     createMethodWithState<huirthState>(
       (action, state) => {
         const { possibleProject, possibleProjectValid } = state;
@@ -63,8 +58,6 @@ export const [
           return action;
         }
       },
-      concepts$ as Subject<Concepts>,
-      semaphore as number
     ),
 });
 /*#>*/

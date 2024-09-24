@@ -6,10 +6,8 @@ $>*/
 import {
   Action,
   KeyedSelector,
-  UnifiedSubject,
   createMethodDebounceWithConcepts,
   nullReducer,
-  selectUnifiedState,
   strategySuccess,
 } from '@phuire/stratimux';
 
@@ -31,13 +29,13 @@ import { huirth_createDPOSelector } from '../../../huirth.selector';
 import { huirthTriggerSaveDPOStrategy } from '../../../strategies/server/triggerSaveDPOStrategy.helper';
 import { huirthNewDPOEntry } from '../../newDPOEntry.quality';
 
-export const [huirthIndexDPOContent, huirthIndexDPOContentType, huirthIndexDPOContentQuality] = createQualityCardComponent({
+export const huirthIndexDPOContent = createQualityCardComponent({
   type: 'create userInterface for IndexDPOContent',
   reducer: nullReducer,
-  componentCreator: (act, concepts$, _semaphore) =>
+  componentCreator:
     createMethodDebounceWithConcepts(
       (action, concepts, semaphore) => {
-        const payload = selectComponentPayload(action);
+        const payload = action.payload;
         const id = '#trainingDataID' + payload.pageTitle;
         const addEntryID = '#addEntry' + payload.pageTitle;
         const saveDPOID = '#saveDPO' + payload.pageTitle;

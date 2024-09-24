@@ -17,23 +17,24 @@ import {
 } from '@phuire/stratimux';
 import { webSocketClientAppendToActionQue } from './appendActionQue.quality';
 import { webSocketServerSyncClientState } from '../strategies/server/syncServerState.helper';
+import { WebSocketClientState } from '../webSocketClient.concept';
 
 export type WebSocketClientForceSyncPayload = {
   keys: string[];
 };
 
 export const webSocketClientForceSync =
-  createQualityCardWithPayload<WebSocketClientForceSyncPayload, any>({
+  createQualityCardWithPayload<WebSocketClientState, WebSocketClientForceSyncPayload>({
     type: 'Web Socket Client force client sync',
     reducer: nullReducer,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     methodCreator: () =>
-      createMethodWithState<any>(
+      createMethodWithState(
         (action, state) => {
           const syncState: Record<string, unknown> = {};
           const { keys } = selectPayload<WebSocketClientForceSyncPayload>(action);
           keys.forEach((key) => {
-            syncState[key] = state[key];
+            syncState[key] = (state as any)[key];
           });
           const sync = createActionNode(
             webSocketClientAppendToActionQue.actionCreator({

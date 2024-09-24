@@ -2,20 +2,20 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that will add a new default named dataset to the state's trainingData property.
 $>*/
 /*<#*/
-import { Concepts, createMethodWithConcepts, createQualityCardWithPayload, nullReducer, selectPayload, strategyBegin } from '@phuire/stratimux';
+import { createMethodWithConcepts, createQualityCardWithPayload, nullReducer, selectPayload, strategyBegin } from '@phuire/stratimux';
 import { huirthAddTrainingDataPageStrategy } from '../strategies/addPageTrainingData.strategy';
 import { huirthGeneratedTrainingDataPageStrategy } from '../strategies/pages/generatedTrainingDataPage.strategy';
-import { Subject } from 'rxjs';
+import { huirthState } from '../huirth.concept';
 
 type TriggerAddTrainingDataPage = {
   name: string;
 };
 
-export const [huirthTriggerAddTrainingDataPage, huirthTriggerAddTrainingDataPageType, huirthTriggerAddTrainingDataPageQuality] =
-  createQualityCardWithPayload<TriggerAddTrainingDataPage>({
+export const huirthTriggerAddTrainingDataPage =
+  createQualityCardWithPayload<huirthState, TriggerAddTrainingDataPage>({
     type: 'Huirth trigger add training data page',
     reducer: nullReducer,
-    methodCreator: (concepts$, semaphore) =>
+    methodCreator: () =>
       createMethodWithConcepts(
         (action, concepts) => {
           const { name } = selectPayload<TriggerAddTrainingDataPage>(action);
@@ -23,8 +23,6 @@ export const [huirthTriggerAddTrainingDataPage, huirthTriggerAddTrainingDataPage
           const strategyAction = strategyBegin(huirthAddTrainingDataPageStrategy(name, generatedTrainingDataPage, concepts));
           return strategyAction;
         },
-        concepts$ as Subject<Concepts>,
-        semaphore as number
       ),
   });
 /*#>*/

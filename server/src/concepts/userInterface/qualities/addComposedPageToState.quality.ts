@@ -6,7 +6,7 @@ import { Action, KeyedSelector, createMethod, createQualityCard, strategySuccess
 import { BoundSelectors, Composition, userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 
-export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageToStateType, userInterfaceAddComposedPageToStateQuality] =
+export const userInterfaceAddComposedPageToState =
   createQualityCard({
     type: 'User Interface add composed Page to State',
     reducer: (state: UserInterfaceState, action: Action): UserInterfaceState => {

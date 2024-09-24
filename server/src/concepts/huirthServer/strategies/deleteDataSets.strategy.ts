@@ -24,16 +24,16 @@ export const huirthServerDeleteDataSetsStrategy = (root: string, trainingData: T
       }
       return false;
     })();
-    const action = isProject ? huirthServerSendUpdateProjectToInstalled(name) : axiumStitch();
+    const action = isProject ? huirthServerSendUpdateProjectToInstalled(name) : axiumStitch.actionCreator();
     if (first === undefined) {
       const updateStatus = createActionNode(action);
-      first = createActionNode(fileSystemRemoveTargetDirectory({ path: dataSetDirectory }), {
+      first = createActionNode(fileSystemRemoveTargetDirectory.actionCreator({ path: dataSetDirectory }), {
         successNode: updateStatus,
       });
       previous = updateStatus;
     } else if (previous) {
       const updateStatus = createActionNode(action);
-      const next = createActionNode(fileSystemRemoveTargetDirectory({ path: dataSetDirectory }), {
+      const next = createActionNode(fileSystemRemoveTargetDirectory.actionCreator({ path: dataSetDirectory }), {
         successNode: updateStatus,
       });
       previous.successNode = next;
@@ -42,7 +42,7 @@ export const huirthServerDeleteDataSetsStrategy = (root: string, trainingData: T
   }
   return createStrategy({
     topic: huirthServerDeleteDataSetsStrategyTopic,
-    initialNode: first ? first : createActionNode(axiumLog(), { successNode: null, failureNode: null }),
+    initialNode: first ? first : createActionNode(axiumLog.actionCreator(), { successNode: null, failureNode: null }),
   });
 };
 /*#>*/

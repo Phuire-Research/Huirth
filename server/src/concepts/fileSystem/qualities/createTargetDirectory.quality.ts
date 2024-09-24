@@ -8,22 +8,22 @@ import {
   createAsyncMethod,
   createQualityCardWithPayload,
   nullReducer,
-  selectPayload,
   strategySuccess,
 } from '@phuire/stratimux';
 import fs from 'fs';
+import { FileSystemState } from '../fileSystem.concept';
 
 export type CreateTargetDirectoryPayload = {
   path: string;
 };
 
-export const [fileSystemCreateTargetDirectory, fileSystemCreateTargetDirectoryType, fileSystemCreateTargetDirectoryQuality] =
-  createQualityCardWithPayload<CreateTargetDirectoryPayload>({
+export const fileSystemCreateTargetDirectory =
+  createQualityCardWithPayload<FileSystemState, CreateTargetDirectoryPayload>({
     type: 'File System create target Directory',
     reducer: nullReducer,
     methodCreator: () =>
       createAsyncMethod((controller, action) => {
-        const path = selectPayload<CreateTargetDirectoryPayload>(action).path;
+        const {path} = action.payload;
         if (action.strategy) {
           if (!fs.existsSync(path)) {
             fs.mkdirSync(path);

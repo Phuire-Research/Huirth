@@ -12,10 +12,10 @@ export const huirthServerSaveTrainingDataStrategyTopic = 'Save training data cur
 export const huirthServerSaveTrainingDataStrategy = (root: string) => {
   const dataPath = path.join(root + '/data/huirth/');
   // Still need to create the rest of the steps here.
-  const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory({ path: dataPath }), {
+  const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory.actionCreator({ path: dataPath }), {
     agreement: 20000,
   });
-  const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory({ path: dataPath }), {
+  const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory.actionCreator({ path: dataPath }), {
     successNode: stepCreateDirectory,
     agreement: 20000,
   });

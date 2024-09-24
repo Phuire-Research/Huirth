@@ -5,15 +5,10 @@ verbose adding strategies.
 $>*/
 /*<#*/
 import {
-  ActionType,
-  MethodCreator,
-  UnifiedSubject,
   axiumKick,
   createAsyncMethodWithConcepts,
-  createQuality,
   nullReducer,
   getAxiumState,
-  prepareActionCreator,
   selectState,
   strategyBegin,
   createStage,
@@ -28,19 +23,16 @@ import { huirthServerVerboseAdditionAndSubtractionStrategy } from '../strategies
 import { huirth_convertNumberToStringVerbose } from '../verboseNumber.model';
 import { TRANSFORMATION_DATASET_LIMIT } from '../huirthServer.model';
 
-export const [
-  huirthServerGenerateVerboseAdditionAndSubtractionStrategy,
-  huirthServerGenerateVerboseAdditionAndSubtractionStrategyType,
-  huirthServerGenerateVerboseAdditionAndSubtractionStrategyQuality,
-] = createQualityCard({
+export const huirthServerGenerateVerboseAdditionAndSubtractionStrategy =
+  createQualityCard({
   type: 'huirthServer generate a verbose addition and subtraction data set',
   reducer: nullReducer,
-  methodCreator: (concepts$, semaphore) =>
+  methodCreator: () =>
     createAsyncMethodWithConcepts(
       (controller, _, cpts) => {
         const axiumState = getAxiumState(cpts);
         const fileSystemState = selectState<FileSystemState>(cpts, fileSystemName);
-        if (concepts$ && fileSystemState) {
+        if (fileSystemState) {
           console.log('This had been triggered');
           const limit = TRANSFORMATION_DATASET_LIMIT;
           const named: NamedDataSet = {
@@ -52,8 +44,8 @@ export const [
           let length = 5;
           let iterations = 0;
           let currentTopic = '';
-          const plan = axiumState.concepts$.plan('Verbose Addition and Subtraction data set generation plan', [
-            createStage((__, dispatch) => {
+          const plan = axiumState.concepts$.plan(0)('Verbose Addition and Subtraction data set generation plan', ({stage}) => [
+            stage(({dispatch, e}) => {
               console.log('Transformation stage 1', iterations < 100, length < limit);
               if (iterations < 100 && length < limit) {
                 const newStrategy = huirthServerVerboseAdditionAndSubtractionStrategy(length);
@@ -66,13 +58,13 @@ export const [
                 });
               } else {
                 console.log('END PLAN');
-                dispatch(axiumKick(), {
+                dispatch(e.axiumKick(), {
                   setStage: 2,
                 });
               }
             }),
-            createStage(
-              (concepts, dispatch) => {
+            stage(
+              ({concepts, dispatch, e}) => {
                 const state = getAxiumState(concepts);
                 console.log('Transformation stage 2', iterations, length, currentTopic === state.lastStrategy);
                 if (state.lastStrategy === currentTopic) {
@@ -94,7 +86,7 @@ export const [
                     }
                   }
                   console.log('DISPATCH');
-                  dispatch(axiumKick(), {
+                  dispatch(e.axiumKick(), {
                     setStage: 0,
                     throttle: 0,
                   });
@@ -102,18 +94,16 @@ export const [
               },
               { beat: 30, selectors: [axiumSelectLastStrategy] }
             ),
-            createStage((concepts) => {
+            stage(({concepts, stagePlanner}) => {
               console.log('Transformation stage 3', iterations, length, named.dataSet.length);
               controller.fire(
                 strategyBegin(huirthServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseAdditionAndSubtraction', concepts))
               );
-              plan.conclude();
+              stagePlanner.conclude();
             }),
           ]);
         }
-      },
-      concepts$ as UnifiedSubject,
-      semaphore as number
+      }, 5000
     ),
 });
 /*#>*/

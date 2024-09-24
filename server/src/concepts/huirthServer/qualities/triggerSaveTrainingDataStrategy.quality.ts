@@ -4,30 +4,24 @@ $>*/
 /*<#*/
 import {
   Concepts,
-  UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQualityCard,
   nullReducer,
   selectState,
-  selectUnifiedState,
   strategyBegin,
 } from '@phuire/stratimux';
-import { huirthServerState } from '../huirthServer.concept';
+import { huirthServerName, huirthServerState } from '../huirthServer.concept';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirthServerSaveTrainingDataStrategy } from '../strategies/saveTrainingData.strategy';
 import { Subject } from 'rxjs';
 
-export const [
-  huirthServerTriggerSaveTrainingDataStrategy,
-  huirthServerTriggerSaveTrainingDataStrategyType,
-  huirthServerTriggerSaveTrainingDataStrategyQuality,
-] = createQualityCard({
+export const huirthServerTriggerSaveTrainingDataStrategy = createQualityCard({
   type: 'huirthServer trigger save training data strategy',
   reducer: nullReducer,
-  methodCreator: (concepts$?: Subject<Concepts>, semaphore?: number) =>
+  methodCreator: () =>
     createMethodDebounceWithConcepts(
       (action, concepts) => {
-        const state = selectUnifiedState<huirthServerState>(concepts, semaphore as number);
+        const state = selectState<huirthServerState>(concepts, huirthServerName);
         const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
         if (state && fileSystemState) {
           const strategy = huirthServerSaveTrainingDataStrategy(fileSystemState.root);
@@ -35,10 +29,7 @@ export const [
         } else {
           return action;
         }
-      },
-      concepts$ as UnifiedSubject,
-      semaphore as number,
-      50
+      }, 50
     ),
 });
 /*#>*/

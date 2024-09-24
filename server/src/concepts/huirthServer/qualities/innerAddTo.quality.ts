@@ -8,10 +8,11 @@ import {
   nullReducer,
   selectPayload,
   strategyData_select,
-  strategyData_unifyData,
+  strategyData_muxifyData,
   strategySuccess,
 } from '@phuire/stratimux';
 import { huirth_convertNumberToStringVerbose } from '../verboseNumber.model';
+import { huirthServerState } from '../huirthServer.concept';
 
 export type huirthServerInnerAddToPayload = {
   addTo: number;
@@ -20,13 +21,13 @@ export type huirthServerInnerAddField = {
   sum: number;
 };
 
-export const [huirthServerInnerAddTo, huirthServerInnerAddToType, huirthServerInnerAddToQuality] =
-  createQualityCardWithPayload<huirthServerInnerAddToPayload>({
+export const huirthServerInnerAddTo =
+  createQualityCardWithPayload<huirthServerState, huirthServerInnerAddToPayload>({
     type: 'plus',
     reducer: nullReducer,
     methodCreator: () =>
       createMethod((action) => {
-        const { addTo } = selectPayload<huirthServerInnerAddToPayload>(action);
+        const { addTo } = action.payload;
         if (action.strategy) {
           const strategy = action.strategy;
           const data = strategyData_select<huirthServerInnerAddField>(strategy);
@@ -49,7 +50,7 @@ export const [huirthServerInnerAddTo, huirthServerInnerAddToType, huirthServerIn
             console.log(verboseSum, ' add to ', addTo, ' is ', final);
             return strategySuccess(
               strategy,
-              strategyData_unifyData(strategy, {
+              strategyData_muxifyData(strategy, {
                 sum: final,
               })
             );

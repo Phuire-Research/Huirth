@@ -17,7 +17,7 @@ export const huirthServerCloneGitRepositoryToDirectoryStrategy = (root: string, 
   // Step 3 Update status to installed by name as payload
   console.log('CLONING ', url, name);
   const stepUpdateProjectToUninstalled = createActionNode(
-    webSocketServerAppendToActionQue({
+    webSocketServerAppendToActionQue.actionCreator({
       actionQue: [
         huirthUpdateProjectStatus({
           name,
@@ -29,7 +29,7 @@ export const huirthServerCloneGitRepositoryToDirectoryStrategy = (root: string, 
   const stepUpdateProjectToInstalled = createActionNode(huirthServerSendUpdateProjectToInstalled(name));
   // Step 2 Git clone into that directory by name
   const stepCloneRepo = createActionNode(
-    huirthServerGitCloneRepoToDirectory({
+    huirthServerGitCloneRepoToDirectory.actionCreator({
       url,
       path: dataPath,
     }),
@@ -41,7 +41,7 @@ export const huirthServerCloneGitRepositoryToDirectoryStrategy = (root: string, 
     }
   );
   // Step 1 Remove directory if exists based on name
-  const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory({ path: dataPath }), {
+  const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory.actionCreator({ path: dataPath }), {
     successNode: stepCloneRepo,
     agreement: 60000,
   });

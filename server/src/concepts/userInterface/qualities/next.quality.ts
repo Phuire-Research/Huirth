@@ -4,7 +4,7 @@ $>*/
 /*<#*/
 import { createMethod, createQualityCard, nullReducer, strategy } from '@phuire/stratimux';
 
-export const [userInterfaceNext, userInterfaceNextType, userInterfaceNextQuality] = createQualityCard({
+export const userInterfaceNext = createQualityCard({
   type: 'User Interface Next Strategy',
   reducer: nullReducer,
   methodCreator: () =>

@@ -6,12 +6,12 @@ import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
 import { createQualityCardComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../model/userInterface';
 
-export const [huirthFooter, huirthFooterType, huirthFooterQuality] = createQualityCardComponent({
+export const huirthFooter = createQualityCardComponent({
   type: 'Create huirth Footer',
   reducer: nullReducer,
-  componentCreator: (act) =>
+  componentCreator:
     createMethod((action) => {
-      const payload = selectComponentPayload(action);
+      const payload = action.payload;
       if (action.strategy) {
         return strategySuccess(
           action.strategy,
@@ -19,7 +19,7 @@ export const [huirthFooter, huirthFooterType, huirthFooterQuality] = createQuali
             id: '',
             boundSelectors: [],
             universal: true,
-            action: act(payload),
+            action,
             html: /*html*/ `
   <footer
     class="bg-neutral-200 text-center dark:bg-neutral-700 lg:text-left">

@@ -3,15 +3,10 @@ For the graph programming framework Stratimux and a Concept huirth Server, gener
 $>*/
 /*<#*/
 import {
-  Action,
-  ActionType,
   createMethod,
-  createQuality,
   createQualityCardWithPayload,
-  prepareActionWithPayloadCreator,
-  selectPayload,
   strategyData_select,
-  strategyData_unifyData,
+  strategyData_muxifyData,
   strategySuccess,
 } from '@phuire/stratimux';
 import { ReadDirectoryField } from '../../fileSystem/qualities/readDir.quality';
@@ -24,60 +19,55 @@ export type huirthServerAppendParsedDataToNamedDataSetPayload = {
   type: DataSetTypes;
 };
 
-export const [
-  huirthServerAppendParsedDataToNamedDataSet,
-  huirthServerAppendParsedDataToNamedDataSetType,
-  huirthServerAppendParsedDataToNamedDataSetQuality,
-] = createQualityCardWithPayload<huirthServerAppendParsedDataToNamedDataSetPayload>({
-  type: 'huirthServer append parsed data to named data set, then remove its path from fileAndDirectories field',
-  reducer: (state: huirthServerState, action: Action): huirthServerState => {
-    const { name, type } = selectPayload<huirthServerAppendParsedDataToNamedDataSetPayload>(action);
-    if (action.strategy) {
-      const { strategy } = action;
-      const { dataSetSelection } = state;
-      const data = strategyData_select<ParsedFileFromDataField>(strategy);
-      if (data) {
-        const { parsed } = data;
-        const { trainingData } = state;
-        let added = false;
-        for (const set of trainingData) {
-          if (set.name === name) {
-            set.dataSet = [...set.dataSet, ...parsed];
-            added = true;
-            console.log(set.dataSet.length, parsed.length);
-            break;
+export const huirthServerAppendParsedDataToNamedDataSet =
+  createQualityCardWithPayload<huirthServerState, huirthServerAppendParsedDataToNamedDataSetPayload>({
+    type: 'huirthServer append parsed data to named data set, then remove its path from fileAndDirectories field',
+    reducer: (state, action) => {
+      const { name, type } = action.payload;
+      if (action.strategy) {
+        const { strategy } = action;
+        const { dataSetSelection } = state;
+        const data = strategyData_select<ParsedFileFromDataField>(strategy);
+        if (data) {
+          const { parsed } = data;
+          const { trainingData } = state;
+          let added = false;
+          for (const set of trainingData) {
+            if (set.name === name) {
+              set.dataSet = [...set.dataSet, ...parsed];
+              added = true;
+              console.log(set.dataSet.length, parsed.length);
+              break;
+            }
           }
+          if (!added) {
+            trainingData.push({
+              name,
+              type,
+              dataSet: parsed,
+              index: 0,
+            });
+            dataSetSelection.push(false);
+          }
+          return {
+            trainingData,
+            dataSetSelection,
+          };
         }
-        if (!added) {
-          trainingData.push({
-            name,
-            type,
-            dataSet: parsed,
-            index: 0,
-          });
-          dataSetSelection.push(false);
+      }
+      return {
+      };
+    },
+    methodCreator: () =>
+      createMethod((action) => {
+        if (action.strategy && action.strategy.data) {
+          const strategy = action.strategy;
+          const data = strategyData_select(action.strategy) as ReadDirectoryField;
+          data.filesAndDirectories.shift();
+          return strategySuccess(strategy, strategyData_muxifyData(strategy, data));
+        } else {
+          return action;
         }
-        return {
-          ...state,
-          trainingData,
-          dataSetSelection,
-        };
-      }
-    }
-    return {
-      ...state,
-    };
-  },
-  methodCreator: () =>
-    createMethod((action) => {
-      if (action.strategy && action.strategy.data) {
-        const strategy = action.strategy;
-        const data = strategyData_select(action.strategy) as ReadDirectoryField;
-        data.filesAndDirectories.shift();
-        return strategySuccess(strategy, strategyData_unifyData(strategy, data));
-      } else {
-        return action;
-      }
-    }),
-});
+      }),
+  });
 /*#>*/

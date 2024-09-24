@@ -4,16 +4,16 @@ $>*/
 /*<#*/
 import { AnyConcept, AxiumDeck, Concept, KeyedSelector, PrincipleFunction, createConcept, muxifyConcepts } from '@phuire/stratimux';
 import { BoundSelectors, Composition, Page, PageStrategyCreators } from '../../model/userInterface';
-import { userInterfaceAddComposedPageToStateQuality } from './qualities/addComposedPageToState.quality';
+import { userInterfaceAddComposedPageToState } from './qualities/addComposedPageToState.quality';
 import { userInterfaceInitializationPrinciple } from './userInterface.principle';
 import { createHtmlConcept } from '../html/html.concepts';
-import { userInterfaceRefreshCachedSelectorsQuality } from './qualities/refreshPageCachedSelectors.quality';
-import { userInterfaceEndQuality } from './qualities/end.quality';
-import { userInterfaceUpdateAtomicPageCompositionQuality } from './qualities/updateAtomicPageComposition.quality';
-import { userInterfaceAddNewPageQuality } from './qualities/addNewPage.quality';
-import { userInterfaceRemovePageQuality } from './qualities/removePage.quality';
-import { userInterfaceUpdateUniversalComponentQuality } from './qualities/updateUniversalComponent.quality';
-import { userInterfaceNextQuality } from './qualities/next.quality';
+import { userInterfaceRefreshCachedSelectors } from './qualities/refreshPageCachedSelectors.quality';
+import { userInterfaceEnd } from './qualities/end.quality';
+import { userInterfaceUpdateAtomicPageComposition } from './qualities/updateAtomicPageComposition.quality';
+import { userInterfaceAddNewPage } from './qualities/addNewPage.quality';
+import { userInterfaceRemovePage } from './qualities/removePage.quality';
+import { userInterfaceUpdateUniversalComponent } from './qualities/updateUniversalComponent.quality';
+import { userInterfaceNext } from './qualities/next.quality';
 
 export const userInterfaceName = 'userInterface';
 
@@ -29,7 +29,7 @@ export type UserInterfaceState = {
   selectors: KeyedSelector[];
 };
 
-const createUserInterfaceState = (pageStrategies: PageStrategyCreators[]): UserInterfaceState => {
+export const createUserInterfaceState = (pageStrategies: PageStrategyCreators[]): UserInterfaceState => {
   return {
     pages: [],
     components: [],
@@ -41,14 +41,14 @@ const createUserInterfaceState = (pageStrategies: PageStrategyCreators[]): UserI
 };
 
 export const userInterfaceQualities = {
-  userInterfaceAddComposedPageToStateQuality,
-  userInterfaceRefreshCachedSelectorsQuality,
-  userInterfaceUpdateAtomicPageCompositionQuality,
-  userInterfaceUpdateUniversalComponentQuality,
-  userInterfaceAddNewPageQuality,
-  userInterfaceRemovePageQuality,
-  userInterfaceEndQuality,
-  userInterfaceNextQuality,
+  userInterfaceAddComposedPageToState,
+  userInterfaceRefreshCachedSelectors,
+  userInterfaceUpdateAtomicPageComposition,
+  userInterfaceUpdateUniversalComponent,
+  userInterfaceAddNewPage,
+  userInterfaceRemovePage,
+  userInterfaceEnd,
+  userInterfaceNext,
 };
 
 export type UserInterfaceDeck = {
@@ -63,7 +63,7 @@ export const createUserInterfaceConcept = (pageStrategies: PageStrategyCreators[
       userInterfaceName,
       createUserInterfaceState(pageStrategies),
       userInterfaceQualities,
-      [userInterfaceInitializationPrinciple as unknown as PrincipleFunction<typeof userInterfaceQualities>]
+      [userInterfaceInitializationPrinciple]
     )
   );
 };

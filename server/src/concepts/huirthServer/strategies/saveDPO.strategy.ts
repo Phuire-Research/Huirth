@@ -15,7 +15,7 @@ export const huirthServerSaveDPOStrategy = (root: string, DPO: Active_DPO[]) => 
   const saveFormat: SavedFormat = convertDPOToSaveFormatDPO(DPO);
   const dataPath = path.join(root + '/data/huirth/');
   const stepCreateFileWithContents = createActionNode(
-    fileSystemCreateFileWithContentsIndex({
+    fileSystemCreateFileWithContentsIndex.actionCreator({
       target: path.join(dataPath + 'dpo.json'),
       content: JSON.stringify(saveFormat),
     }),
@@ -23,11 +23,11 @@ export const huirthServerSaveDPOStrategy = (root: string, DPO: Active_DPO[]) => 
       agreement: 20000,
     }
   );
-  const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory({ path: dataPath }), {
+  const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory.actionCreator({ path: dataPath }), {
     successNode: stepCreateFileWithContents,
     agreement: 20000,
   });
-  const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory({ path: dataPath }), {
+  const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory.actionCreator({ path: dataPath }), {
     successNode: stepCreateDirectory,
     agreement: 20000,
   });

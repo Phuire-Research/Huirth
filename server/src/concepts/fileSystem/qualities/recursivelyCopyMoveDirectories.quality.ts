@@ -8,12 +8,12 @@ import {
   createAsyncMethod,
   createQualityCardWithPayload,
   nullReducer,
-  selectPayload,
   strategyRecurse,
   strategySuccess,
 } from '@phuire/stratimux';
 import fs from 'fs/promises';
 import path from 'path';
+import { FileSystemState } from '../fileSystem.concept';
 
 async function copyDir(src: string, dest: string) {
   await fs.mkdir(dest, { recursive: true });
@@ -36,16 +36,12 @@ export type RecursivelyCopyMoveTargetDirectoriesPayload = {
   }[];
 };
 
-export const [
-  fileSystemRecursivelyCopyMoveTargetDirectories,
-  fileSystemRecursivelyCopyMoveTargetDirectoriesType,
-  fileSystemRecursivelyCopyMoveTargetDirectoriesQuality,
-] = createQualityCardWithPayload<RecursivelyCopyMoveTargetDirectoriesPayload>({
+export const fileSystemRecursivelyCopyMoveTargetDirectories = createQualityCardWithPayload<FileSystemState, RecursivelyCopyMoveTargetDirectoriesPayload>({
   type: 'File System recursively copy move target Directories',
   reducer: nullReducer,
   methodCreator: () =>
     createAsyncMethod((controller, action) => {
-      const payload = selectPayload<RecursivelyCopyMoveTargetDirectoriesPayload>(action);
+      const payload = action.payload;
       if (action.strategy) {
         const directory = payload.directories.shift();
         if (directory) {

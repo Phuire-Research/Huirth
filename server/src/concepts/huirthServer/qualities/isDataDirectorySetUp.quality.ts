@@ -6,7 +6,7 @@ import { createAsyncMethod, createQualityCard, nullReducer, strategyData_select,
 import { GetDirectoriesAndFilesDataField } from '../../fileSystem/qualities/getDirectoriesAndFiles.quality';
 import { dataDirectories } from '../huirthServer.model';
 
-export const [huirthServerIsDataDirectorySetUp, huirthServerIsDataDirectorySetUpType, huirthServerIsDataDirectorySetUpQuality] =
+export const huirthServerIsDataDirectorySetUp =
   createQualityCard({
     type: 'huirth Server determine if data directory is set up',
     reducer: nullReducer,

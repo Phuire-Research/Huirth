@@ -5,7 +5,7 @@ $>*/
 import { Action, AnyAction } from '@phuire/stratimux';
 import { webSocketClientAppendToActionQue } from '../../webSocketClient/qualities/appendActionQue.quality';
 
-export const userInterfaceClientSendActionToServer = (action: Action): AnyAction => {
+export const userInterfaceClientSendActionToServer = (action: AnyAction): AnyAction => {
   return webSocketClientAppendToActionQue.actionCreator({ actionQue: [action] });
 };
 /*#>*/

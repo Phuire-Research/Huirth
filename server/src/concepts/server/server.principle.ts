@@ -3,12 +3,15 @@ For the graph programming framework Stratimux and a Server Concept, generate a p
 $>*/
 /*<#*/
 import { Subscriber } from 'rxjs';
-import { ServerState } from './server.concept';
-import { Action, Concepts, PrincipleFunction, UnifiedSubject, selectUnifiedState } from '@phuire/stratimux';
+import { ServerPrinciple, ServerState } from './server.concept';
+import { Action, Concepts, PrincipleFunction, MuxifiedSubject, selectMuxifiedState } from '@phuire/stratimux';
 
-export const serverPrinciple: PrincipleFunction = (_: Subscriber<Action>, concepts: Concepts, __: UnifiedSubject, semaphore: number) => {
+export const serverPrinciple: ServerPrinciple = ({
+  concepts_,
+  k_
+}) => {
   const HOST = '0.0.0.0';
-  const initialServerState = selectUnifiedState(concepts, semaphore) as ServerState;
+  const initialServerState = k_.state(concepts_) as ServerState;
   const server = initialServerState.server;
   server.listen(initialServerState.port, HOST, () => {
     console.log(`Running on http://${HOST}:${initialServerState.port}}`);

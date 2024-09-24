@@ -3,43 +3,36 @@ For the graph programming framework Stratimux and a Concept huirth Server, gener
 $>*/
 /*<#*/
 import {
-  UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQualityCardWithPayload,
   nullReducer,
-  selectPayload,
   selectState,
   strategyBegin,
 } from '@phuire/stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirthServerParseRepositoryStrategy } from '../strategies/parseRepositoryIntoDataSet.strategy';
+import { huirthServerState } from '../huirthServer.concept';
 
 export type huirthServerTriggerParseRepositoryStrategyPayload = {
   name: string;
 };
 
-export const [
-  huirthServerTriggerParseRepositoryStrategy,
-  huirthServerTriggerParseRepositoryStrategyType,
-  huirthServerTriggerParseRepositoryStrategyQuality,
-] = createQualityCardWithPayload<huirthServerTriggerParseRepositoryStrategyPayload>({
-  type: 'huirthServer trigger parse repository strategy',
-  reducer: nullReducer,
-  methodCreator: (concepts$, semaphore) =>
-    createMethodDebounceWithConcepts(
-      (action, concepts) => {
-        const { name } = selectPayload<huirthServerTriggerParseRepositoryStrategyPayload>(action);
-        const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
-        if (fileSystemState) {
-          const strategy = huirthServerParseRepositoryStrategy(fileSystemState.root, name);
-          return strategyBegin(strategy);
-        } else {
-          return action;
-        }
-      },
-      concepts$ as UnifiedSubject,
-      semaphore as number,
-      50
-    ),
-});
+export const huirthServerTriggerParseRepositoryStrategy =
+  createQualityCardWithPayload<huirthServerState, huirthServerTriggerParseRepositoryStrategyPayload>({
+    type: 'huirthServer trigger parse repository strategy',
+    reducer: nullReducer,
+    methodCreator: () =>
+      createMethodDebounceWithConcepts(
+        (action, concepts) => {
+          const { name } = action.payload;
+          const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
+          if (fileSystemState) {
+            const strategy = huirthServerParseRepositoryStrategy(fileSystemState.root, name);
+            return strategyBegin(strategy);
+          } else {
+            return action;
+          }
+        }, 50
+      ),
+  });
 /*#>*/

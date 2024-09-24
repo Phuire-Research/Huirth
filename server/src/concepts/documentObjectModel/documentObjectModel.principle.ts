@@ -6,43 +6,37 @@ import {
   Action,
   Concepts,
   PrincipleFunction,
-  UnifiedSubject,
-  axiumKick,
   axiumRegisterStagePlanner,
   axiumSelectOpen,
   createStage,
   primeAction,
   selectSlice,
   selectState,
-  selectUnifiedState,
   strategyBegin,
 } from '@phuire/stratimux';
 import { Subscriber } from 'rxjs';
-import { DocumentObjectModelState, documentObjectModelName } from './documentObjectModel.concept';
+import { DocumentObjectModelPrinciple, DocumentObjectModelState, documentObjectModelName } from './documentObjectModel.concept';
 import { documentObjectModelBindingStrategy } from './strategies/composeBindings.strategy';
 import { documentObjectModelSelectBindingQue } from './documentObjectModel.selector';
 
-export const documentObjectModelPrinciple: PrincipleFunction = (
-  _: Subscriber<Action>,
-  _concepts: Concepts,
-  concepts$: UnifiedSubject,
-  semaphore: number
-) => {
+export const documentObjectModelPrinciple: DocumentObjectModelPrinciple = ({
+  plan
+}) => {
   const pageID = document.querySelector('[id^="page#"]')?.id;
-  const plan = concepts$.plan('Document Object Model initial page bindings plan', [
-    createStage(
-      (concepts, dispatch) => {
+  plan('Document Object Model initial page bindings plan', ({stage}) => [
+    stage(
+      ({concepts, dispatch, stagePlanner, d}) => {
         if (selectSlice(concepts, axiumSelectOpen) === true) {
-          dispatch(primeAction(concepts, axiumRegisterStagePlanner({ conceptName: documentObjectModelName, stagePlanner: plan })), {
+          dispatch(d.axium.e.axiumRegisterStagePlanner({ conceptName: documentObjectModelName, stagePlanner }), {
             iterateStage: true,
           });
         }
       },
       { priority: 100 }
     ),
-    createStage(
-      (concepts, dispatch) => {
-        const documentObjectModelState = selectUnifiedState<DocumentObjectModelState>(concepts, semaphore);
+    stage(
+      ({concepts, dispatch, stagePlanner, k}) => {
+        const documentObjectModelState = k.state(concepts);
         const userInterfaceState = selectState<any>(concepts, 'userInterfaceClient');
         // console.log('Hello Document Object Model', documentObjectModelState, pageID, concepts);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -66,13 +60,13 @@ export const documentObjectModelPrinciple: PrincipleFunction = (
           }
         }
         if (documentObjectModelState?.bound) {
-          plan.conclude();
+          stagePlanner.conclude();
         }
       },
       { beat: 100 }
     ),
-    createStage((__, ___) => {
-      plan.conclude();
+    stage(({stagePlanner}) => {
+      stagePlanner.conclude();
     }),
   ]);
 };

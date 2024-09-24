@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a strategy that in isolation will start with a sum of zero then subtract a series of random numbers from that sum.
 $>*/
 /*<#*/
-import { Action, ActionStrategy, axium_createGatherNode, createStrategy } from '@phuire/stratimux';
+import { Action, ActionStrategy, AnyAction, axium_createGatherNode, createStrategy } from '@phuire/stratimux';
 import { huirth_convertNumberToStringVerbose } from '../verboseNumber.model';
 import { huirthServerInnerSubtractFrom } from '../qualities/innerSubtractFrom.quality';
 import { huirthServerInnerAddTo } from '../qualities/innerAddTo.quality';
@@ -16,18 +16,18 @@ export const huirthServerVerboseAdditionAndSubtractionStrategyTopic = (length: n
   huirth_convertNumberToStringVerbose(length) +
   ' random numbers from a total sum, and then output the final sum';
 export const huirthServerVerboseAdditionAndSubtractionStrategy = (length: number): ActionStrategy => {
-  const actions: Action[] = [];
+  const actions: AnyAction[] = [];
   for (let i = 0; i < length; i++) {
     const number = Math.round(getRandomRange(1, 100));
     const even = Math.round(getRandomRange(1, 5)) % 2;
     actions.push(
       even
-        ? huirthServerInnerAddTo({
-            addTo: number,
-          })
-        : huirthServerInnerSubtractFrom({
-            subtractFrom: number,
-          })
+        ? huirthServerInnerAddTo.actionCreator({
+          addTo: number,
+        })
+        : huirthServerInnerSubtractFrom.actionCreator({
+          subtractFrom: number,
+        })
     );
   }
 

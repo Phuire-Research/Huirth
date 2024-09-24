@@ -6,12 +6,12 @@ import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
 import { createQualityCardComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../model/userInterface';
 
-export const [huirthStyle, huirthStyleType, huirthStyleQuality] = createQualityCardComponent({
+export const huirthStyle = createQualityCardComponent({
   type: 'Create huirth Style',
   reducer: nullReducer,
-  componentCreator: (act) =>
+  componentCreator:
     createMethod((action) => {
-      const payload = selectComponentPayload(action);
+      const payload = action.payload;
       if (action.strategy) {
         return strategySuccess(
           action.strategy,
@@ -19,7 +19,7 @@ export const [huirthStyle, huirthStyleType, huirthStyleQuality] = createQualityC
             id: '',
             boundSelectors: [],
             universal: true,
-            action: act(payload),
+            action,
             html: /*html*/ `
   <style>
     html, body {

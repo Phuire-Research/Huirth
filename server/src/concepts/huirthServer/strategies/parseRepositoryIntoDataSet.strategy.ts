@@ -14,14 +14,14 @@ export const huirthServerParseRepositoryStrategy = (root: string, name: string) 
   const dataPath = path.join(root + '/data/repositories/' + name);
   // Generate parse files and add them all to an array to be added to state at the end.
   const stepDetermineReadAndParseStrategy = createActionNode(
-    huirthServerDetermineReadParseAppendStrategy({
+    huirthServerDetermineReadParseAppendStrategy.actionCreator({
       name,
       type: DataSetTypes.project,
     })
   );
   // Step 1 Remove directory if exists based on name
   const stepFilter = createActionNode(
-    fileSystemFilterFilesAndDirectories({
+    fileSystemFilterFilesAndDirectories.actionCreator({
       isTokens: ['.ts'],
       notTokens: [path.join('/context/')],
     }),
@@ -29,7 +29,7 @@ export const huirthServerParseRepositoryStrategy = (root: string, name: string) 
       successNode: stepDetermineReadAndParseStrategy,
     }
   );
-  const stepReadDirectory = createActionNode(fileSystemReadDirectory({ target: dataPath }), {
+  const stepReadDirectory = createActionNode(fileSystemReadDirectory.actionCreator({ target: dataPath }), {
     // successNode: stepCreateDirectory,
     successNode: stepFilter,
     agreement: 20000,

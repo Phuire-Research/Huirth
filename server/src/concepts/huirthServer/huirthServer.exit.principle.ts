@@ -2,51 +2,37 @@
 For the graph programming framework Stratimux and Brand Concept huirth that extends the Server Concept, generate a principle that close the axium if a message is received at a specified api endpoint.
 $>*/
 
-import { Subscriber } from 'rxjs';
-import {
-  Action,
-  Concepts,
-  PrincipleFunction,
-  UnifiedSubject,
-  axiumKick,
-  axiumPreClose,
-  axiumRegisterStagePlanner,
-  createStage,
-  getUnifiedName,
-  isConceptLoaded,
-  selectUnifiedState,
-} from '@phuire/stratimux';
 import { ServerState } from '../server/server.concept';
+import { HuirthServerPrinciple } from './huirthServer.concept';
 
 /*<#*/
-export const huirthServerExitPrinciple: PrincipleFunction = (
-  _: Subscriber<Action>,
-  cpts: Concepts,
-  concepts$: UnifiedSubject,
-  semaphore: number
-) => {
+export const huirthServerExitPrinciple: HuirthServerPrinciple = ({
+  plan,
+  k_,
+  concepts_
+}) => {
   let shouldClose = false;
   const beat = 333;
-  const initialServerState = selectUnifiedState(cpts, semaphore) as ServerState;
+  const initialServerState = k_.state(concepts_) as unknown as ServerState;
   const server = initialServerState.server;
-  const plan = concepts$.plan('Server listening for exit signal', [
-    createStage((concepts, dispatch) => {
-      const name = getUnifiedName(concepts, semaphore);
+  plan('Server listening for exit signal', ({stage}) => [
+    stage(({concepts, dispatch, d, k, stagePlanner}) => {
+      const name = k.name(concepts);
       if (name) {
-        dispatch(axiumRegisterStagePlanner({ conceptName: name, stagePlanner: plan }), {
+        dispatch(d.axium.e.axiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
           iterateStage: true,
         });
       } else {
-        plan.conclude();
+        stagePlanner.conclude();
       }
     }),
-    createStage(
-      (concepts, dispatch) => {
-        const name = getUnifiedName(concepts, semaphore);
+    stage(
+      ({concepts, dispatch, d, k, stagePlanner}) => {
+        const name = k.name(concepts);
         if (name) {
           if (shouldClose) {
             dispatch(
-              axiumPreClose({
+              d.axium.e.axiumPreClose({
                 exit: true,
               }),
               {
@@ -55,13 +41,13 @@ export const huirthServerExitPrinciple: PrincipleFunction = (
             );
           }
         } else {
-          plan.conclude();
+          stagePlanner.conclude();
         }
       },
       { beat }
     ),
-    createStage((__, ___) => {
-      plan.conclude();
+    stage(({stagePlanner}) => {
+      stagePlanner.conclude();
     }),
   ]);
 

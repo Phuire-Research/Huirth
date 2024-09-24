@@ -3,7 +3,6 @@ For the graph programming framework Stratimux and a Concept huirth, generate a q
 $>*/
 /*<#*/
 import {
-  UnifiedSubject,
   createAction,
   createActionNode,
   createMethodWithState,
@@ -14,20 +13,15 @@ import {
 import { huirthState } from '../huirth.concept';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 
-export const [
-  huirthSendTriggerSelectedTransformationStrategy,
-  huirthSendTriggerSelectedTransformationStrategyType,
-  huirthSendTriggerSelectedTransformationStrategyQuality,
-] = createQualityCard({
+export const huirthSendTriggerSelectedTransformationStrategy = createQualityCard<huirthState>({
   type: 'huirth send trigger selected transformation strategy to server',
-  reducer: (state: huirthState): huirthState => {
+  reducer: (state) => {
     const dataSetSelection = state.dataSetSelection.map(() => false);
     return {
-      ...state,
       dataSetSelection,
     };
   },
-  methodCreator: (concepts$, semaphore) =>
+  methodCreator: () =>
     createMethodWithState<huirthState>(
       (_, state) => {
         const serverActionType = 'huirthServer trigger passed transformation strategy from payload';
@@ -48,8 +42,6 @@ export const [
           })
         );
       },
-      concepts$ as UnifiedSubject,
-      semaphore as number
     ),
 });
 /*#>*/

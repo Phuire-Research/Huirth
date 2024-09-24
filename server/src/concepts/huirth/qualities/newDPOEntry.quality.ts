@@ -6,9 +6,9 @@ import { createQualityCard, defaultMethodCreator } from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { generateDPOTrainingData } from '../huirth.model';
 
-export const [huirthNewDPOEntry, huirthNewDPOEntryType, huirthNewDPOEntryQuality] = createQualityCard({
+export const huirthNewDPOEntry = createQualityCard<huirthState>({
   type: 'Create huirth NewDPOEntry',
-  reducer: (state: huirthState): huirthState => {
+  reducer: (state) => {
     const activeDPO = [...state.activeDPO];
     activeDPO.push(generateDPOTrainingData());
     return {

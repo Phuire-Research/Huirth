@@ -10,12 +10,12 @@ import {
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthIndexDPOEnd, huirthIndexDPOEndType, huirthIndexDPOEndQuality] = createQualityCardComponent({
+export const huirthIndexDPOEnd = createQualityCardComponent({
   type: 'create userInterface for IndexDPOEnd',
   reducer: nullReducer,
-  componentCreator: (act) =>
+  componentCreator:
     createMethod((action) => {
-      const payload = selectComponentPayload(action);
+      const payload = action.payload;
       const id = '';
       if (action.strategy) {
         return strategySuccess(
@@ -24,7 +24,7 @@ export const [huirthIndexDPOEnd, huirthIndexDPOEndType, huirthIndexDPOEndQuality
             id,
             boundSelectors: [],
             universal: false,
-            action: act(payload),
+            action,
             html: /*html*/ `
     </div>
   </section>

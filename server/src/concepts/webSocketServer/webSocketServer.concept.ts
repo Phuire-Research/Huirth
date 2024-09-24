@@ -34,6 +34,6 @@ export const createWebSocketServerConcept = () => {
     webSocketServerName,
     initialWebSocketServerState(),
     webSocketServerQualities,
-    [webSocketServerPrinciple as unknown as PrincipleFunction<typeof webSocketServerQualities>]
+    [webSocketServerPrinciple]
   );
 };

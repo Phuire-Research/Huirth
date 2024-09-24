@@ -3,39 +3,33 @@ For the graph programming framework Stratimux and a Concept huirth Server, gener
 $>*/
 /*<#*/
 import {
-  UnifiedSubject,
   createMethodDebounceWithConcepts,
   createQualityCardWithPayload,
   selectPayload,
   selectState,
-  selectUnifiedState,
   strategyBegin,
 } from '@phuire/stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirthServerSaveDataSetSelectionStrategy } from '../strategies/saveDataSetSelection.strategy';
-import { huirthServerState } from '../huirthServer.concept';
+import { huirthServerName, huirthServerState } from '../huirthServer.concept';
 
 export type huirthServerTriggerSaveDataSetSelectionStrategyPayload = {
   names: string[];
 };
 
-export const [
-  huirthServerTriggerSaveDataSetSelectionStrategy,
-  huirthServerTriggerSaveDataSetSelectionStrategyType,
-  huirthServerTriggerSaveDataSetSelectionStrategyQuality,
-] = createQualityCardWithPayload<huirthServerTriggerSaveDataSetSelectionStrategyPayload>({
+export const huirthServerTriggerSaveDataSetSelectionStrategy =
+createQualityCardWithPayload<huirthServerState, huirthServerTriggerSaveDataSetSelectionStrategyPayload>({
   type: 'huirthServer trigger save data set selection strategy',
-  reducer: (state: huirthServerState): huirthServerState => {
+  reducer: (state) => {
     return {
-      ...state,
       dataSetSelection: state.dataSetSelection.map(() => false),
     };
   },
-  methodCreator: (concepts$, semaphore) =>
+  methodCreator: () =>
     createMethodDebounceWithConcepts(
       (action, concepts) => {
-        const { names } = selectPayload<huirthServerTriggerSaveDataSetSelectionStrategyPayload>(action);
-        const state = selectUnifiedState<huirthServerState>(concepts, semaphore as number);
+        const { names } = action.payload;
+        const state = selectState<huirthServerState>(concepts, huirthServerName);
         const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
         if (fileSystemState && state) {
           const { trainingData } = state;
@@ -45,10 +39,7 @@ export const [
         } else {
           return action;
         }
-      },
-      concepts$ as UnifiedSubject,
-      semaphore as number,
-      50
+      }, 50
     ),
 });
 /*#>*/

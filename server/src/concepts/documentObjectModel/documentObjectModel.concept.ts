@@ -2,12 +2,12 @@
 For the graph programming framework Stratimux generate a Document Object Model Concept
 $>*/
 /*<#*/
-import { createConcept, Concept } from '@phuire/stratimux';
+import { createConcept, Concept, PrincipleFunction, Principle, AxiumDeck } from '@phuire/stratimux';
 import { documentObjectModelPrinciple } from './documentObjectModel.principle';
 import { UserInterfacePageBindings } from '../../model/userInterface';
-import { documentObjectModelBindQuality } from './qualities/bind.quality';
-import { documentObjectModelBindPayloadQuality } from './qualities/bindPayload.quality';
-import { documentObjectModelClearBindingQueQuality } from './qualities/clearBindingQue.quality';
+import { documentObjectModelBind } from './qualities/bind.quality';
+import { documentObjectModelBindPayload } from './qualities/bindPayload.quality';
+import { documentObjectModelClearBindingQue } from './qualities/clearBindingQue.quality';
 
 export const documentObjectModelName = 'documentObjectModel';
 
@@ -23,11 +23,19 @@ const createDocumentObjectModelState = (bindingQue?: UserInterfacePageBindings):
   };
 };
 
-export const createDocumentObjectModelConcept = (bindingQue?: UserInterfacePageBindings): Concept => {
-  return createConcept(
+const qualities = {documentObjectModelBind, documentObjectModelBindPayload, documentObjectModelClearBindingQue};
+
+export type DocumentObjectModelDeck = {
+  documentObjectModel: Concept<DocumentObjectModelState, typeof qualities>
+}
+
+export type DocumentObjectModelPrinciple = PrincipleFunction<typeof qualities, AxiumDeck & DocumentObjectModelDeck, DocumentObjectModelState>;
+
+export const createDocumentObjectModelConcept = (bindingQue?: UserInterfacePageBindings) => {
+  return createConcept<DocumentObjectModelState, typeof qualities>(
     documentObjectModelName,
     createDocumentObjectModelState(bindingQue),
-    [documentObjectModelBindQuality, documentObjectModelBindPayloadQuality, documentObjectModelClearBindingQueQuality],
+    qualities,
     [documentObjectModelPrinciple]
   );
 };

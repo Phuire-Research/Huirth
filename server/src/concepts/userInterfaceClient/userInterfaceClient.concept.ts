@@ -53,7 +53,7 @@ export type UserInterfaceClientDeck = {
   userInterfaceClient: Concept<UserInterfaceState, typeof userInterfaceClientQualities>
 };
 
-export type UserInterfaceClientPrinciple = PrincipleFunction<typeof userInterfaceClientQualities, AxiumDeck & UserInterfaceClientDeck, UserInterfaceState>;
+export type UserInterfaceClientPrinciple = PrincipleFunction<typeof userInterfaceClientQualities, AxiumDeck & UserInterfaceClientDeck, UserInterfaceClientState>;
 
 export const createUserInterfaceClientConcept = (state?: Record<string, unknown>, brandCreator?: () => AnyConcept): AnyConcept => {
   const newState: Record<string, unknown> = {};
@@ -75,7 +75,7 @@ export const createUserInterfaceClientConcept = (state?: Record<string, unknown>
           '',
           createUserInterfaceClientState(),
           userInterfaceClientQualities,
-          [userInterfaceClientOnChangePrinciple as unknown as PrincipleFunction<typeof userInterfaceQualities>]
+          [userInterfaceClientOnChangePrinciple]
         ),
         brandCreator(),
       ],
@@ -90,7 +90,7 @@ export const createUserInterfaceClientConcept = (state?: Record<string, unknown>
           '',
           createUserInterfaceClientState(),
           userInterfaceQualities,
-          [userInterfaceClientOnChangePrinciple as unknown as PrincipleFunction<typeof userInterfaceQualities>]
+          [userInterfaceClientOnChangePrinciple]
         ),
       ],
       createConcept(userInterfaceClientName, newState)

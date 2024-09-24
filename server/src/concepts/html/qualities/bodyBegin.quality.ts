@@ -10,28 +10,27 @@ import {
   userInterface_appendCompositionToPage,
 } from '../../../model/userInterface';
 
-export const [htmlBodyBegin, htmlBodyBeginType, htmlBodyBeginQuality] = createQualityCardComponent({
+export const htmlBodyBegin = createQualityCardComponent({
   type: 'Html create Body Begin',
   reducer: nullReducer,
-  componentCreator: (act) =>
-    createMethod((action) => {
-      const payload = selectComponentPayload(action);
-      if (action.strategy) {
-        const cont = strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id: '',
-            boundSelectors: [],
-            universal: false,
-            action: act(payload),
-            html: /*html*/ `
-    <body id="${createPageId(payload.pageTitle)}">
-      `,
-          })
-        );
-        return cont;
-      }
-      return action;
-    }),
+  componentCreator: createMethod((action) => {
+    const payload = action.payload;
+    if (action.strategy) {
+      const cont = strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
+          id: '',
+          boundSelectors: [],
+          universal: false,
+          action,
+          html: /*html*/ `
+  <body id="${createPageId(payload.pageTitle)}">
+    `,
+        })
+      );
+      return cont;
+    }
+    return action;
+  }),
 });
 /*#>*/

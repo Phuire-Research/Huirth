@@ -16,13 +16,17 @@ import {
   Reducer,
   createAction,
   createActionNode,
-  createQuality,
+  createQualityCard,
   selectPayload,
   strategyData_select,
   ActionWithPayloadOptions,
   ActionOptions,
   ActionCreator,
   ActionCreatorWithPayload,
+  SpecificReducer,
+  createQualityCardWithPayload,
+  MethodCreatorStep,
+  AnyAction,
 } from '@phuire/stratimux';
 import { elementEventBinding } from './html';
 import { documentObjectModelName } from '../concepts/documentObjectModel/documentObjectModel.concept';
@@ -36,7 +40,7 @@ export type ElementIdentifier = string;
 
 // This is going to use DOM Strategies that bind the Event and creates an Action Node of ActionType to pass that Event TO
 export type Binding = {
-  action: Action;
+  action: AnyAction;
   eventBinding: elementEventBinding | string;
 };
 export type UserInterfaceBindings = Record<ElementIdentifier, Binding[]>;
@@ -55,7 +59,7 @@ export const createPageId = (pageName: string) => {
 export type PreBind = {
   elementId: string;
   eventBinding: elementEventBinding;
-  action: Action;
+  action: AnyAction;
 };
 
 export const createBinding = (bindings: PreBind[]): UserInterfaceBindings => {
@@ -75,7 +79,7 @@ type ActionEventPayload = {
   event: Event;
 };
 
-export const userInterface_selectInputTarget = (action: Action) => {
+export const userInterface_selectInputTarget = (action: AnyAction) => {
   const payload = selectPayload<ActionEventPayload>(action).event;
   return payload.target as HTMLInputElement;
 };
@@ -102,6 +106,7 @@ const userInterface_bindingsToString = (bindings: UserInterfaceBindings): string
     output += `'${key}' : [\n`;
     const bind = bindings[key];
     for (const b of bind) {
+      // eslint-disable-next-line quotes
       output += `\t{\n\t\taction: ${JSON.stringify(b.action).replace(/"/g, "'")},\n\t\teventBinding: '${b.eventBinding}'\n\t},`;
     }
     output += '\n],';
@@ -127,7 +132,7 @@ export type BoundSelectors = {
   semaphore: [number, number];
 };
 
-export const createBoundSelectors = (id: string, action: Action, selectors: KeyedSelector[]): BoundSelectors => ({
+export const createBoundSelectors = (id: string, action: AnyAction, selectors: KeyedSelector[]): BoundSelectors => ({
   id,
   action,
   selectors,
@@ -141,7 +146,7 @@ export type Composition = {
   boundSelectors: BoundSelectors[];
   bindings?: UserInterfaceBindings;
   html: string;
-  action: Action;
+  action: Action<ActionComponentPayload>;
 };
 
 export type Page = {
@@ -166,12 +171,12 @@ export const userInterface_createPage = (page?: Page): Page =>
   page
     ? page
     : {
-        title: '',
-        conceptAndProps: [],
-        compositions: [],
-        cachedSelectors: [],
-        cachedComponentSelectors: [],
-      };
+      title: '',
+      conceptAndProps: [],
+      compositions: [],
+      cachedSelectors: [],
+      cachedComponentSelectors: [],
+    };
 
 export type ActionComponentPayload = {
   pageTitle: string;
@@ -194,39 +199,33 @@ export function prepareActionComponentCreator<T extends Record<string, unknown> 
   return (payload: T, options?: ActionOptions) => {
     const opts: ActionWithPayloadOptions<T> = {
       ...options,
-      payload,
+      payload: payload as any,
     };
     return createAction(actionType, opts);
   };
 }
 
-export type ComponentCreator<T extends Record<string, unknown>> = (
-  action: ActionCreatorWithPayload<T>,
+export type ComponentCreator<T extends ActionComponentPayload> = (
   concepts$?: Subject<Concepts>,
   semaphore?: number
-) => [Method, Subject<Action>];
+) => [Method<T>, Subject<Action<T>>];
 
-export function createQualityCardComponent<T extends Record<string, unknown>>(q: {
+export function createQualityCardComponent<S extends Record<string, unknown>, T extends ActionComponentPayload>(q: {
   type: string;
-  reducer: Reducer;
-  componentCreator: ComponentCreator<T & ActionComponentPayload>;
+  reducer: SpecificReducer<S, T>;
+  componentCreator: MethodCreator<S, T>;
   keyedSelectors?: KeyedSelector[];
   meta?: Record<string, unknown>;
   analytics?: Record<string, unknown>;
-}): [ActionCreatorWithPayload<T & ActionComponentPayload>, ActionType, Quality] {
-  const action = prepareActionComponentCreator<T & ActionComponentPayload>(q.type);
-  return [
-    action,
-    q.type,
-    createQuality(
-      q.type,
-      q.reducer,
-      (concepts$?: Subject<Concepts>, semaphore?: number) => q.componentCreator(action, concepts$, semaphore),
-      q.keyedSelectors,
-      q.meta,
-      q.analytics
-    ),
-  ];
+}) {
+  return createQualityCardWithPayload<S, T>({
+    type: q.type,
+    reducer: q.reducer,
+    methodCreator: () => q.componentCreator,
+    keyedSelectors: q.keyedSelectors,
+    meta: q.meta,
+    analytics: q.analytics
+  });
 }
 
 export const userInterface_appendCompositionToPage = (strategy: ActionStrategy, composition: Composition): Page => {
@@ -289,7 +288,7 @@ export const userInterface_selectPage = (strategy: ActionStrategy): Page => {
 export const userInterface_createComponent = (action: Action, success?: ActionNode): ActionNode => {
   return createActionNode(action, {
     successNode: success ? success : null,
-    failureNode: createActionNode(userInterfaceNext(), {
+    failureNode: createActionNode(userInterfaceNext.actionCreator(), {
       successNode: null,
       failureNode: null,
     }),

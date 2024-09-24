@@ -9,7 +9,7 @@ import { ProjectStatus } from '../huirth.model';
 export const huirthUpdateProjectStatusStrategyTopic = 'huirth set project status to the specified status';
 export const huirthUpdateProjectStatusStrategy = (name: string, status: ProjectStatus) => {
   const stepSendToServer = createActionNode(
-    huirthUpdateProjectStatus({
+    huirthUpdateProjectStatus.actionCreator({
       name,
       status,
     }),
@@ -18,7 +18,7 @@ export const huirthUpdateProjectStatusStrategy = (name: string, status: ProjectS
       failureNode: null,
     }
   );
-  const stepUpdateToInstalling = createActionNode(huirthUpdateProjectStatus({ name, status: ProjectStatus.installing }), {
+  const stepUpdateToInstalling = createActionNode(huirthUpdateProjectStatus.actionCreator({ name, status: ProjectStatus.installing }), {
     successNode: stepSendToServer,
   });
   return createStrategy({

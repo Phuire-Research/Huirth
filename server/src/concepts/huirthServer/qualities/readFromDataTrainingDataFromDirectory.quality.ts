@@ -8,7 +8,7 @@ import {
   nullReducer,
   strategyData_appendFailure,
   strategyData_select,
-  strategyData_unifyData,
+  strategyData_muxifyData,
   strategyFailed,
   strategySuccess,
 } from '@phuire/stratimux';
@@ -50,11 +50,7 @@ export type ReadFromDataTrainingDataFromDirectoriesField = {
   trainingData: TrainingData;
 };
 
-export const [
-  huirthServerReadFromDataTrainingDataFromDirectories,
-  huirthServerReadFromDataTrainingDataFromDirectoriesType,
-  huirthServerReadFromDataTrainingDataFromDirectoriesQuality,
-] = createQualityCard({
+export const huirthServerReadFromDataTrainingDataFromDirectories = createQualityCard({
   type: 'huirth Server read from File System Data, Directories and Files',
   reducer: nullReducer,
   methodCreator: () =>
@@ -70,7 +66,7 @@ export const [
                 controller.fire(
                   strategySuccess(
                     strategy,
-                    strategyData_unifyData(strategy, {
+                    strategyData_muxifyData(strategy, {
                       trainingData,
                     })
                   )

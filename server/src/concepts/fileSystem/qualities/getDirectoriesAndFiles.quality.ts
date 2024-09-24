@@ -9,12 +9,13 @@ import {
   nullReducer,
   selectPayload,
   strategyData_appendFailure,
-  strategyData_unifyData,
+  strategyData_muxifyData,
   strategyFailed,
   strategySuccess,
 } from '@phuire/stratimux';
 import fs from 'fs/promises';
 import { FileDirent } from '../fileSystem.model';
+import { FileSystemState } from '../fileSystem.concept';
 
 export type GetDirectoriesAndFilesPayload = {
   path: string;
@@ -23,21 +24,21 @@ export type GetDirectoriesAndFilesDataField = {
   directories: FileDirent[];
 };
 
-export const [fileSystemGetDirectoriesAndFiles, fileSystemGetDirectoriesAndFilesType, fileSystemGetDirectoriesAndFilesQuality] =
-  createQualityCardWithPayload<GetDirectoriesAndFilesPayload>({
+export const fileSystemGetDirectoriesAndFiles =
+  createQualityCardWithPayload<FileSystemState, GetDirectoriesAndFilesPayload>({
     type: 'File System get target Directories and Files',
     reducer: nullReducer,
     methodCreator: () =>
       createAsyncMethodDebounce((controller, action) => {
-        const payload = selectPayload<GetDirectoriesAndFilesPayload>(action);
+        const {path} = action.payload;
         if (action.strategy) {
           const strategy = action.strategy;
-          fs.readdir(payload.path, {
+          fs.readdir(path, {
             withFileTypes: true,
           })
             .then((directories) => {
               console.log('DIRECTORIES AND FILES LENGTH', directories.length);
-              const newStrategy = strategySuccess(strategy, strategyData_unifyData(strategy, { directories }));
+              const newStrategy = strategySuccess(strategy, strategyData_muxifyData(strategy, { directories }));
               controller.fire(newStrategy);
             })
             .catch((error) => {

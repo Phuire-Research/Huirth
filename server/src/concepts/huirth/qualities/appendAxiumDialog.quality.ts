@@ -10,13 +10,12 @@ export type huirthAppendAxiumDialogTypePayload = {
   dialog: string;
 };
 
-export const [huirthAppendAxiumDialog, huirthAppendAxiumDialogType, huirthAppendAxiumDialogQuality] =
-  createQualityCardWithPayload<huirthAppendAxiumDialogTypePayload>({
+export const huirthAppendAxiumDialog =
+  createQualityCardWithPayload<huirthState, huirthAppendAxiumDialogTypePayload>({
     type: 'huirth append Axium Dialog',
-    reducer: (state: huirthState, action: Action): huirthState => {
-      const dialog = selectPayload<huirthAppendAxiumDialogTypePayload>(action).dialog;
+    reducer: (state, action) => {
+      const { dialog } = action.payload;
       return {
-        ...state,
         dialog: state.dialog + dialog,
       };
     },

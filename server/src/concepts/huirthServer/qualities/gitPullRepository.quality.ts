@@ -13,13 +13,14 @@ import {
 } from '@phuire/stratimux';
 import child_process from 'child_process';
 import path from 'path';
+import { huirthServerState } from '../huirthServer.concept';
 
 export type GitPullRepositoryPayload = {
   path: string;
 };
 
-export const [huirthServerGitPullRepository, huirthServerGitPullRepositoryType, huirthServerGitPullRepositoryQuality] =
-  createQualityCardWithPayload<GitPullRepositoryPayload>({
+export const huirthServerGitPullRepository =
+  createQualityCardWithPayload<huirthServerState, GitPullRepositoryPayload>({
     type: 'huirthServer pull most recent changes for targeted repository',
     reducer: nullReducer,
     methodCreator: () =>

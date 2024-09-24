@@ -12,19 +12,20 @@ import {
   strategySuccess,
 } from '@phuire/stratimux';
 import child_process from 'child_process';
+import { huirthServerState } from '../huirthServer.concept';
 
 export type GitCloneRepoToDirectoryPayload = {
   url: string;
   path: string;
 };
 
-export const [huirthServerGitCloneRepoToDirectory, huirthServerGitCloneRepoToDirectoryType, huirthServerGitCloneRepoToDirectoryQuality] =
-  createQualityCardWithPayload<GitCloneRepoToDirectoryPayload>({
+export const huirthServerGitCloneRepoToDirectory =
+  createQualityCardWithPayload<huirthServerState, GitCloneRepoToDirectoryPayload>({
     type: 'huirthServer clone repository to target directory',
     reducer: nullReducer,
     methodCreator: () =>
       createAsyncMethod((controller, action) => {
-        const { path, url } = selectPayload<GitCloneRepoToDirectoryPayload>(action);
+        const { path, url } = action.payload;
         if (action.strategy) {
           const process = child_process.exec('git clone ' + url + ' ' + path, (err, stdout, stderr) => {
             console.log(`GIT CLONE ${url}\nERR: `, err, 'STDOUT: ', stdout, 'STDERR: ', stderr);

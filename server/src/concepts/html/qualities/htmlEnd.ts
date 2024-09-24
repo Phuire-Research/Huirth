@@ -6,12 +6,12 @@ import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
 import { createQualityCardComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../model/userInterface';
 
-export const [htmlEnd, htmlEndType, htmlEndQuality] = createQualityCardComponent({
+export const htmlEnd = createQualityCardComponent({
   type: 'Create HTML End Element',
   reducer: nullReducer,
-  componentCreator: (act) =>
+  componentCreator:
     createMethod((action) => {
-      const payload = selectComponentPayload(action);
+      const payload = action.payload;
       if (action.strategy) {
         return strategySuccess(
           action.strategy,
@@ -19,7 +19,7 @@ export const [htmlEnd, htmlEndType, htmlEndQuality] = createQualityCardComponent
             id: '',
             boundSelectors: [],
             universal: false,
-            action: act(payload),
+            action,
             html: /*html*/ `
   </html>
       `,
