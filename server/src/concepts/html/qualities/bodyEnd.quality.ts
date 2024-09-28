@@ -8,7 +8,7 @@ import { createQualityCardComponent, selectComponentPayload, userInterface_appen
 export const htmlBodyEnd = createQualityCardComponent({
   type: 'Html create Body End',
   reducer: nullReducer,
-  componentCreator: createMethod((action) => {
+  componentCreator: createMethod(({action}) => {
     if (action.strategy) {
       const payload = action.payload;
       return strategySuccess(

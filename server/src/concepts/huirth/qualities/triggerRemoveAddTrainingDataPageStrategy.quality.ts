@@ -29,10 +29,10 @@ export const huirthTriggerRemoveAddTrainingDataPage = createQualityCardWithPaylo
   reducer: nullReducer,
   methodCreator: () =>
     createMethodWithConcepts(
-      (action, cpts) => {
+      ({action, concepts}) => {
         const { newName, oldName } = action.payload;
         const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(newName);
-        const strategyAdd = huirthAddTrainingDataPageStrategy(newName, generatedTrainingDataPage, cpts);
+        const strategyAdd = huirthAddTrainingDataPageStrategy(newName, generatedTrainingDataPage, concepts);
         strategyAdd.priority = 3000;
         const strategyRemove = huirthRemoveTrainingDataPageStrategy(oldName);
         strategyRemove.priority = 3000;

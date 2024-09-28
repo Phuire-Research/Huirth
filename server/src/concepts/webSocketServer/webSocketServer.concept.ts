@@ -7,7 +7,7 @@ import { webSocketServerAppendToActionQue } from './qualities/appendActionQue.qu
 import { webSocketServerSetClientSemaphore } from './qualities/setClientSemaphore.quality';
 import { webSocketServerSyncState } from './qualities/syncState.quality';
 import { webSocketServerPrinciple } from './webSocketServer.principle';
-import { Action, AxiumDeck, Concept, createConcept, PrincipleFunction } from '@phuire/stratimux';
+import { Action, MuxiumDeck, Concept, createConcept, PrincipleFunction } from '@phuire/stratimux';
 
 export type WebSocketServerState = {
   actionQue: Action[];
@@ -27,7 +27,7 @@ export const webSocketServerQualities = { webSocketServerAppendToActionQue, webS
 export type WebSocketServerDeck = {
   webSocketServer: Concept<WebSocketServerState, typeof webSocketServerQualities>
 }
-export type WebSocketServerPrinciple = PrincipleFunction<typeof webSocketServerQualities, AxiumDeck & WebSocketServerDeck, WebSocketServerState>;
+export type WebSocketServerPrinciple = PrincipleFunction<typeof webSocketServerQualities, MuxiumDeck & WebSocketServerDeck, WebSocketServerState>;
 
 export const createWebSocketServerConcept = () => {
   return createConcept<WebSocketServerState, typeof webSocketServerQualities>(

@@ -7,5 +7,5 @@ import { huirthUpdateProjectStatus } from '../../../huirth/qualities/updateProje
 import { ProjectStatus } from '../../../huirth/huirth.model';
 
 export const huirthServerSendUpdateProjectToInstalled = (name: string) =>
-  userInterfaceServerSendActionToClient(huirthUpdateProjectStatus({ name, status: ProjectStatus.installed }));
+  userInterfaceServerSendActionToClient(huirthUpdateProjectStatus.actionCreator({ name, status: ProjectStatus.installed }));
 /*#>*/

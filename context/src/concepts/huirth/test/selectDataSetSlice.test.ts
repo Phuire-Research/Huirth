@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a test that will ensure that the selectSlice helper function from Stratimux is operating as intended.
 $>*/
 /*<#*/
-import { Concepts, KeyedSelector, createConcept, createUnifiedKeyedSelector, selectSlice } from '@phuire/stratimux';
+import { Concepts, KeyedSelector, createConcept, createMuxifiedKeyedSelector, selectSlice } from '@phuire/stratimux';
 import { generateBaseDataSetEntry, generateDefaultNamedDataSet } from '../huirth.model';
 
 test('userInterfaceBindingsToString', (done) => {
@@ -14,7 +14,7 @@ test('userInterfaceBindingsToString', (done) => {
     1: experiment,
   };
   const entry = generateBaseDataSetEntry();
-  const selector = createUnifiedKeyedSelector(concepts, 1, 'trainingData.0.dataSet.0.prompt') as KeyedSelector;
+  const selector = createMuxifiedKeyedSelector(concepts, 1, 'trainingData.0.dataSet.0.prompt') as KeyedSelector;
   const getUndefined = { ...selector };
   getUndefined.conceptName = 'something';
   expect(selectSlice(concepts, selector)).toBe(entry.prompt);

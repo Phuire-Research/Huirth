@@ -14,7 +14,7 @@ export const huirthIndexDialogBegin = createQualityCardComponent({
   type: 'create userInterface for IndexDialogBegin',
   reducer: nullReducer,
   componentCreator:
-    createMethod((action) => {
+    createMethod(({action}) => {
       const payload = action.payload;
       const id = '#dialogBeginID';
       if (action.strategy) {

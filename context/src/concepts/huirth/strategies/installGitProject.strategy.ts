@@ -13,7 +13,7 @@ export const huirthInstallGitRepositoryStrategy = (url: string, name: string) =>
     // TODO: If failed we can use open to load a window with the git install webpage
     failureNode: null,
   });
-  const stepUpdateToInstalling = createActionNode(huirthUpdateProjectStatus({ name, status: ProjectStatus.installing }), {
+  const stepUpdateToInstalling = createActionNode(huirthUpdateProjectStatus.actionCreator({ name, status: ProjectStatus.installing }), {
     successNode: stepSendToServer,
   });
   return createStrategy({

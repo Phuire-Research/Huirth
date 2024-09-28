@@ -38,9 +38,9 @@ export const huirthDataManagerPageStrategy: PageStrategyCreators = () => () => {
 export const huirthDataManagerStrategyStitchTopic = 'huirth Data Manager Action Strategy Component Stitch';
 export const huirthDataManagerStrategyStitch: ActionStrategyComponentStitch = (payload) => {
   // Body
-  const stephuirthDataManagerEnd = userInterface.createComponent(huirthDataManagerEnd(payload));
-  const stephuirthDataManagerContent = userInterface.createComponent(huirthDataManagerContent(payload), stephuirthDataManagerEnd);
-  const stephuirthDataManagerBegin = userInterface.createComponent(huirthDataManagerBegin(payload), stephuirthDataManagerContent);
+  const stephuirthDataManagerEnd = userInterface.createComponent(huirthDataManagerEnd.actionCreator(payload));
+  const stephuirthDataManagerContent = userInterface.createComponent(huirthDataManagerContent.actionCreator(payload), stephuirthDataManagerEnd);
+  const stephuirthDataManagerBegin = userInterface.createComponent(huirthDataManagerBegin.actionCreator(payload), stephuirthDataManagerContent);
   return [
     stephuirthDataManagerEnd,
     createStrategy({

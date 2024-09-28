@@ -54,7 +54,6 @@ export const huirthRemoveDataSetSelection = createQualityCard<huirthState>({
     projectsStatuses = newStatuses;
     console.log('NEW DATA SET SELECTION', newDataSetSelection);
     return {
-      ...state,
       trainingData: newTrainingData,
       stratimuxStatus,
       huirthStatus,
@@ -64,7 +63,7 @@ export const huirthRemoveDataSetSelection = createQualityCard<huirthState>({
   },
   methodCreator: () =>
     createMethodWithState<huirthState>(
-      (_, state) => {
+      ({state}) => {
         const { trainingData, dataSetSelection } = state;
         const names = trainingData.filter((__, i) => dataSetSelection[i]).map((d) => d.name);
         return strategyBegin(

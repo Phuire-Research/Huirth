@@ -12,35 +12,30 @@ import {
 } from '@phuire/stratimux';
 
 import {
+  ActionComponentPayload,
   createBinding,
   createBoundSelectors,
   createQualityCardComponent,
-  selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 import { elementEventBinding } from '../../../../../model/html';
-import { huirthState } from '../../../huirth.concept';
+import { HuirthDeck, huirthState } from '../../../huirth.concept';
 import { chosenID, generateNumID, promptID, rejectedID } from '../../../huirth.model';
-import { huirthUpdateFromPromptPayload } from '../../updateFromPromptPayload.quality';
-import { huirthUpdateFromChosenPayload } from '../../updateFromChosenPayload.quality';
-import { huirthUpdateFromRejectedPayload } from '../../updateFromRejectedPayload.quality';
-import { huirthNewDataSetEntry } from '../../newDataSetEntry.quality';
 import { huirth_createDPOSelector } from '../../../huirth.selector';
 import { huirthTriggerSaveDPOStrategy } from '../../../strategies/server/triggerSaveDPOStrategy.helper';
-import { huirthNewDPOEntry } from '../../newDPOEntry.quality';
 
-export const huirthIndexDPOContent = createQualityCardComponent({
+export const huirthIndexDPOContent = createQualityCardComponent<huirthState, ActionComponentPayload>({
   type: 'create userInterface for IndexDPOContent',
   reducer: nullReducer,
   componentCreator:
-    createMethodDebounceWithConcepts(
-      (action, concepts, semaphore) => {
+    createMethodDebounceWithConcepts<huirthState, ActionComponentPayload, HuirthDeck>(
+      ({action, concepts, semaphore, deck, self}) => {
         const payload = action.payload;
         const id = '#trainingDataID' + payload.pageTitle;
         const addEntryID = '#addEntry' + payload.pageTitle;
         const saveDPOID = '#saveDPO' + payload.pageTitle;
         if (action.strategy) {
-          const activeDPO = (selectUnifiedState<huirthState>(concepts, semaphore) as huirthState).activeDPO;
+          const activeDPO = (deck.huirth.k.state(concepts) as huirthState).activeDPO;
           let finalOutput = '';
           const bindingsArray: {
             elementId: string;
@@ -52,17 +47,17 @@ export const huirthIndexDPOContent = createQualityCardComponent({
             bindingsArray.push({
               elementId: promptID + elementID,
               eventBinding: elementEventBinding.onchange,
-              action: huirthUpdateFromPromptPayload(),
+              action: deck.huirth.e.huirthUpdateFromPromptPayload(),
             });
             bindingsArray.push({
               elementId: chosenID + elementID,
               eventBinding: elementEventBinding.onchange,
-              action: huirthUpdateFromChosenPayload(),
+              action: deck.huirth.e.huirthUpdateFromChosenPayload(),
             });
             bindingsArray.push({
               elementId: rejectedID + elementID,
               eventBinding: elementEventBinding.onchange,
-              action: huirthUpdateFromRejectedPayload(),
+              action: deck.huirth.e.huirthUpdateFromRejectedPayload(),
             });
             finalOutput += /*html*/ `
 <div class="text-black">
@@ -78,10 +73,10 @@ export const huirthIndexDPOContent = createQualityCardComponent({
     Chosen
   </label>
   <textarea id="${
-    chosenID + elementID
-  }" class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50" id="${
-              chosenID + elementID
-            }" rows="4" cols="50">
+  chosenID + elementID
+}" class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50" id="${
+  chosenID + elementID
+}" rows="4" cols="50">
 ${activeDPO[i].chosen}
   </textarea>
   </textarea>
@@ -89,17 +84,17 @@ ${activeDPO[i].chosen}
     Rejected
   </label>
   <textarea id="${
-    rejectedID + elementID
-  }" class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50" id="${
-              chosenID + elementID
-            }" rows="4" cols="50">
+  rejectedID + elementID
+}" class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50" id="${
+  chosenID + elementID
+}" rows="4" cols="50">
 ${activeDPO[i].rejected}
   </textarea>
 </div>
         `;
           }
           bindingsArray.push({
-            action: huirthNewDPOEntry(),
+            action: deck.huirth.e.huirthNewDPOEntry(),
             elementId: addEntryID,
             eventBinding: elementEventBinding.onclick,
           });
@@ -118,9 +113,9 @@ ${activeDPO[i].rejected}
               universal: false,
               boundSelectors: [
                 // START HERE
-                createBoundSelectors(id, huirthIndexDPOContent(payload), [huirth_createDPOSelector(concepts, semaphore) as KeyedSelector]),
+                createBoundSelectors(id, self(payload), [huirth_createDPOSelector(concepts, semaphore) as KeyedSelector]),
               ],
-              action: act(payload),
+              action: self(payload),
               html: /*html*/ `
         <div class="flex flex-col items-center" id='${id}'>
           <button id=${addEntryID} class="m-2 center-m bg-white/5 hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
@@ -140,8 +135,6 @@ ${activeDPO[i].rejected}
         }
         return action;
       },
-      concepts$ as UnifiedSubject,
-      _semaphore as number,
       50
     ),
 });

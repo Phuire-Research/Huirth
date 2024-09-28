@@ -30,37 +30,37 @@ export const huirthServerTriggerSelectTransformationStrategy =
     type: 'huirthServer trigger passed transformation strategy from payload',
     reducer: nullReducer,
     methodCreator: () =>
-      createMethodDebounce((act) => {
-        const { selection } = act.payload;
-        let action;
+      createMethodDebounce(({action}) => {
+        const { selection } = action.payload;
+        let finalAction;
         switch (selection) {
         case huirthVerboseAddingStrategySelect: {
-          action = huirthServerGenerateVerboseAddingStrategy.actionCreator({ agreement: 600000 });
+          finalAction = huirthServerGenerateVerboseAddingStrategy.actionCreator({ agreement: 600000 });
           break;
         }
         case huirthVerboseSubtractionStrategySelect: {
-          action = huirthServerGenerateVerboseSubtractionStrategy.actionCreator({ agreement: 600000 });
+          finalAction = huirthServerGenerateVerboseSubtractionStrategy.actionCreator({ agreement: 600000 });
           break;
         }
         case huirthVerboseAdditionAndSubtractionStrategySelect: {
-          action = huirthServerGenerateVerboseAdditionAndSubtractionStrategy.actionCreator({ agreement: 600000 });
+          finalAction = huirthServerGenerateVerboseAdditionAndSubtractionStrategy.actionCreator({ agreement: 600000 });
           break;
         }
         default: {
           break;
         }
         }
-        if (action) {
+        if (finalAction) {
           return strategyBegin(
             createStrategy({
               topic: 'Begin Transformation Strategy',
-              initialNode: createActionNode(action, {
+              initialNode: createActionNode(finalAction, {
                 agreement: 600000,
               }),
             })
           );
         }
-        return act;
+        return action;
       }, 50),
   });
 /*#>*/

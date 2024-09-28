@@ -2,11 +2,11 @@
 For the graph programming framework Stratimux generate a User Interface Server Concept, that will unify itself with the User Interface and incoming Brand concept to be loaded on the server.
 $>*/
 /*<#*/
-import { AnyConcept, AxiumDeck, Concept, PrincipleFunction, Qualities, Quality, createConcept, muxifyConcepts } from '@phuire/stratimux';
+import { AnyConcept, MuxiumDeck, Concept, PrincipleFunction, Qualities, Quality, createConcept, muxifyConcepts } from '@phuire/stratimux';
 import { createServerConcept } from '../server/server.concept';
 import { userInterfaceServerOnChangePrinciple, userInterfaceServerPrinciple } from './userInterfaceServer.principle';
 import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
-import { UserInterfaceState, createUserInterfaceConcept } from '../userInterface/userInterface.concept';
+import { UserInterfaceState, createUserInterfaceConcept, userInterfaceQualities } from '../userInterface/userInterface.concept';
 import { userInterfaceServerBuildContext } from './qualities/buildContext.quality';
 import { userInterfaceServerContextPrinciple } from './userInterfaceServer.context.principle';
 import { userInterfaceServerCreateEachPageHtml } from './qualities/createEachPageHtml.quality';
@@ -48,7 +48,7 @@ const createUserInterfaceServerState = (
   };
 };
 
-export type UserInterfaceServerPrinciple = PrincipleFunction<typeof userInterfaceQualities, AxiumDeck & UserInterfaceServerDeck, UserInterfaceServerState>
+export type UserInterfaceServerPrinciple = PrincipleFunction<typeof userInterfaceQualities, MuxiumDeck & UserInterfaceServerDeck, UserInterfaceServerState>
 
 const principleGoal = <Q>(goal: commandLineInterfaceGoals): PrincipleFunction<Q>[] => {
   let principles: UserInterfaceServerPrinciple[] = [];
@@ -69,7 +69,7 @@ const principleGoal = <Q>(goal: commandLineInterfaceGoals): PrincipleFunction<Q>
   return principles as unknown as PrincipleFunction<Q>[];
 };
 
-export const userInterfaceQualities = {
+export const userInterfaceServerQualities = {
   userInterfaceServerCreateEachPageHtml,
   userInterfaceServerRecursivelyCreateEachPageHtml,
   userInterfaceServerCreateContextIndex,
@@ -78,13 +78,13 @@ export const userInterfaceQualities = {
   userInterfaceServerAssembleUpdateAtomicCompositionStrategy,
 };
 
-const qualityGoal = (goal: commandLineInterfaceGoals): Qualities => {
+const qualityGoal = (goal: commandLineInterfaceGoals) => {
   switch (goal) {
   case commandLineInterfaceGoals.simulate: {
     return {userInterfaceServerAssembleUpdateAtomicCompositionStrategy};
   }
   default: {
-    return userInterfaceQualities;
+    return userInterfaceServerQualities;
   }
   }
 };
@@ -93,11 +93,11 @@ const baseUserInterfaceServerConcept = (goal: commandLineInterfaceGoals, pageStr
   const qualities = {userInterfaceServerBuildContext, ...qualityGoal(goal)};
   return muxifyConcepts(
     [createUserInterfaceConcept([])],
-    createConcept<UserInterfaceServerState, typeof qualities>(
+    createConcept(
       userInterfaceServerName,
       createUserInterfaceServerState(pageStrategies, goal),
       qualities,
-      [userInterfaceServerPrinciple as unknown as PrincipleFunction<typeof qualities>, ...principleGoal<typeof qualities>(goal)]
+      [userInterfaceServerPrinciple, ...principleGoal(goal) as unknown as UserInterfaceServerPrinciple[]]
     )
   );
 };
@@ -128,7 +128,7 @@ const userInterfaceServerConcept = (
 };
 
 export type UserInterfaceServerDeck = {
-  userInterfaceServer: Concept<UserInterfaceServerState, typeof userInterfaceQualities>
+  userInterfaceServer: Concept<UserInterfaceServerState, typeof userInterfaceQualities & typeof userInterfaceServerQualities>
 };
 
 export const createUserInterfaceServerConcept = (

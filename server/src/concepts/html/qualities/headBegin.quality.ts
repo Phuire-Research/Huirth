@@ -8,7 +8,7 @@ import { createQualityCardComponent, selectComponentPayload, userInterface_appen
 export const htmlHeadBegin = createQualityCardComponent({
   type: 'Html create Head Begin',
   reducer: nullReducer,
-  componentCreator: createMethod((action) => {
+  componentCreator: createMethod(({action}) => {
     if (action.strategy) {
       return strategySuccess(
         action.strategy,

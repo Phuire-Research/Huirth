@@ -5,17 +5,10 @@ $>*/
 import {
   ActionStrategy,
   Concepts,
-  KeyedSelector,
-  axiumKick,
-  createAsyncMethodWithConcepts,
   createMethodWithConcepts,
   createQualityCardWithPayload,
-  createStage,
-  getAxiumState,
   nullReducer,
   selectPayload,
-  selectSlice,
-  stageWaitForOpenThenIterate,
   strategyBegin,
   strategySequence,
 } from '@phuire/stratimux';
@@ -24,38 +17,27 @@ import { Subject } from 'rxjs';
 import { huirthRemoveTrainingDataPageStrategy } from '../strategies/removeTrainingDataPage.strategy';
 import { huirthAddTrainingDataPageStrategy } from '../strategies/addPageTrainingData.strategy';
 import { huirth_createTrainingDataSelector } from '../huirth.selector';
-import { TrainingData } from '../huirth.model';
+import { huirthState } from '../huirth.concept';
 
 type TriggerRemoveAddTrainingDataPage = {
   newName: string;
   oldName: string;
 };
 
-export const [
-  huirthTriggerRemoveAddTrainingDataPage,
-  huirthTriggerRemoveAddTrainingDataPageType,
-  huirthTriggerRemoveAddTrainingDataPageQuality,
-] = createQualityCardWithPayload<TriggerRemoveAddTrainingDataPage>({
+export const huirthTriggerRemoveAddTrainingDataPage = createQualityCardWithPayload<huirthState, TriggerRemoveAddTrainingDataPage>({
   type: 'Huirth trigger remove old page then add new generated training data page',
   reducer: nullReducer,
-  methodCreator: (concepts$, semaphore) =>
+  methodCreator: () =>
     createMethodWithConcepts(
-      (action, cpts) => {
-        const selector = huirth_createTrainingDataSelector(cpts, semaphore);
-        if (selector) {
-          const { newName, oldName } = selectPayload<TriggerRemoveAddTrainingDataPage>(action);
-          const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(newName);
-          const strategyAdd = huirthAddTrainingDataPageStrategy(newName, generatedTrainingDataPage, cpts);
-          strategyAdd.priority = 3000;
-          const strategyRemove = huirthRemoveTrainingDataPageStrategy(oldName);
-          strategyRemove.priority = 3000;
-          return strategyBegin(strategySequence([strategyRemove, strategyAdd]) as ActionStrategy);
-        } else {
-          return action;
-        }
+      ({action, concepts}) => {
+        const { newName, oldName } = action.payload;
+        const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(newName);
+        const strategyAdd = huirthAddTrainingDataPageStrategy(newName, generatedTrainingDataPage, concepts);
+        strategyAdd.priority = 3000;
+        const strategyRemove = huirthRemoveTrainingDataPageStrategy(oldName);
+        strategyRemove.priority = 3000;
+        return strategyBegin(strategySequence([strategyRemove, strategyAdd]) as ActionStrategy);
       },
-      concepts$ as Subject<Concepts>,
-      semaphore as number
     ),
 });
 /*#>*/

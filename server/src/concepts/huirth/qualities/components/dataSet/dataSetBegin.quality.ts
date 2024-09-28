@@ -13,7 +13,7 @@ export const huirthDataSetBegin = createQualityCardComponent({
   type: 'create userInterface for DataSetBegin',
   reducer: nullReducer,
   componentCreator:
-    createMethod((action) => {
+    createMethod(({action}) => {
       const payload = action.payload;
       const id = '#beginDataSetID' + payload.pageTitle;
       if (action.strategy) {

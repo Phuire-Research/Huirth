@@ -26,7 +26,7 @@ export const huirthServerPrepareParsedProjectDataUpdate =
     reducer: nullReducer,
     methodCreator: () =>
       createMethodWithState(
-        (action, state) => {
+        ({action, state}) => {
           if (action.strategy) {
             const strategy = action.strategy;
             const { name } = selectPayload<huirthServerPrepareParsedProjectDataUpdatePayload>(action);

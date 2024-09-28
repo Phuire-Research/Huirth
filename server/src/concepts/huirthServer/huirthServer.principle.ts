@@ -18,7 +18,7 @@ export const huirthServerPrinciple: HuirthServerPrinciple = ({
     stage(({concepts, dispatch, d, k, stagePlanner}) => {
       const conceptName = k.name(concepts);
       if (conceptName) {
-        dispatch(d.axium.e.axiumRegisterStagePlanner({ conceptName, stagePlanner }), {
+        dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName, stagePlanner }), {
           iterateStage: true,
         });
       } else {

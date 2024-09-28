@@ -2,15 +2,14 @@
 For the graph programming framework Stratimux generate a User Interface Client Concept, that will unify itself with the User Interface and incoming Brand concept to be loaded onto the client.
 $>*/
 /*<#*/
-import { AnyConcept, AxiumDeck, Concept, createConcept, muxifyConcepts, PrincipleFunction } from '@phuire/stratimux';
+import { AnyConcept, MuxiumDeck, Concept, createConcept, muxifyConcepts, PrincipleFunction } from '@phuire/stratimux';
 import { createHtmlConcept } from '../html/html.concepts';
-import { UserInterfaceState, createUserInterfaceConcept } from '../userInterface/userInterface.concept';
+import { UserInterfaceState, createUserInterfaceConcept, userInterfaceQualities } from '../userInterface/userInterface.concept';
 import { userInterfaceClientAssembleAtomicUpdateCompositionStrategy } from './qualities/clientAssembleAtomicUpdateCompositionStrategy.quality';
 import { userInterfaceClientDetermineBindings } from './qualities/clientDetermineBindings.quality';
 import { userInterfaceClientReplaceOuterHtml } from './qualities/replaceOuterHtml.quality';
 import { userInterfaceClientOnChangePrinciple } from './userInterfaceClient.principle';
 import { createWebSocketClientConcept } from '../webSocketClient/webSocketClient.concept';
-import { userInterfaceQualities } from '../userInterfaceServer/userInterfaceServer.concept';
 
 export const userInterfaceClientName = 'userInterfaceClient';
 
@@ -50,10 +49,10 @@ const userInterfaceClientQualities = {
 };
 
 export type UserInterfaceClientDeck = {
-  userInterfaceClient: Concept<UserInterfaceState, typeof userInterfaceClientQualities>
+  userInterfaceClient: Concept<UserInterfaceState, typeof userInterfaceClientQualities & typeof userInterfaceQualities>
 };
 
-export type UserInterfaceClientPrinciple = PrincipleFunction<typeof userInterfaceClientQualities, AxiumDeck & UserInterfaceClientDeck, UserInterfaceClientState>;
+export type UserInterfaceClientPrinciple = PrincipleFunction<typeof userInterfaceClientQualities, MuxiumDeck & UserInterfaceClientDeck, UserInterfaceClientState>;
 
 export const createUserInterfaceClientConcept = (state?: Record<string, unknown>, brandCreator?: () => AnyConcept): AnyConcept => {
   const newState: Record<string, unknown> = {};

@@ -9,7 +9,7 @@ export const htmlHeadEnd = createQualityCardComponent({
   type: 'Html create Head End',
   reducer: nullReducer,
   componentCreator:
-    createMethod((action) => {
+    createMethod(({action}) => {
       if (action.strategy) {
         return strategySuccess(
           action.strategy,

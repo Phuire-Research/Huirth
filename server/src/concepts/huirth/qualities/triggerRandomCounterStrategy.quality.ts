@@ -18,7 +18,7 @@ export const huirthTriggerRandomCountingStrategy =
     reducer: nullReducer,
     methodCreator: () =>
       createMethodDebounceWithState<huirthState & CounterState>(
-        (_, state) => {
+        ({state}) => {
           const strategy = huirthGenerateCountingStrategy(state.count);
           return strategyBegin(strategy);
         },

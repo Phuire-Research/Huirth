@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate an ActionStrategy that will recompose a page creation strategy to add its final composition to the state.
 $>*/
 /*<#*/
-import { ActionNode, ActionStrategy, ActionStrategyStitch, axiumLog, createActionNode, createStrategy } from '@phuire/stratimux';
+import { ActionNode, ActionStrategy, ActionStrategyStitch, muxiumLog, createActionNode, createStrategy } from '@phuire/stratimux';
 import { userInterfaceAddComposedPageToState } from '../qualities/addComposedPageToState.quality';
 
 /**
@@ -14,7 +14,7 @@ export function userInterfacePageToStateStrategy(stitch: ActionStrategyStitch): 
   const stepAddToState = createActionNode(userInterfaceAddComposedPageToState());
 
   const [end, strategy] = stitch();
-  // const log = createActionNode(axiumLog(), {
+  // const log = createActionNode(muxiumLog(), {
   //   successNode: stepAddToState
   // });
   end.successNode = stepAddToState;
@@ -30,7 +30,7 @@ export function userInterfacePageToStateStrategyStitch(stitch: ActionStrategySti
   const stepAddToState = createActionNode(userInterfaceAddComposedPageToState());
 
   const [end, strategy] = stitch();
-  // const log = createActionNode(axiumLog(), {
+  // const log = createActionNode(muxiumLog(), {
   //   successNode: stepAddToState
   // });
   end.successNode = stepAddToState;

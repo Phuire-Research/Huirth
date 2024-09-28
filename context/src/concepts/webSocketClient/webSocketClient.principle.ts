@@ -4,58 +4,52 @@ Then create a plan to notify the server of state changes, while ignoring values 
 As well as receive actions from the server, the parse and dispatch them into the client's action stream.
 $>*/
 /*<#*/
-import { Subscriber } from 'rxjs';
 import {
   Action,
-  Concepts,
   KeyedSelector,
-  PrincipleFunction,
-  UnifiedSubject,
-  axiumKick,
-  axiumKickType,
-  axiumRegisterStagePlanner,
+  muxiumKick,
+  muxiumRegisterStagePlanner,
   createStage,
-  getAxiumState,
-  getUnifiedName,
-  selectUnifiedState,
+  getMuxiumState,
+  selectMuxifiedState,
 } from '@phuire/stratimux';
 import _ws from 'express-ws';
-import { WebSocketClientState } from './webSocketClient.concept';
+import { WebSocketClientPrinciple, WebSocketClientState } from './webSocketClient.concept';
 import { webSocketClientSetClientSemaphore } from './strategies/server/setClientSemaphore.helper';
 import { webSocketServerSyncClientState } from './strategies/server/syncServerState.helper';
 import { webSocketClient_createActionQueSelector } from './webSocketClient.selectors';
-import { WebSocketServerState } from '../webSocketServer/webSocketServer.concept';
 
 const notKeys = (key: string) => {
   return key !== 'pages' && key !== 'clientSemaphore' && key !== 'serverSemaphore' && key !== 'pageStrategies';
 };
 
-export const webSocketClientPrinciple: PrincipleFunction = (
-  observer: Subscriber<Action>,
-  cpts: Concepts,
-  concepts$: UnifiedSubject,
-  conceptSemaphore: number
-) => {
-  const url = 'ws://' + window.location.host + '/axium';
+export const webSocketClientPrinciple: WebSocketClientPrinciple = ({
+  plan,
+  conceptSemaphore,
+  observer,
+  concepts_,
+  d_
+}) => {
+  const url = 'ws://' + window.location.host + '/muxium';
   const ws = new WebSocket(url);
   const syncState: Record<string, unknown> = {};
   ws.addEventListener('open', () => {
     console.log('SEND');
     ws.send(JSON.stringify(webSocketClientSetClientSemaphore({ semaphore: conceptSemaphore })));
-    const plan = concepts$.plan('Web Socket Planner', [
-      createStage((concepts, dispatch) => {
-        const name = getUnifiedName(concepts, conceptSemaphore);
+    plan('Web Socket Planner', ({stage, d__, k__}) => [
+      stage(({concepts, dispatch, stagePlanner, k}) => {
+        const name = k.name(concepts);
         if (name) {
-          dispatch(axiumRegisterStagePlanner({ conceptName: name, stagePlanner: plan }), {
+          dispatch(d__.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
             iterateStage: true,
           });
         } else {
-          plan.conclude();
+          stagePlanner.conclude();
         }
       }),
-      createStage(
-        (concepts, __) => {
-          const state = selectUnifiedState<WebSocketClientState>(concepts, conceptSemaphore);
+      stage(
+        ({concepts, stagePlanner}) => {
+          const state = selectMuxifiedState<WebSocketClientState>(concepts, conceptSemaphore);
           if (state) {
             if (state.actionQue.length > 0) {
               const que = state.actionQue;
@@ -74,28 +68,28 @@ export const webSocketClientPrinciple: PrincipleFunction = (
               emptyQue();
             }
           } else {
-            plan.conclude();
+            stagePlanner.conclude();
           }
         },
-        { beat: 3, selectors: [webSocketClient_createActionQueSelector(cpts, conceptSemaphore) as KeyedSelector] }
+        { beat: 3, selectors: [k__.actionQue] }
       ),
     ]);
-    const planOnChange = concepts$.plan('Web Socket Server On Change', [
-      createStage((concepts, dispatch) => {
-        const name = getUnifiedName(concepts, conceptSemaphore);
+    const onChangePlan = plan('Web Socket Server On Change', ({stage}) => [
+      stage(({concepts, dispatch, stagePlanner, d, k}) => {
+        const name = k.name(concepts);
         if (name) {
-          dispatch(axiumRegisterStagePlanner({ conceptName: name, stagePlanner: planOnChange }), {
+          dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
             iterateStage: true,
           });
         } else {
-          planOnChange.conclude();
+          stagePlanner.conclude();
         }
       }),
-      createStage(
-        (concepts) => {
+      stage(
+        ({concepts, stagePlanner}) => {
           // Bucket State
           const state: Record<string, unknown> = {};
-          const newState = selectUnifiedState<Record<string, unknown>>(concepts, conceptSemaphore);
+          const newState = selectMuxifiedState<Record<string, unknown>>(concepts, conceptSemaphore);
           if (newState) {
             const stateKeys = Object.keys(newState);
             if (Object.keys(syncState).length === 0) {
@@ -127,19 +121,19 @@ export const webSocketClientPrinciple: PrincipleFunction = (
               }
             }
           } else {
-            planOnChange.conclude();
+            stagePlanner.conclude();
           }
         },
         { priority: 2000 }
       ),
-      createStage((__, dispatch) => {
-        dispatch(axiumKick(), {
+      stage(({dispatch, d}) => {
+        dispatch(d.muxium.e.muxiumKick(), {
           setStage: 1,
         });
       }),
     ]);
     ws.addEventListener('close', () => {
-      plan.conclude();
+      onChangePlan.conclude();
     });
   });
   ws.addEventListener('message', (message: any) => {
@@ -147,7 +141,7 @@ export const webSocketClientPrinciple: PrincipleFunction = (
     if (message.data !== 'ping') {
       const act = JSON.parse(message.data);
       if (Object.keys(act).includes('type')) {
-        if (getAxiumState(cpts).logging && (act as Action).type !== axiumKickType) {
+        if (getMuxiumState(concepts_).logging && (act as Action).type !== muxiumKick.actionType) {
           console.log('MESSAGE', (act as Action).type);
         }
         observer.next(act);

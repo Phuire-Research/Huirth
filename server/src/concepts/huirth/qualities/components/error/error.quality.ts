@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and a Concept huirth, generate a U
 $>*/
 /*<#*/
 /* eslint-disable max-len */
-import { axiumConcludeType, createAction, createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
+import { muxiumConcludeType, createAction, createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 import {
   createQualityCardComponent,
   userInterface_appendCompositionToPage,
@@ -13,7 +13,7 @@ export const huirthError = createQualityCardComponent({
   type: 'Create huirth Error Composition',
   reducer: nullReducer,
   componentCreator:
-    createMethod((action) => {
+    createMethod(({action}) => {
       if (action.strategy) {
         const id = '#errorID';
         return strategySuccess(
@@ -35,7 +35,7 @@ export const huirthError = createQualityCardComponent({
           })
         );
       }
-      return createAction(axiumConcludeType);
+      return createAction(muxiumConcludeType);
     }),
 });
 /*#>*/

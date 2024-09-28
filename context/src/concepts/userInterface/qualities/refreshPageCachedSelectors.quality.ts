@@ -6,10 +6,10 @@ import { Action, createQualityCard, defaultMethodCreator } from '@phuire/stratim
 import { BoundSelectors } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 
-export const [userInterfaceRefreshCachedSelectors, userInterfaceRefreshCachedSelectorsType, userInterfaceRefreshCachedSelectorsQuality] =
-  createQualityCard({
+export const userInterfaceRefreshCachedSelectors =
+  createQualityCard<UserInterfaceState>({
     type: 'User Interface refresh cached selectors',
-    reducer: (state: UserInterfaceState, action: Action): UserInterfaceState => {
+    reducer: (state, action )  => {
       if (action.strategy) {
         const newPages = { ...state.pages };
         for (const [i, p] of newPages.entries()) {
@@ -37,12 +37,10 @@ export const [userInterfaceRefreshCachedSelectors, userInterfaceRefreshCachedSel
           p.cachedComponentSelectors = cachedComponentSelectors;
         }
         return {
-          ...state,
           pages: newPages,
         };
       }
       return {
-        ...state,
       };
     },
     methodCreator: defaultMethodCreator,

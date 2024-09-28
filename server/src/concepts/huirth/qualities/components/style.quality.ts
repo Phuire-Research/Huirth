@@ -10,8 +10,7 @@ export const huirthStyle = createQualityCardComponent({
   type: 'Create huirth Style',
   reducer: nullReducer,
   componentCreator:
-    createMethod((action) => {
-      const payload = action.payload;
+    createMethod(({action}) => {
       if (action.strategy) {
         return strategySuccess(
           action.strategy,

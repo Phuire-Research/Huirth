@@ -14,7 +14,7 @@ export const huirthDataSetEnd = createQualityCardComponent({
   type: 'create userInterface for DataSetEnd',
   reducer: nullReducer,
   componentCreator:
-    createMethod((action) => {
+    createMethod(({action}) => {
       const payload = action.payload;
       const id = '';
       if (action.strategy) {

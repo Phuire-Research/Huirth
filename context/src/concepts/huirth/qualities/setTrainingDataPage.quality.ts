@@ -9,13 +9,12 @@ export type HuirthSetTrainingDataPagePayload = {
   trainingDataName: string;
 };
 
-export const [huirthSetTrainingDataPage, huirthSetTrainingDataPageType, huirthSetTrainingDataPageQuality] =
-  createQualityCardWithPayload<HuirthSetTrainingDataPagePayload>({
+export const huirthSetTrainingDataPage =
+  createQualityCardWithPayload<huirthState, HuirthSetTrainingDataPagePayload>({
     type: 'huirth set a new training data page',
-    reducer: (state: huirthState, action: Action): huirthState => {
+    reducer: (state, action) => {
       const { trainingDataName } = selectPayload<HuirthSetTrainingDataPagePayload>(action);
       return {
-        ...state,
         trainingDataPages: [...state.trainingDataPages, trainingDataName],
       };
     },

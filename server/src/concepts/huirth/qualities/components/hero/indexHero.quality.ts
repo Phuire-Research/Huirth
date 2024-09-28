@@ -14,7 +14,7 @@ export const huirthIndexHero = createQualityCardComponent({
   type: 'create userInterface for IndexHero',
   reducer: nullReducer,
   componentCreator:
-    createMethod((action) => {
+    createMethod(({action}) => {
       const id = '#heroId';
       if (action.strategy) {
         return strategySuccess(

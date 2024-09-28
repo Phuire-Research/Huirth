@@ -16,7 +16,7 @@ export const huirthTriggerInstallGitRepository =
     type: 'Create huirth trigger install git repository',
     reducer: nullReducer,
     methodCreator: () =>
-      createMethod((action) => {
+      createMethod(({action}) => {
         const { url, name } = action.payload;
         const strategy = huirthInstallGitRepositoryStrategy(url, name);
         return strategyBegin(strategy);

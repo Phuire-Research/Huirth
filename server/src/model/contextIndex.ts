@@ -6,7 +6,7 @@ import { userInterfaceClientName } from '../concepts/userInterfaceClient/userInt
 import { PrimedConceptAndProperties } from './userInterface';
 
 export function createContextIndexContent(primedConcepts: PrimedConceptAndProperties[], directoryMap: string[]): string {
-  const axiumImports = ['createAxium'];
+  const muxiumImports = ['muxification'];
   let conceptImports = createConceptImportTemplates(primedConcepts);
   primedConcepts.forEach((concept) => {
     let found = false;
@@ -17,7 +17,7 @@ export function createContextIndexContent(primedConcepts: PrimedConceptAndProper
       }
     }
     if (!found) {
-      axiumImports.push(`create${concept.nameCapitalized}Concept`);
+      muxiumImports.push(`create${concept.nameCapitalized}Concept`);
     }
     if (concept.name === userInterfaceClientName && concept.properties?.length === 2) {
       const brand = concept.properties[1];
@@ -36,7 +36,7 @@ export function createContextIndexContent(primedConcepts: PrimedConceptAndProper
   const content =
     /*typescript*/
     `/*$ Start template imports $*/
-import { ${axiumImports.join(', ')} } from '@phuire/stratimux';
+import { ${muxiumImports.join(', ')} } from '@phuire/stratimux';
 ${conceptImports}
 /*$ End template imports $*/
 
@@ -52,8 +52,8 @@ ${conceptImports}
       const simmer = (func: ((s?: any) => void)) => {
         setTimeout(() => {
           if (init && state) {
-            createAxium(
-              'contextAxium',
+            muxification(
+              'contextMuxium',
               [createDocumentObjectModelConcept({}), createUserInterfaceClientConcept(state, createHuirthConcept)],
               {
                 logging: true,

@@ -24,7 +24,7 @@ export const huirthServerGitPullRepository =
     type: 'huirthServer pull most recent changes for targeted repository',
     reducer: nullReducer,
     methodCreator: () =>
-      createAsyncMethodDebounce((controller, action) => {
+      createAsyncMethodDebounce(({controller, action}) => {
         const payload = selectPayload<GitPullRepositoryPayload>(action);
         if (action.strategy) {
           const target = path.join(`${payload.path.split('data')[0]}` + '/server/src/concepts/huirthServer/model/gitPull.sh');

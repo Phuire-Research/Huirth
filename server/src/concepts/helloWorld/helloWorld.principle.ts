@@ -8,7 +8,7 @@ export const helloWorldPrinciple: HelloWorldPrinciple = ({
   plan
 }) => {
   const stagePlanner = plan('Hello World Plan', ({stage, d__, stageO}) => [
-    stageO(() => d__.axium.e.axiumRegisterStagePlanner({ conceptName: helloWorldName, stagePlanner })),
+    stageO(() => d__.muxium.e.muxiumRegisterStagePlanner({ conceptName: helloWorldName, stagePlanner })),
     stage(({dispatch, e}) => {
       dispatch(e.helloWorld(), {
         iterateStage: true,

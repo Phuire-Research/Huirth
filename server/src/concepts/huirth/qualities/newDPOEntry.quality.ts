@@ -12,7 +12,6 @@ export const huirthNewDPOEntry = createQualityCard<huirthState>({
     const activeDPO = [...state.activeDPO];
     activeDPO.push(generateDPOTrainingData());
     return {
-      ...state,
       activeDPO,
     };
   },

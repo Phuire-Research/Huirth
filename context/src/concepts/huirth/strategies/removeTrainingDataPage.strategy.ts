@@ -9,12 +9,12 @@ import { userInterfaceRemovePage } from '../../userInterface/qualities/removePag
 export const huirthRemoveTrainingDataPageStrategyTopic = 'Huirth remove training data page strategy. ';
 export function huirthRemoveTrainingDataPageStrategy(name: string): ActionStrategy {
   const filterFromTrainingDataPages = createActionNode(
-    huirthFilterTrainingDataPage({
+    huirthFilterTrainingDataPage.actionCreator({
       trainingDataName: name,
     })
   );
   const stepRemoveTrainingDataFromState = createActionNode(
-    userInterfaceRemovePage({
+    userInterfaceRemovePage.actionCreator({
       name,
     }),
     {

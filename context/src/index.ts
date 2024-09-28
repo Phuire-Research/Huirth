@@ -1,5 +1,5 @@
 /*$ Start template imports $*/
-import { createAxium } from '@phuire/stratimux';
+import { muxification } from '@phuire/stratimux';
 import { createDocumentObjectModelConcept } from './concepts/documentObjectModel/documentObjectModel.concept';
 import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient/userInterfaceClient.concept';import { createHuirthConcept } from './concepts/huirth/huirth.concept';
 
@@ -17,9 +17,9 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
       const simmer = (func: ((s?: any) => void)) => {
         setTimeout(() => {
           if (init && state) {
-            createAxium(
-              'contextAxium',
-              [createDocumentObjectModelConcept({}), createUserInterfaceClientConcept(state, createHuirthConcept)],
+            muxification(
+              'contextMuxium',
+              {dom: createDocumentObjectModelConcept({}), client: createUserInterfaceClientConcept(state, createHuirthConcept)},
               {
                 logging: true,
                 storeDialog: true,
@@ -36,9 +36,9 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
     if (!init) {
       init = true;
     }
-  }
+  };
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  window.onunload = function(){}; 
+  window.onunload = function () {};
   console.log('AXIUM INIT');
   /*$ End context template code $*/
 })();

@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and the User Interface Server Conc
 $>*/
 /*<#*/
 import {
-  axiumConclude,
+  muxiumConclude,
   createAsyncMethod,
   createQualityCardWithPayload,
   nullReducer,
@@ -21,7 +21,7 @@ export const userInterfaceServerBuildContext =
     type: 'User Interface Server build Context',
     reducer: nullReducer,
     methodCreator: () =>
-      createAsyncMethod((controller, action) => {
+      createAsyncMethod(({controller, action}) => {
         const payload = selectPayload<BuildContextPayload>(action);
         if (action.strategy) {
           exec(`cd ${payload.contextDir} & npm run build`, (error, stdout, stderr) => {
@@ -34,12 +34,12 @@ export const userInterfaceServerBuildContext =
                 controller.fire(strategySuccess(action.strategy));
               }
             } else {
-              controller.fire(axiumConclude());
+              controller.fire(muxiumConclude());
             }
             console.log('stdout:', stdout);
           });
         } else {
-          controller.fire(axiumConclude());
+          controller.fire(muxiumConclude());
         }
       }),
   });

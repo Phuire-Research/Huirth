@@ -11,7 +11,7 @@ export const huirthServerIsDataDirectorySetUp =
     type: 'huirth Server determine if data directory is set up',
     reducer: nullReducer,
     methodCreator: () =>
-      createAsyncMethod((controller, action) => {
+      createAsyncMethod(({controller, action}) => {
         if (action.strategy && action.strategy.data) {
           const data = strategyData_select(action.strategy) as GetDirectoriesAndFilesDataField;
           if (data.directories) {

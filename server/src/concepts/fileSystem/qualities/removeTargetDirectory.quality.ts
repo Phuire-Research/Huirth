@@ -4,7 +4,7 @@ $>*/
 /*<#*/
 import {
   ActionStrategy,
-  axiumConclude,
+  muxiumConclude,
   createAsyncMethod,
   createQualityCardWithPayload,
   nullReducer,
@@ -24,7 +24,7 @@ export const fileSystemRemoveTargetDirectory =
     type: 'File System remove target Directory',
     reducer: nullReducer,
     methodCreator: () =>
-      createAsyncMethod((controller, action) => {
+      createAsyncMethod(({controller, action}) => {
         const {path} = action.payload;
         if (action.strategy) {
           if (path.split('\\server\\src\\').length > 1) {
@@ -40,7 +40,7 @@ export const fileSystemRemoveTargetDirectory =
             });
           }
         } else {
-          controller.fire(axiumConclude());
+          controller.fire(muxiumConclude());
         }
       }),
   });

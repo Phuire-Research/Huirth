@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and File System Concept, generate 
 $>*/
 /*<#*/
 import {
-  axiumConclude,
+  muxiumConclude,
   createAsyncMethod,
   createQualityCardWithPayload,
   nullReducer,
@@ -50,7 +50,7 @@ export const fileSystemFilterFilesAndDirectories =
     type: 'File System filter from Data Files and Directories field via token',
     reducer: nullReducer,
     methodCreator: () =>
-      createAsyncMethod((controller, action) => {
+      createAsyncMethod(({controller, action}) => {
         if (action.strategy) {
           const strategy = action.strategy;
           const data = strategyData_select<ReadDirectoryField>(strategy);
@@ -65,7 +65,7 @@ export const fileSystemFilterFilesAndDirectories =
             controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, 'No filesAndDirectories passed to quality')));
           }
         } else {
-          controller.fire(axiumConclude());
+          controller.fire(muxiumConclude());
         }
       }),
   });

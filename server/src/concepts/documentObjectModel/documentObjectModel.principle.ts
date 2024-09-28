@@ -3,21 +3,13 @@ For the graph programming framework Stratimux and Document Object Model Concept,
 $>*/
 /*<#*/
 import {
-  Action,
-  Concepts,
-  PrincipleFunction,
-  axiumRegisterStagePlanner,
-  axiumSelectOpen,
-  createStage,
-  primeAction,
+  muxiumSelectOpen,
   selectSlice,
   selectState,
   strategyBegin,
 } from '@phuire/stratimux';
-import { Subscriber } from 'rxjs';
 import { DocumentObjectModelPrinciple, DocumentObjectModelState, documentObjectModelName } from './documentObjectModel.concept';
 import { documentObjectModelBindingStrategy } from './strategies/composeBindings.strategy';
-import { documentObjectModelSelectBindingQue } from './documentObjectModel.selector';
 
 export const documentObjectModelPrinciple: DocumentObjectModelPrinciple = ({
   plan
@@ -26,8 +18,8 @@ export const documentObjectModelPrinciple: DocumentObjectModelPrinciple = ({
   plan('Document Object Model initial page bindings plan', ({stage}) => [
     stage(
       ({concepts, dispatch, stagePlanner, d}) => {
-        if (selectSlice(concepts, axiumSelectOpen) === true) {
-          dispatch(d.axium.e.axiumRegisterStagePlanner({ conceptName: documentObjectModelName, stagePlanner }), {
+        if (selectSlice(concepts, muxiumSelectOpen) === true) {
+          dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: documentObjectModelName, stagePlanner }), {
             iterateStage: true,
           });
         }

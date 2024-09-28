@@ -12,11 +12,11 @@ export type UserInterfaceAddNewPagePayload = {
   pageStrategy: PageStrategyCreators;
 };
 
-export const [userInterfaceAddNewPage, userInterfaceAddNewPageType, userInterfaceAddNewPageQuality] =
-  createQualityCardWithPayload<UserInterfaceAddNewPagePayload>({
+export const userInterfaceAddNewPage =
+  createQualityCardWithPayload<UserInterfaceState, UserInterfaceAddNewPagePayload>({
     type: 'User Interface Add New Page Strategy to state',
-    reducer: (state: UserInterfaceState, action: Action): UserInterfaceState => {
-      const payload = selectPayload<UserInterfaceAddNewPagePayload>(action);
+    reducer: (state, action) => {
+      const { payload } = action;
       const { pageStrategies } = state;
       pageStrategies.push(payload.pageStrategy);
       return {

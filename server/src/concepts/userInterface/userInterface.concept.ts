@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a principle that will dispatch a sequence of page to state strategies that will cache the required pages for the client.
 $>*/
 /*<#*/
-import { AnyConcept, AxiumDeck, Concept, KeyedSelector, PrincipleFunction, createConcept, muxifyConcepts } from '@phuire/stratimux';
+import { AnyConcept, MuxiumDeck, Concept, KeyedSelector, PrincipleFunction, createConcept, muxifyConcepts } from '@phuire/stratimux';
 import { BoundSelectors, Composition, Page, PageStrategyCreators } from '../../model/userInterface';
 import { userInterfaceAddComposedPageToState } from './qualities/addComposedPageToState.quality';
 import { userInterfaceInitializationPrinciple } from './userInterface.principle';
@@ -54,7 +54,7 @@ export const userInterfaceQualities = {
 export type UserInterfaceDeck = {
   userInterface: Concept<UserInterfaceState, typeof userInterfaceQualities>
 }
-export type UserInterfacePrinciple = PrincipleFunction<typeof userInterfaceQualities, AxiumDeck & UserInterfaceDeck, UserInterfaceState>;
+export type UserInterfacePrinciple = PrincipleFunction<typeof userInterfaceQualities, MuxiumDeck & UserInterfaceDeck, UserInterfaceState>;
 
 export const createUserInterfaceConcept = (pageStrategies: PageStrategyCreators[]): AnyConcept => {
   return muxifyConcepts(

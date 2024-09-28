@@ -9,8 +9,8 @@ import {
   Concepts,
   KeyedSelector,
   PrincipleFunction,
-  axiumKick,
-  axiumRegisterStagePlanner,
+  muxiumKick,
+  muxiumRegisterStagePlanner,
   createStage,
   strategyBegin,
   strategySequence,
@@ -21,7 +21,7 @@ import { HuirthPrinciple, huirthState } from './huirth.concept';
 import { UserInterfaceClientState } from '../userInterfaceClient/userInterfaceClient.concept';
 import { userInterfaceAddNewPageStrategy } from '../userInterface/strategies.ts/addNewPage.strategy';
 import { huirthGeneratedTrainingDataPageStrategy } from './strategies/pages/generatedTrainingDataPage.strategy';
-import { DataSetTypes, ProjectStatus, TrainingData } from './huirth.model';
+import { DataSetTypes, NamedDataSet, ProjectStatus, TrainingData } from './huirth.model';
 import { huirthUpdateProjectStatusStrategy } from './strategies/updateProjectStatus.strategy';
 // import { userInterfaceRemovePageStrategy } from '../userInterface/strategies.ts/removePage.strategy';
 import { huirth_createPageStrategiesSelector, huirth_createPagesSelector, huirth_createTrainingDataSelector } from './huirth.selector';
@@ -106,7 +106,7 @@ export const huirthTrainingDataPagePrinciple: HuirthPrinciple = ({
         const conceptName = k.name(concepts);
         if (conceptName && state.pages) {
           if (state && (state.pageStrategies.length === state.pages.length || isClient)) {
-            dispatch(d.axium.e.axiumRegisterStagePlanner({ conceptName, stagePlanner }), {
+            dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName, stagePlanner }), {
               iterateStage: true,
             });
           }
@@ -130,7 +130,7 @@ export const huirthTrainingDataPagePrinciple: HuirthPrinciple = ({
             i: number;
             name: string;
           }[] = [];
-          trainingData.forEach((data, i) => {
+          trainingData.forEach((data: NamedDataSet, i: number) => {
             add.push({
               i,
               name: data.name,
@@ -159,7 +159,7 @@ export const huirthTrainingDataPagePrinciple: HuirthPrinciple = ({
                 }
               }
               if (!found) {
-                dispatch(d.axium.e.axiumKick(), {
+                dispatch(d.muxium.e.muxiumKick(), {
                   iterateStage: true,
                 });
               }
@@ -255,7 +255,7 @@ export const huirthTrainingDataPagePrinciple: HuirthPrinciple = ({
     //     const pageNames = state.pages.map(p => p.title);
     //     console.log('pageNames: ', pageNames, cachedTrainingDataNames);
     //     cachedTrainingDataNames = cachedTrainingDataNames.filter(name => pageNames.includes(name));
-    //     dispatch(axiumKick(), {
+    //     dispatch(muxiumKick(), {
     //       setStage: 2
     //     });
     //   } else {

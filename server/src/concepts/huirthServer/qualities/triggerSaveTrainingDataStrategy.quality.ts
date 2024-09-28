@@ -20,7 +20,7 @@ export const huirthServerTriggerSaveTrainingDataStrategy = createQualityCard({
   reducer: nullReducer,
   methodCreator: () =>
     createMethodDebounceWithConcepts(
-      (action, concepts) => {
+      ({action, concepts}) => {
         const state = selectState<huirthServerState>(concepts, huirthServerName);
         const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
         if (state && fileSystemState) {

@@ -26,7 +26,7 @@ export const huirthServerInnerAddTo =
     type: 'plus',
     reducer: nullReducer,
     methodCreator: () =>
-      createMethod((action) => {
+      createMethod(({action}) => {
         const { addTo } = action.payload;
         if (action.strategy) {
           const strategy = action.strategy;

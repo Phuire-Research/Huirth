@@ -7,10 +7,10 @@ $>*/
 import {
   Action,
   KeyedSelector,
-  axiumKick,
-  axiumRegisterStagePlanner,
+  muxiumKick,
+  muxiumRegisterStagePlanner,
   createStage,
-  getAxiumState,
+  getMuxiumState,
   selectMuxifiedState,
 } from '@phuire/stratimux';
 import _ws from 'express-ws';
@@ -30,7 +30,7 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({
   concepts_,
   d_
 }) => {
-  const url = 'ws://' + window.location.host + '/axium';
+  const url = 'ws://' + window.location.host + '/muxium';
   const ws = new WebSocket(url);
   const syncState: Record<string, unknown> = {};
   ws.addEventListener('open', () => {
@@ -40,7 +40,7 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({
       stage(({concepts, dispatch, stagePlanner, k}) => {
         const name = k.name(concepts);
         if (name) {
-          dispatch(d__.axium.e.axiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
+          dispatch(d__.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
             iterateStage: true,
           });
         } else {
@@ -78,7 +78,7 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({
       stage(({concepts, dispatch, stagePlanner, d, k}) => {
         const name = k.name(concepts);
         if (name) {
-          dispatch(d.axium.e.axiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
+          dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
             iterateStage: true,
           });
         } else {
@@ -127,7 +127,7 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({
         { priority: 2000 }
       ),
       stage(({dispatch, d}) => {
-        dispatch(d.axium.e.axiumKick(), {
+        dispatch(d.muxium.e.muxiumKick(), {
           setStage: 1,
         });
       }),
@@ -141,7 +141,7 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({
     if (message.data !== 'ping') {
       const act = JSON.parse(message.data);
       if (Object.keys(act).includes('type')) {
-        if (getAxiumState(concepts_).logging && (act as Action).type !== axiumKick.actionType) {
+        if (getMuxiumState(concepts_).logging && (act as Action).type !== muxiumKick.actionType) {
           console.log('MESSAGE', (act as Action).type);
         }
         observer.next(act);

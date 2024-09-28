@@ -4,7 +4,7 @@ $>*/
 /*<#*/
 import {
   ActionStrategy,
-  axiumConclude,
+  muxiumConclude,
   createAsyncMethod,
   createQualityCardWithPayload,
   nullReducer,
@@ -40,7 +40,7 @@ export const fileSystemRecursivelyCopyMoveTargetDirectories = createQualityCardW
   type: 'File System recursively copy move target Directories',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethod((controller, action) => {
+    createAsyncMethod(({controller, action}) => {
       const payload = action.payload;
       if (action.strategy) {
         const directory = payload.directories.shift();
@@ -57,7 +57,7 @@ export const fileSystemRecursivelyCopyMoveTargetDirectories = createQualityCardW
           controller.fire(strategySuccess(action.strategy as ActionStrategy));
         }
       } else {
-        controller.fire(axiumConclude());
+        controller.fire(muxiumConclude());
       }
     }),
 });

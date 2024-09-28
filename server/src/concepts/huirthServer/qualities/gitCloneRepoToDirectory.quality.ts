@@ -24,7 +24,7 @@ export const huirthServerGitCloneRepoToDirectory =
     type: 'huirthServer clone repository to target directory',
     reducer: nullReducer,
     methodCreator: () =>
-      createAsyncMethod((controller, action) => {
+      createAsyncMethod(({controller, action}) => {
         const { path, url } = action.payload;
         if (action.strategy) {
           const process = child_process.exec('git clone ' + url + ' ' + path, (err, stdout, stderr) => {

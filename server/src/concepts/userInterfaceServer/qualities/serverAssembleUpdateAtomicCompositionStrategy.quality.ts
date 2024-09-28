@@ -19,6 +19,7 @@ import { BoundSelectors } from '../../../model/userInterface';
 import { userInterfaceUpdateAtomicPageComposition } from '../../userInterface/qualities/updateAtomicPageComposition.quality';
 import { userInterfaceEnd } from '../../userInterface/qualities/end.quality';
 import { userInterfaceUpdateUniversalComponent } from '../../userInterface/qualities/updateUniversalComponent.quality';
+import { UserInterfaceServerDeck } from '../userInterfaceServer.concept';
 
 export type UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload = {
   boundActionQue: BoundSelectors[];
@@ -27,7 +28,7 @@ export type UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload = 
 // Need to provide semaphore that will update the target composition of some page.
 const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy] => {
   const stepUpdateAtomic = createActionNode(
-    userInterfaceUpdateAtomicPageComposition({ bound }, { conceptSemaphore: bound.action.conceptSemaphore as number })
+    userInterfaceUpdateAtomicPageComposition.actionCreator({ bound }, { conceptSemaphore: bound.action.conceptSemaphore as number })
   );
   const stepAction = createActionNode(refreshAction(bound.action), {
     successNode: stepUpdateAtomic,
@@ -43,7 +44,7 @@ const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy
 };
 const stitchUpdateUniversalComponent = (bound: BoundSelectors): [ActionNode, ActionStrategy] => {
   const stepUpdateAtomic = createActionNode(
-    userInterfaceUpdateUniversalComponent({ bound }, { conceptSemaphore: bound.action.conceptSemaphore as number })
+    userInterfaceUpdateUniversalComponent.actionCreator({ bound }, { conceptSemaphore: bound.action.conceptSemaphore as number })
   );
   const stepAction = createActionNode(refreshAction(bound.action), {
     successNode: stepUpdateAtomic,
@@ -58,11 +59,11 @@ const stitchUpdateUniversalComponent = (bound: BoundSelectors): [ActionNode, Act
   ];
 };
 
-export const userInterfaceServerAssembleUpdateAtomicCompositionStrategy = createQualityCardWithPayload<UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload, any>({
+export const userInterfaceServerAssembleUpdateAtomicCompositionStrategy = createQualityCardWithPayload({
   type: 'User Interface assemble update atomic compositions strategy server',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethod((action) => {
+    createMethod<UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload, any, UserInterfaceServerDeck>(({action, deck}) => {
       const boundActionQue = selectPayload<UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload>(action).boundActionQue;
       let previous: ActionNode | undefined;
       let first: ActionNode | undefined;
@@ -100,7 +101,7 @@ export const userInterfaceServerAssembleUpdateAtomicCompositionStrategy = create
           previous = stitchEnd;
         }
       }
-      const stepEnd = createActionNode(userInterfaceEnd());
+      const stepEnd = createActionNode(deck.userInterfaceServer.e.userInterfaceEnd());
       if (previous) {
         previous.successNode = stepEnd;
       }

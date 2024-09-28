@@ -27,7 +27,7 @@ createQualityCardWithPayload<huirthServerState, huirthServerTriggerSaveDataSetSe
   },
   methodCreator: () =>
     createMethodDebounceWithConcepts(
-      (action, concepts) => {
+      ({action, concepts}) => {
         const { names } = action.payload;
         const state = selectState<huirthServerState>(concepts, huirthServerName);
         const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);

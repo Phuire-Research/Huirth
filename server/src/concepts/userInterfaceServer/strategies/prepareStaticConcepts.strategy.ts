@@ -6,8 +6,8 @@ $>*/
 import {
   ActionStrategy,
   ActionStrategyParameters,
-  AxiumDeck,
-  axiumPreClose,
+  MuxiumDeck,
+  muxiumPreClose,
   createActionNode,
   createActionNodeFromStrategy,
   createStrategy,
@@ -27,13 +27,13 @@ export function userInterfaceServerPrepareStaticConceptsStrategy(
   unified: string[],
   initialDirectoryMap: string[],
   pages: Page[],
-  deck: Deck<AxiumDeck & UserInterfaceServerDeck>
+  deck: Deck<MuxiumDeck & UserInterfaceServerDeck>
 ): ActionStrategy {
   const rootLayout = path.join(root + '/layout/');
   const rootLayoutStatic = path.join(root + '/layout/static/');
   const contextPublic = path.join(root + '/context/public/');
-  // axium Close
-  const stepCloseProcess = createActionNode(deck.axium.e.axiumPreClose({ exit: true }));
+  // muxium Close
+  const stepCloseProcess = createActionNode(deck.muxium.e.muxiumPreClose({ exit: true }));
   const stepRecursivelyCreatePageHtml = createActionNode(
     deck.userInterfaceServer.e.userInterfaceServerRecursivelyCreateEachPageHtml({ targetDir: rootLayout, pages: [...pages] }),
     {
@@ -41,7 +41,7 @@ export function userInterfaceServerPrepareStaticConceptsStrategy(
     }
   );
   const stepCopyMovePublicToLayout = createActionNode(
-    fileSystemCopyMoveTargetDirectory({
+    fileSystemCopyMoveTargetDirectory.actionCreator({
       target: contextPublic,
       newLocation: rootLayoutStatic,
     }),

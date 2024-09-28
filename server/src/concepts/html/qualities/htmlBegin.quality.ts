@@ -19,7 +19,7 @@ export const htmlBegin = createQualityCardComponent<HtmlState, HtmlBeginPayload>
   type: 'Create HTML Element',
   reducer: nullReducer,
   componentCreator:
-    createMethod((action) => {
+    createMethod(({action}) => {
       if (action.strategy) {
         const payload = action.payload;
         return strategySuccess(

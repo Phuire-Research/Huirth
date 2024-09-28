@@ -15,8 +15,7 @@ export const huirthSideBarEnd = createQualityCardComponent({
   type: 'create userInterface for SideBarEnd',
   reducer: nullReducer,
   componentCreator:
-    createMethod((action) => {
-      const payload = action.payload;
+    createMethod(({action}) => {
       const id = '#sideBarEnd';
       if (action.strategy) {
         return strategySuccess(

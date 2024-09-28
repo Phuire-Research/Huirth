@@ -25,7 +25,7 @@ export const huirthServerInnerSubtractFrom =
     type: 'subtract',
     reducer: nullReducer,
     methodCreator: () =>
-      createMethod((action) => {
+      createMethod(({action}) => {
         const { subtractFrom } = action.payload;
         if (action.strategy) {
           const strategy = action.strategy;

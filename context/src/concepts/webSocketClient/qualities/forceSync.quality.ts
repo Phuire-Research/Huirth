@@ -5,7 +5,6 @@ $>*/
 /*<#*/
 import {
   ActionStrategy,
-  UnifiedSubject,
   createActionNode,
   createMethodWithState,
   createQualityCardWithPayload,
@@ -18,26 +17,27 @@ import {
 } from '@phuire/stratimux';
 import { webSocketClientAppendToActionQue } from './appendActionQue.quality';
 import { webSocketServerSyncClientState } from '../strategies/server/syncServerState.helper';
+import { WebSocketClientState } from '../webSocketClient.concept';
 
 export type WebSocketClientForceSyncPayload = {
   keys: string[];
 };
 
-export const [webSocketClientForceSync, webSocketClientForceSyncType, webSocketClientForceSyncQuality] =
-  createQualityCardWithPayload<WebSocketClientForceSyncPayload>({
+export const webSocketClientForceSync =
+  createQualityCardWithPayload<WebSocketClientState, WebSocketClientForceSyncPayload>({
     type: 'Web Socket Client force client sync',
     reducer: nullReducer,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    methodCreator: (concepts$, semaphore) =>
-      createMethodWithState<any>(
-        (action, state) => {
+    methodCreator: () =>
+      createMethodWithState(
+        ({action, state}) => {
           const syncState: Record<string, unknown> = {};
           const { keys } = selectPayload<WebSocketClientForceSyncPayload>(action);
           keys.forEach((key) => {
-            syncState[key] = state[key];
+            syncState[key] = (state as any)[key];
           });
           const sync = createActionNode(
-            webSocketClientAppendToActionQue({
+            webSocketClientAppendToActionQue.actionCreator({
               actionQue: [webSocketServerSyncClientState({ state: syncState }, { priority: 5000 })],
             })
           );
@@ -63,8 +63,6 @@ export const [webSocketClientForceSync, webSocketClientForceSyncType, webSocketC
             );
           }
         },
-        concepts$ as UnifiedSubject,
-        semaphore as number
       ),
   });
 /*#>*/

@@ -4,14 +4,14 @@ $>*/
 /*<#*/
 import { UserInterfacePageBindings, userInterface_pageBindingsToString } from '../model/userInterface';
 import { elementEventBinding } from '../model/html';
-import { axiumLog } from '@phuire/stratimux';
+import { muxiumLog } from '@phuire/stratimux';
 
 test('userInterfaceBindingsToString', (done) => {
   const testBindingToString: UserInterfacePageBindings = {
     somePage: {
       something: [
         {
-          action: axiumLog(),
+          action: muxiumLog(),
           eventBinding: elementEventBinding.onclick,
         },
         {

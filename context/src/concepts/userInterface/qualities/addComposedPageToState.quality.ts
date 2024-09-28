@@ -6,10 +6,10 @@ import { Action, KeyedSelector, createMethod, createQualityCard, strategySuccess
 import { BoundSelectors, Composition, userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 
-export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageToStateType, userInterfaceAddComposedPageToStateQuality] =
-  createQualityCard({
+export const userInterfaceAddComposedPageToState =
+  createQualityCard<UserInterfaceState>({
     type: 'User Interface add composed Page to State',
-    reducer: (state: UserInterfaceState, action: Action): UserInterfaceState => {
+    reducer: (state, action) => {
       if (action.strategy) {
         const boundSelectors: Record<string, BoundSelectors[]> = {};
         const mapSelectors: Map<string, KeyedSelector> = new Map();
@@ -91,7 +91,6 @@ export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageT
           selectors.push(keyed);
         });
         return {
-          ...state,
           pages: newPages,
           components: newComponents,
           pagesCached: true,
@@ -100,11 +99,10 @@ export const [userInterfaceAddComposedPageToState, userInterfaceAddComposedPageT
         };
       }
       return {
-        ...state,
       };
     },
     methodCreator: () =>
-      createMethod((action) => {
+      createMethod(({action}) => {
         if (action.strategy) {
           const { strategy } = action;
           return strategySuccess(strategy);

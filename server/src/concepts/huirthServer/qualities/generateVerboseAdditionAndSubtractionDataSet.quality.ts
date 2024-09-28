@@ -5,15 +5,15 @@ verbose adding strategies.
 $>*/
 /*<#*/
 import {
-  axiumKick,
+  muxiumKick,
   createAsyncMethodWithConcepts,
   nullReducer,
-  getAxiumState,
+  getMuxiumState,
   selectState,
   strategyBegin,
   createStage,
   createQualityCard,
-  axiumSelectLastStrategy,
+  muxiumSelectLastStrategy,
 } from '@phuire/stratimux';
 import { DataSetTypes, NamedDataSet } from '../../huirth/huirth.model';
 import { huirthServerInnerAddField } from './innerAddTo.quality';
@@ -30,7 +30,7 @@ export const huirthServerGenerateVerboseAdditionAndSubtractionStrategy =
   methodCreator: () =>
     createAsyncMethodWithConcepts(
       (controller, _, cpts) => {
-        const axiumState = getAxiumState(cpts);
+        const muxiumState = getMuxiumState(cpts);
         const fileSystemState = selectState<FileSystemState>(cpts, fileSystemName);
         if (fileSystemState) {
           console.log('This had been triggered');
@@ -44,7 +44,7 @@ export const huirthServerGenerateVerboseAdditionAndSubtractionStrategy =
           let length = 5;
           let iterations = 0;
           let currentTopic = '';
-          const plan = axiumState.concepts$.plan(0)('Verbose Addition and Subtraction data set generation plan', ({stage}) => [
+          const plan = muxiumState.concepts$.plan(0)('Verbose Addition and Subtraction data set generation plan', ({stage}) => [
             stage(({dispatch, e}) => {
               console.log('Transformation stage 1', iterations < 100, length < limit);
               if (iterations < 100 && length < limit) {
@@ -58,14 +58,14 @@ export const huirthServerGenerateVerboseAdditionAndSubtractionStrategy =
                 });
               } else {
                 console.log('END PLAN');
-                dispatch(e.axiumKick(), {
+                dispatch(e.muxiumKick(), {
                   setStage: 2,
                 });
               }
             }),
             stage(
               ({concepts, dispatch, e}) => {
-                const state = getAxiumState(concepts);
+                const state = getMuxiumState(concepts);
                 console.log('Transformation stage 2', iterations, length, currentTopic === state.lastStrategy);
                 if (state.lastStrategy === currentTopic) {
                   named.dataSet.push({
@@ -86,13 +86,13 @@ export const huirthServerGenerateVerboseAdditionAndSubtractionStrategy =
                     }
                   }
                   console.log('DISPATCH');
-                  dispatch(e.axiumKick(), {
+                  dispatch(e.muxiumKick(), {
                     setStage: 0,
                     throttle: 0,
                   });
                 }
               },
-              { beat: 30, selectors: [axiumSelectLastStrategy] }
+              { beat: 30, selectors: [muxiumSelectLastStrategy] }
             ),
             stage(({concepts, stagePlanner}) => {
               console.log('Transformation stage 3', iterations, length, named.dataSet.length);

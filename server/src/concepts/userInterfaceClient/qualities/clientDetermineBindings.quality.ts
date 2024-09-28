@@ -27,17 +27,17 @@ const createBindingActionNode = (action$: Subject<Action>, bindings: UserInterfa
   for (const key of bindingKeys) {
     for (const bind of bindings[key]) {
       if (previous) {
-        const node = createActionNode(documentObjectModelBind({ action$, binding: bind, id: key }));
+        const node = createActionNode(documentObjectModelBind.actionCreator({ action$, binding: bind, id: key }));
         previous.successNode = node;
         previous = node;
       } else {
-        const node = createActionNode(documentObjectModelBind({ action$, binding: bind, id: key }));
+        const node = createActionNode(documentObjectModelBind.actionCreator({ action$, binding: bind, id: key }));
         first = node;
         previous = node;
       }
     }
   }
-  const end = createActionNode(userInterfaceEnd());
+  const end = createActionNode(userInterfaceEnd.actionCreator());
   if (previous) {
     previous.successNode = end;
   } else {
@@ -51,7 +51,7 @@ export const userInterfaceClientDetermineBindings =
     type: 'User Interface determine bindings of all passed compositions',
     reducer: nullReducer,
     methodCreator: () =>
-      createMethod((action) => {
+      createMethod(({action}) => {
         if (action.strategy) {
           const { payload } = action;
           let bindings: UserInterfaceBindings = {};

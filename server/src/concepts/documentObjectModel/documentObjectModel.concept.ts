@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a Document Object Model Concept
 $>*/
 /*<#*/
-import { createConcept, Concept, PrincipleFunction, Principle, AxiumDeck } from '@phuire/stratimux';
+import { createConcept, Concept, PrincipleFunction, Principle, MuxiumDeck } from '@phuire/stratimux';
 import { documentObjectModelPrinciple } from './documentObjectModel.principle';
 import { UserInterfacePageBindings } from '../../model/userInterface';
 import { documentObjectModelBind } from './qualities/bind.quality';
@@ -29,7 +29,7 @@ export type DocumentObjectModelDeck = {
   documentObjectModel: Concept<DocumentObjectModelState, typeof qualities>
 }
 
-export type DocumentObjectModelPrinciple = PrincipleFunction<typeof qualities, AxiumDeck & DocumentObjectModelDeck, DocumentObjectModelState>;
+export type DocumentObjectModelPrinciple = PrincipleFunction<typeof qualities, MuxiumDeck & DocumentObjectModelDeck, DocumentObjectModelState>;
 
 export const createDocumentObjectModelConcept = (bindingQue?: UserInterfacePageBindings) => {
   return createConcept<DocumentObjectModelState, typeof qualities>(

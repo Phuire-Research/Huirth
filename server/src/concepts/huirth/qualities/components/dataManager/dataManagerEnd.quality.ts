@@ -12,7 +12,7 @@ import {
 export const huirthDataManagerEnd = createQualityCardComponent({
   type: 'create userInterface for DataManagerEnd',
   reducer: nullReducer,
-  componentCreator: createMethod((action) => {
+  componentCreator: createMethod(({action}) => {
     const id = '';
     if (action.strategy) {
       return strategySuccess(

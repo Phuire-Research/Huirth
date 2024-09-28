@@ -30,7 +30,7 @@ export const webSocketClientForceSync =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     methodCreator: () =>
       createMethodWithState(
-        (action, state) => {
+        ({action, state}) => {
           const syncState: Record<string, unknown> = {};
           const { keys } = selectPayload<WebSocketClientForceSyncPayload>(action);
           keys.forEach((key) => {

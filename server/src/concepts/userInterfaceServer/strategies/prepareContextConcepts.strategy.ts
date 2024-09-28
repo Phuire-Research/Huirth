@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Server Concept, generate a strategy stitch that will assemble the context directory to contain the necessary concepts dictated by the generated index file.
 $>*/
 /*<#*/
-import { ActionNode, ActionStrategy, ActionStrategyParameters, AxiumDeck, axiumLog, createActionNode, createStrategy, Deck } from '@phuire/stratimux';
+import { ActionNode, ActionStrategy, ActionStrategyParameters, MuxiumDeck, muxiumLog, createActionNode, createStrategy, Deck } from '@phuire/stratimux';
 import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
 import path from 'path';
 import {
@@ -20,7 +20,7 @@ export function userInterfaceServerPrepareContextConceptsStitch(
   conceptsAndProps: ConceptAndProperties[],
   unifiedConcepts: string[],
   initialDirectoryMap: string[],
-  deck: Deck<AxiumDeck & UserInterfaceServerDeck>
+  deck: Deck<MuxiumDeck & UserInterfaceServerDeck>
 ): [ActionNode, ActionStrategy] {
   const conceptNames = [];
   const copyMovePayload: RecursivelyCopyMoveTargetDirectoriesPayload = {
@@ -78,7 +78,7 @@ export function userInterfaceServerPrepareContextConceptsStitch(
     newLocation: path.join(root + '/context/src/concepts/' + webSocketClientName),
     target: path.join(root + '/server/src/concepts/' + webSocketClientName),
   });
-  const stepLog = createActionNode(deck.axium.e.axiumLog());
+  const stepLog = createActionNode(deck.muxium.e.muxiumLog());
   const stepContextBuild = createActionNode(deck.userInterfaceServer.e.userInterfaceServerBuildContext({ contextDir: path.join(root + '/context/') }), {
     failureNode: stepLog,
     agreement: 7000,
@@ -98,17 +98,17 @@ export function userInterfaceServerPrepareContextConceptsStitch(
       successNode: stepContextFormat,
     }
   );
-  const stepCopyMoveModel = createActionNode(fileSystemRecursivelyCopyMoveTargetDirectories({ directories: [modelDirectory] }), {
+  const stepCopyMoveModel = createActionNode(fileSystemRecursivelyCopyMoveTargetDirectories.actionCreator({ directories: [modelDirectory] }), {
     successNode: stepCreateContextIndex,
   });
-  const stepContextModelRemove = createActionNode(fileSystemRemoveTargetDirectory({ path: contextModel }), {
+  const stepContextModelRemove = createActionNode(fileSystemRemoveTargetDirectory.actionCreator({ path: contextModel }), {
     successNode: stepCopyMoveModel,
     agreement: 20000,
   });
-  const stepCopyMoveConcepts = createActionNode(fileSystemRecursivelyCopyMoveTargetDirectories(copyMovePayload), {
+  const stepCopyMoveConcepts = createActionNode(fileSystemRecursivelyCopyMoveTargetDirectories.actionCreator(copyMovePayload), {
     successNode: stepContextModelRemove,
   });
-  const stepContextConceptRemove = createActionNode(fileSystemRemoveTargetDirectory({ path: contextConcepts }), {
+  const stepContextConceptRemove = createActionNode(fileSystemRemoveTargetDirectory.actionCreator({ path: contextConcepts }), {
     successNode: stepCopyMoveConcepts,
     agreement: 20000,
   });

@@ -2,14 +2,14 @@
 For the graph programming framework Stratimux and Html Concept, generate a quality that will add a Hello World composition for a User Interface Concept and a supplied page composition.
 $>*/
 /*<#*/
-import { Action, axiumConcludeType, createAction, createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
+import { Action, muxiumConcludeType, createAction, createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
 import { createQualityCardComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../model/userInterface';
 
 export const htmlHelloWorld = createQualityCardComponent({
   type: 'Html create hello world composition',
   reducer: nullReducer,
-  componentCreator: createMethod((action) => {
+  componentCreator: createMethod(({action}) => {
     if (action.strategy) {
       const helloWorldId = '#helloWorld';
       return strategySuccess(
@@ -23,7 +23,7 @@ export const htmlHelloWorld = createQualityCardComponent({
         })
       );
     }
-    return createAction(axiumConcludeType);
+    return createAction(muxiumConcludeType);
   }),
 });
 /*#>*/

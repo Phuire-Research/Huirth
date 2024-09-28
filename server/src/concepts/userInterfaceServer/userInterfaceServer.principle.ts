@@ -12,15 +12,15 @@ import {
   KeyedSelector,
   PrincipleFunction,
   MuxifiedSubject,
-  axiumKick,
-  axiumRegisterStagePlanner,
-  axiumSelectOpen,
+  muxiumKick,
+  muxiumRegisterStagePlanner,
+  muxiumSelectOpen,
   createStage,
   selectSlice,
   selectState,
   selectMuxifiedState,
   updateMuxifiedKeyedSelector,
-  AxiumDeck,
+  MuxiumDeck,
 } from '@phuire/stratimux';
 import { BoundSelectors, Composition, Page } from '../../model/userInterface';
 import path from 'path';
@@ -54,7 +54,7 @@ export const userInterfaceServerPrinciple: UserInterfaceServerPrinciple = ({
           const c = components;
           if (uiState.pages[i].title === 'error') {
             errorPage = uiState.pages[i].compositions
-              .map((comp) => {
+              .map((comp: Composition) => {
                 if (comp.universal) {
                   return c[comp.componentSemaphore as number].html;
                 }
@@ -75,7 +75,7 @@ export const userInterfaceServerPrinciple: UserInterfaceServerPrinciple = ({
     stage(({concepts, dispatch, d, k, stagePlanner}) => {
       const name = k.name(concepts);
       if (name) {
-        dispatch(d.axium.e.axiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
+        dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
           iterateStage: true,
         });
       } else {
@@ -186,15 +186,15 @@ export const userInterfaceServerOnChangePrinciple: UserInterfaceServerPrinciple 
       ({concepts, dispatch, k, d, stagePlanner}) => {
         console.log('INIT USER INTERFACE SERVER ON CHANGE');
         const name = k.name(concepts);
-        if (name && selectSlice(concepts, axiumSelectOpen) === true) {
-          dispatch(d.axium.e.axiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
+        if (name && selectSlice(concepts, muxiumSelectOpen) === true) {
+          dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
             iterateStage: true,
           });
         } else if (name === undefined) {
           stagePlanner.conclude();
         }
       },
-      { selectors: [d__.axium.k.open] }
+      { selectors: [d__.muxium.k.open] }
     ),
     // createStage((concepts, dispatch) => {
     //   const uiState = selectMuxifiedState<UserInterfaceServerState>(concepts, semaphore);
@@ -269,7 +269,7 @@ export const userInterfaceServerOnChangePrinciple: UserInterfaceServerPrinciple 
         // console.log('Get unified name', getMuxifiedName(concepts, semaphore));
         const uiState = k.state(concepts);
         if (uiState && uiState.pagesCached) {
-          const newSelectors = uiState.selectors.map((keyed) => updateMuxifiedKeyedSelector(concepts, conceptSemaphore, keyed) as KeyedSelector);
+          const newSelectors = uiState.selectors.map((keyed: KeyedSelector) => updateMuxifiedKeyedSelector(concepts, conceptSemaphore, keyed) as KeyedSelector);
           const changed: Record<string, boolean> = {};
           const payload: UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload = {
             boundActionQue: [],
@@ -282,7 +282,7 @@ export const userInterfaceServerOnChangePrinciple: UserInterfaceServerPrinciple 
             // console.log('HIT', bound, uiState.boundSelectors, chunk, client);
             if (bound) {
               // console.log('CHECK BOUND', bound);
-              bound.forEach((b) => {
+              bound.forEach((b: BoundSelectors) => {
                 const exists = changed[b.semaphore.toString()];
                 if (exists === undefined) {
                   changed[b.semaphore.toString()] = true;
@@ -302,12 +302,12 @@ export const userInterfaceServerOnChangePrinciple: UserInterfaceServerPrinciple 
           // console.log('CHECK COMPONENTS', uiState.components);
           if (payload.boundActionQue.length > 0) {
             // console.log('ATOMIC UPDATE', payload.boundActionQue.map(bound => bound.semaphore));
-            dispatch(e.userInterfaceServerAssembleUpdateAtomicCompositionStrategy(payload), {
+            dispatch(userInterfaceServerAssembleUpdateAtomicCompositionStrategy.actionCreator(payload), {
               throttle: 0,
               newSelectors,
             });
           } else {
-            dispatch(d__.axium.e.axiumKick(), {
+            dispatch(d__.muxium.e.muxiumKick(), {
               throttle: 0,
               newSelectors,
             });

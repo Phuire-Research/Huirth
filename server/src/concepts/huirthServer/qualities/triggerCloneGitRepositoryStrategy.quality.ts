@@ -27,7 +27,7 @@ export const huirthServerTriggerCloneGitRepositoryStrategy =
     reducer: nullReducer,
     methodCreator: () =>
       createMethodDebounceWithConcepts(
-        (action, concepts) => {
+        ({action, concepts}) => {
           const { name, url } = action.payload;
           const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
           if (fileSystemState) {

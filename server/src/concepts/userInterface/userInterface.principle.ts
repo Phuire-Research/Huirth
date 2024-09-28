@@ -5,25 +5,25 @@ $>*/
 import {
   strategySequence,
   strategyBegin,
-  axiumSelectOpen,
+  muxiumSelectOpen,
   ActionStrategy,
-  getAxiumState,
+  getMuxiumState,
   selectSlice,
 } from '@phuire/stratimux';
 import { UserInterfacePrinciple, UserInterfaceState } from './userInterface.concept';
 import { userInterfacePageToStateStrategy } from './strategies.ts/pageToState.strategy';
-import { userInterface_isClient } from '../../model/userInterface';
+import { PageStrategyCreators, userInterface_isClient } from '../../model/userInterface';
 import { UserInterfaceClientState } from '../userInterfaceClient/userInterfaceClient.concept';
 
 export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({
   subscribe, plan
 }) => {
   const _diag = subscribe((val) => {
-    const axiumState = getAxiumState(val);
-    if (axiumState.badActions.length > 0) {
-      console.error('BAD ACTIONS: ', axiumState.badActions);
+    const muxiumState = getMuxiumState(val);
+    if (muxiumState.badActions.length > 0) {
+      console.error('BAD ACTIONS: ', muxiumState.badActions);
     }
-    // console.log('BAD PLANS', axiumState.badPlans);
+    // console.log('BAD PLANS', muxiumState.badPlans);
     // console.log('CHECK FOR SIDEBAR CONTENT', val[1].qualities[56]);
   });
   const userInterfacePageInit = plan('User Interface Page to State initialization plan', ({stage, d__,}) => [
@@ -31,16 +31,16 @@ export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({
       ({concepts, dispatch, stagePlanner, k}) => {
         console.log('USER INTERFACE PAGE TO STATE INIT 1');
         const name = k.name(concepts);
-        if (name && selectSlice(concepts, axiumSelectOpen) === true) {
-          dispatch(d__.axium.e.axiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
+        if (name && selectSlice(concepts, muxiumSelectOpen) === true) {
+          dispatch(d__.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
             iterateStage: true,
           });
         } else if (name === undefined) {
-          console.log('THIS IS CONCLUDING EARLY', name, selectSlice(concepts, axiumSelectOpen));
+          console.log('THIS IS CONCLUDING EARLY', name, selectSlice(concepts, muxiumSelectOpen));
           stagePlanner.conclude();
         }
       },
-      { priority: 1000, selectors: [axiumSelectOpen] }
+      { priority: 1000, selectors: [muxiumSelectOpen] }
     ),
     stage(
       ({concepts, dispatch, stagePlanner, k}) => {
@@ -54,7 +54,7 @@ export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({
           } else if (uiState.pageStrategies.length > 1) {
             const isClient = userInterface_isClient();
             const list: ActionStrategy[] = [];
-            uiState.pageStrategies.forEach((creator) => {
+            uiState.pageStrategies.forEach((creator: PageStrategyCreators) => {
               if (isClient) {
                 const pageCreator = creator(concepts);
                 const title = pageCreator()[1].topic;
@@ -74,7 +74,7 @@ export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({
               });
             }
           } else {
-            if (getAxiumState(concepts).logging) {
+            if (getMuxiumState(concepts).logging) {
               console.log('No pages initialized');
             }
             stagePlanner.conclude();

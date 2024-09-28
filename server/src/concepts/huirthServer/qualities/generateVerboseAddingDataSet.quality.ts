@@ -7,11 +7,11 @@ $>*/
 import {
   createAsyncMethodWithConcepts,
   nullReducer,
-  getAxiumState,
+  getMuxiumState,
   selectState,
   strategyBegin,
   createQualityCard,
-  axiumSelectLastStrategy,
+  muxiumSelectLastStrategy,
 } from '@phuire/stratimux';
 import { DataSetTypes, NamedDataSet } from '../../huirth/huirth.model';
 import { huirthServerVerboseAddingStrategy } from '../strategies/verboseAdding.strategy';
@@ -28,7 +28,7 @@ export const huirthServerGenerateVerboseAddingStrategy =
   methodCreator: () =>
     createAsyncMethodWithConcepts(
       (controller, action, cpts) => {
-        const axiumState = getAxiumState(cpts);
+        const muxiumState = getMuxiumState(cpts);
         const fileSystemState = selectState<FileSystemState>(cpts, fileSystemName);
         if (fileSystemState) {
           console.log('This had been triggered');
@@ -42,7 +42,7 @@ export const huirthServerGenerateVerboseAddingStrategy =
           let length = 5;
           let iterations = 0;
           let currentTopic = '';
-          const plan = axiumState.concepts$.plan(0)('Verbose Adding data set generation plan', ({stage, k__}) => [
+          const plan = muxiumState.concepts$.plan(0)('Verbose Adding data set generation plan', ({stage, k__}) => [
             stage(({dispatch, e}) => {
               console.log('Transformation stage 1', iterations < 100, length < limit);
               if (iterations < 100 && length < limit) {
@@ -56,14 +56,14 @@ export const huirthServerGenerateVerboseAddingStrategy =
                 });
               } else {
                 console.log('END PLAN');
-                dispatch(e.axiumKick(), {
+                dispatch(e.muxiumKick(), {
                   setStage: 2,
                 });
               }
             }),
             stage(
               ({concepts, dispatch, e}) => {
-                const state = getAxiumState(concepts);
+                const state = getMuxiumState(concepts);
                 console.log(
                   'Transformation stage 2',
                   iterations,
@@ -92,13 +92,13 @@ export const huirthServerGenerateVerboseAddingStrategy =
                     }
                   }
                   console.log('DISPATCH');
-                  dispatch(e.axiumKick(), {
+                  dispatch(e.muxiumKick(), {
                     setStage: 0,
                     throttle: 0,
                   });
                 }
               },
-              { beat: 30, selectors: [axiumSelectLastStrategy] }
+              { beat: 30, selectors: [muxiumSelectLastStrategy] }
             ),
             stage(({concepts, stagePlanner}) => {
               console.log('Transformation stage 3', iterations, length, named.dataSet.length);

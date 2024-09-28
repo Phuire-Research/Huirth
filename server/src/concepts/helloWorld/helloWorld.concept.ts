@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a Hello World Concept.
 $>*/
 /*<#*/
-import { AxiumDeck, Concept, createConcept, PrincipleFunction } from '@phuire/stratimux';
+import { MuxiumDeck, Concept, createConcept, PrincipleFunction } from '@phuire/stratimux';
 import { helloWorld } from './qualities/helloWorld.quality';
 import { helloWorldPrinciple } from './helloWorld.principle';
 
@@ -24,7 +24,7 @@ export type HelloWorldDeck = {
   helloWorld: Concept<HelloWorldState, typeof qualities>
 };
 
-export type HelloWorldPrinciple = PrincipleFunction<typeof qualities, AxiumDeck & HelloWorldDeck, HelloWorldState>;
+export type HelloWorldPrinciple = PrincipleFunction<typeof qualities, MuxiumDeck & HelloWorldDeck, HelloWorldState>;
 
 export const createHelloWorldConcept = (something?: string)  => {
   return createConcept(helloWorldName, createHelloWorldState(), qualities, [helloWorldPrinciple], []);

@@ -59,7 +59,7 @@ export const huirthServerAppendParsedDataToNamedDataSet =
       };
     },
     methodCreator: () =>
-      createMethod((action) => {
+      createMethod(({action}) => {
         if (action.strategy && action.strategy.data) {
           const strategy = action.strategy;
           const data = strategyData_select(action.strategy) as ReadDirectoryField;

@@ -47,7 +47,7 @@ export const huirthDataManagerContent = createQualityCardComponent({
   reducer: nullReducer,
   componentCreator:
     createMethodDebounceWithConcepts(
-      (action, concepts, semaphore) => {
+      ({action, concepts, semaphore}) => {
         console.log('HITTING DATA MANAGER COMPONENT');
         const payload = action.payload;
         const id = '#dataManagerID' + payload.pageTitle;

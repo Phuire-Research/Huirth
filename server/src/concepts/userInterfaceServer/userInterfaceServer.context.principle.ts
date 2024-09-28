@@ -9,21 +9,21 @@ import {
   PrincipleFunction,
   MuxifiedSubject,
   areConceptsLoaded,
-  axiumRegisterStagePlanner,
-  axiumSelectOpen,
+  muxiumRegisterStagePlanner,
+  muxiumSelectOpen,
   createStage,
-  getAxiumState,
+  getMuxiumState,
   primeAction,
   selectSlice,
   selectState,
   selectMuxifiedState,
   strategyBegin,
-  AxiumQualities,
-  AxiumDeck,
+  MuxiumQualities,
+  MuxiumDeck,
 } from '@phuire/stratimux';
 import { Subscriber } from 'rxjs';
 import { FileSystemState, fileSystemName } from '../fileSystem/fileSystem.concept';
-import { UserInterfaceServerDeck, UserInterfaceServerState, userInterfaceQualities, userInterfaceServerName } from './userInterfaceServer.concept';
+import { UserInterfaceServerDeck, UserInterfaceServerState, userInterfaceServerQualities, userInterfaceServerName, UserInterfaceServerPrinciple } from './userInterfaceServer.concept';
 import {
   ConceptAndProperties,
   UserInterfaceBindings,
@@ -37,7 +37,7 @@ import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
 import { userInterfaceServerPrepareStaticConceptsStrategy } from './strategies/prepareStaticConcepts.strategy';
 import { userInterfaceClientName } from '../userInterfaceClient/userInterfaceClient.concept';
 
-export const userInterfaceServerContextPrinciple: PrincipleFunction<typeof userInterfaceQualities, AxiumDeck & UserInterfaceServerDeck, UserInterfaceServerState> = ({
+export const userInterfaceServerContextPrinciple: UserInterfaceServerPrinciple = ({
   conceptSemaphore,
   plan
 }) => {
@@ -49,25 +49,25 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction<typeof userI
       ({concepts, dispatch, changes, stagePlanner, d}) => {
         console.log(
           'CHECK IF THIS HITS',
-          selectSlice(concepts, axiumSelectOpen),
-          getAxiumState(concepts).modeIndex,
-          axiumSelectOpen.keys,
+          selectSlice(concepts, muxiumSelectOpen),
+          getMuxiumState(concepts).modeIndex,
+          muxiumSelectOpen.keys,
           changes,
           'stuff'
         );
-        if (selectSlice(concepts, axiumSelectOpen) === true) {
+        if (selectSlice(concepts, muxiumSelectOpen) === true) {
           const fileSystemExists = areConceptsLoaded(concepts, [fileSystemName]);
           if (!fileSystemExists) {
             console.log('FILE SYSTEM NOT LOADED, CONTEXT PRINCIPLE CONCLUDE');
             stagePlanner.conclude();
           } else {
-            dispatch(primeAction(concepts, d.axium.e.axiumRegisterStagePlanner({ conceptName: userInterfaceServerName, stagePlanner })), {
+            dispatch(primeAction(concepts, d.muxium.e.muxiumRegisterStagePlanner({ conceptName: userInterfaceServerName, stagePlanner })), {
               iterateStage: true,
             });
           }
         }
       },
-      { selectors: [d__.axium.k.open] }
+      { selectors: [d__.muxium.k.open] }
     ),
     stage(({concepts, dispatch, d}) => {
       console.log('CHECK IF THIS HITS 2');
@@ -88,7 +88,7 @@ export const userInterfaceServerContextPrinciple: PrincipleFunction<typeof userI
             const conceptsAndProps: ConceptAndProperties[] = [];
             const finalBindingsList: UserInterfacePageBindings = {};
             for (const page of uiState.pages) {
-              page.conceptAndProps.forEach((conceptAndProp) => {
+              page.conceptAndProps.forEach((conceptAndProp: ConceptAndProperties) => {
                 let exists = false;
                 conceptsAndProps.forEach((cap) => {
                   if (cap.name === conceptAndProp.name) {

@@ -8,31 +8,27 @@ import {
   createQualityCardWithPayload,
   createStrategy,
   nullReducer,
-  selectPayload,
   strategyBegin,
 } from '@phuire/stratimux';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 import { huirthTriggerRemoveAddTrainingDataPage } from './triggerRemoveAddTrainingDataPageStrategy.quality';
+import { huirthState } from '../huirth.concept';
 
 type SendTriggerRemoveAddTrainingPageStrategy = {
   oldName: string;
   newName: string;
 };
 
-export const [
-  huirthSendRemoveAddTrainingPageStrategy,
-  huirthSendRemoveAddTrainingPageStrategyType,
-  huirthSendRemoveAddTrainingPageStrategyQuality,
-] = createQualityCardWithPayload<SendTriggerRemoveAddTrainingPageStrategy>({
+export const huirthSendRemoveAddTrainingPageStrategy = createQualityCardWithPayload<huirthState, SendTriggerRemoveAddTrainingPageStrategy>({
   type: 'Huirth send remove add training page strategy',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethod((action) => {
-      const payload = selectPayload<SendTriggerRemoveAddTrainingPageStrategy>(action);
+    createMethod(({action}) => {
+      const payload = action.payload;
       return strategyBegin(
         createStrategy({
           topic: `Send to Web Socket: Trigger Remove Add Training Data Page: Old: ${payload.oldName} New: ${payload.newName}`,
-          initialNode: createActionNode(userInterfaceClientSendActionToServer(huirthTriggerRemoveAddTrainingDataPage(payload))),
+          initialNode: createActionNode(userInterfaceClientSendActionToServer(huirthTriggerRemoveAddTrainingDataPage.actionCreator(payload))),
         })
       );
     }),

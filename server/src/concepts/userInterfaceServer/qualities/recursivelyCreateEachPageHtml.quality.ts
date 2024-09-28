@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and the User Interface Server Conc
 $>*/
 /*<#*/
 import {
-  axiumConclude,
+  muxiumConclude,
   createAsyncMethod,
   createQualityCardWithPayload,
   nullReducer,
@@ -24,7 +24,7 @@ export const userInterfaceServerRecursivelyCreateEachPageHtml = createQualityCar
   type: 'User Interface Server recursively create each page\'s html file',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethod((controller, action) => {
+    createAsyncMethod(({controller, action}) => {
       const payload = selectPayload<RecursivelyCreateEachPageHtmlPayload>(action);
       const targetPage = payload.pages.shift();
       if (targetPage) {
@@ -52,13 +52,13 @@ export const userInterfaceServerRecursivelyCreateEachPageHtml = createQualityCar
               controller.fire(strategySuccess(action.strategy));
             }
           } else {
-            controller.fire(axiumConclude());
+            controller.fire(muxiumConclude());
           }
         });
       } else if (action.strategy) {
         controller.fire(strategySuccess(action.strategy));
       } else {
-        controller.fire(axiumConclude());
+        controller.fire(muxiumConclude());
       }
     }),
 });

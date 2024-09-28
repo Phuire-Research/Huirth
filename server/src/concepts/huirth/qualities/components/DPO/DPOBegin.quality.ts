@@ -6,7 +6,6 @@ import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
 import {
   createQualityCardComponent,
-  selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
@@ -14,7 +13,7 @@ export const huirthIndexDPOBegin = createQualityCardComponent({
   type: 'create userInterface for IndexDPOBegin',
   reducer: nullReducer,
   componentCreator:
-    createMethod((action) => {
+    createMethod(({action}) => {
       const payload = action.payload;
       const id = '#beginDPOID' + payload.pageTitle;
       if (action.strategy) {

@@ -6,9 +6,7 @@ import {
   Action,
   createMethod,
   createQualityCardWithPayload,
-  nullReducer,
   refreshAction,
-  selectPayload,
   strategyBegin,
   strategySuccess,
 } from '@phuire/stratimux';
@@ -31,18 +29,17 @@ export type DocumentObjectModelBindPayload = {
   binding: Binding;
 };
 
-export const [documentObjectModelBind, documentObjectModelBindType, documentObjectModelBindQuality] =
-  createQualityCardWithPayload<DocumentObjectModelBindPayload>({
+export const documentObjectModelBind =
+  createQualityCardWithPayload<DocumentObjectModelState, DocumentObjectModelBindPayload>({
     type: 'Document Object Model bind element',
-    reducer: (state: DocumentObjectModelState): DocumentObjectModelState => {
+    reducer: (state) => {
       return {
-        ...state,
         bound: true,
       };
     },
     methodCreator: () =>
-      createMethod((action) => {
-        const payload = selectPayload<DocumentObjectModelBindPayload>(action);
+      createMethod(({action}) => {
+        const payload = action.payload;
         const element = document.getElementById(payload.id);
         if (element) {
           setElementBinding(element, payload);

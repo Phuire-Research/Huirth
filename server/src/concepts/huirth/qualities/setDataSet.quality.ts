@@ -31,7 +31,6 @@ export const huirthSetDataSet = createQualityCardWithPayload<huirthState, huirth
       trainingData.push(named);
     }
     return {
-      ...state,
       trainingData: newTrainingData,
     };
   },

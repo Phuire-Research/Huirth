@@ -14,7 +14,7 @@ export const userInterfaceClientReplaceOuterHtml =
     type: 'User Interface Client assemble update atomic compositions strategy client',
     reducer: nullReducer,
     methodCreator: () =>
-      createMethod((action) => {
+      createMethod(({action}) => {
         if (action.strategy) {
           const {payload} = action;
           const composition = userInterface_selectPage(action.strategy).compositions.filter((comp) => comp.id === payload.id)[0];

@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that will append the payload data set into state, replacing if it already exists.
 $>*/
 /*<#*/
-import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
+import { createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { DataSetTypes, NamedDataSet, PhuirEProjects, ProjectStatus, TrainingData } from '../huirth.model';
 
@@ -10,10 +10,10 @@ export type huirthUpdateParsedProjectDataSetPayload = {
   dataSet: NamedDataSet;
 };
 
-export const [huirthUpdateParsedProjectDataSet, huirthUpdateParsedProjectDataSetType, huirthUpdateParsedProjectDataSetQuality] =
-  createQualityCardWithPayload<huirthUpdateParsedProjectDataSetPayload>({
+export const huirthUpdateParsedProjectDataSet =
+  createQualityCardWithPayload<huirthState, huirthUpdateParsedProjectDataSetPayload>({
     type: 'huirth update parsed project data set',
-    reducer: (state: huirthState, action: Action): huirthState => {
+    reducer: (state, action) => {
       const { dataSet } = selectPayload<huirthUpdateParsedProjectDataSetPayload>(action);
       const { dataSetSelection, trainingData } = state;
       let { projectsStatuses, stratimuxStatus, huirthStatus } = state;
@@ -59,7 +59,6 @@ export const [huirthUpdateParsedProjectDataSet, huirthUpdateParsedProjectDataSet
         }
       }
       return {
-        ...state,
         trainingData: newTrainingData,
         stratimuxStatus,
         huirthStatus,

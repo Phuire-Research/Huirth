@@ -5,11 +5,11 @@ $>*/
 
 import {
   CounterState,
-  axiumKick,
+  muxiumKick,
   counterAdd,
   counterName,
   counterSelectCount,
-  createAxium,
+  muxification,
   createCounterConcept,
   createExperimentConcept,
   createExperimentState,
@@ -29,9 +29,9 @@ import { experimentBufferNextAction, experimentBufferNextActionQuality } from '.
 
 test('Buffer method periodic count', (done) => {
   const experiment = createExperimentConcept(createExperimentState(), [experimentBufferNextActionQuality]);
-  const axium = createAxium('Experiment method buffer defer actions', [createCounterConcept(), experiment]);
-  const plan = axium.plan('Experiment buffer add 4 after 10ms', [
-    stageWaitForOpenThenIterate(() => axiumKick()),
+  const muxium = muxification('Experiment method buffer defer actions', [createCounterConcept(), experiment]);
+  const plan = muxium.plan('Experiment buffer add 4 after 10ms', [
+    stageWaitForOpenThenIterate(() => muxiumKick()),
     createStage((_, dispatch) => {
       dispatch(
         experimentBufferNextAction({
@@ -85,7 +85,7 @@ test('Buffer method periodic count', (done) => {
           expect(counterState?.count).toBe(4);
           setTimeout(() => {
             plan.conclude();
-            axium.close();
+            muxium.close();
             done();
           }, 10);
         }
@@ -100,9 +100,9 @@ test('Buffer method periodic count', (done) => {
 
 // test('Buffer method with concept towards final multiply of count', (done) => {
 //   const experiment = createExperimentConcept(createExperimentState(), [experimentBufferMultiplyByCountFromConceptsQuality]);
-//   const axium = createAxium('Experiment method buffer defer multiply', [createCounterConcept(), experiment]);
-//   const plan = axium.plan('Experiment buffer multiply by 2 from concept state after 10ms', [
-//     stageWaitForOpenThenIterate(() => axiumKick()),
+//   const muxium = muxification('Experiment method buffer defer multiply', [createCounterConcept(), experiment]);
+//   const plan = muxium.plan('Experiment buffer multiply by 2 from concept state after 10ms', [
+//     stageWaitForOpenThenIterate(() => muxiumKick()),
 //     createStage((_, dispatch) => {
 //       dispatch(counterSetCount({
 //         newCount: 2
@@ -137,7 +137,7 @@ test('Buffer method periodic count', (done) => {
 //         expect(counterState?.count).toBe(16);
 //         setTimeout(() => {
 //           plan.conclude();
-//           axium.close();
+//           muxium.close();
 //           done();
 //         }, 10);
 //       }
@@ -150,11 +150,11 @@ test('Buffer method periodic count', (done) => {
 
 // test('Buffer method with concept towards final multiply of count', (done) => {
 //   const experiment = createExperimentConcept(createExperimentState(), [experimentAsyncBufferMultiplyByCountFromConceptsQuality]);
-//   const axium = createAxium('Experiment method buffer defer multiply', [createCounterConcept(), experiment], {
+//   const muxium = muxification('Experiment method buffer defer multiply', [createCounterConcept(), experiment], {
 //     // logActionStream: true
 //   });
-//   const plan = axium.plan('Experiment buffer multiply by 2 from concept state after 10ms', [
-//     stageWaitForOpenThenIterate(() => axiumKick()),
+//   const plan = muxium.plan('Experiment buffer multiply by 2 from concept state after 10ms', [
+//     stageWaitForOpenThenIterate(() => muxiumKick()),
 //     createStage((_, dispatch) => {
 //       dispatch(counterSetCount({
 //         newCount: 2
@@ -190,7 +190,7 @@ test('Buffer method periodic count', (done) => {
 //         expect(counterState?.count).toBe(16);
 //         setTimeout(() => {
 //           plan.conclude();
-//           axium.close();
+//           muxium.close();
 //           done();
 //         }, 10);
 //       }
@@ -199,8 +199,8 @@ test('Buffer method periodic count', (done) => {
 //       plan.conclude();
 //     })
 //   ]);
-//   // axium.subscribe(c => {
-//   //   const s = getAxiumState(c);
+//   // muxium.subscribe(c => {
+//   //   const s = getMuxiumState(c);
 //   //   console.log(s.head, s.body, s.tail);
 //   // });
 // });

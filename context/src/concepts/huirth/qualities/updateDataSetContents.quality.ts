@@ -11,10 +11,10 @@ export type huirthUpdateDataSetContentsPayload = {
   dataSetIndex: number;
 };
 
-export const [huirthUpdateDataSetContents, huirthUpdateDataSetContentsType, huirthUpdateDataSetContentsQuality] =
-  createQualityCardWithPayload<huirthUpdateDataSetContentsPayload>({
+export const huirthUpdateDataSetContents =
+  createQualityCardWithPayload<huirthState, huirthUpdateDataSetContentsPayload>({
     type: 'Create huirth UpdateDataSetContents',
-    reducer: (state: huirthState, action: Action): huirthState => {
+    reducer: (state, action) => {
       const payload = selectPayload<huirthUpdateDataSetContentsPayload>(action);
       const target = userInterface_selectInputTarget(action);
       const trainingData = [...state.trainingData];
@@ -23,7 +23,6 @@ export const [huirthUpdateDataSetContents, huirthUpdateDataSetContentsType, huir
         named.dataSet[payload.dataSetIndex].content = target.value.trim();
       }
       return {
-        ...state,
         trainingData,
       };
     },

@@ -1,5 +1,5 @@
 /*<$
-For the graph programming framework Stratimux and Brand Concept huirth that extends the Server Concept, generate a principle that close the axium if a message is received at a specified api endpoint.
+For the graph programming framework Stratimux and Brand Concept huirth that extends the Server Concept, generate a principle that close the muxium if a message is received at a specified api endpoint.
 $>*/
 
 import { ServerState } from '../server/server.concept';
@@ -19,7 +19,7 @@ export const huirthServerExitPrinciple: HuirthServerPrinciple = ({
     stage(({concepts, dispatch, d, k, stagePlanner}) => {
       const name = k.name(concepts);
       if (name) {
-        dispatch(d.axium.e.axiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
+        dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
           iterateStage: true,
         });
       } else {
@@ -32,7 +32,7 @@ export const huirthServerExitPrinciple: HuirthServerPrinciple = ({
         if (name) {
           if (shouldClose) {
             dispatch(
-              d.axium.e.axiumPreClose({
+              d.muxium.e.muxiumPreClose({
                 exit: true,
               }),
               {
@@ -51,7 +51,7 @@ export const huirthServerExitPrinciple: HuirthServerPrinciple = ({
     }),
   ]);
 
-  server.get('/server/axiumEXIT', (__, req) => {
+  server.get('/server/muxiumEXIT', (__, req) => {
     shouldClose = true;
     req.json({
       exit: shouldClose,

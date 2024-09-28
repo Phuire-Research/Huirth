@@ -9,15 +9,14 @@ import { generateBaseDataSetEntry } from '../huirth.model';
 export type huirthNewDataSetEntryPayload = {
   index: number;
 };
-export const [huirthNewDataSetEntry, huirthNewDataSetEntryType, huirthNewDataSetEntryQuality] =
-  createQualityCardWithPayload<huirthNewDataSetEntryPayload>({
+export const huirthNewDataSetEntry =
+  createQualityCardWithPayload<huirthState, huirthNewDataSetEntryPayload>({
     type: 'Huirth create a new default DataSet entry at target index',
-    reducer: (state: huirthState, action): huirthState => {
-      const payload = selectPayload<huirthNewDataSetEntryPayload>(action);
+    reducer: (state, action) => {
+      const payload = action.payload;
       const trainingData = [...state.trainingData];
       trainingData[payload.index].dataSet.push(generateBaseDataSetEntry());
       return {
-        ...state,
         trainingData,
       };
     },

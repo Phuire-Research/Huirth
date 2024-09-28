@@ -3,29 +3,25 @@ For the graph programming framework Stratimux and a Concept huirth, generate a q
 $>*/
 /*<#*/
 import {
-  Concepts,
   CounterState,
-  UnifiedSubject,
   createMethodDebounceWithState,
   createQualityCard,
   nullReducer,
   strategyBegin,
 } from '@phuire/stratimux';
 import { huirthMinusSevenStrategy } from '../strategies/countMinusSeven.strategy';
-import { Subject } from 'rxjs';
+import { huirthState } from '../huirth.concept';
 
-export const [huirthTriggerMinusCountingStrategy, huirthTriggerMinusCountingStrategyType, huirthTriggerMinusCountingStrategyQuality] =
-  createQualityCard({
+export const huirthTriggerMinusCountingStrategy =
+  createQualityCard<huirthState>({
     type: 'Create huirth trigger minus seven counting strategy',
     reducer: nullReducer,
-    methodCreator: (concepts$?: Subject<Concepts>, semaphore?: number) =>
-      createMethodDebounceWithState<CounterState>(
-        (_, state) => {
-          const strategy = huirthMinusSevenStrategy(state.count, semaphore as number);
+    methodCreator: () =>
+      createMethodDebounceWithState(
+        ({state}) => {
+          const strategy = huirthMinusSevenStrategy((state as unknown as CounterState).count);
           return strategyBegin(strategy);
         },
-        concepts$ as UnifiedSubject,
-        semaphore as number,
         3
       ),
   });

@@ -7,7 +7,6 @@ import {
   createMethod,
   createQualityCardWithPayload,
   refreshAction,
-  selectPayload,
   strategyBegin,
   strategySuccess,
 } from '@phuire/stratimux';
@@ -39,7 +38,7 @@ export const documentObjectModelBind =
       };
     },
     methodCreator: () =>
-      createMethod((action) => {
+      createMethod(({action}) => {
         const payload = action.payload;
         const element = document.getElementById(payload.id);
         if (element) {

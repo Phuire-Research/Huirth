@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a strategy that will save a selection of data sets by the passed parameter of names, to the file system, and to their own directory.
 $>*/
 /*<#*/
-import { axiumLog, createActionNode, createStrategy } from '@phuire/stratimux';
+import { muxiumLog, createActionNode, createStrategy } from '@phuire/stratimux';
 import { TrainingData } from '../../huirth/huirth.model';
 import path from 'path';
 import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
@@ -58,7 +58,7 @@ export const huirthServerSaveDataSetSelectionStrategy = (root: string, trainingD
     }
   }
   if (first === undefined) {
-    first = createActionNode(axiumLog.actionCreator());
+    first = createActionNode(muxiumLog.actionCreator());
     first.payload = {
       message: 'No data sets provided to save selection strategy',
     };

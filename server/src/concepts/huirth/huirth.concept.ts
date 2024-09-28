@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a Brand Concept called huirth that will act as a Sidekick Application for the Stratimux Framework.
 $>*/
 /*<#*/
-import { createConcept, Concept, muxifyConcepts, createCounterConcept, PrincipleFunction, Quality, AxiumDeck } from '@phuire/stratimux';
+import { createConcept, Concept, muxifyConcepts, createCounterConcept, PrincipleFunction, Quality, MuxiumDeck } from '@phuire/stratimux';
 import { BrandState } from '../../model/userInterface';
 import { huirthError } from './qualities/components/error/error.quality';
 import { huirthHead } from './qualities/components/head.quality';
@@ -12,7 +12,7 @@ import { huirthIndexHero } from './qualities/components/hero/indexHero.quality';
 import { huirthIndexDialogBegin } from './qualities/components/dialog/indexDialogBegin.quality';
 import { huirthIndexDialogContent } from './qualities/components/dialog/indexDialogContent.quality';
 import { huirthIndexDialogEnd } from './qualities/components/dialog/indexDialogEnd.quality';
-import { huirthAppendAxiumDialog } from './qualities/appendAxiumDialog.quality';
+import { huirthAppendMuxiumDialog } from './qualities/appendMuxiumDialog.quality';
 import { huirthDialogPrinciple } from './huirth.principle';
 import { huirthTrainingDataPagePrinciple } from './huirth.trainingDataPage.principle';
 import { huirthIndexPageStrategy } from './strategies/pages/indexPage.strategy';
@@ -137,7 +137,7 @@ const qualities = {
   huirthIndexDialogContent,
   huirthIndexDialogEnd,
   huirthError,
-  huirthAppendAxiumDialog,
+  huirthAppendMuxiumDialog,
   huirthIndexDPOBegin,
   huirthIndexDPOContent,
   huirthIndexDPOEnd,
@@ -186,7 +186,7 @@ const qualities = {
 export type HuirthDeck = {
   huirth: Concept<huirthState, typeof qualities>;
 };
-export type HuirthPrinciple = PrincipleFunction<typeof qualities, AxiumDeck & HuirthDeck, huirthState>;
+export type HuirthPrinciple = PrincipleFunction<typeof qualities, MuxiumDeck & HuirthDeck, huirthState>;
 export const createHuirthConcept = () => {
   const principles = [huirthDialogPrinciple, huirthTrainingDataPagePrinciple];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.

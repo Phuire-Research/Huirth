@@ -10,9 +10,9 @@ export type huirthSetDataSetPayload = {
   named: NamedDataSet;
 };
 
-export const [huirthSetDataSet, huirthSetDataSetType, huirthSetDataSetQuality] = createQualityCardWithPayload<huirthSetDataSetPayload>({
+export const huirthSetDataSet = createQualityCardWithPayload<huirthState, huirthSetDataSetPayload>({
   type: 'huirth set data set to the current training data',
-  reducer: (state: huirthState, action: Action) => {
+  reducer: (state, action) => {
     const { trainingData } = state;
     const newTrainingData: TrainingData = [];
     const { named } = selectPayload<huirthSetDataSetPayload>(action);
@@ -31,7 +31,6 @@ export const [huirthSetDataSet, huirthSetDataSetType, huirthSetDataSetQuality] =
       trainingData.push(named);
     }
     return {
-      ...state,
       trainingData: newTrainingData,
     };
   },

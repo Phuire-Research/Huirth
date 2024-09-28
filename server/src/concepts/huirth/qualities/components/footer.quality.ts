@@ -10,8 +10,7 @@ export const huirthFooter = createQualityCardComponent({
   type: 'Create huirth Footer',
   reducer: nullReducer,
   componentCreator:
-    createMethod((action) => {
-      const payload = action.payload;
+    createMethod(({action}) => {
       if (action.strategy) {
         return strategySuccess(
           action.strategy,

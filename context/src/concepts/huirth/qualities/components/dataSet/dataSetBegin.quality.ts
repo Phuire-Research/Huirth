@@ -6,16 +6,15 @@ import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
 import {
   createQualityCardComponent,
-  selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthDataSetBegin, huirthDataSetBeginType, huirthDataSetBeginQuality] = createQualityCardComponent({
+export const huirthDataSetBegin = createQualityCardComponent({
   type: 'create userInterface for DataSetBegin',
   reducer: nullReducer,
-  componentCreator: (act) =>
-    createMethod((action) => {
-      const payload = selectComponentPayload(action);
+  componentCreator:
+    createMethod(({action}) => {
+      const payload = action.payload;
       const id = '#beginDataSetID' + payload.pageTitle;
       if (action.strategy) {
         return strategySuccess(
@@ -24,7 +23,7 @@ export const [huirthDataSetBegin, huirthDataSetBeginType, huirthDataSetBeginQual
             id,
             boundSelectors: [],
             universal: false,
-            action: act(payload),
+            action,
             html: /*html*/ `
   <div id='${id}' class="carbon-fiber">
     <section class="flex flex-col items-center min-h-screen text-white bg-center bg-blend-overlay md:bg-fixed bg-neutral-900/60">

@@ -17,7 +17,7 @@ export const huirthTriggerAddTrainingDataPage =
     reducer: nullReducer,
     methodCreator: () =>
       createMethodWithConcepts(
-        (action, concepts) => {
+        ({action, concepts}) => {
           const { name } = selectPayload<TriggerAddTrainingDataPage>(action);
           const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(name);
           const strategyAction = strategyBegin(huirthAddTrainingDataPageStrategy(name, generatedTrainingDataPage, concepts));

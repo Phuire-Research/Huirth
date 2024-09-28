@@ -5,8 +5,8 @@ $>*/
 import {
   Action,
   Concepts,
-  axiumKick,
-  axiumRegisterTimeOut,
+  muxiumKick,
+  muxiumRegisterTimeOut,
   createActionNode,
   createMethodWithState,
   createQualityCardWithPayload,
@@ -25,10 +25,10 @@ export type huirthUpdateDataSetNamePayload = {
   index: number;
 };
 
-export const [huirthUpdateDataSetName, huirthUpdateDataSetNameType, huirthUpdateDataSetNameQuality] =
-  createQualityCardWithPayload<huirthUpdateDataSetNamePayload>({
+export const huirthUpdateDataSetName =
+  createQualityCardWithPayload<huirthState, huirthUpdateDataSetNamePayload>({
     type: 'Create huirth UpdateDataSetName',
-    reducer: (state: huirthState, action: Action): huirthState => {
+    reducer: (state, action) => {
       const payload = selectPayload<huirthUpdateDataSetNamePayload>(action);
       const target = userInterface_selectInputTarget(action);
       const trainingData = [...state.trainingData];
@@ -53,31 +53,30 @@ export const [huirthUpdateDataSetName, huirthUpdateDataSetNameType, huirthUpdate
         dataSet.name = target.value;
       }
       return {
-        ...state,
         trainingData,
         stratimuxStatus,
         huirthStatus,
         projectsStatuses,
       };
     },
-    methodCreator: (concepts$, semaphore) =>
-      createMethodWithState<huirthState>(
-        (action, state) => {
-          const payload = selectPayload<huirthUpdateDataSetNamePayload>(action);
+    methodCreator: () =>
+      createMethodWithState(
+        ({action, state}) => {
+          const payload = action.payload;
           const oldName = state.trainingData[payload.index].name;
           const newName = userInterface_selectInputTarget(action).value;
           const removeAdd = createStrategy({
             topic: 'Finally send trigger remove add training data page strategy',
-            initialNode: createActionNode(huirthSendRemoveAddTrainingPageStrategy({ oldName, newName })),
+            initialNode: createActionNode(huirthSendRemoveAddTrainingPageStrategy.actionCreator({ oldName, newName })),
           });
           const timeOut = createActionNode(
-            axiumRegisterTimeOut({
+            muxiumRegisterTimeOut.actionCreator({
               act: strategyBegin(removeAdd),
               timeOut: 50,
             })
           );
           const forceSync = createActionNode(
-            webSocketClientForceSync({
+            webSocketClientForceSync.actionCreator({
               keys: ['trainingData'],
             }),
             {
@@ -93,8 +92,6 @@ export const [huirthUpdateDataSetName, huirthUpdateDataSetNameType, huirthUpdate
             })
           );
         },
-        concepts$ as Subject<Concepts>,
-        semaphore as number
       ),
   });
 /*#>*/

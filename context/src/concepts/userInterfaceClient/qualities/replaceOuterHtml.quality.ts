@@ -9,14 +9,14 @@ export type UserInterfaceClientReplaceOuterHtmlPayload = {
   id: string;
 };
 
-export const [userInterfaceClientReplaceOuterHtml, userInterfaceClientReplaceOuterHtmlType, userInterfaceClientReplaceOuterHtmlQuality] =
-  createQualityCardWithPayload({
+export const userInterfaceClientReplaceOuterHtml =
+  createQualityCardWithPayload<UserInterfaceClientReplaceOuterHtmlPayload, any>({
     type: 'User Interface Client assemble update atomic compositions strategy client',
     reducer: nullReducer,
     methodCreator: () =>
-      createMethod((action) => {
+      createMethod(({action}) => {
         if (action.strategy) {
-          const payload = selectPayload<UserInterfaceClientReplaceOuterHtmlPayload>(action);
+          const {payload} = action;
           const composition = userInterface_selectPage(action.strategy).compositions.filter((comp) => comp.id === payload.id)[0];
           const element = document.getElementById(composition.id);
           const checkActive = document.activeElement?.id;

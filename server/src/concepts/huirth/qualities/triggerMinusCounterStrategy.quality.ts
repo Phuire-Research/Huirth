@@ -18,7 +18,7 @@ export const huirthTriggerMinusCountingStrategy =
     reducer: nullReducer,
     methodCreator: () =>
       createMethodDebounceWithState(
-        (_, state) => {
+        ({state}) => {
           const strategy = huirthMinusSevenStrategy((state as unknown as CounterState).count);
           return strategyBegin(strategy);
         },

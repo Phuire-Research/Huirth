@@ -34,20 +34,18 @@ export const huirthFilterTriggerInstallGitRepository = createQualityCard<huirthS
           status: ProjectStatus.installing,
         });
         return {
-          ...state,
           projectsStatuses,
           possibleProject: '',
         };
       }
     }
     return {
-      ...state,
       possibleProject: 'INVALID',
     };
   },
   methodCreator: () =>
     createMethodWithState<huirthState>(
-      (action, state) => {
+      ({action, state}) => {
         const { possibleProject, possibleProjectValid } = state;
         const name = getName(possibleProject);
         if (name && possibleProjectValid) {

@@ -57,7 +57,7 @@ export const huirthSendTriggerParseRepositoryStrategy = createQualityCardWithPay
     };
   },
   methodCreator: () =>
-    createMethodDebounce((action) => {
+    createMethodDebounce(({action}) => {
       const { name } = action.payload;
       return strategyBegin(
         createStrategy({

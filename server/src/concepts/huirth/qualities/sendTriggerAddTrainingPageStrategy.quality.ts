@@ -24,9 +24,9 @@ export const huirthSendAddTrainingPageStrategy =
     type: 'Huirth send add training page strategy',
     reducer: defaultReducer,
     methodCreator: () =>
-      createMethod((action) => {
+      createMethod(({action}) => {
         console.log('DOES THIS HIT');
-        const { name } = selectPayload<SendTriggerAddTrainingPageStrategy>(action);
+        const { name } = action.payload;
         return strategyBegin(
           createStrategy({
             topic: 'Send to Web Socket: Trigger Add Training Data Page: ' + name,

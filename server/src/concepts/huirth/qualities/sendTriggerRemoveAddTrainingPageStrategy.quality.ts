@@ -23,7 +23,7 @@ export const huirthSendRemoveAddTrainingPageStrategy = createQualityCardWithPayl
   type: 'Huirth send remove add training page strategy',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethod((action) => {
+    createMethod(({action}) => {
       const payload = action.payload;
       return strategyBegin(
         createStrategy({

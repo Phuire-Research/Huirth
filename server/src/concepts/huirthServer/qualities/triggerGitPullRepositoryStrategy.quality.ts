@@ -23,7 +23,7 @@ export const huirthServerTriggerGitPullRepositoryStrategy =
     reducer: nullReducer,
     methodCreator: () =>
       createMethodDebounceWithConcepts(
-        (action, concepts) => {
+        ({action, concepts}) => {
           const { name } = action.payload;
           const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
           if (fileSystemState) {

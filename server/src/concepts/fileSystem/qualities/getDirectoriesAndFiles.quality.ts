@@ -3,11 +3,9 @@ For the graph programming framework Stratimux and File System Concept, generate 
 $>*/
 /*<#*/
 import {
-  createAsyncMethod,
   createAsyncMethodDebounce,
   createQualityCardWithPayload,
   nullReducer,
-  selectPayload,
   strategyData_appendFailure,
   strategyData_muxifyData,
   strategyFailed,
@@ -29,7 +27,7 @@ export const fileSystemGetDirectoriesAndFiles =
     type: 'File System get target Directories and Files',
     reducer: nullReducer,
     methodCreator: () =>
-      createAsyncMethodDebounce((controller, action) => {
+      createAsyncMethodDebounce(({controller, action}) => {
         const {path} = action.payload;
         if (action.strategy) {
           const strategy = action.strategy;

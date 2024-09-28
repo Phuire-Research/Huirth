@@ -7,9 +7,9 @@ $>*/
 import { ServerState } from '../server/server.concept';
 import {
   Action,
-  axiumKick,
-  axiumSelectOpen,
-  getAxiumState,
+  muxiumKick,
+  muxiumSelectOpen,
+  getMuxiumState,
   selectSlice,
 } from '@phuire/stratimux';
 import _ws from 'express-ws';
@@ -30,7 +30,7 @@ export const webSocketServerPrinciple: WebSocketServerPrinciple = ({
   const server = initialServerState.server;
   const socket = _ws(server);
   let interval: undefined | NodeJS.Timer;
-  socket.app.ws('/axium', (ws, req) => {
+  socket.app.ws('/muxium', (ws, req) => {
     const setServerSemaphoreMessage = JSON.stringify(webSocketClientSetServerSemaphore.actionCreator({ semaphore: conceptSemaphore }));
     // console.log('CHECK THIS MESSAGE', setServerSemaphoreMessage);
     ws.send(setServerSemaphoreMessage);
@@ -40,10 +40,10 @@ export const webSocketServerPrinciple: WebSocketServerPrinciple = ({
     const webSocketServerPlan = plan('Web Socket Server Message Que Planner', ({stage, k__}) => [
       stage(
         ({concepts, dispatch, k, d, stagePlanner}) => {
-          if (selectSlice(concepts, axiumSelectOpen) === true) {
+          if (selectSlice(concepts, muxiumSelectOpen) === true) {
             const name = k.name(concepts);
             if (name) {
-              dispatch(d.axium.e.axiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
+              dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
                 iterateStage: true,
               });
             } else {
@@ -51,7 +51,7 @@ export const webSocketServerPrinciple: WebSocketServerPrinciple = ({
             }
           }
         },
-        { selectors: [axiumSelectOpen] }
+        { selectors: [muxiumSelectOpen] }
       ),
       stage(
         ({concepts, k, stagePlanner}) => {
@@ -92,7 +92,7 @@ export const webSocketServerPrinciple: WebSocketServerPrinciple = ({
         // console.log('CHECK ACTION', act);
         if (Object.keys(act).includes('type')) {
           if ((act as Action).type !== webSocketServerSyncState.actionType) {
-            if (getAxiumState(concepts_).logging && (act as Action).type !== axiumKick.actionType) {
+            if (getMuxiumState(concepts_).logging && (act as Action).type !== muxiumKick.actionType) {
               console.log('MESSAGE', (act as Action).type);
             }
           }

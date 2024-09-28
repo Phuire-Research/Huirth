@@ -6,11 +6,11 @@ $>*/
 /*<#*/
 import {
   KeyedSelector,
-  axiumKick,
-  axiumRegisterStagePlanner,
-  axiumSelectOpen,
+  muxiumKick,
+  muxiumRegisterStagePlanner,
+  muxiumSelectOpen,
   createStage,
-  getAxiumState,
+  getMuxiumState,
   selectSlice,
   strategyBegin,
 } from '@phuire/stratimux';
@@ -21,7 +21,7 @@ import {
 } from './qualities/clientAssembleAtomicUpdateCompositionStrategy.quality';
 import { userInterface_createBoundSelectorsSelector, userInterface_createPagesSelector } from '../userInterface/userInterface.selector';
 import { userInterfaceInitialBindingStrategy } from './strategies/initialBinding.strategy';
-import { Page } from '../../model/userInterface';
+import { BoundSelectors, Page } from '../../model/userInterface';
 
 export const userInterfaceClientOnChangePrinciple: UserInterfaceClientPrinciple = ({
   plan,
@@ -35,15 +35,15 @@ export const userInterfaceClientOnChangePrinciple: UserInterfaceClientPrinciple 
     stage(
       ({concepts, dispatch, k, d, stagePlanner}) => {
         const name = k.name(concepts);
-        if (name && selectSlice(concepts, axiumSelectOpen) === true) {
-          dispatch(d.axium.e.axiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
+        if (name && selectSlice(concepts, muxiumSelectOpen) === true) {
+          dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
             iterateStage: true,
           });
         } else if (name === undefined) {
           stagePlanner.conclude();
         }
       },
-      { selectors: [axiumSelectOpen] }
+      { selectors: [muxiumSelectOpen] }
     ),
     stage(
       ({concepts, dispatch, k, stagePlanner}) => {
@@ -51,7 +51,7 @@ export const userInterfaceClientOnChangePrinciple: UserInterfaceClientPrinciple 
         const pages = selectSlice<Page[]>(concepts, k.pages);
         if (pages) {
           if (pages.length > 0) {
-            dispatch(strategyBegin(userInterfaceInitialBindingStrategy(getAxiumState(concepts).action$, pages)), {
+            dispatch(strategyBegin(userInterfaceInitialBindingStrategy(getMuxiumState(concepts).action$, pages)), {
               iterateStage: true,
             });
           }
@@ -69,13 +69,13 @@ export const userInterfaceClientOnChangePrinciple: UserInterfaceClientPrinciple 
           const newSelectors = [boundSelectorsSelector, ...uiState.selectors];
           const changed: Record<string, boolean> = {};
           const payload: UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload = {
-            action$: getAxiumState(concepts).action$,
+            action$: getMuxiumState(concepts).action$,
             boundActionQue: [],
           };
           changes?.forEach((change) => {
             const bound = uiState.boundSelectors[change.keys];
             if (bound) {
-              bound.forEach((b) => {
+              bound.forEach((b: BoundSelectors) => {
                 const exists = changed[b.semaphore.toString()];
                 if (exists === undefined) {
                   changed[b.semaphore.toString()] = true;
@@ -86,12 +86,12 @@ export const userInterfaceClientOnChangePrinciple: UserInterfaceClientPrinciple 
             }
           });
           if (payload.boundActionQue.length > 0) {
-            dispatch(e.userInterfaceClientAssembleAtomicUpdateCompositionStrategy(payload), {
+            dispatch(userInterfaceClientAssembleAtomicUpdateCompositionStrategy.actionCreator(payload), {
               throttle: 0,
               newSelectors,
             });
           } else {
-            dispatch(d.axium.e.axiumKick(), {
+            dispatch(d.muxium.e.muxiumKick(), {
               throttle: 0,
               newSelectors,
             });

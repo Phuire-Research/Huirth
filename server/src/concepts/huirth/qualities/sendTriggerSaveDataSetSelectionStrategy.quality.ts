@@ -63,7 +63,7 @@ export const huirthSendTriggerSaveDataSetSelectionStrategy = createQualityCard<h
   },
   methodCreator: () =>
     createMethodDebounceWithState<huirthServerState>(
-      (_, state) => {
+      ({state}) => {
         const { dataSetSelection, trainingData } = state;
         const names: string[] = [];
         for (const [i, select] of dataSetSelection.entries()) {

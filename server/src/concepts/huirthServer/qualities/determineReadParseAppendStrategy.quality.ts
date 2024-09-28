@@ -5,7 +5,7 @@ $>*/
 import {
   ActionNode,
   ActionStrategy,
-  axiumConclude,
+  muxiumConclude,
   createActionNode,
   createActionNodeFromStrategy,
   createMethodWithConcepts,
@@ -67,7 +67,7 @@ export const huirthServerDetermineReadParseAppendStrategy =
     reducer: nullReducer,
     methodCreator: () =>
       createMethodWithConcepts(
-        (action, concepts) => {
+        ({action, concepts}) => {
           if (action.strategy && action.strategy.data) {
             const strategy = action.strategy;
             const data = strategyData_select(action.strategy) as ReadDirectoryField & ReadFileContentsAndAppendToDataField;
@@ -97,7 +97,7 @@ export const huirthServerDetermineReadParseAppendStrategy =
               return strategyFailed(strategy, strategyData_appendFailure(strategy, 'No entries found in filesAndDirectories field'));
             }
           } else {
-            return axiumConclude();
+            return muxiumConclude();
           }
         },
       ),

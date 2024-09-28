@@ -4,7 +4,7 @@ $>*/
 /*<#*/
 import {
   ActionStrategy,
-  axiumConclude,
+  muxiumConclude,
   createAsyncMethod,
   createQualityCardWithPayload,
   nullReducer,
@@ -38,7 +38,7 @@ export const fileSystemCopyMoveTargetDirectory =
     type: 'File System copy move target Directory',
     reducer: nullReducer,
     methodCreator: () =>
-      createAsyncMethod((controller, action) => {
+      createAsyncMethod(({controller, action}) => {
         const payload = selectPayload<CopyMoveTargetDirectoryPayload>(action);
         if (action.strategy) {
           copyDir(payload.target, payload.newLocation).then(() => {
@@ -46,7 +46,7 @@ export const fileSystemCopyMoveTargetDirectory =
             controller.fire(newStrategy);
           });
         } else {
-          controller.fire(axiumConclude());
+          controller.fire(muxiumConclude());
         }
       }),
   });

@@ -23,7 +23,6 @@ export const huirthUpdateDataSetContents =
         named.dataSet[payload.dataSetIndex].content = target.value.trim();
       }
       return {
-        ...state,
         trainingData,
       };
     },

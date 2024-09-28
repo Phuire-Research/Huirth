@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and Document Object Model Concept, generate a strategy that will also generate a series of steps to bind each entry in the bindingQue..
 $>*/
 /*<#*/
-import { ActionNode, AxiumQualities, AxiumState, Concepts, createActionNode, createStrategy } from '@phuire/stratimux';
+import { ActionNode, MuxiumQualities, MuxiumState, Concepts, createActionNode, createStrategy } from '@phuire/stratimux';
 import { UserInterfacePageBindings } from '../../../model/userInterface';
 import { documentObjectModelClearBindingQue } from '../qualities/clearBindingQue.quality';
 import { documentObjectModelBind } from '../qualities/bind.quality';
@@ -11,7 +11,7 @@ export const documentObjectModelBindingStrategyTopic = 'Document Object Model co
 export const documentObjectModelBindingStrategy = (concepts: Concepts, pageName: string, bindingQue: UserInterfacePageBindings) => {
   const bindings = bindingQue[pageName];
   const bindingsKeys = Object.keys(bindings);
-  const action$ = (concepts[0].state as AxiumState<AxiumQualities, any>).action$;
+  const action$ = (concepts[0].state as MuxiumState<MuxiumQualities, any>).action$;
   let start: null | ActionNode = null;
   let previous: undefined | ActionNode;
   for (const key of bindingsKeys) {

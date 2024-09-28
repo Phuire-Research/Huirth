@@ -3,19 +3,17 @@ For the graph programming framework Stratimux and a Concept huirth, generate a U
 $>*/
 /*<#*/
 /* eslint-disable max-len */
-import { Action, axiumConcludeType, createAction, createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
+import { muxiumConcludeType, createAction, createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 import {
   createQualityCardComponent,
-  selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthError, huirthErrorType, huirthErrorQuality] = createQualityCardComponent({
+export const huirthError = createQualityCardComponent({
   type: 'Create huirth Error Composition',
   reducer: nullReducer,
-  componentCreator: (act) =>
-    createMethod((action: Action) => {
-      const payload = selectComponentPayload(action);
+  componentCreator:
+    createMethod(({action}) => {
       if (action.strategy) {
         const id = '#errorID';
         return strategySuccess(
@@ -24,7 +22,7 @@ export const [huirthError, huirthErrorType, huirthErrorQuality] = createQualityC
             id,
             boundSelectors: [],
             universal: false,
-            action: act(payload),
+            action: action,
             html: /*html*/ `
 <section id='${id}' class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">
   <div class="flex-1 flex items-center">
@@ -37,7 +35,7 @@ export const [huirthError, huirthErrorType, huirthErrorQuality] = createQualityC
           })
         );
       }
-      return createAction(axiumConcludeType);
+      return createAction(muxiumConcludeType);
     }),
 });
 /*#>*/

@@ -24,7 +24,7 @@ export const huirthServerTriggerDeleteDataSetsStrategy =
     reducer: nullReducer,
     methodCreator: () =>
       createMethodDebounceWithConcepts(
-        (action, concepts) => {
+        ({action, concepts}) => {
           const { names } = action.payload;
           const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
           const state = selectState<huirthState>(concepts, huirthServerName);

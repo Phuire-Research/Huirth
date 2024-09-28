@@ -5,37 +5,32 @@ $>*/
 /* eslint-disable max-len */
 import {
   KeyedSelector,
-  UnifiedSubject,
   createMethodWithConcepts,
   nullReducer,
-  selectUnifiedState,
+  selectMuxifiedState,
   strategySuccess,
-  select,
-  createMethodDebounceWithConcepts,
 } from '@phuire/stratimux';
 
 import {
+  ActionComponentPayload,
   createBinding,
   createBoundSelectors,
   createQualityCardComponent,
-  selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
-import { huirthState } from '../../../huirth.concept';
+import { HuirthDeck, huirthState } from '../../../huirth.concept';
 import { UserInterfaceState } from '../../../../userInterface/userInterface.concept';
 import { huirth_createSideBarExpandedSelector, huirth_createTrainingDataSelector } from '../../../huirth.selector';
-import { huirthToggleSidebar } from '../../toggleSidebar.quality';
 import { elementEventBinding } from '../../../../../model/html';
-import { userInterface_createPagesSelector } from '../../../../userInterface/userInterface.selector';
 
-export const huirthSideBarContent = createQualityCardComponent({
+export const huirthSideBarContent = createQualityCardComponent<huirthState, ActionComponentPayload>({
   type: 'create userInterface for SideBarContent',
   reducer: nullReducer,
   componentCreator:
-    createMethodWithConcepts(
-      (action, concepts) => {
+    createMethodWithConcepts<huirthState, ActionComponentPayload , HuirthDeck>(
+      ({action, concepts, semaphore, self}) => {
         // console.log('SIDEBAR CONTENT', action.strategy);
-        const state = selectUnifiedState<UserInterfaceState & huirthState>(concepts, semaphore as number);
+        const state = selectMuxifiedState<UserInterfaceState & huirthState>(concepts, semaphore as number);
         const payload = action.payload;
         const id = '#sideBarContent';
         const expandSideBarId = '#expandSideBarID';
@@ -69,7 +64,7 @@ export const huirthSideBarContent = createQualityCardComponent({
           }
         }
         const boundSelectors = [
-          createBoundSelectors(id, act(payload), [
+          createBoundSelectors(id, self(payload), [
             huirth_createSideBarExpandedSelector(concepts, semaphore as number) as KeyedSelector,
             huirth_createTrainingDataSelector(concepts, semaphore as number) as KeyedSelector,
           ]),
@@ -82,15 +77,15 @@ export const huirthSideBarContent = createQualityCardComponent({
               boundSelectors,
               universal: true,
               bindings: createBinding([
-                { elementId: expandSideBarId, action: huirthToggleSidebar(), eventBinding: elementEventBinding.onclick },
+                { elementId: expandSideBarId, action: self(payload), eventBinding: elementEventBinding.onclick },
               ]),
-              action: act(payload),
+              action: self(payload),
               html: /*html*/ `
 <div id="${id}" class="p-4 pb-2 flex flex-col justify-between items-center">
   <div class="flex mb-8">
     <img class="overflow-hidden transition-all ${
-      state.sideBarExpanded ? 'p-2 w-52 max-w-none' : 'w-0'
-    }" src="/static/PHUIRE-Title.png" alt="PhuirE">
+  state.sideBarExpanded ? 'p-2 w-52 max-w-none' : 'w-0'
+}" src="/static/PHUIRE-Title.png" alt="PhuirE">
     <!-- Navbar Logo -->
     <button id="${expandSideBarId}" class="h-24 p-1.5 rounded-lg bg-transparent hover:bg-gray-100">
       <i class="fa-solid fa-bars translate-y-1"></i>
@@ -110,8 +105,6 @@ export const huirthSideBarContent = createQualityCardComponent({
         }
         return action;
       },
-      concepts$ as UnifiedSubject,
-      semaphore as number
     ),
 });
 /*#>*/

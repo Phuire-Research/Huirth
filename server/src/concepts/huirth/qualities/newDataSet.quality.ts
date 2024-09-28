@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and a Concept huirth, generate a q
 $>*/
 /*<#*/
 import {
-  axiumKick,
+  muxiumKick,
   createActionNode,
   createMethodWithState,
   createQualityCard,
@@ -37,7 +37,7 @@ export const huirthNewDataSet = createQualityCard<huirthState>({
   },
   methodCreator: () =>
     createMethodWithState(
-      (_, state) => {
+      ({state}) => {
         let { trainingDataCounter } = state;
         const { trainingData } = state;
         if (trainingDataCounter === -1) {
@@ -45,7 +45,7 @@ export const huirthNewDataSet = createQualityCard<huirthState>({
         }
         const name = 'newDataSet' + trainingDataCounter;
         const send = createActionNode(huirthSendAddTrainingPageStrategy.actionCreator({ name }));
-        const kick = createActionNode(axiumKick.actionCreator(), {
+        const kick = createActionNode(muxiumKick.actionCreator(), {
           successNode: send,
         });
         const sendAddTrainingDataPage = createStrategy({

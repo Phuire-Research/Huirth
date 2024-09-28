@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux, generate a index file for a branded project huirth that utilizes the Stratimux advanced project template to formalize a unified application.
 $>*/
 /*<#*/
-import { createAxium, muxifyConcepts } from '@phuire/stratimux';
+import { muxification, muxifyConcepts } from '@phuire/stratimux';
 import { createFileSystemConcept } from './concepts/fileSystem/fileSystem.concept';
 import { createHuirthConcept } from './concepts/huirth/huirth.concept';
 
@@ -21,8 +21,8 @@ import { createHuirthServerConcept } from './concepts/huirthServer/huirthServer.
   console.log('GOAL', goal);
   switch (goal) {
   case commandLineInterfaceGoals.simulate: {
-    createAxium(
-      `axium ${goal} huirth`,
+    muxification(
+      `muxium ${goal} huirth`,
       {
         userInterfaceServer: createUserInterfaceServerConcept(
           goal,
@@ -41,8 +41,8 @@ import { createHuirthServerConcept } from './concepts/huirthServer/huirthServer.
     break;
   }
   default: {
-    createAxium(
-      `axium ${goal} huirth`,
+    muxification(
+      `muxium ${goal} huirth`,
       {
         userInterfaceServer: createUserInterfaceServerConcept(
           goal,

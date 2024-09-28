@@ -4,10 +4,9 @@ $>*/
 /*<#*/
 import {
   KeyedSelector,
-  UnifiedSubject,
   createMethodDebounceWithConcepts,
   nullReducer,
-  selectUnifiedState,
+  selectMuxifiedState,
   strategySuccess,
 } from '@phuire/stratimux';
 
@@ -15,7 +14,6 @@ import {
   createBinding,
   createBoundSelectors,
   createQualityCardComponent,
-  selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 import { elementEventBinding } from '../../../../../model/html';
@@ -41,18 +39,17 @@ import { determineProjectControls } from './dataManagerProjectControls.model';
 import { huirthSetPossibleProject } from '../../setPossibleProject.quality';
 import { huirthFilterTriggerInstallGitRepository } from '../../filterTriggerInstallGitRepository.quality';
 import { huirthSetSelectedTransformation } from '../../setSelectedTransformation.quality';
-import { huirthSendTriggerTransformationStrategy } from '../../../strategies/server/triggerTransformationStrategy.helper';
 import { huirthSendTriggerSelectedTransformationStrategy } from '../../sendTriggerSelectedTransformationStrategy.quality';
 import { huirthSendTriggerGitPullRepositoryStrategy } from '../../../strategies/server/triggerGitPullRepositoryStrategy.helper';
 
-export const [huirthDataManagerContent, huirthDataManagerContentType, huirthDataManagerContentQuality] = createQualityCardComponent({
+export const huirthDataManagerContent = createQualityCardComponent({
   type: 'create userInterface for DataManagerContent',
   reducer: nullReducer,
-  componentCreator: (act, concepts$, _semaphore) =>
+  componentCreator:
     createMethodDebounceWithConcepts(
-      (action, concepts, semaphore) => {
+      ({action, concepts, semaphore}) => {
         console.log('HITTING DATA MANAGER COMPONENT');
-        const payload = selectComponentPayload(action);
+        const payload = action.payload;
         const id = '#dataManagerID' + payload.pageTitle;
         const projectInputID = '#projectInputID';
         const saveID = '#saveID';
@@ -83,7 +80,7 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
             possibleProjectValid,
             selectedTransformation,
             transformationStrategies,
-          } = selectUnifiedState<huirthState>(concepts, semaphore) as huirthState;
+          } = selectMuxifiedState(concepts, semaphore) as huirthState;
           const anySelected = (() => {
             for (const selected of dataSetSelection) {
               if (selected) {
@@ -99,12 +96,12 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
             bindingsArray.push({
               elementId: dataSetNameID + elementID,
               eventBinding: elementEventBinding.onchange,
-              action: huirthUpdateDataSetName({ index: i }),
+              action: huirthUpdateDataSetName.actionCreator({ index: i }),
             });
             bindingsArray.push({
               elementId: dataSetSelectionID + elementID,
               eventBinding: elementEventBinding.onchange,
-              action: huirthUpdateDataSetSelection({ index: i }),
+              action: huirthUpdateDataSetSelection.actionCreator({ index: i }),
             });
             finalOutput += /*html*/ `
 <div class="w-full ml-4 mt-2 mb-2">
@@ -115,11 +112,11 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
     <input
       id="${dataSetNameID + elementID}"
       class="${
-        'peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white ' +
+  'peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-white ' +
         'px-3 py-2.5 !pr-9 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all ' +
         'placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 ' +
         'focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50'
-      }"
+}"
       value="${trainingData[i].name}"
     />
     <button class="ml-4 italic cursor-pointer bg-purple-800/5 hover:bg-purple-500 text-purple-50 font-semibold hover:text-white py-2 px-4 border border-purple-400 hover:border-transparent border-solid rounded">
@@ -137,7 +134,7 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
           }
           finalOutput += '</div>';
           bindingsArray.push({
-            action: huirthNewDataSet({
+            action: huirthNewDataSet.actionCreator({
               priority: 1000,
             }),
             elementId: addEntryID,
@@ -148,7 +145,7 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
           const huirthSaved = trainingData.filter((d) => d.name.toLowerCase() === PhuirEProjects.huirth.toLocaleLowerCase()).length > 0;
           if (stratimuxStatus === ProjectStatus.notInstalled) {
             bindingsArray.push({
-              action: huirthTriggerInstallGitRepository({
+              action: huirthTriggerInstallGitRepository.actionCreator({
                 url: PhuirEProjects.stratimuxURL,
                 name: PhuirEProjects.stratimux,
               }),
@@ -159,7 +156,7 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
             finalStratimuxNote = 'Install Stratimux';
           } else if (stratimuxStatus === ProjectStatus.installed && !stratimuxSaved) {
             bindingsArray.push({
-              action: huirthSendTriggerParseRepositoryStrategy({ name: PhuirEProjects.stratimux }),
+              action: huirthSendTriggerParseRepositoryStrategy.actionCreator({ name: PhuirEProjects.stratimux }),
               elementId: parseStratimuxID,
               eventBinding: elementEventBinding.onclick,
             });
@@ -176,7 +173,7 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
           }
           if (huirthStatus === ProjectStatus.notInstalled) {
             bindingsArray.push({
-              action: huirthTriggerInstallGitRepository({
+              action: huirthTriggerInstallGitRepository.actionCreator({
                 url: PhuirEProjects.huirth_URL,
                 name: PhuirEProjects.huirth,
               }),
@@ -187,7 +184,7 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
             finalHuirth_note = 'Install Huirth';
           } else if (huirthStatus === ProjectStatus.installed && !huirthSaved) {
             bindingsArray.push({
-              action: huirthSendTriggerParseRepositoryStrategy({ name: PhuirEProjects.huirth }),
+              action: huirthSendTriggerParseRepositoryStrategy.actionCreator({ name: PhuirEProjects.huirth }),
               elementId: parseHuirth_ID,
               eventBinding: elementEventBinding.onclick,
             });
@@ -203,37 +200,37 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
             finalHuirth_note = 'Pull Huirth';
           }
           bindingsArray.push({
-            action: huirthSendTriggerSaveDataSetSelectionStrategy(),
+            action: huirthSendTriggerSaveDataSetSelectionStrategy.actionCreator(),
             elementId: saveID,
             eventBinding: elementEventBinding.onclick,
           });
           bindingsArray.push({
-            action: huirthRemoveDataSetSelection(),
+            action: huirthRemoveDataSetSelection.actionCreator(),
             elementId: removeID,
             eventBinding: elementEventBinding.onclick,
           });
           bindingsArray.push({
-            action: huirthSetPossibleProject(),
+            action: huirthSetPossibleProject.actionCreator(),
             elementId: projectInputID,
             eventBinding: elementEventBinding.onkeyup,
           });
           bindingsArray.push({
-            action: huirthSetPossibleProject(),
+            action: huirthSetPossibleProject.actionCreator(),
             elementId: projectInputID,
             eventBinding: elementEventBinding.onpaste,
           });
           bindingsArray.push({
-            action: huirthFilterTriggerInstallGitRepository(),
+            action: huirthFilterTriggerInstallGitRepository.actionCreator(),
             elementId: installProjectID,
             eventBinding: elementEventBinding.onclick,
           });
           bindingsArray.push({
-            action: huirthSetSelectedTransformation(),
+            action: huirthSetSelectedTransformation.actionCreator(),
             elementId: transformationSelectionID,
             eventBinding: elementEventBinding.onchange,
           });
           bindingsArray.push({
-            action: huirthSendTriggerSelectedTransformationStrategy(),
+            action: huirthSendTriggerSelectedTransformationStrategy.actionCreator(),
             elementId: triggerCreateTransformationDataSetID,
             eventBinding: elementEventBinding.onclick,
           });
@@ -247,7 +244,7 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
               universal: false,
               boundSelectors: [
                 // START HERE
-                createBoundSelectors(id, huirthDataManagerContent(payload), [
+                createBoundSelectors(id, huirthDataManagerContent.actionCreator(payload), [
                   huirth_createTrainingDataSelector(concepts, semaphore) as KeyedSelector,
                   huirth_createStratimuxStatusSelector(concepts, semaphore) as KeyedSelector,
                   huirth_createHuirthStatusSelector(concepts, semaphore) as KeyedSelector,
@@ -257,7 +254,7 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
                   huirth_createSelectedTransformationSelector(concepts, semaphore) as KeyedSelector,
                 ]),
               ],
-              action: act(payload),
+              action,
               html: /*html*/ `
         <div class="flex flex-col items-center text-black" id='${id}'>
           <button class="italic cursor-not-allowed mb-4 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
@@ -291,16 +288,16 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
                 <input
                   id="${projectInputID}"
                   class="${
-                    possibleProjectValid
-                      ? 'peer h-full w-full rounded-[7px] border border-orange-200 border-t-transparent bg-white ' +
+  possibleProjectValid
+    ? 'peer h-full w-full rounded-[7px] border border-orange-200 border-t-transparent bg-white ' +
                         'px-3 py-2.5 !pr-9 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border ' +
                         'placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 ' +
                         'focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50'
-                      : 'peer h-full w-full rounded-[7px] border border-orange-200 border-t-transparent bg-white ' +
+    : 'peer h-full w-full rounded-[7px] border border-orange-200 border-t-transparent bg-white ' +
                         'px-3 py-2.5 !pr-9 font-sans text-sm font-normal text-red-800 outline outline-0 transition-all placeholder-shown:border ' +
                         'placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 ' +
                         'focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50'
-                  }"
+}"
                   placeholder="${possibleProject !== 'INVALID' ? 'Paste Git Repository' : 'INVALID PASTE NEW GIT REPO'}"
                   value="${possibleProject !== 'INVALID' ? possibleProject : ''}"
                 />
@@ -308,24 +305,24 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
               <button
                 id="${installProjectID}"
                 class="${
-                  possibleProjectValid
-                    ? 'w-44 m-2 bg-/5 bg-orange-800/5 hover:bg-orange-500 text-orange-50 hover:text-white font-semibold py-2 px-4 border border-orange-500 hover:border-transparent rounded'
-                    : 'w-44 m-2 bg-/5 cursor-not-allowed bg-gray-800 hover:bg-gray-500 text-gray-50 hover:text-white font-semibold py-2 px-4 border border-gray-500 hover:border-transparent rounded'
-                }"
+  possibleProjectValid
+    ? 'w-44 m-2 bg-/5 bg-orange-800/5 hover:bg-orange-500 text-orange-50 hover:text-white font-semibold py-2 px-4 border border-orange-500 hover:border-transparent rounded'
+    : 'w-44 m-2 bg-/5 cursor-not-allowed bg-gray-800 hover:bg-gray-500 text-gray-50 hover:text-white font-semibold py-2 px-4 border border-gray-500 hover:border-transparent rounded'
+}"
               >
                 Project <i class="fa-solid fa-plus"></i>
               </button>
             </div>
             <div class="m-4 flex-none flex items-center w-full">
               <select id="${transformationSelectionID}" class="${
-                'mr-4 bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-500 ' +
+  'mr-4 bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-500 ' +
                 'focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500' +
                 'dark:focus:border-blue-500'
-              }">
+}">
             <option>Select a Data Transformation Strategy</option>
 ${transformationStrategies
-  .map((str) => `<option ${selectedTransformation === str ? 'selected' : ''} value="${str}"> ${str}</option>`)
-  .join('')}
+    .map((str) => `<option ${selectedTransformation === str ? 'selected' : ''} value="${str}"> ${str}</option>`)
+    .join('')}
               </select>
               <button
                 id="${triggerCreateTransformationDataSetID}"
@@ -371,8 +368,7 @@ ${
                 class="italic cursor-pointer mb-8 mt-2 center-m bg-white/5 hover:bg-white text-white font-semibold hover:text-black py-2 px-4 border border-white hover:border-transparent rounded">
                 Save <i class="fa-solid fa-floppy-disk"></i>
               </button>
-`
-}
+` }
             </div>
             ${finalOutput}
           </div>
@@ -383,10 +379,7 @@ ${
           return strategy;
         }
         return action;
-      },
-      concepts$ as UnifiedSubject,
-      _semaphore as number,
-      50
+      }, 50
     ),
 });
 /*#>*/

@@ -13,9 +13,9 @@ const getName = (url: string): string | undefined => {
   return finalSplit.length > 1 ? finalSplit[0] : undefined;
 };
 
-export const [huirthSetPossibleProject, huirthSetPossibleProjectType, huirthSetPossibleProjectQuality] = createQualityCard({
+export const huirthSetPossibleProject = createQualityCard<huirthState>({
   type: 'huirth set the possible project and check if it is valid',
-  reducer: (state: huirthState, action: Action) => {
+  reducer: (state, action) => {
     const { trainingData } = state;
     const target = userInterface_selectInputTarget(action);
     const value = target.value;
@@ -34,14 +34,12 @@ export const [huirthSetPossibleProject, huirthSetPossibleProjectType, huirthSetP
       }
       if (!exists) {
         return {
-          ...state,
           possibleProject: value,
           possibleProjectValid: true,
         };
       }
     }
     return {
-      ...state,
       possibleProject: value,
       possibleProjectValid: false,
     };

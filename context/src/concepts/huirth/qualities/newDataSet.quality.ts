@@ -3,23 +3,20 @@ For the graph programming framework Stratimux and a Concept huirth, generate a q
 $>*/
 /*<#*/
 import {
-  Concepts,
-  axiumKick,
+  muxiumKick,
   createActionNode,
-  createMethodWithConcepts,
+  createMethodWithState,
   createQualityCard,
   createStrategy,
-  selectUnifiedState,
   strategyBegin,
 } from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { generateDefaultNamedDataSet } from '../huirth.model';
-import { Subject } from 'rxjs';
 import { huirthSendAddTrainingPageStrategy } from './sendTriggerAddTrainingPageStrategy.quality';
 
-export const [huirthNewDataSet, huirthNewDataSetType, huirthNewDataSetQuality] = createQualityCard({
+export const huirthNewDataSet = createQualityCard<huirthState>({
   type: 'Huirth create a new default DataSet',
-  reducer: (state: huirthState): huirthState => {
+  reducer: (state) => {
     const dataSetSelection: boolean[] = [];
     const trainingData = [...state.trainingData];
     let { trainingDataCounter } = state;
@@ -33,23 +30,22 @@ export const [huirthNewDataSet, huirthNewDataSetType, huirthNewDataSetQuality] =
     });
     trainingDataCounter++;
     return {
-      ...state,
       trainingData,
       dataSetSelection,
       trainingDataCounter,
     };
   },
-  methodCreator: (concepts$, semaphore) =>
-    createMethodWithConcepts(
-      (_, concepts) => {
-        let { trainingDataCounter } = selectUnifiedState(concepts, semaphore as number) as huirthState;
-        const { trainingData } = selectUnifiedState(concepts, semaphore as number) as huirthState;
+  methodCreator: () =>
+    createMethodWithState(
+      ({state}) => {
+        let { trainingDataCounter } = state;
+        const { trainingData } = state;
         if (trainingDataCounter === -1) {
           trainingDataCounter = trainingData.length;
         }
         const name = 'newDataSet' + trainingDataCounter;
-        const send = createActionNode(huirthSendAddTrainingPageStrategy({ name }));
-        const kick = createActionNode(axiumKick(), {
+        const send = createActionNode(huirthSendAddTrainingPageStrategy.actionCreator({ name }));
+        const kick = createActionNode(muxiumKick.actionCreator(), {
           successNode: send,
         });
         const sendAddTrainingDataPage = createStrategy({
@@ -58,8 +54,6 @@ export const [huirthNewDataSet, huirthNewDataSetType, huirthNewDataSetQuality] =
         });
         return strategyBegin(sendAddTrainingDataPage);
       },
-      concepts$ as Subject<Concepts>,
-      semaphore as number
     ),
 });
 /*#>*/

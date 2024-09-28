@@ -4,7 +4,7 @@ $>*/
 /*<#*/
 import {
   ActionStrategy,
-  axiumConclude,
+  muxiumConclude,
   createAsyncMethodWithState,
   createQualityCardWithPayload,
   nullReducer,
@@ -24,7 +24,7 @@ export const userInterfaceServerCreateEachPageHtml = createQualityCardWithPayloa
   reducer: nullReducer,
   methodCreator: () =>
     createAsyncMethodWithState<UserInterfaceServerState>(
-      (controller, action, state) => {
+      ({controller, action, state}) => {
         const payload = selectPayload<CreateEachPageHtmlPayload>(action);
         const pages = [];
         for (const page of state.pages) {
@@ -66,7 +66,7 @@ export const userInterfaceServerCreateEachPageHtml = createQualityCardWithPayloa
           const newStrategy = strategySuccess(action.strategy as ActionStrategy);
           controller.fire(newStrategy);
         } else {
-          controller.fire(axiumConclude());
+          controller.fire(muxiumConclude());
         }
       },
     ),

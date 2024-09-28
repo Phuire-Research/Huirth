@@ -11,7 +11,7 @@ export const huirthHead = createQualityCardComponent({
   type: 'Create huirth Head',
   reducer: nullReducer,
   componentCreator:
-    createMethod((action) => {
+    createMethod(({action}) => {
       const payload = action.payload;
       if (action.strategy) {
         return strategySuccess(

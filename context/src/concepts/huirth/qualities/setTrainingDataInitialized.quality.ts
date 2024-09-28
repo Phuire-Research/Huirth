@@ -5,12 +5,11 @@ $>*/
 import { createQualityCard, defaultMethodCreator } from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 
-export const [huirthSetTrainingDataInitialized, huirthSetTrainingDataInitializedType, huirthSetTrainingDataInitializedQuality] =
-  createQualityCard({
+export const huirthSetTrainingDataInitialized =
+  createQualityCard<huirthState>({
     type: 'huirth set that training data is initialized',
-    reducer: (state: huirthState): huirthState => {
+    reducer: (state) => {
       return {
-        ...state,
         trainingDataInitialized: true,
       };
     },

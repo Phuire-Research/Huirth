@@ -23,7 +23,7 @@ export const huirthSendTriggerSelectedTransformationStrategy = createQualityCard
   },
   methodCreator: () =>
     createMethodWithState<huirthState>(
-      (_, state) => {
+      ({state}) => {
         const serverActionType = 'huirthServer trigger passed transformation strategy from payload';
         const { selectedTransformation } = state;
         const topic = 'Sent to Web Socket: Trigger : ' + serverActionType + ' ' + selectedTransformation;

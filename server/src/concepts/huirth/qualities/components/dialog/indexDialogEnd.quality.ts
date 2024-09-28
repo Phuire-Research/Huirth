@@ -6,7 +6,6 @@ import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
 import {
   createQualityCardComponent,
-  selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
@@ -14,8 +13,7 @@ export const huirthIndexDialogEnd = createQualityCardComponent({
   type: 'create userInterface for IndexDialogEnd',
   reducer: nullReducer,
   componentCreator:
-    createMethod((action) => {
-      const payload = action.payload;
+    createMethod(({action}) => {
       const id = '';
       if (action.strategy) {
         return strategySuccess(

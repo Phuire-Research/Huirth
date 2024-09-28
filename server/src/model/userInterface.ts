@@ -212,8 +212,8 @@ export type ComponentCreator<T extends ActionComponentPayload> = (
 
 export function createQualityCardComponent<S extends Record<string, unknown>, T extends ActionComponentPayload>(q: {
   type: string;
-  reducer: SpecificReducer<S, T>;
-  componentCreator: MethodCreator<S, T>;
+  reducer: SpecificReducer<S, T, any>;
+  componentCreator: MethodCreator<S, T, any>;
   keyedSelectors?: KeyedSelector[];
   meta?: Record<string, unknown>;
   analytics?: Record<string, unknown>;
@@ -285,7 +285,7 @@ export const userInterface_selectPage = (strategy: ActionStrategy): Page => {
   }
 };
 
-export const userInterface_createComponent = (action: Action, success?: ActionNode): ActionNode => {
+export const userInterface_createComponent = (action: AnyAction, success?: ActionNode): ActionNode => {
   return createActionNode(action, {
     successNode: success ? success : null,
     failureNode: createActionNode(userInterfaceNext.actionCreator(), {

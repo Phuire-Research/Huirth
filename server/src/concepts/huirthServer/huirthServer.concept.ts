@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a Brand Server Concept called huirth Server that will be responsible for all server side qualities and principle.
 $>*/
 /*<#*/
-import { createConcept, Concept, muxifyConcepts, PrincipleFunction, AxiumDeck } from '@phuire/stratimux';
+import { createConcept, Concept, muxifyConcepts, PrincipleFunction, MuxiumDeck } from '@phuire/stratimux';
 import { huirthState } from '../huirth/huirth.concept';
 import { huirthServerTriggerSaveTrainingDataStrategy } from './qualities/triggerSaveTrainingDataStrategy.quality';
 import { huirthServerPrinciple } from './huirthServer.principle';
@@ -67,7 +67,7 @@ export type HuirthServerDeck = {
   huirthServer: Concept<huirthServerState, typeof qualities>;
 }
 
-export type HuirthServerPrinciple = PrincipleFunction<typeof qualities, AxiumDeck & HuirthServerDeck, huirthServerState>;
+export type HuirthServerPrinciple = PrincipleFunction<typeof qualities, MuxiumDeck & HuirthServerDeck, huirthServerState>;
 
 export const createHuirthServerConcept = () => {
   const principles = [huirthServerPrinciple, huirthServerExitPrinciple];

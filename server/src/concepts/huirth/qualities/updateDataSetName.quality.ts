@@ -5,8 +5,8 @@ $>*/
 import {
   Action,
   Concepts,
-  axiumKick,
-  axiumRegisterTimeOut,
+  muxiumKick,
+  muxiumRegisterTimeOut,
   createActionNode,
   createMethodWithState,
   createQualityCardWithPayload,
@@ -61,7 +61,7 @@ export const huirthUpdateDataSetName =
     },
     methodCreator: () =>
       createMethodWithState(
-        (action, state) => {
+        ({action, state}) => {
           const payload = action.payload;
           const oldName = state.trainingData[payload.index].name;
           const newName = userInterface_selectInputTarget(action).value;
@@ -70,7 +70,7 @@ export const huirthUpdateDataSetName =
             initialNode: createActionNode(huirthSendRemoveAddTrainingPageStrategy.actionCreator({ oldName, newName })),
           });
           const timeOut = createActionNode(
-            axiumRegisterTimeOut.actionCreator({
+            muxiumRegisterTimeOut.actionCreator({
               act: strategyBegin(removeAdd),
               timeOut: 50,
             })

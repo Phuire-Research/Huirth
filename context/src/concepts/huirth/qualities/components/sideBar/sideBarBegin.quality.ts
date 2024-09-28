@@ -11,13 +11,13 @@ import {
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthSideBarBegin, huirthSideBarBeginType, huirthSideBarBeginQuality] = createQualityCardComponent({
+export const huirthSideBarBegin = createQualityCardComponent({
   type: 'create userInterface for SideBarBegin',
   reducer: nullReducer,
-  componentCreator: (act) =>
-    createMethod((action) => {
+  componentCreator:
+    createMethod(({action}) => {
       // console.log('SIDEBAR BEGIN', action.strategy);
-      const payload = selectComponentPayload(action);
+      const payload = action.payload;
       const id = '#sideBarBegin';
       if (action.strategy) {
         return strategySuccess(
@@ -26,7 +26,7 @@ export const [huirthSideBarBegin, huirthSideBarBeginType, huirthSideBarBeginQual
             id,
             boundSelectors: [],
             universal: true,
-            action: act(payload),
+            action,
             html: /*html*/ `
 <aside id=${id} class="fixed left-0 top-0 bottom-0 h-screen w-min overflow-y-scroll bg-white">
   <nav class="h-full flex flex-col bg-gray-200 border-r shadow-sm">

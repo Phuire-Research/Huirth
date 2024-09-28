@@ -10,12 +10,12 @@ import {
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthDataSetEnd, huirthDataSetEndType, huirthDataSetEndQuality] = createQualityCardComponent({
+export const huirthDataSetEnd = createQualityCardComponent({
   type: 'create userInterface for DataSetEnd',
   reducer: nullReducer,
-  componentCreator: (act) =>
-    createMethod((action) => {
-      const payload = selectComponentPayload(action);
+  componentCreator:
+    createMethod(({action}) => {
+      const payload = action.payload;
       const id = '';
       if (action.strategy) {
         return strategySuccess(
@@ -24,7 +24,7 @@ export const [huirthDataSetEnd, huirthDataSetEndType, huirthDataSetEndQuality] =
             id,
             boundSelectors: [],
             universal: false,
-            action: act(payload),
+            action,
             html: /*html*/ `
       </div>
     </section>

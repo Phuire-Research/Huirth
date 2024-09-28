@@ -4,7 +4,7 @@ $>*/
 /*<#*/
 import {
   ActionStrategy,
-  axiumConclude,
+  muxiumConclude,
   createAsyncMethod,
   createQualityCardWithPayload,
   nullReducer,
@@ -22,7 +22,7 @@ export const fileSystemCreateTargetDirectory =
     type: 'File System create target Directory',
     reducer: nullReducer,
     methodCreator: () =>
-      createAsyncMethod((controller, action) => {
+      createAsyncMethod(({controller, action}) => {
         const {path} = action.payload;
         if (action.strategy) {
           if (!fs.existsSync(path)) {
@@ -31,7 +31,7 @@ export const fileSystemCreateTargetDirectory =
           const newStrategy = strategySuccess(action.strategy as ActionStrategy);
           controller.fire(newStrategy);
         } else {
-          controller.fire(axiumConclude());
+          controller.fire(muxiumConclude());
         }
       }),
   });

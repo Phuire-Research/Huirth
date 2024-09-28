@@ -4,7 +4,7 @@ $>*/
 /*<#*/
 import {
   ActionStrategy,
-  axiumConclude,
+  muxiumConclude,
   createAsyncMethod,
   createQualityCardWithPayload,
   nullReducer,
@@ -22,7 +22,7 @@ export const fileSystemCreateFileWithContentsIndex = createQualityCardWithPayloa
   type: 'File System create File with Contents',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethod((controller, action) => {
+    createAsyncMethod(({controller, action}) => {
       const {target, content} = action.payload;
       if (action.strategy) {
         fs.writeFile(target, content).then(() => {
@@ -30,7 +30,7 @@ export const fileSystemCreateFileWithContentsIndex = createQualityCardWithPayloa
           controller.fire(newStrategy);
         });
       } else {
-        controller.fire(axiumConclude());
+        controller.fire(muxiumConclude());
       }
     }),
 });

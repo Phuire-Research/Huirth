@@ -20,23 +20,19 @@ export type huirthSendTriggerDeleteDataSetsStrategyPayload = {
   names: string[];
 };
 
-export const [
-  huirthSendTriggerDeleteDataSetsStrategy,
-  huirthSendTriggerDeleteDataSetsStrategyType,
-  huirthSendTriggerDeleteDataSetsStrategyQuality,
-] = createQualityCardWithPayload<huirthSendTriggerDeleteDataSetsStrategyPayload>({
+export const huirthSendTriggerDeleteDataSetsStrategy = createQualityCardWithPayload<huirthState, huirthSendTriggerDeleteDataSetsStrategyPayload>({
   type: 'huirth send trigger delete data sets strategy',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethodDebounce((action) => {
-      const payload = selectPayload<huirthSendTriggerDeleteDataSetsStrategyPayload>(action);
+    createMethodDebounce(({action}) => {
+      const payload = action.payload;
       return strategyBegin(
         createStrategy({
           topic: 'Sent to Web Socket: Trigger Delete Data Sets: ' + payload.names.join(', '),
           initialNode: createActionNode(
             userInterfaceClientSendActionToServer(createAction('huirthServer trigger delete data sets strategy', { payload })),
             {
-              successNode: createActionNode(huirthClearDataSetSelection()),
+              successNode: createActionNode(huirthClearDataSetSelection.actionCreator()),
             }
           ),
         })

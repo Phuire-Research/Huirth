@@ -5,9 +5,9 @@ $>*/
 import {
   ActionStrategy,
   CounterState,
-  axiumSelectOpen,
+  muxiumSelectOpen,
   counterName,
-  createAxium,
+  muxification,
   createCounterConcept,
   createStage,
   selectSlice,
@@ -19,12 +19,12 @@ import { huirthPlusSevenStrategy } from '../concepts/huirth/strategies/countPlus
 
 test('Stratimux test sequence of counting strategies', (done) => {
   console.log('BEGIN');
-  const axium = createAxium('axium Counting Sequence', [createCounterConcept()]);
-  const plan = axium.plan('File System Map Concept Directory Test', [
+  const muxium = muxification('muxium Counting Sequence', [createCounterConcept()]);
+  const plan = muxium.plan('File System Map Concept Directory Test', [
     createStage(
       (concepts, dispatch) => {
         console.log('STEP 1');
-        if (selectSlice(concepts, axiumSelectOpen) === true) {
+        if (selectSlice(concepts, muxiumSelectOpen) === true) {
           dispatch(
             strategyBegin(
               strategySequence([
@@ -40,7 +40,7 @@ test('Stratimux test sequence of counting strategies', (done) => {
           );
         }
       },
-      { selectors: [axiumSelectOpen] }
+      { selectors: [muxiumSelectOpen] }
     ),
     createStage((concepts) => {
       const state = selectState(concepts, counterName) as CounterState;

@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a Page Strategy Creator that will unify Sidebar, Error, Footer, and Header Action Strategy Component Stitches into a Page Composition.
 $>*/
 /*<#*/
-import { axium_createStitchNode, createActionNode, createStrategy } from '@phuire/stratimux';
+import { muxium_createStitchNode, createActionNode, createStrategy } from '@phuire/stratimux';
 import {
   ActionComponentPayload,
   ActionStrategyComponentStitch,
@@ -22,8 +22,8 @@ export const huirthErrorPageStrategy: PageStrategyCreators = () => () => {
     pageTitle: huirthErrorPageStrategyTopic,
   };
   // Body
-  const stepStitch = axium_createStitchNode();
-  const stephuirthError = userInterface.createComponent(huirthError(page), stepStitch);
+  const stepStitch = muxium_createStitchNode();
+  const stephuirthError = userInterface.createComponent(huirthError.actionCreator(page), stepStitch);
   const huirthErrorStitch: ActionStrategyComponentStitch = () => [
     stepStitch,
     createStrategy({
