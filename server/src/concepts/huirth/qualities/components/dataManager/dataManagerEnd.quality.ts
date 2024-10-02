@@ -4,15 +4,12 @@ $>*/
 /*<#*/
 import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
-import {
-  createQualityCardComponent,
-  userInterface_appendCompositionToPage,
-} from '../../../../../model/userInterface';
+import { createQualityCardComponent, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 
 export const huirthDataManagerEnd = createQualityCardComponent({
   type: 'create userInterface for DataManagerEnd',
   reducer: nullReducer,
-  componentCreator: createMethod(({action}) => {
+  componentCreator: createMethod(({ action }) => {
     const id = '';
     if (action.strategy) {
       return strategySuccess(

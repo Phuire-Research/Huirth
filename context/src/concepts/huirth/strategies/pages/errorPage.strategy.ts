@@ -23,7 +23,7 @@ export const huirthErrorPageStrategy: PageStrategyCreators = () => () => {
   };
   // Body
   const stepStitch = muxium_createStitchNode();
-  const stephuirthError = userInterface.createComponent(huirthError(page), stepStitch);
+  const stephuirthError = userInterface.createComponent(huirthError.actionCreator(page), stepStitch);
   const huirthErrorStitch: ActionStrategyComponentStitch = () => [
     stepStitch,
     createStrategy({

@@ -46,31 +46,30 @@ const createBindingActionNode = (action$: Subject<Action>, bindings: UserInterfa
   return first as ActionNode;
 };
 
-export const userInterfaceClientDetermineBindings =
-  createQualityCardWithPayload<UserInterfaceClientActionQueStrategyClientPayload, any>({
-    type: 'User Interface determine bindings of all passed compositions',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createMethod(({action}) => {
-        if (action.strategy) {
-          const { payload } = action;
-          let bindings: UserInterfaceBindings = {};
-          userInterface_selectPage(action.strategy).compositions.forEach((comp) => {
-            if (comp.bindings) {
-              bindings = {
-                ...bindings,
-                ...comp.bindings,
-              };
-            }
-          });
-          const action$ = payload.action$;
-          if (Object.keys(bindings).length > 0) {
-            const stepBinding = createBindingActionNode(action$, bindings);
-            action.strategy.currentNode.successNode = stepBinding;
-            return strategySuccess(action.strategy);
+export const userInterfaceClientDetermineBindings = createQualityCardWithPayload<UserInterfaceClientActionQueStrategyClientPayload, any>({
+  type: 'User Interface determine bindings of all passed compositions',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createMethod(({ action }) => {
+      if (action.strategy) {
+        const { payload } = action;
+        let bindings: UserInterfaceBindings = {};
+        userInterface_selectPage(action.strategy).compositions.forEach((comp) => {
+          if (comp.bindings) {
+            bindings = {
+              ...bindings,
+              ...comp.bindings,
+            };
           }
+        });
+        const action$ = payload.action$;
+        if (Object.keys(bindings).length > 0) {
+          const stepBinding = createBindingActionNode(action$, bindings);
+          action.strategy.currentNode.successNode = stepBinding;
+          return strategySuccess(action.strategy);
         }
-        return action;
-      }),
-  });
+      }
+      return action;
+    }),
+});
 /*#>*/

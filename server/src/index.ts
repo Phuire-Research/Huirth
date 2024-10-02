@@ -20,47 +20,47 @@ import { createHuirthServerConcept } from './concepts/huirthServer/huirthServer.
   const port = commandLineInterfaceDeterminePort(argv);
   console.log('GOAL', goal);
   switch (goal) {
-  case commandLineInterfaceGoals.simulate: {
-    muxification(
-      `muxium ${goal} huirth`,
-      {
-        userInterfaceServer: createUserInterfaceServerConcept(
-          goal,
-          {
-            concept: muxifyConcepts([createHuirthServerConcept()], createHuirthConcept()),
-          },
-          port
-        ),
-      },
-      {
-        logging: true,
-        storeDialog: true,
-        // logActionStream: true
-      }
-    );
-    break;
-  }
-  default: {
-    muxification(
-      `muxium ${goal} huirth`,
-      {
-        userInterfaceServer: createUserInterfaceServerConcept(
-          goal,
-          {
-            concept: muxifyConcepts([createHuirthServerConcept()], createHuirthConcept()),
-          },
-          port
-        ),
-        fileSystem: createFileSystemConcept(),
-      },
-      {
-        logging: true,
-        storeDialog: true,
-        // logActionStream: true
-      }
-    );
-    break;
-  }
+    case commandLineInterfaceGoals.simulate: {
+      muxification(
+        `muxium ${goal} huirth`,
+        {
+          userInterfaceServer: createUserInterfaceServerConcept(
+            goal,
+            {
+              concept: muxifyConcepts([createHuirthServerConcept()], createHuirthConcept()),
+            },
+            port
+          ),
+        },
+        {
+          logging: true,
+          storeDialog: true,
+          // logActionStream: true
+        }
+      );
+      break;
+    }
+    default: {
+      muxification(
+        `muxium ${goal} huirth`,
+        {
+          userInterfaceServer: createUserInterfaceServerConcept(
+            goal,
+            {
+              concept: muxifyConcepts([createHuirthServerConcept()], createHuirthConcept()),
+            },
+            port
+          ),
+          fileSystem: createFileSystemConcept(),
+        },
+        {
+          logging: true,
+          storeDialog: true,
+          // logActionStream: true
+        }
+      );
+      break;
+    }
   }
 })();
 /*#>*/

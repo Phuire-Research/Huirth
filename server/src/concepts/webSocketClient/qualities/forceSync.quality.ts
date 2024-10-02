@@ -23,46 +23,43 @@ export type WebSocketClientForceSyncPayload = {
   keys: string[];
 };
 
-export const webSocketClientForceSync =
-  createQualityCardWithPayload<WebSocketClientState, WebSocketClientForceSyncPayload>({
-    type: 'Web Socket Client force client sync',
-    reducer: nullReducer,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    methodCreator: () =>
-      createMethodWithState(
-        ({action, state}) => {
-          const syncState: Record<string, unknown> = {};
-          const { keys } = selectPayload<WebSocketClientForceSyncPayload>(action);
-          keys.forEach((key) => {
-            syncState[key] = (state as any)[key];
-          });
-          const sync = createActionNode(
-            webSocketClientAppendToActionQue.actionCreator({
-              actionQue: [webSocketServerSyncClientState({ state: syncState }, { priority: 5000 })],
+export const webSocketClientForceSync = createQualityCardWithPayload<WebSocketClientState, WebSocketClientForceSyncPayload>({
+  type: 'Web Socket Client force client sync',
+  reducer: nullReducer,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  methodCreator: () =>
+    createMethodWithState(({ action, state }) => {
+      const syncState: Record<string, unknown> = {};
+      const { keys } = selectPayload<WebSocketClientForceSyncPayload>(action);
+      keys.forEach((key) => {
+        syncState[key] = (state as any)[key];
+      });
+      const sync = createActionNode(
+        webSocketClientAppendToActionQue.actionCreator({
+          actionQue: [webSocketServerSyncClientState({ state: syncState }, { priority: 5000 })],
+        })
+      );
+      console.log('FORCE SYNC STATE', syncState);
+      if (action.strategy) {
+        return strategyBegin(
+          strategyPunt(
+            strategySuccess(action.strategy).strategy as ActionStrategy,
+            createStrategy({
+              initialNode: sync,
+              topic: 'FORCE SYNC STATE',
+              priority: 3000,
             })
-          );
-          console.log('FORCE SYNC STATE', syncState);
-          if (action.strategy) {
-            return strategyBegin(
-              strategyPunt(
-                strategySuccess(action.strategy).strategy as ActionStrategy,
-                createStrategy({
-                  initialNode: sync,
-                  topic: 'FORCE SYNC STATE',
-                  priority: 3000,
-                })
-              )
-            );
-          } else {
-            return strategyBegin(
-              createStrategy({
-                initialNode: sync,
-                topic: 'FORCE SYNC STATE',
-                priority: 3000,
-              })
-            );
-          }
-        },
-      ),
-  });
+          )
+        );
+      } else {
+        return strategyBegin(
+          createStrategy({
+            initialNode: sync,
+            topic: 'FORCE SYNC STATE',
+            priority: 3000,
+          })
+        );
+      }
+    }),
+});
 /*#>*/

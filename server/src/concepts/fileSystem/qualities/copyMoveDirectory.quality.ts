@@ -33,21 +33,20 @@ export type CopyMoveTargetDirectoryPayload = {
   newLocation: string;
 };
 
-export const fileSystemCopyMoveTargetDirectory =
-  createQualityCardWithPayload<FileSystemState, CopyMoveTargetDirectoryPayload>({
-    type: 'File System copy move target Directory',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createAsyncMethod(({controller, action}) => {
-        const payload = selectPayload<CopyMoveTargetDirectoryPayload>(action);
-        if (action.strategy) {
-          copyDir(payload.target, payload.newLocation).then(() => {
-            const newStrategy = strategySuccess(action.strategy as ActionStrategy);
-            controller.fire(newStrategy);
-          });
-        } else {
-          controller.fire(muxiumConclude());
-        }
-      }),
-  });
+export const fileSystemCopyMoveTargetDirectory = createQualityCardWithPayload<FileSystemState, CopyMoveTargetDirectoryPayload>({
+  type: 'File System copy move target Directory',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createAsyncMethod(({ controller, action }) => {
+      const payload = selectPayload<CopyMoveTargetDirectoryPayload>(action);
+      if (action.strategy) {
+        copyDir(payload.target, payload.newLocation).then(() => {
+          const newStrategy = strategySuccess(action.strategy as ActionStrategy);
+          controller.fire(newStrategy);
+        });
+      } else {
+        controller.fire(muxiumConclude());
+      }
+    }),
+});
 /*#>*/

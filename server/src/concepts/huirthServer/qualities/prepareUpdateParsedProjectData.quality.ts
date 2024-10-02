@@ -20,36 +20,36 @@ export type huirthServerPrepareParsedProjectDataUpdatePayload = {
   name: string;
 };
 
-export const huirthServerPrepareParsedProjectDataUpdate =
-  createQualityCardWithPayload<huirthServerState, huirthServerPrepareParsedProjectDataUpdatePayload>({
-    type: 'huirthServer prepare parsed data set to be sent to client',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createMethodWithState(
-        ({action, state}) => {
-          if (action.strategy) {
-            const strategy = action.strategy;
-            const { name } = selectPayload<huirthServerPrepareParsedProjectDataUpdatePayload>(action);
-            const { trainingData } = state;
-            for (const dataSet of trainingData) {
-              if (dataSet.name === name) {
-                console.log('FOUND DATA SET', dataSet);
-                const nextStrategy = createStrategy({
-                  initialNode: createActionNode(huirthServerSendUpdateParsedProjectData(dataSet), {
-                    successNode: null,
-                    failureNode: null,
-                  }),
-                  topic: 'Update Client of Parsed Project',
-                });
-                strategy.puntedStrategy?.push(nextStrategy);
-                return strategySuccess(strategy);
-              }
-            }
-            return strategyFailed(strategy, strategyData_appendFailure(strategy, 'Did not find data set'));
-          } else {
-            return action;
+export const huirthServerPrepareParsedProjectDataUpdate = createQualityCardWithPayload<
+  huirthServerState,
+  huirthServerPrepareParsedProjectDataUpdatePayload
+>({
+  type: 'huirthServer prepare parsed data set to be sent to client',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createMethodWithState(({ action, state }) => {
+      if (action.strategy) {
+        const strategy = action.strategy;
+        const { name } = selectPayload<huirthServerPrepareParsedProjectDataUpdatePayload>(action);
+        const { trainingData } = state;
+        for (const dataSet of trainingData) {
+          if (dataSet.name === name) {
+            console.log('FOUND DATA SET', dataSet);
+            const nextStrategy = createStrategy({
+              initialNode: createActionNode(huirthServerSendUpdateParsedProjectData(dataSet), {
+                successNode: null,
+                failureNode: null,
+              }),
+              topic: 'Update Client of Parsed Project',
+            });
+            strategy.puntedStrategy?.push(nextStrategy);
+            return strategySuccess(strategy);
           }
-        },
-      ),
-  });
+        }
+        return strategyFailed(strategy, strategyData_appendFailure(strategy, 'Did not find data set'));
+      } else {
+        return action;
+      }
+    }),
+});
 /*#>*/

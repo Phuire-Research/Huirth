@@ -17,8 +17,7 @@ export const fileSystemServerSetConceptDirectoriesFromData = createQualityCard<F
         };
       }
     }
-    return {
-    };
+    return {};
   },
   methodCreator: defaultMethodCreator,
 });

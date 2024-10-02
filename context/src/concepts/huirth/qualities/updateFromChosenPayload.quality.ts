@@ -19,8 +19,7 @@ export const huirthUpdateFromChosenPayload = createQualityCard<huirthState>({
         activeDPO,
       };
     }
-    return {
-    };
+    return {};
   },
   methodCreator: defaultMethodCreator,
 });

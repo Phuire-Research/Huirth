@@ -23,11 +23,15 @@ const initialWebSocketClientState = (): WebSocketClientState => {
   };
 };
 
-export const webSocketClientQualities = {webSocketClientAppendToActionQue, webSocketClientSetServerSemaphore, webSocketClientForceSync};
+export const webSocketClientQualities = { webSocketClientAppendToActionQue, webSocketClientSetServerSemaphore, webSocketClientForceSync };
 export type WebSocketClientDeck = {
   webSocketClient: Concept<typeof webSocketClientQualities, WebSocketClientState>;
-}
-export type WebSocketClientPrinciple = PrincipleFunction<typeof webSocketClientQualities, MuxiumDeck & WebSocketClientDeck, WebSocketClientState>;
+};
+export type WebSocketClientPrinciple = PrincipleFunction<
+  typeof webSocketClientQualities,
+  MuxiumDeck & WebSocketClientDeck,
+  WebSocketClientState
+>;
 
 export const createWebSocketClientConcept = () => {
   return createConcept<WebSocketClientState, typeof webSocketClientQualities>(

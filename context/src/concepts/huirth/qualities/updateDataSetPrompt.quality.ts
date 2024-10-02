@@ -11,21 +11,20 @@ export type huirthUpdateDataSetPromptPayload = {
   dataSetIndex: number;
 };
 
-export const huirthUpdateDataSetPrompt =
-  createQualityCardWithPayload<huirthState, huirthUpdateDataSetPromptPayload>({
-    type: 'Create huirth UpdateDataSetPrompt',
-    reducer: (state, action) => {
-      const payload = action.payload;
-      const target = userInterface_selectInputTarget(action);
-      const trainingData = [...state.trainingData];
-      const named = trainingData[payload.index];
-      if (named && target) {
-        named.dataSet[payload.dataSetIndex].prompt = target.value;
-      }
-      return {
-        trainingData,
-      };
-    },
-    methodCreator: defaultMethodCreator,
-  });
+export const huirthUpdateDataSetPrompt = createQualityCardWithPayload<huirthState, huirthUpdateDataSetPromptPayload>({
+  type: 'Create huirth UpdateDataSetPrompt',
+  reducer: (state, action) => {
+    const payload = action.payload;
+    const target = userInterface_selectInputTarget(action);
+    const trainingData = [...state.trainingData];
+    const named = trainingData[payload.index];
+    if (named && target) {
+      named.dataSet[payload.dataSetIndex].prompt = target.value;
+    }
+    return {
+      trainingData,
+    };
+  },
+  methodCreator: defaultMethodCreator,
+});
 /*#>*/

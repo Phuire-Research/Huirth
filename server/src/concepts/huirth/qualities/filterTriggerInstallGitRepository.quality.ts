@@ -44,18 +44,16 @@ export const huirthFilterTriggerInstallGitRepository = createQualityCard<huirthS
     };
   },
   methodCreator: () =>
-    createMethodWithState<huirthState>(
-      ({action, state}) => {
-        const { possibleProject, possibleProjectValid } = state;
-        const name = getName(possibleProject);
-        if (name && possibleProjectValid) {
-          console.log('SENDING NAME TO SERVER', name);
-          const strategy = huirthInstallGitRepositoryStrategy(possibleProject, name);
-          return strategyBegin(strategy);
-        } else {
-          return action;
-        }
-      },
-    ),
+    createMethodWithState<huirthState>(({ action, state }) => {
+      const { possibleProject, possibleProjectValid } = state;
+      const name = getName(possibleProject);
+      if (name && possibleProjectValid) {
+        console.log('SENDING NAME TO SERVER', name);
+        const strategy = huirthInstallGitRepositoryStrategy(possibleProject, name);
+        return strategyBegin(strategy);
+      } else {
+        return action;
+      }
+    }),
 });
 /*#>*/

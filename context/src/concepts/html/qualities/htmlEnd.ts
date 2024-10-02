@@ -9,24 +9,23 @@ import { createQualityCardComponent, selectComponentPayload, userInterface_appen
 export const htmlEnd = createQualityCardComponent({
   type: 'Create HTML End Element',
   reducer: nullReducer,
-  componentCreator:
-    createMethod(({action}) => {
-      const payload = action.payload;
-      if (action.strategy) {
-        return strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id: '',
-            boundSelectors: [],
-            universal: false,
-            action,
-            html: /*html*/ `
+  componentCreator: createMethod(({ action }) => {
+    const payload = action.payload;
+    if (action.strategy) {
+      return strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
+          id: '',
+          boundSelectors: [],
+          universal: false,
+          action,
+          html: /*html*/ `
   </html>
       `,
-          })
-        );
-      }
-      return action;
-    }),
+        })
+      );
+    }
+    return action;
+  }),
 });
 /*#>*/

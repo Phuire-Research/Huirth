@@ -19,29 +19,28 @@ export type RemoveTargetDirectoryPayload = {
   path: string;
 };
 
-export const fileSystemRemoveTargetDirectory =
-  createQualityCardWithPayload<FileSystemState, RemoveTargetDirectoryPayload>({
-    type: 'File System remove target Directory',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createAsyncMethod(({controller, action}) => {
-        const {path} = action.payload;
-        if (action.strategy) {
-          if (path.split('\\server\\src\\').length > 1) {
-            console.error('ERROR IN REMOVE TARGET DIR', action);
-            controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, 'cannot delete server directory')));
-          } else {
-            rimraf(path).then((error) => {
-              if (error) {
-                console.error(error);
-              }
-              const newStrategy = strategySuccess(action.strategy as ActionStrategy);
-              controller.fire(newStrategy);
-            });
-          }
+export const fileSystemRemoveTargetDirectory = createQualityCardWithPayload<FileSystemState, RemoveTargetDirectoryPayload>({
+  type: 'File System remove target Directory',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createAsyncMethod(({ controller, action }) => {
+      const { path } = action.payload;
+      if (action.strategy) {
+        if (path.split('\\server\\src\\').length > 1) {
+          console.error('ERROR IN REMOVE TARGET DIR', action);
+          controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, 'cannot delete server directory')));
         } else {
-          controller.fire(muxiumConclude());
+          rimraf(path).then((error) => {
+            if (error) {
+              console.error(error);
+            }
+            const newStrategy = strategySuccess(action.strategy as ActionStrategy);
+            controller.fire(newStrategy);
+          });
         }
-      }),
-  });
+      } else {
+        controller.fire(muxiumConclude());
+      }
+    }),
+});
 /*#>*/

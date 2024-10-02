@@ -22,8 +22,8 @@ export const fileSystemCreateFileWithContentsIndex = createQualityCardWithPayloa
   type: 'File System create File with Contents',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethod(({controller, action}) => {
-      const {target, content} = action.payload;
+    createAsyncMethod(({ controller, action }) => {
+      const { target, content } = action.payload;
       if (action.strategy) {
         fs.writeFile(target, content).then(() => {
           const newStrategy = strategySuccess(action.strategy as ActionStrategy);

@@ -14,25 +14,24 @@ import {
 export const huirthSideBarEnd = createQualityCardComponent({
   type: 'create userInterface for SideBarEnd',
   reducer: nullReducer,
-  componentCreator:
-    createMethod(({action}) => {
-      const id = '#sideBarEnd';
-      if (action.strategy) {
-        return strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id,
-            boundSelectors: [],
-            universal: true,
-            action,
-            html: /*html*/ `
+  componentCreator: createMethod(({ action }) => {
+    const id = '#sideBarEnd';
+    if (action.strategy) {
+      return strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
+          id,
+          boundSelectors: [],
+          universal: true,
+          action,
+          html: /*html*/ `
   </nav>
 </aside> 
 `,
-          })
-        );
-      }
-      return action;
-    }),
+        })
+      );
+    }
+    return action;
+  }),
 });
 /*#>*/

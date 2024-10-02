@@ -54,7 +54,7 @@ ${conceptImports}
           if (init && state) {
             muxification(
               'contextMuxium',
-              [createDocumentObjectModelConcept({}), createUserInterfaceClientConcept(state, createHuirthConcept)],
+              { documentObjectModel: createDocumentObjectModelConcept({}), userInterfaceClient: createUserInterfaceClientConcept(state, createHuirthConcept)},
               {
                 logging: true,
                 storeDialog: true,

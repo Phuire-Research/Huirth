@@ -16,31 +16,30 @@ import { exec } from 'child_process';
 
 export type BuildContextPayload = { contextDir: string };
 
-export const userInterfaceServerBuildContext =
-  createQualityCardWithPayload<BuildContextPayload, any>({
-    type: 'User Interface Server build Context',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createAsyncMethod(({controller, action}) => {
-        const payload = selectPayload<BuildContextPayload>(action);
-        if (action.strategy) {
-          exec(`cd ${payload.contextDir} & npm run build`, (error, stdout, stderr) => {
-            if (action.strategy) {
-              if (error) {
-                console.error(`error: ${error}, stdout: ${stdout}, stderr: ${stderr}`);
-                controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, stderr)));
-              } else {
-                console.log('stdout:', stdout);
-                controller.fire(strategySuccess(action.strategy));
-              }
+export const userInterfaceServerBuildContext = createQualityCardWithPayload<BuildContextPayload, any>({
+  type: 'User Interface Server build Context',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createAsyncMethod(({ controller, action }) => {
+      const payload = selectPayload<BuildContextPayload>(action);
+      if (action.strategy) {
+        exec(`cd ${payload.contextDir} & npm run build`, (error, stdout, stderr) => {
+          if (action.strategy) {
+            if (error) {
+              console.error(`error: ${error}, stdout: ${stdout}, stderr: ${stderr}`);
+              controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, stderr)));
             } else {
-              controller.fire(muxiumConclude());
+              console.log('stdout:', stdout);
+              controller.fire(strategySuccess(action.strategy));
             }
-            console.log('stdout:', stdout);
-          });
-        } else {
-          controller.fire(muxiumConclude());
-        }
-      }),
-  });
+          } else {
+            controller.fire(muxiumConclude());
+          }
+          console.log('stdout:', stdout);
+        });
+      } else {
+        controller.fire(muxiumConclude());
+      }
+    }),
+});
 /*#>*/

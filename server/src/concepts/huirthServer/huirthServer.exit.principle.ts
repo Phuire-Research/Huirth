@@ -6,17 +6,13 @@ import { ServerState } from '../server/server.concept';
 import { HuirthServerPrinciple } from './huirthServer.concept';
 
 /*<#*/
-export const huirthServerExitPrinciple: HuirthServerPrinciple = ({
-  plan,
-  k_,
-  concepts_
-}) => {
+export const huirthServerExitPrinciple: HuirthServerPrinciple = ({ plan, k_, concepts_ }) => {
   let shouldClose = false;
   const beat = 333;
   const initialServerState = k_.state(concepts_) as unknown as ServerState;
   const server = initialServerState.server;
-  plan('Server listening for exit signal', ({stage}) => [
-    stage(({concepts, dispatch, d, k, stagePlanner}) => {
+  plan('Server listening for exit signal', ({ stage }) => [
+    stage(({ concepts, dispatch, d, k, stagePlanner }) => {
       const name = k.name(concepts);
       if (name) {
         dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
@@ -27,7 +23,7 @@ export const huirthServerExitPrinciple: HuirthServerPrinciple = ({
       }
     }),
     stage(
-      ({concepts, dispatch, d, k, stagePlanner}) => {
+      ({ concepts, dispatch, d, k, stagePlanner }) => {
         const name = k.name(concepts);
         if (name) {
           if (shouldClose) {
@@ -46,7 +42,7 @@ export const huirthServerExitPrinciple: HuirthServerPrinciple = ({
       },
       { beat }
     ),
-    stage(({stagePlanner}) => {
+    stage(({ stagePlanner }) => {
       stagePlanner.conclude();
     }),
   ]);

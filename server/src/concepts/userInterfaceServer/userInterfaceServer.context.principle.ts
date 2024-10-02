@@ -23,7 +23,13 @@ import {
 } from '@phuire/stratimux';
 import { Subscriber } from 'rxjs';
 import { FileSystemState, fileSystemName } from '../fileSystem/fileSystem.concept';
-import { UserInterfaceServerDeck, UserInterfaceServerState, userInterfaceServerQualities, userInterfaceServerName, UserInterfaceServerPrinciple } from './userInterfaceServer.concept';
+import {
+  UserInterfaceServerDeck,
+  UserInterfaceServerState,
+  userInterfaceServerQualities,
+  userInterfaceServerName,
+  UserInterfaceServerPrinciple,
+} from './userInterfaceServer.concept';
 import {
   ConceptAndProperties,
   UserInterfaceBindings,
@@ -37,16 +43,10 @@ import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
 import { userInterfaceServerPrepareStaticConceptsStrategy } from './strategies/prepareStaticConcepts.strategy';
 import { userInterfaceClientName } from '../userInterfaceClient/userInterfaceClient.concept';
 
-export const userInterfaceServerContextPrinciple: UserInterfaceServerPrinciple = ({
-  conceptSemaphore,
-  plan
-}) => {
-  plan('User Interface Context Principle Plan', ({
-    stage,
-    d__
-  }) => [
+export const userInterfaceServerContextPrinciple: UserInterfaceServerPrinciple = ({ conceptSemaphore, plan }) => {
+  plan('User Interface Context Principle Plan', ({ stage, d__ }) => [
     stage(
-      ({concepts, dispatch, changes, stagePlanner, d}) => {
+      ({ concepts, dispatch, changes, stagePlanner, d }) => {
         console.log(
           'CHECK IF THIS HITS',
           selectSlice(concepts, muxiumSelectOpen),
@@ -69,7 +69,7 @@ export const userInterfaceServerContextPrinciple: UserInterfaceServerPrinciple =
       },
       { selectors: [d__.muxium.k.open] }
     ),
-    stage(({concepts, dispatch, d}) => {
+    stage(({ concepts, dispatch, d }) => {
       console.log('CHECK IF THIS HITS 2');
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       if (fileSystemState) {
@@ -78,7 +78,7 @@ export const userInterfaceServerContextPrinciple: UserInterfaceServerPrinciple =
         });
       }
     }),
-    stage(({concepts, dispatch, d, k}) => {
+    stage(({ concepts, dispatch, d, k }) => {
       console.log('CHECK IF THIS HITS 3');
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       const uiState = k.state(concepts);
@@ -135,7 +135,7 @@ export const userInterfaceServerContextPrinciple: UserInterfaceServerPrinciple =
               const [____, contextStrategy] = userInterfaceServerPrepareContextConceptsStitch(
                 fileSystemState.root,
                 conceptsAndProps,
-                concepts[conceptSemaphore].muxified,
+                Object.keys(concepts[conceptSemaphore].muxifiedRecord),
                 fileSystemState.conceptDirectoryMap,
                 d
               );
@@ -146,7 +146,7 @@ export const userInterfaceServerContextPrinciple: UserInterfaceServerPrinciple =
               const contextStrategy = userInterfaceServerPrepareStaticConceptsStrategy(
                 fileSystemState.root,
                 conceptsAndProps,
-                concepts[conceptSemaphore].muxified,
+                Object.keys(concepts[conceptSemaphore].muxifiedRecord),
                 fileSystemState.conceptDirectoryMap,
                 uiState.pages,
                 d
@@ -159,7 +159,7 @@ export const userInterfaceServerContextPrinciple: UserInterfaceServerPrinciple =
         }
       }
     }),
-    createStage(({stagePlanner}) => {
+    createStage(({ stagePlanner }) => {
       stagePlanner.conclude();
     }),
   ]);

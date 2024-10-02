@@ -52,19 +52,16 @@ export const userInterfaceQualities = {
 };
 
 export type UserInterfaceDeck = {
-  userInterface: Concept<UserInterfaceState, typeof userInterfaceQualities>
-}
+  userInterface: Concept<UserInterfaceState, typeof userInterfaceQualities>;
+};
 export type UserInterfacePrinciple = PrincipleFunction<typeof userInterfaceQualities, MuxiumDeck & UserInterfaceDeck, UserInterfaceState>;
 
 export const createUserInterfaceConcept = (pageStrategies: PageStrategyCreators[]): AnyConcept => {
   return muxifyConcepts(
     [createHtmlConcept()],
-    createConcept(
-      userInterfaceName,
-      createUserInterfaceState(pageStrategies),
-      userInterfaceQualities,
-      [userInterfaceInitializationPrinciple]
-    )
+    createConcept(userInterfaceName, createUserInterfaceState(pageStrategies), userInterfaceQualities, [
+      userInterfaceInitializationPrinciple,
+    ])
   );
 };
 /*#>*/

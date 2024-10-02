@@ -9,16 +9,18 @@ export type WebSocketServerSetClientSemaphorePayload = {
   semaphore: number;
 };
 
-export const webSocketServerSetClientSemaphore =
-  createQualityCardWithPayload<WebSocketServerState, WebSocketServerSetClientSemaphorePayload>({
-    type: 'Web Socket Server set Client Semaphore',
-    reducer: (_, action) => {
-      const payload = action.payload;
-      console.log('CHECK', action);
-      return {
-        clientSemaphore: payload.semaphore,
-      };
-    },
-    methodCreator: defaultMethodCreator,
-  });
+export const webSocketServerSetClientSemaphore = createQualityCardWithPayload<
+  WebSocketServerState,
+  WebSocketServerSetClientSemaphorePayload
+>({
+  type: 'Web Socket Server set Client Semaphore',
+  reducer: (_, action) => {
+    const payload = action.payload;
+    console.log('CHECK', action);
+    return {
+      clientSemaphore: payload.semaphore,
+    };
+  },
+  methodCreator: defaultMethodCreator,
+});
 /*#>*/

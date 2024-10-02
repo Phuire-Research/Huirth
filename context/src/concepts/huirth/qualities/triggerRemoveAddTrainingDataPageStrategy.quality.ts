@@ -28,16 +28,14 @@ export const huirthTriggerRemoveAddTrainingDataPage = createQualityCardWithPaylo
   type: 'Huirth trigger remove old page then add new generated training data page',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethodWithConcepts(
-      ({action, concepts}) => {
-        const { newName, oldName } = action.payload;
-        const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(newName);
-        const strategyAdd = huirthAddTrainingDataPageStrategy(newName, generatedTrainingDataPage, concepts);
-        strategyAdd.priority = 3000;
-        const strategyRemove = huirthRemoveTrainingDataPageStrategy(oldName);
-        strategyRemove.priority = 3000;
-        return strategyBegin(strategySequence([strategyRemove, strategyAdd]) as ActionStrategy);
-      },
-    ),
+    createMethodWithConcepts(({ action, concepts_ }) => {
+      const { newName, oldName } = action.payload;
+      const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(newName);
+      const strategyAdd = huirthAddTrainingDataPageStrategy(newName, generatedTrainingDataPage, concepts_);
+      strategyAdd.priority = 3000;
+      const strategyRemove = huirthRemoveTrainingDataPageStrategy(oldName);
+      strategyRemove.priority = 3000;
+      return strategyBegin(strategySequence([strategyRemove, strategyAdd]) as ActionStrategy);
+    }),
 });
 /*#>*/

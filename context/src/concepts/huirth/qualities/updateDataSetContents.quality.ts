@@ -11,21 +11,20 @@ export type huirthUpdateDataSetContentsPayload = {
   dataSetIndex: number;
 };
 
-export const huirthUpdateDataSetContents =
-  createQualityCardWithPayload<huirthState, huirthUpdateDataSetContentsPayload>({
-    type: 'Create huirth UpdateDataSetContents',
-    reducer: (state, action) => {
-      const payload = selectPayload<huirthUpdateDataSetContentsPayload>(action);
-      const target = userInterface_selectInputTarget(action);
-      const trainingData = [...state.trainingData];
-      const named = trainingData[payload.index];
-      if (named && target) {
-        named.dataSet[payload.dataSetIndex].content = target.value.trim();
-      }
-      return {
-        trainingData,
-      };
-    },
-    methodCreator: defaultMethodCreator,
-  });
+export const huirthUpdateDataSetContents = createQualityCardWithPayload<huirthState, huirthUpdateDataSetContentsPayload>({
+  type: 'Create huirth UpdateDataSetContents',
+  reducer: (state, action) => {
+    const payload = selectPayload<huirthUpdateDataSetContentsPayload>(action);
+    const target = userInterface_selectInputTarget(action);
+    const trainingData = [...state.trainingData];
+    const named = trainingData[payload.index];
+    if (named && target) {
+      named.dataSet[payload.dataSetIndex].content = target.value.trim();
+    }
+    return {
+      trainingData,
+    };
+  },
+  methodCreator: defaultMethodCreator,
+});
 /*#>*/

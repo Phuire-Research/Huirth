@@ -65,7 +65,7 @@ const qualities = {
 
 export type HuirthServerDeck = {
   huirthServer: Concept<huirthServerState, typeof qualities>;
-}
+};
 
 export type HuirthServerPrinciple = PrincipleFunction<typeof qualities, MuxiumDeck & HuirthServerDeck, huirthServerState>;
 

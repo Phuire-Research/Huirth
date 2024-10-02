@@ -5,13 +5,7 @@ As well as receive actions from the client, the parse and dispatch them into the
 $>*/
 /*<#*/
 import { ServerState } from '../server/server.concept';
-import {
-  Action,
-  muxiumKick,
-  muxiumSelectOpen,
-  getMuxiumState,
-  selectSlice,
-} from '@phuire/stratimux';
+import { Action, muxiumKick, muxiumSelectOpen, getMuxiumState, selectSlice } from '@phuire/stratimux';
 import _ws from 'express-ws';
 import { webSocketClientSetServerSemaphore } from '../webSocketClient/qualities/setServerSemaphore.quality';
 import { WebSocketServerPrinciple, WebSocketServerState } from './webSocketServer.concept';
@@ -19,13 +13,7 @@ import { webSocketServer_createActionQueSelector } from './webSocketServer.selec
 import { webSocketServerSyncState } from './qualities/syncState.quality';
 // import { webSocketServer_createActionQueSelector } from './webSocketServer.selectors';
 
-export const webSocketServerPrinciple: WebSocketServerPrinciple = ({
-  k_,
-  plan,
-  concepts_,
-  observer,
-  conceptSemaphore
-}) => {
+export const webSocketServerPrinciple: WebSocketServerPrinciple = ({ k_, plan, concepts_, observer, conceptSemaphore }) => {
   const initialServerState = k_.state(concepts_) as unknown as ServerState;
   const server = initialServerState.server;
   const socket = _ws(server);
@@ -37,9 +25,9 @@ export const webSocketServerPrinciple: WebSocketServerPrinciple = ({
     interval = setInterval(() => {
       ws.send('ping');
     }, 3000);
-    const webSocketServerPlan = plan('Web Socket Server Message Que Planner', ({stage, k__}) => [
+    const webSocketServerPlan = plan('Web Socket Server Message Que Planner', ({ stage, k__ }) => [
       stage(
-        ({concepts, dispatch, k, d, stagePlanner}) => {
+        ({ concepts, dispatch, k, d, stagePlanner }) => {
           if (selectSlice(concepts, muxiumSelectOpen) === true) {
             const name = k.name(concepts);
             if (name) {
@@ -54,7 +42,7 @@ export const webSocketServerPrinciple: WebSocketServerPrinciple = ({
         { selectors: [muxiumSelectOpen] }
       ),
       stage(
-        ({concepts, k, stagePlanner}) => {
+        ({ concepts, k, stagePlanner }) => {
           const state = k.state(concepts);
           if (state) {
             if (state.actionQue.length > 0) {
@@ -73,7 +61,7 @@ export const webSocketServerPrinciple: WebSocketServerPrinciple = ({
               emptyQue();
             }
           } else {
-            console.log('SHOUDN\'T CONCLUDE');
+            console.log("SHOUDN'T CONCLUDE");
             stagePlanner.conclude();
           }
         },

@@ -6,16 +6,15 @@ import { Action, createQualityCard } from '@phuire/stratimux';
 import { huirthState } from '../huirth.concept';
 import { userInterface_selectInputTarget } from '../../../model/userInterface';
 
-export const huirthSetSelectedTransformation =
-  createQualityCard<huirthState>({
-    type: 'huirth set the currently selected transformation',
-    reducer: (_, action) => {
-      const target = userInterface_selectInputTarget(action);
-      const value = target.value;
-      // eslint-disable-next-line no-useless-escape
-      return {
-        selectedTransformation: value,
-      };
-    },
-  });
+export const huirthSetSelectedTransformation = createQualityCard<huirthState>({
+  type: 'huirth set the currently selected transformation',
+  reducer: (_, action) => {
+    const target = userInterface_selectInputTarget(action);
+    const value = target.value;
+    // eslint-disable-next-line no-useless-escape
+    return {
+      selectedTransformation: value,
+    };
+  },
+});
 /*#>*/

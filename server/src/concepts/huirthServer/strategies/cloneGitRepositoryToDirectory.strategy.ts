@@ -19,7 +19,7 @@ export const huirthServerCloneGitRepositoryToDirectoryStrategy = (root: string, 
   const stepUpdateProjectToUninstalled = createActionNode(
     webSocketServerAppendToActionQue.actionCreator({
       actionQue: [
-        huirthUpdateProjectStatus({
+        huirthUpdateProjectStatus.actionCreator({
           name,
           status: ProjectStatus.notInstalled,
         }),

@@ -11,15 +11,14 @@ export type huirthTriggerInstallGitRepositoryPayload = {
   name: string;
 };
 
-export const huirthTriggerInstallGitRepository =
-  createQualityCardWithPayload<huirthState, huirthTriggerInstallGitRepositoryPayload>({
-    type: 'Create huirth trigger install git repository',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createMethod(({action}) => {
-        const { url, name } = action.payload;
-        const strategy = huirthInstallGitRepositoryStrategy(url, name);
-        return strategyBegin(strategy);
-      }),
-  });
+export const huirthTriggerInstallGitRepository = createQualityCardWithPayload<huirthState, huirthTriggerInstallGitRepositoryPayload>({
+  type: 'Create huirth trigger install git repository',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createMethod(({ action }) => {
+      const { url, name } = action.payload;
+      const strategy = huirthInstallGitRepositoryStrategy(url, name);
+      return strategyBegin(strategy);
+    }),
+});
 /*#>*/

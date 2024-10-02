@@ -23,12 +23,14 @@ export const huirthSendRemoveAddTrainingPageStrategy = createQualityCardWithPayl
   type: 'Huirth send remove add training page strategy',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethod(({action}) => {
+    createMethod(({ action }) => {
       const payload = action.payload;
       return strategyBegin(
         createStrategy({
           topic: `Send to Web Socket: Trigger Remove Add Training Data Page: Old: ${payload.oldName} New: ${payload.newName}`,
-          initialNode: createActionNode(userInterfaceClientSendActionToServer(huirthTriggerRemoveAddTrainingDataPage.actionCreator(payload))),
+          initialNode: createActionNode(
+            userInterfaceClientSendActionToServer(huirthTriggerRemoveAddTrainingDataPage.actionCreator(payload))
+          ),
         })
       );
     }),

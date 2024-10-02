@@ -2,14 +2,7 @@
 For the graph programming framework Stratimux and Document Object Model Concept, generate a quality that will bind an action to an element.
 $>*/
 /*<#*/
-import {
-  Action,
-  createMethod,
-  createQualityCardWithPayload,
-  refreshAction,
-  strategyBegin,
-  strategySuccess,
-} from '@phuire/stratimux';
+import { Action, createMethod, createQualityCardWithPayload, refreshAction, strategyBegin, strategySuccess } from '@phuire/stratimux';
 import { Binding } from '../../../model/userInterface';
 import { Subject } from 'rxjs';
 import { documentObjectModelBindActionStrategy } from '../strategies/bindAction.strategy';
@@ -29,27 +22,26 @@ export type DocumentObjectModelBindPayload = {
   binding: Binding;
 };
 
-export const documentObjectModelBind =
-  createQualityCardWithPayload<DocumentObjectModelState, DocumentObjectModelBindPayload>({
-    type: 'Document Object Model bind element',
-    reducer: (state) => {
-      return {
-        bound: true,
-      };
-    },
-    methodCreator: () =>
-      createMethod(({action}) => {
-        const payload = action.payload;
-        const element = document.getElementById(payload.id);
-        if (element) {
-          setElementBinding(element, payload);
-        }
-        if (action.strategy) {
-          const success = strategySuccess(action.strategy);
-          return success;
-        } else {
-          return action;
-        }
-      }),
-  });
+export const documentObjectModelBind = createQualityCardWithPayload<DocumentObjectModelState, DocumentObjectModelBindPayload>({
+  type: 'Document Object Model bind element',
+  reducer: (state) => {
+    return {
+      bound: true,
+    };
+  },
+  methodCreator: () =>
+    createMethod(({ action }) => {
+      const payload = action.payload;
+      const element = document.getElementById(payload.id);
+      if (element) {
+        setElementBinding(element, payload);
+      }
+      if (action.strategy) {
+        const success = strategySuccess(action.strategy);
+        return success;
+      } else {
+        return action;
+      }
+    }),
+});
 /*#>*/

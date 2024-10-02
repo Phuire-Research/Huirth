@@ -20,42 +20,41 @@ export type huirthServerInnerAddField = {
   sum: number;
 };
 
-export const huirthServerInnerSubtractFrom =
-  createQualityCardWithPayload<huirthServerState, huirthServerInnerSubtractFromPayload>({
-    type: 'subtract',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createMethod(({action}) => {
-        const { subtractFrom } = action.payload;
-        if (action.strategy) {
-          const strategy = action.strategy;
-          const data = strategyData_select<huirthServerInnerAddField>(strategy);
-          if (data) {
-            const { sum } = data;
-            const final = sum - subtractFrom;
-            let verboseSum = huirth_convertNumberToStringVerbose(sum);
-            verboseSum = verboseSum[0].toUpperCase() + verboseSum.substring(1);
-            strategy.currentNode.actionType =
-              verboseSum.trim() +
-              ' ' +
-              action.type +
-              ' ' +
-              huirth_convertNumberToStringVerbose(subtractFrom).trim() +
-              ', equals ' +
-              huirth_convertNumberToStringVerbose(final).trim();
-            strategy.currentNode.successNotes = {
-              preposition: '',
-            };
-            console.log(verboseSum, ' subtract ', subtractFrom, ' equals ', final);
-            return strategySuccess(
-              strategy,
-              strategyData_muxifyData(strategy, {
-                sum: final,
-              })
-            );
-          }
+export const huirthServerInnerSubtractFrom = createQualityCardWithPayload<huirthServerState, huirthServerInnerSubtractFromPayload>({
+  type: 'subtract',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createMethod(({ action }) => {
+      const { subtractFrom } = action.payload;
+      if (action.strategy) {
+        const strategy = action.strategy;
+        const data = strategyData_select<huirthServerInnerAddField>(strategy);
+        if (data) {
+          const { sum } = data;
+          const final = sum - subtractFrom;
+          let verboseSum = huirth_convertNumberToStringVerbose(sum);
+          verboseSum = verboseSum[0].toUpperCase() + verboseSum.substring(1);
+          strategy.currentNode.actionType =
+            verboseSum.trim() +
+            ' ' +
+            action.type +
+            ' ' +
+            huirth_convertNumberToStringVerbose(subtractFrom).trim() +
+            ', equals ' +
+            huirth_convertNumberToStringVerbose(final).trim();
+          strategy.currentNode.successNotes = {
+            preposition: '',
+          };
+          console.log(verboseSum, ' subtract ', subtractFrom, ' equals ', final);
+          return strategySuccess(
+            strategy,
+            strategyData_muxifyData(strategy, {
+              sum: final,
+            })
+          );
         }
-        return action;
-      }),
-  });
+      }
+      return action;
+    }),
+});
 /*#>*/

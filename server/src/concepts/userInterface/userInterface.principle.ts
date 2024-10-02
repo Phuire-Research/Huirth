@@ -2,22 +2,13 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a principle that will dispatch a sequence of page to state strategies that will cache the required pages for the client.
 $>*/
 /*<#*/
-import {
-  strategySequence,
-  strategyBegin,
-  muxiumSelectOpen,
-  ActionStrategy,
-  getMuxiumState,
-  selectSlice,
-} from '@phuire/stratimux';
+import { strategySequence, strategyBegin, muxiumSelectOpen, ActionStrategy, getMuxiumState, selectSlice } from '@phuire/stratimux';
 import { UserInterfacePrinciple, UserInterfaceState } from './userInterface.concept';
 import { userInterfacePageToStateStrategy } from './strategies.ts/pageToState.strategy';
-import { PageStrategyCreators, userInterface_isClient } from '../../model/userInterface';
+import { userInterface_isClient } from '../../model/userInterface';
 import { UserInterfaceClientState } from '../userInterfaceClient/userInterfaceClient.concept';
 
-export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({
-  subscribe, plan
-}) => {
+export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({ subscribe, plan }) => {
   const _diag = subscribe((val) => {
     const muxiumState = getMuxiumState(val);
     if (muxiumState.badActions.length > 0) {
@@ -26,9 +17,9 @@ export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({
     // console.log('BAD PLANS', muxiumState.badPlans);
     // console.log('CHECK FOR SIDEBAR CONTENT', val[1].qualities[56]);
   });
-  const userInterfacePageInit = plan('User Interface Page to State initialization plan', ({stage, d__,}) => [
+  const userInterfacePageInit = plan('User Interface Page to State initialization plan', ({ stage, d__, k__ }) => [
     stage(
-      ({concepts, dispatch, stagePlanner, k}) => {
+      ({ concepts, dispatch, stagePlanner, k }) => {
         console.log('USER INTERFACE PAGE TO STATE INIT 1');
         const name = k.name(concepts);
         if (name && selectSlice(concepts, muxiumSelectOpen) === true) {
@@ -43,7 +34,7 @@ export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({
       { priority: 1000, selectors: [muxiumSelectOpen] }
     ),
     stage(
-      ({concepts, dispatch, stagePlanner, k}) => {
+      ({ concepts, dispatch, stagePlanner, k }) => {
         const uiState = k.state(concepts);
         console.log('USER INTERFACE PAGE TO STATE INIT 2', uiState?.pages.length, uiState?.pageStrategies.length);
         if (uiState) {
@@ -54,7 +45,7 @@ export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({
           } else if (uiState.pageStrategies.length > 1) {
             const isClient = userInterface_isClient();
             const list: ActionStrategy[] = [];
-            uiState.pageStrategies.forEach((creator: PageStrategyCreators) => {
+            uiState.pageStrategies.forEach((creator) => {
               if (isClient) {
                 const pageCreator = creator(concepts);
                 const title = pageCreator()[1].topic;
@@ -81,9 +72,18 @@ export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({
           }
         }
       },
-      { selectors: [d__.userInterface.k.pages] }
+      {
+        selectors: [
+          (() => {
+            console.error('CHECK K', Object.keys(d__), 'something');
+            const output = k__ as any;
+            console.log('CHECK OUTPUT', output);
+            return output;
+          })(),
+        ],
+      }
     ),
-    stage(({stagePlanner}) => {
+    stage(({ stagePlanner }) => {
       console.log('USER INTERFACE PAGE TO STATE INIT 3');
       stagePlanner.conclude();
     }),

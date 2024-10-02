@@ -26,7 +26,7 @@ export const fileSystemReadFileContentsAndAppendToData = createQualityCard({
   type: 'File System read from File and Append to Data Field',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethod(({controller, action}) => {
+    createAsyncMethod(({ controller, action }) => {
       if (action.strategy) {
         const strategy = action.strategy;
         const data = strategyData_select<ReadDirectoryField>(strategy);

@@ -26,7 +26,7 @@ export const userInterfaceServerCreateContextIndex = createQualityCardWithPayloa
   type: 'User Interface Server create Context index.ts',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethod(({controller, action}) => {
+    createAsyncMethod(({ controller, action }) => {
       const payload = selectPayload<CreateContextIndexPayload>(action);
       if (action.strategy) {
         const indexTs = path.join(payload.root + '/context/src/index.ts');

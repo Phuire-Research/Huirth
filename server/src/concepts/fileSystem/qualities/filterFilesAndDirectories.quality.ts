@@ -45,28 +45,27 @@ export type FilterFilesAndDirectoriesPayload = {
   notTokens: string[];
 };
 
-export const fileSystemFilterFilesAndDirectories =
-  createQualityCardWithPayload<FileSystemState, FilterFilesAndDirectoriesPayload>({
-    type: 'File System filter from Data Files and Directories field via token',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createAsyncMethod(({controller, action}) => {
-        if (action.strategy) {
-          const strategy = action.strategy;
-          const data = strategyData_select<ReadDirectoryField>(strategy);
-          const { isTokens, notTokens } = selectPayload<FilterFilesAndDirectoriesPayload>(action);
-          if (data && data.filesAndDirectories) {
-            data.filesAndDirectories = data?.filesAndDirectories.filter((dirent) => {
-              const check = path.join(dirent.path + '/' + dirent.name);
-              return is(check, isTokens) && isNot(check, notTokens);
-            });
-            controller.fire(strategySuccess(strategy, strategyData_muxifyData(strategy, data)));
-          } else {
-            controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, 'No filesAndDirectories passed to quality')));
-          }
+export const fileSystemFilterFilesAndDirectories = createQualityCardWithPayload<FileSystemState, FilterFilesAndDirectoriesPayload>({
+  type: 'File System filter from Data Files and Directories field via token',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createAsyncMethod(({ controller, action }) => {
+      if (action.strategy) {
+        const strategy = action.strategy;
+        const data = strategyData_select<ReadDirectoryField>(strategy);
+        const { isTokens, notTokens } = selectPayload<FilterFilesAndDirectoriesPayload>(action);
+        if (data && data.filesAndDirectories) {
+          data.filesAndDirectories = data?.filesAndDirectories.filter((dirent) => {
+            const check = path.join(dirent.path + '/' + dirent.name);
+            return is(check, isTokens) && isNot(check, notTokens);
+          });
+          controller.fire(strategySuccess(strategy, strategyData_muxifyData(strategy, data)));
         } else {
-          controller.fire(muxiumConclude());
+          controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, 'No filesAndDirectories passed to quality')));
         }
-      }),
-  });
+      } else {
+        controller.fire(muxiumConclude());
+      }
+    }),
+});
 /*#>*/

@@ -9,15 +9,14 @@ export type HuirthSetTrainingDataPagePayload = {
   trainingDataName: string;
 };
 
-export const huirthSetTrainingDataPage =
-  createQualityCardWithPayload<huirthState, HuirthSetTrainingDataPagePayload>({
-    type: 'huirth set a new training data page',
-    reducer: (state, action) => {
-      const { trainingDataName } = selectPayload<HuirthSetTrainingDataPagePayload>(action);
-      return {
-        trainingDataPages: [...state.trainingDataPages, trainingDataName],
-      };
-    },
-    methodCreator: defaultMethodCreator,
-  });
+export const huirthSetTrainingDataPage = createQualityCardWithPayload<huirthState, HuirthSetTrainingDataPagePayload>({
+  type: 'huirth set a new training data page',
+  reducer: (state, action) => {
+    const { trainingDataName } = selectPayload<HuirthSetTrainingDataPagePayload>(action);
+    return {
+      trainingDataPages: [...state.trainingDataPages, trainingDataName],
+    };
+  },
+  methodCreator: defaultMethodCreator,
+});
 /*#>*/

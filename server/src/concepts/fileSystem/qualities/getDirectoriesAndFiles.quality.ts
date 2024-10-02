@@ -22,30 +22,29 @@ export type GetDirectoriesAndFilesDataField = {
   directories: FileDirent[];
 };
 
-export const fileSystemGetDirectoriesAndFiles =
-  createQualityCardWithPayload<FileSystemState, GetDirectoriesAndFilesPayload>({
-    type: 'File System get target Directories and Files',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createAsyncMethodDebounce(({controller, action}) => {
-        const {path} = action.payload;
-        if (action.strategy) {
-          const strategy = action.strategy;
-          fs.readdir(path, {
-            withFileTypes: true,
+export const fileSystemGetDirectoriesAndFiles = createQualityCardWithPayload<FileSystemState, GetDirectoriesAndFilesPayload>({
+  type: 'File System get target Directories and Files',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createAsyncMethodDebounce(({ controller, action }) => {
+      const { path } = action.payload;
+      if (action.strategy) {
+        const strategy = action.strategy;
+        fs.readdir(path, {
+          withFileTypes: true,
+        })
+          .then((directories) => {
+            console.log('DIRECTORIES AND FILES LENGTH', directories.length);
+            const newStrategy = strategySuccess(strategy, strategyData_muxifyData(strategy, { directories }));
+            controller.fire(newStrategy);
           })
-            .then((directories) => {
-              console.log('DIRECTORIES AND FILES LENGTH', directories.length);
-              const newStrategy = strategySuccess(strategy, strategyData_muxifyData(strategy, { directories }));
-              controller.fire(newStrategy);
-            })
-            .catch((error) => {
-              console.error('CHECK ERROR', error);
-              controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, `${error}`)));
-            });
-        } else {
-          controller.fire(action);
-        }
-      }, 300),
-  });
+          .catch((error) => {
+            console.error('CHECK ERROR', error);
+            controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, `${error}`)));
+          });
+      } else {
+        controller.fire(action);
+      }
+    }, 300),
+});
 /*#>*/

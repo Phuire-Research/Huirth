@@ -32,12 +32,7 @@ import {
   userInterfaceServerAssembleUpdateAtomicCompositionStrategy,
 } from './qualities/serverAssembleUpdateAtomicCompositionStrategy.quality';
 
-export const userInterfaceServerPrinciple: UserInterfaceServerPrinciple = ({
-  subscribe,
-  plan,
-  concepts_,
-  k_,
-}) => {
+export const userInterfaceServerPrinciple: UserInterfaceServerPrinciple = ({ subscribe, plan, concepts_, k_ }) => {
   const newState = k_.state(concepts_) as Record<string, unknown>;
   const body = 'body response';
   let pages: Page[] = [];
@@ -71,8 +66,9 @@ export const userInterfaceServerPrinciple: UserInterfaceServerPrinciple = ({
       }
     }
   });
-  plan('State Sync Client Init', ({stage}) => [
-    stage(({concepts, dispatch, d, k, stagePlanner}) => {
+  plan('State Sync Client Init', ({ stage }) => [
+    stage(({ concepts, dispatch, d, e, k, stagePlanner }) => {
+      console.log('CHECK K', k);
       const name = k.name(concepts);
       if (name) {
         dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
@@ -82,7 +78,7 @@ export const userInterfaceServerPrinciple: UserInterfaceServerPrinciple = ({
         stagePlanner.conclude();
       }
     }),
-    stage(({concepts, k, stagePlanner}) => {
+    stage(({ concepts, k, stagePlanner }) => {
       const state = k.state(concepts);
       if (state) {
         const stateKeys = Object.keys(state);
@@ -177,13 +173,10 @@ export const userInterfaceServerPrinciple: UserInterfaceServerPrinciple = ({
   });
 };
 
-export const userInterfaceServerOnChangePrinciple: UserInterfaceServerPrinciple = ({
-  plan,
-  conceptSemaphore
-}) => {
-  plan('User Interface Server on Change', ({stage, d__}) => [
+export const userInterfaceServerOnChangePrinciple: UserInterfaceServerPrinciple = ({ plan, conceptSemaphore }) => {
+  plan('User Interface Server on Change', ({ stage, d__ }) => [
     stage(
-      ({concepts, dispatch, k, d, stagePlanner}) => {
+      ({ concepts, dispatch, k, d, stagePlanner }) => {
         console.log('INIT USER INTERFACE SERVER ON CHANGE');
         const name = k.name(concepts);
         if (name && selectSlice(concepts, muxiumSelectOpen) === true) {
@@ -265,11 +258,13 @@ export const userInterfaceServerOnChangePrinciple: UserInterfaceServerPrinciple 
     // }, {beat: 333}),
 
     stage(
-      ({concepts, dispatch, changes, e, k, stagePlanner}) => {
+      ({ concepts, dispatch, changes, e, k, stagePlanner }) => {
         // console.log('Get unified name', getMuxifiedName(concepts, semaphore));
         const uiState = k.state(concepts);
         if (uiState && uiState.pagesCached) {
-          const newSelectors = uiState.selectors.map((keyed: KeyedSelector) => updateMuxifiedKeyedSelector(concepts, conceptSemaphore, keyed) as KeyedSelector);
+          const newSelectors = uiState.selectors.map(
+            (keyed: KeyedSelector) => updateMuxifiedKeyedSelector(concepts, conceptSemaphore, keyed) as KeyedSelector
+          );
           const changed: Record<string, boolean> = {};
           const payload: UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload = {
             boundActionQue: [],
@@ -313,7 +308,7 @@ export const userInterfaceServerOnChangePrinciple: UserInterfaceServerPrinciple 
             });
           }
         } else if (uiState === undefined) {
-          console.log('SHOULDN\'T CONCLUDE, unless removed');
+          console.log("SHOULDN'T CONCLUDE, unless removed");
           stagePlanner.conclude();
         }
       },

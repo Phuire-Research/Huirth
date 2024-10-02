@@ -49,10 +49,14 @@ const userInterfaceClientQualities = {
 };
 
 export type UserInterfaceClientDeck = {
-  userInterfaceClient: Concept<UserInterfaceState, typeof userInterfaceClientQualities & typeof userInterfaceQualities>
+  userInterfaceClient: Concept<UserInterfaceState, typeof userInterfaceClientQualities & typeof userInterfaceQualities>;
 };
 
-export type UserInterfaceClientPrinciple = PrincipleFunction<typeof userInterfaceClientQualities, MuxiumDeck & UserInterfaceClientDeck, UserInterfaceClientState>;
+export type UserInterfaceClientPrinciple = PrincipleFunction<
+  typeof userInterfaceClientQualities,
+  MuxiumDeck & UserInterfaceClientDeck,
+  UserInterfaceClientState
+>;
 
 export const createUserInterfaceClientConcept = (state?: Record<string, unknown>, brandCreator?: () => AnyConcept): AnyConcept => {
   const newState: Record<string, unknown> = {};
@@ -66,34 +70,24 @@ export const createUserInterfaceClientConcept = (state?: Record<string, unknown>
   }
   const muxified = brandCreator
     ? muxifyConcepts(
-      [
-        createHtmlConcept(),
-        createWebSocketClientConcept(),
-        createUserInterfaceConcept([]),
-        createConcept(
-          '',
-          createUserInterfaceClientState(),
-          userInterfaceClientQualities,
-          [userInterfaceClientOnChangePrinciple]
-        ),
-        brandCreator(),
-      ],
-      createConcept(userInterfaceClientName, newState)
-    )
+        [
+          createHtmlConcept(),
+          createWebSocketClientConcept(),
+          createUserInterfaceConcept([]),
+          createConcept('', createUserInterfaceClientState(), userInterfaceClientQualities, [userInterfaceClientOnChangePrinciple]),
+          brandCreator(),
+        ],
+        createConcept(userInterfaceClientName, newState)
+      )
     : muxifyConcepts(
-      [
-        createHtmlConcept(),
-        createWebSocketClientConcept(),
-        createUserInterfaceConcept([]),
-        createConcept(
-          '',
-          createUserInterfaceClientState(),
-          userInterfaceQualities,
-          [userInterfaceClientOnChangePrinciple]
-        ),
-      ],
-      createConcept(userInterfaceClientName, newState)
-    );
+        [
+          createHtmlConcept(),
+          createWebSocketClientConcept(),
+          createUserInterfaceConcept([]),
+          createConcept('', createUserInterfaceClientState(), userInterfaceQualities, [userInterfaceClientOnChangePrinciple]),
+        ],
+        createConcept(userInterfaceClientName, newState)
+      );
   return muxified;
 };
 /*#>*/

@@ -90,7 +90,7 @@ export const huirthServerParseFileFromData = createQualityCard({
   type: 'huirthServer parse file from data',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethod(({controller, action}) => {
+    createAsyncMethod(({ controller, action }) => {
       if (action.strategy && action.strategy.data) {
         const strategy = action.strategy;
         const data = strategyData_select(action.strategy) as ReadDirectoryField & ReadFileContentsAndAppendToDataField;

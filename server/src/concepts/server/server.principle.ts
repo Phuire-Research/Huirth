@@ -6,10 +6,7 @@ import { Subscriber } from 'rxjs';
 import { ServerPrinciple, ServerState } from './server.concept';
 import { Action, Concepts, PrincipleFunction, MuxifiedSubject, selectMuxifiedState } from '@phuire/stratimux';
 
-export const serverPrinciple: ServerPrinciple = ({
-  concepts_,
-  k_
-}) => {
+export const serverPrinciple: ServerPrinciple = ({ concepts_, k_ }) => {
   const HOST = '0.0.0.0';
   const initialServerState = k_.state(concepts_) as ServerState;
   const server = initialServerState.server;

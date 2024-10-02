@@ -19,30 +19,29 @@ export type GitCloneRepoToDirectoryPayload = {
   path: string;
 };
 
-export const huirthServerGitCloneRepoToDirectory =
-  createQualityCardWithPayload<huirthServerState, GitCloneRepoToDirectoryPayload>({
-    type: 'huirthServer clone repository to target directory',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createAsyncMethod(({controller, action}) => {
-        const { path, url } = action.payload;
-        if (action.strategy) {
-          const process = child_process.exec('git clone ' + url + ' ' + path, (err, stdout, stderr) => {
-            console.log(`GIT CLONE ${url}\nERR: `, err, 'STDOUT: ', stdout, 'STDERR: ', stderr);
-          });
-          process.on('message', (message) => console.log(message));
-          process.on('exit', () => {
-            const newStrategy = strategySuccess(action.strategy as ActionStrategy);
-            controller.fire(newStrategy);
-          });
-          process.on('error', (error) => {
-            console.error(error);
-            const newStrategy = strategyFailed(action.strategy as ActionStrategy);
-            controller.fire(newStrategy);
-          });
-        } else {
-          controller.fire(action);
-        }
-      }),
-  });
+export const huirthServerGitCloneRepoToDirectory = createQualityCardWithPayload<huirthServerState, GitCloneRepoToDirectoryPayload>({
+  type: 'huirthServer clone repository to target directory',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createAsyncMethod(({ controller, action }) => {
+      const { path, url } = action.payload;
+      if (action.strategy) {
+        const process = child_process.exec('git clone ' + url + ' ' + path, (err, stdout, stderr) => {
+          console.log(`GIT CLONE ${url}\nERR: `, err, 'STDOUT: ', stdout, 'STDERR: ', stderr);
+        });
+        process.on('message', (message) => console.log(message));
+        process.on('exit', () => {
+          const newStrategy = strategySuccess(action.strategy as ActionStrategy);
+          controller.fire(newStrategy);
+        });
+        process.on('error', (error) => {
+          console.error(error);
+          const newStrategy = strategyFailed(action.strategy as ActionStrategy);
+          controller.fire(newStrategy);
+        });
+      } else {
+        controller.fire(action);
+      }
+    }),
+});
 /*#>*/

@@ -9,18 +9,18 @@ export type DocumentObjectModelBindPayloadPayload = {
   event: unknown;
 };
 
-export const documentObjectModelBindPayload =
-  createQualityCardWithPayload<DocumentObjectModelState, DocumentObjectModelBindPayloadPayload>({
+export const documentObjectModelBindPayload = createQualityCardWithPayload<DocumentObjectModelState, DocumentObjectModelBindPayloadPayload>(
+  {
     type: 'Document Object Model bind payload',
     reducer: nullReducer,
     methodCreator: () =>
-      createMethod(({action}) => {
+      createMethod(({ action }) => {
         if (action.strategy) {
           const payload = action.payload;
           const act = strategySuccess(action.strategy);
           if (act.payload) {
             (act.payload as unknown) = {
-              ...act.payload as object,
+              ...(act.payload as object),
               ...payload,
             };
           } else {
@@ -31,5 +31,6 @@ export const documentObjectModelBindPayload =
           return action;
         }
       }),
-  });
+  }
+);
 /*#>*/

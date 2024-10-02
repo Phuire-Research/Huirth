@@ -61,45 +61,45 @@ const readAndParseStitch = (name: string, type: DataSetTypes): [ActionNode, Acti
   ];
 };
 
-export const huirthServerDetermineReadParseAppendStrategy =
-  createQualityCardWithPayload<huirthServerState, huirthServerDetermineReadParseAppendStrategyPayload>({
-    type: 'huirthServer determine read, parse, and append strategy for the incoming raw data set',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createMethodWithConcepts(
-        ({action, concepts}) => {
-          if (action.strategy && action.strategy.data) {
-            const strategy = action.strategy;
-            const data = strategyData_select(action.strategy) as ReadDirectoryField & ReadFileContentsAndAppendToDataField;
-            const { name, type } = selectPayload<huirthServerDetermineReadParseAppendStrategyPayload>(action);
-            if (data.filesAndDirectories && data.filesAndDirectories.length > 0) {
-              const filesAndDirectories = data.filesAndDirectories;
-              const [end, start] = readAndParseStitch(name, type);
-              let prevHead = end;
-              for (let i = 1; i < filesAndDirectories.length; i++) {
-                const [stitchEnd, stitchStrategy] = readAndParseStitch(name, type);
-                const stitchHead = createActionNodeFromStrategy(stitchStrategy);
-                prevHead.successNode = stitchHead;
-                // console.log('PREV HEAD', prevHead, i);
-                prevHead = stitchEnd;
-                // console.log('STITCH HEAD', stitchHead, i);
-              }
-              const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(name);
-              const strategyAdd = huirthAddTrainingDataPageStrategy(name, generatedTrainingDataPage, concepts) as ActionStrategy;
-              prevHead.successNode = createActionNode(
-                huirthServerPrepareParsedProjectDataUpdate.actionCreator({
-                  name,
-                })
-              );
-              strategy.currentNode.successNode = createActionNodeFromStrategy(start);
-              return strategySuccess(strategySequence([strategy, strategyAdd]) as ActionStrategy);
-            } else {
-              return strategyFailed(strategy, strategyData_appendFailure(strategy, 'No entries found in filesAndDirectories field'));
-            }
-          } else {
-            return muxiumConclude();
+export const huirthServerDetermineReadParseAppendStrategy = createQualityCardWithPayload<
+  huirthServerState,
+  huirthServerDetermineReadParseAppendStrategyPayload
+>({
+  type: 'huirthServer determine read, parse, and append strategy for the incoming raw data set',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createMethodWithConcepts(({ action, concepts_ }) => {
+      if (action.strategy && action.strategy.data) {
+        const strategy = action.strategy;
+        const data = strategyData_select(action.strategy) as ReadDirectoryField & ReadFileContentsAndAppendToDataField;
+        const { name, type } = selectPayload<huirthServerDetermineReadParseAppendStrategyPayload>(action);
+        if (data.filesAndDirectories && data.filesAndDirectories.length > 0) {
+          const filesAndDirectories = data.filesAndDirectories;
+          const [end, start] = readAndParseStitch(name, type);
+          let prevHead = end;
+          for (let i = 1; i < filesAndDirectories.length; i++) {
+            const [stitchEnd, stitchStrategy] = readAndParseStitch(name, type);
+            const stitchHead = createActionNodeFromStrategy(stitchStrategy);
+            prevHead.successNode = stitchHead;
+            // console.log('PREV HEAD', prevHead, i);
+            prevHead = stitchEnd;
+            // console.log('STITCH HEAD', stitchHead, i);
           }
-        },
-      ),
-  });
+          const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(name);
+          const strategyAdd = huirthAddTrainingDataPageStrategy(name, generatedTrainingDataPage, concepts_) as ActionStrategy;
+          prevHead.successNode = createActionNode(
+            huirthServerPrepareParsedProjectDataUpdate.actionCreator({
+              name,
+            })
+          );
+          strategy.currentNode.successNode = createActionNodeFromStrategy(start);
+          return strategySuccess(strategySequence([strategy, strategyAdd]) as ActionStrategy);
+        } else {
+          return strategyFailed(strategy, strategyData_appendFailure(strategy, 'No entries found in filesAndDirectories field'));
+        }
+      } else {
+        return muxiumConclude();
+      }
+    }),
+});
 /*#>*/

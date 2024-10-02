@@ -54,8 +54,14 @@ export const huirthIndexDialogStrategyStitchTopic = 'huirth Index Dialog Strateg
 export const huirthIndexDialogStrategyStitch: ActionStrategyComponentStitch = (payload) => {
   // Body
   const stephuirthIndexDialogEnd = userInterface.createComponent(huirthIndexDialogEnd.actionCreator(payload));
-  const stephuirthIndexDialogContent = userInterface.createComponent(huirthIndexDialogContent.actionCreator(payload), stephuirthIndexDialogEnd);
-  const stephuirthIndexDialogBegin = userInterface.createComponent(huirthIndexDialogBegin.actionCreator(payload), stephuirthIndexDialogContent);
+  const stephuirthIndexDialogContent = userInterface.createComponent(
+    huirthIndexDialogContent.actionCreator(payload),
+    stephuirthIndexDialogEnd
+  );
+  const stephuirthIndexDialogBegin = userInterface.createComponent(
+    huirthIndexDialogBegin.actionCreator(payload),
+    stephuirthIndexDialogContent
+  );
   return [
     stephuirthIndexDialogEnd,
     createStrategy({

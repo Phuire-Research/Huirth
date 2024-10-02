@@ -25,15 +25,17 @@ export type huirthServerTriggerSelectTransformationStrategyPayload = {
   selection: string;
 };
 
-export const huirthServerTriggerSelectTransformationStrategy =
-  createQualityCardWithPayload<huirthServerState, huirthServerTriggerSelectTransformationStrategyPayload>({
-    type: 'huirthServer trigger passed transformation strategy from payload',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createMethodDebounce(({action}) => {
-        const { selection } = action.payload;
-        let finalAction;
-        switch (selection) {
+export const huirthServerTriggerSelectTransformationStrategy = createQualityCardWithPayload<
+  huirthServerState,
+  huirthServerTriggerSelectTransformationStrategyPayload
+>({
+  type: 'huirthServer trigger passed transformation strategy from payload',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createMethodDebounce(({ action }) => {
+      const { selection } = action.payload;
+      let finalAction;
+      switch (selection) {
         case huirthVerboseAddingStrategySelect: {
           finalAction = huirthServerGenerateVerboseAddingStrategy.actionCreator({ agreement: 600000 });
           break;
@@ -49,18 +51,18 @@ export const huirthServerTriggerSelectTransformationStrategy =
         default: {
           break;
         }
-        }
-        if (finalAction) {
-          return strategyBegin(
-            createStrategy({
-              topic: 'Begin Transformation Strategy',
-              initialNode: createActionNode(finalAction, {
-                agreement: 600000,
-              }),
-            })
-          );
-        }
-        return action;
-      }, 50),
-  });
+      }
+      if (finalAction) {
+        return strategyBegin(
+          createStrategy({
+            topic: 'Begin Transformation Strategy',
+            initialNode: createActionNode(finalAction, {
+              agreement: 600000,
+            }),
+          })
+        );
+      }
+      return action;
+    }, 50),
+});
 /*#>*/

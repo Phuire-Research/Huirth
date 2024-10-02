@@ -15,7 +15,7 @@ export const huirthServerGitPullRepositoryStrategy = (root: string, name: string
   const stepUpdateProjectStatusToPulled = createActionNode(
     webSocketServerAppendToActionQue.actionCreator({
       actionQue: [
-        huirthUpdateProjectStatus({
+        huirthUpdateProjectStatus.actionCreator({
           name,
           status: ProjectStatus.pulled,
         }),

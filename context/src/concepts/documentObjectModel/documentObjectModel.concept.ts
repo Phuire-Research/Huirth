@@ -23,13 +23,17 @@ const createDocumentObjectModelState = (bindingQue?: UserInterfacePageBindings):
   };
 };
 
-const qualities = {documentObjectModelBind, documentObjectModelBindPayload, documentObjectModelClearBindingQue};
+const qualities = { documentObjectModelBind, documentObjectModelBindPayload, documentObjectModelClearBindingQue };
 
 export type DocumentObjectModelDeck = {
-  documentObjectModel: Concept<DocumentObjectModelState, typeof qualities>
-}
+  documentObjectModel: Concept<DocumentObjectModelState, typeof qualities>;
+};
 
-export type DocumentObjectModelPrinciple = PrincipleFunction<typeof qualities, MuxiumDeck & DocumentObjectModelDeck, DocumentObjectModelState>;
+export type DocumentObjectModelPrinciple = PrincipleFunction<
+  typeof qualities,
+  MuxiumDeck & DocumentObjectModelDeck,
+  DocumentObjectModelState
+>;
 
 export const createDocumentObjectModelConcept = (bindingQue?: UserInterfacePageBindings) => {
   return createConcept<DocumentObjectModelState, typeof qualities>(

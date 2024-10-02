@@ -10,15 +10,14 @@ export type huirthAppendMuxiumDialogTypePayload = {
   dialog: string;
 };
 
-export const huirthAppendMuxiumDialog =
-  createQualityCardWithPayload<huirthState, huirthAppendMuxiumDialogTypePayload>({
-    type: 'huirth append Muxium Dialog',
-    reducer: (state, action) => {
-      const { dialog } = action.payload;
-      return {
-        dialog: state.dialog + dialog,
-      };
-    },
-    methodCreator: defaultMethodCreator,
-  });
+export const huirthAppendMuxiumDialog = createQualityCardWithPayload<huirthState, huirthAppendMuxiumDialogTypePayload>({
+  type: 'huirth append Muxium Dialog',
+  reducer: (state, action) => {
+    const { dialog } = action.payload;
+    return {
+      dialog: state.dialog + dialog,
+    };
+  },
+  methodCreator: defaultMethodCreator,
+});
 /*#>*/

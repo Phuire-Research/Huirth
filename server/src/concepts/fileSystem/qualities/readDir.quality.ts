@@ -40,32 +40,31 @@ export type ReadDirectoryField = {
   filesAndDirectories: FileDirent[];
 };
 
-export const fileSystemReadDirectory =
-  createQualityCardWithPayload<FileSystemState, ReadDirectoryPayload>({
-    type: 'File System read Directory and add to Strategy Data',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createAsyncMethod(({controller, action}) => {
-        const { target } = action.payload;
-        if (action.strategy) {
-          const strategy = action.strategy;
-          walk(target)
-            .then((data) => {
-              controller.fire(
-                strategySuccess(
-                  strategy,
-                  strategyData_muxifyData(strategy, {
-                    filesAndDirectories: data,
-                  })
-                )
-              );
-            })
-            .catch((error) => {
-              controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, error)));
-            });
-        } else {
-          controller.fire(muxiumConclude());
-        }
-      }),
-  });
+export const fileSystemReadDirectory = createQualityCardWithPayload<FileSystemState, ReadDirectoryPayload>({
+  type: 'File System read Directory and add to Strategy Data',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createAsyncMethod(({ controller, action }) => {
+      const { target } = action.payload;
+      if (action.strategy) {
+        const strategy = action.strategy;
+        walk(target)
+          .then((data) => {
+            controller.fire(
+              strategySuccess(
+                strategy,
+                strategyData_muxifyData(strategy, {
+                  filesAndDirectories: data,
+                })
+              )
+            );
+          })
+          .catch((error) => {
+            controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, error)));
+          });
+      } else {
+        controller.fire(muxiumConclude());
+      }
+    }),
+});
 /*#>*/

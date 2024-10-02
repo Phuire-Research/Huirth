@@ -29,7 +29,7 @@ import { huirthUpdateDataSetPrompt } from '../../updateDataSetPrompt.quality';
 export const huirthDataSetContent = createQualityCardComponent<huirthState, ActionComponentPayload>({
   type: 'create userInterface for DataSetContent',
   reducer: nullReducer,
-  componentCreator: createMethodWithState<huirthState, ActionComponentPayload, HuirthDeck>(({action, state, deck, self}) => {
+  componentCreator: createMethodWithState<huirthState, ActionComponentPayload, HuirthDeck>(({ action, state, deck, self }) => {
     const payload = action.payload;
     const id = '#dataSetID' + payload.pageTitle;
     const addEntryID = '#addDataEntry' + payload.pageTitle;
@@ -78,25 +78,25 @@ export const huirthDataSetContent = createQualityCardComponent<huirthState, Acti
   <input
     id="${promptID + elementID}"
     class="${
-  'input-' +
+      'input-' +
       i +
       ' mb-4 peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent' +
       'bg-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all' +
       'placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200' +
       'focus:border-2 focus:border-teal-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50'
-}"
+    }"
     value="${data.prompt + ''}"
   />
   <label class="text-white pl-2 translate-y-2">
     Content
   </label>
   <textarea contentEditable="true" id="${contentID + elementID}" class="${
-  'peer h-full min-h-[300px] w-full resize-none rounded-[7px] ' +
-                'border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal' +
-                'text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200' +
-                'placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0' +
-                'disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50'
-}" id="${chosenID + elementID}" rows="4" cols="50"
+            'peer h-full min-h-[300px] w-full resize-none rounded-[7px] ' +
+            'border border-blue-gray-200 border-t-transparent bg-white px-3 py-2.5 font-sans text-sm font-normal' +
+            'text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200' +
+            'placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0' +
+            'disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50'
+          }" id="${chosenID + elementID}" rows="4" cols="50"
 >${data.content}</textarea>
 </div>
 `;
@@ -120,10 +120,7 @@ export const huirthDataSetContent = createQualityCardComponent<huirthState, Acti
             boundSelectors: [
               // START HERE
               // Edge case and limitation of typescript, you need to self reference
-              createBoundSelectors(id, self(payload), [
-                deck.huirth.k.trainingData,
-                deck.huirth.k.dataSetSelection,
-              ]),
+              createBoundSelectors(id, self(payload), [deck.huirth.k.trainingData, deck.huirth.k.dataSetSelection]),
             ],
             action: self(payload),
             html: /*html*/ `
@@ -136,12 +133,10 @@ export const huirthDataSetContent = createQualityCardComponent<huirthState, Acti
             Save <i class="fa-solid fa-floppy-disk"></i>
           </button>
         </div>
-        <h1>Entries: ${
-  trainingData[index] && trainingData[index].dataSet ? trainingData[index].dataSet.length : 'Data Set Removed'
-}</h1>
+        <h1>Entries: ${trainingData[index] && trainingData[index].dataSet ? trainingData[index].dataSet.length : 'Data Set Removed'}</h1>
         <h1>Page: ${
-  trainingData[index] ? trainingData[index].index + 1 + '/' + Math.round(trainingData[index].dataSet.length / 10 + 1) : '0/0'
-}</h1>
+          trainingData[index] ? trainingData[index].index + 1 + '/' + Math.round(trainingData[index].dataSet.length / 10 + 1) : '0/0'
+        }</h1>
         <div class="flex-1 p-4 pt-0 [&>*:nth-child(3n+3)]:text-sky-400 [&>*:nth-child(2n+2)]:text-orange-400">
           ${finalOutput}
         </div>
@@ -158,7 +153,6 @@ export const huirthDataSetContent = createQualityCardComponent<huirthState, Acti
       }
     }
     return action;
-  },
-  ),
+  }),
 });
 /*#>*/

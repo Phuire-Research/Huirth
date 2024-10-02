@@ -9,17 +9,16 @@ import { createQualityCardComponent, selectComponentPayload, userInterface_appen
 export const huirthStyle = createQualityCardComponent({
   type: 'Create huirth Style',
   reducer: nullReducer,
-  componentCreator:
-    createMethod(({action}) => {
-      if (action.strategy) {
-        return strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id: '',
-            boundSelectors: [],
-            universal: true,
-            action,
-            html: /*html*/ `
+  componentCreator: createMethod(({ action }) => {
+    if (action.strategy) {
+      return strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
+          id: '',
+          boundSelectors: [],
+          universal: true,
+          action,
+          html: /*html*/ `
   <style>
     html, body {
       overflow-x: clip;
@@ -69,10 +68,10 @@ export const huirthStyle = createQualityCardComponent({
     }
   </style>
     `,
-          })
-        );
-      }
-      return action;
-    }),
+        })
+      );
+    }
+    return action;
+  }),
 });
 /*#>*/

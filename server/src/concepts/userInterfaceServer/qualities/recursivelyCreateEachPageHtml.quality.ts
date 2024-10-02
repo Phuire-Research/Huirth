@@ -21,10 +21,10 @@ export type RecursivelyCreateEachPageHtmlPayload = {
 };
 
 export const userInterfaceServerRecursivelyCreateEachPageHtml = createQualityCardWithPayload<RecursivelyCreateEachPageHtmlPayload, any>({
-  type: 'User Interface Server recursively create each page\'s html file',
+  type: "User Interface Server recursively create each page's html file",
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethod(({controller, action}) => {
+    createAsyncMethod(({ controller, action }) => {
       const payload = selectPayload<RecursivelyCreateEachPageHtmlPayload>(action);
       const targetPage = payload.pages.shift();
       if (targetPage) {

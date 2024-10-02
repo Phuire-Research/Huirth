@@ -21,8 +21,7 @@ export const huirthServerSetDPOFromData = createQualityCard<huirthServerState>({
         };
       }
     }
-    return {
-    };
+    return {};
   },
   methodCreator: defaultMethodCreator,
 });

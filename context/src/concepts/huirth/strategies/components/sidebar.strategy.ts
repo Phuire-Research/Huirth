@@ -10,9 +10,9 @@ import { huirthSideBarContent } from '../../qualities/components/sideBar/sideBar
 
 export const huirthSidebarComponentStitch: ActionStrategyComponentStitch = (payload) => {
   // HEAD
-  const stephuirthSidebarEnd = userInterface.createComponent(huirthSideBarEnd(payload));
-  const stephuirthSidebarContent = userInterface.createComponent(huirthSideBarContent(payload), stephuirthSidebarEnd);
-  const stephuirthSidebarBegin = userInterface.createComponent(huirthSideBarBegin(payload), stephuirthSidebarContent);
+  const stephuirthSidebarEnd = userInterface.createComponent(huirthSideBarEnd.actionCreator(payload));
+  const stephuirthSidebarContent = userInterface.createComponent(huirthSideBarContent.actionCreator(payload), stephuirthSidebarEnd);
+  const stephuirthSidebarBegin = userInterface.createComponent(huirthSideBarBegin.actionCreator(payload), stephuirthSidebarContent);
   return [
     stephuirthSidebarEnd,
     createStrategy({

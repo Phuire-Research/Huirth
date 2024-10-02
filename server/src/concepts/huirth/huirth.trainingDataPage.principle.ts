@@ -93,15 +93,13 @@ import { huirthAddTrainingDataPageStrategy, huirthAddTrainingDataPageStrategyTop
 //   ];
 // };
 
-export const huirthTrainingDataPagePrinciple: HuirthPrinciple = ({
-  plan
-}) => {
+export const huirthTrainingDataPagePrinciple: HuirthPrinciple = ({ plan }) => {
   const cachedTrainingDataNames: string[] = [];
   const beat = 33;
   const isClient = userInterface_isClient();
-  plan('Observe Training Data and modify Pages', ({stage, k__}) => [
+  plan('Observe Training Data and modify Pages', ({ stage, k__ }) => [
     stage(
-      ({concepts, dispatch, d, k, stagePlanner}) => {
+      ({ concepts, dispatch, d, k, stagePlanner }) => {
         const state = k.state(concepts) as unknown as UserInterfaceState;
         const conceptName = k.name(concepts);
         if (conceptName && state.pages) {
@@ -115,14 +113,11 @@ export const huirthTrainingDataPagePrinciple: HuirthPrinciple = ({
         }
       },
       {
-        selectors: [
-          k__.pages,
-          k__.pageStrategies,
-        ],
+        selectors: [k__.pages, k__.pageStrategies],
       }
     ),
     stage(
-      ({concepts, dispatch, d, k, stagePlanner}) => {
+      ({ concepts, dispatch, d, k, stagePlanner }) => {
         const state = k.state(concepts);
         const trainingData = state?.trainingData;
         if (state && trainingData && state?.trainingDataInitialized) {
@@ -193,13 +188,13 @@ export const huirthTrainingDataPagePrinciple: HuirthPrinciple = ({
           }
         }
         if (state === undefined) {
-          console.log('THIS PLAN SHOULDN\'T CONCLUDE YET');
+          console.log("THIS PLAN SHOULDN'T CONCLUDE YET");
           stagePlanner.conclude();
         }
       },
       { beat }
     ),
-    stage(({stagePlanner}) => {
+    stage(({ stagePlanner }) => {
       stagePlanner.conclude();
     }),
     // createStage((concepts, dispatch, changes) => {
@@ -262,7 +257,7 @@ export const huirthTrainingDataPagePrinciple: HuirthPrinciple = ({
     //     plan.conclude();
     //   }
     // }, {beat}),
-    stage(({stagePlanner}) => {
+    stage(({ stagePlanner }) => {
       stagePlanner.conclude();
     }),
   ]);

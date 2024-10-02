@@ -25,9 +25,13 @@ const initialWebSocketServerState = (): WebSocketServerState => {
 
 export const webSocketServerQualities = { webSocketServerAppendToActionQue, webSocketServerSyncState, webSocketServerSetClientSemaphore };
 export type WebSocketServerDeck = {
-  webSocketServer: Concept<WebSocketServerState, typeof webSocketServerQualities>
-}
-export type WebSocketServerPrinciple = PrincipleFunction<typeof webSocketServerQualities, MuxiumDeck & WebSocketServerDeck, WebSocketServerState>;
+  webSocketServer: Concept<WebSocketServerState, typeof webSocketServerQualities>;
+};
+export type WebSocketServerPrinciple = PrincipleFunction<
+  typeof webSocketServerQualities,
+  MuxiumDeck & WebSocketServerDeck,
+  WebSocketServerState
+>;
 
 export const createWebSocketServerConcept = () => {
   return createConcept<WebSocketServerState, typeof webSocketServerQualities>(

@@ -12,18 +12,17 @@ export type SetRepositoriesFromDataField = {
   trainingData: DPO_DataSet;
 };
 
-export const huirthServerSetRepositoriesFromData =
-  createQualityCard<huirthServerState>({
-    type: 'huirth Server set initial project status from data',
-    reducer: (_, action) => {
-      if (action.strategy) {
-        const data = strategyData_select(action.strategy) as GetDirectoriesAndFilesDataField;
-        if (data) {
-          let stratimuxExists = false;
-          let huirthExists = false;
-          const projectsStatuses: { name: string; status: ProjectStatus }[] = [];
-          for (const dir of data.directories) {
-            switch (dir.name.toLowerCase()) {
+export const huirthServerSetRepositoriesFromData = createQualityCard<huirthServerState>({
+  type: 'huirth Server set initial project status from data',
+  reducer: (_, action) => {
+    if (action.strategy) {
+      const data = strategyData_select(action.strategy) as GetDirectoriesAndFilesDataField;
+      if (data) {
+        let stratimuxExists = false;
+        let huirthExists = false;
+        const projectsStatuses: { name: string; status: ProjectStatus }[] = [];
+        for (const dir of data.directories) {
+          switch (dir.name.toLowerCase()) {
             case PhuirEProjects.stratimux.toLocaleLowerCase(): {
               stratimuxExists = true;
               break;
@@ -35,19 +34,18 @@ export const huirthServerSetRepositoriesFromData =
             default: {
               projectsStatuses.push({ name: dir.name, status: ProjectStatus.installed });
             }
-            }
           }
-          console.log('CHECK INSTALLED STATUSES', projectsStatuses);
-          return {
-            stratimuxStatus: stratimuxExists ? ProjectStatus.installed : ProjectStatus.notInstalled,
-            huirthStatus: huirthExists ? ProjectStatus.installed : ProjectStatus.notInstalled,
-            projectsStatuses,
-          };
         }
+        console.log('CHECK INSTALLED STATUSES', projectsStatuses);
+        return {
+          stratimuxStatus: stratimuxExists ? ProjectStatus.installed : ProjectStatus.notInstalled,
+          huirthStatus: huirthExists ? ProjectStatus.installed : ProjectStatus.notInstalled,
+          projectsStatuses,
+        };
       }
-      return {
-      };
-    },
-    methodCreator: defaultMethodCreator,
-  });
+    }
+    return {};
+  },
+  methodCreator: defaultMethodCreator,
+});
 /*#>*/

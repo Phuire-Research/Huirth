@@ -39,9 +39,9 @@ export const huirthGeneratedTrainingDataPageStrategy = (pageTitle: string): Page
 
 export const huirthGeneratedTrainingDataStrategyStitchTopic = 'huirth Generated Training Data Strategy Component Stitch';
 export const huirthGeneratedTrainingDataStrategyStitch: ActionStrategyComponentStitch = (payload) => {
-  const stephuirthDataSetEnd = userInterface.createComponent(huirthDataSetEnd(payload));
-  const stephuirthDataManagerContent = userInterface.createComponent(huirthDataSetContent(payload), stephuirthDataSetEnd);
-  const stephuirthDataSetBegin = userInterface.createComponent(huirthDataSetBegin(payload), stephuirthDataManagerContent);
+  const stephuirthDataSetEnd = userInterface.createComponent(huirthDataSetEnd.actionCreator(payload));
+  const stephuirthDataManagerContent = userInterface.createComponent(huirthDataSetContent.actionCreator(payload), stephuirthDataSetEnd);
+  const stephuirthDataSetBegin = userInterface.createComponent(huirthDataSetBegin.actionCreator(payload), stephuirthDataManagerContent);
   return [
     stephuirthDataSetEnd,
     createStrategy({

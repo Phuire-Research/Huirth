@@ -54,7 +54,7 @@ export const huirthServerReadFromDataTrainingDataFromDirectories = createQuality
   type: 'huirth Server read from File System Data, Directories and Files',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethod(({controller, action}) => {
+    createAsyncMethod(({ controller, action }) => {
       if (action.strategy && action.strategy.data) {
         const strategy = action.strategy;
         const data = strategyData_select(action.strategy) as GetDirectoriesAndFilesDataField;

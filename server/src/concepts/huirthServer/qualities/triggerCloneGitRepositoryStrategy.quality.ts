@@ -21,22 +21,22 @@ export type huirthServerTriggerCloneGitRepositoryStrategyPayload = {
   name: string;
 };
 
-export const huirthServerTriggerCloneGitRepositoryStrategy =
-  createQualityCardWithPayload<huirthServerState, huirthServerTriggerCloneGitRepositoryStrategyPayload>({
-    type: 'huirthServer trigger clone git repository ActionStrategy',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createMethodDebounceWithConcepts(
-        ({action, concepts}) => {
-          const { name, url } = action.payload;
-          const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
-          if (fileSystemState) {
-            const strategy = huirthServerCloneGitRepositoryToDirectoryStrategy(fileSystemState.root, url, name);
-            return strategyBegin(strategy);
-          } else {
-            return action;
-          }
-        }, 50
-      ),
-  });
+export const huirthServerTriggerCloneGitRepositoryStrategy = createQualityCardWithPayload<
+  huirthServerState,
+  huirthServerTriggerCloneGitRepositoryStrategyPayload
+>({
+  type: 'huirthServer trigger clone git repository ActionStrategy',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createMethodDebounceWithConcepts(({ action, concepts_ }) => {
+      const { name, url } = action.payload;
+      const fileSystemState = selectState<FileSystemState>(concepts_, fileSystemName);
+      if (fileSystemState) {
+        const strategy = huirthServerCloneGitRepositoryToDirectoryStrategy(fileSystemState.root, url, name);
+        return strategyBegin(strategy);
+      } else {
+        return action;
+      }
+    }, 50),
+});
 /*#>*/

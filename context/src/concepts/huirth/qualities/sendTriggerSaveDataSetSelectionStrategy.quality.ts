@@ -62,33 +62,31 @@ export const huirthSendTriggerSaveDataSetSelectionStrategy = createQualityCard<h
     };
   },
   methodCreator: () =>
-    createMethodDebounceWithState<huirthServerState>(
-      ({state}) => {
-        const { dataSetSelection, trainingData } = state;
-        const names: string[] = [];
-        for (const [i, select] of dataSetSelection.entries()) {
-          if (select) {
-            const name = trainingData[i].name;
-            names.push(name);
-          }
+    createMethodDebounceWithState<huirthServerState>(({ state }) => {
+      const { dataSetSelection, trainingData } = state;
+      const names: string[] = [];
+      for (const [i, select] of dataSetSelection.entries()) {
+        if (select) {
+          const name = trainingData[i].name;
+          names.push(name);
         }
-        const strategy = createStrategy({
-          topic: `Sending to server trigger save data set selection for: ${names.join(', ')}`,
-          initialNode: createActionNode(
-            userInterfaceClientSendActionToServer(
-              createAction('huirthServer trigger save data set selection strategy', {
-                payload: {
-                  names,
-                },
-              })
-            ),
-            {
-              successNode: createActionNode(huirthClearDataSetSelection.actionCreator()),
-            }
+      }
+      const strategy = createStrategy({
+        topic: `Sending to server trigger save data set selection for: ${names.join(', ')}`,
+        initialNode: createActionNode(
+          userInterfaceClientSendActionToServer(
+            createAction('huirthServer trigger save data set selection strategy', {
+              payload: {
+                names,
+              },
+            })
           ),
-        });
-        return strategyBegin(strategy);
-      }, 50
-    ),
+          {
+            successNode: createActionNode(huirthClearDataSetSelection.actionCreator()),
+          }
+        ),
+      });
+      return strategyBegin(strategy);
+    }, 50),
 });
 /*#>*/

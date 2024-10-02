@@ -4,35 +4,31 @@ $>*/
 /*<#*/
 import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
-import {
-  createQualityCardComponent,
-  userInterface_appendCompositionToPage,
-} from '../../../../../model/userInterface';
+import { createQualityCardComponent, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 
 export const huirthIndexDPOEnd = createQualityCardComponent({
   type: 'create userInterface for IndexDPOEnd',
   reducer: nullReducer,
-  componentCreator:
-    createMethod(({action}) => {
-      const payload = action.payload;
-      const id = '';
-      if (action.strategy) {
-        return strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id,
-            boundSelectors: [],
-            universal: false,
-            action,
-            html: /*html*/ `
+  componentCreator: createMethod(({ action }) => {
+    const payload = action.payload;
+    const id = '';
+    if (action.strategy) {
+      return strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
+          id,
+          boundSelectors: [],
+          universal: false,
+          action,
+          html: /*html*/ `
     </div>
   </section>
 </div>
         `,
-          })
-        );
-      }
-      return action;
-    }),
+        })
+      );
+    }
+    return action;
+  }),
 });
 /*#>*/

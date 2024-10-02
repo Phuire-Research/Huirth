@@ -21,7 +21,10 @@ export type huirthSendTriggerParseRepositoryStrategyPayload = {
   name: string;
 };
 
-export const huirthSendTriggerParseRepositoryStrategy = createQualityCardWithPayload<huirthState, huirthSendTriggerParseRepositoryStrategyPayload>({
+export const huirthSendTriggerParseRepositoryStrategy = createQualityCardWithPayload<
+  huirthState,
+  huirthSendTriggerParseRepositoryStrategyPayload
+>({
   type: 'huirth send trigger parse repository to the server',
   reducer: (state, action) => {
     const { name } = action.payload;
@@ -57,7 +60,7 @@ export const huirthSendTriggerParseRepositoryStrategy = createQualityCardWithPay
     };
   },
   methodCreator: () =>
-    createMethodDebounce(({action}) => {
+    createMethodDebounce(({ action }) => {
       const { name } = action.payload;
       return strategyBegin(
         createStrategy({

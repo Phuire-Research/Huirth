@@ -8,23 +8,22 @@ import { createQualityCardComponent, userInterface_appendCompositionToPage } fro
 export const htmlHeadEnd = createQualityCardComponent({
   type: 'Html create Head End',
   reducer: nullReducer,
-  componentCreator:
-    createMethod(({action}) => {
-      if (action.strategy) {
-        return strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id: '',
-            boundSelectors: [],
-            universal: false,
-            action,
-            html: /*html*/ `
+  componentCreator: createMethod(({ action }) => {
+    if (action.strategy) {
+      return strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
+          id: '',
+          boundSelectors: [],
+          universal: false,
+          action,
+          html: /*html*/ `
     </head>
       `,
-          })
-        );
-      }
-      return action;
-    }),
+        })
+      );
+    }
+    return action;
+  }),
 });
 /*#>*/

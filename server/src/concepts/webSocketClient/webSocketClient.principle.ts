@@ -23,21 +23,15 @@ const notKeys = (key: string) => {
   return key !== 'pages' && key !== 'clientSemaphore' && key !== 'serverSemaphore' && key !== 'pageStrategies';
 };
 
-export const webSocketClientPrinciple: WebSocketClientPrinciple = ({
-  plan,
-  conceptSemaphore,
-  observer,
-  concepts_,
-  d_
-}) => {
+export const webSocketClientPrinciple: WebSocketClientPrinciple = ({ plan, conceptSemaphore, observer, concepts_, d_ }) => {
   const url = 'ws://' + window.location.host + '/muxium';
   const ws = new WebSocket(url);
   const syncState: Record<string, unknown> = {};
   ws.addEventListener('open', () => {
     console.log('SEND');
     ws.send(JSON.stringify(webSocketClientSetClientSemaphore({ semaphore: conceptSemaphore })));
-    plan('Web Socket Planner', ({stage, d__, k__}) => [
-      stage(({concepts, dispatch, stagePlanner, k}) => {
+    plan('Web Socket Planner', ({ stage, d__, k__ }) => [
+      stage(({ concepts, dispatch, stagePlanner, k }) => {
         const name = k.name(concepts);
         if (name) {
           dispatch(d__.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
@@ -48,7 +42,7 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({
         }
       }),
       stage(
-        ({concepts, stagePlanner}) => {
+        ({ concepts, stagePlanner }) => {
           const state = selectMuxifiedState<WebSocketClientState>(concepts, conceptSemaphore);
           if (state) {
             if (state.actionQue.length > 0) {
@@ -74,8 +68,8 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({
         { beat: 3, selectors: [k__.actionQue] }
       ),
     ]);
-    const onChangePlan = plan('Web Socket Server On Change', ({stage}) => [
-      stage(({concepts, dispatch, stagePlanner, d, k}) => {
+    const onChangePlan = plan('Web Socket Server On Change', ({ stage }) => [
+      stage(({ concepts, dispatch, stagePlanner, d, k }) => {
         const name = k.name(concepts);
         if (name) {
           dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
@@ -86,7 +80,7 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({
         }
       }),
       stage(
-        ({concepts, stagePlanner}) => {
+        ({ concepts, stagePlanner }) => {
           // Bucket State
           const state: Record<string, unknown> = {};
           const newState = selectMuxifiedState<Record<string, unknown>>(concepts, conceptSemaphore);
@@ -126,7 +120,7 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({
         },
         { priority: 2000 }
       ),
-      stage(({dispatch, d}) => {
+      stage(({ dispatch, d }) => {
         dispatch(d.muxium.e.muxiumKick(), {
           setStage: 1,
         });

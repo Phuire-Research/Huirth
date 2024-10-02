@@ -9,7 +9,7 @@ import { createQualityCardComponent, selectComponentPayload, userInterface_appen
 export const htmlHelloWorld = createQualityCardComponent({
   type: 'Html create hello world composition',
   reducer: nullReducer,
-  componentCreator: createMethod(({action}) => {
+  componentCreator: createMethod(({ action }) => {
     if (action.strategy) {
       const helloWorldId = '#helloWorld';
       return strategySuccess(

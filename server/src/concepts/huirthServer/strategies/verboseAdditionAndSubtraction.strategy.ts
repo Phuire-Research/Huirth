@@ -23,11 +23,11 @@ export const huirthServerVerboseAdditionAndSubtractionStrategy = (length: number
     actions.push(
       even
         ? huirthServerInnerAddTo.actionCreator({
-          addTo: number,
-        })
+            addTo: number,
+          })
         : huirthServerInnerSubtractFrom.actionCreator({
-          subtractFrom: number,
-        })
+            subtractFrom: number,
+          })
     );
   }
 

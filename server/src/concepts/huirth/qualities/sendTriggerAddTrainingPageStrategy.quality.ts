@@ -19,20 +19,19 @@ type SendTriggerAddTrainingPageStrategy = {
   name: string;
 };
 
-export const huirthSendAddTrainingPageStrategy =
-  createQualityCardWithPayload<huirthState, SendTriggerAddTrainingPageStrategy>({
-    type: 'Huirth send add training page strategy',
-    reducer: defaultReducer,
-    methodCreator: () =>
-      createMethod(({action}) => {
-        console.log('DOES THIS HIT');
-        const { name } = action.payload;
-        return strategyBegin(
-          createStrategy({
-            topic: 'Send to Web Socket: Trigger Add Training Data Page: ' + name,
-            initialNode: createActionNode(userInterfaceClientSendActionToServer(huirthTriggerAddTrainingDataPage.actionCreator({ name }))),
-          })
-        );
-      }),
-  });
+export const huirthSendAddTrainingPageStrategy = createQualityCardWithPayload<huirthState, SendTriggerAddTrainingPageStrategy>({
+  type: 'Huirth send add training page strategy',
+  reducer: defaultReducer,
+  methodCreator: () =>
+    createMethod(({ action }) => {
+      console.log('DOES THIS HIT');
+      const { name } = action.payload;
+      return strategyBegin(
+        createStrategy({
+          topic: 'Send to Web Socket: Trigger Add Training Data Page: ' + name,
+          initialNode: createActionNode(userInterfaceClientSendActionToServer(huirthTriggerAddTrainingDataPage.actionCreator({ name }))),
+        })
+      );
+    }),
+});
 /*#>*/

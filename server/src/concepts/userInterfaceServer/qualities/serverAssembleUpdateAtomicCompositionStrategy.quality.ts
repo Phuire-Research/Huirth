@@ -63,7 +63,7 @@ export const userInterfaceServerAssembleUpdateAtomicCompositionStrategy = create
   type: 'User Interface assemble update atomic compositions strategy server',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethod<UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload, any, UserInterfaceServerDeck>(({action, deck}) => {
+    createMethod<UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload, any, UserInterfaceServerDeck>(({ action, deck }) => {
       const boundActionQue = selectPayload<UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload>(action).boundActionQue;
       let previous: ActionNode | undefined;
       let first: ActionNode | undefined;

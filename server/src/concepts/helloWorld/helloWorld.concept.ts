@@ -18,15 +18,15 @@ const createHelloWorldState = (): HelloWorldState => {
   };
 };
 
-const qualities = {helloWorld};
+const qualities = { helloWorld };
 
 export type HelloWorldDeck = {
-  helloWorld: Concept<HelloWorldState, typeof qualities>
+  helloWorld: Concept<HelloWorldState, typeof qualities>;
 };
 
 export type HelloWorldPrinciple = PrincipleFunction<typeof qualities, MuxiumDeck & HelloWorldDeck, HelloWorldState>;
 
-export const createHelloWorldConcept = (something?: string)  => {
+export const createHelloWorldConcept = (something?: string) => {
   return createConcept(helloWorldName, createHelloWorldState(), qualities, [helloWorldPrinciple], []);
 };
 /*#>*/

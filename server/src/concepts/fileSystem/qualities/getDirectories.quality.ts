@@ -20,20 +20,19 @@ export type GetDirectoriesDataField = {
   directories: string[];
 };
 
-export const fileSystemGetDirectories =
-  createQualityCardWithPayload<FileSystemState, GetDirectoriesPayload>({
-    type: 'File System get target Directories',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createAsyncMethod(({controller, action}) => {
-        const {path} = action.payload;
-        const directories = fs.readdirSync(path);
-        if (action.strategy) {
-          console.log('DIRECTORIES LENGTH', directories.length);
-          const newStrategy = strategySuccess(action.strategy, strategyData_muxifyData(action.strategy, { directories }));
-          controller.fire(newStrategy);
-        }
-        controller.fire(muxiumConclude());
-      }),
-  });
+export const fileSystemGetDirectories = createQualityCardWithPayload<FileSystemState, GetDirectoriesPayload>({
+  type: 'File System get target Directories',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createAsyncMethod(({ controller, action }) => {
+      const { path } = action.payload;
+      const directories = fs.readdirSync(path);
+      if (action.strategy) {
+        console.log('DIRECTORIES LENGTH', directories.length);
+        const newStrategy = strategySuccess(action.strategy, strategyData_muxifyData(action.strategy, { directories }));
+        controller.fire(newStrategy);
+      }
+      controller.fire(muxiumConclude());
+    }),
+});
 /*#>*/

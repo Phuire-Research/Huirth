@@ -23,17 +23,13 @@ import { userInterface_createBoundSelectorsSelector, userInterface_createPagesSe
 import { userInterfaceInitialBindingStrategy } from './strategies/initialBinding.strategy';
 import { BoundSelectors, Page } from '../../model/userInterface';
 
-export const userInterfaceClientOnChangePrinciple: UserInterfaceClientPrinciple = ({
-  plan,
-  k_,
-  conceptSemaphore
-}) => {
+export const userInterfaceClientOnChangePrinciple: UserInterfaceClientPrinciple = ({ plan, k_, conceptSemaphore }) => {
   // const atomicCachedState: Record<string, unknown> = {};
   const boundSelectorsSelector = k_.boundSelectors;
   const beat = 100;
-  plan('User Interface Server on Change', ({stage, k__, d__}) => [
+  plan('User Interface Server on Change', ({ stage, k__, d__ }) => [
     stage(
-      ({concepts, dispatch, k, d, stagePlanner}) => {
+      ({ concepts, dispatch, k, d, stagePlanner }) => {
         const name = k.name(concepts);
         if (name && selectSlice(concepts, muxiumSelectOpen) === true) {
           dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
@@ -46,7 +42,7 @@ export const userInterfaceClientOnChangePrinciple: UserInterfaceClientPrinciple 
       { selectors: [muxiumSelectOpen] }
     ),
     stage(
-      ({concepts, dispatch, k, stagePlanner}) => {
+      ({ concepts, dispatch, k, stagePlanner }) => {
         //
         const pages = selectSlice<Page[]>(concepts, k.pages);
         if (pages) {
@@ -62,7 +58,7 @@ export const userInterfaceClientOnChangePrinciple: UserInterfaceClientPrinciple 
       { selectors: [k_.pages] }
     ),
     stage(
-      ({concepts, dispatch, changes, d, e, k, stagePlanner}) => {
+      ({ concepts, dispatch, changes, d, e, k, stagePlanner }) => {
         // console.log('Get unified name', getUnifiedName(concepts, semaphore));
         const uiState = k.state(concepts);
         if (uiState && uiState.pagesCached) {

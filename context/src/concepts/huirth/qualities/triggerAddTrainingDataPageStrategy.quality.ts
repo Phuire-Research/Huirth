@@ -11,18 +11,15 @@ type TriggerAddTrainingDataPage = {
   name: string;
 };
 
-export const huirthTriggerAddTrainingDataPage =
-  createQualityCardWithPayload<huirthState, TriggerAddTrainingDataPage>({
-    type: 'Huirth trigger add training data page',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createMethodWithConcepts(
-        ({action, concepts}) => {
-          const { name } = selectPayload<TriggerAddTrainingDataPage>(action);
-          const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(name);
-          const strategyAction = strategyBegin(huirthAddTrainingDataPageStrategy(name, generatedTrainingDataPage, concepts));
-          return strategyAction;
-        },
-      ),
-  });
+export const huirthTriggerAddTrainingDataPage = createQualityCardWithPayload<huirthState, TriggerAddTrainingDataPage>({
+  type: 'Huirth trigger add training data page',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createMethodWithConcepts(({ action, concepts_ }) => {
+      const { name } = selectPayload<TriggerAddTrainingDataPage>(action);
+      const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(name);
+      const strategyAction = strategyBegin(huirthAddTrainingDataPageStrategy(name, generatedTrainingDataPage, concepts_));
+      return strategyAction;
+    }),
+});
 /*#>*/

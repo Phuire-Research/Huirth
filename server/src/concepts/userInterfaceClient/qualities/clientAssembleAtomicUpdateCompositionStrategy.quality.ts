@@ -45,11 +45,14 @@ const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy
   ];
 };
 
-export const userInterfaceClientAssembleAtomicUpdateCompositionStrategy = createQualityCardWithPayload<UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload, any>({
+export const userInterfaceClientAssembleAtomicUpdateCompositionStrategy = createQualityCardWithPayload<
+  UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload,
+  any
+>({
   type: 'User Interface Client assemble update atomic compositions strategy',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethod<UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload, any, UserInterfaceClientDeck>(({action, deck}) => {
+    createMethod<UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload, any, UserInterfaceClientDeck>(({ action, deck }) => {
       const { payload } = action;
       const boundActionQue = payload.boundActionQue;
       const action$ = payload.action$;

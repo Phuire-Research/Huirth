@@ -13,7 +13,7 @@ import {
 export const htmlBodyBegin = createQualityCardComponent({
   type: 'Html create Body Begin',
   reducer: nullReducer,
-  componentCreator: createMethod(({action}) => {
+  componentCreator: createMethod(({ action }) => {
     const payload = action.payload;
     if (action.strategy) {
       const cont = strategySuccess(

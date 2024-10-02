@@ -171,12 +171,12 @@ export const userInterface_createPage = (page?: Page): Page =>
   page
     ? page
     : {
-      title: '',
-      conceptAndProps: [],
-      compositions: [],
-      cachedSelectors: [],
-      cachedComponentSelectors: [],
-    };
+        title: '',
+        conceptAndProps: [],
+        compositions: [],
+        cachedSelectors: [],
+        cachedComponentSelectors: [],
+      };
 
 export type ActionComponentPayload = {
   pageTitle: string;
@@ -210,21 +210,21 @@ export type ComponentCreator<T extends ActionComponentPayload> = (
   semaphore?: number
 ) => [Method<T>, Subject<Action<T>>];
 
-export function createQualityCardComponent<S extends Record<string, unknown>, T extends ActionComponentPayload, C = void>(q: {
+export function createQualityCardComponent<S extends Record<string, unknown>, T extends ActionComponentPayload>(q: {
   type: string;
-  reducer: SpecificReducer<S, T, C>;
-  componentCreator: MethodCreator<S, T, C>;
+  reducer: SpecificReducer<S, T, any>;
+  componentCreator: MethodCreator<S, T, any>;
   keyedSelectors?: KeyedSelector[];
   meta?: Record<string, unknown>;
   analytics?: Record<string, unknown>;
 }) {
-  return createQualityCardWithPayload<S, T, C>({
+  return createQualityCardWithPayload<S, T>({
     type: q.type,
     reducer: q.reducer,
     methodCreator: () => q.componentCreator,
     keyedSelectors: q.keyedSelectors,
     meta: q.meta,
-    analytics: q.analytics
+    analytics: q.analytics,
   });
 }
 
@@ -285,7 +285,7 @@ export const userInterface_selectPage = (strategy: ActionStrategy): Page => {
   }
 };
 
-export const userInterface_createComponent = (action: Action, success?: ActionNode): ActionNode => {
+export const userInterface_createComponent = (action: AnyAction, success?: ActionNode): ActionNode => {
   return createActionNode(action, {
     successNode: success ? success : null,
     failureNode: createActionNode(userInterfaceNext.actionCreator(), {

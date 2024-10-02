@@ -9,17 +9,16 @@ import { createQualityCardComponent, selectComponentPayload, userInterface_appen
 export const huirthFooter = createQualityCardComponent({
   type: 'Create huirth Footer',
   reducer: nullReducer,
-  componentCreator:
-    createMethod(({action}) => {
-      if (action.strategy) {
-        return strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id: '',
-            boundSelectors: [],
-            universal: true,
-            action,
-            html: /*html*/ `
+  componentCreator: createMethod(({ action }) => {
+    if (action.strategy) {
+      return strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
+          id: '',
+          boundSelectors: [],
+          universal: true,
+          action,
+          html: /*html*/ `
   <footer
     class="bg-neutral-200 text-center dark:bg-neutral-700 lg:text-left">
     <div class="p-4 text-center text-neutral-700 dark:text-neutral-200">
@@ -27,10 +26,10 @@ export const huirthFooter = createQualityCardComponent({
     </div>
   </footer>
     `,
-          })
-        );
-      }
-      return action;
-    }),
+        })
+      );
+    }
+    return action;
+  }),
 });
 /*#>*/

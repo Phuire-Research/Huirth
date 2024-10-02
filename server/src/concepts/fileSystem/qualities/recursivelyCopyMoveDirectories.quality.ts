@@ -36,11 +36,14 @@ export type RecursivelyCopyMoveTargetDirectoriesPayload = {
   }[];
 };
 
-export const fileSystemRecursivelyCopyMoveTargetDirectories = createQualityCardWithPayload<FileSystemState, RecursivelyCopyMoveTargetDirectoriesPayload>({
+export const fileSystemRecursivelyCopyMoveTargetDirectories = createQualityCardWithPayload<
+  FileSystemState,
+  RecursivelyCopyMoveTargetDirectoriesPayload
+>({
   type: 'File System recursively copy move target Directories',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethod(({controller, action}) => {
+    createAsyncMethod(({ controller, action }) => {
       const payload = action.payload;
       if (action.strategy) {
         const directory = payload.directories.shift();

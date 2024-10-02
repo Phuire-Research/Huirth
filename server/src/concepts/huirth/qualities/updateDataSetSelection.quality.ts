@@ -9,21 +9,20 @@ export type huirthUpdateDataSetSelectionPayload = {
   index: number;
 };
 
-export const huirthUpdateDataSetSelection =
-  createQualityCardWithPayload<huirthState, huirthUpdateDataSetSelectionPayload>({
-    type: 'Create huirth update data set selection',
-    reducer: (state, action) => {
-      const { index } = action.payload;
-      const dataSetSelection = [...state.dataSetSelection];
-      console.log('CHECK DATA SET SELECTION BEFORE', dataSetSelection, index);
-      if (dataSetSelection[index] !== undefined) {
-        dataSetSelection[index] = !dataSetSelection[index];
-      }
-      console.log('CHECK DATA SET SELECTION AFTER', dataSetSelection);
-      return {
-        dataSetSelection,
-      };
-    },
-    methodCreator: defaultMethodCreator,
-  });
+export const huirthUpdateDataSetSelection = createQualityCardWithPayload<huirthState, huirthUpdateDataSetSelectionPayload>({
+  type: 'Create huirth update data set selection',
+  reducer: (state, action) => {
+    const { index } = action.payload;
+    const dataSetSelection = [...state.dataSetSelection];
+    console.log('CHECK DATA SET SELECTION BEFORE', dataSetSelection, index);
+    if (dataSetSelection[index] !== undefined) {
+      dataSetSelection[index] = !dataSetSelection[index];
+    }
+    console.log('CHECK DATA SET SELECTION AFTER', dataSetSelection);
+    return {
+      dataSetSelection,
+    };
+  },
+  methodCreator: defaultMethodCreator,
+});
 /*#>*/

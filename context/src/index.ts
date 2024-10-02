@@ -19,7 +19,7 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
           if (init && state) {
             muxification(
               'contextMuxium',
-              {dom: createDocumentObjectModelConcept({}), client: createUserInterfaceClientConcept(state, createHuirthConcept)},
+              [createDocumentObjectModelConcept({}), createUserInterfaceClientConcept(state, createHuirthConcept)],
               {
                 logging: true,
                 storeDialog: true,
@@ -36,9 +36,9 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
     if (!init) {
       init = true;
     }
-  };
+  }
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  window.onunload = function () {};
+  window.onunload = function(){}; 
   console.log('AXIUM INIT');
   /*$ End context template code $*/
 })();

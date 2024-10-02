@@ -17,22 +17,21 @@ export type CreateTargetDirectoryPayload = {
   path: string;
 };
 
-export const fileSystemCreateTargetDirectory =
-  createQualityCardWithPayload<FileSystemState, CreateTargetDirectoryPayload>({
-    type: 'File System create target Directory',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createAsyncMethod(({controller, action}) => {
-        const {path} = action.payload;
-        if (action.strategy) {
-          if (!fs.existsSync(path)) {
-            fs.mkdirSync(path);
-          }
-          const newStrategy = strategySuccess(action.strategy as ActionStrategy);
-          controller.fire(newStrategy);
-        } else {
-          controller.fire(muxiumConclude());
+export const fileSystemCreateTargetDirectory = createQualityCardWithPayload<FileSystemState, CreateTargetDirectoryPayload>({
+  type: 'File System create target Directory',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createAsyncMethod(({ controller, action }) => {
+      const { path } = action.payload;
+      if (action.strategy) {
+        if (!fs.existsSync(path)) {
+          fs.mkdirSync(path);
         }
-      }),
-  });
+        const newStrategy = strategySuccess(action.strategy as ActionStrategy);
+        controller.fire(newStrategy);
+      } else {
+        controller.fire(muxiumConclude());
+      }
+    }),
+});
 /*#>*/

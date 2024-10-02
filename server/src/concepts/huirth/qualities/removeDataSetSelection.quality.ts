@@ -62,17 +62,18 @@ export const huirthRemoveDataSetSelection = createQualityCard<huirthState>({
     };
   },
   methodCreator: () =>
-    createMethodWithState<huirthState>(
-      ({state}) => {
-        const { trainingData, dataSetSelection } = state;
-        const names = trainingData.filter((__, i) => dataSetSelection[i]).map((d) => d.name);
-        return strategyBegin(
-          createStrategy({
-            topic: 'Send Trigger Delete Data Sets: ' + names.join(', '),
-            initialNode: createActionNode(huirthSendTriggerDeleteDataSetsStrategy.actionCreator({ names }), { successNode: null, failureNode: null }),
-          })
-        );
-      },
-    ),
+    createMethodWithState<huirthState>(({ state }) => {
+      const { trainingData, dataSetSelection } = state;
+      const names = trainingData.filter((__, i) => dataSetSelection[i]).map((d) => d.name);
+      return strategyBegin(
+        createStrategy({
+          topic: 'Send Trigger Delete Data Sets: ' + names.join(', '),
+          initialNode: createActionNode(huirthSendTriggerDeleteDataSetsStrategy.actionCreator({ names }), {
+            successNode: null,
+            failureNode: null,
+          }),
+        })
+      );
+    }),
 });
 /*#>*/

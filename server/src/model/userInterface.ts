@@ -171,12 +171,12 @@ export const userInterface_createPage = (page?: Page): Page =>
   page
     ? page
     : {
-      title: '',
-      conceptAndProps: [],
-      compositions: [],
-      cachedSelectors: [],
-      cachedComponentSelectors: [],
-    };
+        title: '',
+        conceptAndProps: [],
+        compositions: [],
+        cachedSelectors: [],
+        cachedComponentSelectors: [],
+      };
 
 export type ActionComponentPayload = {
   pageTitle: string;
@@ -224,7 +224,7 @@ export function createQualityCardComponent<S extends Record<string, unknown>, T 
     methodCreator: () => q.componentCreator,
     keyedSelectors: q.keyedSelectors,
     meta: q.meta,
-    analytics: q.analytics
+    analytics: q.analytics,
   });
 }
 

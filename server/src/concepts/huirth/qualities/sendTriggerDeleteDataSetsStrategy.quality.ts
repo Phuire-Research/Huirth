@@ -20,11 +20,14 @@ export type huirthSendTriggerDeleteDataSetsStrategyPayload = {
   names: string[];
 };
 
-export const huirthSendTriggerDeleteDataSetsStrategy = createQualityCardWithPayload<huirthState, huirthSendTriggerDeleteDataSetsStrategyPayload>({
+export const huirthSendTriggerDeleteDataSetsStrategy = createQualityCardWithPayload<
+  huirthState,
+  huirthSendTriggerDeleteDataSetsStrategyPayload
+>({
   type: 'huirth send trigger delete data sets strategy',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethodDebounce(({action}) => {
+    createMethodDebounce(({ action }) => {
       const payload = action.payload;
       return strategyBegin(
         createStrategy({

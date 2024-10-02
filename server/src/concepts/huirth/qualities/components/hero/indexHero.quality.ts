@@ -5,26 +5,22 @@ $>*/
 /* eslint-disable max-len */
 import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
 
-import {
-  createQualityCardComponent,
-  userInterface_appendCompositionToPage,
-} from '../../../../../model/userInterface';
+import { createQualityCardComponent, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 
 export const huirthIndexHero = createQualityCardComponent({
   type: 'create userInterface for IndexHero',
   reducer: nullReducer,
-  componentCreator:
-    createMethod(({action}) => {
-      const id = '#heroId';
-      if (action.strategy) {
-        return strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id,
-            boundSelectors: [],
-            universal: false,
-            action,
-            html: /*html*/ `
+  componentCreator: createMethod(({ action }) => {
+    const id = '#heroId';
+    if (action.strategy) {
+      return strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
+          id,
+          boundSelectors: [],
+          universal: false,
+          action,
+          html: /*html*/ `
 <section id='${id}' class="flex flex-col min-h-screen bg-black text-white bg-center bg-blend-overlay md:bg-fixed bg-black/5">
   <div class="flex-1 flex items-center">
     <div class="flex flex-col items-center text-center mx-auto">
@@ -33,10 +29,10 @@ export const huirthIndexHero = createQualityCardComponent({
   </div>
 </section>
         `,
-          })
-        );
-      }
-      return action;
-    }),
+        })
+      );
+    }
+    return action;
+  }),
 });
 /*#>*/

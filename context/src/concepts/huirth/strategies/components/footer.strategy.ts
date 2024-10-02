@@ -8,7 +8,7 @@ import { ActionStrategyComponentStitch } from '../../../../model/userInterface';
 
 export const huirthFooterStitch: ActionStrategyComponentStitch = (payload) => {
   const stepStitch = muxium_createStitchNode();
-  const stephuirthFooter = createActionNode(huirthFooter(payload), {
+  const stephuirthFooter = createActionNode(huirthFooter.actionCreator(payload), {
     successNode: stepStitch,
   });
   return [

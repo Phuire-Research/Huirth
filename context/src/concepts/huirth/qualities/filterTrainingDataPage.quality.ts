@@ -9,16 +9,15 @@ export type HuirthFilterTrainingDataPagePayload = {
   trainingDataName: string;
 };
 
-export const huirthFilterTrainingDataPage =
-  createQualityCardWithPayload<huirthState, HuirthFilterTrainingDataPagePayload>({
-    type: 'huirth filter training data page',
-    reducer: (state, action) => {
-      const { trainingDataName } = selectPayload<HuirthFilterTrainingDataPagePayload>(action);
-      return {
-        ...state,
-        trainingDataPages: state.trainingDataPages.filter((name) => name !== trainingDataName),
-      };
-    },
-    methodCreator: defaultMethodCreator,
-  });
+export const huirthFilterTrainingDataPage = createQualityCardWithPayload<huirthState, HuirthFilterTrainingDataPagePayload>({
+  type: 'huirth filter training data page',
+  reducer: (state, action) => {
+    const { trainingDataName } = selectPayload<HuirthFilterTrainingDataPagePayload>(action);
+    return {
+      ...state,
+      trainingDataPages: state.trainingDataPages.filter((name) => name !== trainingDataName),
+    };
+  },
+  methodCreator: defaultMethodCreator,
+});
 /*#>*/

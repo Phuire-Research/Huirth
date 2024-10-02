@@ -6,43 +6,41 @@ import { Action, createQualityCard, defaultMethodCreator } from '@phuire/stratim
 import { BoundSelectors } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 
-export const userInterfaceRefreshCachedSelectors =
-  createQualityCard<UserInterfaceState>({
-    type: 'User Interface refresh cached selectors',
-    reducer: (state, action )  => {
-      if (action.strategy) {
-        const newPages = { ...state.pages };
-        for (const [i, p] of newPages.entries()) {
-          const cachedSelectors: BoundSelectors[] = [];
-          const cachedComponentSelectors: BoundSelectors[] = [];
-          for (const [compIndex, comp] of p.compositions.entries()) {
-            for (const bound of comp.boundSelectors) {
-              if (!comp.universal) {
-                cachedSelectors.push({
-                  ...bound,
-                  semaphore: [i, compIndex],
-                });
-              } else {
-                state.components.forEach((c) => {
-                  if (comp.action.type === c.action.type) {
-                    comp.boundSelectors.forEach((b) => {
-                      cachedComponentSelectors.push(b);
-                    });
-                  }
-                });
-              }
+export const userInterfaceRefreshCachedSelectors = createQualityCard<UserInterfaceState>({
+  type: 'User Interface refresh cached selectors',
+  reducer: (state, action) => {
+    if (action.strategy) {
+      const newPages = { ...state.pages };
+      for (const [i, p] of newPages.entries()) {
+        const cachedSelectors: BoundSelectors[] = [];
+        const cachedComponentSelectors: BoundSelectors[] = [];
+        for (const [compIndex, comp] of p.compositions.entries()) {
+          for (const bound of comp.boundSelectors) {
+            if (!comp.universal) {
+              cachedSelectors.push({
+                ...bound,
+                semaphore: [i, compIndex],
+              });
+            } else {
+              state.components.forEach((c) => {
+                if (comp.action.type === c.action.type) {
+                  comp.boundSelectors.forEach((b) => {
+                    cachedComponentSelectors.push(b);
+                  });
+                }
+              });
             }
           }
-          p.cachedSelectors = cachedSelectors;
-          p.cachedComponentSelectors = cachedComponentSelectors;
         }
-        return {
-          pages: newPages,
-        };
+        p.cachedSelectors = cachedSelectors;
+        p.cachedComponentSelectors = cachedComponentSelectors;
       }
       return {
+        pages: newPages,
       };
-    },
-    methodCreator: defaultMethodCreator,
-  });
+    }
+    return {};
+  },
+  methodCreator: defaultMethodCreator,
+});
 /*#>*/

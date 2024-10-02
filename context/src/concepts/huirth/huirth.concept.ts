@@ -96,7 +96,8 @@ export type huirthState = {
   trainingDataPages: string[];
   trainingDataCounter: number;
   activeDPO: Active_DPO[];
-} & BrandState & UserInterfaceState;
+} & BrandState &
+  UserInterfaceState;
 
 const createHuirthState = (): huirthState => {
   return {

@@ -2,22 +2,15 @@
 For the graph programming framework Stratimux and Document Object Model Concept, generate a principle that will bind the current page's preloaded document bindings.
 $>*/
 /*<#*/
-import {
-  muxiumSelectOpen,
-  selectSlice,
-  selectState,
-  strategyBegin,
-} from '@phuire/stratimux';
+import { muxiumSelectOpen, selectSlice, selectState, strategyBegin } from '@phuire/stratimux';
 import { DocumentObjectModelPrinciple, DocumentObjectModelState, documentObjectModelName } from './documentObjectModel.concept';
 import { documentObjectModelBindingStrategy } from './strategies/composeBindings.strategy';
 
-export const documentObjectModelPrinciple: DocumentObjectModelPrinciple = ({
-  plan
-}) => {
+export const documentObjectModelPrinciple: DocumentObjectModelPrinciple = ({ plan }) => {
   const pageID = document.querySelector('[id^="page#"]')?.id;
-  plan('Document Object Model initial page bindings plan', ({stage}) => [
+  plan('Document Object Model initial page bindings plan', ({ stage }) => [
     stage(
-      ({concepts, dispatch, stagePlanner, d}) => {
+      ({ concepts, dispatch, stagePlanner, d }) => {
         if (selectSlice(concepts, muxiumSelectOpen) === true) {
           dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: documentObjectModelName, stagePlanner }), {
             iterateStage: true,
@@ -27,7 +20,7 @@ export const documentObjectModelPrinciple: DocumentObjectModelPrinciple = ({
       { priority: 100 }
     ),
     stage(
-      ({concepts, dispatch, stagePlanner, k}) => {
+      ({ concepts, dispatch, stagePlanner, k }) => {
         const documentObjectModelState = k.state(concepts);
         const userInterfaceState = selectState<any>(concepts, 'userInterfaceClient');
         // console.log('Hello Document Object Model', documentObjectModelState, pageID, concepts);
@@ -57,7 +50,7 @@ export const documentObjectModelPrinciple: DocumentObjectModelPrinciple = ({
       },
       { beat: 100 }
     ),
-    stage(({stagePlanner}) => {
+    stage(({ stagePlanner }) => {
       stagePlanner.conclude();
     }),
   ]);

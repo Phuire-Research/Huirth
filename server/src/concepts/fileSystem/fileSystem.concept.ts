@@ -45,16 +45,10 @@ const qualities = {
 };
 
 export type FileSystemDeck = {
-  fileSystem: Concept<FileSystemState, typeof qualities>
+  fileSystem: Concept<FileSystemState, typeof qualities>;
 };
 
 export const createFileSystemConcept = () => {
-  return createConcept(
-    fileSystemName,
-    createFileSystemState(),
-    qualities,
-    [],
-    []
-  );
+  return createConcept(fileSystemName, createFileSystemState(), qualities, [], []);
 };
 /*#>*/

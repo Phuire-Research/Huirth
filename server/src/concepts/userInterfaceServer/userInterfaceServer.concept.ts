@@ -48,23 +48,27 @@ const createUserInterfaceServerState = (
   };
 };
 
-export type UserInterfaceServerPrinciple = PrincipleFunction<typeof userInterfaceQualities, MuxiumDeck & UserInterfaceServerDeck, UserInterfaceServerState>
+export type UserInterfaceServerPrinciple = PrincipleFunction<
+  typeof userInterfaceQualities,
+  MuxiumDeck & UserInterfaceServerDeck,
+  UserInterfaceServerState
+>;
 
 const principleGoal = <Q>(goal: commandLineInterfaceGoals): PrincipleFunction<Q>[] => {
   let principles: UserInterfaceServerPrinciple[] = [];
   switch (goal) {
-  case commandLineInterfaceGoals.simulate: {
-    principles = [userInterfaceServerOnChangePrinciple];
-    break;
-  }
-  case commandLineInterfaceGoals.none: {
-    principles = [];
-    break;
-  }
-  default: {
-    principles = [userInterfaceServerContextPrinciple, userInterfaceServerOnChangePrinciple];
-    break;
-  }
+    case commandLineInterfaceGoals.simulate: {
+      principles = [userInterfaceServerOnChangePrinciple];
+      break;
+    }
+    case commandLineInterfaceGoals.none: {
+      principles = [];
+      break;
+    }
+    default: {
+      principles = [userInterfaceServerContextPrinciple, userInterfaceServerOnChangePrinciple];
+      break;
+    }
   }
   return principles as unknown as PrincipleFunction<Q>[];
 };
@@ -80,25 +84,23 @@ export const userInterfaceServerQualities = {
 
 const qualityGoal = (goal: commandLineInterfaceGoals) => {
   switch (goal) {
-  case commandLineInterfaceGoals.simulate: {
-    return {userInterfaceServerAssembleUpdateAtomicCompositionStrategy};
-  }
-  default: {
-    return userInterfaceServerQualities;
-  }
+    case commandLineInterfaceGoals.simulate: {
+      return { userInterfaceServerAssembleUpdateAtomicCompositionStrategy };
+    }
+    default: {
+      return userInterfaceServerQualities;
+    }
   }
 };
 
 const baseUserInterfaceServerConcept = (goal: commandLineInterfaceGoals, pageStrategies: PageStrategyCreators[]) => {
-  const qualities = {userInterfaceServerBuildContext, ...qualityGoal(goal)};
+  const qualities = { userInterfaceServerBuildContext, ...qualityGoal(goal) };
   return muxifyConcepts(
     [createUserInterfaceConcept([])],
-    createConcept(
-      userInterfaceServerName,
-      createUserInterfaceServerState(pageStrategies, goal),
-      qualities,
-      [userInterfaceServerPrinciple, ...principleGoal(goal) as unknown as UserInterfaceServerPrinciple[]]
-    )
+    createConcept(userInterfaceServerName, createUserInterfaceServerState(pageStrategies, goal), qualities, [
+      userInterfaceServerPrinciple,
+      ...(principleGoal(goal) as unknown as UserInterfaceServerPrinciple[]),
+    ])
   );
 };
 
@@ -128,7 +130,7 @@ const userInterfaceServerConcept = (
 };
 
 export type UserInterfaceServerDeck = {
-  userInterfaceServer: Concept<UserInterfaceServerState, typeof userInterfaceQualities & typeof userInterfaceServerQualities>
+  userInterfaceServer: Concept<UserInterfaceServerState, typeof userInterfaceQualities & typeof userInterfaceServerQualities>;
 };
 
 export const createUserInterfaceServerConcept = (

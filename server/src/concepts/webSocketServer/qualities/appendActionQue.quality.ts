@@ -10,8 +10,8 @@ export type WebSocketServerAppendToActionQuePayload = {
   actionQue: AnyAction[];
 };
 
-export const webSocketServerAppendToActionQue =
-  createQualityCardWithPayload<WebSocketServerState, WebSocketServerAppendToActionQuePayload>({
+export const webSocketServerAppendToActionQue = createQualityCardWithPayload<WebSocketServerState, WebSocketServerAppendToActionQuePayload>(
+  {
     type: 'Web Socket Server append to action que',
     reducer: (state, action) => {
       const payload = selectPayload<WebSocketServerAppendToActionQuePayload>(action);
@@ -25,5 +25,6 @@ export const webSocketServerAppendToActionQue =
       };
     },
     methodCreator: defaultMethodCreator,
-  });
+  }
+);
 /*#>*/
