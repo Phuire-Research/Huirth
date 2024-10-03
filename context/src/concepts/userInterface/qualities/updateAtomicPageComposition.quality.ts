@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a quality that will update a specific page and composition based on the incoming payload. And set by the data field supplied by the strategy.
 $>*/
 /*<#*/
-import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
+import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
 import { BoundSelectors, userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 

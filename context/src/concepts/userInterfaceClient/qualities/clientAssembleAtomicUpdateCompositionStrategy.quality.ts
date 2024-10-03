@@ -14,7 +14,7 @@ import {
   nullReducer,
   refreshAction,
   strategyBegin,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { BoundSelectors } from '../../../model/userInterface';
 import { userInterfaceClientReplaceOuterHtml } from './replaceOuterHtml.quality';
 import { Subject } from 'rxjs';

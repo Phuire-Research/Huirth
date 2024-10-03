@@ -4,7 +4,7 @@ generate a principle that will detect changes on the client state based on the c
 This will set up and bind the selectors to state to determine which atomic operation that should be dispatched to update the UI.
 $>*/
 /*<#*/
-import { muxiumSelectOpen, getMuxiumState, selectSlice, strategyBegin } from '@phuire/stratimux';
+import { muxiumSelectOpen, getMuxiumState, selectSlice, strategyBegin } from 'stratimux';
 import { UserInterfaceClientPrinciple } from './userInterfaceClient.concept';
 import { UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload } from './qualities/clientAssembleAtomicUpdateCompositionStrategy.quality';
 import { userInterfaceInitialBindingStrategy } from './strategies/initialBinding.strategy';

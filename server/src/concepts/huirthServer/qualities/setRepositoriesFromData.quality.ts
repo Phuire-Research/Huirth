@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a quality that sets the initial project status based on their existence in the incoming data field.
 $>*/
 /*<#*/
-import { createQualityCard, defaultMethodCreator, strategyData_select } from '@phuire/stratimux';
+import { createQualityCard, defaultMethodCreator, strategyData_select } from 'stratimux';
 import { GetDirectoriesAndFilesDataField } from '../../fileSystem/qualities/getDirectoriesAndFiles.quality';
 import { DPO_DataSet } from '../../../model/huirth';
 import { PhuirEProjects, ProjectStatus } from '../../huirth/huirth.model';
@@ -36,7 +36,7 @@ export const huirthServerSetRepositoriesFromData = createQualityCard<huirthServe
             }
           }
         }
-        console.log('CHECK INSTALLED STATUSES', projectsStatuses);
+        // console.log('CHECK INSTALLED STATUSES', projectsStatuses);
         return {
           stratimuxStatus: stratimuxExists ? ProjectStatus.installed : ProjectStatus.notInstalled,
           huirthStatus: huirthExists ? ProjectStatus.installed : ProjectStatus.notInstalled,

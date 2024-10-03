@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a strategy that in isolation will transform a count within itself and count out the changes to the number in its action list.
 $>*/
 /*<#*/
-import { Action, ActionStrategy, AnyAction, muxium_createGatherNode, createStrategy } from '@phuire/stratimux';
+import { Action, ActionStrategy, AnyAction, muxium_createGatherNode, createStrategy } from 'stratimux';
 import { huirth_convertNumberToStringVerbose } from '../verboseNumber.model';
 import { huirthServerInnerAddTo } from '../qualities/innerAddTo.quality';
 

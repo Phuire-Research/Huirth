@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a Page Strategy Creator called index, that will unify Sidebar, Hero, Dialog, Footer, and Header Action Strategy Component Stitches into a Page Composition.
 $>*/
 /*<#*/
-import { muxium_createStitchNode, createStrategy } from '@phuire/stratimux';
+import { muxium_createStitchNode, createStrategy } from 'stratimux';
 import {
   ActionComponentPayload,
   ActionStrategyComponentStitch,

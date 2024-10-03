@@ -16,7 +16,7 @@ import {
   createStage,
   selectState,
   stageWaitForOpenThenIterate,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import {
   experimentAsyncBufferMultiplyByCountFromConcepts,
   experimentAsyncBufferMultiplyByCountFromConceptsQuality,

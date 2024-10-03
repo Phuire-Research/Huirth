@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a quality that will determine if the data directory is properly step up.
 $>*/
 /*<#*/
-import { createAsyncMethod, createQualityCard, nullReducer, strategyData_select, strategyFailed, strategySuccess } from '@phuire/stratimux';
+import { createAsyncMethod, createQualityCard, nullReducer, strategyData_select, strategyFailed, strategySuccess } from 'stratimux';
 import { GetDirectoriesAndFilesDataField } from '../../fileSystem/qualities/getDirectoriesAndFiles.quality';
 import { dataDirectories } from '../huirthServer.model';
 

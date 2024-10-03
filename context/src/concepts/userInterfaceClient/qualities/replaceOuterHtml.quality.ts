@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Client Concept, generate a quality that will replace the outer html of a document's element based on the incoming id.
 $>*/
 /*<#*/
-import { createMethod, createQualityCardWithPayload, nullReducer, selectPayload, strategySuccess } from '@phuire/stratimux';
+import { createMethod, createQualityCardWithPayload, nullReducer, selectPayload, strategySuccess } from 'stratimux';
 import { userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceClientState } from '../userInterfaceClient.concept';
 
@@ -10,7 +10,10 @@ export type UserInterfaceClientReplaceOuterHtmlPayload = {
   id: string;
 };
 
-export const userInterfaceClientReplaceOuterHtml = createQualityCardWithPayload<UserInterfaceClientState, UserInterfaceClientReplaceOuterHtmlPayload>({
+export const userInterfaceClientReplaceOuterHtml = createQualityCardWithPayload<
+  UserInterfaceClientState,
+  UserInterfaceClientReplaceOuterHtmlPayload
+>({
   type: 'User Interface Client assemble update atomic compositions strategy client',
   reducer: nullReducer,
   methodCreator: () =>

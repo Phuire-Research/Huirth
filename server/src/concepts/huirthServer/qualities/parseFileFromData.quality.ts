@@ -11,7 +11,7 @@ import {
   strategyData_muxifyData,
   strategyFailed,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { ReadDirectoryField } from '../../fileSystem/qualities/readDir.quality';
 import { BaseDataSet } from '../../huirth/huirth.model';
 import { ReadFileContentsAndAppendToDataField } from '../../fileSystem/qualities/readFileContentsAndAppendToData.quality';

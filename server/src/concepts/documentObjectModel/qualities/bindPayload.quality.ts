@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and Document Object Model Concept, generate a quality that will attach a element event to the next action's payload.
 $>*/
 /*<#*/
-import { createMethod, createQualityCardWithPayload, nullReducer, strategySuccess } from '@phuire/stratimux';
+import { createMethod, createQualityCardWithPayload, nullReducer, strategySuccess } from 'stratimux';
 import { DocumentObjectModelState } from '../documentObjectModel.concept';
 
 export type DocumentObjectModelBindPayloadPayload = {

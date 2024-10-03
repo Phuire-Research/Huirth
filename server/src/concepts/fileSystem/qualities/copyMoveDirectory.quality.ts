@@ -10,7 +10,7 @@ import {
   nullReducer,
   selectPayload,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import fs from 'fs/promises';
 import path from 'path';
 import { FileSystemState } from '../fileSystem.concept';

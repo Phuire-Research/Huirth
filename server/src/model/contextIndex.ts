@@ -36,7 +36,7 @@ export function createContextIndexContent(primedConcepts: PrimedConceptAndProper
   const content =
     /*typescript*/
     `/*$ Start template imports $*/
-import { ${muxiumImports.join(', ')} } from '@phuire/stratimux';
+import { ${muxiumImports.join(', ')} } from 'stratimux';
 ${conceptImports}
 /*$ End template imports $*/
 
@@ -74,7 +74,7 @@ ${conceptImports}
   }
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   window.onunload = function(){}; 
-  console.log('AXIUM INIT');
+  // console.log('MUXIUM INIT');
   /*$ End context template code $*/
 })();
 `;

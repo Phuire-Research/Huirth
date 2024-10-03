@@ -11,7 +11,7 @@ import {
   selectPayload,
   strategyBegin,
   strategySequence,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { huirthGeneratedTrainingDataPageStrategy } from '../strategies/pages/generatedTrainingDataPage.strategy';
 import { Subject } from 'rxjs';
 import { huirthRemoveTrainingDataPageStrategy } from '../strategies/removeTrainingDataPage.strategy';

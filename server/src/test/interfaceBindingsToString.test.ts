@@ -4,7 +4,7 @@ $>*/
 /*<#*/
 import { UserInterfacePageBindings, userInterface_pageBindingsToString } from '../model/userInterface';
 import { elementEventBinding } from '../model/html';
-import { muxiumLog } from '@phuire/stratimux';
+import { muxiumLog } from 'stratimux';
 
 test('userInterfaceBindingsToString', (done) => {
   const testBindingToString: UserInterfacePageBindings = {

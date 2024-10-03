@@ -2,14 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that will trigger the minus count seven strategy.
 $>*/
 /*<#*/
-import {
-  createActionNode,
-  createMethod,
-  createQualityCardWithPayload,
-  createStrategy,
-  nullReducer,
-  strategyBegin,
-} from '@phuire/stratimux';
+import { createActionNode, createMethod, createQualityCardWithPayload, createStrategy, nullReducer, strategyBegin } from 'stratimux';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 import { huirthTriggerRemoveAddTrainingDataPage } from './triggerRemoveAddTrainingDataPageStrategy.quality';
 import { huirthState } from '../huirth.concept';

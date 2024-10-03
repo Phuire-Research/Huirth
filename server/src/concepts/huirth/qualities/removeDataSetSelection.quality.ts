@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that remove a dataset and if it is a project, update the status to installed.
 $>*/
 /*<#*/
-import { createActionNode, createMethodWithState, createQualityCard, createStrategy, strategyBegin } from '@phuire/stratimux';
+import { createActionNode, createMethodWithState, createQualityCard, createStrategy, strategyBegin } from 'stratimux';
 import { huirthState } from '../huirth.concept';
 import { DataSetTypes, NamedDataSet, PhuirEProjects, ProjectStatus, TrainingData } from '../huirth.model';
 import { huirthSendTriggerDeleteDataSetsStrategy } from './sendTriggerDeleteDataSetsStrategy.quality';

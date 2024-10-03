@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality to add a new base data set entry to the training data at the target index.
 $>*/
 /*<#*/
-import { createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
+import { createQualityCardWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
 import { huirthState } from '../huirth.concept';
 import { generateBaseDataSetEntry } from '../huirth.model';
 

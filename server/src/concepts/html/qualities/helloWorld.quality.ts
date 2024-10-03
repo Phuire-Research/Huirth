@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and Html Concept, generate a quality that will add a Hello World composition for a User Interface Concept and a supplied page composition.
 $>*/
 /*<#*/
-import { Action, muxiumConcludeType, createAction, createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
+import { Action, muxiumConcludeType, createAction, createMethod, nullReducer, strategySuccess } from 'stratimux';
 
 import { createQualityCardComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../model/userInterface';
 

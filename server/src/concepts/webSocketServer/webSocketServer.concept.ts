@@ -7,7 +7,7 @@ import { webSocketServerAppendToActionQue } from './qualities/appendActionQue.qu
 import { webSocketServerSetClientSemaphore } from './qualities/setClientSemaphore.quality';
 import { webSocketServerSyncState } from './qualities/syncState.quality';
 import { webSocketServerPrinciple } from './webSocketServer.principle';
-import { Action, MuxiumDeck, Concept, createConcept, PrincipleFunction } from '@phuire/stratimux';
+import { Action, MuxiumDeck, Concept, createConcept, PrincipleFunction } from 'stratimux';
 
 export type WebSocketServerState = {
   actionQue: Action[];

@@ -13,7 +13,7 @@ import {
   createStrategy,
   selectPayload,
   strategyBegin,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { huirthState } from '../huirth.concept';
 import { userInterface_selectInputTarget } from '../../../model/userInterface';
 import { DataSetTypes, PhuirEProjects, ProjectStatus } from '../huirth.model';

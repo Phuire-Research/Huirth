@@ -12,7 +12,7 @@ import {
   strategyData_appendFailure,
   strategyFailed,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { huirthServerState } from '../huirthServer.concept';
 import { huirthServerSendUpdateParsedProjectData } from '../strategies/client/huirthServerSendUpdateParsedProjectData.helper';
 

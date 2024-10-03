@@ -3,14 +3,14 @@ For the graph programming framework Stratimux and a Concept huirth, generate a q
 If valid it will then trigger the strategy that will install the target git repository via a supplied url to a directory of the given name.
 $>*/
 /*<#*/
-import { createMethodWithState, createQualityCard, strategyBegin } from '@phuire/stratimux';
+import { createMethodWithState, createQualityCard, strategyBegin } from 'stratimux';
 import { huirthState } from '../huirth.concept';
 import { ProjectStatus } from '../huirth.model';
 import { huirthInstallGitRepositoryStrategy } from '../strategies/installGitProject.strategy';
 
 const getName = (url: string): string | undefined => {
   const split = url.split('/');
-  console.log('CHECK SPLIT', split[split.length - 1].split('.git'));
+  // console.log('CHECK SPLIT', split[split.length - 1].split('.git'));
   const finalSplit = split[split.length - 1].split('.git');
   return finalSplit.length > 1 ? finalSplit[0] : undefined;
 };

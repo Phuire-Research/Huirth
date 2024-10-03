@@ -10,7 +10,7 @@ import {
   strategyData_muxifyData,
   strategyFailed,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import fs from 'fs/promises';
 import { FileDirent } from '../fileSystem.model';
 import { FileSystemState } from '../fileSystem.concept';
@@ -34,12 +34,12 @@ export const fileSystemGetDirectoriesAndFiles = createQualityCardWithPayload<Fil
           withFileTypes: true,
         })
           .then((directories) => {
-            console.log('DIRECTORIES AND FILES LENGTH', directories.length);
+            // console.log('DIRECTORIES AND FILES LENGTH', directories.length);
             const newStrategy = strategySuccess(strategy, strategyData_muxifyData(strategy, { directories }));
             controller.fire(newStrategy);
           })
           .catch((error) => {
-            console.error('CHECK ERROR', error);
+            // console.error('CHECK ERROR', error);
             controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, `${error}`)));
           });
       } else {

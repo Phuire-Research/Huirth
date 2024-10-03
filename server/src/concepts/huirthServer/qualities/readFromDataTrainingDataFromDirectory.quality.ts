@@ -11,7 +11,7 @@ import {
   strategyData_muxifyData,
   strategyFailed,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { GetDirectoriesAndFilesDataField } from '../../fileSystem/qualities/getDirectoriesAndFiles.quality';
 import fs from 'fs/promises';
 import { convertSavedFormatToNamedDataSet, huirthServerFailureConditions } from '../huirthServer.model';
@@ -58,7 +58,7 @@ export const huirthServerReadFromDataTrainingDataFromDirectories = createQuality
       if (action.strategy && action.strategy.data) {
         const strategy = action.strategy;
         const data = strategyData_select(action.strategy) as GetDirectoriesAndFilesDataField;
-        console.log('READ FROM DATA TRAINING CHECK', data);
+        // console.log('READ FROM DATA TRAINING CHECK', data);
         if (data.directories) {
           if (data.directories.length !== 0) {
             try {

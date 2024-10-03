@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that set incoming data set into the currently loaded training data.
 $>*/
 /*<#*/
-import { Action, createQualityCardWithPayload, selectPayload } from '@phuire/stratimux';
+import { Action, createQualityCardWithPayload, selectPayload } from 'stratimux';
 import { huirthState } from '../huirth.concept';
 import { NamedDataSet, TrainingData } from '../huirth.model';
 

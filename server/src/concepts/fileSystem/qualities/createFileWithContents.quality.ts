@@ -2,14 +2,7 @@
 For the graph programming framework Stratimux and File System Concept, generate a quality that will create a file at a target location with the specified contents.
 $>*/
 /*<#*/
-import {
-  ActionStrategy,
-  muxiumConclude,
-  createAsyncMethod,
-  createQualityCardWithPayload,
-  nullReducer,
-  strategySuccess,
-} from '@phuire/stratimux';
+import { ActionStrategy, muxiumConclude, createAsyncMethod, createQualityCardWithPayload, nullReducer, strategySuccess } from 'stratimux';
 import fs from 'fs/promises';
 import { FileSystemState } from '../fileSystem.concept';
 

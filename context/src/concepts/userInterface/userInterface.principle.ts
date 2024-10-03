@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a principle that will dispatch a sequence of page to state strategies that will cache the required pages for the client.
 $>*/
 /*<#*/
-import { strategySequence, strategyBegin, muxiumSelectOpen, ActionStrategy, getMuxiumState, selectSlice } from '@phuire/stratimux';
+import { strategySequence, strategyBegin, muxiumSelectOpen, ActionStrategy, getMuxiumState, selectSlice } from 'stratimux';
 import { UserInterfacePrinciple, UserInterfaceState } from './userInterface.concept';
 import { userInterfacePageToStateStrategy } from './strategies.ts/pageToState.strategy';
 import { userInterface_isClient } from '../../model/userInterface';
@@ -20,14 +20,14 @@ export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({ s
   const userInterfacePageInit = plan('User Interface Page to State initialization plan', ({ stage, d__, k__ }) => [
     stage(
       ({ concepts, dispatch, stagePlanner, d, k }) => {
-        console.log('USER INTERFACE PAGE TO STATE INIT 1');
+        // console.log('USER INTERFACE PAGE TO STATE INIT 1');
         const name = k.name(concepts);
         if (name && selectSlice(concepts, d.muxium.k.open) === true) {
           dispatch(d__.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
             iterateStage: true,
           });
         } else if (name === undefined) {
-          console.log('THIS IS CONCLUDING EARLY', name, selectSlice(concepts, muxiumSelectOpen));
+          // console.log('THIS IS CONCLUDING EARLY', name, selectSlice(concepts, muxiumSelectOpen));
           stagePlanner.conclude();
         }
       },
@@ -36,7 +36,7 @@ export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({ s
     stage(
       ({ concepts, dispatch, stagePlanner, k }) => {
         const uiState = k.state(concepts);
-        console.log('USER INTERFACE PAGE TO STATE INIT 2', uiState?.pages.length, uiState?.pageStrategies.length);
+        // console.log('USER INTERFACE PAGE TO STATE INIT 2', uiState?.pages.length, uiState?.pageStrategies.length);
         if (uiState) {
           if (uiState.pageStrategies.length === 1) {
             dispatch(strategyBegin(userInterfacePageToStateStrategy(uiState.pageStrategies[0](concepts))), {
@@ -75,16 +75,16 @@ export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({ s
       {
         selectors: [
           (() => {
-            console.error('CHECK K', Object.keys(d__), 'something');
+            // console.error('CHECK K', Object.keys(d__), 'something');
             const output = k__ as any;
-            console.log('CHECK OUTPUT', output);
+            // console.log('CHECK OUTPUT', output);
             return output;
           })(),
         ],
       }
     ),
     stage(({ stagePlanner }) => {
-      console.log('USER INTERFACE PAGE TO STATE INIT 3');
+      // console.log('USER INTERFACE PAGE TO STATE INIT 3');
       stagePlanner.conclude();
     }),
   ]);

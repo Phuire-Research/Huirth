@@ -12,7 +12,7 @@ import {
   createActionNodeFromStrategy,
   createStrategy,
   Deck,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { fileSystemCopyMoveTargetDirectory } from '../../fileSystem/qualities/copyMoveDirectory.quality';
 import path from 'path';
 import { ConceptAndProperties, Page } from '../../../model/userInterface';

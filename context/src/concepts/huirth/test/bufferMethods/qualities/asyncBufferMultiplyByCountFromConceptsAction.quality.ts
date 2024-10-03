@@ -15,7 +15,7 @@ import {
   defaultReducer,
   selectState,
   strategyBegin,
-} from '@phuire/stratimux';
+} from 'stratimux';
 
 export const [
   experimentAsyncBufferMultiplyByCountFromConcepts,

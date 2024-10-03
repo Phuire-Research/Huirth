@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate principle that will dispatch a initialization strategy.
 $>*/
 /*<#*/
-import { createStage, selectState, strategyBegin } from '@phuire/stratimux';
+import { createStage, selectState, strategyBegin } from 'stratimux';
 import { FileSystemState, fileSystemName } from '../fileSystem/fileSystem.concept';
 import { huirthServerInitializationStrategy } from './strategies/initialization.strategy';
 import { HuirthServerPrinciple } from './huirthServer.concept';

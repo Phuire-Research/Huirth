@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth Server, create a quality that will trigger the git pull repository strategy
 $>*/
 /*<#*/
-import { createMethodDebounceWithConcepts, createQualityCardWithPayload, nullReducer, selectState, strategyBegin } from '@phuire/stratimux';
+import { createMethodDebounceWithConcepts, createQualityCardWithPayload, nullReducer, selectState, strategyBegin } from 'stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirthServerGitPullRepositoryStrategy } from '../strategies/gitPullRepository.strategy';
 import { huirthServerState } from '../huirthServer.concept';

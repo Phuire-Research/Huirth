@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a Page Strategy Creator that will unify Sidebar, DataSet, Footer, and Header Action Strategy Component Stitches into a Page Composition.
 $>*/
 /*<#*/
-import { createActionNode, createStrategy } from '@phuire/stratimux';
+import { createActionNode, createStrategy } from 'stratimux';
 import {
   ActionStrategyComponentStitch,
   PageStrategyCreators,

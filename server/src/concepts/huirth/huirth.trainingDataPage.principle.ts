@@ -14,7 +14,7 @@ import {
   createStage,
   strategyBegin,
   strategySequence,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { userInterface_isClient } from '../../model/userInterface';
 import { UserInterfaceState } from '../userInterface/userInterface.concept';
 import { HuirthPrinciple, huirthState } from './huirth.concept';
@@ -178,7 +178,7 @@ export const huirthTrainingDataPagePrinciple: HuirthPrinciple = ({ plan }) => {
               }
               const strategies = strategySequence(list);
               if (strategies) {
-                console.log('strategies: ', strategies);
+                // console.log('strategies: ', strategies);
                 const action = strategyBegin(strategies);
                 dispatch(action, {
                   iterateStage: true,
@@ -188,7 +188,7 @@ export const huirthTrainingDataPagePrinciple: HuirthPrinciple = ({ plan }) => {
           }
         }
         if (state === undefined) {
-          console.log("THIS PLAN SHOULDN'T CONCLUDE YET");
+          // console.log("THIS PLAN SHOULDN'T CONCLUDE YET");
           stagePlanner.conclude();
         }
       },

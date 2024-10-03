@@ -14,7 +14,7 @@ import {
   strategyBegin,
   strategyPunt,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { webSocketClientAppendToActionQue } from './appendActionQue.quality';
 import { webSocketServerSyncClientState } from '../strategies/server/syncServerState.helper';
 import { WebSocketClientState } from '../webSocketClient.concept';
@@ -39,7 +39,7 @@ export const webSocketClientForceSync = createQualityCardWithPayload<WebSocketCl
           actionQue: [webSocketServerSyncClientState({ state: syncState }, { priority: 5000 })],
         })
       );
-      console.log('FORCE SYNC STATE', syncState);
+      // console.log('FORCE SYNC STATE', syncState);
       if (action.strategy) {
         return strategyBegin(
           strategyPunt(

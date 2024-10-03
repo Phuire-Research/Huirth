@@ -10,7 +10,7 @@ import {
   selectPayload,
   selectState,
   strategyBegin,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirthServerCloneGitRepositoryToDirectoryStrategy } from '../strategies/cloneGitRepositoryToDirectory.strategy';
 import { Subject } from 'rxjs';

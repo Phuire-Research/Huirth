@@ -27,7 +27,7 @@ import {
   createQualityCardWithPayload,
   MethodCreatorStep,
   AnyAction,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { elementEventBinding } from './html';
 import { documentObjectModelName } from '../concepts/documentObjectModel/documentObjectModel.concept';
 import { userInterfaceNext } from '../concepts/userInterface/qualities/next.quality';
@@ -80,7 +80,7 @@ type ActionEventPayload = {
 };
 
 export const userInterface_selectInputTarget = (action: AnyAction) => {
-  console.log('CHECK FAILING ACTION', action);
+  // console.log('CHECK FAILING ACTION', action);
   const payload = selectPayload<ActionEventPayload>(action).event;
   return payload.target as HTMLInputElement;
 };

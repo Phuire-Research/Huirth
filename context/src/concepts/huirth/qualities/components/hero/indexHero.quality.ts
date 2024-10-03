@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and a Concept huirth, generate a U
 $>*/
 /*<#*/
 /* eslint-disable max-len */
-import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
+import { createMethod, nullReducer, strategySuccess } from 'stratimux';
 
 import { createQualityCardComponent, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 

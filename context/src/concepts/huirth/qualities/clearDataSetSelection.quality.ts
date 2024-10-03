@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that set each entry of the data set selection to false.
 $>*/
 /*<#*/
-import { Action, createQualityCard, defaultMethodCreator } from '@phuire/stratimux';
+import { Action, createQualityCard, defaultMethodCreator } from 'stratimux';
 import { huirthState } from '../huirth.concept';
 
 export const huirthClearDataSetSelection = createQualityCard<huirthState>({

@@ -12,7 +12,7 @@ import {
   createStrategy,
   selectPayload,
   strategyBegin,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { huirthState } from '../huirth.concept';
 import { PhuirEProjects, ProjectStatus } from '../huirth.model';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';

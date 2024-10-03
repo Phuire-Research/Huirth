@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and a Concept huirth, generate a U
 $>*/
 /*<#*/
 /* eslint-disable max-len */
-import { Action, KeyedSelector, createMethodDebounceWithConcepts, nullReducer, strategySuccess } from '@phuire/stratimux';
+import { Action, KeyedSelector, createMethodDebounceWithConcepts, nullReducer, strategySuccess } from 'stratimux';
 
 import {
   ActionComponentPayload,

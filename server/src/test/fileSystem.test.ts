@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the huirth Project, generate a test to ensure that the file system is loaded and working as intended.
 $>*/
 /*<#*/
-import { Concepts, muxiumSelectOpen, muxification, createStage, selectSlice, selectState, strategyBegin } from '@phuire/stratimux';
+import { Concepts, muxiumSelectOpen, muxification, createStage, selectSlice, selectState, strategyBegin } from 'stratimux';
 import { FileSystemState, createFileSystemConcept, fileSystemName } from '../concepts/fileSystem/fileSystem.concept';
 import { userInterfaceServerSetConceptDirectoriesFromDataStrategy } from '../concepts/userInterfaceServer/strategies/setConceptDirectories.strategy';
 

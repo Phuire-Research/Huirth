@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and the User Interface Concept, ge
 To be later added back into state via the add composed page to state quality.
 $>*/
 /*<#*/
-import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
+import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
 import { PageStrategyCreators } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 

@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a quality that will refresh the current cached bound selectors and the associated semaphores to enable safe atomic operations.
 $>*/
 /*<#*/
-import { Action, createQualityCard, defaultMethodCreator } from '@phuire/stratimux';
+import { Action, createQualityCard, defaultMethodCreator } from 'stratimux';
 import { BoundSelectors } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 

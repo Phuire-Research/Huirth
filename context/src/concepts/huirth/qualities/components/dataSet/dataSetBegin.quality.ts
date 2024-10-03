@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a User Interface Component quality to create the first slice of the DataSet Component.
 $>*/
 /*<#*/
-import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
+import { createMethod, nullReducer, strategySuccess } from 'stratimux';
 
 import { createQualityCardComponent, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 

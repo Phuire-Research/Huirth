@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a strategy that will save a selection of data sets by the passed parameter of names, to the file system, and to their own directory.
 $>*/
 /*<#*/
-import { muxiumLog, createActionNode, createStrategy } from '@phuire/stratimux';
+import { muxiumLog, createActionNode, createStrategy } from 'stratimux';
 import { TrainingData } from '../../huirth/huirth.model';
 import path from 'path';
 import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';

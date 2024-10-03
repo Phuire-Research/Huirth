@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that will trigger the strategy that will install the target git repository via a supplied url to a directory of the given name.
 $>*/
 /*<#*/
-import { createMethod, createQualityCardWithPayload, nullReducer, selectPayload, strategyBegin } from '@phuire/stratimux';
+import { createMethod, createQualityCardWithPayload, nullReducer, selectPayload, strategyBegin } from 'stratimux';
 import { huirthInstallGitRepositoryStrategy } from '../strategies/installGitProject.strategy';
 import { huirthState } from '../huirth.concept';
 

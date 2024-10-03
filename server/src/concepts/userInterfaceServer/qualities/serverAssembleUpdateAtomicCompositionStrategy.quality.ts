@@ -14,7 +14,7 @@ import {
   refreshAction,
   selectPayload,
   strategyBegin,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { BoundSelectors } from '../../../model/userInterface';
 import { userInterfaceUpdateAtomicPageComposition } from '../../userInterface/qualities/updateAtomicPageComposition.quality';
 import { userInterfaceEnd } from '../../userInterface/qualities/end.quality';

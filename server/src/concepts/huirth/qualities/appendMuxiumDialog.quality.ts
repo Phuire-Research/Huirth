@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and a Concept huirth, generate a q
 $>*/
 /*<#*/
 /* eslint-disable max-len */
-import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
+import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
 import { huirthState } from '../huirth.concept';
 
 export type huirthAppendMuxiumDialogTypePayload = {

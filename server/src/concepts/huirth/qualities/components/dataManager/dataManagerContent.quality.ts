@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a User Interface Component quality that will create the Data Manager's body slice and bind all essential functions to properly manage a Stratimux project data.
 $>*/
 /*<#*/
-import { KeyedSelector, createMethodDebounceWithConcepts, nullReducer, selectMuxifiedState, strategySuccess } from '@phuire/stratimux';
+import { KeyedSelector, createMethodDebounceWithConcepts, nullReducer, selectMuxifiedState, strategySuccess } from 'stratimux';
 
 import {
   createBinding,
@@ -54,7 +54,7 @@ export const huirthDataManagerContent = createQualityCardComponent({
     const pullStratimuxID = '#pull_' + PhuirEProjects.stratimux;
     let finalStratimuxID = '#stratimuxID';
     // eslint-disable-next-line quotes
-    let finalStratimuxNote = '@phuire/stratimux';
+    let finalStratimuxNote = 'stratimux';
     const parseStratimuxID = '#parse_' + PhuirEProjects.stratimux;
     const installHuirth_ID = '#install_' + PhuirEProjects.huirth;
     const pullHuirth_ID = '#pull_' + PhuirEProjects.huirth;

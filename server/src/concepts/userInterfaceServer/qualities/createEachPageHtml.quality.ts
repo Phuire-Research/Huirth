@@ -10,7 +10,7 @@ import {
   nullReducer,
   selectPayload,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import fs from 'fs';
 import path from 'path';
 import { UserInterfaceServerState } from '../userInterfaceServer.concept';
@@ -56,7 +56,7 @@ export const userInterfaceServerCreateEachPageHtml = createQualityCardWithPayloa
       if (action.strategy) {
         for (const page of pages) {
           fs.writeFile(page.fileName, page.html, (err) => {
-            console.log('CHECK', err);
+            // console.log('CHECK', err);
             if (err) {
               throw err;
             }

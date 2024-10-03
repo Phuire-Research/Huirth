@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and the Web Socket Server Concept,
 properties that would prevent provable termination or should be defined only by the client.
 $>*/
 /*<#*/
-import { createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
+import { createQualityCardWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
 import { WebSocketServerState } from '../webSocketServer.concept';
 
 export type WebSocketServerSyncStatePayload = {

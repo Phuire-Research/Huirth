@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a quality that will remove a page and page strategy creator from state based on the provided name in the payload.
 $>*/
 /*<#*/
-import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
+import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
 import { BoundSelectors, Page, PageStrategyCreators } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 

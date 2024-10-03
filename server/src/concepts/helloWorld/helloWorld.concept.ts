@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a Hello World Concept.
 $>*/
 /*<#*/
-import { MuxiumDeck, Concept, createConcept, PrincipleFunction } from '@phuire/stratimux';
+import { MuxiumDeck, Concept, createConcept, PrincipleFunction } from 'stratimux';
 import { helloWorld } from './qualities/helloWorld.quality';
 import { helloWorldPrinciple } from './helloWorld.principle';
 

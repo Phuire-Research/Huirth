@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a User Interface Component quality for the last slice of the Dialog Component with the necessary closing element tags.
 $>*/
 /*<#*/
-import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
+import { createMethod, nullReducer, strategySuccess } from 'stratimux';
 
 import { createQualityCardComponent, userInterface_appendCompositionToPage } from '../../../../../model/userInterface';
 

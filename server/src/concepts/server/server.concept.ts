@@ -3,7 +3,7 @@ For the graph programming framework Stratimux generate a Server Concept, that ac
 $>*/
 /*<#*/
 import { serverPrinciple } from './server.principle';
-import { MuxiumDeck, MuxiumState, createConcept, PrincipleFunction } from '@phuire/stratimux';
+import { MuxiumDeck, MuxiumState, createConcept, PrincipleFunction } from 'stratimux';
 import express, { Application } from 'express';
 
 export type ServerState = {

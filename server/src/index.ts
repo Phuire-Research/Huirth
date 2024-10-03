@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux, generate a index file for a branded project huirth that utilizes the Stratimux advanced project template to formalize a unified application.
 $>*/
 /*<#*/
-import { muxification, muxifyConcepts } from '@phuire/stratimux';
+import { muxification, muxifyConcepts } from 'stratimux';
 import { createFileSystemConcept } from './concepts/fileSystem/fileSystem.concept';
 import { createHuirthConcept } from './concepts/huirth/huirth.concept';
 
@@ -18,7 +18,7 @@ import { createHuirthServerConcept } from './concepts/huirthServer/huirthServer.
 (() => {
   const goal = commandLineInterfaceDetermineGoal(argv);
   const port = commandLineInterfaceDeterminePort(argv);
-  console.log('GOAL', goal);
+  // console.log('GOAL', goal);
   switch (goal) {
     case commandLineInterfaceGoals.simulate: {
       muxification(

@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a ActionStrategy that will create bindings for the first page provided from a list
 $>*/
 /*<#*/
-import { Action, ActionStrategy, createActionNode, createStrategy, strategySequence } from '@phuire/stratimux';
+import { Action, ActionStrategy, createActionNode, createStrategy, strategySequence } from 'stratimux';
 import { Page } from '../../../model/userInterface';
 import { userInterfaceClientDetermineBindings } from '../qualities/clientDetermineBindings.quality';
 import { Subject } from 'rxjs';

@@ -11,7 +11,7 @@ import {
   strategyData_appendFailure,
   strategyFailed,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { exec } from 'child_process';
 
 export type BuildContextPayload = { contextDir: string };
@@ -29,13 +29,13 @@ export const userInterfaceServerBuildContext = createQualityCardWithPayload<Buil
               console.error(`error: ${error}, stdout: ${stdout}, stderr: ${stderr}`);
               controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, stderr)));
             } else {
-              console.log('stdout:', stdout);
+              // console.log('stdout:', stdout);
               controller.fire(strategySuccess(action.strategy));
             }
           } else {
             controller.fire(muxiumConclude());
           }
-          console.log('stdout:', stdout);
+          // console.log('stdout:', stdout);
         });
       } else {
         controller.fire(muxiumConclude());

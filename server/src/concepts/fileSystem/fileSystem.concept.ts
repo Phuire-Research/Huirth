@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a File System Concept that will store the current projects root and concept directory map.
 $>*/
 /*<#*/
-import { createConcept, Concept } from '@phuire/stratimux';
+import { createConcept, Concept } from 'stratimux';
 import { fileSystemGetDirectories } from './qualities/getDirectories.quality';
 import { fileSystemRemoveTargetDirectory } from './qualities/removeTargetDirectory.quality';
 import { fileSystemCreateTargetDirectory } from './qualities/createTargetDirectory.quality';

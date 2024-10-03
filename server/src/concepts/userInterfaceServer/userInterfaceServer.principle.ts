@@ -21,7 +21,7 @@ import {
   selectMuxifiedState,
   updateMuxifiedKeyedSelector,
   MuxiumDeck,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { BoundSelectors, Composition, Page } from '../../model/userInterface';
 import path from 'path';
 import { FileSystemState, fileSystemName } from '../fileSystem/fileSystem.concept';
@@ -80,7 +80,7 @@ export const userInterfaceServerPrinciple: UserInterfaceServerPrinciple = ({ sub
   });
   plan('State Sync Client Init', ({ stage }) => [
     stage(({ concepts, dispatch, d, e, k, stagePlanner }) => {
-      console.log('CHECK K', k);
+      // console.log('CHECK K', k);
       const name = k.name(concepts);
       if (name) {
         dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
@@ -316,7 +316,7 @@ export const userInterfaceServerOnChangePrinciple: UserInterfaceServerPrinciple 
             });
           }
         } else if (uiState === undefined) {
-          console.log("SHOULDN'T CONCLUDE, unless removed");
+          // console.log("SHOULDN'T CONCLUDE, unless removed");
           stagePlanner.conclude();
         }
       },

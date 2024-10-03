@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and Hello World Concept, generate a quality that will console log 'Hello World!'
 $>*/
 /*<#*/
-import { muxiumConclude, createMethod, createQualityCard, nullReducer, strategySuccess } from '@phuire/stratimux';
+import { muxiumConclude, createMethod, createQualityCard, nullReducer, strategySuccess } from 'stratimux';
 import { HelloWorldState } from '../helloWorld.concept';
 
 export const helloWorld = createQualityCard<HelloWorldState>({

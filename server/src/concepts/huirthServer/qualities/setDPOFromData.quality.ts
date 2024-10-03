@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirthServer, generate a quality that parses a DPO data set from the incoming data field and adds such into state.
 $>*/
 /*<#*/
-import { Action, createQualityCard, defaultMethodCreator, strategyData_select } from '@phuire/stratimux';
+import { Action, createQualityCard, defaultMethodCreator, strategyData_select } from 'stratimux';
 import { huirthServerState } from '../huirthServer.concept';
 import { convertSaveFormatDPOToDPO } from '../huirthServer.model';
 import { ReadFromDataTrainingDataFromDirectoriesField } from './readFromDataTrainingDataFromDirectory.quality';

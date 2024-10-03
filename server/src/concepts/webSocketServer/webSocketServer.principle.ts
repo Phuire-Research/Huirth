@@ -5,7 +5,7 @@ As well as receive actions from the client, the parse and dispatch them into the
 $>*/
 /*<#*/
 import { ServerState } from '../server/server.concept';
-import { Action, muxiumKick, muxiumSelectOpen, getMuxiumState, selectSlice } from '@phuire/stratimux';
+import { Action, muxiumKick, muxiumSelectOpen, getMuxiumState, selectSlice } from 'stratimux';
 import _ws from 'express-ws';
 import { webSocketClientSetServerSemaphore } from '../webSocketClient/qualities/setServerSemaphore.quality';
 import { WebSocketServerPrinciple, WebSocketServerState } from './webSocketServer.concept';
@@ -47,12 +47,12 @@ export const webSocketServerPrinciple: WebSocketServerPrinciple = ({ d_, k_, pla
           if (state) {
             if (state.actionQue.length > 0) {
               const que = state.actionQue;
-              console.log('ATTEMPTING TO SEND', que);
+              // console.log('ATTEMPTING TO SEND', que);
               const emptyQue = () => {
                 if (que.length) {
                   const action = que.shift();
                   if (action) {
-                    console.log('SENDING', action);
+                    // console.log('SENDING', action);
                     action.conceptSemaphore = (state as WebSocketServerState).clientSemaphore;
                     ws.send(JSON.stringify(action));
                   }
@@ -61,7 +61,7 @@ export const webSocketServerPrinciple: WebSocketServerPrinciple = ({ d_, k_, pla
               emptyQue();
             }
           } else {
-            console.log("SHOUDN'T CONCLUDE");
+            // console.log("SHOUDN'T CONCLUDE");
             stagePlanner.conclude();
           }
         },
@@ -79,14 +79,13 @@ export const webSocketServerPrinciple: WebSocketServerPrinciple = ({ d_, k_, pla
         const act = JSON.parse(`${message}`);
         // console.log('CHECK ACTION', act);
         if (Object.keys(act).includes('type')) {
-          if ((act as Action).type !== webSocketServerSyncState.actionType) {
-            if (getMuxiumState(concepts_).logging && (act as Action).type !== muxiumKick.actionType) {
-              console.log('MESSAGE', (act as Action).type);
-            }
-          }
+          // if ((act as Action).type !== webSocketServerSyncState.actionType) {
+          //   if (getMuxiumState(concepts_).logging && (act as Action).type !== muxiumKick.actionType) {
+          //     console.log('MESSAGE', (act as Action).type);
+          //   }
+          // }
           (act as Action).conceptSemaphore = conceptSemaphore;
           (act as Action).semaphore = [-1, -1, -1, -1];
-          console.log('CHECK CONCEPT SEMAPHORE', act);
           observer.next(act);
         }
       }

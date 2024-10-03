@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and Html Concept, generate a quality for a User Interface Concept that will add a html body element with the supplied page id.
 $>*/
 /*<#*/
-import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
+import { createMethod, nullReducer, strategySuccess } from 'stratimux';
 import {
   createPageId,
   createQualityCardComponent,

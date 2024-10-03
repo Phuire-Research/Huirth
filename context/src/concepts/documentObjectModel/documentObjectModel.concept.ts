@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a Document Object Model Concept
 $>*/
 /*<#*/
-import { createConcept, Concept, PrincipleFunction, Principle, MuxiumDeck } from '@phuire/stratimux';
+import { createConcept, Concept, PrincipleFunction, Principle, MuxiumDeck } from 'stratimux';
 import { documentObjectModelPrinciple } from './documentObjectModel.principle';
 import { UserInterfacePageBindings } from '../../model/userInterface';
 import { documentObjectModelBind } from './qualities/bind.quality';

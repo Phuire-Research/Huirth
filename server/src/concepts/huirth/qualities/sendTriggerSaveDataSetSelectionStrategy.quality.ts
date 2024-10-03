@@ -11,7 +11,7 @@ import {
   createQualityCard,
   createStrategy,
   strategyBegin,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { huirthState } from '../huirth.concept';
 import { ProjectStatus } from '../huirth.model';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
@@ -29,7 +29,7 @@ export const huirthSendTriggerSaveDataSetSelectionStrategy = createQualityCard<h
       if (select) {
         const name = trainingData[i].name;
         names.push(name);
-        if (name.toLowerCase() === '@phuire/stratimux') {
+        if (name.toLowerCase() === 'stratimux') {
           stratimuxStatus = ProjectStatus.saving;
         } else if (name.toLowerCase() === 'huirth') {
           huirthStatus = ProjectStatus.saving;

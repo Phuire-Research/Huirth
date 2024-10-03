@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a ActionStrategy that will delete data sets from the file system.
 $>*/
 /*<#*/
-import { muxiumLog, muxiumStitch, muxium_createStitchNode, createActionNode, createStrategy } from '@phuire/stratimux';
+import { muxiumLog, muxiumStitch, muxium_createStitchNode, createActionNode, createStrategy } from 'stratimux';
 import path from 'path';
 import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
 import { huirthServerSendUpdateProjectToInstalled } from './client/huirthServerSendUpdateProjectToInstalled.helper';

@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that will filter out a new training data from state.
 $>*/
 /*<#*/
-import { createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
+import { createQualityCardWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
 import { huirthState } from '../huirth.concept';
 
 export type HuirthFilterTrainingDataPagePayload = {

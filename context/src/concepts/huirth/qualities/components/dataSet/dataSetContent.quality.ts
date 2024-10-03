@@ -10,7 +10,7 @@ import {
   strategyData_appendFailure,
   strategyFailed,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 
 import {
   ActionComponentPayload,

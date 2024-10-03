@@ -2,14 +2,7 @@
 For the graph programming framework Stratimux and File System Concept, generate a quality the will create the target directory if it does not exist.
 $>*/
 /*<#*/
-import {
-  ActionStrategy,
-  muxiumConclude,
-  createAsyncMethod,
-  createQualityCardWithPayload,
-  nullReducer,
-  strategySuccess,
-} from '@phuire/stratimux';
+import { ActionStrategy, muxiumConclude, createAsyncMethod, createQualityCardWithPayload, nullReducer, strategySuccess } from 'stratimux';
 import fs from 'fs';
 import { FileSystemState } from '../fileSystem.concept';
 

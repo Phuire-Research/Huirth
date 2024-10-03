@@ -9,7 +9,7 @@ import {
   nullReducer,
   strategyData_muxifyData,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import fs from 'fs';
 import { FileSystemState } from '../fileSystem.concept';
 

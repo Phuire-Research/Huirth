@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and Html Concept, generate a quality that will append a Html head element for a User Interface Concept and the supplied page composition.
 $>*/
 /*<#*/
-import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
+import { createMethod, nullReducer, strategySuccess } from 'stratimux';
 import { createQualityCardComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../model/userInterface';
 
 export const htmlHeadBegin = createQualityCardComponent({

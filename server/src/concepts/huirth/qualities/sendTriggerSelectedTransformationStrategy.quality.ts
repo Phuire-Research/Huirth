@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that will Send the trigger action to the server that starts transformation strategy based on the passed selection value.
 $>*/
 /*<#*/
-import { createAction, createActionNode, createMethodWithState, createQualityCard, createStrategy, strategyBegin } from '@phuire/stratimux';
+import { createAction, createActionNode, createMethodWithState, createQualityCard, createStrategy, strategyBegin } from 'stratimux';
 import { huirthState } from '../huirth.concept';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 

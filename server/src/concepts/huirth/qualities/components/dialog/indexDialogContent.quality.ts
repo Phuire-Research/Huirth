@@ -11,7 +11,7 @@ import {
   nullReducer,
   selectConcept,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 
 import {
   ActionComponentPayload,
@@ -40,7 +40,7 @@ export const huirthIndexDialogContent = createQualityCardComponent<huirthState, 
       const subtractId = '#subtractID';
 
       // console.log('CHECK LOAD', selectConcept(concepts_, userInterfaceServerName)?.muxifiedRecord);
-      console.log('CHECK LOAD', deck.huirth);
+      // console.log('CHECK LOAD', deck.huirth);
       if (action.strategy) {
         const isClient = userInterface_isClient();
         if (isClient !== undefined) {

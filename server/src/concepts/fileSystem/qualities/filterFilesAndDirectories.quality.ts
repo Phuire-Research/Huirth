@@ -13,7 +13,7 @@ import {
   strategyData_muxifyData,
   strategyFailed,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { ReadDirectoryField } from './readDir.quality';
 import path from 'path';
 import { FileSystemState } from '../fileSystem.concept';

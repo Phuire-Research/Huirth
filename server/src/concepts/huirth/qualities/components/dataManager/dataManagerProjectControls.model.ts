@@ -9,7 +9,7 @@ export const determineProjectControls = (statuses: GeneralProjectStatuses): [str
   let dataNote = '';
   let dataStatus = '';
   for (const [i, st] of statuses.entries()) {
-    console.log('CHECK STATUS, st', st, statuses);
+    // console.log('CHECK STATUS, st', st, statuses);
     const dataID = '#projectID-' + generateNumID(i);
     dataStatus = st.status;
     switch (st.status) {

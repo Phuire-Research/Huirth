@@ -11,7 +11,7 @@ import {
   strategyData_appendFailure,
   strategyFailed,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { exec } from 'child_process';
 
 export type FormatContextPayload = { contextDir: string };
@@ -26,10 +26,10 @@ export const userInterfaceServerFormatContext = createQualityCardWithPayload<For
         exec(`cd ${payload.contextDir} & npm run prettier-format`, (error, stdout, stderr) => {
           if (action.strategy) {
             if (error) {
-              console.error('stderr:', stderr);
+              // console.error('stderr:', stderr);
               controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, stderr)));
             } else {
-              console.log('stdout:', stdout);
+              // console.log('stdout:', stdout);
               controller.fire(strategySuccess(action.strategy));
             }
           } else {

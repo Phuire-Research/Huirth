@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate an ActionStrategy that will randomly generate a series of steps that will either increment or decrement a unified Counter Concept.
 $>*/
 /*<#*/
-import { counterAdd, counterSubtract, createActionNode, createStrategy } from '@phuire/stratimux';
+import { counterAdd, counterSubtract, createActionNode, createStrategy } from 'stratimux';
 
 function getRandomRange(min: number, max: number) {
   return Math.random() * (max - min) + min;

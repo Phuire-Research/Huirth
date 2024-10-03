@@ -19,7 +19,7 @@ import {
   selectPayload,
   selectState,
   strategyBegin,
-} from '@phuire/stratimux';
+} from 'stratimux';
 
 export const [
   experimentBufferMultiplyByCountFromConcepts,

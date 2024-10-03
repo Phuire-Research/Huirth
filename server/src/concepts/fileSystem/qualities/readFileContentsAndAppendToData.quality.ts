@@ -11,7 +11,7 @@ import {
   strategyData_muxifyData,
   strategyFailed,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import fs from 'fs/promises';
 import path from 'path';
 import { FileDirent } from '../fileSystem.model';

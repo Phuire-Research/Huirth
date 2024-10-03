@@ -10,7 +10,7 @@ import {
   nullReducer,
   selectPayload,
   strategyBegin,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import {
   huirthVerboseAddingStrategySelect,
   huirthVerboseAdditionAndSubtractionStrategySelect,

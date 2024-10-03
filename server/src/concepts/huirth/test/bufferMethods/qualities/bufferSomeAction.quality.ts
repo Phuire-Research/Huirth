@@ -13,7 +13,7 @@ import {
   defaultReducer,
   selectPayload,
   strategyBegin,
-} from '@phuire/stratimux';
+} from 'stratimux';
 
 type ExperimentBufferNextActionPayload = {
   action: Action;

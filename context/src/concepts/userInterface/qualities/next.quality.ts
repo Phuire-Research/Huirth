@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a quality that will backtrack to the previous node and call the next successive action.
 $>*/
 /*<#*/
-import { createMethod, createQualityCard, nullReducer, strategy } from '@phuire/stratimux';
+import { createMethod, createQualityCard, nullReducer, strategy } from 'stratimux';
 
 export const userInterfaceNext = createQualityCard({
   type: 'User Interface Next Strategy',

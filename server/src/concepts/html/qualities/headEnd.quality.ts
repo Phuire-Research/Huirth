@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and Html Concept, generate a quality that will append a head element closing tag for a User Interface Concept and supplied page composition.
 $>*/
 /*<#*/
-import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
+import { createMethod, nullReducer, strategySuccess } from 'stratimux';
 import { createQualityCardComponent, userInterface_appendCompositionToPage } from '../../../model/userInterface';
 
 export const htmlHeadEnd = createQualityCardComponent({

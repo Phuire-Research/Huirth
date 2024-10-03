@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a strategy that will save the current DPO data onto the file system.
 $>*/
 /*<#*/
-import { createActionNode, createStrategy } from '@phuire/stratimux';
+import { createActionNode, createStrategy } from 'stratimux';
 import { Active_DPO } from '../../huirth/huirth.model';
 import path from 'path';
 import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';

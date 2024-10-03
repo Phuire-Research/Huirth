@@ -10,7 +10,7 @@ import {
   selectPayload,
   strategyRecurse,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import fs from 'fs/promises';
 import path from 'path';
 import { Page } from '../../../model/userInterface';

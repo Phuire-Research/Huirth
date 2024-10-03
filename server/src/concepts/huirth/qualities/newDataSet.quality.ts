@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that will add a new default named dataset to the state's trainingData property.
 $>*/
 /*<#*/
-import { muxiumKick, createActionNode, createMethodWithState, createQualityCard, createStrategy, strategyBegin } from '@phuire/stratimux';
+import { muxiumKick, createActionNode, createMethodWithState, createQualityCard, createStrategy, strategyBegin } from 'stratimux';
 import { huirthState } from '../huirth.concept';
 import { generateDefaultNamedDataSet } from '../huirth.model';
 import { huirthSendAddTrainingPageStrategy } from './sendTriggerAddTrainingPageStrategy.quality';
@@ -16,7 +16,7 @@ export const huirthNewDataSet = createQualityCard<huirthState>({
     if (trainingDataCounter === -1) {
       trainingDataCounter = trainingData.length;
     }
-    console.log('CHECK DATA SET SELECTION', dataSetSelection);
+    // console.log('CHECK DATA SET SELECTION', dataSetSelection);
     trainingData.push(generateDefaultNamedDataSet('newDataSet' + trainingDataCounter));
     trainingData.forEach((_) => {
       dataSetSelection.push(false);

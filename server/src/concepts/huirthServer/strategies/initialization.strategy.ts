@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a ActionStrategy that will set up the data directory as needed, otherwise will record its contents to the state.
 $>*/
 /*<#*/
-import { createActionNode, createStrategy } from '@phuire/stratimux';
+import { createActionNode, createStrategy } from 'stratimux';
 import path from 'path';
 import { fileSystemGetDirectoriesAndFiles } from '../../fileSystem/qualities/getDirectoriesAndFiles.quality';
 import { huirthServerReadFromDataTrainingDataFromDirectories } from '../qualities/readFromDataTrainingDataFromDirectory.quality';

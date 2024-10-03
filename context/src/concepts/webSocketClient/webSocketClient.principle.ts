@@ -4,15 +4,7 @@ Then create a plan to notify the server of state changes, while ignoring values 
 As well as receive actions from the server, the parse and dispatch them into the client's action stream.
 $>*/
 /*<#*/
-import {
-  Action,
-  KeyedSelector,
-  muxiumKick,
-  muxiumRegisterStagePlanner,
-  createStage,
-  getMuxiumState,
-  selectMuxifiedState,
-} from '@phuire/stratimux';
+import { Action, KeyedSelector, muxiumKick, muxiumRegisterStagePlanner, createStage, getMuxiumState, selectMuxifiedState } from 'stratimux';
 import _ws from 'express-ws';
 import { WebSocketClientPrinciple, WebSocketClientState } from './webSocketClient.concept';
 import { webSocketClientSetClientSemaphore } from './strategies/server/setClientSemaphore.helper';
@@ -40,7 +32,7 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({ plan, conce
   const ws = new WebSocket(url);
   const syncState: Record<string, unknown> = {};
   ws.addEventListener('open', () => {
-    console.log('SEND');
+    // console.log('SEND');
     ws.send(JSON.stringify(webSocketClientSetClientSemaphore({ semaphore: conceptSemaphore })));
     plan('Web Socket Planner', ({ stage, d__, k__ }) => [
       stage(({ concepts, dispatch, stagePlanner, k }) => {
@@ -59,12 +51,12 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({ plan, conce
           if (state) {
             if (state.actionQue.length > 0) {
               const que = state.actionQue;
-              console.log('ATTEMPTING TO SEND', que);
+              // console.log('ATTEMPTING TO SEND', que);
               const emptyQue = () => {
                 if (que.length) {
                   const action = que.shift();
                   if (action) {
-                    console.log('SENDING', action);
+                    // console.log('SENDING', action);
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     action.conceptSemaphore = (state as any).clientSemaphore;
                     ws.send(JSON.stringify(action));
@@ -122,7 +114,7 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({ plan, conce
               if (changed) {
                 const sync = webSocketServerSyncClientState({ state });
                 sync.conceptSemaphore = (newState as WebSocketClientState).serverSemaphore;
-                console.log('CHECK SYNC', sync);
+                // console.log('CHECK SYNC', sync);
                 ws.send(JSON.stringify(sync));
               }
             }
@@ -147,9 +139,9 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({ plan, conce
     if (message.data !== 'ping') {
       const act = JSON.parse(message.data);
       if (Object.keys(act).includes('type')) {
-        if (getMuxiumState(concepts_).logging && (act as Action).type !== muxiumKick.actionType) {
-          console.log('MESSAGE', (act as Action).type);
-        }
+        // if (getMuxiumState(concepts_).logging && (act as Action).type !== muxiumKick.actionType) {
+        //   console.log('MESSAGE', (act as Action).type);
+        // }
         observer.next(act);
       }
     }

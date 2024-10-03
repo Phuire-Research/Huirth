@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate an Action Strategy Component Stitch that appends the Sidebar first, content, and last component slices to the desired composition.
 $>*/
 /*<#*/
-import { createActionNode, createStrategy } from '@phuire/stratimux';
+import { createActionNode, createStrategy } from 'stratimux';
 import { ActionStrategyComponentStitch, userInterface } from '../../../../model/userInterface';
 import { huirthSideBarEnd } from '../../qualities/components/sideBar/sideBarEnd.quality';
 import { huirthSideBarBegin } from '../../qualities/components/sideBar/sideBarBegin.quality';

@@ -12,7 +12,7 @@ import {
   strategyBegin,
   createQualityCard,
   muxiumSelectLastStrategy,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { DataSetTypes, NamedDataSet } from '../../huirth/huirth.model';
 import { huirthServerVerboseAddingStrategy } from '../strategies/verboseAdding.strategy';
 import { huirthServerInnerAddField } from './innerAddTo.quality';

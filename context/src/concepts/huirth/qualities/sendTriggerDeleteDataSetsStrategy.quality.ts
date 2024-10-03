@@ -11,7 +11,7 @@ import {
   nullReducer,
   selectPayload,
   strategyBegin,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { huirthState } from '../huirth.concept';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 import { huirthClearDataSetSelection } from './clearDataSetSelection.quality';

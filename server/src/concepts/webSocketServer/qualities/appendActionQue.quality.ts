@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and the Web Socket Server Concept,
 This will later be dispatched by the Web Socket Server Principle to the client.
 $>*/
 /*<#*/
-import { Action, AnyAction, createQualityCardWithPayload, defaultMethodCreator, refreshAction, selectPayload } from '@phuire/stratimux';
+import { Action, AnyAction, createQualityCardWithPayload, defaultMethodCreator, refreshAction, selectPayload } from 'stratimux';
 import { WebSocketServerState } from '../webSocketServer.concept';
 
 export type WebSocketServerAppendToActionQuePayload = {
@@ -15,7 +15,7 @@ export const webSocketServerAppendToActionQue = createQualityCardWithPayload<Web
     type: 'Web Socket Server append to action que',
     reducer: (state, action) => {
       const payload = selectPayload<WebSocketServerAppendToActionQuePayload>(action);
-      console.log('APPENDING TO SEND', payload);
+      // console.log('APPENDING TO SEND', payload);
       const actionQue = state.actionQue;
       payload.actionQue.forEach((act) => {
         actionQue.push(refreshAction(act));

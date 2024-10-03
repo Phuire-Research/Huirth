@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a User Interface Client Concept, that will unify itself with the User Interface and incoming Brand concept to be loaded onto the client.
 $>*/
 /*<#*/
-import { AnyConcept, MuxiumDeck, Concept, createConcept, muxifyConcepts, PrincipleFunction } from '@phuire/stratimux';
+import { AnyConcept, MuxiumDeck, Concept, createConcept, muxifyConcepts, PrincipleFunction } from 'stratimux';
 import { createHtmlConcept } from '../html/html.concepts';
 import { UserInterfaceState, createUserInterfaceConcept, userInterfaceQualities } from '../userInterface/userInterface.concept';
 import { userInterfaceClientAssembleAtomicUpdateCompositionStrategy } from './qualities/clientAssembleAtomicUpdateCompositionStrategy.quality';
@@ -70,24 +70,24 @@ export const createUserInterfaceClientConcept = (state?: Record<string, unknown>
   }
   const muxified = brandCreator
     ? muxifyConcepts(
-      [
-        createHtmlConcept(),
-        createWebSocketClientConcept(),
-        createUserInterfaceConcept([]),
-        createConcept('', createUserInterfaceClientState(), userInterfaceClientQualities, [userInterfaceClientOnChangePrinciple]),
-        brandCreator(),
-      ],
-      createConcept(userInterfaceClientName, newState)
-    )
+        [
+          createHtmlConcept(),
+          createWebSocketClientConcept(),
+          createUserInterfaceConcept([]),
+          createConcept('', createUserInterfaceClientState(), userInterfaceClientQualities, [userInterfaceClientOnChangePrinciple]),
+          brandCreator(),
+        ],
+        createConcept(userInterfaceClientName, newState)
+      )
     : muxifyConcepts(
-      [
-        createHtmlConcept(),
-        createWebSocketClientConcept(),
-        createUserInterfaceConcept([]),
-        createConcept('', createUserInterfaceClientState(), userInterfaceQualities, [userInterfaceClientOnChangePrinciple]),
-      ],
-      createConcept(userInterfaceClientName, newState)
-    );
+        [
+          createHtmlConcept(),
+          createWebSocketClientConcept(),
+          createUserInterfaceConcept([]),
+          createConcept('', createUserInterfaceClientState(), userInterfaceQualities, [userInterfaceClientOnChangePrinciple]),
+        ],
+        createConcept(userInterfaceClientName, newState)
+      );
   return muxified;
 };
 /*#>*/

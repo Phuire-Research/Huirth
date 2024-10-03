@@ -11,7 +11,7 @@ import {
   nullReducer,
   selectPayload,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { UserInterfaceBindings, userInterface_selectPage } from '../../../model/userInterface';
 import { Subject } from 'rxjs';
 import { userInterfaceEnd } from '../../userInterface/qualities/end.quality';
@@ -47,7 +47,10 @@ const createBindingActionNode = (action$: Subject<Action>, bindings: UserInterfa
   return first as ActionNode;
 };
 
-export const userInterfaceClientDetermineBindings = createQualityCardWithPayload<UserInterfaceClientState, UserInterfaceClientActionQueStrategyClientPayload>({
+export const userInterfaceClientDetermineBindings = createQualityCardWithPayload<
+  UserInterfaceClientState,
+  UserInterfaceClientActionQueStrategyClientPayload
+>({
   type: 'User Interface determine bindings of all passed compositions',
   reducer: nullReducer,
   methodCreator: () =>

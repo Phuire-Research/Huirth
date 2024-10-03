@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and a Concept huirth Server, gener
 $>*/
 /*<#*/
 import path from 'path';
-import { createActionNode, createStrategy } from '@phuire/stratimux';
+import { createActionNode, createStrategy } from 'stratimux';
 import { huirthServerGitPullRepository } from '../qualities/gitPullRepository.quality';
 import { ProjectStatus } from '../../huirth/huirth.model';
 import { webSocketServerAppendToActionQue } from '../../webSocketServer/qualities/appendActionQue.quality';

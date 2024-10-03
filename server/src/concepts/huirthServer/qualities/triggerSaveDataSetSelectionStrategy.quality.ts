@@ -2,13 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a quality that will trigger the save data set selection ActionStrategy.
 $>*/
 /*<#*/
-import {
-  createMethodDebounceWithConcepts,
-  createQualityCardWithPayload,
-  selectPayload,
-  selectState,
-  strategyBegin,
-} from '@phuire/stratimux';
+import { createMethodDebounceWithConcepts, createQualityCardWithPayload, selectPayload, selectState, strategyBegin } from 'stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirthServerSaveDataSetSelectionStrategy } from '../strategies/saveDataSetSelection.strategy';
 import { huirthServerName, huirthServerState } from '../huirthServer.concept';
@@ -34,7 +28,7 @@ export const huirthServerTriggerSaveDataSetSelectionStrategy = createQualityCard
       const fileSystemState = selectState<FileSystemState>(concepts_, fileSystemName);
       if (fileSystemState && state) {
         const { trainingData } = state;
-        console.log('CHECK TRIGGER', fileSystemState.root, trainingData.length, names);
+        // console.log('CHECK TRIGGER', fileSystemState.root, trainingData.length, names);
         const strategy = huirthServerSaveDataSetSelectionStrategy(fileSystemState.root, trainingData, names);
         return strategyBegin(strategy);
       } else {

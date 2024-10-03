@@ -11,7 +11,7 @@ import {
   strategyData_appendFailure,
   strategyFailed,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { rimraf } from 'rimraf';
 import { FileSystemState } from '../fileSystem.concept';
 

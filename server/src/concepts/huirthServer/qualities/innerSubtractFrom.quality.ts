@@ -9,7 +9,7 @@ import {
   strategyData_select,
   strategyData_muxifyData,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { huirth_convertNumberToStringVerbose } from '../verboseNumber.model';
 import { huirthServerState } from '../huirthServer.concept';
 
@@ -45,7 +45,7 @@ export const huirthServerInnerSubtractFrom = createQualityCardWithPayload<huirth
           strategy.currentNode.successNotes = {
             preposition: '',
           };
-          console.log(verboseSum, ' subtract ', subtractFrom, ' equals ', final);
+          // console.log(verboseSum, ' subtract ', subtractFrom, ' equals ', final);
           return strategySuccess(
             strategy,
             strategyData_muxifyData(strategy, {

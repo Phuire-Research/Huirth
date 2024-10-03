@@ -11,7 +11,7 @@ import {
   createActionNode,
   createStrategy,
   Deck,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
 import path from 'path';
 import {

@@ -2,7 +2,7 @@
 For the graph programming graph programming framework Stratimux and a Concept huirth, generate a quality that updates a project's status via supplied payload and selected by included name property.
 $>*/
 /*<#*/
-import { createQualityCardWithPayload, defaultMethodCreator } from '@phuire/stratimux';
+import { createQualityCardWithPayload, defaultMethodCreator } from 'stratimux';
 import { huirthState } from '../huirth.concept';
 import { PhuirEProjects, ProjectStatus } from '../huirth.model';
 
@@ -14,7 +14,7 @@ export const huirthUpdateProjectStatus = createQualityCardWithPayload<huirthStat
   type: 'huirth Update Project Status',
   reducer: (state, action) => {
     const { name, status } = action.payload;
-    console.log('CHECK INCOMING STATUS', name, status);
+    // console.log('CHECK INCOMING STATUS', name, status);
     if (name.toLocaleLowerCase() === PhuirEProjects.stratimux) {
       return {
         stratimuxStatus: status,

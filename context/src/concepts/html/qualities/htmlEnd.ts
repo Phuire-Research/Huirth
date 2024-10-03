@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and Html Concept, generate a quality that will append a html closing element tag to a page composition for a User Interface Concept.
 $>*/
 /*<#*/
-import { createMethod, nullReducer, strategySuccess } from '@phuire/stratimux';
+import { createMethod, nullReducer, strategySuccess } from 'stratimux';
 
 import { createQualityCardComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../model/userInterface';
 

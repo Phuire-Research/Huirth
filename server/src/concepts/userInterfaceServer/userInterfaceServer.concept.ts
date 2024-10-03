@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux generate a User Interface Server Concept, that will unify itself with the User Interface and incoming Brand concept to be loaded on the server.
 $>*/
 /*<#*/
-import { AnyConcept, MuxiumDeck, Concept, PrincipleFunction, Qualities, Quality, createConcept, muxifyConcepts } from '@phuire/stratimux';
+import { AnyConcept, MuxiumDeck, Concept, PrincipleFunction, Qualities, Quality, createConcept, muxifyConcepts } from 'stratimux';
 import { createServerConcept } from '../server/server.concept';
 import { userInterfaceServerOnChangePrinciple, userInterfaceServerPrinciple } from './userInterfaceServer.principle';
 import { commandLineInterfaceGoals } from '../../model/commandLineInterface';

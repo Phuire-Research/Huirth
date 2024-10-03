@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that will set the DataSet at the specified index, the value of the html target supplied in the strategy data field.
 $>*/
 /*<#*/
-import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from '@phuire/stratimux';
+import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
 import { huirthState } from '../huirth.concept';
 import { userInterface_selectInputTarget } from '../../../model/userInterface';
 

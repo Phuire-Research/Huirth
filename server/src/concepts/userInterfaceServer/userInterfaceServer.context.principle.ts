@@ -20,7 +20,7 @@ import {
   strategyBegin,
   MuxiumQualities,
   MuxiumDeck,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { Subscriber } from 'rxjs';
 import { FileSystemState, fileSystemName } from '../fileSystem/fileSystem.concept';
 import {
@@ -47,14 +47,14 @@ export const userInterfaceServerContextPrinciple: UserInterfaceServerPrinciple =
   plan('User Interface Context Principle Plan', ({ stage, d__ }) => [
     stage(
       ({ concepts, dispatch, changes, stagePlanner, d }) => {
-        console.log(
-          'CHECK IF THIS HITS',
-          selectSlice(concepts, d.muxium.k.open),
-          getMuxiumState(concepts).modeIndex,
-          muxiumSelectOpen.keys,
-          changes,
-          'stuff'
-        );
+        // console.log(
+        //   'CHECK IF THIS HITS',
+        //   selectSlice(concepts, d.muxium.k.open),
+        //   getMuxiumState(concepts).modeIndex,
+        //   muxiumSelectOpen.keys,
+        //   changes,
+        //   'stuff'
+        // );
         if (selectSlice(concepts, d.muxium.k.open) === true) {
           const fileSystemExists = areConceptsLoaded(concepts, [fileSystemName]);
           if (!fileSystemExists) {
@@ -70,7 +70,7 @@ export const userInterfaceServerContextPrinciple: UserInterfaceServerPrinciple =
       { selectors: [d__.muxium.k.open] }
     ),
     stage(({ concepts, dispatch, d }) => {
-      console.log('CHECK IF THIS HITS 2');
+      // console.log('CHECK IF THIS HITS 2');
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       if (fileSystemState) {
         dispatch(strategyBegin(userInterfaceServerSetConceptDirectoriesFromDataStrategy(fileSystemState.root, d)), {
@@ -79,7 +79,7 @@ export const userInterfaceServerContextPrinciple: UserInterfaceServerPrinciple =
       }
     }),
     stage(({ concepts, dispatch, d, k }) => {
-      console.log('CHECK IF THIS HITS 3');
+      // console.log('CHECK IF THIS HITS 3');
       const fileSystemState = selectState<FileSystemState>(concepts, fileSystemName);
       const uiState = k.state(concepts);
       if (fileSystemState && uiState) {
@@ -131,7 +131,7 @@ export const userInterfaceServerContextPrinciple: UserInterfaceServerPrinciple =
               });
             }
             if (uiState.goal === commandLineInterfaceGoals.dynamicDeployment) {
-              console.log('CHECK IF THIS HITS');
+              // console.log('CHECK IF THIS HITS');
               const [____, contextStrategy] = userInterfaceServerPrepareContextConceptsStitch(
                 fileSystemState.root,
                 conceptsAndProps,

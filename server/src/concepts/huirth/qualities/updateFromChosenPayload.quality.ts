@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that updates a DPO DataSet's chosen property by index and set by event target value.
 $>*/
 /*<#*/
-import { createQualityCard, defaultMethodCreator } from '@phuire/stratimux';
+import { createQualityCard, defaultMethodCreator } from 'stratimux';
 import { huirthState } from '../huirth.concept';
 import { userInterface_selectInputTarget } from '../../../model/userInterface';
 import { chosenID, selectTrainingDataIndex } from '../huirth.model';

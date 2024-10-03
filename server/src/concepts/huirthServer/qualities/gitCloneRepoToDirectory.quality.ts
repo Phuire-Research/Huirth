@@ -10,7 +10,7 @@ import {
   selectPayload,
   strategyFailed,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import child_process from 'child_process';
 import { huirthServerState } from '../huirthServer.concept';
 

@@ -14,7 +14,7 @@ import {
   selectState,
   strategyBegin,
   strategySequence,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { huirthPlusSevenStrategy } from '../concepts/huirth/strategies/countPlusSeven.strategy';
 
 test('Stratimux test sequence of counting strategies', (done) => {

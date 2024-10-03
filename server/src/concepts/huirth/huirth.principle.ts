@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a huirth Concept, generate a Principle that will detect the Muxium's dialog and only will loaded on the client.
 $>*/
 /*<#*/
-import { getMuxiumState } from '@phuire/stratimux';
+import { getMuxiumState } from 'stratimux';
 import _ws from 'express-ws';
 import { userInterfaceClientName } from '../userInterfaceClient/userInterfaceClient.concept';
 import { HuirthPrinciple } from './huirth.concept';

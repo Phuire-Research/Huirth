@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and Document Object Model Concept, generate a principle that will bind the current page's preloaded document bindings.
 $>*/
 /*<#*/
-import { muxiumSelectOpen, selectSlice, selectState, strategyBegin } from '@phuire/stratimux';
+import { muxiumSelectOpen, selectSlice, selectState, strategyBegin } from 'stratimux';
 import { DocumentObjectModelPrinciple, DocumentObjectModelState, documentObjectModelName } from './documentObjectModel.concept';
 import { documentObjectModelBindingStrategy } from './strategies/composeBindings.strategy';
 

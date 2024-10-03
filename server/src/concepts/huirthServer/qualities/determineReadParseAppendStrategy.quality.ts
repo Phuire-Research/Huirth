@@ -18,7 +18,7 @@ import {
   strategyFailed,
   strategySequence,
   strategySuccess,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { ReadDirectoryField } from '../../fileSystem/qualities/readDir.quality';
 import {
   ReadFileContentsAndAppendToDataField,

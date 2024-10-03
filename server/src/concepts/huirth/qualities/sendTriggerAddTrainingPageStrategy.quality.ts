@@ -10,7 +10,7 @@ import {
   defaultReducer,
   selectPayload,
   strategyBegin,
-} from '@phuire/stratimux';
+} from 'stratimux';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 import { huirthTriggerAddTrainingDataPage } from './triggerAddTrainingDataPageStrategy.quality';
 import { huirthState } from '../huirth.concept';

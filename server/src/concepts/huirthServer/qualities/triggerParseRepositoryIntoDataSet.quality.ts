@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a quality that will trigger the parse repository ActionStrategy set by name supplied by the incoming payload.
 $>*/
 /*<#*/
-import { createMethodDebounceWithConcepts, createQualityCardWithPayload, nullReducer, selectState, strategyBegin } from '@phuire/stratimux';
+import { createMethodDebounceWithConcepts, createQualityCardWithPayload, nullReducer, selectState, strategyBegin } from 'stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirthServerParseRepositoryStrategy } from '../strategies/parseRepositoryIntoDataSet.strategy';
 import { huirthServerState } from '../huirthServer.concept';

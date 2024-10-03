@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and Document Object Model Concept, generate a quality that will bind an action to an element.
 $>*/
 /*<#*/
-import { Action, createMethod, createQualityCardWithPayload, refreshAction, strategyBegin, strategySuccess } from '@phuire/stratimux';
+import { Action, createMethod, createQualityCardWithPayload, refreshAction, strategyBegin, strategySuccess } from 'stratimux';
 import { Binding } from '../../../model/userInterface';
 import { Subject } from 'rxjs';
 import { documentObjectModelBindActionStrategy } from '../strategies/bindAction.strategy';

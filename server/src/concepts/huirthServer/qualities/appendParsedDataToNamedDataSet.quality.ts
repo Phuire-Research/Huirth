@@ -2,13 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a quality will add an entry or create a specified named data set to state, then remove the first entry from the filesAndData field.
 $>*/
 /*<#*/
-import {
-  createMethod,
-  createQualityCardWithPayload,
-  strategyData_select,
-  strategyData_muxifyData,
-  strategySuccess,
-} from '@phuire/stratimux';
+import { createMethod, createQualityCardWithPayload, strategyData_select, strategyData_muxifyData, strategySuccess } from 'stratimux';
 import { ReadDirectoryField } from '../../fileSystem/qualities/readDir.quality';
 import { ParsedFileFromDataField } from './parseFileFromData.quality';
 import { huirthServerState } from '../huirthServer.concept';

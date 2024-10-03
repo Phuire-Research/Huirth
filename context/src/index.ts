@@ -1,5 +1,5 @@
 /*$ Start template imports $*/
-import { muxification } from '@phuire/stratimux';
+import { muxification } from 'stratimux';
 import { createDocumentObjectModelConcept } from './concepts/documentObjectModel/documentObjectModel.concept';
 import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient/userInterfaceClient.concept';import { createHuirthConcept } from './concepts/huirth/huirth.concept';
 
@@ -39,6 +39,6 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
   }
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   window.onunload = function(){}; 
-  console.log('AXIUM INIT');
+  // console.log('MUXIUM INIT');
   /*$ End context template code $*/
 })();
