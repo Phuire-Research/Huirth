@@ -9,22 +9,19 @@ import {
   Concepts,
   KeyedSelector,
   PrincipleFunction,
-  UnifiedSubject,
-  axiumKick,
-  axiumRegisterStagePlanner,
+  muxiumKick,
+  muxiumRegisterStagePlanner,
   createStage,
-  getUnifiedName,
-  selectUnifiedState,
   strategyBegin,
   strategySequence,
 } from 'stratimux';
 import { userInterface_isClient } from '../../model/userInterface';
 import { UserInterfaceState } from '../userInterface/userInterface.concept';
-import { huirthState } from './huirth.concept';
+import { HuirthPrinciple, huirthState } from './huirth.concept';
 import { UserInterfaceClientState } from '../userInterfaceClient/userInterfaceClient.concept';
 import { userInterfaceAddNewPageStrategy } from '../userInterface/strategies.ts/addNewPage.strategy';
 import { huirthGeneratedTrainingDataPageStrategy } from './strategies/pages/generatedTrainingDataPage.strategy';
-import { DataSetTypes, ProjectStatus, TrainingData } from './huirth.model';
+import { DataSetTypes, NamedDataSet, ProjectStatus, TrainingData } from './huirth.model';
 import { huirthUpdateProjectStatusStrategy } from './strategies/updateProjectStatus.strategy';
 // import { userInterfaceRemovePageStrategy } from '../userInterface/strategies.ts/removePage.strategy';
 import { huirth_createPageStrategiesSelector, huirth_createPagesSelector, huirth_createTrainingDataSelector } from './huirth.selector';
@@ -96,47 +93,39 @@ import { huirthAddTrainingDataPageStrategy, huirthAddTrainingDataPageStrategyTop
 //   ];
 // };
 
-export const huirthTrainingDataPagePrinciple: PrincipleFunction = (
-  _: Subscriber<Action>,
-  cpts: Concepts,
-  concepts$: UnifiedSubject,
-  semaphore: number
-) => {
+export const huirthTrainingDataPagePrinciple: HuirthPrinciple = ({ plan }) => {
   const cachedTrainingDataNames: string[] = [];
   const beat = 33;
   const isClient = userInterface_isClient();
-  const plan = concepts$.plan('Observe Training Data and modify Pages', [
-    createStage(
-      (concepts, dispatch) => {
-        const state = selectUnifiedState<UserInterfaceState>(concepts, semaphore);
-        const conceptName = getUnifiedName(concepts, semaphore);
-        if (conceptName) {
+  plan('Observe Training Data and modify Pages', ({ stage, k__ }) => [
+    stage(
+      ({ concepts, dispatch, d, k, stagePlanner }) => {
+        const state = k.state(concepts) as unknown as UserInterfaceState;
+        const conceptName = k.name(concepts);
+        if (conceptName && state.pages) {
           if (state && (state.pageStrategies.length === state.pages.length || isClient)) {
-            dispatch(axiumRegisterStagePlanner({ conceptName, stagePlanner: plan }), {
+            dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName, stagePlanner }), {
               iterateStage: true,
             });
           }
         } else {
-          plan.conclude();
+          stagePlanner.conclude();
         }
       },
       {
-        selectors: [
-          huirth_createPagesSelector(cpts, semaphore) as KeyedSelector,
-          huirth_createPageStrategiesSelector(cpts, semaphore) as KeyedSelector,
-        ],
+        selectors: [k__.pages, k__.pageStrategies],
       }
     ),
-    createStage(
-      (concepts, dispatch) => {
-        const state = selectUnifiedState<huirthState & UserInterfaceState>(concepts, semaphore);
+    stage(
+      ({ concepts, dispatch, d, k, stagePlanner }) => {
+        const state = k.state(concepts);
         const trainingData = state?.trainingData;
         if (state && trainingData && state?.trainingDataInitialized) {
           const add: {
             i: number;
             name: string;
           }[] = [];
-          trainingData.forEach((data, i) => {
+          trainingData.forEach((data: NamedDataSet, i: number) => {
             add.push({
               i,
               name: data.name,
@@ -146,7 +135,7 @@ export const huirthTrainingDataPagePrinciple: PrincipleFunction = (
           if (add.length > 0) {
             const list: ActionStrategy[] = [];
             if (isClient) {
-              const currentPage = (selectUnifiedState(concepts, semaphore) as UserInterfaceClientState).currentPage;
+              const currentPage = (state as unknown as UserInterfaceClientState).currentPage;
               let found = false;
               for (let i = 0; i < add.length; i++) {
                 // eslint-disable-next-line max-depth
@@ -165,7 +154,7 @@ export const huirthTrainingDataPagePrinciple: PrincipleFunction = (
                 }
               }
               if (!found) {
-                dispatch(axiumKick(), {
+                dispatch(d.muxium.e.muxiumKick(), {
                   iterateStage: true,
                 });
               }
@@ -189,7 +178,7 @@ export const huirthTrainingDataPagePrinciple: PrincipleFunction = (
               }
               const strategies = strategySequence(list);
               if (strategies) {
-                console.log('strategies: ', strategies);
+                // console.log('strategies: ', strategies);
                 const action = strategyBegin(strategies);
                 dispatch(action, {
                   iterateStage: true,
@@ -199,14 +188,14 @@ export const huirthTrainingDataPagePrinciple: PrincipleFunction = (
           }
         }
         if (state === undefined) {
-          console.log("THIS PLAN SHOULDN'T CONCLUDE YET");
-          plan.conclude();
+          // console.log("THIS PLAN SHOULDN'T CONCLUDE YET");
+          stagePlanner.conclude();
         }
       },
       { beat }
     ),
-    createStage(() => {
-      plan.conclude();
+    stage(({ stagePlanner }) => {
+      stagePlanner.conclude();
     }),
     // createStage((concepts, dispatch, changes) => {
     //   const state = selectUnifiedState<huirthState & UserInterfaceState>(concepts, semaphore);
@@ -261,15 +250,15 @@ export const huirthTrainingDataPagePrinciple: PrincipleFunction = (
     //     const pageNames = state.pages.map(p => p.title);
     //     console.log('pageNames: ', pageNames, cachedTrainingDataNames);
     //     cachedTrainingDataNames = cachedTrainingDataNames.filter(name => pageNames.includes(name));
-    //     dispatch(axiumKick(), {
+    //     dispatch(muxiumKick(), {
     //       setStage: 2
     //     });
     //   } else {
     //     plan.conclude();
     //   }
     // }, {beat}),
-    createStage(() => {
-      plan.conclude();
+    stage(({ stagePlanner }) => {
+      stagePlanner.conclude();
     }),
   ]);
 };

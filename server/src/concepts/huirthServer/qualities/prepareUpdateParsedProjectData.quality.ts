@@ -3,36 +3,31 @@ For the graph programming framework Stratimux and a Concept huirth Server, gener
 $>*/
 /*<#*/
 import {
-  ActionStrategy,
-  UnifiedSubject,
   createActionNode,
   createMethodWithState,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStrategy,
   nullReducer,
   selectPayload,
-  strategyBegin,
   strategyData_appendFailure,
   strategyFailed,
-  strategySequence,
   strategySuccess,
 } from 'stratimux';
 import { huirthServerState } from '../huirthServer.concept';
 import { huirthServerSendUpdateParsedProjectData } from '../strategies/client/huirthServerSendUpdateParsedProjectData.helper';
 
 export type huirthServerPrepareParsedProjectDataUpdatePayload = {
-  name: string,
-}
+  name: string;
+};
 
-export const [
-  huirthServerPrepareParsedProjectDataUpdate,
-  huirthServerPrepareParsedProjectDataUpdateType,
-  huirthServerPrepareParsedProjectDataUpdateQuality
-] = createQualitySetWithPayload<huirthServerPrepareParsedProjectDataUpdatePayload>({
+export const huirthServerPrepareParsedProjectDataUpdate = createQualityCardWithPayload<
+  huirthServerState,
+  huirthServerPrepareParsedProjectDataUpdatePayload
+>({
   type: 'huirthServer prepare parsed data set to be sent to client',
   reducer: nullReducer,
-  methodCreator: (concepts$, semaphore) =>
-    createMethodWithState<huirthServerState>((action, state) => {
+  methodCreator: () =>
+    createMethodWithState(({ action, state }) => {
       if (action.strategy) {
         const strategy = action.strategy;
         const { name } = selectPayload<huirthServerPrepareParsedProjectDataUpdatePayload>(action);
@@ -43,9 +38,9 @@ export const [
             const nextStrategy = createStrategy({
               initialNode: createActionNode(huirthServerSendUpdateParsedProjectData(dataSet), {
                 successNode: null,
-                failureNode: null
+                failureNode: null,
               }),
-              topic: 'Update Client of Parsed Project'
+              topic: 'Update Client of Parsed Project',
             });
             strategy.puntedStrategy?.push(nextStrategy);
             return strategySuccess(strategy);
@@ -55,6 +50,6 @@ export const [
       } else {
         return action;
       }
-    }, concepts$ as UnifiedSubject, semaphore as number)
+    }),
 });
 /*#>*/

@@ -2,37 +2,19 @@
 For the graph programming framework Stratimux generate a Hello World Concept.
 $>*/
 /*<#*/
-import {
-  Action,
-  Concepts,
-  PrincipleFunction,
-  UnifiedSubject,
-  axiumRegisterStagePlanner,
-  axiumSelectOpen,
-  createStage,
-  primeAction,
-  stageWaitForOpenThenIterate
-} from 'stratimux';
-import { Subscriber } from 'rxjs';
-import { helloWorld } from './qualities/helloWorld.quality';
-import { helloWorldName } from './helloWorld.concept';
+import { helloWorldName, HelloWorldPrinciple } from './helloWorld.concept';
 
-export const helloWorldPrinciple: PrincipleFunction = (
-  _: Subscriber<Action>,
-  _concepts: Concepts,
-  concepts$: UnifiedSubject,
-  _semaphore: number
-) => {
-  const plan = concepts$.plan('Hello World Plan', [
-    stageWaitForOpenThenIterate(() => (axiumRegisterStagePlanner({conceptName: helloWorldName, stagePlanner: plan}))),
-    createStage((__, dispatch) => {
-      dispatch(helloWorld(), {
-        iterateStage: true
+export const helloWorldPrinciple: HelloWorldPrinciple = ({ plan }) => {
+  const stagePlanner = plan('Hello World Plan', ({ stage, d__, stageO }) => [
+    stageO(() => d__.muxium.e.muxiumRegisterStagePlanner({ conceptName: helloWorldName, stagePlanner })),
+    stage(({ dispatch, e }) => {
+      dispatch(e.helloWorld(), {
+        iterateStage: true,
       });
     }),
-    createStage((__, ___) => {
-      plan.conclude();
-    })
+    stage(() => {
+      stagePlanner.conclude();
+    }),
   ]);
 };
 /*#>*/

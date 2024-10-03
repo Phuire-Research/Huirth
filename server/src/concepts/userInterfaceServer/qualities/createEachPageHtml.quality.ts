@@ -4,69 +4,69 @@ $>*/
 /*<#*/
 import {
   ActionStrategy,
-  UnifiedSubject,
-  axiumConclude,
+  muxiumConclude,
   createAsyncMethodWithState,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
-  strategySuccess
+  strategySuccess,
 } from 'stratimux';
 import fs from 'fs';
 import path from 'path';
 import { UserInterfaceServerState } from '../userInterfaceServer.concept';
 
 export type CreateEachPageHtmlPayload = {
-  targetDir: string
+  targetDir: string;
 };
 
-export const [
-  userInterfaceServerCreateEachPageHtml,
-  userInterfaceServerCreateEachPageHtmlType,
-  userInterfaceServerCreateEachPageHtmlQuality
-] = createQualitySetWithPayload<CreateEachPageHtmlPayload>({
-  type: 'User Interface Server create each page\'s html file',
+export const userInterfaceServerCreateEachPageHtml = createQualityCardWithPayload<CreateEachPageHtmlPayload, any>({
+  type: "User Interface Server create each page's html file",
   reducer: nullReducer,
-  methodCreator: (concepts$, semaphore) =>
-    createAsyncMethodWithState<UserInterfaceServerState>((controller, action, state) => {
+  methodCreator: () =>
+    createAsyncMethodWithState<UserInterfaceServerState>(({ controller, action, state }) => {
       const payload = selectPayload<CreateEachPageHtmlPayload>(action);
       const pages = [];
       for (const page of state.pages) {
         if (page.title.toLocaleLowerCase().indexOf('error') !== -1) {
           pages.push({
-            html: page.compositions.map(comp => {
-              if (comp.universal) {
-                return state.components[comp.componentSemaphore as number].html;
-              }
-              return comp.html;
-            }).join(''),
-            fileName: path.resolve(payload.targetDir + 404 + '.html')
+            html: page.compositions
+              .map((comp) => {
+                if (comp.universal) {
+                  return state.components[comp.componentSemaphore as number].html;
+                }
+                return comp.html;
+              })
+              .join(''),
+            fileName: path.resolve(payload.targetDir + 404 + '.html'),
           });
         } else {
           pages.push({
-            html: page.compositions.map(comp => {
-              if (comp.universal) {
-                return state.components[comp.componentSemaphore as number].html;
-              }
-              return comp.html;
-            }).join(''),
-            fileName: path.resolve(payload.targetDir + page.title + '.html')
+            html: page.compositions
+              .map((comp) => {
+                if (comp.universal) {
+                  return state.components[comp.componentSemaphore as number].html;
+                }
+                return comp.html;
+              })
+              .join(''),
+            fileName: path.resolve(payload.targetDir + page.title + '.html'),
           });
         }
       }
       if (action.strategy) {
         for (const page of pages) {
           fs.writeFile(page.fileName, page.html, (err) => {
-            console.log('CHECK', err);
-            if (err) { throw err; }
+            // console.log('CHECK', err);
+            if (err) {
+              throw err;
+            }
           });
         }
-        const newStrategy =
-            strategySuccess(action.strategy as ActionStrategy);
+        const newStrategy = strategySuccess(action.strategy as ActionStrategy);
         controller.fire(newStrategy);
       } else {
-        controller.fire(axiumConclude());
+        controller.fire(muxiumConclude());
       }
-    }, concepts$ as UnifiedSubject, semaphore as number)
+    }),
 });
 /*#>*/

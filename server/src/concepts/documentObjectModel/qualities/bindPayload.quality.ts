@@ -2,41 +2,35 @@
 For the graph programming framework Stratimux and Document Object Model Concept, generate a quality that will attach a element event to the next action's payload.
 $>*/
 /*<#*/
-import {
-  createMethod,
-  createQualitySetWithPayload,
-  nullReducer,
-  selectPayload,
-  strategySuccess,
-} from 'stratimux';
+import { createMethod, createQualityCardWithPayload, nullReducer, strategySuccess } from 'stratimux';
+import { DocumentObjectModelState } from '../documentObjectModel.concept';
 
 export type DocumentObjectModelBindPayloadPayload = {
-  event: unknown
+  event: unknown;
 };
 
-export const [
-  documentObjectModelBindPayload,
-  documentObjectModelBindPayloadType,
-  documentObjectModelBindPayloadQuality
-] = createQualitySetWithPayload<DocumentObjectModelBindPayloadPayload>({
-  type: 'Document Object Model bind payload',
-  reducer: nullReducer,
-  methodCreator: () => createMethod((action) => {
-    if (action.strategy) {
-      const payload = selectPayload<DocumentObjectModelBindPayloadPayload>(action);
-      const act = strategySuccess(action.strategy);
-      if (act.payload) {
-        act.payload = {
-          ...act.payload,
-          ...payload
-        };
-      } else {
-        act.payload = payload;
-      }
-      return act;
-    } else {
-      return action;
-    }
-  })
-});
+export const documentObjectModelBindPayload = createQualityCardWithPayload<DocumentObjectModelState, DocumentObjectModelBindPayloadPayload>(
+  {
+    type: 'Document Object Model bind payload',
+    reducer: nullReducer,
+    methodCreator: () =>
+      createMethod(({ action }) => {
+        if (action.strategy) {
+          const payload = action.payload;
+          const act = strategySuccess(action.strategy);
+          if (act.payload) {
+            (act.payload as unknown) = {
+              ...(act.payload as object),
+              ...payload,
+            };
+          } else {
+            (act.payload as unknown) = payload;
+          }
+          return act;
+        } else {
+          return action;
+        }
+      }),
+  }
+);
 /*#>*/

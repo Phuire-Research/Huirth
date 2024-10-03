@@ -10,24 +10,29 @@ import { huirthServerDetermineReadParseAppendStrategy } from '../qualities/deter
 import { DataSetTypes } from '../../huirth/huirth.model';
 
 export const huirthServerParseRepositoryTopic = 'huirthServer read Repository, then parse the contents into a DataSet';
-export const huirthServerParseRepositoryStrategy = (root: string, name:string) => {
+export const huirthServerParseRepositoryStrategy = (root: string, name: string) => {
   const dataPath = path.join(root + '/data/repositories/' + name);
   // Generate parse files and add them all to an array to be added to state at the end.
-  const stepDetermineReadAndParseStrategy = createActionNode(huirthServerDetermineReadParseAppendStrategy({
-    name,
-    type: DataSetTypes.project
-  }));
+  const stepDetermineReadAndParseStrategy = createActionNode(
+    huirthServerDetermineReadParseAppendStrategy.actionCreator({
+      name,
+      type: DataSetTypes.project,
+    })
+  );
   // Step 1 Remove directory if exists based on name
-  const stepFilter = createActionNode(fileSystemFilterFilesAndDirectories({
-    isTokens: ['.ts'],
-    notTokens: [path.join('/context/')]
-  }), {
-    successNode: stepDetermineReadAndParseStrategy,
-  });
-  const stepReadDirectory = createActionNode(fileSystemReadDirectory({target: dataPath}), {
+  const stepFilter = createActionNode(
+    fileSystemFilterFilesAndDirectories.actionCreator({
+      isTokens: ['.ts'],
+      notTokens: [path.join('/context/')],
+    }),
+    {
+      successNode: stepDetermineReadAndParseStrategy,
+    }
+  );
+  const stepReadDirectory = createActionNode(fileSystemReadDirectory.actionCreator({ target: dataPath }), {
     // successNode: stepCreateDirectory,
     successNode: stepFilter,
-    agreement: 20000
+    agreement: 20000,
   });
   return createStrategy({
     topic: huirthServerParseRepositoryTopic,

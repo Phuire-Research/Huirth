@@ -4,22 +4,44 @@ the dispatch of an action assigned to payload.
 $>*/
 /*<#*/
 
-import { Action, CounterState, counterAdd, counterName, createActionNode, createMethodBuffer, createMethodBufferWithConcepts, createQualitySet, createQualitySetWithPayload, createStrategy, defaultReducer, selectPayload, selectState, strategyBegin } from 'stratimux';
-
+import {
+  Action,
+  CounterState,
+  counterAdd,
+  counterName,
+  createActionNode,
+  createMethodBuffer,
+  createMethodBufferWithConcepts,
+  createQualityCard,
+  createQualityCardWithPayload,
+  createStrategy,
+  defaultReducer,
+  selectPayload,
+  selectState,
+  strategyBegin,
+} from 'stratimux';
 
 export const [
   experimentBufferMultiplyByCountFromConcepts,
   experimentBufferMultiplyByCountFromConceptsType,
-  experimentBufferMultiplyByCountFromConceptsQuality
-] = createQualitySet({
+  experimentBufferMultiplyByCountFromConceptsQuality,
+] = createQualityCard({
   type: 'Experiment will buffer multiply count using concepts accessing counter state',
   reducer: defaultReducer,
-  methodCreator: (c, s) => createMethodBufferWithConcepts((_, concepts) => {
-    const counterState = selectState<CounterState>(concepts, counterName);
-    return strategyBegin(createStrategy({
-      initialNode: createActionNode(counterAdd()),
-      topic: 'Buffered Action Topic'
-    }));
-  }, c, s, 10)
+  methodCreator: (c, s) =>
+    createMethodBufferWithConcepts(
+      (_, concepts) => {
+        const counterState = selectState<CounterState>(concepts, counterName);
+        return strategyBegin(
+          createStrategy({
+            initialNode: createActionNode(counterAdd()),
+            topic: 'Buffered Action Topic',
+          })
+        );
+      },
+      c,
+      s,
+      10
+    ),
 });
 /*#>*/

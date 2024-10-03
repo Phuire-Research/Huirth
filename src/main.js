@@ -18,7 +18,7 @@ const createWindow = () => {
         let exit = new BrowserWindow({
             show: false
         });
-        exit.loadURL('http://localhost:7637/server/axiumEXIT').then(() => {
+        exit.loadURL('http://localhost:7637/server/muxiumEXIT').then(() => {
             exit.close();
             let final = new BrowserWindow({
                 show: false

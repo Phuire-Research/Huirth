@@ -107,7 +107,7 @@ export function generateNumID(number: number) {
 }
 
 export function selectTrainingDataIndex(element: HTMLElement, key: string) {
-  console.log('CHECK ERROR', element, key);
+  // console.log('CHECK ERROR', element, key);
   return Number(element.id.split(key)[1]);
 }
 

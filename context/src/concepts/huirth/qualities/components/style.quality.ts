@@ -4,23 +4,21 @@ $>*/
 /*<#*/
 import { createMethod, nullReducer, strategySuccess } from 'stratimux';
 
-import { createQualitySetComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../model/userInterface';
+import { createQualityCardComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../model/userInterface';
 
-export const [huirthStyle, huirthStyleType, huirthStyleQuality] = createQualitySetComponent({
+export const huirthStyle = createQualityCardComponent({
   type: 'Create huirth Style',
   reducer: nullReducer,
-  componentCreator: (act) =>
-    createMethod((action) => {
-      const payload = selectComponentPayload(action);
-      if (action.strategy) {
-        return strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id: '',
-            boundSelectors: [],
-            universal: true,
-            action: act(payload),
-            html: /*html*/ `
+  componentCreator: createMethod(({ action }) => {
+    if (action.strategy) {
+      return strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
+          id: '',
+          boundSelectors: [],
+          universal: true,
+          action,
+          html: /*html*/ `
   <style>
     html, body {
       overflow-x: clip;
@@ -70,10 +68,10 @@ export const [huirthStyle, huirthStyleType, huirthStyleQuality] = createQualityS
     }
   </style>
     `,
-          })
-        );
-      }
-      return action;
-    }),
+        })
+      );
+    }
+    return action;
+  }),
 });
 /*#>*/

@@ -2,31 +2,17 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that will trigger the minus count seven strategy.
 $>*/
 /*<#*/
-import {
-  Concepts,
-  CounterState,
-  UnifiedSubject,
-  createMethodDebounceWithState,
-  createQualitySet,
-  nullReducer,
-  strategyBegin,
-} from 'stratimux';
+import { CounterState, createMethodDebounceWithState, createQualityCard, nullReducer, strategyBegin } from 'stratimux';
 import { huirthMinusSevenStrategy } from '../strategies/countMinusSeven.strategy';
-import { Subject } from 'rxjs';
+import { huirthState } from '../huirth.concept';
 
-export const [
-  huirthTriggerMinusCountingStrategy,
-  huirthTriggerMinusCountingStrategyType,
-  huirthTriggerMinusCountingStrategyQuality
-] = createQualitySet({
+export const huirthTriggerMinusCountingStrategy = createQualityCard<huirthState>({
   type: 'Create huirth trigger minus seven counting strategy',
   reducer: nullReducer,
-  methodCreator: (concepts$?: Subject<Concepts>, semaphore?: number) =>
-    createMethodDebounceWithState<CounterState>(
-      (_, state) => {
-        const strategy = huirthMinusSevenStrategy(state.count, semaphore as number);
-        return strategyBegin(strategy);
-      }, concepts$ as UnifiedSubject, semaphore as number, 3
-    )
+  methodCreator: () =>
+    createMethodDebounceWithState(({ state }) => {
+      const strategy = huirthMinusSevenStrategy((state as unknown as CounterState).count);
+      return strategyBegin(strategy);
+    }, 3),
 });
 /*#>*/

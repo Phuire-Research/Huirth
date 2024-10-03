@@ -9,13 +9,13 @@ export const determineProjectControls = (statuses: GeneralProjectStatuses): [str
   let dataNote = '';
   let dataStatus = '';
   for (const [i, st] of statuses.entries()) {
-    console.log('CHECK STATUS, st', st, statuses);
+    // console.log('CHECK STATUS, st', st, statuses);
     const dataID = '#projectID-' + generateNumID(i);
     dataStatus = st.status;
     switch (st.status) {
       case ProjectStatus.installed: {
         pb.push({
-          action: huirthSendTriggerParseRepositoryStrategy({ name: st.name }),
+          action: huirthSendTriggerParseRepositoryStrategy.actionCreator({ name: st.name }),
           elementId: dataID,
           eventBinding: elementEventBinding.onclick,
         });
@@ -24,7 +24,7 @@ export const determineProjectControls = (statuses: GeneralProjectStatuses): [str
       }
       case ProjectStatus.pulled: {
         pb.push({
-          action: huirthSendTriggerParseRepositoryStrategy({ name: st.name }),
+          action: huirthSendTriggerParseRepositoryStrategy.actionCreator({ name: st.name }),
           elementId: dataID,
           eventBinding: elementEventBinding.onclick,
         });

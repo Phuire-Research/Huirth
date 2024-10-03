@@ -2,26 +2,15 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a quality that will determine if the data directory is properly step up.
 $>*/
 /*<#*/
-import {
-  createAsyncMethod,
-  createQualitySet,
-  nullReducer,
-  strategyData_select,
-  strategyFailed,
-  strategySuccess,
-} from 'stratimux';
+import { createAsyncMethod, createQualityCard, nullReducer, strategyData_select, strategyFailed, strategySuccess } from 'stratimux';
 import { GetDirectoriesAndFilesDataField } from '../../fileSystem/qualities/getDirectoriesAndFiles.quality';
 import { dataDirectories } from '../huirthServer.model';
 
-export const [
-  huirthServerIsDataDirectorySetUp,
-  huirthServerIsDataDirectorySetUpType,
-  huirthServerIsDataDirectorySetUpQuality
-] = createQualitySet({
+export const huirthServerIsDataDirectorySetUp = createQualityCard({
   type: 'huirth Server determine if data directory is set up',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethod((controller, action) => {
+    createAsyncMethod(({ controller, action }) => {
       if (action.strategy && action.strategy.data) {
         const data = strategyData_select(action.strategy) as GetDirectoriesAndFilesDataField;
         if (data.directories) {
@@ -30,7 +19,7 @@ export const [
           } else {
             let repoFound = false;
             let setsFound = false;
-            data.directories.forEach(directory => {
+            data.directories.forEach((directory) => {
               if (directory.name === dataDirectories.gitRepo) {
                 repoFound = true;
               } else if (directory.name === dataDirectories.sets) {
@@ -47,6 +36,6 @@ export const [
       } else {
         controller.fire(action);
       }
-    })
+    }),
 });
 /*#>*/

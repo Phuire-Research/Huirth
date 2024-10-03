@@ -11,7 +11,7 @@ export const findRoot = () => {
   const root = [];
   for (let i = 0; i < possibleRoot.length; i++) {
     if (possibleRoot[i] !== 'server' && possibleRoot[i] !== 'context') {
-      console.log('Possible root', possibleRoot[i]);
+      // console.log('Possible root', possibleRoot[i]);
       root.push(possibleRoot[i]);
     } else {
       break;

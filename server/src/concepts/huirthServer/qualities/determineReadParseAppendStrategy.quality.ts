@@ -5,83 +5,80 @@ $>*/
 import {
   ActionNode,
   ActionStrategy,
-  axiumConclude,
+  muxiumConclude,
   createActionNode,
   createActionNodeFromStrategy,
-  createMethod,
   createMethodWithConcepts,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStrategy,
   nullReducer,
   selectPayload,
   strategyData_appendFailure,
   strategyData_select,
-  strategyData_unifyData,
   strategyFailed,
   strategySequence,
   strategySuccess,
 } from 'stratimux';
 import { ReadDirectoryField } from '../../fileSystem/qualities/readDir.quality';
-import { ReadFileContentsAndAppendToDataField, fileSystemReadFileContentsAndAppendToData } from '../../fileSystem/qualities/readFileContentsAndAppendToData.quality';
+import {
+  ReadFileContentsAndAppendToDataField,
+  fileSystemReadFileContentsAndAppendToData,
+} from '../../fileSystem/qualities/readFileContentsAndAppendToData.quality';
 import { huirthServerParseFileFromData } from './parseFileFromData.quality';
 import { huirthServerPrepareParsedProjectDataUpdate } from './prepareUpdateParsedProjectData.quality';
 import { huirthServerAppendParsedDataToNamedDataSet } from './appendParsedDataToNamedDataSet.quality';
 import { DataSetTypes } from '../../huirth/huirth.model';
 import { huirthGeneratedTrainingDataPageStrategy } from '../../huirth/strategies/pages/generatedTrainingDataPage.strategy';
 import { huirthAddTrainingDataPageStrategy } from '../../huirth/strategies/addPageTrainingData.strategy';
+import { huirthServerState } from '../huirthServer.concept';
 
 export type huirthServerDetermineReadParseAppendStrategyPayload = {
-  name: string,
-  type: DataSetTypes
-}
+  name: string;
+  type: DataSetTypes;
+};
 
 const readAndParseStitch = (name: string, type: DataSetTypes): [ActionNode, ActionStrategy] => {
-  const stepAppendParsedDataToNamedDataSet = createActionNode(huirthServerAppendParsedDataToNamedDataSet({
-    name,
-    type
-  }));
-  const stepParseFile = createActionNode(huirthServerParseFileFromData(), {
+  const stepAppendParsedDataToNamedDataSet = createActionNode(
+    huirthServerAppendParsedDataToNamedDataSet.actionCreator({
+      name,
+      type,
+    })
+  );
+  const stepParseFile = createActionNode(huirthServerParseFileFromData.actionCreator(), {
     successNode: stepAppendParsedDataToNamedDataSet,
     // TODO: If failed we can use open to load a window with the git install webpage
     failureNode: null,
   });
-  const stepReadFileContents = createActionNode(fileSystemReadFileContentsAndAppendToData(), {
+  const stepReadFileContents = createActionNode(fileSystemReadFileContentsAndAppendToData.actionCreator(), {
     successNode: stepParseFile,
   });
   return [
     stepAppendParsedDataToNamedDataSet,
     createStrategy({
       topic: 'READ, PARSE, AND APPEND STITCH',
-      initialNode: stepReadFileContents
-    })
+      initialNode: stepReadFileContents,
+    }),
   ];
 };
 
-export const [
-  huirthServerDetermineReadParseAppendStrategy,
-  huirthServerDetermineReadParseAppendStrategyType,
-  huirthServerDetermineReadParseAppendStrategyQuality
-] = createQualitySetWithPayload<huirthServerDetermineReadParseAppendStrategyPayload>({
+export const huirthServerDetermineReadParseAppendStrategy = createQualityCardWithPayload<
+  huirthServerState,
+  huirthServerDetermineReadParseAppendStrategyPayload
+>({
   type: 'huirthServer determine read, parse, and append strategy for the incoming raw data set',
   reducer: nullReducer,
-  methodCreator: (concepts$, semaphore) =>
-    createMethodWithConcepts((action, concepts) => {
+  methodCreator: () =>
+    createMethodWithConcepts(({ action, concepts_ }) => {
       if (action.strategy && action.strategy.data) {
         const strategy = action.strategy;
         const data = strategyData_select(action.strategy) as ReadDirectoryField & ReadFileContentsAndAppendToDataField;
         const { name, type } = selectPayload<huirthServerDetermineReadParseAppendStrategyPayload>(action);
         if (data.filesAndDirectories && data.filesAndDirectories.length > 0) {
           const filesAndDirectories = data.filesAndDirectories;
-          const [
-            end,
-            start
-          ] = readAndParseStitch(name, type);
+          const [end, start] = readAndParseStitch(name, type);
           let prevHead = end;
           for (let i = 1; i < filesAndDirectories.length; i++) {
-            const [
-              stitchEnd,
-              stitchStrategy
-            ] = readAndParseStitch(name, type);
+            const [stitchEnd, stitchStrategy] = readAndParseStitch(name, type);
             const stitchHead = createActionNodeFromStrategy(stitchStrategy);
             prevHead.successNode = stitchHead;
             // console.log('PREV HEAD', prevHead, i);
@@ -89,22 +86,20 @@ export const [
             // console.log('STITCH HEAD', stitchHead, i);
           }
           const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(name);
-          const strategyAdd = huirthAddTrainingDataPageStrategy(
-            name,
-            generatedTrainingDataPage,
-            concepts,
-          ) as ActionStrategy;
-          prevHead.successNode = createActionNode(huirthServerPrepareParsedProjectDataUpdate({
-            name,
-          }));
+          const strategyAdd = huirthAddTrainingDataPageStrategy(name, generatedTrainingDataPage, concepts_) as ActionStrategy;
+          prevHead.successNode = createActionNode(
+            huirthServerPrepareParsedProjectDataUpdate.actionCreator({
+              name,
+            })
+          );
           strategy.currentNode.successNode = createActionNodeFromStrategy(start);
           return strategySuccess(strategySequence([strategy, strategyAdd]) as ActionStrategy);
         } else {
           return strategyFailed(strategy, strategyData_appendFailure(strategy, 'No entries found in filesAndDirectories field'));
         }
       } else {
-        return axiumConclude();
+        return muxiumConclude();
       }
-    }, concepts$, semaphore)
+    }),
 });
 /*#>*/

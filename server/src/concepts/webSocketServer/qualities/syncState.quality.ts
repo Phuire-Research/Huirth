@@ -3,25 +3,16 @@ For the graph programming framework Stratimux and the Web Socket Server Concept,
 properties that would prevent provable termination or should be defined only by the client.
 $>*/
 /*<#*/
-import {
-  Action,
-  createQualitySetWithPayload,
-  defaultMethodCreator,
-  selectPayload,
-} from 'stratimux';
+import { createQualityCardWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
 import { WebSocketServerState } from '../webSocketServer.concept';
 
 export type WebSocketServerSyncStatePayload = {
-  state: Record<string, unknown>,
-}
+  state: Record<string, unknown>;
+};
 
-export const [
-  webSocketServerSyncState,
-  webSocketServerSyncStateType,
-  webSocketServerSyncStateQuality
-] = createQualitySetWithPayload<WebSocketServerSyncStatePayload>({
+export const webSocketServerSyncState = createQualityCardWithPayload<WebSocketServerState, WebSocketServerSyncStatePayload>({
   type: 'Web Socket Server sync State to provided Client State',
-  reducer: (state: WebSocketServerState, action: Action): WebSocketServerState => {
+  reducer: (_, action) => {
     const payload = selectPayload<WebSocketServerSyncStatePayload>(action);
     const keys = Object.keys(payload.state);
     const newState: Record<string, unknown> = {};
@@ -33,15 +24,15 @@ export const [
         key !== 'actionQue' &&
         key !== 'boundSelectors' &&
         key !== 'pages' &&
-        key !== 'components') {
+        key !== 'components'
+      ) {
         newState[key] = payload.state[key];
       }
     }
     return {
-      ...state,
-      ...newState
+      ...newState,
     };
   },
-  methodCreator: defaultMethodCreator
+  methodCreator: defaultMethodCreator,
 });
 /*#>*/

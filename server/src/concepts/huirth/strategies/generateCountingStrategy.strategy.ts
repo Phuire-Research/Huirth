@@ -8,12 +8,12 @@ function getRandomRange(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
-export const huirthGenerateCountingStrategy = (count: number, conceptSemaphore: number) => {
+export const huirthGenerateCountingStrategy = (count: number) => {
   const length = Math.round(getRandomRange(1, 20));
   let numPos = 0;
   let numNeg = 0;
   const firstRand = Math.round(getRandomRange(1, 5));
-  const firstAction = firstRand % 2 === 0 ? counterAdd({conceptSemaphore}) : counterSubtract({conceptSemaphore});
+  const firstAction = firstRand % 2 === 0 ? counterAdd.actionCreator() : counterSubtract.actionCreator();
   let previousStep = createActionNode(firstAction);
   const stepFirst = previousStep;
   if (firstRand % 2 === 0) {
@@ -23,7 +23,7 @@ export const huirthGenerateCountingStrategy = (count: number, conceptSemaphore: 
   }
   for (let i = 1; i < length; i++) {
     const even = Math.round(getRandomRange(1, 5)) % 2;
-    const action = even ? counterAdd({conceptSemaphore}) : counterSubtract({conceptSemaphore});
+    const action = even ? counterAdd.actionCreator() : counterSubtract.actionCreator();
     const newStep = createActionNode(action);
     if (even) {
       numPos++;

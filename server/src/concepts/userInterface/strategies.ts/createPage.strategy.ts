@@ -2,13 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a ActionStrategy that will generate a page based on its loaded action strategy stitch components and assign such to the strategies data field.
 $>*/
 /*<#*/
-import {
-  ActionNode,
-  ActionStrategy,
-  createActionNode,
-  createActionNodeFromStrategy,
-  createStrategy
-} from 'stratimux';
+import { ActionNode, ActionStrategy, createActionNode, createActionNodeFromStrategy, createStrategy } from 'stratimux';
 import { ActionComponentPayload, ActionStrategyComponentStitch, Page } from '../../../model/userInterface';
 import { htmlBegin } from '../../html/qualities/htmlBegin.quality';
 import { htmlHeadBegin } from '../../html/qualities/headBegin.quality';
@@ -35,29 +29,26 @@ export function userInterfaceCreatePageStrategy(
   language?: string
 ): [ActionNode, ActionStrategy] {
   const payload: ActionComponentPayload = {
-    pageTitle: title
+    pageTitle: title,
   };
-  const stepHtmlEnd = createActionNode(htmlEnd(payload), {
+  const stepHtmlEnd = createActionNode(htmlEnd.actionCreator(payload), {
     successNode: null,
-    failureNode: null
+    failureNode: null,
   });
 
-  const stepBodyEnd = createActionNode(htmlBodyEnd(payload), {
+  const stepBodyEnd = createActionNode(htmlBodyEnd.actionCreator(payload), {
     successNode: stepHtmlEnd,
-    failureNode: null
+    failureNode: null,
   });
 
-  const stepBodyBegin = createActionNode(htmlBodyBegin(payload), {
+  const stepBodyBegin = createActionNode(htmlBodyBegin.actionCreator(payload), {
     successNode: stepBodyEnd,
-    failureNode: null
+    failureNode: null,
   });
 
   let prevHead = stepBodyBegin;
   for (let i = 0; i < body.length; i++) {
-    const [
-      stitchEnd,
-      stitchStrategy
-    ] = body[i](payload);
+    const [stitchEnd, stitchStrategy] = body[i](payload);
     const stitchHead = createActionNodeFromStrategy(stitchStrategy);
     prevHead.successNode = stitchHead;
     // console.log('PREV HEAD', prevHead, i);
@@ -67,15 +58,12 @@ export function userInterfaceCreatePageStrategy(
   prevHead.successNode = stepBodyEnd;
   // console.log('FINAL', prevHead);
 
-  const [
-    headEnd,
-    header
-  ] = createHeaderStrategy(payload, headerStitch);
+  const [headEnd, header] = createHeaderStrategy(payload, headerStitch);
   const stepHeader = createActionNodeFromStrategy(header);
 
   headEnd.successNode = stepBodyBegin;
 
-  const stepHtmlBegin = createActionNode(htmlBegin({language, pageTitle: title}), {
+  const stepHtmlBegin = createActionNode(htmlBegin.actionCreator({ language, pageTitle: title }), {
     successNode: stepHeader,
     failureNode: null,
   });
@@ -85,25 +73,22 @@ export function userInterfaceCreatePageStrategy(
     createStrategy({
       topic: title,
       initialNode: stepHtmlBegin,
-      data: pageData
-    })
+      data: pageData,
+    }),
   ];
 }
 
 const createHeaderStrategy = (payload: ActionComponentPayload, stitch?: ActionStrategyComponentStitch): [ActionNode, ActionStrategy] => {
-  const stepHeadEnd = createActionNode(htmlHeadEnd(payload), {
+  const stepHeadEnd = createActionNode(htmlHeadEnd.actionCreator(payload), {
     successNode: null,
-    failureNode: null
+    failureNode: null,
   });
-  const stepHeadBegin = createActionNode(htmlHeadBegin(payload), {
+  const stepHeadBegin = createActionNode(htmlHeadBegin.actionCreator(payload), {
     successNode: stepHeadEnd,
-    failureNode: null
+    failureNode: null,
   });
   if (stitch) {
-    const [
-      stitchEnd,
-      stitchStrategy
-    ] = stitch(payload);
+    const [stitchEnd, stitchStrategy] = stitch(payload);
     stitchEnd.successNode = stepHeadEnd;
     const stitched = createActionNodeFromStrategy(stitchStrategy);
     stepHeadBegin.successNode = stitched;
@@ -113,7 +98,7 @@ const createHeaderStrategy = (payload: ActionComponentPayload, stitch?: ActionSt
     createStrategy({
       topic: 'Header Strategy',
       initialNode: stepHeadBegin,
-    })
+    }),
   ];
 };
 /*#>*/

@@ -4,11 +4,11 @@ $>*/
 /*<#*/
 import {
   createAsyncMethod,
-  createQualitySet,
+  createQualityCard,
   nullReducer,
   strategyData_appendFailure,
   strategyData_select,
-  strategyData_unifyData,
+  strategyData_muxifyData,
   strategyFailed,
   strategySuccess,
 } from 'stratimux';
@@ -18,48 +18,38 @@ import { FileDirent } from '../fileSystem.model';
 import { ReadDirectoryField } from './readDir.quality';
 
 export type ReadFileContentsAndAppendToDataField = {
-  dirent: FileDirent,
-  content: string,
-}
+  dirent: FileDirent;
+  content: string;
+};
 
-export const [
-  fileSystemReadFileContentsAndAppendToData,
-  fileSystemReadFileContentsAndAppendToDataType,
-  fileSystemReadFileContentsAndAppendToDataQuality
-] = createQualitySet({
+export const fileSystemReadFileContentsAndAppendToData = createQualityCard({
   type: 'File System read from File and Append to Data Field',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethod((controller, action) => {
+    createAsyncMethod(({ controller, action }) => {
       if (action.strategy) {
         const strategy = action.strategy;
         const data = strategyData_select<ReadDirectoryField>(strategy);
         if (data) {
-          const {filesAndDirectories} = data;
+          const { filesAndDirectories } = data;
           const dirent: FileDirent = filesAndDirectories[0];
-          fs.readFile(path.join(dirent.path + '/' + dirent.name)).then(contents => {
+          fs.readFile(path.join(dirent.path + '/' + dirent.name)).then((contents) => {
             try {
               const newData = {
                 dirent,
-                content: contents.toString()
+                content: contents.toString(),
               };
-              controller.fire(strategySuccess(strategy, strategyData_unifyData(strategy, newData)));
+              controller.fire(strategySuccess(strategy, strategyData_muxifyData(strategy, newData)));
             } catch (error) {
-              controller.fire(strategyFailed(strategy, strategyData_appendFailure(
-                strategy,
-                `${error}`
-              )));
+              controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, `${error}`)));
             }
           });
         } else {
-          controller.fire(strategyFailed(strategy, strategyData_appendFailure(
-            strategy,
-            'No dirent provided in payload'
-          )));
+          controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, 'No dirent provided in payload')));
         }
       } else {
         controller.fire(action);
       }
-    })
+    }),
 });
 /*#>*/

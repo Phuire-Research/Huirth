@@ -5,11 +5,10 @@ $>*/
 /*<#*/
 import {
   Action,
-  UnifiedSubject,
   createAction,
   createActionNode,
   createMethodDebounceWithState,
-  createQualitySet,
+  createQualityCard,
   createStrategy,
   strategyBegin,
 } from 'stratimux';
@@ -19,14 +18,10 @@ import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient
 import { huirthServerState } from '../../huirthServer/huirthServer.concept';
 import { huirthClearDataSetSelection } from './clearDataSetSelection.quality';
 
-export const [
-  huirthSendTriggerSaveDataSetSelectionStrategy,
-  huirthSendTriggerSaveDataSetSelectionStrategyType,
-  huirthSendTriggerSaveDataSetSelectionStrategyQuality
-] = createQualitySet({
+export const huirthSendTriggerSaveDataSetSelectionStrategy = createQualityCard<huirthState>({
   type: 'huirth send trigger save data set selection strategy to server',
-  reducer: (state: huirthState, _: Action): huirthState => {
-    const {trainingData} = state;
+  reducer: (state) => {
+    const { trainingData } = state;
     let { stratimuxStatus, huirthStatus, projectsStatuses } = state;
     const { dataSetSelection } = state;
     const names: string[] = [];
@@ -53,7 +48,7 @@ export const [
           if (!added) {
             newStatuses.push({
               name: name,
-              status: ProjectStatus.saving
+              status: ProjectStatus.saving,
             });
           }
           projectsStatuses = newStatuses;
@@ -61,33 +56,37 @@ export const [
       }
     }
     return {
-      ...state,
       stratimuxStatus,
       huirthStatus,
       projectsStatuses,
     };
   },
-  methodCreator: (concepts$, semaphore) =>
-    createMethodDebounceWithState<huirthServerState>(
-      (_, state) => {
-        const {dataSetSelection, trainingData} = state;
-        const names: string[] = [];
-        for (const [i, select] of dataSetSelection.entries()) {
-          if (select) {
-            const name = trainingData[i].name;
-            names.push(name);
-          }
+  methodCreator: () =>
+    createMethodDebounceWithState<huirthServerState>(({ state }) => {
+      const { dataSetSelection, trainingData } = state;
+      const names: string[] = [];
+      for (const [i, select] of dataSetSelection.entries()) {
+        if (select) {
+          const name = trainingData[i].name;
+          names.push(name);
         }
-        const strategy = createStrategy({
-          topic: `Sending to server trigger save data set selection for: ${names.join(', ')}`,
-          initialNode: createActionNode(userInterfaceClientSendActionToServer(createAction('huirthServer trigger save data set selection strategy', {payload: {
-            names
-          }})), {
-            successNode: createActionNode(huirthClearDataSetSelection()),
-          })
-        });
-        return strategyBegin(strategy);
-      }, concepts$ as UnifiedSubject, semaphore as number, 50
-    )
+      }
+      const strategy = createStrategy({
+        topic: `Sending to server trigger save data set selection for: ${names.join(', ')}`,
+        initialNode: createActionNode(
+          userInterfaceClientSendActionToServer(
+            createAction('huirthServer trigger save data set selection strategy', {
+              payload: {
+                names,
+              },
+            })
+          ),
+          {
+            successNode: createActionNode(huirthClearDataSetSelection.actionCreator()),
+          }
+        ),
+      });
+      return strategyBegin(strategy);
+    }, 50),
 });
 /*#>*/

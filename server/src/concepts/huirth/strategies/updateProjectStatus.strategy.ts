@@ -7,15 +7,18 @@ import { huirthUpdateProjectStatus } from '../qualities/updateProjectToStatus.qu
 import { ProjectStatus } from '../huirth.model';
 
 export const huirthUpdateProjectStatusStrategyTopic = 'huirth set project status to the specified status';
-export const huirthUpdateProjectStatusStrategy = (name:string, status: ProjectStatus) => {
-  const stepSendToServer = createActionNode(huirthUpdateProjectStatus({
-    name,
-    status
-  }), {
-    // TODO: If failed we can use open to load a window with the git install webpage
-    failureNode: null,
-  });
-  const stepUpdateToInstalling = createActionNode(huirthUpdateProjectStatus({name, status: ProjectStatus.installing}), {
+export const huirthUpdateProjectStatusStrategy = (name: string, status: ProjectStatus) => {
+  const stepSendToServer = createActionNode(
+    huirthUpdateProjectStatus.actionCreator({
+      name,
+      status,
+    }),
+    {
+      // TODO: If failed we can use open to load a window with the git install webpage
+      failureNode: null,
+    }
+  );
+  const stepUpdateToInstalling = createActionNode(huirthUpdateProjectStatus.actionCreator({ name, status: ProjectStatus.installing }), {
     successNode: stepSendToServer,
   });
   return createStrategy({

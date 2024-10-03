@@ -3,52 +3,43 @@ For the graph programming framework Stratimux and the User Interface Server Conc
 $>*/
 /*<#*/
 import {
-  axiumConclude,
+  muxiumConclude,
   createAsyncMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
   strategyData_appendFailure,
   strategyFailed,
   strategySuccess,
 } from 'stratimux';
-import {exec} from 'child_process';
+import { exec } from 'child_process';
 
-export type FormatContextPayload = {contextDir: string};
+export type FormatContextPayload = { contextDir: string };
 
-export const [
-  userInterfaceServerFormatContext,
-  userInterfaceServerFormatContextType,
-  userInterfaceServerFormatContextQuality
-] = createQualitySetWithPayload<FormatContextPayload>({
+export const userInterfaceServerFormatContext = createQualityCardWithPayload<FormatContextPayload, any>({
   type: 'User Interface Server format Context',
   reducer: nullReducer,
-  methodCreator: () => createAsyncMethod(
-    (controller, action) => {
+  methodCreator: () =>
+    createAsyncMethod(({ controller, action }) => {
       const payload = selectPayload<FormatContextPayload>(action);
       if (action.strategy) {
         exec(`cd ${payload.contextDir} & npm run prettier-format`, (error, stdout, stderr) => {
           if (action.strategy) {
             if (error) {
-              console.error('stderr:', stderr);
-              controller.fire(
-                strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, stderr))
-              );
+              // console.error('stderr:', stderr);
+              controller.fire(strategyFailed(action.strategy, strategyData_appendFailure(action.strategy, stderr)));
             } else {
-              console.log('stdout:', stdout);
-              controller.fire(
-                strategySuccess(action.strategy)
-              );
+              // console.log('stdout:', stdout);
+              controller.fire(strategySuccess(action.strategy));
             }
           } else {
-            controller.fire(axiumConclude());
+            controller.fire(muxiumConclude());
           }
           console.log('stdout:', stdout);
         });
       } else {
-        controller.fire(axiumConclude());
+        controller.fire(muxiumConclude());
       }
-    }
-  )
+    }),
 });
 /*#>*/

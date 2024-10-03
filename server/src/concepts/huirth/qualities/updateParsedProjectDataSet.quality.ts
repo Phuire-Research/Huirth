@@ -2,29 +2,20 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that will append the payload data set into state, replacing if it already exists.
 $>*/
 /*<#*/
-import {
-  Action,
-  createQualitySetWithPayload,
-  defaultMethodCreator,
-  selectPayload,
-} from 'stratimux';
+import { createQualityCardWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
 import { huirthState } from '../huirth.concept';
 import { DataSetTypes, NamedDataSet, PhuirEProjects, ProjectStatus, TrainingData } from '../huirth.model';
 
 export type huirthUpdateParsedProjectDataSetPayload = {
-  dataSet: NamedDataSet,
-}
+  dataSet: NamedDataSet;
+};
 
-export const [
-  huirthUpdateParsedProjectDataSet,
-  huirthUpdateParsedProjectDataSetType,
-  huirthUpdateParsedProjectDataSetQuality
-] = createQualitySetWithPayload<huirthUpdateParsedProjectDataSetPayload>({
+export const huirthUpdateParsedProjectDataSet = createQualityCardWithPayload<huirthState, huirthUpdateParsedProjectDataSetPayload>({
   type: 'huirth update parsed project data set',
-  reducer: (state: huirthState, action: Action): huirthState => {
-    const {dataSet} = selectPayload<huirthUpdateParsedProjectDataSetPayload>(action);
+  reducer: (state, action) => {
+    const { dataSet } = selectPayload<huirthUpdateParsedProjectDataSetPayload>(action);
     const { dataSetSelection, trainingData } = state;
-    let {projectsStatuses, stratimuxStatus, huirthStatus} = state;
+    let { projectsStatuses, stratimuxStatus, huirthStatus } = state;
     const newTrainingData: TrainingData = [];
     let added = false;
     for (const data of trainingData) {
@@ -35,7 +26,7 @@ export const [
         newTrainingData.push(data);
       }
     }
-    console.log('CHECK INCOMING NAME', dataSet.name);
+    // console.log('CHECK INCOMING NAME', dataSet.name);
     if (!added) {
       newTrainingData.push(dataSet);
       dataSetSelection.push(false);
@@ -60,20 +51,19 @@ export const [
         if (!added) {
           newStatuses.push({
             name: dataSet.name,
-            status: ProjectStatus.parsed
+            status: ProjectStatus.parsed,
           });
         }
         projectsStatuses = newStatuses;
       }
     }
     return {
-      ...state,
       trainingData: newTrainingData,
       stratimuxStatus,
       huirthStatus,
-      projectsStatuses
+      projectsStatuses,
     };
   },
-  methodCreator: defaultMethodCreator
+  methodCreator: defaultMethodCreator,
 });
 /*#>*/

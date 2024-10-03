@@ -29,11 +29,9 @@ function convert_hundreds(num: number): string {
 function convert_tens(num: number): string {
   if (num < 10) {
     return ones[num];
-  }
-  else if (num >= 10 && num < 20) {
+  } else if (num >= 10 && num < 20) {
     return teens[num - 10];
-  }
-  else {
+  } else {
     return tens[Math.floor(num / 10)] + ' ' + ones[num % 10];
   }
 }
@@ -47,8 +45,7 @@ export function huirth_convertNumberToStringVerbose(num: number): string {
   }
   if (num === 0) {
     return 'zero';
-  }
-  else {
+  } else {
     return negative + convert_millions(finalNum);
   }
 }

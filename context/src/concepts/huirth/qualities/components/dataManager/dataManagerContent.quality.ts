@@ -2,20 +2,12 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a User Interface Component quality that will create the Data Manager's body slice and bind all essential functions to properly manage a Stratimux project data.
 $>*/
 /*<#*/
-import {
-  KeyedSelector,
-  UnifiedSubject,
-  createMethodDebounceWithConcepts,
-  nullReducer,
-  selectUnifiedState,
-  strategySuccess,
-} from 'stratimux';
+import { KeyedSelector, createMethodDebounceWithConcepts, nullReducer, selectMuxifiedState, strategySuccess } from 'stratimux';
 
 import {
   createBinding,
   createBoundSelectors,
-  createQualitySetComponent,
-  selectComponentPayload,
+  createQualityCardComponent,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 import { elementEventBinding } from '../../../../../model/html';
@@ -41,72 +33,69 @@ import { determineProjectControls } from './dataManagerProjectControls.model';
 import { huirthSetPossibleProject } from '../../setPossibleProject.quality';
 import { huirthFilterTriggerInstallGitRepository } from '../../filterTriggerInstallGitRepository.quality';
 import { huirthSetSelectedTransformation } from '../../setSelectedTransformation.quality';
-import { huirthSendTriggerTransformationStrategy } from '../../../strategies/server/triggerTransformationStrategy.helper';
 import { huirthSendTriggerSelectedTransformationStrategy } from '../../sendTriggerSelectedTransformationStrategy.quality';
 import { huirthSendTriggerGitPullRepositoryStrategy } from '../../../strategies/server/triggerGitPullRepositoryStrategy.helper';
 
-export const [huirthDataManagerContent, huirthDataManagerContentType, huirthDataManagerContentQuality] = createQualitySetComponent({
+export const huirthDataManagerContent = createQualityCardComponent({
   type: 'create userInterface for DataManagerContent',
   reducer: nullReducer,
-  componentCreator: (act, concepts$, _semaphore) =>
-    createMethodDebounceWithConcepts(
-      (action, concepts, semaphore) => {
-        console.log('HITTING DATA MANAGER COMPONENT');
-        const payload = selectComponentPayload(action);
-        const id = '#dataManagerID' + payload.pageTitle;
-        const projectInputID = '#projectInputID';
-        const saveID = '#saveID';
-        const addEntryID = '#addEntry' + payload.pageTitle;
-        const removeID = '#removeID';
-        const transformationSelectionID = '#transformationSelectionID';
-        const triggerCreateTransformationDataSetID = '#triggerCreateTransformationDataSetID';
-        const installProjectID = '#installProjectID';
-        const installStratimuxID = '#install_' + PhuirEProjects.stratimux;
-        const pullStratimuxID = '#pull_' + PhuirEProjects.stratimux;
-        let finalStratimuxID = '#stratimuxID';
-        // eslint-disable-next-line quotes
-        let finalStratimuxNote = 'stratimux';
-        const parseStratimuxID = '#parse_' + PhuirEProjects.stratimux;
-        const installHuirth_ID = '#install_' + PhuirEProjects.huirth;
-        const pullHuirth_ID = '#pull_' + PhuirEProjects.huirth;
-        let finalHuirth_ID = '#huirth_ID';
-        let finalHuirth_note = 'Huirth';
-        const parseHuirth_ID = '#parse_' + PhuirEProjects.huirth;
-        if (action.strategy) {
-          const {
-            trainingData,
-            stratimuxStatus,
-            huirthStatus,
-            dataSetSelection,
-            projectsStatuses,
-            possibleProject,
-            possibleProjectValid,
-            selectedTransformation,
-            transformationStrategies,
-          } = selectUnifiedState<huirthState>(concepts, semaphore) as huirthState;
-          const anySelected = (() => {
-            for (const selected of dataSetSelection) {
-              if (selected) {
-                return true;
-              }
-            }
-            return false;
-          })();
-          let finalOutput = '';
-          const [finalProjects, bindingsArray] = determineProjectControls(projectsStatuses);
-          for (let i = 0; i < trainingData.length; i++) {
-            const elementID = generateNumID(i);
-            bindingsArray.push({
-              elementId: dataSetNameID + elementID,
-              eventBinding: elementEventBinding.onchange,
-              action: huirthUpdateDataSetName({ index: i }),
-            });
-            bindingsArray.push({
-              elementId: dataSetSelectionID + elementID,
-              eventBinding: elementEventBinding.onchange,
-              action: huirthUpdateDataSetSelection({ index: i }),
-            });
-            finalOutput += /*html*/ `
+  componentCreator: createMethodDebounceWithConcepts(({ action, concepts_, semaphore }) => {
+    console.log('HITTING DATA MANAGER COMPONENT');
+    const payload = action.payload;
+    const id = '#dataManagerID' + payload.pageTitle;
+    const projectInputID = '#projectInputID';
+    const saveID = '#saveID';
+    const addEntryID = '#addEntry' + payload.pageTitle;
+    const removeID = '#removeID';
+    const transformationSelectionID = '#transformationSelectionID';
+    const triggerCreateTransformationDataSetID = '#triggerCreateTransformationDataSetID';
+    const installProjectID = '#installProjectID';
+    const installStratimuxID = '#install_' + PhuirEProjects.stratimux;
+    const pullStratimuxID = '#pull_' + PhuirEProjects.stratimux;
+    let finalStratimuxID = '#stratimuxID';
+    // eslint-disable-next-line quotes
+    let finalStratimuxNote = 'stratimux';
+    const parseStratimuxID = '#parse_' + PhuirEProjects.stratimux;
+    const installHuirth_ID = '#install_' + PhuirEProjects.huirth;
+    const pullHuirth_ID = '#pull_' + PhuirEProjects.huirth;
+    let finalHuirth_ID = '#huirth_ID';
+    let finalHuirth_note = 'Huirth';
+    const parseHuirth_ID = '#parse_' + PhuirEProjects.huirth;
+    if (action.strategy) {
+      const {
+        trainingData,
+        stratimuxStatus,
+        huirthStatus,
+        dataSetSelection,
+        projectsStatuses,
+        possibleProject,
+        possibleProjectValid,
+        selectedTransformation,
+        transformationStrategies,
+      } = selectMuxifiedState(concepts_, semaphore) as huirthState;
+      const anySelected = (() => {
+        for (const selected of dataSetSelection) {
+          if (selected) {
+            return true;
+          }
+        }
+        return false;
+      })();
+      let finalOutput = '';
+      const [finalProjects, bindingsArray] = determineProjectControls(projectsStatuses);
+      for (let i = 0; i < trainingData.length; i++) {
+        const elementID = generateNumID(i);
+        bindingsArray.push({
+          elementId: dataSetNameID + elementID,
+          eventBinding: elementEventBinding.onchange,
+          action: huirthUpdateDataSetName.actionCreator({ index: i }),
+        });
+        bindingsArray.push({
+          elementId: dataSetSelectionID + elementID,
+          eventBinding: elementEventBinding.onchange,
+          action: huirthUpdateDataSetSelection.actionCreator({ index: i }),
+        });
+        finalOutput += /*html*/ `
 <div class="w-full ml-4 mt-2 mb-2">
   <div class="relative flex items-center h-10 w-full min-w-[200px]">
     <div class="absolute top-2/4 right-52 grid h-5 w-5 -translate-y-2/4 place-items-center text-blue-gray-500">
@@ -134,131 +123,130 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
   </div>
 </div>
         `;
-          }
-          finalOutput += '</div>';
-          bindingsArray.push({
-            action: huirthNewDataSet({
-              priority: 1000,
-            }),
-            elementId: addEntryID,
-            eventBinding: elementEventBinding.onclick,
-          });
-          const stratimuxSaved =
-            trainingData.filter((d) => d.name.toLowerCase() === PhuirEProjects.stratimux.toLocaleLowerCase()).length > 0;
-          const huirthSaved = trainingData.filter((d) => d.name.toLowerCase() === PhuirEProjects.huirth.toLocaleLowerCase()).length > 0;
-          if (stratimuxStatus === ProjectStatus.notInstalled) {
-            bindingsArray.push({
-              action: huirthTriggerInstallGitRepository({
-                url: PhuirEProjects.stratimuxURL,
-                name: PhuirEProjects.stratimux,
-              }),
-              elementId: installStratimuxID,
-              eventBinding: elementEventBinding.onclick,
-            });
-            finalStratimuxID = installStratimuxID;
-            finalStratimuxNote = 'Install Stratimux';
-          } else if (stratimuxStatus === ProjectStatus.installed && !stratimuxSaved) {
-            bindingsArray.push({
-              action: huirthSendTriggerParseRepositoryStrategy({ name: PhuirEProjects.stratimux }),
-              elementId: parseStratimuxID,
-              eventBinding: elementEventBinding.onclick,
-            });
-            finalStratimuxID = parseStratimuxID;
-            finalStratimuxNote = 'Parse Stratimux';
-          } else if (stratimuxStatus === ProjectStatus.saved || stratimuxStatus === ProjectStatus.parsed) {
-            bindingsArray.push({
-              action: huirthSendTriggerGitPullRepositoryStrategy(PhuirEProjects.stratimux),
-              elementId: pullStratimuxID,
-              eventBinding: elementEventBinding.onclick,
-            });
-            finalStratimuxID = pullStratimuxID;
-            finalStratimuxNote = 'Pull Stratimux';
-          }
-          if (huirthStatus === ProjectStatus.notInstalled) {
-            bindingsArray.push({
-              action: huirthTriggerInstallGitRepository({
-                url: PhuirEProjects.huirth_URL,
-                name: PhuirEProjects.huirth,
-              }),
-              elementId: installHuirth_ID,
-              eventBinding: elementEventBinding.onclick,
-            });
-            finalHuirth_ID = installHuirth_ID;
-            finalHuirth_note = 'Install Huirth';
-          } else if (huirthStatus === ProjectStatus.installed && !huirthSaved) {
-            bindingsArray.push({
-              action: huirthSendTriggerParseRepositoryStrategy({ name: PhuirEProjects.huirth }),
-              elementId: parseHuirth_ID,
-              eventBinding: elementEventBinding.onclick,
-            });
-            finalHuirth_ID = parseHuirth_ID;
-            finalHuirth_note = 'Parse Huirth';
-          } else if (huirthStatus === ProjectStatus.saved || huirthStatus === ProjectStatus.parsed) {
-            bindingsArray.push({
-              action: huirthSendTriggerGitPullRepositoryStrategy(PhuirEProjects.huirth),
-              elementId: pullHuirth_ID,
-              eventBinding: elementEventBinding.onclick,
-            });
-            finalHuirth_ID = pullHuirth_ID;
-            finalHuirth_note = 'Pull Huirth';
-          }
-          bindingsArray.push({
-            action: huirthSendTriggerSaveDataSetSelectionStrategy(),
-            elementId: saveID,
-            eventBinding: elementEventBinding.onclick,
-          });
-          bindingsArray.push({
-            action: huirthRemoveDataSetSelection(),
-            elementId: removeID,
-            eventBinding: elementEventBinding.onclick,
-          });
-          bindingsArray.push({
-            action: huirthSetPossibleProject(),
-            elementId: projectInputID,
-            eventBinding: elementEventBinding.onkeyup,
-          });
-          bindingsArray.push({
-            action: huirthSetPossibleProject(),
-            elementId: projectInputID,
-            eventBinding: elementEventBinding.onpaste,
-          });
-          bindingsArray.push({
-            action: huirthFilterTriggerInstallGitRepository(),
-            elementId: installProjectID,
-            eventBinding: elementEventBinding.onclick,
-          });
-          bindingsArray.push({
-            action: huirthSetSelectedTransformation(),
-            elementId: transformationSelectionID,
-            eventBinding: elementEventBinding.onchange,
-          });
-          bindingsArray.push({
-            action: huirthSendTriggerSelectedTransformationStrategy(),
-            elementId: triggerCreateTransformationDataSetID,
-            eventBinding: elementEventBinding.onclick,
-          });
-          const bindings = createBinding(bindingsArray);
-          // console.log('Check bindings', bindings);
-          const strategy = strategySuccess(
-            action.strategy,
-            userInterface_appendCompositionToPage(action.strategy, {
-              id,
-              bindings,
-              universal: false,
-              boundSelectors: [
-                // START HERE
-                createBoundSelectors(id, huirthDataManagerContent(payload), [
-                  huirth_createTrainingDataSelector(concepts, semaphore) as KeyedSelector,
-                  huirth_createStratimuxStatusSelector(concepts, semaphore) as KeyedSelector,
-                  huirth_createHuirthStatusSelector(concepts, semaphore) as KeyedSelector,
-                  huirth_createDataSetSelectionSelector(concepts, semaphore) as KeyedSelector,
-                  huirth_createProjectStatusSelector(concepts, semaphore) as KeyedSelector,
-                  huirth_createPossibleProjectValidSelector(concepts, semaphore) as KeyedSelector,
-                  huirth_createSelectedTransformationSelector(concepts, semaphore) as KeyedSelector,
-                ]),
-              ],
-              action: act(payload),
-              html: /*html*/ `
+      }
+      finalOutput += '</div>';
+      bindingsArray.push({
+        action: huirthNewDataSet.actionCreator({
+          priority: 1000,
+        }),
+        elementId: addEntryID,
+        eventBinding: elementEventBinding.onclick,
+      });
+      const stratimuxSaved = trainingData.filter((d) => d.name.toLowerCase() === PhuirEProjects.stratimux.toLocaleLowerCase()).length > 0;
+      const huirthSaved = trainingData.filter((d) => d.name.toLowerCase() === PhuirEProjects.huirth.toLocaleLowerCase()).length > 0;
+      if (stratimuxStatus === ProjectStatus.notInstalled) {
+        bindingsArray.push({
+          action: huirthTriggerInstallGitRepository.actionCreator({
+            url: PhuirEProjects.stratimuxURL,
+            name: PhuirEProjects.stratimux,
+          }),
+          elementId: installStratimuxID,
+          eventBinding: elementEventBinding.onclick,
+        });
+        finalStratimuxID = installStratimuxID;
+        finalStratimuxNote = 'Install Stratimux';
+      } else if (stratimuxStatus === ProjectStatus.installed && !stratimuxSaved) {
+        bindingsArray.push({
+          action: huirthSendTriggerParseRepositoryStrategy.actionCreator({ name: PhuirEProjects.stratimux }),
+          elementId: parseStratimuxID,
+          eventBinding: elementEventBinding.onclick,
+        });
+        finalStratimuxID = parseStratimuxID;
+        finalStratimuxNote = 'Parse Stratimux';
+      } else if (stratimuxStatus === ProjectStatus.saved || stratimuxStatus === ProjectStatus.parsed) {
+        bindingsArray.push({
+          action: huirthSendTriggerGitPullRepositoryStrategy(PhuirEProjects.stratimux),
+          elementId: pullStratimuxID,
+          eventBinding: elementEventBinding.onclick,
+        });
+        finalStratimuxID = pullStratimuxID;
+        finalStratimuxNote = 'Pull Stratimux';
+      }
+      if (huirthStatus === ProjectStatus.notInstalled) {
+        bindingsArray.push({
+          action: huirthTriggerInstallGitRepository.actionCreator({
+            url: PhuirEProjects.huirth_URL,
+            name: PhuirEProjects.huirth,
+          }),
+          elementId: installHuirth_ID,
+          eventBinding: elementEventBinding.onclick,
+        });
+        finalHuirth_ID = installHuirth_ID;
+        finalHuirth_note = 'Install Huirth';
+      } else if (huirthStatus === ProjectStatus.installed && !huirthSaved) {
+        bindingsArray.push({
+          action: huirthSendTriggerParseRepositoryStrategy.actionCreator({ name: PhuirEProjects.huirth }),
+          elementId: parseHuirth_ID,
+          eventBinding: elementEventBinding.onclick,
+        });
+        finalHuirth_ID = parseHuirth_ID;
+        finalHuirth_note = 'Parse Huirth';
+      } else if (huirthStatus === ProjectStatus.saved || huirthStatus === ProjectStatus.parsed) {
+        bindingsArray.push({
+          action: huirthSendTriggerGitPullRepositoryStrategy(PhuirEProjects.huirth),
+          elementId: pullHuirth_ID,
+          eventBinding: elementEventBinding.onclick,
+        });
+        finalHuirth_ID = pullHuirth_ID;
+        finalHuirth_note = 'Pull Huirth';
+      }
+      bindingsArray.push({
+        action: huirthSendTriggerSaveDataSetSelectionStrategy.actionCreator(),
+        elementId: saveID,
+        eventBinding: elementEventBinding.onclick,
+      });
+      bindingsArray.push({
+        action: huirthRemoveDataSetSelection.actionCreator(),
+        elementId: removeID,
+        eventBinding: elementEventBinding.onclick,
+      });
+      bindingsArray.push({
+        action: huirthSetPossibleProject.actionCreator(),
+        elementId: projectInputID,
+        eventBinding: elementEventBinding.onkeyup,
+      });
+      bindingsArray.push({
+        action: huirthSetPossibleProject.actionCreator(),
+        elementId: projectInputID,
+        eventBinding: elementEventBinding.onpaste,
+      });
+      bindingsArray.push({
+        action: huirthFilterTriggerInstallGitRepository.actionCreator(),
+        elementId: installProjectID,
+        eventBinding: elementEventBinding.onclick,
+      });
+      bindingsArray.push({
+        action: huirthSetSelectedTransformation.actionCreator(),
+        elementId: transformationSelectionID,
+        eventBinding: elementEventBinding.onchange,
+      });
+      bindingsArray.push({
+        action: huirthSendTriggerSelectedTransformationStrategy.actionCreator(),
+        elementId: triggerCreateTransformationDataSetID,
+        eventBinding: elementEventBinding.onclick,
+      });
+      const bindings = createBinding(bindingsArray);
+      // console.log('Check bindings', bindings);
+      const strategy = strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
+          id,
+          bindings,
+          universal: false,
+          boundSelectors: [
+            // START HERE
+            createBoundSelectors(id, huirthDataManagerContent.actionCreator(payload), [
+              huirth_createTrainingDataSelector(concepts_, semaphore) as KeyedSelector,
+              huirth_createStratimuxStatusSelector(concepts_, semaphore) as KeyedSelector,
+              huirth_createHuirthStatusSelector(concepts_, semaphore) as KeyedSelector,
+              huirth_createDataSetSelectionSelector(concepts_, semaphore) as KeyedSelector,
+              huirth_createProjectStatusSelector(concepts_, semaphore) as KeyedSelector,
+              huirth_createPossibleProjectValidSelector(concepts_, semaphore) as KeyedSelector,
+              huirth_createSelectedTransformationSelector(concepts_, semaphore) as KeyedSelector,
+            ]),
+          ],
+          action,
+          html: /*html*/ `
         <div class="flex flex-col items-center text-black" id='${id}'>
           <button class="italic cursor-not-allowed mb-4 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
             Open <i class="fa-solid fa-folder"></i>
@@ -318,10 +306,10 @@ export const [huirthDataManagerContent, huirthDataManagerContentType, huirthData
             </div>
             <div class="m-4 flex-none flex items-center w-full">
               <select id="${transformationSelectionID}" class="${
-                'mr-4 bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-500 ' +
-                'focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500' +
-                'dark:focus:border-blue-500'
-              }">
+            'mr-4 bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-500 ' +
+            'focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500' +
+            'dark:focus:border-blue-500'
+          }">
             <option>Select a Data Transformation Strategy</option>
 ${transformationStrategies
   .map((str) => `<option ${selectedTransformation === str ? 'selected' : ''} value="${str}"> ${str}</option>`)
@@ -378,16 +366,12 @@ ${
           </div>
         </div>
   `,
-            })
-          );
-          return strategy;
-        }
-        return action;
-      },
-      concepts$ as UnifiedSubject,
-      _semaphore as number,
-      50
-    ),
+        })
+      );
+      return strategy;
+    }
+    return action;
+  }, 50),
 });
 /*#>*/
 

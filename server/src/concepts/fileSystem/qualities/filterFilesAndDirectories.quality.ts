@@ -3,19 +3,20 @@ For the graph programming framework Stratimux and File System Concept, generate 
 $>*/
 /*<#*/
 import {
-  axiumConclude,
+  muxiumConclude,
   createAsyncMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
   strategyData_appendFailure,
   strategyData_select,
-  strategyData_unifyData,
+  strategyData_muxifyData,
   strategyFailed,
-  strategySuccess
+  strategySuccess,
 } from 'stratimux';
 import { ReadDirectoryField } from './readDir.quality';
 import path from 'path';
+import { FileSystemState } from '../fileSystem.concept';
 
 const isNot = (name: string, tokens: string[]): boolean => {
   let pass = true;
@@ -44,31 +45,27 @@ export type FilterFilesAndDirectoriesPayload = {
   notTokens: string[];
 };
 
-export const [
-  fileSystemFilterFilesAndDirectories,
-  fileSystemFilterFilesAndDirectoriesType,
-  fileSystemFilterFilesAndDirectoriesQuality
-] = createQualitySetWithPayload<FilterFilesAndDirectoriesPayload>({
+export const fileSystemFilterFilesAndDirectories = createQualityCardWithPayload<FileSystemState, FilterFilesAndDirectoriesPayload>({
   type: 'File System filter from Data Files and Directories field via token',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethod((controller, action) => {
+    createAsyncMethod(({ controller, action }) => {
       if (action.strategy) {
         const strategy = action.strategy;
         const data = strategyData_select<ReadDirectoryField>(strategy);
-        const {isTokens, notTokens} = selectPayload<FilterFilesAndDirectoriesPayload>(action);
+        const { isTokens, notTokens } = selectPayload<FilterFilesAndDirectoriesPayload>(action);
         if (data && data.filesAndDirectories) {
-          data.filesAndDirectories = data?.filesAndDirectories.filter(dirent => {
+          data.filesAndDirectories = data?.filesAndDirectories.filter((dirent) => {
             const check = path.join(dirent.path + '/' + dirent.name);
             return is(check, isTokens) && isNot(check, notTokens);
           });
-          controller.fire(strategySuccess(strategy, strategyData_unifyData(strategy, data)));
+          controller.fire(strategySuccess(strategy, strategyData_muxifyData(strategy, data)));
         } else {
           controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, 'No filesAndDirectories passed to quality')));
         }
       } else {
-        controller.fire(axiumConclude());
+        controller.fire(muxiumConclude());
       }
-    })
+    }),
 });
 /*#>*/

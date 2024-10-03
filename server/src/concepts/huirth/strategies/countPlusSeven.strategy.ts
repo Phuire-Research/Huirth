@@ -4,24 +4,24 @@ $>*/
 /*<#*/
 import { counterAdd, createActionNode, createStrategy } from 'stratimux';
 
-export const huirthPlusSevenStrategy = (count: number, conceptSemaphore: number) => {
-  const stepSeventh = createActionNode(counterAdd({conceptSemaphore}));
-  const stepSix = createActionNode(counterAdd({conceptSemaphore}), {
+export const huirthPlusSevenStrategy = (count: number) => {
+  const stepSeventh = createActionNode(counterAdd.actionCreator());
+  const stepSix = createActionNode(counterAdd.actionCreator(), {
     successNode: stepSeventh,
   });
-  const stepFifth = createActionNode(counterAdd({conceptSemaphore}), {
+  const stepFifth = createActionNode(counterAdd.actionCreator(), {
     successNode: stepSix,
   });
-  const StepFourth = createActionNode(counterAdd({conceptSemaphore}), {
+  const StepFourth = createActionNode(counterAdd.actionCreator(), {
     successNode: stepFifth,
   });
-  const stepThird = createActionNode(counterAdd({conceptSemaphore}), {
+  const stepThird = createActionNode(counterAdd.actionCreator(), {
     successNode: StepFourth,
   });
-  const stepSecond = createActionNode(counterAdd({conceptSemaphore}), {
+  const stepSecond = createActionNode(counterAdd.actionCreator(), {
     successNode: stepThird,
   });
-  const stepFirst = createActionNode(counterAdd({conceptSemaphore}), {
+  const stepFirst = createActionNode(counterAdd.actionCreator(), {
     successNode: stepSecond,
   });
 

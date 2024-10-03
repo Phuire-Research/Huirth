@@ -9,7 +9,7 @@ export const documentObjectModelBindActionStrategyTopic = 'Document Object Model
 export const documentObjectModelBindActionStrategy = (payload: DocumentObjectModelBindPayloadPayload, target: Action) => {
   // Body
   const stepAction = createActionNode(target);
-  const stepBinding = createActionNode(documentObjectModelBindPayload(payload), {
+  const stepBinding = createActionNode(documentObjectModelBindPayload.actionCreator(payload), {
     successNode: stepAction,
   });
   return createStrategy({

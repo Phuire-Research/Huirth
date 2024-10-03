@@ -10,22 +10,27 @@ import { webSocketServerAppendToActionQue } from '../../webSocketServer/qualitie
 import { huirthUpdateProjectStatus } from '../../huirth/qualities/updateProjectToStatus.quality';
 
 export const huirthServerGitPullRepositoryTopic = 'huirthServer git pull target repository';
-export const huirthServerGitPullRepositoryStrategy = (root: string, name:string) => {
+export const huirthServerGitPullRepositoryStrategy = (root: string, name: string) => {
   const dataPath = path.join(root + '/data/repositories/' + name);
-  const stepUpdateProjectStatusToPulled = createActionNode(webSocketServerAppendToActionQue({
-    actionQue: [
-      huirthUpdateProjectStatus({
-        name,
-        status: ProjectStatus.pulled
-      })
-    ]
-  }));
-  const stepGitPull = createActionNode(huirthServerGitPullRepository({
-    path: dataPath
-  }), {
-    successNode: stepUpdateProjectStatusToPulled,
-    agreement: 60000
-  });
+  const stepUpdateProjectStatusToPulled = createActionNode(
+    webSocketServerAppendToActionQue.actionCreator({
+      actionQue: [
+        huirthUpdateProjectStatus.actionCreator({
+          name,
+          status: ProjectStatus.pulled,
+        }),
+      ],
+    })
+  );
+  const stepGitPull = createActionNode(
+    huirthServerGitPullRepository.actionCreator({
+      path: dataPath,
+    }),
+    {
+      successNode: stepUpdateProjectStatusToPulled,
+      agreement: 60000,
+    }
+  );
   return createStrategy({
     topic: huirthServerGitPullRepositoryTopic,
     initialNode: stepGitPull,

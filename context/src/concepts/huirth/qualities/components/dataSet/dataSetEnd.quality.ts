@@ -5,35 +5,34 @@ $>*/
 import { createMethod, nullReducer, strategySuccess } from 'stratimux';
 
 import {
-  createQualitySetComponent,
+  createQualityCardComponent,
   selectComponentPayload,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 
-export const [huirthDataSetEnd, huirthDataSetEndType, huirthDataSetEndQuality] = createQualitySetComponent({
+export const huirthDataSetEnd = createQualityCardComponent({
   type: 'create userInterface for DataSetEnd',
   reducer: nullReducer,
-  componentCreator: (act) =>
-    createMethod((action) => {
-      const payload = selectComponentPayload(action);
-      const id = '';
-      if (action.strategy) {
-        return strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id,
-            boundSelectors: [],
-            universal: false,
-            action: act(payload),
-            html: /*html*/ `
+  componentCreator: createMethod(({ action }) => {
+    const payload = action.payload;
+    const id = '';
+    if (action.strategy) {
+      return strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
+          id,
+          boundSelectors: [],
+          universal: false,
+          action,
+          html: /*html*/ `
       </div>
     </section>
   </div>
           `,
-          })
-        );
-      }
-      return action;
-    }),
+        })
+      );
+    }
+    return action;
+  }),
 });
 /*#>*/

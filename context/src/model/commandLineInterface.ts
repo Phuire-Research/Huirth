@@ -21,7 +21,7 @@ export enum commandLineInterfaceGoals {
 
 export const commandLineInterfaceDetermineGoal = (args: string[]): commandLineInterfaceGoals => {
   let start = false;
-  console.log('CHECK ARGS', args);
+  // console.log('CHECK ARGS', args);
   for (const arg of args) {
     if (!start && arg === GOAL) {
       start = true;

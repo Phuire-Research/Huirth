@@ -8,7 +8,7 @@ import {
   Action,
   createActionNode,
   createMethodBuffer,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStrategy,
   defaultReducer,
   selectPayload,
@@ -20,7 +20,7 @@ type ExperimentBufferNextActionPayload = {
 };
 
 export const [experimentBufferNextAction, experimentBufferNextActionType, experimentBufferNextActionQuality] =
-  createQualitySetWithPayload<ExperimentBufferNextActionPayload>({
+  createQualityCardWithPayload<ExperimentBufferNextActionPayload>({
     type: 'Experiment will buffer incoming actions for a set duration',
     reducer: defaultReducer,
     methodCreator: () =>

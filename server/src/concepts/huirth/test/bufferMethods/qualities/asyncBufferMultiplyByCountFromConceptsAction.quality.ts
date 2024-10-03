@@ -4,24 +4,44 @@ the dispatch of an action assigned to payload.
 $>*/
 /*<#*/
 
-import { CounterState, counterAdd, counterName, createActionNode, createAsyncMethodBufferWithConcepts, createQualitySet, createStrategy, defaultReducer, selectState, strategyBegin } from 'stratimux';
-
+import {
+  CounterState,
+  counterAdd,
+  counterName,
+  createActionNode,
+  createAsyncMethodBufferWithConcepts,
+  createQualityCard,
+  createStrategy,
+  defaultReducer,
+  selectState,
+  strategyBegin,
+} from 'stratimux';
 
 export const [
   experimentAsyncBufferMultiplyByCountFromConcepts,
   experimentAsyncBufferMultiplyByCountFromConceptsType,
-  experimentAsyncBufferMultiplyByCountFromConceptsQuality
-] = createQualitySet({
+  experimentAsyncBufferMultiplyByCountFromConceptsQuality,
+] = createQualityCard({
   type: 'Experiment will asynchronously buffer multiply count using concepts accessing counter state',
   reducer: defaultReducer,
-  methodCreator: (c, s) => createAsyncMethodBufferWithConcepts((controller, _, concepts) => {
-    setTimeout(() => {
-      const counterState = selectState<CounterState>(concepts, counterName);
-      controller.fire(strategyBegin(createStrategy({
-        initialNode: createActionNode(counterAdd()),
-        topic: 'AsyncBuffered Action Topic'
-      })));
-    }, 50);
-  }, c, s, 10)
+  methodCreator: (c, s) =>
+    createAsyncMethodBufferWithConcepts(
+      (controller, _, concepts) => {
+        setTimeout(() => {
+          const counterState = selectState<CounterState>(concepts, counterName);
+          controller.fire(
+            strategyBegin(
+              createStrategy({
+                initialNode: createActionNode(counterAdd()),
+                topic: 'AsyncBuffered Action Topic',
+              })
+            )
+          );
+        }, 50);
+      },
+      c,
+      s,
+      10
+    ),
 });
 /*#>*/

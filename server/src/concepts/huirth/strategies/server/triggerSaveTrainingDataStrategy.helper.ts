@@ -6,5 +6,5 @@ import { createAction } from 'stratimux';
 import { userInterfaceClientSendActionToServer } from '../../../userInterfaceClient/strategies/sendActionToServer.helper';
 
 export const huirthTriggerSaveTrainingDataStrategy = () =>
-  (userInterfaceClientSendActionToServer(createAction('huirthServer trigger save training data strategy')));
+  userInterfaceClientSendActionToServer(createAction('huirthServer trigger save training data strategy'));
 /*#>*/

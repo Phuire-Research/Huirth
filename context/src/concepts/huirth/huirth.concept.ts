@@ -2,27 +2,27 @@
 For the graph programming framework Stratimux generate a Brand Concept called huirth that will act as a Sidekick Application for the Stratimux Framework.
 $>*/
 /*<#*/
-import { createConcept, Concept, unifyConcepts, createCounterConcept, PrincipleFunction, Quality } from 'stratimux';
+import { createConcept, Concept, muxifyConcepts, createCounterConcept, PrincipleFunction, Quality, MuxiumDeck } from 'stratimux';
 import { BrandState } from '../../model/userInterface';
-import { huirthErrorQuality } from './qualities/components/error/error.quality';
-import { huirthHeadQuality } from './qualities/components/head.quality';
-import { huirthStyleQuality } from './qualities/components/style.quality';
-import { huirthFooterQuality } from './qualities/components/footer.quality';
-import { huirthIndexHeroQuality } from './qualities/components/hero/indexHero.quality';
-import { huirthIndexDialogBeginQuality } from './qualities/components/dialog/indexDialogBegin.quality';
-import { huirthIndexDialogContentQuality } from './qualities/components/dialog/indexDialogContent.quality';
-import { huirthIndexDialogEndQuality } from './qualities/components/dialog/indexDialogEnd.quality';
-import { huirthAppendAxiumDialogQuality } from './qualities/appendAxiumDialog.quality';
+import { huirthError } from './qualities/components/error/error.quality';
+import { huirthHead } from './qualities/components/head.quality';
+import { huirthStyle } from './qualities/components/style.quality';
+import { huirthFooter } from './qualities/components/footer.quality';
+import { huirthIndexHero } from './qualities/components/hero/indexHero.quality';
+import { huirthIndexDialogBegin } from './qualities/components/dialog/indexDialogBegin.quality';
+import { huirthIndexDialogContent } from './qualities/components/dialog/indexDialogContent.quality';
+import { huirthIndexDialogEnd } from './qualities/components/dialog/indexDialogEnd.quality';
+import { huirthAppendMuxiumDialog } from './qualities/appendMuxiumDialog.quality';
 import { huirthDialogPrinciple } from './huirth.principle';
 import { huirthTrainingDataPagePrinciple } from './huirth.trainingDataPage.principle';
 import { huirthIndexPageStrategy } from './strategies/pages/indexPage.strategy';
 import { huirthErrorPageStrategy } from './strategies/pages/errorPage.strategy';
-import { huirthIndexDPOBeginQuality } from './qualities/components/DPO/DPOBegin.quality';
-import { huirthIndexDPOContentQuality } from './qualities/components/DPO/DPOContent.quality';
-import { huirthIndexDPOEndQuality } from './qualities/components/DPO/DPOEnd.quality';
-import { huirthUpdateFromPromptPayloadQuality } from './qualities/updateFromPromptPayload.quality';
-import { huirthUpdateFromChosenPayloadQuality } from './qualities/updateFromChosenPayload.quality';
-import { huirthUpdateFromRejectedPayloadQuality } from './qualities/updateFromRejectedPayload.quality';
+import { huirthIndexDPOBegin } from './qualities/components/DPO/DPOBegin.quality';
+import { huirthIndexDPOContent } from './qualities/components/DPO/DPOContent.quality';
+import { huirthIndexDPOEnd } from './qualities/components/DPO/DPOEnd.quality';
+import { huirthUpdateFromPromptPayload } from './qualities/updateFromPromptPayload.quality';
+import { huirthUpdateFromChosenPayload } from './qualities/updateFromChosenPayload.quality';
+import { huirthUpdateFromRejectedPayload } from './qualities/updateFromRejectedPayload.quality';
 import {
   Active_DPO,
   GeneralProjectStatuses,
@@ -34,48 +34,49 @@ import {
   huirthVerboseAdditionAndSubtractionStrategySelect,
   huirthVerboseSubtractionStrategySelect,
 } from './huirth.model';
-import { huirthNewDataSetEntryQuality } from './qualities/newDataSetEntry.quality';
-import { huirthTriggerMinusCountingStrategyQuality } from './qualities/triggerMinusCounterStrategy.quality';
-import { huirthTriggerPlusCountingStrategyQuality } from './qualities/triggerPlusCounterStrategy.quality';
-import { huirthTriggerRandomCountingStrategyQuality } from './qualities/triggerRandomCounterStrategy.quality';
+import { huirthNewDataSetEntry } from './qualities/newDataSetEntry.quality';
+import { huirthTriggerMinusCountingStrategy } from './qualities/triggerMinusCounterStrategy.quality';
+import { huirthTriggerPlusCountingStrategy } from './qualities/triggerPlusCounterStrategy.quality';
+import { huirthTriggerRandomCountingStrategy } from './qualities/triggerRandomCounterStrategy.quality';
 import { huirthDataManagerPageStrategy } from './strategies/pages/dataManagerPage.strategy';
-import { huirthDataManagerBeginQuality } from './qualities/components/dataManager/dataManagerBegin.quality';
-import { huirthDataManagerContentQuality } from './qualities/components/dataManager/dataManagerContent.quality';
-import { huirthDataManagerEndQuality } from './qualities/components/dataManager/dataManagerEnd.quality';
-import { huirthSideBarBeginQuality } from './qualities/components/sideBar/sideBarBegin.quality';
-import { huirthSideBarContentQuality } from './qualities/components/sideBar/sideBarContent.quality';
-import { huirthSideBarEndQuality } from './qualities/components/sideBar/sideBarEnd.quality';
-import { huirthToggleSidebarQuality } from './qualities/toggleSidebar.quality';
-import { huirthNewDPOEntryQuality } from './qualities/newDPOEntry.quality';
-import { huirthNewDataSetQuality } from './qualities/newDataSet.quality';
-import { huirthUpdateDataSetNameQuality } from './qualities/updateDataSetName.quality';
-import { huirthDataSetBeginQuality } from './qualities/components/dataSet/dataSetBegin.quality';
-import { huirthDataSetEndQuality } from './qualities/components/dataSet/dataSetEnd.quality';
-import { huirthDataSetContentQuality } from './qualities/components/dataSet/dataSetContent.quality';
-import { huirthUpdateDataSetContentsQuality } from './qualities/updateDataSetContents.quality';
-import { huirthUpdateDataSetPromptQuality } from './qualities/updateDataSetPrompt.quality';
-import { huirthUpdateProjectStatusQuality } from './qualities/updateProjectToStatus.quality';
-import { huirthTriggerInstallGitRepositoryQuality } from './qualities/triggerInstallGitRepository.quality';
-import { huirthUpdateParsedProjectDataSetQuality } from './qualities/updateParsedProjectDataSet.quality';
-import { huirthUpdateDataSetSelectionQuality } from './qualities/updateDataSetSelection.quality';
-import { huirthSendTriggerParseRepositoryStrategyQuality } from './qualities/sendTriggerParseRepositoryStrategy.quality';
-import { huirthSendTriggerSaveDataSetSelectionStrategyQuality } from './qualities/sendTriggerSaveDataSetSelectionStrategy.quality';
-import { huirthUpdateProjectStatusToSavedQuality } from './qualities/updateProjectToSaved.quality';
-import { huirthRemoveDataSetSelectionQuality } from './qualities/removeDataSetSelection.quality';
-import { huirthSendTriggerDeleteDataSetsStrategyQuality } from './qualities/sendTriggerDeleteDataSetsStrategy.quality';
-import { huirthSetPossibleProjectQuality } from './qualities/setPossibleProject.quality';
-import { huirthFilterTriggerInstallGitRepositoryQuality } from './qualities/filterTriggerInstallGitRepository.quality';
-import { huirthSetDataSetQuality } from './qualities/setDataSet.quality';
-import { huirthSetSelectedTransformationQuality } from './qualities/setSelectedTransformation.quality';
-import { huirthSendTriggerSelectedTransformationStrategyQuality } from './qualities/sendTriggerSelectedTransformationStrategy.quality';
-import { huirthClearDataSetSelectionQuality } from './qualities/clearDataSetSelection.quality';
-import { huirthSetTrainingDataPageQuality } from './qualities/setTrainingDataPage.quality';
-import { huirthFilterTrainingDataPageQuality } from './qualities/filterTrainingDataPage.quality';
-import { huirthSetTrainingDataInitializedQuality } from './qualities/setTrainingDataInitialized.quality';
-import { huirthTriggerAddTrainingDataPageQuality } from './qualities/triggerAddTrainingDataPageStrategy.quality';
-import { huirthSendAddTrainingPageStrategyQuality } from './qualities/sendTriggerAddTrainingPageStrategy.quality';
-import { huirthSendRemoveAddTrainingPageStrategyQuality } from './qualities/sendTriggerRemoveAddTrainingPageStrategy.quality';
-import { huirthTriggerRemoveAddTrainingDataPageQuality } from './qualities/triggerRemoveAddTrainingDataPageStrategy.quality';
+import { huirthDataManagerBegin } from './qualities/components/dataManager/dataManagerBegin.quality';
+import { huirthDataManagerContent } from './qualities/components/dataManager/dataManagerContent.quality';
+import { huirthDataManagerEnd } from './qualities/components/dataManager/dataManagerEnd.quality';
+import { huirthSideBarBegin } from './qualities/components/sideBar/sideBarBegin.quality';
+import { huirthSideBarContent } from './qualities/components/sideBar/sideBarContent.quality';
+import { huirthSideBarEnd } from './qualities/components/sideBar/sideBarEnd.quality';
+import { huirthToggleSidebar } from './qualities/toggleSidebar.quality';
+import { huirthNewDPOEntry } from './qualities/newDPOEntry.quality';
+import { huirthNewDataSet } from './qualities/newDataSet.quality';
+import { huirthUpdateDataSetName } from './qualities/updateDataSetName.quality';
+import { huirthDataSetBegin } from './qualities/components/dataSet/dataSetBegin.quality';
+import { huirthDataSetEnd } from './qualities/components/dataSet/dataSetEnd.quality';
+import { huirthDataSetContent } from './qualities/components/dataSet/dataSetContent.quality';
+import { huirthUpdateDataSetContents } from './qualities/updateDataSetContents.quality';
+import { huirthUpdateDataSetPrompt } from './qualities/updateDataSetPrompt.quality';
+import { huirthUpdateProjectStatus } from './qualities/updateProjectToStatus.quality';
+import { huirthTriggerInstallGitRepository } from './qualities/triggerInstallGitRepository.quality';
+import { huirthUpdateParsedProjectDataSet } from './qualities/updateParsedProjectDataSet.quality';
+import { huirthUpdateDataSetSelection } from './qualities/updateDataSetSelection.quality';
+import { huirthSendTriggerParseRepositoryStrategy } from './qualities/sendTriggerParseRepositoryStrategy.quality';
+import { huirthSendTriggerSaveDataSetSelectionStrategy } from './qualities/sendTriggerSaveDataSetSelectionStrategy.quality';
+import { huirthUpdateProjectStatusToSaved } from './qualities/updateProjectToSaved.quality';
+import { huirthRemoveDataSetSelection } from './qualities/removeDataSetSelection.quality';
+import { huirthSendTriggerDeleteDataSetsStrategy } from './qualities/sendTriggerDeleteDataSetsStrategy.quality';
+import { huirthSetPossibleProject } from './qualities/setPossibleProject.quality';
+import { huirthFilterTriggerInstallGitRepository } from './qualities/filterTriggerInstallGitRepository.quality';
+import { huirthSetDataSet } from './qualities/setDataSet.quality';
+import { huirthSetSelectedTransformation } from './qualities/setSelectedTransformation.quality';
+import { huirthSendTriggerSelectedTransformationStrategy } from './qualities/sendTriggerSelectedTransformationStrategy.quality';
+import { huirthClearDataSetSelection } from './qualities/clearDataSetSelection.quality';
+import { huirthSetTrainingDataPage } from './qualities/setTrainingDataPage.quality';
+import { huirthFilterTrainingDataPage } from './qualities/filterTrainingDataPage.quality';
+import { huirthSetTrainingDataInitialized } from './qualities/setTrainingDataInitialized.quality';
+import { huirthTriggerAddTrainingDataPage } from './qualities/triggerAddTrainingDataPageStrategy.quality';
+import { huirthSendAddTrainingPageStrategy } from './qualities/sendTriggerAddTrainingPageStrategy.quality';
+import { huirthSendRemoveAddTrainingPageStrategy } from './qualities/sendTriggerRemoveAddTrainingPageStrategy.quality';
+import { huirthTriggerRemoveAddTrainingDataPage } from './qualities/triggerRemoveAddTrainingDataPageStrategy.quality';
+import { createUserInterfaceState, UserInterfaceState } from '../userInterface/userInterface.concept';
 
 export const huirthName = 'huirth';
 export type huirthState = {
@@ -95,10 +96,12 @@ export type huirthState = {
   trainingDataPages: string[];
   trainingDataCounter: number;
   activeDPO: Active_DPO[];
-} & BrandState;
+} & BrandState &
+  UserInterfaceState;
 
 const createHuirthState = (): huirthState => {
   return {
+    ...createUserInterfaceState([]),
     mock: 0,
     dialog: '',
     transformationStrategies: [
@@ -123,67 +126,71 @@ const createHuirthState = (): huirthState => {
   };
 };
 
-export const createHuirthConcept = (): Concept => {
-  const principles: PrincipleFunction[] = [huirthDialogPrinciple, huirthTrainingDataPagePrinciple];
-  const qualities: Quality[] = [
-    huirthHeadQuality,
-    huirthStyleQuality,
-    huirthFooterQuality,
-    huirthSideBarBeginQuality,
-    huirthSideBarContentQuality,
-    huirthSideBarEndQuality,
-    huirthIndexHeroQuality,
-    huirthIndexDialogBeginQuality,
-    huirthIndexDialogContentQuality,
-    huirthIndexDialogEndQuality,
-    huirthErrorQuality,
-    huirthAppendAxiumDialogQuality,
-    huirthIndexDPOBeginQuality,
-    huirthIndexDPOContentQuality,
-    huirthIndexDPOEndQuality,
-    huirthClearDataSetSelectionQuality,
-    huirthDataManagerBeginQuality,
-    huirthDataManagerContentQuality,
-    huirthDataManagerEndQuality,
-    huirthDataSetBeginQuality,
-    huirthDataSetContentQuality,
-    huirthDataSetEndQuality,
-    huirthSendTriggerParseRepositoryStrategyQuality,
-    huirthSendTriggerSaveDataSetSelectionStrategyQuality,
-    huirthSendTriggerDeleteDataSetsStrategyQuality,
-    huirthSendTriggerSelectedTransformationStrategyQuality,
-    huirthUpdateFromPromptPayloadQuality,
-    huirthUpdateFromChosenPayloadQuality,
-    huirthUpdateFromRejectedPayloadQuality,
-    huirthUpdateDataSetNameQuality,
-    huirthUpdateDataSetContentsQuality,
-    huirthUpdateDataSetPromptQuality,
-    huirthUpdateProjectStatusQuality,
-    huirthUpdateDataSetSelectionQuality,
-    huirthUpdateParsedProjectDataSetQuality,
-    huirthUpdateProjectStatusToSavedQuality,
-    huirthNewDataSetEntryQuality,
-    huirthNewDataSetQuality,
-    huirthNewDPOEntryQuality,
-    huirthRemoveDataSetSelectionQuality,
-    huirthTriggerMinusCountingStrategyQuality,
-    huirthTriggerPlusCountingStrategyQuality,
-    huirthTriggerRandomCountingStrategyQuality,
-    huirthTriggerInstallGitRepositoryQuality,
-    huirthToggleSidebarQuality,
-    huirthSetPossibleProjectQuality,
-    huirthFilterTriggerInstallGitRepositoryQuality,
-    huirthSetDataSetQuality,
-    huirthSetSelectedTransformationQuality,
-    huirthSetTrainingDataPageQuality,
-    huirthFilterTrainingDataPageQuality,
-    huirthSetTrainingDataInitializedQuality,
-    huirthSendAddTrainingPageStrategyQuality,
-    huirthTriggerAddTrainingDataPageQuality,
-    huirthSendRemoveAddTrainingPageStrategyQuality,
-    huirthTriggerRemoveAddTrainingDataPageQuality,
-  ];
+const qualities = {
+  huirthHead,
+  huirthStyle,
+  huirthFooter,
+  huirthSideBarBegin,
+  huirthSideBarContent,
+  huirthSideBarEnd,
+  huirthIndexHero,
+  huirthIndexDialogBegin,
+  huirthIndexDialogContent,
+  huirthIndexDialogEnd,
+  huirthError,
+  huirthAppendMuxiumDialog,
+  huirthIndexDPOBegin,
+  huirthIndexDPOContent,
+  huirthIndexDPOEnd,
+  huirthClearDataSetSelection,
+  huirthDataManagerBegin,
+  huirthDataManagerContent,
+  huirthDataManagerEnd,
+  huirthDataSetBegin,
+  huirthDataSetContent,
+  huirthDataSetEnd,
+  huirthSendTriggerParseRepositoryStrategy,
+  huirthSendTriggerSaveDataSetSelectionStrategy,
+  huirthSendTriggerDeleteDataSetsStrategy,
+  huirthSendTriggerSelectedTransformationStrategy,
+  huirthUpdateFromPromptPayload,
+  huirthUpdateFromChosenPayload,
+  huirthUpdateFromRejectedPayload,
+  huirthUpdateDataSetName,
+  huirthUpdateDataSetContents,
+  huirthUpdateDataSetPrompt,
+  huirthUpdateProjectStatus,
+  huirthUpdateDataSetSelection,
+  huirthUpdateParsedProjectDataSet,
+  huirthUpdateProjectStatusToSaved,
+  huirthNewDataSetEntry,
+  huirthNewDataSet,
+  huirthNewDPOEntry,
+  huirthRemoveDataSetSelection,
+  huirthTriggerMinusCountingStrategy,
+  huirthTriggerPlusCountingStrategy,
+  huirthTriggerRandomCountingStrategy,
+  huirthTriggerInstallGitRepository,
+  huirthToggleSidebar,
+  huirthSetPossibleProject,
+  huirthFilterTriggerInstallGitRepository,
+  huirthSetDataSet,
+  huirthSetSelectedTransformation,
+  huirthSetTrainingDataPage,
+  huirthFilterTrainingDataPage,
+  huirthSetTrainingDataInitialized,
+  huirthSendAddTrainingPageStrategy,
+  huirthTriggerAddTrainingDataPage,
+  huirthSendRemoveAddTrainingPageStrategy,
+  huirthTriggerRemoveAddTrainingDataPage,
+};
+export type HuirthDeck = {
+  huirth: Concept<huirthState, typeof qualities>;
+};
+export type HuirthPrinciple = PrincipleFunction<typeof qualities, MuxiumDeck & HuirthDeck, huirthState>;
+export const createHuirthConcept = () => {
+  const principles = [huirthDialogPrinciple, huirthTrainingDataPagePrinciple];
   // This is temporary, the complete flow would allow for all server logic to remain on the server.
-  return unifyConcepts([createCounterConcept()], createConcept(huirthName, createHuirthState(), qualities, principles, []));
+  return muxifyConcepts([createCounterConcept()], createConcept(huirthName, createHuirthState(), qualities, principles, []));
 };
 /*#>*/

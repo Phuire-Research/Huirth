@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a quality that will update a specified universal component based on the incoming bound selector.
 $>*/
 /*<#*/
-import { Action, createQualitySetWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
+import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
 import { BoundSelectors, userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 
@@ -10,14 +10,13 @@ export type UserInterfaceUpdateUniversalComponentPayload = {
   bound: BoundSelectors;
 };
 
-export const [
-  userInterfaceUpdateUniversalComponent,
-  userInterfaceUpdateUniversalComponentType,
-  userInterfaceUpdateUniversalComponentQuality,
-] = createQualitySetWithPayload<UserInterfaceUpdateUniversalComponentPayload>({
+export const userInterfaceUpdateUniversalComponent = createQualityCardWithPayload<
+  UserInterfaceState,
+  UserInterfaceUpdateUniversalComponentPayload
+>({
   type: 'User Interface update universal component',
-  reducer: (state: UserInterfaceState, action: Action): UserInterfaceState => {
-    const payload = selectPayload<UserInterfaceUpdateUniversalComponentPayload>(action);
+  reducer: (state, action) => {
+    const { payload } = action;
     if (action.strategy) {
       const pageData = userInterface_selectPage(action.strategy);
       const composition = pageData.compositions.filter((comp) => comp.id === payload.bound.id)[0];

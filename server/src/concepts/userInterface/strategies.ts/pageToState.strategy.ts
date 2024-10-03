@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate an ActionStrategy that will recompose a page creation strategy to add its final composition to the state.
 $>*/
 /*<#*/
-import { ActionNode, ActionStrategy, ActionStrategyStitch, axiumLog, createActionNode, createStrategy } from 'stratimux';
+import { ActionNode, ActionStrategy, ActionStrategyStitch, muxiumLog, createActionNode, createStrategy } from 'stratimux';
 import { userInterfaceAddComposedPageToState } from '../qualities/addComposedPageToState.quality';
 
 /**
@@ -11,13 +11,10 @@ import { userInterfaceAddComposedPageToState } from '../qualities/addComposedPag
  * @returns ActionStrategy
  */
 export function userInterfacePageToStateStrategy(stitch: ActionStrategyStitch): ActionStrategy {
-  const stepAddToState = createActionNode(userInterfaceAddComposedPageToState());
+  const stepAddToState = createActionNode(userInterfaceAddComposedPageToState.actionCreator());
 
-  const [
-    end,
-    strategy
-  ] = stitch();
-  // const log = createActionNode(axiumLog(), {
+  const [end, strategy] = stitch();
+  // const log = createActionNode(muxiumLog(), {
   //   successNode: stepAddToState
   // });
   end.successNode = stepAddToState;
@@ -25,18 +22,15 @@ export function userInterfacePageToStateStrategy(stitch: ActionStrategyStitch): 
   return createStrategy({
     topic: strategy.topic,
     initialNode: strategy.currentNode,
-    data: strategy.data
+    data: strategy.data,
   });
 }
 
 export function userInterfacePageToStateStrategyStitch(stitch: ActionStrategyStitch): [ActionNode, ActionStrategy] {
-  const stepAddToState = createActionNode(userInterfaceAddComposedPageToState());
+  const stepAddToState = createActionNode(userInterfaceAddComposedPageToState.actionCreator());
 
-  const [
-    end,
-    strategy
-  ] = stitch();
-  // const log = createActionNode(axiumLog(), {
+  const [end, strategy] = stitch();
+  // const log = createActionNode(muxiumLog(), {
   //   successNode: stepAddToState
   // });
   end.successNode = stepAddToState;
@@ -46,8 +40,8 @@ export function userInterfacePageToStateStrategyStitch(stitch: ActionStrategySti
     createStrategy({
       topic: strategy.topic,
       initialNode: strategy.currentNode,
-      data: strategy.data
-    })
+      data: strategy.data,
+    }),
   ];
 }
 /*#>*/

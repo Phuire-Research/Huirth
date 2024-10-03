@@ -8,12 +8,12 @@ import { ProjectStatus } from '../huirth.model';
 import { huirthTriggerCloneGitRepositoryStrategy } from './server/triggerCloneGitRepositoryStrategy.helper';
 
 export const huirthInstallGitRepositoryStrategyTopic = 'huirth set project status to installing then trigger git clone strategy on server';
-export const huirthInstallGitRepositoryStrategy = (url: string, name:string) => {
+export const huirthInstallGitRepositoryStrategy = (url: string, name: string) => {
   const stepSendToServer = createActionNode(huirthTriggerCloneGitRepositoryStrategy(url, name), {
     // TODO: If failed we can use open to load a window with the git install webpage
     failureNode: null,
   });
-  const stepUpdateToInstalling = createActionNode(huirthUpdateProjectStatus({name, status: ProjectStatus.installing}), {
+  const stepUpdateToInstalling = createActionNode(huirthUpdateProjectStatus.actionCreator({ name, status: ProjectStatus.installing }), {
     successNode: stepSendToServer,
   });
   return createStrategy({

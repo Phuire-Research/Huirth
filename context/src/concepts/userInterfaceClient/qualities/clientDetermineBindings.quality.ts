@@ -7,7 +7,7 @@ import {
   ActionNode,
   createActionNode,
   createMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
   strategySuccess,
@@ -16,6 +16,7 @@ import { UserInterfaceBindings, userInterface_selectPage } from '../../../model/
 import { Subject } from 'rxjs';
 import { userInterfaceEnd } from '../../userInterface/qualities/end.quality';
 import { documentObjectModelBind } from '../../documentObjectModel/qualities/bind.quality';
+import { UserInterfaceClientState } from '../userInterfaceClient.concept';
 
 export type UserInterfaceClientActionQueStrategyClientPayload = {
   action$: Subject<Action>;
@@ -27,17 +28,17 @@ const createBindingActionNode = (action$: Subject<Action>, bindings: UserInterfa
   for (const key of bindingKeys) {
     for (const bind of bindings[key]) {
       if (previous) {
-        const node = createActionNode(documentObjectModelBind({ action$, binding: bind, id: key }));
+        const node = createActionNode(documentObjectModelBind.actionCreator({ action$, binding: bind, id: key }));
         previous.successNode = node;
         previous = node;
       } else {
-        const node = createActionNode(documentObjectModelBind({ action$, binding: bind, id: key }));
+        const node = createActionNode(documentObjectModelBind.actionCreator({ action$, binding: bind, id: key }));
         first = node;
         previous = node;
       }
     }
   }
-  const end = createActionNode(userInterfaceEnd());
+  const end = createActionNode(userInterfaceEnd.actionCreator());
   if (previous) {
     previous.successNode = end;
   } else {
@@ -46,31 +47,33 @@ const createBindingActionNode = (action$: Subject<Action>, bindings: UserInterfa
   return first as ActionNode;
 };
 
-export const [userInterfaceClientDetermineBindings, userInterfaceClientDetermineBindingsType, userInterfaceClientDetermineBindingsQuality] =
-  createQualitySetWithPayload<UserInterfaceClientActionQueStrategyClientPayload>({
-    type: 'User Interface determine bindings of all passed compositions',
-    reducer: nullReducer,
-    methodCreator: () =>
-      createMethod((action) => {
-        if (action.strategy) {
-          const payload = selectPayload<UserInterfaceClientActionQueStrategyClientPayload>(action);
-          let bindings: UserInterfaceBindings = {};
-          userInterface_selectPage(action.strategy).compositions.forEach((comp) => {
-            if (comp.bindings) {
-              bindings = {
-                ...bindings,
-                ...comp.bindings,
-              };
-            }
-          });
-          const action$ = payload.action$;
-          if (Object.keys(bindings).length > 0) {
-            const stepBinding = createBindingActionNode(action$, bindings);
-            action.strategy.currentNode.successNode = stepBinding;
-            return strategySuccess(action.strategy);
+export const userInterfaceClientDetermineBindings = createQualityCardWithPayload<
+  UserInterfaceClientState,
+  UserInterfaceClientActionQueStrategyClientPayload
+>({
+  type: 'User Interface determine bindings of all passed compositions',
+  reducer: nullReducer,
+  methodCreator: () =>
+    createMethod(({ action }) => {
+      if (action.strategy) {
+        const { payload } = action;
+        let bindings: UserInterfaceBindings = {};
+        userInterface_selectPage(action.strategy).compositions.forEach((comp) => {
+          if (comp.bindings) {
+            bindings = {
+              ...bindings,
+              ...comp.bindings,
+            };
           }
+        });
+        const action$ = payload.action$;
+        if (Object.keys(bindings).length > 0) {
+          const stepBinding = createBindingActionNode(action$, bindings);
+          action.strategy.currentNode.successNode = stepBinding;
+          return strategySuccess(action.strategy);
         }
-        return action;
-      }),
-  });
+      }
+      return action;
+    }),
+});
 /*#>*/

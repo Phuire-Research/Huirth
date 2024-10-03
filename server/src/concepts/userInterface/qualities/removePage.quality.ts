@@ -2,28 +2,19 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a quality that will remove a page and page strategy creator from state based on the provided name in the payload.
 $>*/
 /*<#*/
-import {
-  Action,
-  createQualitySetWithPayload,
-  defaultMethodCreator,
-  selectPayload,
-} from 'stratimux';
+import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
 import { BoundSelectors, Page, PageStrategyCreators } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 
 export type UserInterfaceRemovePagePayload = {
-  name: string,
-}
+  name: string;
+};
 
-export const [
-  userInterfaceRemovePage,
-  userInterfaceRemovePageType,
-  userInterfaceRemovePageQuality
-] = createQualitySetWithPayload<UserInterfaceRemovePagePayload>({
+export const userInterfaceRemovePage = createQualityCardWithPayload<UserInterfaceState, UserInterfaceRemovePagePayload>({
   type: 'User Interface Remove Page',
-  reducer: (state: UserInterfaceState, action: Action): UserInterfaceState => {
+  reducer: (state, action) => {
     const payload = selectPayload<UserInterfaceRemovePagePayload>(action);
-    const {pageStrategies, pages} = state;
+    const { pageStrategies, pages } = state;
     const newPageStrategies: PageStrategyCreators[] = [];
     const newPages: Page[] = [];
     for (const [i, page] of pages.entries()) {
@@ -34,7 +25,7 @@ export const [
             for (const bound of comp.boundSelectors) {
               cachedSelectors.push({
                 ...bound,
-                semaphore: [i, compIndex]
+                semaphore: [i, compIndex],
               });
             }
           }
@@ -45,11 +36,10 @@ export const [
       }
     }
     return {
-      ...state,
       pages: newPages,
-      pageStrategies: newPageStrategies
+      pageStrategies: newPageStrategies,
     };
   },
-  methodCreator: defaultMethodCreator
+  methodCreator: defaultMethodCreator,
 });
 /*#>*/

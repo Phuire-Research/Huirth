@@ -6,7 +6,11 @@ import { createAction } from 'stratimux';
 import { userInterfaceClientSendActionToServer } from '../../../userInterfaceClient/strategies/sendActionToServer.helper';
 
 export const huirthSendTriggerTransformationStrategy = (selection: string) =>
-  (userInterfaceClientSendActionToServer(createAction('huirthServer trigger passed transformation strategy from payload', {payload: {
-    selection
-  }})));
+  userInterfaceClientSendActionToServer(
+    createAction('huirthServer trigger passed transformation strategy from payload', {
+      payload: {
+        selection,
+      },
+    })
+  );
 /*#>*/

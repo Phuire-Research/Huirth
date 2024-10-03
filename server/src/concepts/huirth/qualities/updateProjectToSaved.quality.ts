@@ -2,28 +2,19 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that will update a project's status to saved.
 $>*/
 /*<#*/
-import {
-  Action,
-  createQualitySetWithPayload,
-  defaultMethodCreator,
-  selectPayload,
-} from 'stratimux';
+import { Action, createQualityCardWithPayload, defaultMethodCreator, selectPayload } from 'stratimux';
 import { huirthState } from '../huirth.concept';
 import { PhuirEProjects, ProjectStatus, TrainingData } from '../huirth.model';
 
 export type huirthUpdateProjectStatusToSavedPayload = {
-  name: string
-}
+  name: string;
+};
 
-export const [
-  huirthUpdateProjectStatusToSaved,
-  huirthUpdateProjectStatusToSavedType,
-  huirthUpdateProjectStatusToSavedQuality
-] = createQualitySetWithPayload<huirthUpdateProjectStatusToSavedPayload>({
+export const huirthUpdateProjectStatusToSaved = createQualityCardWithPayload<huirthState, huirthUpdateProjectStatusToSavedPayload>({
   type: 'huirth update project status to saved',
-  reducer: (state: huirthState, action: Action): huirthState => {
-    const { name } = selectPayload<huirthUpdateProjectStatusToSavedPayload>(action);
-    let {projectsStatuses, stratimuxStatus, huirthStatus} = state;
+  reducer: (state, action) => {
+    const { name } = action.payload;
+    let { projectsStatuses, stratimuxStatus, huirthStatus } = state;
     console.log('HIT UPDATED SAVED STATUS!!', name);
     let added = false;
     if (name.toLowerCase() === PhuirEProjects.stratimux) {
@@ -45,18 +36,17 @@ export const [
       if (!added) {
         newStatuses.push({
           name: name,
-          status: ProjectStatus.saved
+          status: ProjectStatus.saved,
         });
       }
       projectsStatuses = newStatuses;
     }
     return {
-      ...state,
       stratimuxStatus,
       huirthStatus,
-      projectsStatuses
+      projectsStatuses,
     };
   },
-  methodCreator: defaultMethodCreator
+  methodCreator: defaultMethodCreator,
 });
 /*#>*/

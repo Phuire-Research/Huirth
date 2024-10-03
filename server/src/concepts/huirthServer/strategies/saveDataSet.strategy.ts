@@ -15,32 +15,31 @@ import { huirthAddTrainingDataPageStrategy } from '../../huirth/strategies/addPa
 
 export const huirthServerSaveDataSetStrategyTopic = 'Save a data set to its own directory';
 export const huirthServerSaveDataSetStrategy = (root: string, dataSet: NamedDataSet, name: string, concepts: Concepts) => {
-  console.log('HITTING HERE');
+  // console.log('HITTING HERE');
   const dataPath = path.join(root + '/data/sets/' + name);
-  const saveFormat  = convertNamedDataSetToSaveFormat(dataSet);
+  const saveFormat = convertNamedDataSetToSaveFormat(dataSet);
   const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(name);
-  const stepAdd = createActionNodeFromStrategy(huirthAddTrainingDataPageStrategy(
-    name,
-    generatedTrainingDataPage,
-    concepts,
-  ));
+  const stepAdd = createActionNodeFromStrategy(huirthAddTrainingDataPageStrategy(name, generatedTrainingDataPage, concepts));
   const stepUpdateProjectUpdateParsedProjectDataToClient = createActionNode(huirthServerSendUpdateParsedProjectData(dataSet), {
-    successNode: stepAdd
+    successNode: stepAdd,
   });
-  const stepCreateFileWithContents = createActionNode(fileSystemCreateFileWithContentsIndex({
-    target: path.join(dataPath + '/' + dataSet.name + '.json'),
-    content: JSON.stringify(saveFormat)
-  }), {
-    successNode: stepUpdateProjectUpdateParsedProjectDataToClient,
-    agreement: 20000
-  });
-  const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory({path: dataPath}), {
+  const stepCreateFileWithContents = createActionNode(
+    fileSystemCreateFileWithContentsIndex.actionCreator({
+      target: path.join(dataPath + '/' + dataSet.name + '.json'),
+      content: JSON.stringify(saveFormat),
+    }),
+    {
+      successNode: stepUpdateProjectUpdateParsedProjectDataToClient,
+      agreement: 20000,
+    }
+  );
+  const stepCreateDirectory = createActionNode(fileSystemCreateTargetDirectory.actionCreator({ path: dataPath }), {
     successNode: stepCreateFileWithContents,
-    agreement: 20000
+    agreement: 20000,
   });
-  const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory({path: dataPath}), {
+  const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory.actionCreator({ path: dataPath }), {
     successNode: stepCreateDirectory,
-    agreement: 20000
+    agreement: 20000,
   });
   return createStrategy({
     topic: huirthServerSaveDataSetStrategyTopic,

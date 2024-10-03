@@ -12,7 +12,7 @@ export function userInterfaceAddNewPageStrategy(name: string, pageStrategy: Page
   const strategy = userInterfacePageToStateStrategy(pageStrategy(concepts));
   const stepPageToState = createActionNodeFromStrategy(strategy);
   const stepAddToState = createActionNode(
-    userInterfaceAddNewPage({
+    userInterfaceAddNewPage.actionCreator({
       pageStrategy,
     }),
     {

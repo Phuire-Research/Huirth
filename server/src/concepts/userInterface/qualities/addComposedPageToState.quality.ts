@@ -2,32 +2,22 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a quality that will add a page and its compositions to the state, while update the cached selectors to enable atomic operations.
 $>*/
 /*<#*/
-import {
-  Action,
-  KeyedSelector,
-  createMethod,
-  createQualitySet,
-  strategySuccess,
-} from 'stratimux';
+import { Action, KeyedSelector, createMethod, createQualityCard, strategySuccess } from 'stratimux';
 import { BoundSelectors, Composition, userInterface_selectPage } from '../../../model/userInterface';
 import { UserInterfaceState } from '../userInterface.concept';
 
-export const [
-  userInterfaceAddComposedPageToState,
-  userInterfaceAddComposedPageToStateType,
-  userInterfaceAddComposedPageToStateQuality
-] = createQualitySet({
+export const userInterfaceAddComposedPageToState = createQualityCard<UserInterfaceState>({
   type: 'User Interface add composed Page to State',
-  reducer: (state: UserInterfaceState, action: Action): UserInterfaceState => {
+  reducer: (state, action) => {
     if (action.strategy) {
       const boundSelectors: Record<string, BoundSelectors[]> = {};
       const mapSelectors: Map<string, KeyedSelector> = new Map();
       const page = userInterface_selectPage(action.strategy);
-      console.log('CHECK PAGE COUNT', state.pages.length);
+      // console.log('CHECK PAGE COUNT', state.pages.length);
       const newComponents = [...state.components];
       const cachedComponentSelectors: BoundSelectors[] = [];
       const isUnique: Record<string, boolean> = {};
-      const newPages = state.pages.filter(_page => {
+      const newPages = state.pages.filter((_page) => {
         return page.title !== _page.title;
       });
       newPages.push(page);
@@ -38,8 +28,8 @@ export const [
             for (const bound of comp.boundSelectors) {
               bound.semaphore = [i, compIndex];
               // console.log('SET', bound.action, bound.semaphore);
-              comp.boundSelectors.forEach(b => {
-                b.selectors.forEach(s => {
+              comp.boundSelectors.forEach((b) => {
+                b.selectors.forEach((s) => {
                   if (boundSelectors[s.keys]) {
                     boundSelectors[s.keys].push(b);
                   } else {
@@ -70,7 +60,7 @@ export const [
                 // -1 to throw error if this is ever improperly handled
                 bound.semaphore = [-1, setIndex];
                 cachedComponentSelectors.push(bound);
-                bound.selectors.forEach(s => {
+                bound.selectors.forEach((s) => {
                   if (boundSelectors[s.keys]) {
                     boundSelectors[s.keys].push(bound);
                   } else {
@@ -80,13 +70,13 @@ export const [
                   mapSelectors.set(s.keys, s);
                 });
               });
-              const composition: Composition = {...comp};
+              const composition: Composition = { ...comp };
               newComponents.push(composition);
             } else if (possibleSemaphore !== -1) {
               p.compositions[compIndex] = {
-                ...state.components[possibleSemaphore]
+                ...state.components[possibleSemaphore],
               };
-              p.compositions[compIndex].boundSelectors.forEach(bound => {
+              p.compositions[compIndex].boundSelectors.forEach((bound) => {
                 cachedComponentSelectors.push(bound);
               });
             }
@@ -100,25 +90,23 @@ export const [
         selectors.push(keyed);
       });
       return {
-        ...state,
         pages: newPages,
         components: newComponents,
         pagesCached: true,
         boundSelectors,
-        selectors
+        selectors,
       };
     }
-    return {
-      ...state,
-    };
+    return {};
   },
-  methodCreator: () => createMethod(action => {
-    if (action.strategy) {
-      const {strategy} = action;
-      return strategySuccess(strategy);
-    } else {
-      return action;
-    }
-  })
+  methodCreator: () =>
+    createMethod(({ action }) => {
+      if (action.strategy) {
+        const { strategy } = action;
+        return strategySuccess(strategy);
+      } else {
+        return action;
+      }
+    }),
 });
 /*#>*/

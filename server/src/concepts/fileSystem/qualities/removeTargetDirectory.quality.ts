@@ -4,31 +4,27 @@ $>*/
 /*<#*/
 import {
   ActionStrategy,
-  axiumConclude,
+  muxiumConclude,
   createAsyncMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
-  selectPayload,
   strategyData_appendFailure,
   strategyFailed,
-  strategySuccess
+  strategySuccess,
 } from 'stratimux';
 import { rimraf } from 'rimraf';
+import { FileSystemState } from '../fileSystem.concept';
 
 export type RemoveTargetDirectoryPayload = {
-  path: string
+  path: string;
 };
 
-export const [
-  fileSystemRemoveTargetDirectory,
-  fileSystemRemoveTargetDirectoryType,
-  fileSystemRemoveTargetDirectoryQuality
-] = createQualitySetWithPayload<RemoveTargetDirectoryPayload>({
+export const fileSystemRemoveTargetDirectory = createQualityCardWithPayload<FileSystemState, RemoveTargetDirectoryPayload>({
   type: 'File System remove target Directory',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethod((controller, action) => {
-      const path = selectPayload<RemoveTargetDirectoryPayload>(action).path;
+    createAsyncMethod(({ controller, action }) => {
+      const { path } = action.payload;
       if (action.strategy) {
         if (path.split('\\server\\src\\').length > 1) {
           console.error('ERROR IN REMOVE TARGET DIR', action);
@@ -38,14 +34,13 @@ export const [
             if (error) {
               console.error(error);
             }
-            const newStrategy =
-              strategySuccess(action.strategy as ActionStrategy);
+            const newStrategy = strategySuccess(action.strategy as ActionStrategy);
             controller.fire(newStrategy);
           });
         }
       } else {
-        controller.fire(axiumConclude());
+        controller.fire(muxiumConclude());
       }
-    })
+    }),
 });
 /*#>*/

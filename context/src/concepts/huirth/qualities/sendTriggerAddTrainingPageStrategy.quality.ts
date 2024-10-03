@@ -5,34 +5,33 @@ $>*/
 import {
   createActionNode,
   createMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStrategy,
   defaultReducer,
-  nullReducer,
   selectPayload,
   strategyBegin,
 } from 'stratimux';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 import { huirthTriggerAddTrainingDataPage } from './triggerAddTrainingDataPageStrategy.quality';
+import { huirthState } from '../huirth.concept';
 
 type SendTriggerAddTrainingPageStrategy = {
   name: string;
 };
 
-export const [huirthSendAddTrainingPageStrategy, huirthSendAddTrainingPageStrategyType, huirthSendAddTrainingPageStrategyQuality] =
-  createQualitySetWithPayload<SendTriggerAddTrainingPageStrategy>({
-    type: 'Huirth send add training page strategy',
-    reducer: defaultReducer,
-    methodCreator: (concepts$, semaphore) =>
-      createMethod((action) => {
-        console.log('DOES THIS HIT');
-        const { name } = selectPayload<SendTriggerAddTrainingPageStrategy>(action);
-        return strategyBegin(
-          createStrategy({
-            topic: 'Send to Web Socket: Trigger Add Training Data Page: ' + name,
-            initialNode: createActionNode(userInterfaceClientSendActionToServer(huirthTriggerAddTrainingDataPage({ name }))),
-          })
-        );
-      }),
-  });
+export const huirthSendAddTrainingPageStrategy = createQualityCardWithPayload<huirthState, SendTriggerAddTrainingPageStrategy>({
+  type: 'Huirth send add training page strategy',
+  reducer: defaultReducer,
+  methodCreator: () =>
+    createMethod(({ action }) => {
+      console.log('DOES THIS HIT');
+      const { name } = action.payload;
+      return strategyBegin(
+        createStrategy({
+          topic: 'Send to Web Socket: Trigger Add Training Data Page: ' + name,
+          initialNode: createActionNode(userInterfaceClientSendActionToServer(huirthTriggerAddTrainingDataPage.actionCreator({ name }))),
+        })
+      );
+    }),
+});
 /*#>*/

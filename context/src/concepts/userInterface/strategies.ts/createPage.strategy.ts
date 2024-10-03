@@ -31,17 +31,17 @@ export function userInterfaceCreatePageStrategy(
   const payload: ActionComponentPayload = {
     pageTitle: title,
   };
-  const stepHtmlEnd = createActionNode(htmlEnd(payload), {
+  const stepHtmlEnd = createActionNode(htmlEnd.actionCreator(payload), {
     successNode: null,
     failureNode: null,
   });
 
-  const stepBodyEnd = createActionNode(htmlBodyEnd(payload), {
+  const stepBodyEnd = createActionNode(htmlBodyEnd.actionCreator(payload), {
     successNode: stepHtmlEnd,
     failureNode: null,
   });
 
-  const stepBodyBegin = createActionNode(htmlBodyBegin(payload), {
+  const stepBodyBegin = createActionNode(htmlBodyBegin.actionCreator(payload), {
     successNode: stepBodyEnd,
     failureNode: null,
   });
@@ -63,7 +63,7 @@ export function userInterfaceCreatePageStrategy(
 
   headEnd.successNode = stepBodyBegin;
 
-  const stepHtmlBegin = createActionNode(htmlBegin({ language, pageTitle: title }), {
+  const stepHtmlBegin = createActionNode(htmlBegin.actionCreator({ language, pageTitle: title }), {
     successNode: stepHeader,
     failureNode: null,
   });
@@ -79,11 +79,11 @@ export function userInterfaceCreatePageStrategy(
 }
 
 const createHeaderStrategy = (payload: ActionComponentPayload, stitch?: ActionStrategyComponentStitch): [ActionNode, ActionStrategy] => {
-  const stepHeadEnd = createActionNode(htmlHeadEnd(payload), {
+  const stepHeadEnd = createActionNode(htmlHeadEnd.actionCreator(payload), {
     successNode: null,
     failureNode: null,
   });
-  const stepHeadBegin = createActionNode(htmlHeadBegin(payload), {
+  const stepHeadBegin = createActionNode(htmlHeadBegin.actionCreator(payload), {
     successNode: stepHeadEnd,
     failureNode: null,
   });

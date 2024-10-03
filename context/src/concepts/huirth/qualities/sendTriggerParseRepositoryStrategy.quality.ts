@@ -8,7 +8,7 @@ import {
   createAction,
   createActionNode,
   createMethodDebounce,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStrategy,
   selectPayload,
   strategyBegin,
@@ -21,14 +21,13 @@ export type huirthSendTriggerParseRepositoryStrategyPayload = {
   name: string;
 };
 
-export const [
-  huirthSendTriggerParseRepositoryStrategy,
-  huirthSendTriggerParseRepositoryStrategyType,
-  huirthSendTriggerParseRepositoryStrategyQuality,
-] = createQualitySetWithPayload<huirthSendTriggerParseRepositoryStrategyPayload>({
+export const huirthSendTriggerParseRepositoryStrategy = createQualityCardWithPayload<
+  huirthState,
+  huirthSendTriggerParseRepositoryStrategyPayload
+>({
   type: 'huirth send trigger parse repository to the server',
-  reducer: (state: huirthState, action: Action): huirthState => {
-    const { name } = selectPayload<huirthSendTriggerParseRepositoryStrategyPayload>(action);
+  reducer: (state, action) => {
+    const { name } = action.payload;
     let { stratimuxStatus, huirthStatus, projectsStatuses } = state;
     if (name.toLowerCase() === PhuirEProjects.stratimux) {
       stratimuxStatus = ProjectStatus.parsing;
@@ -55,15 +54,14 @@ export const [
       projectsStatuses = newStatuses;
     }
     return {
-      ...state,
       stratimuxStatus,
       huirthStatus,
       projectsStatuses,
     };
   },
   methodCreator: () =>
-    createMethodDebounce((action) => {
-      const { name } = selectPayload<huirthSendTriggerParseRepositoryStrategyPayload>(action);
+    createMethodDebounce(({ action }) => {
+      const { name } = action.payload;
       return strategyBegin(
         createStrategy({
           topic: `Sending to server trigger parse repository strategy for ${name}`,

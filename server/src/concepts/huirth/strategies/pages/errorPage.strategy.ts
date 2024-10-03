@@ -2,13 +2,13 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a Page Strategy Creator that will unify Sidebar, Error, Footer, and Header Action Strategy Component Stitches into a Page Composition.
 $>*/
 /*<#*/
-import { axium_createStitchNode, createActionNode, createStrategy } from 'stratimux';
+import { muxium_createStitchNode, createActionNode, createStrategy } from 'stratimux';
 import {
   ActionComponentPayload,
   ActionStrategyComponentStitch,
   PageStrategyCreators,
   userInterface,
-  userInterface_createPage
+  userInterface_createPage,
 } from '../../../../model/userInterface';
 import { huirthError } from '../../qualities/components/error/error.quality';
 import { huirthFooterStitch } from '../components/footer.strategy';
@@ -19,15 +19,18 @@ import { huirthSidebarComponentStitch } from '../components/sidebar.strategy';
 export const huirthErrorPageStrategyTopic = 'error';
 export const huirthErrorPageStrategy: PageStrategyCreators = () => () => {
   const page: ActionComponentPayload = {
-    pageTitle: huirthErrorPageStrategyTopic
+    pageTitle: huirthErrorPageStrategyTopic,
   };
   // Body
-  const stepStitch = axium_createStitchNode();
-  const stephuirthError = userInterface.createComponent(huirthError(page), stepStitch);
-  const huirthErrorStitch: ActionStrategyComponentStitch = () => [stepStitch, createStrategy({
-    topic: 'Create huirth Error Body Content',
-    initialNode: stephuirthError,
-  })];
+  const stepStitch = muxium_createStitchNode();
+  const stephuirthError = userInterface.createComponent(huirthError.actionCreator(page), stepStitch);
+  const huirthErrorStitch: ActionStrategyComponentStitch = () => [
+    stepStitch,
+    createStrategy({
+      topic: 'Create huirth Error Body Content',
+      initialNode: stephuirthError,
+    }),
+  ];
 
   const pageData = userInterface_createPage({
     title: huirthErrorPageStrategyTopic,
@@ -40,11 +43,7 @@ export const huirthErrorPageStrategy: PageStrategyCreators = () => () => {
   return userInterfaceCreatePageStrategy(
     huirthErrorPageStrategyTopic,
     pageData,
-    [
-      huirthSidebarComponentStitch,
-      huirthErrorStitch,
-      huirthFooterStitch
-    ],
+    [huirthSidebarComponentStitch, huirthErrorStitch, huirthFooterStitch],
     huirthHeaderStitch
   );
 };

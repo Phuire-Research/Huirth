@@ -7,14 +7,16 @@ import { userInterfaceRemovePage } from '../qualities/removePage.quality';
 
 export const userInterfaceRemovePageStrategyTopic = 'User Interface remove page strategy. ';
 export function userInterfaceRemovePageStrategy(name: string): ActionStrategy {
-  const stepRemoveFromState = createActionNode(userInterfaceRemovePage({
-    name,
-  }));
+  const stepRemoveFromState = createActionNode(
+    userInterfaceRemovePage({
+      name,
+    })
+  );
 
   return createStrategy({
     topic: userInterfaceRemovePageStrategyTopic,
     initialNode: stepRemoveFromState,
-    priority: 600
+    priority: 600,
   });
 }
 /*#>*/

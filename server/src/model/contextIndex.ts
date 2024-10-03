@@ -6,9 +6,9 @@ import { userInterfaceClientName } from '../concepts/userInterfaceClient/userInt
 import { PrimedConceptAndProperties } from './userInterface';
 
 export function createContextIndexContent(primedConcepts: PrimedConceptAndProperties[], directoryMap: string[]): string {
-  const axiumImports = ['createAxium'];
+  const muxiumImports = ['muxification'];
   let conceptImports = createConceptImportTemplates(primedConcepts);
-  primedConcepts.forEach(concept => {
+  primedConcepts.forEach((concept) => {
     let found = false;
     for (const directory of directoryMap) {
       if (directory === concept.name) {
@@ -17,23 +17,26 @@ export function createContextIndexContent(primedConcepts: PrimedConceptAndProper
       }
     }
     if (!found) {
-      axiumImports.push(`create${concept.nameCapitalized}Concept`);
+      muxiumImports.push(`create${concept.nameCapitalized}Concept`);
     }
     if (concept.name === userInterfaceClientName && concept.properties?.length === 2) {
       const brand = concept.properties[1];
       const nameCapitalized = brand[0].toUpperCase() + brand.substring(1);
-      conceptImports += createConceptImportTemplates([{
-        name: brand,
-        nameCapitalized,
-      }]) + '\n';
+      conceptImports +=
+        createConceptImportTemplates([
+          {
+            name: brand,
+            nameCapitalized,
+          },
+        ]) + '\n';
       concept.properties[1] = `create${nameCapitalized}Concept`;
     }
   });
-  const creators =
-    createConceptCreatorTemplates(primedConcepts);
-  const content = /*typescript*/
-`/*$ Start template imports $*/
-import { ${axiumImports.join(', ')} } from 'stratimux';
+  const creators = createConceptCreatorTemplates(primedConcepts);
+  const content =
+    /*typescript*/
+    `/*$ Start template imports $*/
+import { ${muxiumImports.join(', ')} } from 'stratimux';
 ${conceptImports}
 /*$ End template imports $*/
 
@@ -49,9 +52,9 @@ ${conceptImports}
       const simmer = (func: ((s?: any) => void)) => {
         setTimeout(() => {
           if (init && state) {
-            createAxium(
-              'contextAxium',
-              [createDocumentObjectModelConcept({}), createUserInterfaceClientConcept(state, createHuirthConcept)],
+            muxification(
+              'contextMuxium',
+              { documentObjectModel: createDocumentObjectModelConcept({}), userInterfaceClient: createUserInterfaceClientConcept(state, createHuirthConcept)},
               {
                 logging: true,
                 storeDialog: true,
@@ -71,7 +74,7 @@ ${conceptImports}
   }
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   window.onunload = function(){}; 
-  console.log('AXIUM INIT');
+  // console.log('MUXIUM INIT');
   /*$ End context template code $*/
 })();
 `;
@@ -79,7 +82,7 @@ ${conceptImports}
 }
 
 function createConceptImportTemplates(concepts: PrimedConceptAndProperties[]): string {
-  return concepts.map(concept => createConceptImport(concept)).join('\n');
+  return concepts.map((concept) => createConceptImport(concept)).join('\n');
 }
 
 function createConceptImport(concept: PrimedConceptAndProperties): string {
@@ -87,9 +90,11 @@ function createConceptImport(concept: PrimedConceptAndProperties): string {
 }
 
 function createConceptCreatorTemplates(concepts: PrimedConceptAndProperties[]): string {
-  return concepts.map(concept => {
-    return createConceptCreator(concept);
-  }).join(',\n\t\t');
+  return concepts
+    .map((concept) => {
+      return createConceptCreator(concept);
+    })
+    .join(',\n\t\t');
 }
 
 function createConceptCreator(concept: PrimedConceptAndProperties): string {

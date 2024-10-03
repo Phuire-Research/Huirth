@@ -6,5 +6,5 @@ import { createAction } from 'stratimux';
 import { userInterfaceClientSendActionToServer } from '../../../userInterfaceClient/strategies/sendActionToServer.helper';
 
 export const huirthTriggerSaveDPOStrategy = () =>
-  (userInterfaceClientSendActionToServer(createAction('huirthServer trigger save DPO strategy')));
+  userInterfaceClientSendActionToServer(createAction('huirthServer trigger save DPO strategy'));
 /*#>*/

@@ -12,8 +12,8 @@ import {
   createActionNode,
   createMethodBuffer,
   createMethodBufferWithConcepts,
-  createQualitySet,
-  createQualitySetWithPayload,
+  createQualityCard,
+  createQualityCardWithPayload,
   createStrategy,
   defaultReducer,
   selectPayload,
@@ -25,7 +25,7 @@ export const [
   experimentBufferMultiplyByCountFromConcepts,
   experimentBufferMultiplyByCountFromConceptsType,
   experimentBufferMultiplyByCountFromConceptsQuality,
-] = createQualitySet({
+] = createQualityCard({
   type: 'Experiment will buffer multiply count using concepts accessing counter state',
   reducer: defaultReducer,
   methodCreator: (c, s) =>

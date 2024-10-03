@@ -6,7 +6,7 @@ import {
   createAction,
   createActionNode,
   createMethodDebounce,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   createStrategy,
   nullReducer,
   selectPayload,
@@ -17,29 +17,29 @@ import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient
 import { huirthClearDataSetSelection } from './clearDataSetSelection.quality';
 
 export type huirthSendTriggerDeleteDataSetsStrategyPayload = {
-  names: string[],
-}
+  names: string[];
+};
 
-export const [
-  huirthSendTriggerDeleteDataSetsStrategy,
-  huirthSendTriggerDeleteDataSetsStrategyType,
-  huirthSendTriggerDeleteDataSetsStrategyQuality
-] = createQualitySetWithPayload<huirthSendTriggerDeleteDataSetsStrategyPayload>({
+export const huirthSendTriggerDeleteDataSetsStrategy = createQualityCardWithPayload<
+  huirthState,
+  huirthSendTriggerDeleteDataSetsStrategyPayload
+>({
   type: 'huirth send trigger delete data sets strategy',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethodDebounce(
-      (action) => {
-        const payload = selectPayload<huirthSendTriggerDeleteDataSetsStrategyPayload>(action);
-        return strategyBegin(createStrategy({
+    createMethodDebounce(({ action }) => {
+      const payload = action.payload;
+      return strategyBegin(
+        createStrategy({
           topic: 'Sent to Web Socket: Trigger Delete Data Sets: ' + payload.names.join(', '),
           initialNode: createActionNode(
-            userInterfaceClientSendActionToServer(
-              createAction('huirthServer trigger delete data sets strategy', {payload})), {
-              successNode: createActionNode(huirthClearDataSetSelection())
-            })
-        }));
-      }, 50
-    )
+            userInterfaceClientSendActionToServer(createAction('huirthServer trigger delete data sets strategy', { payload })),
+            {
+              successNode: createActionNode(huirthClearDataSetSelection.actionCreator()),
+            }
+          ),
+        })
+      );
+    }, 50),
 });
 /*#>*/

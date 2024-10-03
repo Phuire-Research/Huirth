@@ -3,7 +3,12 @@ For the graph programming framework Stratimux and a Concept huirth, generate a P
 $>*/
 /*<#*/
 import { createActionNode, createStrategy } from 'stratimux';
-import { ActionStrategyComponentStitch, PageStrategyCreators, userInterface, userInterface_createPage } from '../../../../model/userInterface';
+import {
+  ActionStrategyComponentStitch,
+  PageStrategyCreators,
+  userInterface,
+  userInterface_createPage,
+} from '../../../../model/userInterface';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { huirthFooterStitch } from '../components/footer.strategy';
 import { huirthHeaderStitch } from '../components/header.strategy';
@@ -19,17 +24,13 @@ export const huirthIndexPageStrategy: PageStrategyCreators = () => () => {
     conceptAndProps: [],
     cachedSelectors: [],
     cachedComponentSelectors: [],
-    compositions: []
+    compositions: [],
   });
 
   return userInterfaceCreatePageStrategy(
     huirthDataSetDPOPageStrategyTopic,
     pageData,
-    [
-      huirthSidebarComponentStitch,
-      huirthIndexDPOStrategyStitch,
-      huirthFooterStitch
-    ],
+    [huirthSidebarComponentStitch, huirthIndexDPOStrategyStitch, huirthFooterStitch],
     huirthHeaderStitch
   );
 };
@@ -44,7 +45,7 @@ export const huirthIndexDPOStrategyStitch: ActionStrategyComponentStitch = (payl
     createStrategy({
       topic: huirthIndexDPOStrategyStitchTopic,
       initialNode: stephuirthIndexDPOBegin,
-    })
+    }),
   ];
 };
 /*#>*/

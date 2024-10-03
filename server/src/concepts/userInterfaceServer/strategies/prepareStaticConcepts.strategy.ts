@@ -6,16 +6,19 @@ $>*/
 import {
   ActionStrategy,
   ActionStrategyParameters,
-  axiumPreClose,
+  MuxiumDeck,
+  muxiumPreClose,
   createActionNode,
   createActionNodeFromStrategy,
-  createStrategy
+  createStrategy,
+  Deck,
 } from 'stratimux';
 import { fileSystemCopyMoveTargetDirectory } from '../../fileSystem/qualities/copyMoveDirectory.quality';
 import path from 'path';
 import { ConceptAndProperties, Page } from '../../../model/userInterface';
 import { userInterfaceServerRecursivelyCreateEachPageHtml } from '../qualities/recursivelyCreateEachPageHtml.quality';
 import { userInterfaceServerPrepareContextConceptsStitch } from './prepareContextConcepts.strategy';
+import { UserInterfaceServerDeck } from '../userInterfaceServer.concept';
 
 export const userInterfaceServerPrepareStaticConceptsTopic = 'User Interface Server prepare Static Concepts';
 export function userInterfaceServerPrepareStaticConceptsStrategy(
@@ -23,28 +26,35 @@ export function userInterfaceServerPrepareStaticConceptsStrategy(
   conceptsAndProps: ConceptAndProperties[],
   unified: string[],
   initialDirectoryMap: string[],
-  pages: Page[]
+  pages: Page[],
+  deck: Deck<MuxiumDeck & UserInterfaceServerDeck>
 ): ActionStrategy {
   const rootLayout = path.join(root + '/layout/');
   const rootLayoutStatic = path.join(root + '/layout/static/');
   const contextPublic = path.join(root + '/context/public/');
-  // axium Close
-  const stepCloseProcess = createActionNode(axiumPreClose({ exit: true}));
-  const stepRecursivelyCreatePageHtml =
-    createActionNode(userInterfaceServerRecursivelyCreateEachPageHtml({targetDir: rootLayout, pages: [...pages]}), {
+  // muxium Close
+  const stepCloseProcess = createActionNode(deck.muxium.e.muxiumPreClose({ exit: true }));
+  const stepRecursivelyCreatePageHtml = createActionNode(
+    deck.userInterfaceServer.e.userInterfaceServerRecursivelyCreateEachPageHtml({ targetDir: rootLayout, pages: [...pages] }),
+    {
       successNode: stepCloseProcess,
-    });
-  const stepCopyMovePublicToLayout = createActionNode(fileSystemCopyMoveTargetDirectory({
-    target: contextPublic,
-    newLocation: rootLayoutStatic,
-  }), {
-    successNode: stepRecursivelyCreatePageHtml,
-  });
+    }
+  );
+  const stepCopyMovePublicToLayout = createActionNode(
+    fileSystemCopyMoveTargetDirectory.actionCreator({
+      target: contextPublic,
+      newLocation: rootLayoutStatic,
+    }),
+    {
+      successNode: stepRecursivelyCreatePageHtml,
+    }
+  );
   const [stitchEnd, contextStrategy] = userInterfaceServerPrepareContextConceptsStitch(
     root,
     conceptsAndProps,
     unified,
-    initialDirectoryMap
+    initialDirectoryMap,
+    deck
   );
   stitchEnd.successNode = stepCopyMovePublicToLayout;
   const stepStart = createActionNodeFromStrategy(contextStrategy);

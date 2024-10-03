@@ -8,11 +8,14 @@ import { huirthHead } from '../../qualities/components/head.quality';
 import { ActionStrategyComponentStitch, userInterface } from '../../../../model/userInterface';
 
 export const huirthHeaderStitch: ActionStrategyComponentStitch = (payload) => {
-  const stephuirthStyle = userInterface.createComponent(huirthStyle(payload));
-  const stephuirthHead = userInterface.createComponent(huirthHead(payload), stephuirthStyle);
-  return [stephuirthStyle, createStrategy({
-    topic: 'Create huirth Header Content',
-    initialNode: stephuirthHead,
-  })];
+  const stephuirthStyle = userInterface.createComponent(huirthStyle.actionCreator(payload));
+  const stephuirthHead = userInterface.createComponent(huirthHead.actionCreator(payload), stephuirthStyle);
+  return [
+    stephuirthStyle,
+    createStrategy({
+      topic: 'Create huirth Header Content',
+      initialNode: stephuirthHead,
+    }),
+  ];
 };
 /*#>*/

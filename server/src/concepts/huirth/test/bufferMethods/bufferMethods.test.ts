@@ -3,78 +3,106 @@ For the asynchronous graph programming framework Stratimux, generate a tests and
 $>*/
 /*<#*/
 
-import { CounterState, axiumKick, counterAdd, counterName, counterSelectCount, createAxium, createCounterConcept, createExperimentConcept, createExperimentState, createStage, selectState, stageWaitForOpenThenIterate } from 'stratimux';
+import {
+  CounterState,
+  muxiumKick,
+  counterAdd,
+  counterName,
+  counterSelectCount,
+  muxification,
+  createCounterConcept,
+  createExperimentConcept,
+  createExperimentState,
+  createStage,
+  selectState,
+  stageWaitForOpenThenIterate,
+} from 'stratimux';
 import {
   experimentAsyncBufferMultiplyByCountFromConcepts,
-  experimentAsyncBufferMultiplyByCountFromConceptsQuality
+  experimentAsyncBufferMultiplyByCountFromConceptsQuality,
 } from './qualities/asyncBufferMultiplyByCountFromConceptsAction.quality';
 import {
   experimentBufferMultiplyByCountFromConcepts,
-  experimentBufferMultiplyByCountFromConceptsQuality
+  experimentBufferMultiplyByCountFromConceptsQuality,
 } from './qualities/bufferMultiplyByCountFromConceptsAction.quality';
 import { experimentBufferNextAction, experimentBufferNextActionQuality } from './qualities/bufferSomeAction.quality';
 
 test('Buffer method periodic count', (done) => {
   const experiment = createExperimentConcept(createExperimentState(), [experimentBufferNextActionQuality]);
-  const axium = createAxium('Experiment method buffer defer actions', [createCounterConcept(), experiment]);
-  const plan = axium.plan('Experiment buffer add 4 after 10ms', [
-    stageWaitForOpenThenIterate(() => axiumKick()),
+  const muxium = muxification('Experiment method buffer defer actions', [createCounterConcept(), experiment]);
+  const plan = muxium.plan('Experiment buffer add 4 after 10ms', [
+    stageWaitForOpenThenIterate(() => muxiumKick()),
     createStage((_, dispatch) => {
-      dispatch(experimentBufferNextAction({
-        action: counterAdd()
-      }), {
-        iterateStage: true,
-      });
+      dispatch(
+        experimentBufferNextAction({
+          action: counterAdd(),
+        }),
+        {
+          iterateStage: true,
+        }
+      );
     }),
     createStage((concepts, dispatch) => {
       const counterState = selectState<CounterState>(concepts, counterName);
       expect(counterState?.count).toBe(0);
-      dispatch(experimentBufferNextAction({
-        action: counterAdd()
-      }), {
-        iterateStage: true,
-      });
+      dispatch(
+        experimentBufferNextAction({
+          action: counterAdd(),
+        }),
+        {
+          iterateStage: true,
+        }
+      );
     }),
     createStage((concepts, dispatch) => {
       const counterState = selectState<CounterState>(concepts, counterName);
       expect(counterState?.count).toBe(0);
-      dispatch(experimentBufferNextAction({
-        action: counterAdd()
-      }), {
-        iterateStage: true,
-      });
+      dispatch(
+        experimentBufferNextAction({
+          action: counterAdd(),
+        }),
+        {
+          iterateStage: true,
+        }
+      );
     }),
     createStage((concepts, dispatch) => {
       const counterState = selectState<CounterState>(concepts, counterName);
       expect(counterState?.count).toBe(0);
-      dispatch(experimentBufferNextAction({
-        action: counterAdd()
-      }), {
-        iterateStage: true,
-      });
+      dispatch(
+        experimentBufferNextAction({
+          action: counterAdd(),
+        }),
+        {
+          iterateStage: true,
+        }
+      );
     }),
-    createStage((concepts, _dispatch, changes) => {
-      const counterState = selectState<CounterState>(concepts, counterName);
-      if (changes.length > 0) {
-        expect(counterState?.count).toBe(4);
-        setTimeout(() => {
-          plan.conclude();
-          axium.close();
-          done();
-        }, 10);
-      }
-    }, {selectors: [counterSelectCount], beat: 200}),
+    createStage(
+      (concepts, _dispatch, changes) => {
+        const counterState = selectState<CounterState>(concepts, counterName);
+        if (changes.length > 0) {
+          expect(counterState?.count).toBe(4);
+          setTimeout(() => {
+            plan.conclude();
+            muxium.close();
+            done();
+          }, 10);
+        }
+      },
+      { selectors: [counterSelectCount], beat: 200 }
+    ),
     createStage(() => {
       plan.conclude();
-    })
+    }),
   ]);
 });
 
 // test('Buffer method with concept towards final multiply of count', (done) => {
 //   const experiment = createExperimentConcept(createExperimentState(), [experimentBufferMultiplyByCountFromConceptsQuality]);
-//   const axium = createAxium('Experiment method buffer defer multiply', [createCounterConcept(), experiment]);
-//   const plan = axium.plan('Experiment buffer multiply by 2 from concept state after 10ms', [
-//     stageWaitForOpenThenIterate(() => axiumKick()),
+//   const muxium = muxification('Experiment method buffer defer multiply', [createCounterConcept(), experiment]);
+//   const plan = muxium.plan('Experiment buffer multiply by 2 from concept state after 10ms', [
+//     stageWaitForOpenThenIterate(() => muxiumKick()),
 //     createStage((_, dispatch) => {
 //       dispatch(counterSetCount({
 //         newCount: 2
@@ -109,7 +137,7 @@ test('Buffer method periodic count', (done) => {
 //         expect(counterState?.count).toBe(16);
 //         setTimeout(() => {
 //           plan.conclude();
-//           axium.close();
+//           muxium.close();
 //           done();
 //         }, 10);
 //       }
@@ -122,11 +150,11 @@ test('Buffer method periodic count', (done) => {
 
 // test('Buffer method with concept towards final multiply of count', (done) => {
 //   const experiment = createExperimentConcept(createExperimentState(), [experimentAsyncBufferMultiplyByCountFromConceptsQuality]);
-//   const axium = createAxium('Experiment method buffer defer multiply', [createCounterConcept(), experiment], {
+//   const muxium = muxification('Experiment method buffer defer multiply', [createCounterConcept(), experiment], {
 //     // logActionStream: true
 //   });
-//   const plan = axium.plan('Experiment buffer multiply by 2 from concept state after 10ms', [
-//     stageWaitForOpenThenIterate(() => axiumKick()),
+//   const plan = muxium.plan('Experiment buffer multiply by 2 from concept state after 10ms', [
+//     stageWaitForOpenThenIterate(() => muxiumKick()),
 //     createStage((_, dispatch) => {
 //       dispatch(counterSetCount({
 //         newCount: 2
@@ -162,7 +190,7 @@ test('Buffer method periodic count', (done) => {
 //         expect(counterState?.count).toBe(16);
 //         setTimeout(() => {
 //           plan.conclude();
-//           axium.close();
+//           muxium.close();
 //           done();
 //         }, 10);
 //       }
@@ -171,8 +199,8 @@ test('Buffer method periodic count', (done) => {
 //       plan.conclude();
 //     })
 //   ]);
-//   // axium.subscribe(c => {
-//   //   const s = getAxiumState(c);
+//   // muxium.subscribe(c => {
+//   //   const s = getMuxiumState(c);
 //   //   console.log(s.head, s.body, s.tail);
 //   // });
 // });

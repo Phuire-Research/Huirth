@@ -4,24 +4,24 @@ $>*/
 /*<#*/
 import { counterSubtract, createActionNode, createStrategy } from 'stratimux';
 
-export const huirthMinusSevenStrategy = (count: number, conceptSemaphore: number) => {
-  const stepSeventh = createActionNode(counterSubtract({conceptSemaphore}));
-  const stepSix = createActionNode(counterSubtract({conceptSemaphore}), {
+export const huirthMinusSevenStrategy = (count: number) => {
+  const stepSeventh = createActionNode(counterSubtract.actionCreator());
+  const stepSix = createActionNode(counterSubtract.actionCreator(), {
     successNode: stepSeventh,
   });
-  const stepFifth = createActionNode(counterSubtract({conceptSemaphore}), {
+  const stepFifth = createActionNode(counterSubtract.actionCreator(), {
     successNode: stepSix,
   });
-  const StepFourth = createActionNode(counterSubtract({conceptSemaphore}), {
+  const StepFourth = createActionNode(counterSubtract.actionCreator(), {
     successNode: stepFifth,
   });
-  const stepThird = createActionNode(counterSubtract({conceptSemaphore}), {
+  const stepThird = createActionNode(counterSubtract.actionCreator(), {
     successNode: StepFourth,
   });
-  const stepSecond = createActionNode(counterSubtract({conceptSemaphore}), {
+  const stepSecond = createActionNode(counterSubtract.actionCreator(), {
     successNode: stepThird,
   });
-  const stepFirst = createActionNode(counterSubtract({conceptSemaphore}), {
+  const stepFirst = createActionNode(counterSubtract.actionCreator(), {
     successNode: stepSecond,
   });
 

@@ -1,53 +1,57 @@
 /*<$
-For the graph programming framework Stratimux and Brand Concept huirth that extends the Server Concept, generate a principle that close the axium if a message is received at a specified api endpoint.
+For the graph programming framework Stratimux and Brand Concept huirth that extends the Server Concept, generate a principle that close the muxium if a message is received at a specified api endpoint.
 $>*/
 
-import { Subscriber } from 'rxjs';
-import { Action, Concepts, PrincipleFunction, UnifiedSubject, axiumKick, axiumPreClose, axiumRegisterStagePlanner, createStage, getUnifiedName, isConceptLoaded, selectUnifiedState } from 'stratimux';
 import { ServerState } from '../server/server.concept';
+import { HuirthServerPrinciple } from './huirthServer.concept';
 
 /*<#*/
-export const huirthServerExitPrinciple: PrincipleFunction =
-  (_: Subscriber<Action>, cpts: Concepts, concepts$: UnifiedSubject, semaphore: number) => {
-    let shouldClose = false;
-    const beat = 333;
-    const initialServerState = selectUnifiedState(cpts, semaphore) as ServerState;
-    const server = initialServerState.server;
-    const plan = concepts$.plan('Server listening for exit signal', [
-      createStage((concepts, dispatch) => {
-        const name = getUnifiedName(concepts, semaphore);
-        if (name) {
-          dispatch(axiumRegisterStagePlanner({conceptName: name, stagePlanner: plan}), {
-            iterateStage: true
-          });
-        } else {
-          plan.conclude();
-        }
-      }),
-      createStage((concepts, dispatch) => {
-        const name = getUnifiedName(concepts, semaphore);
+export const huirthServerExitPrinciple: HuirthServerPrinciple = ({ plan, k_, concepts_ }) => {
+  let shouldClose = false;
+  const beat = 333;
+  const initialServerState = k_.state(concepts_) as unknown as ServerState;
+  const server = initialServerState.server;
+  plan('Server listening for exit signal', ({ stage }) => [
+    stage(({ concepts, dispatch, d, k, stagePlanner }) => {
+      const name = k.name(concepts);
+      if (name) {
+        dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
+          iterateStage: true,
+        });
+      } else {
+        stagePlanner.conclude();
+      }
+    }),
+    stage(
+      ({ concepts, dispatch, d, k, stagePlanner }) => {
+        const name = k.name(concepts);
         if (name) {
           if (shouldClose) {
-            dispatch(axiumPreClose({
-              exit: true
-            }), {
-              iterateStage: true
-            });
+            dispatch(
+              d.muxium.e.muxiumPreClose({
+                exit: true,
+              }),
+              {
+                iterateStage: true,
+              }
+            );
           }
         } else {
-          plan.conclude();
+          stagePlanner.conclude();
         }
-      }, {beat}),
-      createStage((__, ___) => {
-        plan.conclude();
-      }),
-    ]);
+      },
+      { beat }
+    ),
+    stage(({ stagePlanner }) => {
+      stagePlanner.conclude();
+    }),
+  ]);
 
-    server.get('/server/axiumEXIT', (__, req) => {
-      shouldClose = true;
-      req.json({
-        exit: shouldClose
-      });
+  server.get('/server/muxiumEXIT', (__, req) => {
+    shouldClose = true;
+    req.json({
+      exit: shouldClose,
     });
-  };
+  });
+};
 /*#>*/

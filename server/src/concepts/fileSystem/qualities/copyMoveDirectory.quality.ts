@@ -4,15 +4,16 @@ $>*/
 /*<#*/
 import {
   ActionStrategy,
-  axiumConclude,
+  muxiumConclude,
   createAsyncMethod,
-  createQualitySetWithPayload,
+  createQualityCardWithPayload,
   nullReducer,
   selectPayload,
-  strategySuccess
+  strategySuccess,
 } from 'stratimux';
 import fs from 'fs/promises';
 import path from 'path';
+import { FileSystemState } from '../fileSystem.concept';
 
 async function copyDir(src: string, dest: string) {
   await fs.mkdir(dest, { recursive: true });
@@ -22,37 +23,30 @@ async function copyDir(src: string, dest: string) {
     if (entry.name) {
       const srcPath = path.join(src, entry.name);
       const destPath = path.join(dest, entry.name);
-      entry.isDirectory() ?
-        await copyDir(srcPath, destPath) :
-        await fs.copyFile(srcPath, destPath);
+      entry.isDirectory() ? await copyDir(srcPath, destPath) : await fs.copyFile(srcPath, destPath);
     }
   }
 }
 
 export type CopyMoveTargetDirectoryPayload = {
-  target: string,
-  newLocation: string,
+  target: string;
+  newLocation: string;
 };
 
-export const [
-  fileSystemCopyMoveTargetDirectory,
-  fileSystemCopyMoveTargetDirectoryType,
-  fileSystemCopyMoveTargetDirectoryQuality
-] = createQualitySetWithPayload<CopyMoveTargetDirectoryPayload>({
+export const fileSystemCopyMoveTargetDirectory = createQualityCardWithPayload<FileSystemState, CopyMoveTargetDirectoryPayload>({
   type: 'File System copy move target Directory',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethod((controller, action) => {
+    createAsyncMethod(({ controller, action }) => {
       const payload = selectPayload<CopyMoveTargetDirectoryPayload>(action);
       if (action.strategy) {
         copyDir(payload.target, payload.newLocation).then(() => {
-          const newStrategy =
-            strategySuccess(action.strategy as ActionStrategy);
+          const newStrategy = strategySuccess(action.strategy as ActionStrategy);
           controller.fire(newStrategy);
         });
       } else {
-        controller.fire(axiumConclude());
+        controller.fire(muxiumConclude());
       }
-    })
+    }),
 });
 /*#>*/

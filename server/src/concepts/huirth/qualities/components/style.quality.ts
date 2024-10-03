@@ -2,31 +2,23 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a User Interface Component quality to create the style component necessary for the huirth page strategies.
 $>*/
 /*<#*/
-import {
-  createMethod,
-  nullReducer,
-  strategySuccess
-} from 'stratimux';
+import { createMethod, nullReducer, strategySuccess } from 'stratimux';
 
-import { createQualitySetComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../model/userInterface';
+import { createQualityCardComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../../model/userInterface';
 
-export const [
-  huirthStyle,
-  huirthStyleType,
-  huirthStyleQuality
-] = createQualitySetComponent({
+export const huirthStyle = createQualityCardComponent({
   type: 'Create huirth Style',
   reducer: nullReducer,
-  componentCreator: (act) => createMethod(
-    (action) => {
-      const payload = selectComponentPayload(action);
-      if (action.strategy) {
-        return strategySuccess(action.strategy, userInterface_appendCompositionToPage( action.strategy, {
+  componentCreator: createMethod(({ action }) => {
+    if (action.strategy) {
+      return strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
           id: '',
           boundSelectors: [],
           universal: true,
-          action: act(payload),
-          html: /*html*/`
+          action,
+          html: /*html*/ `
   <style>
     html, body {
       overflow-x: clip;
@@ -75,11 +67,11 @@ export const [
       background-color: #000000;
     }
   </style>
-    `
-        }));
-      }
-      return action;
+    `,
+        })
+      );
     }
-  )
+    return action;
+  }),
 });
 /*#>*/

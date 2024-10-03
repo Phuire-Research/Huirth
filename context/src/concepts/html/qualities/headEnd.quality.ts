@@ -3,29 +3,27 @@ For the graph programming framework Stratimux and Html Concept, generate a quali
 $>*/
 /*<#*/
 import { createMethod, nullReducer, strategySuccess } from 'stratimux';
-import { createQualitySetComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../model/userInterface';
+import { createQualityCardComponent, userInterface_appendCompositionToPage } from '../../../model/userInterface';
 
-export const [htmlHeadEnd, htmlHeadEndType, htmlHeadEndQuality] = createQualitySetComponent({
+export const htmlHeadEnd = createQualityCardComponent({
   type: 'Html create Head End',
   reducer: nullReducer,
-  componentCreator: (act) =>
-    createMethod((action) => {
-      const payload = selectComponentPayload(action);
-      if (action.strategy) {
-        return strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id: '',
-            boundSelectors: [],
-            universal: false,
-            action: act(payload),
-            html: /*html*/ `
+  componentCreator: createMethod(({ action }) => {
+    if (action.strategy) {
+      return strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
+          id: '',
+          boundSelectors: [],
+          universal: false,
+          action,
+          html: /*html*/ `
     </head>
       `,
-          })
-        );
-      }
-      return action;
-    }),
+        })
+      );
+    }
+    return action;
+  }),
 });
 /*#>*/

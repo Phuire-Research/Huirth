@@ -4,29 +4,28 @@ $>*/
 /*<#*/
 import { createMethod, nullReducer, strategySuccess } from 'stratimux';
 
-import { createQualitySetComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../model/userInterface';
+import { createQualityCardComponent, selectComponentPayload, userInterface_appendCompositionToPage } from '../../../model/userInterface';
 
-export const [htmlEnd, htmlEndType, htmlEndQuality] = createQualitySetComponent({
+export const htmlEnd = createQualityCardComponent({
   type: 'Create HTML End Element',
   reducer: nullReducer,
-  componentCreator: (act) =>
-    createMethod((action) => {
-      const payload = selectComponentPayload(action);
-      if (action.strategy) {
-        return strategySuccess(
-          action.strategy,
-          userInterface_appendCompositionToPage(action.strategy, {
-            id: '',
-            boundSelectors: [],
-            universal: false,
-            action: act(payload),
-            html: /*html*/ `
+  componentCreator: createMethod(({ action }) => {
+    const payload = action.payload;
+    if (action.strategy) {
+      return strategySuccess(
+        action.strategy,
+        userInterface_appendCompositionToPage(action.strategy, {
+          id: '',
+          boundSelectors: [],
+          universal: false,
+          action,
+          html: /*html*/ `
   </html>
       `,
-          })
-        );
-      }
-      return action;
-    }),
+        })
+      );
+    }
+    return action;
+  }),
 });
 /*#>*/

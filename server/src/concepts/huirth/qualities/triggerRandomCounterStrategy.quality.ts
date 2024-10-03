@@ -2,31 +2,17 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that will trigger a randomly generated counting strategy.
 $>*/
 /*<#*/
-import {
-  Concepts,
-  CounterState,
-  UnifiedSubject,
-  createMethodDebounceWithState,
-  createQualitySet,
-  nullReducer,
-  strategyBegin,
-} from 'stratimux';
+import { CounterState, createMethodDebounceWithState, createQualityCard, nullReducer, strategyBegin } from 'stratimux';
 import { huirthGenerateCountingStrategy } from '../strategies/generateCountingStrategy.strategy';
-import { Subject } from 'rxjs';
+import { huirthState } from '../huirth.concept';
 
-export const [
-  huirthTriggerRandomCountingStrategy,
-  huirthTriggerRandomCountingStrategyType,
-  huirthTriggerRandomCountingStrategyQuality
-] = createQualitySet({
+export const huirthTriggerRandomCountingStrategy = createQualityCard<huirthState>({
   type: 'Create huirth trigger random counting strategy',
   reducer: nullReducer,
-  methodCreator: (concepts$?: Subject<Concepts>, semaphore?: number) =>
-    createMethodDebounceWithState<CounterState>(
-      (_, state) => {
-        const strategy = huirthGenerateCountingStrategy(state.count, semaphore as number);
-        return strategyBegin(strategy);
-      }, concepts$ as UnifiedSubject, semaphore as number, 3
-    )
+  methodCreator: () =>
+    createMethodDebounceWithState<huirthState & CounterState>(({ state }) => {
+      const strategy = huirthGenerateCountingStrategy(state.count);
+      return strategyBegin(strategy);
+    }, 3),
 });
 /*#>*/
