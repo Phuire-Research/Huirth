@@ -16,6 +16,7 @@ import { UserInterfaceBindings, userInterface_selectPage } from '../../../model/
 import { Subject } from 'rxjs';
 import { userInterfaceEnd } from '../../userInterface/qualities/end.quality';
 import { documentObjectModelBind } from '../../documentObjectModel/qualities/bind.quality';
+import { UserInterfaceClientState } from '../userInterfaceClient.concept';
 
 export type UserInterfaceClientActionQueStrategyClientPayload = {
   action$: Subject<Action>;
@@ -46,7 +47,7 @@ const createBindingActionNode = (action$: Subject<Action>, bindings: UserInterfa
   return first as ActionNode;
 };
 
-export const userInterfaceClientDetermineBindings = createQualityCardWithPayload<UserInterfaceClientActionQueStrategyClientPayload, any>({
+export const userInterfaceClientDetermineBindings = createQualityCardWithPayload<UserInterfaceClientState, UserInterfaceClientActionQueStrategyClientPayload>({
   type: 'User Interface determine bindings of all passed compositions',
   reducer: nullReducer,
   methodCreator: () =>

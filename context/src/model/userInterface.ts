@@ -80,6 +80,7 @@ type ActionEventPayload = {
 };
 
 export const userInterface_selectInputTarget = (action: AnyAction) => {
+  console.log('CHECK FAILING ACTION', action);
   const payload = selectPayload<ActionEventPayload>(action).event;
   return payload.target as HTMLInputElement;
 };
@@ -132,12 +133,15 @@ export type BoundSelectors = {
   semaphore: [number, number];
 };
 
-export const createBoundSelectors = (id: string, action: AnyAction, selectors: KeyedSelector[]): BoundSelectors => ({
-  id,
-  action,
-  selectors,
-  semaphore: [-1, -1],
-});
+export const createBoundSelectors = (id: string, action: AnyAction, selectors: KeyedSelector[]): BoundSelectors => {
+  action.strategy = undefined;
+  return {
+    id,
+    action,
+    selectors,
+    semaphore: [-1, -1],
+  };
+};
 
 export type Composition = {
   id: string;

@@ -19,8 +19,20 @@ import { webSocketClientSetClientSemaphore } from './strategies/server/setClient
 import { webSocketServerSyncClientState } from './strategies/server/syncServerState.helper';
 import { webSocketClient_createActionQueSelector } from './webSocketClient.selectors';
 
+const filterKeys = [
+  'pages',
+  'pagesCached',
+  'components',
+  'currentPage',
+  'selectors',
+  'boundSelectors',
+  'clientSemaphore',
+  'serverSemaphore',
+  'pageStrategies',
+  'actionQue',
+];
 const notKeys = (key: string) => {
-  return key !== 'pages' && key !== 'clientSemaphore' && key !== 'serverSemaphore' && key !== 'pageStrategies';
+  return !filterKeys.includes(key);
 };
 
 export const webSocketClientPrinciple: WebSocketClientPrinciple = ({ plan, conceptSemaphore, observer, concepts_, d_ }) => {
@@ -80,10 +92,10 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({ plan, conce
         }
       }),
       stage(
-        ({ concepts, stagePlanner }) => {
+        ({ concepts, stagePlanner, k }) => {
           // Bucket State
           const state: Record<string, unknown> = {};
-          const newState = selectMuxifiedState<Record<string, unknown>>(concepts, conceptSemaphore);
+          const newState = k.state(concepts) as Record<string, unknown>;
           if (newState) {
             const stateKeys = Object.keys(newState);
             if (Object.keys(syncState).length === 0) {
@@ -110,7 +122,7 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({ plan, conce
               if (changed) {
                 const sync = webSocketServerSyncClientState({ state });
                 sync.conceptSemaphore = (newState as WebSocketClientState).serverSemaphore;
-                // console.log('CHECK SYNC', sync);
+                console.log('CHECK SYNC', sync);
                 ws.send(JSON.stringify(sync));
               }
             }

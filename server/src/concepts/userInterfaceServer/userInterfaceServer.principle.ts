@@ -26,14 +26,26 @@ import { BoundSelectors, Composition, Page } from '../../model/userInterface';
 import path from 'path';
 import { FileSystemState, fileSystemName } from '../fileSystem/fileSystem.concept';
 import { findRoot } from '../../model/findRoot';
-import { UserInterfaceServerPrinciple, UserInterfaceServerState } from './userInterfaceServer.concept';
+import { createUserInterfaceServerState, UserInterfaceServerPrinciple, UserInterfaceServerState } from './userInterfaceServer.concept';
 import {
   UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload,
   userInterfaceServerAssembleUpdateAtomicCompositionStrategy,
 } from './qualities/serverAssembleUpdateAtomicCompositionStrategy.quality';
+import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
+
+const filterState = (state: Record<string, unknown>, filterKeys: string[]) => {
+  const finalState: Record<string, unknown> = {};
+  Object.keys(state).forEach((k) => {
+    if (!filterKeys.includes(k)) {
+      finalState[k] = state[k];
+    }
+  });
+  return finalState;
+};
 
 export const userInterfaceServerPrinciple: UserInterfaceServerPrinciple = ({ subscribe, plan, concepts_, k_ }) => {
-  const newState = k_.state(concepts_) as Record<string, unknown>;
+  const filterKeys = Object.keys(createUserInterfaceServerState([], commandLineInterfaceGoals.none));
+  let newState = filterState(k_.state(concepts_) as Record<string, unknown>, filterKeys);
   const body = 'body response';
   let pages: Page[] = [];
   let components: Composition[] = [];
@@ -81,12 +93,7 @@ export const userInterfaceServerPrinciple: UserInterfaceServerPrinciple = ({ sub
     stage(({ concepts, k, stagePlanner }) => {
       const state = k.state(concepts);
       if (state) {
-        const stateKeys = Object.keys(state);
-        for (const key of stateKeys) {
-          if (key !== 'pages' && key !== 'pageStrategies' && key !== 'pagesCached' && key !== 'currentPage' && key !== 'actionQue') {
-            newState[key] = (state as any)[key];
-          }
-        }
+        newState = filterState(state, filterKeys);
       } else {
         stagePlanner.conclude();
       }
@@ -127,6 +134,7 @@ export const userInterfaceServerPrinciple: UserInterfaceServerPrinciple = ({ sub
     }
   });
   server.get('/stateSync', (__, res) => {
+    console.log('HIT, newState: ', JSON.stringify(newState));
     res.json(newState);
   });
   server.get('/:title', (req, res) => {
@@ -179,7 +187,7 @@ export const userInterfaceServerOnChangePrinciple: UserInterfaceServerPrinciple 
       ({ concepts, dispatch, k, d, stagePlanner }) => {
         console.log('INIT USER INTERFACE SERVER ON CHANGE');
         const name = k.name(concepts);
-        if (name && selectSlice(concepts, muxiumSelectOpen) === true) {
+        if (name && selectSlice(concepts, d.muxium.k.open) === true) {
           dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
             iterateStage: true,
           });

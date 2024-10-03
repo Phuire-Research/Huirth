@@ -49,13 +49,13 @@ export const userInterfaceServerContextPrinciple: UserInterfaceServerPrinciple =
       ({ concepts, dispatch, changes, stagePlanner, d }) => {
         console.log(
           'CHECK IF THIS HITS',
-          selectSlice(concepts, muxiumSelectOpen),
+          selectSlice(concepts, d.muxium.k.open),
           getMuxiumState(concepts).modeIndex,
           muxiumSelectOpen.keys,
           changes,
           'stuff'
         );
-        if (selectSlice(concepts, muxiumSelectOpen) === true) {
+        if (selectSlice(concepts, d.muxium.k.open) === true) {
           const fileSystemExists = areConceptsLoaded(concepts, [fileSystemName]);
           if (!fileSystemExists) {
             console.log('FILE SYSTEM NOT LOADED, CONTEXT PRINCIPLE CONCLUDE');

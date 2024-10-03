@@ -32,7 +32,7 @@ export type UserInterfaceServerState = {
   goal: string;
 } & UserInterfaceState;
 
-const createUserInterfaceServerState = (
+export const createUserInterfaceServerState = (
   pageStrategies: PageStrategyCreators[],
   goal: commandLineInterfaceGoals
 ): UserInterfaceServerState => {

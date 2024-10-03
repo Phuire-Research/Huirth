@@ -4,22 +4,9 @@ generate a principle that will detect changes on the client state based on the c
 This will set up and bind the selectors to state to determine which atomic operation that should be dispatched to update the UI.
 $>*/
 /*<#*/
-import {
-  KeyedSelector,
-  muxiumKick,
-  muxiumRegisterStagePlanner,
-  muxiumSelectOpen,
-  createStage,
-  getMuxiumState,
-  selectSlice,
-  strategyBegin,
-} from '@phuire/stratimux';
-import { UserInterfaceClientPrinciple, UserInterfaceClientState } from './userInterfaceClient.concept';
-import {
-  UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload,
-  userInterfaceClientAssembleAtomicUpdateCompositionStrategy,
-} from './qualities/clientAssembleAtomicUpdateCompositionStrategy.quality';
-import { userInterface_createBoundSelectorsSelector, userInterface_createPagesSelector } from '../userInterface/userInterface.selector';
+import { muxiumSelectOpen, getMuxiumState, selectSlice, strategyBegin } from '@phuire/stratimux';
+import { UserInterfaceClientPrinciple } from './userInterfaceClient.concept';
+import { UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload } from './qualities/clientAssembleAtomicUpdateCompositionStrategy.quality';
 import { userInterfaceInitialBindingStrategy } from './strategies/initialBinding.strategy';
 import { BoundSelectors, Page } from '../../model/userInterface';
 
@@ -39,7 +26,7 @@ export const userInterfaceClientOnChangePrinciple: UserInterfaceClientPrinciple 
           stagePlanner.conclude();
         }
       },
-      { selectors: [muxiumSelectOpen] }
+      { selectors: [d__.muxium.k.open] }
     ),
     stage(
       ({ concepts, dispatch, k, stagePlanner }) => {
@@ -82,7 +69,7 @@ export const userInterfaceClientOnChangePrinciple: UserInterfaceClientPrinciple 
             }
           });
           if (payload.boundActionQue.length > 0) {
-            dispatch(userInterfaceClientAssembleAtomicUpdateCompositionStrategy.actionCreator(payload), {
+            dispatch(e.userInterfaceClientAssembleAtomicUpdateCompositionStrategy(payload), {
               throttle: 0,
               newSelectors,
             });
@@ -93,7 +80,7 @@ export const userInterfaceClientOnChangePrinciple: UserInterfaceClientPrinciple 
             });
           }
         } else if (uiState === undefined) {
-          console.log('SHOULDN\'T CONCLUDE, unless removed');
+          console.log("SHOULDN'T CONCLUDE, unless removed");
           stagePlanner.conclude();
         }
       },

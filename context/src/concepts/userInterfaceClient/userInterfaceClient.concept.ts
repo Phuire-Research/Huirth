@@ -70,24 +70,24 @@ export const createUserInterfaceClientConcept = (state?: Record<string, unknown>
   }
   const muxified = brandCreator
     ? muxifyConcepts(
-        [
-          createHtmlConcept(),
-          createWebSocketClientConcept(),
-          createUserInterfaceConcept([]),
-          createConcept('', createUserInterfaceClientState(), userInterfaceClientQualities, [userInterfaceClientOnChangePrinciple]),
-          brandCreator(),
-        ],
-        createConcept(userInterfaceClientName, newState)
-      )
+      [
+        createHtmlConcept(),
+        createWebSocketClientConcept(),
+        createUserInterfaceConcept([]),
+        createConcept('', createUserInterfaceClientState(), userInterfaceClientQualities, [userInterfaceClientOnChangePrinciple]),
+        brandCreator(),
+      ],
+      createConcept(userInterfaceClientName, newState)
+    )
     : muxifyConcepts(
-        [
-          createHtmlConcept(),
-          createWebSocketClientConcept(),
-          createUserInterfaceConcept([]),
-          createConcept('', createUserInterfaceClientState(), userInterfaceQualities, [userInterfaceClientOnChangePrinciple]),
-        ],
-        createConcept(userInterfaceClientName, newState)
-      );
+      [
+        createHtmlConcept(),
+        createWebSocketClientConcept(),
+        createUserInterfaceConcept([]),
+        createConcept('', createUserInterfaceClientState(), userInterfaceQualities, [userInterfaceClientOnChangePrinciple]),
+      ],
+      createConcept(userInterfaceClientName, newState)
+    );
   return muxified;
 };
 /*#>*/

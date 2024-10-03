@@ -19,10 +19,10 @@ export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({ s
   });
   const userInterfacePageInit = plan('User Interface Page to State initialization plan', ({ stage, d__, k__ }) => [
     stage(
-      ({ concepts, dispatch, stagePlanner, k }) => {
+      ({ concepts, dispatch, stagePlanner, d, k }) => {
         console.log('USER INTERFACE PAGE TO STATE INIT 1');
         const name = k.name(concepts);
-        if (name && selectSlice(concepts, muxiumSelectOpen) === true) {
+        if (name && selectSlice(concepts, d.muxium.k.open) === true) {
           dispatch(d__.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
             iterateStage: true,
           });
@@ -31,7 +31,7 @@ export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({ s
           stagePlanner.conclude();
         }
       },
-      { priority: 1000, selectors: [muxiumSelectOpen] }
+      { priority: 1000, selectors: [d__.muxium.k.open] }
     ),
     stage(
       ({ concepts, dispatch, stagePlanner, k }) => {

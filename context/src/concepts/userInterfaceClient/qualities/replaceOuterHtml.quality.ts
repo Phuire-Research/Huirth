@@ -4,12 +4,13 @@ $>*/
 /*<#*/
 import { createMethod, createQualityCardWithPayload, nullReducer, selectPayload, strategySuccess } from '@phuire/stratimux';
 import { userInterface_selectPage } from '../../../model/userInterface';
+import { UserInterfaceClientState } from '../userInterfaceClient.concept';
 
 export type UserInterfaceClientReplaceOuterHtmlPayload = {
   id: string;
 };
 
-export const userInterfaceClientReplaceOuterHtml = createQualityCardWithPayload<UserInterfaceClientReplaceOuterHtmlPayload, any>({
+export const userInterfaceClientReplaceOuterHtml = createQualityCardWithPayload<UserInterfaceClientState, UserInterfaceClientReplaceOuterHtmlPayload>({
   type: 'User Interface Client assemble update atomic compositions strategy client',
   reducer: nullReducer,
   methodCreator: () =>

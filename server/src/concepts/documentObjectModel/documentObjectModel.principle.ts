@@ -11,7 +11,7 @@ export const documentObjectModelPrinciple: DocumentObjectModelPrinciple = ({ pla
   plan('Document Object Model initial page bindings plan', ({ stage }) => [
     stage(
       ({ concepts, dispatch, stagePlanner, d }) => {
-        if (selectSlice(concepts, muxiumSelectOpen) === true) {
+        if (selectSlice(concepts, d.muxium.k.open) === true) {
           dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: documentObjectModelName, stagePlanner }), {
             iterateStage: true,
           });

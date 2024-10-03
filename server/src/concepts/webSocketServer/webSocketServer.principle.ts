@@ -13,7 +13,7 @@ import { webSocketServer_createActionQueSelector } from './webSocketServer.selec
 import { webSocketServerSyncState } from './qualities/syncState.quality';
 // import { webSocketServer_createActionQueSelector } from './webSocketServer.selectors';
 
-export const webSocketServerPrinciple: WebSocketServerPrinciple = ({ k_, plan, concepts_, observer, conceptSemaphore }) => {
+export const webSocketServerPrinciple: WebSocketServerPrinciple = ({ d_, k_, plan, concepts_, observer, conceptSemaphore }) => {
   const initialServerState = k_.state(concepts_) as unknown as ServerState;
   const server = initialServerState.server;
   const socket = _ws(server);
@@ -25,10 +25,10 @@ export const webSocketServerPrinciple: WebSocketServerPrinciple = ({ k_, plan, c
     interval = setInterval(() => {
       ws.send('ping');
     }, 3000);
-    const webSocketServerPlan = plan('Web Socket Server Message Que Planner', ({ stage, k__ }) => [
+    const webSocketServerPlan = plan('Web Socket Server Message Que Planner', ({ stage, k__, d__ }) => [
       stage(
         ({ concepts, dispatch, k, d, stagePlanner }) => {
-          if (selectSlice(concepts, muxiumSelectOpen) === true) {
+          if (selectSlice(concepts, d.muxium.k.open) === true) {
             const name = k.name(concepts);
             if (name) {
               dispatch(d.muxium.e.muxiumRegisterStagePlanner({ conceptName: name, stagePlanner }), {
@@ -39,7 +39,7 @@ export const webSocketServerPrinciple: WebSocketServerPrinciple = ({ k_, plan, c
             }
           }
         },
-        { selectors: [muxiumSelectOpen] }
+        { selectors: [d__.muxium.k.open] }
       ),
       stage(
         ({ concepts, k, stagePlanner }) => {
@@ -84,7 +84,9 @@ export const webSocketServerPrinciple: WebSocketServerPrinciple = ({ k_, plan, c
               console.log('MESSAGE', (act as Action).type);
             }
           }
-          act.conceptSemaphore = conceptSemaphore;
+          (act as Action).conceptSemaphore = conceptSemaphore;
+          (act as Action).semaphore = [-1, -1, -1, -1];
+          console.log('CHECK CONCEPT SEMAPHORE', act);
           observer.next(act);
         }
       }
