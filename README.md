@@ -7,6 +7,8 @@ This will be patched up over the course of the month, majority of work has been 
 After the refactor however, this will serve as a form of backwards compatibility, while Huirth becomes increasingly responsible for its stack.
 
 ## Change Log
+### Sync to v0.2.1 10/03/24
+* Going to be stripping down this project for simplicity, just needed to ensure the baseline of the new version of Stratimux was up to snuff. This project is still heavily WIP.
 ### Sync to v0.1.72 5/21/2024
 * Improved the internal consistency when handling the creation of pages for training data sets.
   * Still tracking down some odds and ends in regards to the handling of project statuses.
