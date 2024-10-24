@@ -21,6 +21,7 @@ import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.con
 import { huirth_convertNumberToStringVerbose } from '../verboseNumber.model';
 import { TRANSFORMATION_DATASET_LIMIT } from '../huirthServer.model';
 import { HuirthServerDeck, huirthServerState } from '../huirthServer.concept';
+import { huirthServerSaveDataSetSelectionJSONLStrategy } from '../strategies/saveDataSetSelectionAsJSONL.strategy';
 
 export const huirthServerGenerateVerboseAddingStrategy = createQualityCard<huirthServerState, HuirthServerDeck>({
   type: 'huirthServer generate a verbose adding data set',
@@ -101,11 +102,13 @@ export const huirthServerGenerateVerboseAddingStrategy = createQualityCard<huirt
           ),
           stage(({ concepts, stagePlanner }) => {
             console.log('Transformation stage 3', iterations, length, named.dataSet.length);
-            controller.fire(strategyBegin(huirthServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseAdding', concepts, deck)));
+            controller.fire(
+              strategyBegin(huirthServerSaveDataSetSelectionJSONLStrategy(fileSystemState.root, [named], ['VerboseAdding'], deck))
+            );
             stagePlanner.conclude();
           }),
         ]);
       }
-    }, 5000),
+    }, 50000),
 });
 /*#>*/

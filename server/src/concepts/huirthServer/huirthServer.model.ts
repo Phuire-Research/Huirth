@@ -55,6 +55,12 @@ export const convertNamedDataSetToSaveFormat = (named: NamedDataSet) => {
 };
 
 export type JSONLSavedFormat = {
+  systemInstruction?: {
+    role: string;
+    parts: {
+      text: string;
+    }[];
+  };
   contents: {
     role: string;
     parts: {
@@ -71,10 +77,19 @@ const cleanPrompt = (str: string) => {
   }
 };
 
+const instruction = 'You are currently embodying Stratimux and a Muxium Deck Load of : [HuirthServerDeck, CounterDeck]';
 export const convertNamedDataSetToJSONLSavedFormat = (named: NamedDataSet) => {
   let output = '';
   named.dataSet.forEach((set) => {
     const JSONL: JSONLSavedFormat = {
+      systemInstruction: {
+        role: 'model',
+        parts: [
+          {
+            text: instruction,
+          },
+        ],
+      },
       contents: [
         {
           role: 'user',
