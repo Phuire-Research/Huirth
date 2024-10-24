@@ -6,7 +6,8 @@ import { createMethodDebounceWithConcepts, createQualityCardWithPayload, nullRed
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirthServerDeleteDataSetsStrategy } from '../strategies/deleteDataSets.strategy';
 import { huirthState } from '../../huirth/huirth.concept';
-import { huirthServerName, huirthServerState } from '../huirthServer.concept';
+import { HuirthServerDeck, huirthServerName, huirthServerState } from '../huirthServer.concept';
+import { userInterfaceServerName } from '../../userInterfaceServer/userInterfaceServer.concept';
 
 export type huirthServerTriggerDeleteDataSetsStrategyPayload = {
   names: string[];
@@ -14,18 +15,19 @@ export type huirthServerTriggerDeleteDataSetsStrategyPayload = {
 
 export const huirthServerTriggerDeleteDataSetsStrategy = createQualityCardWithPayload<
   huirthServerState,
-  huirthServerTriggerDeleteDataSetsStrategyPayload
+  huirthServerTriggerDeleteDataSetsStrategyPayload,
+  HuirthServerDeck
 >({
   type: 'huirthServer trigger delete data sets strategy',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethodDebounceWithConcepts(({ action, concepts_ }) => {
+    createMethodDebounceWithConcepts(({ action, concepts_, deck }) => {
       const { names } = action.payload;
       const fileSystemState = selectState<FileSystemState>(concepts_, fileSystemName);
-      const state = selectState<huirthState>(concepts_, huirthServerName);
+      const state = selectState<huirthState>(concepts_, userInterfaceServerName);
       if (fileSystemState && state) {
         const { trainingData } = state;
-        const strategy = huirthServerDeleteDataSetsStrategy(fileSystemState.root, trainingData, names);
+        const strategy = huirthServerDeleteDataSetsStrategy(fileSystemState.root, trainingData, names, deck);
         return strategyBegin(strategy);
       } else {
         return action;

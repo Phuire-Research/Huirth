@@ -7,7 +7,7 @@ import { FileSystemState, fileSystemName } from '../fileSystem/fileSystem.concep
 import { huirthServerInitializationStrategy } from './strategies/initialization.strategy';
 import { HuirthServerPrinciple } from './huirthServer.concept';
 
-export const huirthServerPrinciple: HuirthServerPrinciple = ({ plan }) => {
+export const huirthServerPrinciple: HuirthServerPrinciple = ({ plan, d_ }) => {
   plan('huirthServer initialization plan', ({ stage }) => [
     stage(({ concepts, dispatch, d, k, stagePlanner }) => {
       const conceptName = k.name(concepts);
@@ -22,7 +22,7 @@ export const huirthServerPrinciple: HuirthServerPrinciple = ({ plan }) => {
     stage(({ concepts, dispatch, stagePlanner }) => {
       const root = selectState<FileSystemState>(concepts, fileSystemName)?.root;
       if (root) {
-        dispatch(strategyBegin(huirthServerInitializationStrategy(root)), {
+        dispatch(strategyBegin(huirthServerInitializationStrategy(root, d_)), {
           iterateStage: true,
         });
       } else {

@@ -20,12 +20,13 @@ import { huirthServerSaveDataSetStrategy } from '../strategies/saveDataSet.strat
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirth_convertNumberToStringVerbose } from '../verboseNumber.model';
 import { TRANSFORMATION_DATASET_LIMIT } from '../huirthServer.model';
+import { HuirthServerDeck, huirthServerState } from '../huirthServer.concept';
 
-export const huirthServerGenerateVerboseAddingStrategy = createQualityCard({
+export const huirthServerGenerateVerboseAddingStrategy = createQualityCard<huirthServerState, HuirthServerDeck>({
   type: 'huirthServer generate a verbose adding data set',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethodWithConcepts(({ controller, action, concepts_ }) => {
+    createAsyncMethodWithConcepts(({ controller, concepts_, deck }) => {
       const muxiumState = getMuxiumState(concepts_);
       const fileSystemState = selectState<FileSystemState>(concepts_, fileSystemName);
       if (fileSystemState) {
@@ -44,7 +45,7 @@ export const huirthServerGenerateVerboseAddingStrategy = createQualityCard({
           stage(({ dispatch, e }) => {
             console.log('Transformation stage 1', iterations < 100, length < limit);
             if (iterations < 100 && length < limit) {
-              const newStrategy = huirthServerVerboseAddingStrategy(length);
+              const newStrategy = huirthServerVerboseAddingStrategy(length, deck);
               newStrategy.topic = iterations + 1 + '.) ' + newStrategy.topic;
               currentTopic = newStrategy.topic;
               console.log('BEGIN STRATEGY', currentTopic);
@@ -100,7 +101,7 @@ export const huirthServerGenerateVerboseAddingStrategy = createQualityCard({
           ),
           stage(({ concepts, stagePlanner }) => {
             console.log('Transformation stage 3', iterations, length, named.dataSet.length);
-            controller.fire(strategyBegin(huirthServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseAdding', concepts)));
+            controller.fire(strategyBegin(huirthServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseAdding', concepts, deck)));
             stagePlanner.conclude();
           }),
         ]);

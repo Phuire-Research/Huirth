@@ -3,34 +3,15 @@ For the graph programming framework Stratimux and the User Interface Server Conc
 While ignoring certain parts to allow for this recursive connection to be halting complete.
 $>*/
 /*<#*/
-import { Subscriber } from 'rxjs';
 import { ServerState } from '../server/server.concept';
 import express from 'express';
-import {
-  Action,
-  Concepts,
-  KeyedSelector,
-  PrincipleFunction,
-  MuxifiedSubject,
-  muxiumKick,
-  muxiumRegisterStagePlanner,
-  muxiumSelectOpen,
-  createStage,
-  selectSlice,
-  selectState,
-  selectMuxifiedState,
-  updateMuxifiedKeyedSelector,
-  MuxiumDeck,
-} from 'stratimux';
+import { KeyedSelector, selectSlice, selectState, updateMuxifiedKeyedSelector } from 'stratimux';
 import { BoundSelectors, Composition, Page } from '../../model/userInterface';
 import path from 'path';
 import { FileSystemState, fileSystemName } from '../fileSystem/fileSystem.concept';
 import { findRoot } from '../../model/findRoot';
 import { createUserInterfaceServerState, UserInterfaceServerPrinciple, UserInterfaceServerState } from './userInterfaceServer.concept';
-import {
-  UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload,
-  userInterfaceServerAssembleUpdateAtomicCompositionStrategy,
-} from './qualities/serverAssembleUpdateAtomicCompositionStrategy.quality';
+import { UserInterfaceServerAssembleUpdateAtomicCompositionStrategyPayload } from './qualities/serverAssembleUpdateAtomicCompositionStrategy.quality';
 import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
 
 const filterState = (state: Record<string, unknown>, filterKeys: string[]) => {
@@ -134,7 +115,7 @@ export const userInterfaceServerPrinciple: UserInterfaceServerPrinciple = ({ sub
     }
   });
   server.get('/stateSync', (__, res) => {
-    console.log('HIT, newState: ', JSON.stringify(newState));
+    // console.log('HIT, newState: ', JSON.stringify(newState));
     res.json(newState);
   });
   server.get('/:title', (req, res) => {
@@ -266,7 +247,7 @@ export const userInterfaceServerOnChangePrinciple: UserInterfaceServerPrinciple 
     // }, {beat: 333}),
 
     stage(
-      ({ concepts, dispatch, changes, e, k, stagePlanner }) => {
+      ({ concepts, dispatch, changes, d, k, stagePlanner }) => {
         // console.log('Get unified name', getMuxifiedName(concepts, semaphore));
         const uiState = k.state(concepts);
         if (uiState && uiState.pagesCached) {
@@ -305,7 +286,7 @@ export const userInterfaceServerOnChangePrinciple: UserInterfaceServerPrinciple 
           // console.log('CHECK COMPONENTS', uiState.components);
           if (payload.boundActionQue.length > 0) {
             // console.log('ATOMIC UPDATE', payload.boundActionQue.map(bound => bound.semaphore));
-            dispatch(userInterfaceServerAssembleUpdateAtomicCompositionStrategy.actionCreator(payload), {
+            dispatch(d.userInterfaceServer.e.userInterfaceServerAssembleUpdateAtomicCompositionStrategy(payload), {
               throttle: 0,
               newSelectors,
             });

@@ -3,9 +3,11 @@ For the graph programming framework Stratimux and a Concept huirth Server, gener
 $>*/
 /*<#*/
 import { userInterfaceServerSendActionToClient } from '../../../userInterfaceServer/strategies/sendActionToClient.helper';
-import { huirthUpdateProjectStatus } from '../../../huirth/qualities/updateProjectToStatus.quality';
 import { ProjectStatus } from '../../../huirth/huirth.model';
+import { Deck } from 'stratimux';
+import { HuirthDeck } from '../../../huirth/huirth.concept';
+import { WebSocketServerDeck } from '../../../webSocketServer/webSocketServer.concept';
 
-export const huirthServerSendUpdateProjectToInstalled = (name: string) =>
-  userInterfaceServerSendActionToClient(huirthUpdateProjectStatus.actionCreator({ name, status: ProjectStatus.installed }));
+export const huirthServerSendUpdateProjectToInstalled = (name: string, deck: Deck<HuirthDeck & WebSocketServerDeck>) =>
+  userInterfaceServerSendActionToClient(deck.huirth.e.huirthUpdateProjectStatus({ name, status: ProjectStatus.installed }), deck);
 /*#>*/

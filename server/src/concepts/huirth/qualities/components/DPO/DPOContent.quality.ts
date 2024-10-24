@@ -18,7 +18,7 @@ import { chosenID, generateNumID, promptID, rejectedID } from '../../../huirth.m
 import { huirth_createDPOSelector } from '../../../huirth.selector';
 import { huirthTriggerSaveDPOStrategy } from '../../../strategies/server/triggerSaveDPOStrategy.helper';
 
-export const huirthIndexDPOContent = createQualityCardComponent<huirthState, ActionComponentPayload>({
+export const huirthIndexDPOContent = createQualityCardComponent<huirthState, ActionComponentPayload, HuirthDeck>({
   type: 'create userInterface for IndexDPOContent',
   reducer: nullReducer,
   componentCreator: createMethodDebounceWithConcepts<huirthState, ActionComponentPayload, HuirthDeck>(

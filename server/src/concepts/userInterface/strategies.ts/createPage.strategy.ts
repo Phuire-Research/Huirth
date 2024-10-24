@@ -2,14 +2,9 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate a ActionStrategy that will generate a page based on its loaded action strategy stitch components and assign such to the strategies data field.
 $>*/
 /*<#*/
-import { ActionNode, ActionStrategy, createActionNode, createActionNodeFromStrategy, createStrategy } from 'stratimux';
+import { ActionNode, ActionStrategy, createActionNode, createActionNodeFromStrategy, createStrategy, Deck, MuxiumDeck } from 'stratimux';
 import { ActionComponentPayload, ActionStrategyComponentStitch, Page } from '../../../model/userInterface';
-import { htmlBegin } from '../../html/qualities/htmlBegin.quality';
-import { htmlHeadBegin } from '../../html/qualities/headBegin.quality';
-import { htmlBodyBegin } from '../../html/qualities/bodyBegin.quality';
-import { htmlBodyEnd } from '../../html/qualities/bodyEnd.quality';
-import { htmlEnd } from '../../html/qualities/htmlEnd';
-import { htmlHeadEnd } from '../../html/qualities/headEnd.quality';
+import { HtmlDeck } from '../../html/html.concepts';
 
 export const userInterfaceCreatePageTopic = 'User Interface create Page Strategy';
 /**
@@ -24,31 +19,33 @@ export const userInterfaceCreatePageTopic = 'User Interface create Page Strategy
 export function userInterfaceCreatePageStrategy(
   title: string,
   pageData: Page,
-  body: ActionStrategyComponentStitch[],
-  headerStitch?: ActionStrategyComponentStitch,
+  body: ActionStrategyComponentStitch<any>[],
+  deck: Deck<MuxiumDeck & HtmlDeck>,
+  headerStitch?: ActionStrategyComponentStitch<any>,
   language?: string
 ): [ActionNode, ActionStrategy] {
+  const { htmlEnd, htmlBodyBegin, htmlBodyEnd } = deck.html.e;
   const payload: ActionComponentPayload = {
     pageTitle: title,
   };
-  const stepHtmlEnd = createActionNode(htmlEnd.actionCreator(payload), {
+  const stepHtmlEnd = createActionNode(htmlEnd(payload), {
     successNode: null,
     failureNode: null,
   });
 
-  const stepBodyEnd = createActionNode(htmlBodyEnd.actionCreator(payload), {
+  const stepBodyEnd = createActionNode(htmlBodyEnd(payload), {
     successNode: stepHtmlEnd,
     failureNode: null,
   });
 
-  const stepBodyBegin = createActionNode(htmlBodyBegin.actionCreator(payload), {
+  const stepBodyBegin = createActionNode(htmlBodyBegin(payload), {
     successNode: stepBodyEnd,
     failureNode: null,
   });
 
   let prevHead = stepBodyBegin;
   for (let i = 0; i < body.length; i++) {
-    const [stitchEnd, stitchStrategy] = body[i](payload);
+    const [stitchEnd, stitchStrategy] = body[i](payload, deck);
     const stitchHead = createActionNodeFromStrategy(stitchStrategy);
     prevHead.successNode = stitchHead;
     // console.log('PREV HEAD', prevHead, i);
@@ -58,12 +55,12 @@ export function userInterfaceCreatePageStrategy(
   prevHead.successNode = stepBodyEnd;
   // console.log('FINAL', prevHead);
 
-  const [headEnd, header] = createHeaderStrategy(payload, headerStitch);
+  const [headEnd, header] = createHeaderStrategy(payload, deck, headerStitch);
   const stepHeader = createActionNodeFromStrategy(header);
 
   headEnd.successNode = stepBodyBegin;
 
-  const stepHtmlBegin = createActionNode(htmlBegin.actionCreator({ language, pageTitle: title }), {
+  const stepHtmlBegin = createActionNode(deck.html.e.htmlBegin({ language, pageTitle: title }), {
     successNode: stepHeader,
     failureNode: null,
   });
@@ -78,17 +75,23 @@ export function userInterfaceCreatePageStrategy(
   ];
 }
 
-const createHeaderStrategy = (payload: ActionComponentPayload, stitch?: ActionStrategyComponentStitch): [ActionNode, ActionStrategy] => {
-  const stepHeadEnd = createActionNode(htmlHeadEnd.actionCreator(payload), {
+const createHeaderStrategy = (
+  payload: ActionComponentPayload,
+  deck: Deck<MuxiumDeck & HtmlDeck>,
+  stitch?: ActionStrategyComponentStitch
+): [ActionNode, ActionStrategy] => {
+  const { htmlHeadBegin, htmlHeadEnd } = deck.html.e;
+
+  const stepHeadEnd = createActionNode(htmlHeadEnd(payload), {
     successNode: null,
     failureNode: null,
   });
-  const stepHeadBegin = createActionNode(htmlHeadBegin.actionCreator(payload), {
+  const stepHeadBegin = createActionNode(htmlHeadBegin(payload), {
     successNode: stepHeadEnd,
     failureNode: null,
   });
   if (stitch) {
-    const [stitchEnd, stitchStrategy] = stitch(payload);
+    const [stitchEnd, stitchStrategy] = stitch(payload, deck);
     stitchEnd.successNode = stepHeadEnd;
     const stitched = createActionNodeFromStrategy(stitchStrategy);
     stepHeadBegin.successNode = stitched;

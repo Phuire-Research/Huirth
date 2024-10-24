@@ -22,11 +22,8 @@ import {
 import { elementEventBinding } from '../../../../../model/html';
 import { HuirthDeck, huirthState } from '../../../huirth.concept';
 import { BaseDataSet, chosenID, contentID, generateNumID, promptID, rejectedID } from '../../../huirth.model';
-import { huirthNewDataSetEntry } from '../../newDataSetEntry.quality';
-import { huirthUpdateDataSetContents } from '../../updateDataSetContents.quality';
-import { huirthUpdateDataSetPrompt } from '../../updateDataSetPrompt.quality';
 
-export const huirthDataSetContent = createQualityCardComponent<huirthState, ActionComponentPayload>({
+export const huirthDataSetContent = createQualityCardComponent<huirthState, ActionComponentPayload, HuirthDeck>({
   type: 'create userInterface for DataSetContent',
   reducer: nullReducer,
   componentCreator: createMethodWithState<huirthState, ActionComponentPayload, HuirthDeck>(({ action, state, deck, self }) => {
@@ -63,12 +60,12 @@ export const huirthDataSetContent = createQualityCardComponent<huirthState, Acti
           bindingsArray.push({
             elementId: promptID + elementID,
             eventBinding: elementEventBinding.onchange,
-            action: huirthUpdateDataSetPrompt.actionCreator({ index, dataSetIndex: i }),
+            action: deck.huirth.e.huirthUpdateDataSetPrompt({ index, dataSetIndex: i }),
           });
           bindingsArray.push({
             elementId: contentID + elementID,
             eventBinding: elementEventBinding.onchange,
-            action: huirthUpdateDataSetContents.actionCreator({ index, dataSetIndex: i }),
+            action: deck.huirth.e.huirthUpdateDataSetContents({ index, dataSetIndex: i }),
           });
           finalOutput += /*html*/ `
 <div class="text-black m-4">
@@ -104,7 +101,7 @@ export const huirthDataSetContent = createQualityCardComponent<huirthState, Acti
         }
       }
       bindingsArray.push({
-        action: huirthNewDataSetEntry.actionCreator({ index }),
+        action: deck.huirth.e.huirthNewDataSetEntry({ index }),
         elementId: addEntryID,
         eventBinding: elementEventBinding.onclick,
       });

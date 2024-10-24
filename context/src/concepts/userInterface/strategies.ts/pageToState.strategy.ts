@@ -2,18 +2,19 @@
 For the graph programming framework Stratimux and the User Interface Concept, generate an ActionStrategy that will recompose a page creation strategy to add its final composition to the state.
 $>*/
 /*<#*/
-import { ActionNode, ActionStrategy, ActionStrategyStitch, muxiumLog, createActionNode, createStrategy } from 'stratimux';
-import { userInterfaceAddComposedPageToState } from '../qualities/addComposedPageToState.quality';
+import { ActionNode, ActionStrategy, ActionStrategyStitch, createActionNode, createStrategy, Deck } from 'stratimux';
+import { UserInterfaceDeck } from '../userInterface.concept';
+import { DeckStitch } from '../../../model/userInterface';
 
 /**
  * Has no topic of its own, uses incoming Page Strategy
  * @param stitch Page Strategy
  * @returns ActionStrategy
  */
-export function userInterfacePageToStateStrategy(stitch: ActionStrategyStitch): ActionStrategy {
-  const stepAddToState = createActionNode(userInterfaceAddComposedPageToState.actionCreator());
+export function userInterfacePageToStateStrategy(stitch: DeckStitch, deck: Deck<UserInterfaceDeck>): ActionStrategy {
+  const stepAddToState = createActionNode(deck.userInterface.e.userInterfaceAddComposedPageToState());
 
-  const [end, strategy] = stitch();
+  const [end, strategy] = stitch(deck);
   // const log = createActionNode(muxiumLog(), {
   //   successNode: stepAddToState
   // });
@@ -26,10 +27,10 @@ export function userInterfacePageToStateStrategy(stitch: ActionStrategyStitch): 
   });
 }
 
-export function userInterfacePageToStateStrategyStitch(stitch: ActionStrategyStitch): [ActionNode, ActionStrategy] {
-  const stepAddToState = createActionNode(userInterfaceAddComposedPageToState.actionCreator());
+export function userInterfacePageToStateStrategyStitch(stitch: DeckStitch, deck: Deck<UserInterfaceDeck>): [ActionNode, ActionStrategy] {
+  const stepAddToState = createActionNode(deck.userInterface.e.userInterfaceAddComposedPageToState());
 
-  const [end, strategy] = stitch();
+  const [end, strategy] = stitch(deck);
   // const log = createActionNode(muxiumLog(), {
   //   successNode: stepAddToState
   // });

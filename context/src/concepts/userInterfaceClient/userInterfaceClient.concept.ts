@@ -10,6 +10,7 @@ import { userInterfaceClientDetermineBindings } from './qualities/clientDetermin
 import { userInterfaceClientReplaceOuterHtml } from './qualities/replaceOuterHtml.quality';
 import { userInterfaceClientOnChangePrinciple } from './userInterfaceClient.principle';
 import { createWebSocketClientConcept } from '../webSocketClient/webSocketClient.concept';
+import { DocumentObjectModelDeck } from '../documentObjectModel/documentObjectModel.concept';
 
 export const userInterfaceClientName = 'userInterfaceClient';
 
@@ -50,7 +51,7 @@ const userInterfaceClientQualities = {
 
 export type UserInterfaceClientDeck = {
   userInterfaceClient: Concept<UserInterfaceState, typeof userInterfaceClientQualities & typeof userInterfaceQualities>;
-};
+} & DocumentObjectModelDeck;
 
 export type UserInterfaceClientPrinciple = PrincipleFunction<
   typeof userInterfaceClientQualities,

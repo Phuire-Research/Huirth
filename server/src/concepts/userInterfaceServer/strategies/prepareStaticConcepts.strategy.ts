@@ -7,18 +7,16 @@ import {
   ActionStrategy,
   ActionStrategyParameters,
   MuxiumDeck,
-  muxiumPreClose,
   createActionNode,
   createActionNodeFromStrategy,
   createStrategy,
   Deck,
 } from 'stratimux';
-import { fileSystemCopyMoveTargetDirectory } from '../../fileSystem/qualities/copyMoveDirectory.quality';
 import path from 'path';
 import { ConceptAndProperties, Page } from '../../../model/userInterface';
-import { userInterfaceServerRecursivelyCreateEachPageHtml } from '../qualities/recursivelyCreateEachPageHtml.quality';
 import { userInterfaceServerPrepareContextConceptsStitch } from './prepareContextConcepts.strategy';
 import { UserInterfaceServerDeck } from '../userInterfaceServer.concept';
+import { FileSystemDeck } from '../../fileSystem/fileSystem.concept';
 
 export const userInterfaceServerPrepareStaticConceptsTopic = 'User Interface Server prepare Static Concepts';
 export function userInterfaceServerPrepareStaticConceptsStrategy(
@@ -27,7 +25,7 @@ export function userInterfaceServerPrepareStaticConceptsStrategy(
   unified: string[],
   initialDirectoryMap: string[],
   pages: Page[],
-  deck: Deck<MuxiumDeck & UserInterfaceServerDeck>
+  deck: Deck<MuxiumDeck & UserInterfaceServerDeck & FileSystemDeck>
 ): ActionStrategy {
   const rootLayout = path.join(root + '/layout/');
   const rootLayoutStatic = path.join(root + '/layout/static/');
@@ -41,7 +39,7 @@ export function userInterfaceServerPrepareStaticConceptsStrategy(
     }
   );
   const stepCopyMovePublicToLayout = createActionNode(
-    fileSystemCopyMoveTargetDirectory.actionCreator({
+    deck.fileSystem.e.fileSystemCopyMoveTargetDirectory({
       target: contextPublic,
       newLocation: rootLayoutStatic,
     }),

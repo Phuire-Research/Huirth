@@ -5,13 +5,11 @@ verbose adding strategies.
 $>*/
 /*<#*/
 import {
-  muxiumKick,
   createAsyncMethodWithConcepts,
   nullReducer,
   getMuxiumState,
   selectState,
   strategyBegin,
-  createStage,
   createQualityCard,
   muxiumSelectLastStrategy,
 } from 'stratimux';
@@ -22,12 +20,13 @@ import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.con
 import { huirthServerVerboseAdditionAndSubtractionStrategy } from '../strategies/verboseAdditionAndSubtraction.strategy';
 import { huirth_convertNumberToStringVerbose } from '../verboseNumber.model';
 import { TRANSFORMATION_DATASET_LIMIT } from '../huirthServer.model';
+import { HuirthServerDeck, huirthServerState } from '../huirthServer.concept';
 
-export const huirthServerGenerateVerboseAdditionAndSubtractionStrategy = createQualityCard({
+export const huirthServerGenerateVerboseAdditionAndSubtractionStrategy = createQualityCard<huirthServerState, HuirthServerDeck>({
   type: 'huirthServer generate a verbose addition and subtraction data set',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethodWithConcepts(({ controller, concepts_ }) => {
+    createAsyncMethodWithConcepts(({ controller, concepts_, deck }) => {
       const muxiumState = getMuxiumState(concepts_);
       const fileSystemState = selectState<FileSystemState>(concepts_, fileSystemName);
       if (fileSystemState) {
@@ -46,7 +45,7 @@ export const huirthServerGenerateVerboseAdditionAndSubtractionStrategy = createQ
           stage(({ dispatch, e }) => {
             console.log('Transformation stage 1', iterations < 100, length < limit);
             if (iterations < 100 && length < limit) {
-              const newStrategy = huirthServerVerboseAdditionAndSubtractionStrategy(length);
+              const newStrategy = huirthServerVerboseAdditionAndSubtractionStrategy(length, deck);
               newStrategy.topic = iterations + 1 + '.) ' + newStrategy.topic;
               currentTopic = newStrategy.topic;
               console.log('BEGIN STRATEGY', currentTopic);
@@ -95,7 +94,7 @@ export const huirthServerGenerateVerboseAdditionAndSubtractionStrategy = createQ
           stage(({ concepts, stagePlanner }) => {
             console.log('Transformation stage 3', iterations, length, named.dataSet.length);
             controller.fire(
-              strategyBegin(huirthServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseAdditionAndSubtraction', concepts))
+              strategyBegin(huirthServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseAdditionAndSubtraction', concepts, deck))
             );
             stagePlanner.conclude();
           }),

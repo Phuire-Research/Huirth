@@ -13,7 +13,7 @@ import {
   strategyFailed,
   strategySuccess,
 } from 'stratimux';
-import { huirthServerState } from '../huirthServer.concept';
+import { HuirthServerDeck, huirthServerState } from '../huirthServer.concept';
 import { huirthServerSendUpdateParsedProjectData } from '../strategies/client/huirthServerSendUpdateParsedProjectData.helper';
 
 export type huirthServerPrepareParsedProjectDataUpdatePayload = {
@@ -22,12 +22,13 @@ export type huirthServerPrepareParsedProjectDataUpdatePayload = {
 
 export const huirthServerPrepareParsedProjectDataUpdate = createQualityCardWithPayload<
   huirthServerState,
-  huirthServerPrepareParsedProjectDataUpdatePayload
+  huirthServerPrepareParsedProjectDataUpdatePayload,
+  HuirthServerDeck
 >({
   type: 'huirthServer prepare parsed data set to be sent to client',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethodWithState(({ action, state }) => {
+    createMethodWithState(({ action, state, deck }) => {
       if (action.strategy) {
         const strategy = action.strategy;
         const { name } = selectPayload<huirthServerPrepareParsedProjectDataUpdatePayload>(action);
@@ -36,7 +37,7 @@ export const huirthServerPrepareParsedProjectDataUpdate = createQualityCardWithP
           if (dataSet.name === name) {
             console.log('FOUND DATA SET', dataSet);
             const nextStrategy = createStrategy({
-              initialNode: createActionNode(huirthServerSendUpdateParsedProjectData(dataSet), {
+              initialNode: createActionNode(huirthServerSendUpdateParsedProjectData(dataSet, deck), {
                 successNode: null,
                 failureNode: null,
               }),

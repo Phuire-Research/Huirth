@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a Page Strategy Creator that will unify Sidebar, DataManager, Footer, and Header Action Strategy Component Stitches into a Page Composition.
 $>*/
 /*<#*/
-import { createActionNode, createStrategy } from 'stratimux';
+import { createStrategy, Deck } from 'stratimux';
 import {
   ActionStrategyComponentStitch,
   PageStrategyCreators,
@@ -12,13 +12,11 @@ import {
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { huirthFooterStitch } from '../components/footer.strategy';
 import { huirthHeaderStitch } from '../components/header.strategy';
-import { huirthDataManagerBegin } from '../../qualities/components/dataManager/dataManagerBegin.quality';
-import { huirthDataManagerContent } from '../../qualities/components/dataManager/dataManagerContent.quality';
-import { huirthDataManagerEnd } from '../../qualities/components/dataManager/dataManagerEnd.quality';
 import { huirthSidebarComponentStitch } from '../components/sidebar.strategy';
+import { HuirthDeck } from '../../huirth.concept';
 
 export const huirthDataManagerPageStrategyTopic = 'dataManager';
-export const huirthDataManagerPageStrategy: PageStrategyCreators = () => () => {
+export const huirthDataManagerPageStrategy: PageStrategyCreators = () => (deck: Deck<HuirthDeck>) => {
   const pageData = userInterface_createPage({
     title: huirthDataManagerPageStrategyTopic,
     conceptAndProps: [],
@@ -31,20 +29,21 @@ export const huirthDataManagerPageStrategy: PageStrategyCreators = () => () => {
     huirthDataManagerPageStrategyTopic,
     pageData,
     [huirthSidebarComponentStitch, huirthDataManagerStrategyStitch, huirthFooterStitch],
+    deck,
     huirthHeaderStitch
   );
 };
 
 export const huirthDataManagerStrategyStitchTopic = 'huirth Data Manager Action Strategy Component Stitch';
-export const huirthDataManagerStrategyStitch: ActionStrategyComponentStitch = (payload) => {
+export const huirthDataManagerStrategyStitch: ActionStrategyComponentStitch<HuirthDeck> = (payload, deck) => {
   // Body
-  const stephuirthDataManagerEnd = userInterface.createComponent(huirthDataManagerEnd.actionCreator(payload));
+  const stephuirthDataManagerEnd = userInterface.createComponent(deck.huirth.e.huirthDataManagerEnd(payload));
   const stephuirthDataManagerContent = userInterface.createComponent(
-    huirthDataManagerContent.actionCreator(payload),
+    deck.huirth.e.huirthDataManagerContent(payload),
     stephuirthDataManagerEnd
   );
   const stephuirthDataManagerBegin = userInterface.createComponent(
-    huirthDataManagerBegin.actionCreator(payload),
+    deck.huirth.e.huirthDataManagerBegin(payload),
     stephuirthDataManagerContent
   );
   return [

@@ -23,6 +23,7 @@ import { createUserInterfaceClientConcept } from './concepts/userInterfaceClient
               {
                 logging: true,
                 storeDialog: true,
+                logActionStream: true
               });
           } else {
             func();

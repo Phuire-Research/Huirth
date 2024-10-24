@@ -6,7 +6,12 @@ import { AnyConcept, MuxiumDeck, Concept, PrincipleFunction, Qualities, Quality,
 import { createServerConcept } from '../server/server.concept';
 import { userInterfaceServerOnChangePrinciple, userInterfaceServerPrinciple } from './userInterfaceServer.principle';
 import { commandLineInterfaceGoals } from '../../model/commandLineInterface';
-import { UserInterfaceState, createUserInterfaceConcept, userInterfaceQualities } from '../userInterface/userInterface.concept';
+import {
+  UserInterfaceDeck,
+  UserInterfaceState,
+  createUserInterfaceConcept,
+  userInterfaceQualities,
+} from '../userInterface/userInterface.concept';
 import { userInterfaceServerBuildContext } from './qualities/buildContext.quality';
 import { userInterfaceServerContextPrinciple } from './userInterfaceServer.context.principle';
 import { userInterfaceServerCreateEachPageHtml } from './qualities/createEachPageHtml.quality';
@@ -17,6 +22,7 @@ import { userInterfaceServerFormatContext } from './qualities/formatContext.qual
 import { PageStrategyCreators } from '../../model/userInterface';
 import { userInterfaceServerAssembleUpdateAtomicCompositionStrategy } from './qualities/serverAssembleUpdateAtomicCompositionStrategy.quality';
 import { createWebSocketServerConcept } from '../webSocketServer/webSocketServer.concept';
+import { FileSystemDeck } from '../fileSystem/fileSystem.concept';
 
 // eslint-disable-next-line no-shadow
 export enum workingConceptCategory {
@@ -50,7 +56,7 @@ export const createUserInterfaceServerState = (
 
 export type UserInterfaceServerPrinciple = PrincipleFunction<
   typeof userInterfaceQualities,
-  MuxiumDeck & UserInterfaceServerDeck,
+  MuxiumDeck & UserInterfaceServerDeck & FileSystemDeck,
   UserInterfaceServerState
 >;
 
@@ -131,7 +137,7 @@ const userInterfaceServerConcept = (
 
 export type UserInterfaceServerDeck = {
   userInterfaceServer: Concept<UserInterfaceServerState, typeof userInterfaceQualities & typeof userInterfaceServerQualities>;
-};
+} & UserInterfaceDeck;
 
 export const createUserInterfaceServerConcept = (
   goal: commandLineInterfaceGoals,

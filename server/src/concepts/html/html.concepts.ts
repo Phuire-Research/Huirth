@@ -23,15 +23,21 @@ const createHtmlState = (): HtmlState => {
   };
 };
 
+const qualities = {
+  htmlHelloWorld,
+  htmlBegin,
+  htmlEnd,
+  htmlBodyBegin,
+  htmlBodyEnd,
+  htmlHeadBegin,
+  htmlHeadEnd,
+};
+
+export type HtmlDeck = {
+  html: Concept<HtmlState, typeof qualities>;
+};
+
 export const createHtmlConcept = () => {
-  return createConcept(htmlName, createHtmlState(), {
-    htmlHelloWorld,
-    htmlBegin,
-    htmlEnd,
-    htmlBodyBegin,
-    htmlBodyEnd,
-    htmlHeadBegin,
-    htmlHeadEnd,
-  });
+  return createConcept(htmlName, createHtmlState(), qualities);
 };
 /*#>*/

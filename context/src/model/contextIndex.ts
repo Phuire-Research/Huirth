@@ -58,6 +58,7 @@ ${conceptImports}
               {
                 logging: true,
                 storeDialog: true,
+                logActionStream: true
               });
           } else {
             func();

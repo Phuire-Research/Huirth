@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a Page Strategy Creator that will unify Sidebar, Error, Footer, and Header Action Strategy Component Stitches into a Page Composition.
 $>*/
 /*<#*/
-import { muxium_createStitchNode, createActionNode, createStrategy } from 'stratimux';
+import { muxium_createStitchNode, createStrategy, Deck } from 'stratimux';
 import {
   ActionComponentPayload,
   ActionStrategyComponentStitch,
@@ -15,15 +15,16 @@ import { huirthFooterStitch } from '../components/footer.strategy';
 import { huirthHeaderStitch } from '../components/header.strategy';
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { huirthSidebarComponentStitch } from '../components/sidebar.strategy';
+import { HuirthDeck } from '../../huirth.concept';
 
 export const huirthErrorPageStrategyTopic = 'error';
-export const huirthErrorPageStrategy: PageStrategyCreators = () => () => {
+export const huirthErrorPageStrategy: PageStrategyCreators = () => (deck: Deck<HuirthDeck>) => {
   const page: ActionComponentPayload = {
     pageTitle: huirthErrorPageStrategyTopic,
   };
   // Body
-  const stepStitch = muxium_createStitchNode();
-  const stephuirthError = userInterface.createComponent(huirthError.actionCreator(page), stepStitch);
+  const stepStitch = muxium_createStitchNode(deck);
+  const stephuirthError = userInterface.createComponent(deck.huirth.e.huirthError(page), stepStitch);
   const huirthErrorStitch: ActionStrategyComponentStitch = () => [
     stepStitch,
     createStrategy({
@@ -44,6 +45,7 @@ export const huirthErrorPageStrategy: PageStrategyCreators = () => () => {
     huirthErrorPageStrategyTopic,
     pageData,
     [huirthSidebarComponentStitch, huirthErrorStitch, huirthFooterStitch],
+    deck,
     huirthHeaderStitch
   );
 };

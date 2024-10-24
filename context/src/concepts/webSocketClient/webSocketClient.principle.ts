@@ -135,7 +135,7 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({ plan, conce
     });
   });
   ws.addEventListener('message', (message: any) => {
-    // console.log('CHECK MESSAGE', message);
+    console.log('CHECK MESSAGE', message);
     if (message.data !== 'ping') {
       const act = JSON.parse(message.data);
       if (Object.keys(act).includes('type')) {

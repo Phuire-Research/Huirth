@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a Page Strategy Creator called index, that will unify Sidebar, Hero, Dialog, Footer, and Header Action Strategy Component Stitches into a Page Composition.
 $>*/
 /*<#*/
-import { muxium_createStitchNode, createStrategy } from 'stratimux';
+import { muxium_createStitchNode, createStrategy, Deck } from 'stratimux';
 import {
   ActionComponentPayload,
   ActionStrategyComponentStitch,
@@ -13,19 +13,16 @@ import {
 import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategies.ts/createPage.strategy';
 import { huirthFooterStitch } from '../components/footer.strategy';
 import { huirthHeaderStitch } from '../components/header.strategy';
-import { huirthIndexHero } from '../../qualities/components/hero/indexHero.quality';
-import { huirthIndexDialogBegin } from '../../qualities/components/dialog/indexDialogBegin.quality';
-import { huirthIndexDialogContent } from '../../qualities/components/dialog/indexDialogContent.quality';
-import { huirthIndexDialogEnd } from '../../qualities/components/dialog/indexDialogEnd.quality';
 import { huirthSidebarComponentStitch } from '../components/sidebar.strategy';
+import { HuirthDeck } from '../../huirth.concept';
 
 export const huirthIndexPageStrategyTopic = 'index';
-export const huirthIndexPageStrategy: PageStrategyCreators = () => () => {
+export const huirthIndexPageStrategy: PageStrategyCreators = () => (deck: Deck<HuirthDeck>) => {
   const page: ActionComponentPayload = {
     pageTitle: huirthIndexPageStrategyTopic,
   };
-  const stepStitch = muxium_createStitchNode();
-  const stephuirthIndexHero = userInterface.createComponent(huirthIndexHero.actionCreator(page), stepStitch);
+  const stepStitch = muxium_createStitchNode(deck);
+  const stephuirthIndexHero = userInterface.createComponent(deck.huirth.e.huirthIndexHero(page), stepStitch);
   const huirthBody: ActionStrategyComponentStitch = (payload: ActionComponentPayload) => [
     stepStitch,
     createStrategy({
@@ -46,20 +43,21 @@ export const huirthIndexPageStrategy: PageStrategyCreators = () => () => {
     huirthIndexPageStrategyTopic,
     pageData,
     [huirthSidebarComponentStitch, huirthBody, huirthIndexDialogStrategyStitch, huirthFooterStitch],
+    deck,
     huirthHeaderStitch
   );
 };
 
 export const huirthIndexDialogStrategyStitchTopic = 'huirth Index Dialog Strategy Component Stitch';
-export const huirthIndexDialogStrategyStitch: ActionStrategyComponentStitch = (payload) => {
+export const huirthIndexDialogStrategyStitch: ActionStrategyComponentStitch<HuirthDeck> = (payload, deck) => {
   // Body
-  const stephuirthIndexDialogEnd = userInterface.createComponent(huirthIndexDialogEnd.actionCreator(payload));
+  const stephuirthIndexDialogEnd = userInterface.createComponent(deck.huirth.e.huirthIndexDialogEnd(payload));
   const stephuirthIndexDialogContent = userInterface.createComponent(
-    huirthIndexDialogContent.actionCreator(payload),
+    deck.huirth.e.huirthIndexDialogContent(payload),
     stephuirthIndexDialogEnd
   );
   const stephuirthIndexDialogBegin = userInterface.createComponent(
-    huirthIndexDialogBegin.actionCreator(payload),
+    deck.huirth.e.huirthIndexDialogBegin(payload),
     stephuirthIndexDialogContent
   );
   return [

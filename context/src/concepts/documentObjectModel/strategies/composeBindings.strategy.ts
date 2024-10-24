@@ -2,13 +2,17 @@
 For the graph programming framework Stratimux and Document Object Model Concept, generate a strategy that will also generate a series of steps to bind each entry in the bindingQue..
 $>*/
 /*<#*/
-import { ActionNode, MuxiumQualities, MuxiumState, Concepts, createActionNode, createStrategy } from 'stratimux';
+import { ActionNode, MuxiumQualities, MuxiumState, Concepts, createActionNode, createStrategy, Deck } from 'stratimux';
 import { UserInterfacePageBindings } from '../../../model/userInterface';
-import { documentObjectModelClearBindingQue } from '../qualities/clearBindingQue.quality';
-import { documentObjectModelBind } from '../qualities/bind.quality';
+import { DocumentObjectModelDeck } from '../documentObjectModel.concept';
 
 export const documentObjectModelBindingStrategyTopic = 'Document Object Model compose bind Page elements';
-export const documentObjectModelBindingStrategy = (concepts: Concepts, pageName: string, bindingQue: UserInterfacePageBindings) => {
+export const documentObjectModelBindingStrategy = (
+  concepts: Concepts,
+  pageName: string,
+  bindingQue: UserInterfacePageBindings,
+  deck: Deck<DocumentObjectModelDeck>
+) => {
   const bindings = bindingQue[pageName];
   const bindingsKeys = Object.keys(bindings);
   const action$ = (concepts[0].state as MuxiumState<MuxiumQualities, any>).action$;
@@ -16,7 +20,7 @@ export const documentObjectModelBindingStrategy = (concepts: Concepts, pageName:
   let previous: undefined | ActionNode;
   for (const key of bindingsKeys) {
     for (const binding of bindings[key]) {
-      const node = createActionNode(documentObjectModelBind.actionCreator({ action$, binding, id: key }));
+      const node = createActionNode(deck.documentObjectModel.e.documentObjectModelBind({ action$, binding, id: key }));
       if (start === null) {
         start = node;
         previous = start;
@@ -27,7 +31,7 @@ export const documentObjectModelBindingStrategy = (concepts: Concepts, pageName:
     }
   }
 
-  const stepBinding = createActionNode(documentObjectModelClearBindingQue.actionCreator(), {
+  const stepBinding = createActionNode(deck.documentObjectModel.e.documentObjectModelClearBindingQue(), {
     successNode: start,
   });
   return createStrategy({

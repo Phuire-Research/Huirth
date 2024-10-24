@@ -27,7 +27,7 @@ async function readAllDirectories(fileDirent: FileDirent[]): Promise<TrainingDat
         withFileTypes: true,
       })) as FileDirent[];
       for (const entry of contents) {
-        if (entry.isFile()) {
+        if (entry.isFile() && !entry.name.toLocaleLowerCase().includes('jsonl')) {
           try {
             const json = JSON.parse((await fs.readFile(path.join(entry.path + '/' + entry.name))).toString());
             const keys = Object.keys(json);

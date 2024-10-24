@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /*<$
 For the graph programming framework Stratimux and a Concept huirth, generate a User Interface Component quality that will create the Data Manager's body slice and bind all essential functions to properly manage a Stratimux project data.
 $>*/
@@ -5,13 +6,14 @@ $>*/
 import { KeyedSelector, createMethodDebounceWithConcepts, nullReducer, selectMuxifiedState, strategySuccess } from 'stratimux';
 
 import {
+  ActionComponentPayload,
   createBinding,
   createBoundSelectors,
   createQualityCardComponent,
   userInterface_appendCompositionToPage,
 } from '../../../../../model/userInterface';
 import { elementEventBinding } from '../../../../../model/html';
-import { huirthState } from '../../../huirth.concept';
+import { HuirthDeck, huirthState } from '../../../huirth.concept';
 import {
   huirth_createDataSetSelectionSelector,
   huirth_createHuirthStatusSelector,
@@ -35,16 +37,18 @@ import { huirthFilterTriggerInstallGitRepository } from '../../filterTriggerInst
 import { huirthSetSelectedTransformation } from '../../setSelectedTransformation.quality';
 import { huirthSendTriggerSelectedTransformationStrategy } from '../../sendTriggerSelectedTransformationStrategy.quality';
 import { huirthSendTriggerGitPullRepositoryStrategy } from '../../../strategies/server/triggerGitPullRepositoryStrategy.helper';
+import { huirthSendTriggerSaveDataSetSelectionJSONLStrategy } from '../../sendTriggerSaveDataSetSelectionJSONLStrategy.quality';
 
-export const huirthDataManagerContent = createQualityCardComponent({
+export const huirthDataManagerContent = createQualityCardComponent<huirthState, ActionComponentPayload, HuirthDeck>({
   type: 'create userInterface for DataManagerContent',
   reducer: nullReducer,
-  componentCreator: createMethodDebounceWithConcepts(({ action, concepts_, semaphore }) => {
+  componentCreator: createMethodDebounceWithConcepts(({ action, concepts_, semaphore, deck }) => {
     console.log('HITTING DATA MANAGER COMPONENT');
     const payload = action.payload;
     const id = '#dataManagerID' + payload.pageTitle;
     const projectInputID = '#projectInputID';
     const saveID = '#saveID';
+    const saveJSONLID = '#saveJSONLID';
     const addEntryID = '#addEntry' + payload.pageTitle;
     const removeID = '#removeID';
     const transformationSelectionID = '#transformationSelectionID';
@@ -82,18 +86,18 @@ export const huirthDataManagerContent = createQualityCardComponent({
         return false;
       })();
       let finalOutput = '';
-      const [finalProjects, bindingsArray] = determineProjectControls(projectsStatuses);
+      const [finalProjects, bindingsArray] = determineProjectControls(projectsStatuses, deck);
       for (let i = 0; i < trainingData.length; i++) {
         const elementID = generateNumID(i);
         bindingsArray.push({
           elementId: dataSetNameID + elementID,
           eventBinding: elementEventBinding.onchange,
-          action: huirthUpdateDataSetName.actionCreator({ index: i }),
+          action: deck.huirth.e.huirthUpdateDataSetName({ index: i }),
         });
         bindingsArray.push({
           elementId: dataSetSelectionID + elementID,
           eventBinding: elementEventBinding.onchange,
-          action: huirthUpdateDataSetSelection.actionCreator({ index: i }),
+          action: deck.huirth.e.huirthUpdateDataSetSelection({ index: i }),
         });
         finalOutput += /*html*/ `
 <div class="w-full ml-4 mt-2 mb-2">
@@ -126,7 +130,7 @@ export const huirthDataManagerContent = createQualityCardComponent({
       }
       finalOutput += '</div>';
       bindingsArray.push({
-        action: huirthNewDataSet.actionCreator({
+        action: deck.huirth.e.huirthNewDataSet({
           priority: 1000,
         }),
         elementId: addEntryID,
@@ -136,7 +140,7 @@ export const huirthDataManagerContent = createQualityCardComponent({
       const huirthSaved = trainingData.filter((d) => d.name.toLowerCase() === PhuirEProjects.huirth.toLocaleLowerCase()).length > 0;
       if (stratimuxStatus === ProjectStatus.notInstalled) {
         bindingsArray.push({
-          action: huirthTriggerInstallGitRepository.actionCreator({
+          action: deck.huirth.e.huirthTriggerInstallGitRepository({
             url: PhuirEProjects.stratimuxURL,
             name: PhuirEProjects.stratimux,
           }),
@@ -147,7 +151,7 @@ export const huirthDataManagerContent = createQualityCardComponent({
         finalStratimuxNote = 'Install Stratimux';
       } else if (stratimuxStatus === ProjectStatus.installed && !stratimuxSaved) {
         bindingsArray.push({
-          action: huirthSendTriggerParseRepositoryStrategy.actionCreator({ name: PhuirEProjects.stratimux }),
+          action: deck.huirth.e.huirthSendTriggerParseRepositoryStrategy({ name: PhuirEProjects.stratimux }),
           elementId: parseStratimuxID,
           eventBinding: elementEventBinding.onclick,
         });
@@ -164,7 +168,7 @@ export const huirthDataManagerContent = createQualityCardComponent({
       }
       if (huirthStatus === ProjectStatus.notInstalled) {
         bindingsArray.push({
-          action: huirthTriggerInstallGitRepository.actionCreator({
+          action: deck.huirth.e.huirthTriggerInstallGitRepository({
             url: PhuirEProjects.huirth_URL,
             name: PhuirEProjects.huirth,
           }),
@@ -175,7 +179,7 @@ export const huirthDataManagerContent = createQualityCardComponent({
         finalHuirth_note = 'Install Huirth';
       } else if (huirthStatus === ProjectStatus.installed && !huirthSaved) {
         bindingsArray.push({
-          action: huirthSendTriggerParseRepositoryStrategy.actionCreator({ name: PhuirEProjects.huirth }),
+          action: deck.huirth.e.huirthSendTriggerParseRepositoryStrategy({ name: PhuirEProjects.huirth }),
           elementId: parseHuirth_ID,
           eventBinding: elementEventBinding.onclick,
         });
@@ -191,37 +195,42 @@ export const huirthDataManagerContent = createQualityCardComponent({
         finalHuirth_note = 'Pull Huirth';
       }
       bindingsArray.push({
-        action: huirthSendTriggerSaveDataSetSelectionStrategy.actionCreator(),
+        action: deck.huirth.e.huirthSendTriggerSaveDataSetSelectionStrategy(),
         elementId: saveID,
         eventBinding: elementEventBinding.onclick,
       });
       bindingsArray.push({
-        action: huirthRemoveDataSetSelection.actionCreator(),
+        action: deck.huirth.e.huirthSendTriggerSaveDataSetSelectionJSONLStrategy(),
+        elementId: saveJSONLID,
+        eventBinding: elementEventBinding.onclick,
+      });
+      bindingsArray.push({
+        action: deck.huirth.e.huirthRemoveDataSetSelection(),
         elementId: removeID,
         eventBinding: elementEventBinding.onclick,
       });
       bindingsArray.push({
-        action: huirthSetPossibleProject.actionCreator(),
+        action: deck.huirth.e.huirthSetPossibleProject(),
         elementId: projectInputID,
         eventBinding: elementEventBinding.onkeyup,
       });
       bindingsArray.push({
-        action: huirthSetPossibleProject.actionCreator(),
+        action: deck.huirth.e.huirthSetPossibleProject(),
         elementId: projectInputID,
         eventBinding: elementEventBinding.onpaste,
       });
       bindingsArray.push({
-        action: huirthFilterTriggerInstallGitRepository.actionCreator(),
+        action: deck.huirth.e.huirthFilterTriggerInstallGitRepository(),
         elementId: installProjectID,
         eventBinding: elementEventBinding.onclick,
       });
       bindingsArray.push({
-        action: huirthSetSelectedTransformation.actionCreator(),
+        action: deck.huirth.e.huirthSetSelectedTransformation(),
         elementId: transformationSelectionID,
         eventBinding: elementEventBinding.onchange,
       });
       bindingsArray.push({
-        action: huirthSendTriggerSelectedTransformationStrategy.actionCreator(),
+        action: deck.huirth.e.huirthSendTriggerSelectedTransformationStrategy(),
         elementId: triggerCreateTransformationDataSetID,
         eventBinding: elementEventBinding.onclick,
       });
@@ -235,7 +244,7 @@ export const huirthDataManagerContent = createQualityCardComponent({
           universal: false,
           boundSelectors: [
             // START HERE
-            createBoundSelectors(id, huirthDataManagerContent.actionCreator(payload), [
+            createBoundSelectors(id, deck.huirth.e.huirthDataManagerContent(payload), [
               huirth_createTrainingDataSelector(concepts_, semaphore) as KeyedSelector,
               huirth_createStratimuxStatusSelector(concepts_, semaphore) as KeyedSelector,
               huirth_createHuirthStatusSelector(concepts_, semaphore) as KeyedSelector,
@@ -330,9 +339,6 @@ ${transformationStrategies
               <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
                 Load <i class="fa-solid fa-folder-open"></i>
               </button>
-              <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
-                Unify <i class="fa-solid fa-code-merge"></i>
-              </button>
 ${
   !anySelected
     ? /*html*/ `
@@ -344,6 +350,20 @@ ${
               <button id="${removeID}"
                 class="italic cursor-pointer mb-8 mt-2 center-m bg-red-800/5 hover:bg-red-800 text-white font-semibold hover:text-black py-2 px-4 border border-red-800 hover:border-transparent rounded">
                 Remove <i class="fa-solid fa-trash"></i>
+              </button>
+`
+}
+${
+  !anySelected
+    ? /*html*/ `
+              <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
+                JSONL <i class="fa-solid fa-code-merge"></i>
+              </button>
+`
+    : /*html*/ `
+              <button id="${saveJSONLID}"
+                class="italic cursor-pointer mb-8 mt-2 center-m bg-white/5 hover:bg-white text-white font-semibold hover:text-black py-2 px-4 border border-white hover:border-transparent rounded">
+                JSONL <i class="fa-solid fa-code-merge"></i>
               </button>
 `
 }

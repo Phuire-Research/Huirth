@@ -14,18 +14,23 @@ import {
   selectPayload,
   strategyBegin,
 } from 'stratimux';
-import { huirthState } from '../huirth.concept';
+import { HuirthDeck, huirthState } from '../huirth.concept';
 import { userInterface_selectInputTarget } from '../../../model/userInterface';
 import { DataSetTypes, PhuirEProjects, ProjectStatus } from '../huirth.model';
 import { Subject } from 'rxjs';
 import { huirthSendRemoveAddTrainingPageStrategy } from './sendTriggerRemoveAddTrainingPageStrategy.quality';
 import { webSocketClientForceSync } from '../../webSocketClient/qualities/forceSync.quality';
+import { WebSocketClientDeck } from '../../webSocketClient/webSocketClient.concept';
 
 export type huirthUpdateDataSetNamePayload = {
   index: number;
 };
 
-export const huirthUpdateDataSetName = createQualityCardWithPayload<huirthState, huirthUpdateDataSetNamePayload>({
+export const huirthUpdateDataSetName = createQualityCardWithPayload<
+  huirthState,
+  huirthUpdateDataSetNamePayload,
+  HuirthDeck & WebSocketClientDeck
+>({
   type: 'Create huirth UpdateDataSetName',
   reducer: (state, action) => {
     const payload = selectPayload<huirthUpdateDataSetNamePayload>(action);
@@ -59,22 +64,22 @@ export const huirthUpdateDataSetName = createQualityCardWithPayload<huirthState,
     };
   },
   methodCreator: () =>
-    createMethodWithState(({ action, state }) => {
+    createMethodWithState(({ action, state, deck }) => {
       const payload = action.payload;
       const oldName = state.trainingData[payload.index].name;
       const newName = userInterface_selectInputTarget(action).value;
       const removeAdd = createStrategy({
         topic: 'Finally send trigger remove add training data page strategy',
-        initialNode: createActionNode(huirthSendRemoveAddTrainingPageStrategy.actionCreator({ oldName, newName })),
+        initialNode: createActionNode(deck.huirth.e.huirthSendRemoveAddTrainingPageStrategy({ oldName, newName })),
       });
       const timeOut = createActionNode(
-        muxiumRegisterTimeOut.actionCreator({
+        deck.muxium.e.muxiumRegisterTimeOut({
           act: strategyBegin(removeAdd),
           timeOut: 50,
         })
       );
       const forceSync = createActionNode(
-        webSocketClientForceSync.actionCreator({
+        deck.webSocketClient.e.webSocketClientForceSync({
           keys: ['trainingData'],
         }),
         {

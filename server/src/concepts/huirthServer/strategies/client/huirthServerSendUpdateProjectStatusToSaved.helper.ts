@@ -4,7 +4,9 @@ $>*/
 /*<#*/
 import { userInterfaceServerSendActionToClient } from '../../../userInterfaceServer/strategies/sendActionToClient.helper';
 import { huirthUpdateProjectStatusToSaved } from '../../../huirth/qualities/updateProjectToSaved.quality';
+import { Deck } from 'stratimux';
+import { HuirthServerDeck } from '../../huirthServer.concept';
 
-export const huirthServerSendProjectStatusToSaved = (name: string) =>
-  userInterfaceServerSendActionToClient(huirthUpdateProjectStatusToSaved.actionCreator({ name }));
+export const huirthServerSendProjectStatusToSaved = (name: string, deck: Deck<HuirthServerDeck>) =>
+  userInterfaceServerSendActionToClient(deck.huirth.e.huirthUpdateProjectStatusToSaved({ name }), deck);
 /*#>*/

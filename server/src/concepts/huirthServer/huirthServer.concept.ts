@@ -3,7 +3,7 @@ For the graph programming framework Stratimux generate a Brand Server Concept ca
 $>*/
 /*<#*/
 import { createConcept, Concept, muxifyConcepts, PrincipleFunction, MuxiumDeck } from 'stratimux';
-import { huirthState } from '../huirth/huirth.concept';
+import { HuirthDeck, huirthState } from '../huirth/huirth.concept';
 import { huirthServerTriggerSaveTrainingDataStrategy } from './qualities/triggerSaveTrainingDataStrategy.quality';
 import { huirthServerPrinciple } from './huirthServer.principle';
 import { huirthServerReadFromDataTrainingDataFromDirectories } from './qualities/readFromDataTrainingDataFromDirectory.quality';
@@ -30,6 +30,10 @@ import { huirthServerGenerateVerboseAdditionAndSubtractionStrategy } from './qua
 import { huirthServerExitPrinciple } from './huirthServer.exit.principle';
 import { huirthServerGitPullRepository } from './qualities/gitPullRepository.quality';
 import { huirthServerTriggerGitPullRepositoryStrategy } from './qualities/triggerGitPullRepositoryStrategy.quality';
+import { huirthServerTriggerSaveDataSetSelectionJSONLStrategy } from './qualities/triggerSaveDataSetSelectionJSONLStrategy.quality';
+import { UserInterfaceServerDeck } from '../userInterfaceServer/userInterfaceServer.concept';
+import { WebSocketServerDeck } from '../webSocketServer/webSocketServer.concept';
+import { FileSystemDeck } from '../fileSystem/fileSystem.concept';
 
 export const huirthServerName = 'huirthServer';
 export type huirthServerState = {
@@ -48,6 +52,7 @@ const qualities = {
   huirthServerTriggerGitPullRepositoryStrategy,
   huirthServerTriggerParseRepositoryStrategy,
   huirthServerTriggerSaveDataSetSelectionStrategy,
+  huirthServerTriggerSaveDataSetSelectionJSONLStrategy,
   huirthServerTriggerDeleteDataSetsStrategy,
   huirthServerSetRepositoriesFromData,
   huirthServerParseFileFromData,
@@ -65,9 +70,13 @@ const qualities = {
 
 export type HuirthServerDeck = {
   huirthServer: Concept<huirthServerState, typeof qualities>;
-};
+} & HuirthDeck &
+  UserInterfaceServerDeck &
+  WebSocketServerDeck &
+  MuxiumDeck &
+  FileSystemDeck;
 
-export type HuirthServerPrinciple = PrincipleFunction<typeof qualities, MuxiumDeck & HuirthServerDeck, huirthServerState>;
+export type HuirthServerPrinciple = PrincipleFunction<typeof qualities, HuirthServerDeck, huirthServerState>;
 
 export const createHuirthServerConcept = () => {
   const principles = [huirthServerPrinciple, huirthServerExitPrinciple];

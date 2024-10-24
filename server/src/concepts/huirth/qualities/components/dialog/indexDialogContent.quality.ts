@@ -24,9 +24,8 @@ import {
 import { elementEventBinding } from '../../../../../model/html';
 import { HuirthDeck, huirthState } from '../../../huirth.concept';
 import { huirth_createCountSelector, huirth_createDialogSelector } from '../../../huirth.selector';
-import { userInterfaceServerName } from '../../../../userInterfaceServer/userInterfaceServer.concept';
 
-export const huirthIndexDialogContent = createQualityCardComponent<huirthState, ActionComponentPayload>({
+export const huirthIndexDialogContent = createQualityCardComponent<huirthState, ActionComponentPayload, HuirthDeck>({
   type: 'create userInterface for IndexDialogContent',
   reducer: nullReducer,
   componentCreator: createMethodDebounceWithConcepts<huirthState, ActionComponentPayload, HuirthDeck>(
@@ -116,8 +115,8 @@ export const huirthIndexDialogContent = createQualityCardComponent<huirthState, 
                   action: deck.huirth.e.huirthTriggerMinusCountingStrategy(),
                   eventBinding: elementEventBinding.onclick,
                 },
-                { elementId: addId, action: counterAdd.actionCreator(), eventBinding: elementEventBinding.onclick },
-                { elementId: subtractId, action: counterSubtract.actionCreator(), eventBinding: elementEventBinding.onclick },
+                { elementId: addId, action: deck.counter.e.counterAdd(), eventBinding: elementEventBinding.onclick },
+                { elementId: subtractId, action: deck.counter.e.counterSubtract(), eventBinding: elementEventBinding.onclick },
               ]),
               universal: false,
               boundSelectors,

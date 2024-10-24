@@ -5,20 +5,20 @@ $>*/
 import { createMethodWithConcepts, createQualityCardWithPayload, nullReducer, selectPayload, strategyBegin } from 'stratimux';
 import { huirthAddTrainingDataPageStrategy } from '../strategies/addPageTrainingData.strategy';
 import { huirthGeneratedTrainingDataPageStrategy } from '../strategies/pages/generatedTrainingDataPage.strategy';
-import { huirthState } from '../huirth.concept';
+import { HuirthDeck, huirthState } from '../huirth.concept';
 
-type TriggerAddTrainingDataPage = {
+export type HuirthTriggerAddTrainingDataPage = {
   name: string;
 };
 
-export const huirthTriggerAddTrainingDataPage = createQualityCardWithPayload<huirthState, TriggerAddTrainingDataPage>({
+export const huirthTriggerAddTrainingDataPage = createQualityCardWithPayload<huirthState, HuirthTriggerAddTrainingDataPage, HuirthDeck>({
   type: 'Huirth trigger add training data page',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethodWithConcepts(({ action, concepts_ }) => {
-      const { name } = selectPayload<TriggerAddTrainingDataPage>(action);
-      const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(name);
-      const strategyAction = strategyBegin(huirthAddTrainingDataPageStrategy(name, generatedTrainingDataPage, concepts_));
+    createMethodWithConcepts(({ action, concepts_, deck }) => {
+      const { name } = selectPayload<HuirthTriggerAddTrainingDataPage>(action);
+      const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(name, deck);
+      const strategyAction = strategyBegin(huirthAddTrainingDataPageStrategy(name, generatedTrainingDataPage, concepts_, deck));
       return strategyAction;
     }),
 });

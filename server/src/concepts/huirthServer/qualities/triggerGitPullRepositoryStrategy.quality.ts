@@ -5,7 +5,7 @@ $>*/
 import { createMethodDebounceWithConcepts, createQualityCardWithPayload, nullReducer, selectState, strategyBegin } from 'stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirthServerGitPullRepositoryStrategy } from '../strategies/gitPullRepository.strategy';
-import { huirthServerState } from '../huirthServer.concept';
+import { HuirthServerDeck, huirthServerState } from '../huirthServer.concept';
 
 export type huirthServerTriggerGitPullRepositoryStrategyPayload = {
   name: string;
@@ -13,16 +13,17 @@ export type huirthServerTriggerGitPullRepositoryStrategyPayload = {
 
 export const huirthServerTriggerGitPullRepositoryStrategy = createQualityCardWithPayload<
   huirthServerState,
-  huirthServerTriggerGitPullRepositoryStrategyPayload
+  huirthServerTriggerGitPullRepositoryStrategyPayload,
+  HuirthServerDeck
 >({
   type: 'huirthServer trigger git pull repository strategy',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethodDebounceWithConcepts(({ action, concepts_ }) => {
+    createMethodDebounceWithConcepts(({ action, concepts_, deck }) => {
       const { name } = action.payload;
       const fileSystemState = selectState<FileSystemState>(concepts_, fileSystemName);
       if (fileSystemState) {
-        const strategy = huirthServerGitPullRepositoryStrategy(fileSystemState.root, name);
+        const strategy = huirthServerGitPullRepositoryStrategy(fileSystemState.root, name, deck);
         return strategyBegin(strategy);
       } else {
         return action;

@@ -17,7 +17,7 @@ import { UserInterfaceState } from '../../../../userInterface/userInterface.conc
 import { huirth_createSideBarExpandedSelector, huirth_createTrainingDataSelector } from '../../../huirth.selector';
 import { elementEventBinding } from '../../../../../model/html';
 
-export const huirthSideBarContent = createQualityCardComponent<huirthState, ActionComponentPayload>({
+export const huirthSideBarContent = createQualityCardComponent<huirthState, ActionComponentPayload, HuirthDeck>({
   type: 'create userInterface for SideBarContent',
   reducer: nullReducer,
   componentCreator: createMethodWithConcepts<huirthState, ActionComponentPayload, HuirthDeck>(({ action, concepts_, semaphore, self }) => {

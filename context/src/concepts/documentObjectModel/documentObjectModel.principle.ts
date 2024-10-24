@@ -20,7 +20,7 @@ export const documentObjectModelPrinciple: DocumentObjectModelPrinciple = ({ pla
       { priority: 100 }
     ),
     stage(
-      ({ concepts, dispatch, stagePlanner, k }) => {
+      ({ concepts, dispatch, stagePlanner, d, k }) => {
         const documentObjectModelState = k.state(concepts);
         const userInterfaceState = selectState<any>(concepts, 'userInterfaceClient');
         // console.log('Hello Document Object Model', documentObjectModelState, pageID, concepts);
@@ -39,7 +39,7 @@ export const documentObjectModelPrinciple: DocumentObjectModelPrinciple = ({ pla
           const binding = documentObjectModelState?.bindingQue;
           // console.log('Hello Document Object Model', binding, pageID, ready);
           if (binding && pageID && ready) {
-            dispatch(strategyBegin(documentObjectModelBindingStrategy(concepts, pageID.split('page#')[1], binding)), {
+            dispatch(strategyBegin(documentObjectModelBindingStrategy(concepts, pageID.split('page#')[1], binding, d)), {
               iterateStage: true,
             });
           }

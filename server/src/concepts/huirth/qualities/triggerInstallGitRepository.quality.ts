@@ -4,20 +4,24 @@ $>*/
 /*<#*/
 import { createMethod, createQualityCardWithPayload, nullReducer, selectPayload, strategyBegin } from 'stratimux';
 import { huirthInstallGitRepositoryStrategy } from '../strategies/installGitProject.strategy';
-import { huirthState } from '../huirth.concept';
+import { HuirthDeck, huirthState } from '../huirth.concept';
 
 export type huirthTriggerInstallGitRepositoryPayload = {
   url: string;
   name: string;
 };
 
-export const huirthTriggerInstallGitRepository = createQualityCardWithPayload<huirthState, huirthTriggerInstallGitRepositoryPayload>({
+export const huirthTriggerInstallGitRepository = createQualityCardWithPayload<
+  huirthState,
+  huirthTriggerInstallGitRepositoryPayload,
+  HuirthDeck
+>({
   type: 'Create huirth trigger install git repository',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethod(({ action }) => {
+    createMethod(({ action, deck }) => {
       const { url, name } = action.payload;
-      const strategy = huirthInstallGitRepositoryStrategy(url, name);
+      const strategy = huirthInstallGitRepositoryStrategy(url, name, deck);
       return strategyBegin(strategy);
     }),
 });

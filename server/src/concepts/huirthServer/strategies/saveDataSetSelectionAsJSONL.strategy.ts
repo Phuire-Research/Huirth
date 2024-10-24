@@ -2,18 +2,15 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a strategy that will save a selection of data sets by the passed parameter of names, to the file system, and to their own directory.
 $>*/
 /*<#*/
-import { muxiumLog, createActionNode, createStrategy, Deck } from 'stratimux';
+import { createActionNode, createStrategy, Deck } from 'stratimux';
 import { TrainingData } from '../../huirth/huirth.model';
 import path from 'path';
-import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
-import { fileSystemCreateTargetDirectory } from '../../fileSystem/qualities/createTargetDirectory.quality';
-import { fileSystemCreateFileWithContentsIndex } from '../../fileSystem/qualities/createFileWithContents.quality';
-import { convertNamedDataSetToSaveFormat } from '../huirthServer.model';
+import { convertNamedDataSetToJSONLSavedFormat } from '../huirthServer.model';
 import { huirthServerSendProjectStatusToSaved } from './client/huirthServerSendUpdateProjectStatusToSaved.helper';
 import { HuirthServerDeck } from '../huirthServer.concept';
 
-export const huirthServerSaveDataSetSelectionStrategyTopic = 'Save a selection of data sets to their own directories';
-export const huirthServerSaveDataSetSelectionStrategy = (
+export const huirthServerSaveDataSetSelectionJSONLStrategyTopic = 'Save a selection of data sets as JSONL to their own directories';
+export const huirthServerSaveDataSetSelectionJSONLStrategy = (
   root: string,
   trainingData: TrainingData,
   names: string[],
@@ -35,12 +32,12 @@ export const huirthServerSaveDataSetSelectionStrategy = (
       return possible;
     })();
     if (dataSet) {
-      const saveFormat = convertNamedDataSetToSaveFormat(dataSet);
+      const saveFormat = convertNamedDataSetToJSONLSavedFormat(dataSet);
       const stepUpdateProjectStatusToSavedOnClient = createActionNode(huirthServerSendProjectStatusToSaved(dataSet.name, deck));
       const stepCreateFileWithContents = createActionNode(
         deck.fileSystem.e.fileSystemCreateFileWithContentsIndex({
-          target: path.join(p + '/' + dataSet.name + '.json'),
-          content: JSON.stringify(saveFormat),
+          target: path.join(p + '/' + dataSet.name + '.jsonl'),
+          content: saveFormat,
         }),
         {
           successNode: stepUpdateProjectStatusToSavedOnClient,
@@ -70,7 +67,7 @@ export const huirthServerSaveDataSetSelectionStrategy = (
     };
   }
   return createStrategy({
-    topic: huirthServerSaveDataSetSelectionStrategyTopic,
+    topic: huirthServerSaveDataSetSelectionJSONLStrategyTopic,
     initialNode: first,
   });
 };

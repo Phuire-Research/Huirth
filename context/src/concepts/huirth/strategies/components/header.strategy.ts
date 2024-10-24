@@ -6,10 +6,11 @@ import { createActionNode, createStrategy } from 'stratimux';
 import { huirthStyle } from '../../qualities/components/style.quality';
 import { huirthHead } from '../../qualities/components/head.quality';
 import { ActionStrategyComponentStitch, userInterface } from '../../../../model/userInterface';
+import { HuirthDeck } from '../../huirth.concept';
 
-export const huirthHeaderStitch: ActionStrategyComponentStitch = (payload) => {
-  const stephuirthStyle = userInterface.createComponent(huirthStyle.actionCreator(payload));
-  const stephuirthHead = userInterface.createComponent(huirthHead.actionCreator(payload), stephuirthStyle);
+export const huirthHeaderStitch: ActionStrategyComponentStitch<HuirthDeck> = (payload, deck) => {
+  const stephuirthStyle = userInterface.createComponent(deck.huirth.e.huirthStyle(payload));
+  const stephuirthHead = userInterface.createComponent(deck.huirth.e.huirthHead(payload), stephuirthStyle);
   return [
     stephuirthStyle,
     createStrategy({

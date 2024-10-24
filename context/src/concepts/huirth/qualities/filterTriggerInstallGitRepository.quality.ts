@@ -4,7 +4,7 @@ If valid it will then trigger the strategy that will install the target git repo
 $>*/
 /*<#*/
 import { createMethodWithState, createQualityCard, strategyBegin } from 'stratimux';
-import { huirthState } from '../huirth.concept';
+import { HuirthDeck, huirthState } from '../huirth.concept';
 import { ProjectStatus } from '../huirth.model';
 import { huirthInstallGitRepositoryStrategy } from '../strategies/installGitProject.strategy';
 
@@ -15,7 +15,7 @@ const getName = (url: string): string | undefined => {
   return finalSplit.length > 1 ? finalSplit[0] : undefined;
 };
 
-export const huirthFilterTriggerInstallGitRepository = createQualityCard<huirthState>({
+export const huirthFilterTriggerInstallGitRepository = createQualityCard<huirthState, HuirthDeck>({
   type: 'Create huirth that filters only valid git urls to trigger install git repository',
   reducer: (state) => {
     const { trainingData, projectsStatuses, possibleProject, possibleProjectValid } = state;
@@ -44,12 +44,12 @@ export const huirthFilterTriggerInstallGitRepository = createQualityCard<huirthS
     };
   },
   methodCreator: () =>
-    createMethodWithState<huirthState>(({ action, state }) => {
+    createMethodWithState<huirthState, void, HuirthDeck>(({ action, state, deck }) => {
       const { possibleProject, possibleProjectValid } = state;
       const name = getName(possibleProject);
       if (name && possibleProjectValid) {
         console.log('SENDING NAME TO SERVER', name);
-        const strategy = huirthInstallGitRepositoryStrategy(possibleProject, name);
+        const strategy = huirthInstallGitRepositoryStrategy(possibleProject, name, deck);
         return strategyBegin(strategy);
       } else {
         return action;

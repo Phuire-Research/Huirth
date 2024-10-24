@@ -29,12 +29,12 @@ export const userInterfaceClientOnChangePrinciple: UserInterfaceClientPrinciple 
       { selectors: [d__.muxium.k.open] }
     ),
     stage(
-      ({ concepts, dispatch, k, stagePlanner }) => {
+      ({ concepts, dispatch, d, k, stagePlanner }) => {
         //
         const pages = selectSlice<Page[]>(concepts, k.pages);
         if (pages) {
           if (pages.length > 0) {
-            dispatch(strategyBegin(userInterfaceInitialBindingStrategy(getMuxiumState(concepts).action$, pages)), {
+            dispatch(strategyBegin(userInterfaceInitialBindingStrategy(getMuxiumState(concepts).action$, pages, d)), {
               iterateStage: true,
             });
           }
@@ -80,6 +80,7 @@ export const userInterfaceClientOnChangePrinciple: UserInterfaceClientPrinciple 
             });
           }
         } else if (uiState === undefined) {
+          // eslint-disable-next-line quotes
           console.log("SHOULDN'T CONCLUDE, unless removed");
           stagePlanner.conclude();
         }

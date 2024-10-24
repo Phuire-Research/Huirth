@@ -5,10 +5,11 @@ $>*/
 import { muxium_createStitchNode, createActionNode, createStrategy } from 'stratimux';
 import { huirthFooter } from '../../qualities/components/footer.quality';
 import { ActionStrategyComponentStitch } from '../../../../model/userInterface';
+import { HuirthDeck } from '../../huirth.concept';
 
-export const huirthFooterStitch: ActionStrategyComponentStitch = (payload) => {
-  const stepStitch = muxium_createStitchNode();
-  const stephuirthFooter = createActionNode(huirthFooter.actionCreator(payload), {
+export const huirthFooterStitch: ActionStrategyComponentStitch<HuirthDeck> = (payload, deck) => {
+  const stepStitch = muxium_createStitchNode(deck);
+  const stephuirthFooter = createActionNode(deck.huirth.e.huirthFooter(payload), {
     successNode: stepStitch,
   });
   return [
