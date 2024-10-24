@@ -21,6 +21,7 @@ import { huirthServerVerboseAdditionAndSubtractionStrategy } from '../strategies
 import { huirth_convertNumberToStringVerbose } from '../verboseNumber.model';
 import { TRANSFORMATION_DATASET_LIMIT } from '../huirthServer.model';
 import { HuirthServerDeck, huirthServerState } from '../huirthServer.concept';
+import { huirthServerSaveDataSetSelectionJSONLStrategy } from '../strategies/saveDataSetSelectionAsJSONL.strategy';
 
 export const huirthServerGenerateVerboseAdditionAndSubtractionStrategy = createQualityCard<huirthServerState, HuirthServerDeck>({
   type: 'huirthServer generate a verbose addition and subtraction data set',
@@ -94,12 +95,14 @@ export const huirthServerGenerateVerboseAdditionAndSubtractionStrategy = createQ
           stage(({ concepts, stagePlanner }) => {
             console.log('Transformation stage 3', iterations, length, named.dataSet.length);
             controller.fire(
-              strategyBegin(huirthServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseAdditionAndSubtraction', concepts, deck))
+              strategyBegin(
+                huirthServerSaveDataSetSelectionJSONLStrategy(fileSystemState.root, [named], ['VerboseAdditionAndSubtraction'], deck)
+              )
             );
             stagePlanner.conclude();
           }),
         ]);
       }
-    }, 5000),
+    }, 50000),
 });
 /*#>*/

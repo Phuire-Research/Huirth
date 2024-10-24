@@ -135,12 +135,13 @@ export const webSocketClientPrinciple: WebSocketClientPrinciple = ({ plan, conce
     });
   });
   ws.addEventListener('message', (message: any) => {
-    console.log('CHECK MESSAGE', message);
+    // console.log('CHECK MESSAGE', message);
     if (message.data !== 'ping') {
-      const act = JSON.parse(message.data);
+      const act = JSON.parse(message.data) as Action;
       if (Object.keys(act).includes('type')) {
         // if (getMuxiumState(concepts_).logging && (act as Action).type !== muxiumKick.actionType) {
-        //   console.log('MESSAGE', (act as Action).type);
+        console.log('MESSAGE', act);
+        act.semaphore = [-1, -1, -1, -1];
         // }
         observer.next(act);
       }
