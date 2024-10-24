@@ -12,44 +12,39 @@ import {
   createQualityCardWithPayload,
   createStrategy,
   nullReducer,
-  selectPayload,
   strategyData_appendFailure,
   strategyData_select,
   strategyFailed,
   strategySequence,
   strategySuccess,
+  Deck,
 } from 'stratimux';
 import { ReadDirectoryField } from '../../fileSystem/qualities/readDir.quality';
-import {
-  ReadFileContentsAndAppendToDataField,
-  fileSystemReadFileContentsAndAppendToData,
-} from '../../fileSystem/qualities/readFileContentsAndAppendToData.quality';
-import { huirthServerParseFileFromData } from './parseFileFromData.quality';
+import { ReadFileContentsAndAppendToDataField } from '../../fileSystem/qualities/readFileContentsAndAppendToData.quality';
 import { huirthServerPrepareParsedProjectDataUpdate } from './prepareUpdateParsedProjectData.quality';
-import { huirthServerAppendParsedDataToNamedDataSet } from './appendParsedDataToNamedDataSet.quality';
 import { DataSetTypes } from '../../huirth/huirth.model';
 import { huirthGeneratedTrainingDataPageStrategy } from '../../huirth/strategies/pages/generatedTrainingDataPage.strategy';
 import { huirthAddTrainingDataPageStrategy } from '../../huirth/strategies/addPageTrainingData.strategy';
-import { huirthServerState } from '../huirthServer.concept';
+import { HuirthServerDeck, huirthServerState } from '../huirthServer.concept';
 
 export type huirthServerDetermineReadParseAppendStrategyPayload = {
   name: string;
   type: DataSetTypes;
 };
 
-const readAndParseStitch = (name: string, type: DataSetTypes): [ActionNode, ActionStrategy] => {
+const readAndParseStitch = (name: string, type: DataSetTypes, deck: Deck<HuirthServerDeck>): [ActionNode, ActionStrategy] => {
   const stepAppendParsedDataToNamedDataSet = createActionNode(
-    huirthServerAppendParsedDataToNamedDataSet.actionCreator({
+    deck.huirthServer.e.huirthServerAppendParsedDataToNamedDataSet({
       name,
       type,
     })
   );
-  const stepParseFile = createActionNode(huirthServerParseFileFromData.actionCreator(), {
+  const stepParseFile = createActionNode(deck.huirthServer.e.huirthServerParseFileFromData(), {
     successNode: stepAppendParsedDataToNamedDataSet,
     // TODO: If failed we can use open to load a window with the git install webpage
     failureNode: null,
   });
-  const stepReadFileContents = createActionNode(fileSystemReadFileContentsAndAppendToData.actionCreator(), {
+  const stepReadFileContents = createActionNode(deck.fileSystem.e.fileSystemReadFileContentsAndAppendToData(), {
     successNode: stepParseFile,
   });
   return [
@@ -63,32 +58,33 @@ const readAndParseStitch = (name: string, type: DataSetTypes): [ActionNode, Acti
 
 export const huirthServerDetermineReadParseAppendStrategy = createQualityCardWithPayload<
   huirthServerState,
-  huirthServerDetermineReadParseAppendStrategyPayload
+  huirthServerDetermineReadParseAppendStrategyPayload,
+  HuirthServerDeck
 >({
   type: 'huirthServer determine read, parse, and append strategy for the incoming raw data set',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethodWithConcepts(({ action, concepts_ }) => {
+    createMethodWithConcepts(({ action, concepts_, deck }) => {
       if (action.strategy && action.strategy.data) {
         const strategy = action.strategy;
         const data = strategyData_select(action.strategy) as ReadDirectoryField & ReadFileContentsAndAppendToDataField;
-        const { name, type } = selectPayload<huirthServerDetermineReadParseAppendStrategyPayload>(action);
+        const { name, type } = action.payload;
         if (data.filesAndDirectories && data.filesAndDirectories.length > 0) {
           const filesAndDirectories = data.filesAndDirectories;
-          const [end, start] = readAndParseStitch(name, type);
+          const [end, start] = readAndParseStitch(name, type, deck);
           let prevHead = end;
           for (let i = 1; i < filesAndDirectories.length; i++) {
-            const [stitchEnd, stitchStrategy] = readAndParseStitch(name, type);
+            const [stitchEnd, stitchStrategy] = readAndParseStitch(name, type, deck);
             const stitchHead = createActionNodeFromStrategy(stitchStrategy);
             prevHead.successNode = stitchHead;
             // console.log('PREV HEAD', prevHead, i);
             prevHead = stitchEnd;
             // console.log('STITCH HEAD', stitchHead, i);
           }
-          const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(name);
-          const strategyAdd = huirthAddTrainingDataPageStrategy(name, generatedTrainingDataPage, concepts_) as ActionStrategy;
+          const generatedTrainingDataPage = huirthGeneratedTrainingDataPageStrategy(name, deck);
+          const strategyAdd = huirthAddTrainingDataPageStrategy(name, generatedTrainingDataPage, concepts_, deck) as ActionStrategy;
           prevHead.successNode = createActionNode(
-            huirthServerPrepareParsedProjectDataUpdate.actionCreator({
+            deck.huirthServer.e.huirthServerPrepareParsedProjectDataUpdate({
               name,
             })
           );

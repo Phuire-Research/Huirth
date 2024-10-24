@@ -2,26 +2,14 @@
 For the graph programming framework Stratimux and the User Interface Server Concept, generate a strategy stitch that will assemble the context directory to contain the necessary concepts dictated by the generated index file.
 $>*/
 /*<#*/
-import {
-  ActionNode,
-  ActionStrategy,
-  ActionStrategyParameters,
-  MuxiumDeck,
-  muxiumLog,
-  createActionNode,
-  createStrategy,
-  Deck,
-} from 'stratimux';
-import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
+import { ActionNode, ActionStrategy, ActionStrategyParameters, MuxiumDeck, createActionNode, createStrategy, Deck } from 'stratimux';
 import path from 'path';
-import {
-  RecursivelyCopyMoveTargetDirectoriesPayload,
-  fileSystemRecursivelyCopyMoveTargetDirectories,
-} from '../../fileSystem/qualities/recursivelyCopyMoveDirectories.quality';
+import { RecursivelyCopyMoveTargetDirectoriesPayload } from '../../fileSystem/qualities/recursivelyCopyMoveDirectories.quality';
 import { ConceptAndProperties, PrimedConceptAndProperties } from '../../../model/userInterface';
 import { serverName } from '../../server/server.concept';
 import { webSocketClientName } from '../../webSocketClient/webSocketClient.concept';
 import { UserInterfaceServerDeck } from '../userInterfaceServer.concept';
+import { FileSystemDeck } from '../../fileSystem/fileSystem.concept';
 
 export const userInterfaceServerPrepareContextConceptsTopic = 'User Interface Server prepare Context Concepts';
 export function userInterfaceServerPrepareContextConceptsStitch(
@@ -29,7 +17,7 @@ export function userInterfaceServerPrepareContextConceptsStitch(
   conceptsAndProps: ConceptAndProperties[],
   unifiedConcepts: string[],
   initialDirectoryMap: string[],
-  deck: Deck<MuxiumDeck & UserInterfaceServerDeck>
+  deck: Deck<MuxiumDeck & UserInterfaceServerDeck & FileSystemDeck>
 ): [ActionNode, ActionStrategy] {
   const conceptNames = [];
   const copyMovePayload: RecursivelyCopyMoveTargetDirectoriesPayload = {
@@ -114,19 +102,19 @@ export function userInterfaceServerPrepareContextConceptsStitch(
     }
   );
   const stepCopyMoveModel = createActionNode(
-    fileSystemRecursivelyCopyMoveTargetDirectories.actionCreator({ directories: [modelDirectory] }),
+    deck.fileSystem.e.fileSystemRecursivelyCopyMoveTargetDirectories({ directories: [modelDirectory] }),
     {
       successNode: stepCreateContextIndex,
     }
   );
-  const stepContextModelRemove = createActionNode(fileSystemRemoveTargetDirectory.actionCreator({ path: contextModel }), {
+  const stepContextModelRemove = createActionNode(deck.fileSystem.e.fileSystemRemoveTargetDirectory({ path: contextModel }), {
     successNode: stepCopyMoveModel,
     agreement: 20000,
   });
-  const stepCopyMoveConcepts = createActionNode(fileSystemRecursivelyCopyMoveTargetDirectories.actionCreator(copyMovePayload), {
+  const stepCopyMoveConcepts = createActionNode(deck.fileSystem.e.fileSystemRecursivelyCopyMoveTargetDirectories(copyMovePayload), {
     successNode: stepContextModelRemove,
   });
-  const stepContextConceptRemove = createActionNode(fileSystemRemoveTargetDirectory.actionCreator({ path: contextConcepts }), {
+  const stepContextConceptRemove = createActionNode(deck.fileSystem.e.fileSystemRemoveTargetDirectory({ path: contextConcepts }), {
     successNode: stepCopyMoveConcepts,
     agreement: 20000,
   });

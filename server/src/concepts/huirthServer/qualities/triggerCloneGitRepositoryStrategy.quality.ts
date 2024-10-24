@@ -11,10 +11,11 @@ import {
   selectState,
   strategyBegin,
 } from 'stratimux';
-import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
+import { FileSystemDeck, FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirthServerCloneGitRepositoryToDirectoryStrategy } from '../strategies/cloneGitRepositoryToDirectory.strategy';
-import { Subject } from 'rxjs';
-import { huirthServerState } from '../huirthServer.concept';
+import { HuirthServerDeck, huirthServerState } from '../huirthServer.concept';
+import { HuirthDeck } from '../../huirth/huirth.concept';
+import { WebSocketServerDeck } from '../../webSocketServer/webSocketServer.concept';
 
 export type huirthServerTriggerCloneGitRepositoryStrategyPayload = {
   url: string;
@@ -23,16 +24,17 @@ export type huirthServerTriggerCloneGitRepositoryStrategyPayload = {
 
 export const huirthServerTriggerCloneGitRepositoryStrategy = createQualityCardWithPayload<
   huirthServerState,
-  huirthServerTriggerCloneGitRepositoryStrategyPayload
+  huirthServerTriggerCloneGitRepositoryStrategyPayload,
+  HuirthDeck & HuirthServerDeck & FileSystemDeck & WebSocketServerDeck
 >({
   type: 'huirthServer trigger clone git repository ActionStrategy',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethodDebounceWithConcepts(({ action, concepts_ }) => {
+    createMethodDebounceWithConcepts(({ action, concepts_, deck }) => {
       const { name, url } = action.payload;
       const fileSystemState = selectState<FileSystemState>(concepts_, fileSystemName);
       if (fileSystemState) {
-        const strategy = huirthServerCloneGitRepositoryToDirectoryStrategy(fileSystemState.root, url, name);
+        const strategy = huirthServerCloneGitRepositoryToDirectoryStrategy(fileSystemState.root, url, name, deck);
         return strategyBegin(strategy);
       } else {
         return action;

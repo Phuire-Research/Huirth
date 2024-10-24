@@ -27,6 +27,8 @@ import {
   createQualityCardWithPayload,
   MethodCreatorStep,
   AnyAction,
+  Deck,
+  MuxiumDeck,
 } from 'stratimux';
 import { elementEventBinding } from './html';
 import { documentObjectModelName } from '../concepts/documentObjectModel/documentObjectModel.concept';
@@ -45,8 +47,12 @@ export type Binding = {
 };
 export type UserInterfaceBindings = Record<ElementIdentifier, Binding[]>;
 export type UserInterfacePageBindings = Record<string, UserInterfaceBindings>;
-export type PageStrategyCreators = (concepts?: Concepts, semaphore?: number) => ActionStrategyStitch;
-export type ActionStrategyComponentStitch = (payload: ActionComponentPayload) => [ActionNode, ActionStrategy];
+export type PageStrategyCreators = (concepts?: Concepts, semaphore?: number) => DeckStitch;
+export type DeckStitch = (deck: Deck<any>) => [ActionNode, ActionStrategy];
+export type ActionStrategyComponentStitch<C = void> = (
+  payload: ActionComponentPayload,
+  deck: Deck<C extends void ? MuxiumDeck : C>
+) => [ActionNode, ActionStrategy];
 
 export type BrandState = {
   pageStrategies: PageStrategyCreators[];
@@ -214,15 +220,15 @@ export type ComponentCreator<T extends ActionComponentPayload> = (
   semaphore?: number
 ) => [Method<T>, Subject<Action<T>>];
 
-export function createQualityCardComponent<S extends Record<string, unknown>, T extends ActionComponentPayload>(q: {
+export function createQualityCardComponent<S extends Record<string, unknown>, T extends ActionComponentPayload, C = void>(q: {
   type: string;
-  reducer: SpecificReducer<S, T, any>;
-  componentCreator: MethodCreator<S, T, any>;
+  reducer: SpecificReducer<S, T, C>;
+  componentCreator: MethodCreator<S, T, C>;
   keyedSelectors?: KeyedSelector[];
   meta?: Record<string, unknown>;
   analytics?: Record<string, unknown>;
 }) {
-  return createQualityCardWithPayload<S, T>({
+  return createQualityCardWithPayload<S, T, C>({
     type: q.type,
     reducer: q.reducer,
     methodCreator: () => q.componentCreator,

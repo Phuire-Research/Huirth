@@ -2,28 +2,25 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that will trigger the minus count seven strategy.
 $>*/
 /*<#*/
-import {
-  createActionNode,
-  createMethod,
-  createQualityCardWithPayload,
-  createStrategy,
-  defaultReducer,
-  selectPayload,
-  strategyBegin,
-} from 'stratimux';
+import { createActionNode, createMethod, createQualityCardWithPayload, createStrategy, defaultReducer, strategyBegin } from 'stratimux';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
+import { HuirthDeck, huirthState } from '../huirth.concept';
 import { huirthTriggerAddTrainingDataPage } from './triggerAddTrainingDataPageStrategy.quality';
-import { huirthState } from '../huirth.concept';
 
-type SendTriggerAddTrainingPageStrategy = {
+export type HuirthSendTriggerAddTrainingPageStrategy = {
   name: string;
 };
 
-export const huirthSendAddTrainingPageStrategy = createQualityCardWithPayload<huirthState, SendTriggerAddTrainingPageStrategy>({
+// [TODO] NUMBER 4
+export const huirthSendAddTrainingPageStrategy = createQualityCardWithPayload<
+  huirthState,
+  HuirthSendTriggerAddTrainingPageStrategy,
+  HuirthDeck
+>({
   type: 'Huirth send add training page strategy',
   reducer: defaultReducer,
   methodCreator: () =>
-    createMethod(({ action }) => {
+    createMethod(({ action, deck }) => {
       console.log('DOES THIS HIT');
       const { name } = action.payload;
       return strategyBegin(

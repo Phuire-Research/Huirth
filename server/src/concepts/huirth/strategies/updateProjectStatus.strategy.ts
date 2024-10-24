@@ -2,14 +2,14 @@
 For the graph programming framework Stratimux and a Concept huirth, generate an ActionStrategy that will set a target project status to the passed value of status.
 $>*/
 /*<#*/
-import { createActionNode, createStrategy } from 'stratimux';
-import { huirthUpdateProjectStatus } from '../qualities/updateProjectToStatus.quality';
+import { createActionNode, createStrategy, Deck } from 'stratimux';
 import { ProjectStatus } from '../huirth.model';
+import { HuirthDeck } from '../huirth.concept';
 
 export const huirthUpdateProjectStatusStrategyTopic = 'huirth set project status to the specified status';
-export const huirthUpdateProjectStatusStrategy = (name: string, status: ProjectStatus) => {
+export const huirthUpdateProjectStatusStrategy = (name: string, status: ProjectStatus, deck: Deck<HuirthDeck>) => {
   const stepSendToServer = createActionNode(
-    huirthUpdateProjectStatus.actionCreator({
+    deck.huirth.e.huirthUpdateProjectStatus({
       name,
       status,
     }),
@@ -18,7 +18,7 @@ export const huirthUpdateProjectStatusStrategy = (name: string, status: ProjectS
       failureNode: null,
     }
   );
-  const stepUpdateToInstalling = createActionNode(huirthUpdateProjectStatus.actionCreator({ name, status: ProjectStatus.installing }), {
+  const stepUpdateToInstalling = createActionNode(deck.huirth.e.huirthUpdateProjectStatus({ name, status: ProjectStatus.installing }), {
     successNode: stepSendToServer,
   });
   return createStrategy({

@@ -60,6 +60,7 @@ export const fileSystemReadDirectory = createQualityCardWithPayload<FileSystemSt
             );
           })
           .catch((error) => {
+            console.error('CHECK ERROR', error, action);
             controller.fire(strategyFailed(strategy, strategyData_appendFailure(strategy, error)));
           });
       } else {

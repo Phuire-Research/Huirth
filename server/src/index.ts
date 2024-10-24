@@ -35,7 +35,7 @@ import { createHuirthServerConcept } from './concepts/huirthServer/huirthServer.
         {
           logging: true,
           storeDialog: true,
-          // logActionStream: true
+          // logActionStream: true,
         }
       );
       break;
@@ -56,7 +56,7 @@ import { createHuirthServerConcept } from './concepts/huirthServer/huirthServer.
         {
           logging: true,
           storeDialog: true,
-          // logActionStream: true
+          // logActionStream: true,
         }
       );
       break;

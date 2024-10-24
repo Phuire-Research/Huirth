@@ -4,20 +4,20 @@ $>*/
 /*<#*/
 import { createMethodDebounceWithConcepts, createQualityCardWithPayload, selectPayload, selectState, strategyBegin } from 'stratimux';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
-import { huirthServerSaveDataSetSelectionStrategy } from '../strategies/saveDataSetSelection.strategy';
-import { HuirthServerDeck, huirthServerName, huirthServerState } from '../huirthServer.concept';
+import { HuirthServerDeck, huirthServerState } from '../huirthServer.concept';
 import { userInterfaceServerName } from '../../userInterfaceServer/userInterfaceServer.concept';
+import { huirthServerSaveDataSetSelectionJSONLStrategy } from '../strategies/saveDataSetSelectionAsJSONL.strategy';
 
-export type huirthServerTriggerSaveDataSetSelectionStrategyPayload = {
+export type huirthServerTriggerSaveDataSetSelectionJSONLStrategyPayload = {
   names: string[];
 };
 
-export const huirthServerTriggerSaveDataSetSelectionStrategy = createQualityCardWithPayload<
+export const huirthServerTriggerSaveDataSetSelectionJSONLStrategy = createQualityCardWithPayload<
   huirthServerState,
-  huirthServerTriggerSaveDataSetSelectionStrategyPayload,
+  huirthServerTriggerSaveDataSetSelectionJSONLStrategyPayload,
   HuirthServerDeck
 >({
-  type: 'huirthServer trigger save data set selection strategy',
+  type: 'huirthServer trigger save data set selection as JSONL strategy',
   reducer: (state) => {
     return {
       dataSetSelection: state.dataSetSelection.map(() => false),
@@ -32,7 +32,7 @@ export const huirthServerTriggerSaveDataSetSelectionStrategy = createQualityCard
       if (fileSystemState && state) {
         const { trainingData } = state;
         console.log('CHECK TRIGGER', fileSystemState.root, trainingData.length, names);
-        const strategy = huirthServerSaveDataSetSelectionStrategy(fileSystemState.root, trainingData, names, deck);
+        const strategy = huirthServerSaveDataSetSelectionJSONLStrategy(fileSystemState.root, trainingData, names, deck);
         return strategyBegin(strategy);
       } else {
         return action;

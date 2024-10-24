@@ -54,6 +54,51 @@ export const convertNamedDataSetToSaveFormat = (named: NamedDataSet) => {
   return saveFormat;
 };
 
+export type JSONLSavedFormat = {
+  contents: {
+    role: string;
+    parts: {
+      text: string;
+    }[];
+  }[];
+};
+
+const cleanPrompt = (str: string) => {
+  if (str.includes('.) ')) {
+    return str.split('.) ')[1];
+  } else {
+    return str;
+  }
+};
+
+export const convertNamedDataSetToJSONLSavedFormat = (named: NamedDataSet) => {
+  let output = '';
+  named.dataSet.forEach((set) => {
+    const JSONL: JSONLSavedFormat = {
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              text: cleanPrompt(set.prompt),
+            },
+          ],
+        },
+        {
+          role: 'model',
+          parts: [
+            {
+              text: set.content,
+            },
+          ],
+        },
+      ],
+    };
+    output += JSON.stringify(JSONL) + '\n';
+  });
+  return output;
+};
+
 export const convertSavedFormatToNamedDataSet = (saved: SavedFormat, name: string) => {
   const named: NamedDataSet = {
     name,

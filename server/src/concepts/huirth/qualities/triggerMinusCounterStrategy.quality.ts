@@ -4,14 +4,14 @@ $>*/
 /*<#*/
 import { CounterState, createMethodDebounceWithState, createQualityCard, nullReducer, strategyBegin } from 'stratimux';
 import { huirthMinusSevenStrategy } from '../strategies/countMinusSeven.strategy';
-import { huirthState } from '../huirth.concept';
+import { HuirthDeck, huirthState } from '../huirth.concept';
 
-export const huirthTriggerMinusCountingStrategy = createQualityCard<huirthState>({
+export const huirthTriggerMinusCountingStrategy = createQualityCard<huirthState, HuirthDeck>({
   type: 'Create huirth trigger minus seven counting strategy',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethodDebounceWithState(({ state }) => {
-      const strategy = huirthMinusSevenStrategy((state as unknown as CounterState).count);
+    createMethodDebounceWithState(({ state, deck }) => {
+      const strategy = huirthMinusSevenStrategy((state as unknown as CounterState).count, deck);
       return strategyBegin(strategy);
     }, 3),
 });

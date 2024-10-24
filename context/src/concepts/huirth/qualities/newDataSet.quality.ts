@@ -2,12 +2,11 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a quality that will add a new default named dataset to the state's trainingData property.
 $>*/
 /*<#*/
-import { muxiumKick, createActionNode, createMethodWithState, createQualityCard, createStrategy, strategyBegin } from 'stratimux';
-import { huirthState } from '../huirth.concept';
+import { createActionNode, createMethodWithState, createQualityCard, createStrategy, strategyBegin } from 'stratimux';
+import { HuirthDeck, huirthState } from '../huirth.concept';
 import { generateDefaultNamedDataSet } from '../huirth.model';
-import { huirthSendAddTrainingPageStrategy } from './sendTriggerAddTrainingPageStrategy.quality';
 
-export const huirthNewDataSet = createQualityCard<huirthState>({
+export const huirthNewDataSet = createQualityCard<huirthState, HuirthDeck>({
   type: 'Huirth create a new default DataSet',
   reducer: (state) => {
     const dataSetSelection: boolean[] = [];
@@ -29,15 +28,15 @@ export const huirthNewDataSet = createQualityCard<huirthState>({
     };
   },
   methodCreator: () =>
-    createMethodWithState(({ state }) => {
+    createMethodWithState(({ state, deck }) => {
       let { trainingDataCounter } = state;
       const { trainingData } = state;
       if (trainingDataCounter === -1) {
         trainingDataCounter = trainingData.length;
       }
       const name = 'newDataSet' + trainingDataCounter;
-      const send = createActionNode(huirthSendAddTrainingPageStrategy.actionCreator({ name }));
-      const kick = createActionNode(muxiumKick.actionCreator(), {
+      const send = createActionNode(deck.huirth.e.huirthSendAddTrainingPageStrategy({ name }));
+      const kick = createActionNode(deck.muxium.e.muxiumKick(), {
         successNode: send,
       });
       const sendAddTrainingDataPage = createStrategy({

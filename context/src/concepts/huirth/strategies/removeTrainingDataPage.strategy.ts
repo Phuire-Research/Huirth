@@ -2,19 +2,18 @@
 For the graph programming framework Stratimux and the Huirth Brand Concept, generate a strategy that will remove a page by name and its union pageStrategy
 $>*/
 /*<#*/
-import { ActionStrategy, createActionNode, createStrategy } from 'stratimux';
-import { huirthFilterTrainingDataPage } from '../qualities/filterTrainingDataPage.quality';
-import { userInterfaceRemovePage } from '../../userInterface/qualities/removePage.quality';
+import { ActionStrategy, createActionNode, createStrategy, Deck } from 'stratimux';
+import { HuirthDeck } from '../huirth.concept';
 
 export const huirthRemoveTrainingDataPageStrategyTopic = 'Huirth remove training data page strategy. ';
-export function huirthRemoveTrainingDataPageStrategy(name: string): ActionStrategy {
+export function huirthRemoveTrainingDataPageStrategy(name: string, deck: Deck<HuirthDeck>): ActionStrategy {
   const filterFromTrainingDataPages = createActionNode(
-    huirthFilterTrainingDataPage.actionCreator({
+    deck.huirth.e.huirthFilterTrainingDataPage({
       trainingDataName: name,
     })
   );
   const stepRemoveTrainingDataFromState = createActionNode(
-    userInterfaceRemovePage.actionCreator({
+    deck.userInterface.e.userInterfaceRemovePage({
       name,
     }),
     {

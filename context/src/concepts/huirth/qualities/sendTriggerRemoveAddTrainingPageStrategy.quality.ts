@@ -4,19 +4,25 @@ $>*/
 /*<#*/
 import { createActionNode, createMethod, createQualityCardWithPayload, createStrategy, nullReducer, strategyBegin } from 'stratimux';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
+import { HuirthDeck, huirthState } from '../huirth.concept';
+import e from 'express';
 import { huirthTriggerRemoveAddTrainingDataPage } from './triggerRemoveAddTrainingDataPageStrategy.quality';
-import { huirthState } from '../huirth.concept';
 
-type SendTriggerRemoveAddTrainingPageStrategy = {
+export type HuirthSendTriggerRemoveAddTrainingPageStrategy = {
   oldName: string;
   newName: string;
 };
 
-export const huirthSendRemoveAddTrainingPageStrategy = createQualityCardWithPayload<huirthState, SendTriggerRemoveAddTrainingPageStrategy>({
+// [TODO ] Part of the same self reference bug
+export const huirthSendRemoveAddTrainingPageStrategy = createQualityCardWithPayload<
+  huirthState,
+  HuirthSendTriggerRemoveAddTrainingPageStrategy,
+  HuirthDeck
+>({
   type: 'Huirth send remove add training page strategy',
   reducer: nullReducer,
   methodCreator: () =>
-    createMethod(({ action }) => {
+    createMethod(({ action, deck }) => {
       const payload = action.payload;
       return strategyBegin(
         createStrategy({

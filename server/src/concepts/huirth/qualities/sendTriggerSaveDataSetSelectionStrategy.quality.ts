@@ -12,13 +12,13 @@ import {
   createStrategy,
   strategyBegin,
 } from 'stratimux';
-import { huirthState } from '../huirth.concept';
+import { HuirthDeck, huirthState } from '../huirth.concept';
 import { ProjectStatus } from '../huirth.model';
 import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient/strategies/sendActionToServer.helper';
 import { huirthServerState } from '../../huirthServer/huirthServer.concept';
 import { huirthClearDataSetSelection } from './clearDataSetSelection.quality';
 
-export const huirthSendTriggerSaveDataSetSelectionStrategy = createQualityCard<huirthState>({
+export const huirthSendTriggerSaveDataSetSelectionStrategy = createQualityCard<huirthState, HuirthDeck>({
   type: 'huirth send trigger save data set selection strategy to server',
   reducer: (state) => {
     const { trainingData } = state;
@@ -62,7 +62,7 @@ export const huirthSendTriggerSaveDataSetSelectionStrategy = createQualityCard<h
     };
   },
   methodCreator: () =>
-    createMethodDebounceWithState<huirthServerState>(({ state }) => {
+    createMethodDebounceWithState(({ state, deck }) => {
       const { dataSetSelection, trainingData } = state;
       const names: string[] = [];
       for (const [i, select] of dataSetSelection.entries()) {
@@ -82,7 +82,7 @@ export const huirthSendTriggerSaveDataSetSelectionStrategy = createQualityCard<h
             })
           ),
           {
-            successNode: createActionNode(huirthClearDataSetSelection.actionCreator()),
+            successNode: createActionNode(deck.huirth.e.huirthClearDataSetSelection()),
           }
         ),
       });

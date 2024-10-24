@@ -2,14 +2,20 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a ActionStrategy that will delete data sets from the file system.
 $>*/
 /*<#*/
-import { muxiumLog, muxiumStitch, muxium_createStitchNode, createActionNode, createStrategy } from 'stratimux';
+import { muxiumLog, muxiumStitch, muxium_createStitchNode, createActionNode, createStrategy, Deck } from 'stratimux';
 import path from 'path';
 import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
 import { huirthServerSendUpdateProjectToInstalled } from './client/huirthServerSendUpdateProjectToInstalled.helper';
 import { DataSetTypes, TrainingData } from '../../huirth/huirth.model';
+import { HuirthServerDeck } from '../huirthServer.concept';
 
 const huirthServerDeleteDataSetsStrategyTopic = 'huirthServer delete data sets from file system';
-export const huirthServerDeleteDataSetsStrategy = (root: string, trainingData: TrainingData, names: string[]) => {
+export const huirthServerDeleteDataSetsStrategy = (
+  root: string,
+  trainingData: TrainingData,
+  names: string[],
+  deck: Deck<HuirthServerDeck>
+) => {
   // If repositories doesn't exist
   // stepFour does folder repositories exists?
   let first;
@@ -24,16 +30,16 @@ export const huirthServerDeleteDataSetsStrategy = (root: string, trainingData: T
       }
       return false;
     })();
-    const action = isProject ? huirthServerSendUpdateProjectToInstalled(name) : muxiumStitch.actionCreator();
+    const action = isProject ? huirthServerSendUpdateProjectToInstalled(name, deck) : deck.muxium.e.muxiumStitch();
     if (first === undefined) {
       const updateStatus = createActionNode(action);
-      first = createActionNode(fileSystemRemoveTargetDirectory.actionCreator({ path: dataSetDirectory }), {
+      first = createActionNode(deck.fileSystem.e.fileSystemRemoveTargetDirectory({ path: dataSetDirectory }), {
         successNode: updateStatus,
       });
       previous = updateStatus;
     } else if (previous) {
       const updateStatus = createActionNode(action);
-      const next = createActionNode(fileSystemRemoveTargetDirectory.actionCreator({ path: dataSetDirectory }), {
+      const next = createActionNode(deck.fileSystem.e.fileSystemRemoveTargetDirectory({ path: dataSetDirectory }), {
         successNode: updateStatus,
       });
       previous.successNode = next;
@@ -42,7 +48,7 @@ export const huirthServerDeleteDataSetsStrategy = (root: string, trainingData: T
   }
   return createStrategy({
     topic: huirthServerDeleteDataSetsStrategyTopic,
-    initialNode: first ? first : createActionNode(muxiumLog.actionCreator(), { successNode: null, failureNode: null }),
+    initialNode: first ? first : createActionNode(deck.muxium.e.muxiumLog(), { successNode: null, failureNode: null }),
   });
 };
 /*#>*/

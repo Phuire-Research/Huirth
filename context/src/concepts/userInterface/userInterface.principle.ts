@@ -34,12 +34,12 @@ export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({ s
       { priority: 1000, selectors: [d__.muxium.k.open] }
     ),
     stage(
-      ({ concepts, dispatch, stagePlanner, k }) => {
+      ({ concepts, dispatch, stagePlanner, d, k }) => {
         const uiState = k.state(concepts);
         // console.log('USER INTERFACE PAGE TO STATE INIT 2', uiState?.pages.length, uiState?.pageStrategies.length);
         if (uiState) {
           if (uiState.pageStrategies.length === 1) {
-            dispatch(strategyBegin(userInterfacePageToStateStrategy(uiState.pageStrategies[0](concepts))), {
+            dispatch(strategyBegin(userInterfacePageToStateStrategy(uiState.pageStrategies[0](concepts), d)), {
               iterateStage: true,
             });
           } else if (uiState.pageStrategies.length > 1) {
@@ -48,13 +48,13 @@ export const userInterfaceInitializationPrinciple: UserInterfacePrinciple = ({ s
             uiState.pageStrategies.forEach((creator) => {
               if (isClient) {
                 const pageCreator = creator(concepts);
-                const title = pageCreator()[1].topic;
+                const title = pageCreator(d)[1].topic;
                 const currentPage = (uiState as UserInterfaceClientState).currentPage;
                 if (title === currentPage) {
-                  list.push(userInterfacePageToStateStrategy(pageCreator));
+                  list.push(userInterfacePageToStateStrategy(pageCreator, d));
                 }
               } else {
-                list.push(userInterfacePageToStateStrategy(creator(concepts)));
+                list.push(userInterfacePageToStateStrategy(creator(concepts), d));
               }
             });
             const strategy = strategySequence(list);

@@ -3,7 +3,7 @@ For the graph programming framework Stratimux and a Concept huirth, generate a q
 $>*/
 /*<#*/
 import { createActionNode, createMethodWithState, createQualityCard, createStrategy, strategyBegin } from 'stratimux';
-import { huirthState } from '../huirth.concept';
+import { HuirthDeck, huirthState } from '../huirth.concept';
 import { DataSetTypes, NamedDataSet, PhuirEProjects, ProjectStatus, TrainingData } from '../huirth.model';
 import { huirthSendTriggerDeleteDataSetsStrategy } from './sendTriggerDeleteDataSetsStrategy.quality';
 
@@ -16,7 +16,7 @@ const isNot = (dataSet: NamedDataSet, not: string[]) => {
   return true;
 };
 
-export const huirthRemoveDataSetSelection = createQualityCard<huirthState>({
+export const huirthRemoveDataSetSelection = createQualityCard<huirthState, HuirthDeck>({
   type: 'huirth remove data set selection',
   reducer: (state) => {
     const { trainingData, dataSetSelection } = state;
@@ -62,13 +62,13 @@ export const huirthRemoveDataSetSelection = createQualityCard<huirthState>({
     };
   },
   methodCreator: () =>
-    createMethodWithState<huirthState>(({ state }) => {
+    createMethodWithState<huirthState, void, HuirthDeck>(({ state, deck }) => {
       const { trainingData, dataSetSelection } = state;
       const names = trainingData.filter((__, i) => dataSetSelection[i]).map((d) => d.name);
       return strategyBegin(
         createStrategy({
           topic: 'Send Trigger Delete Data Sets: ' + names.join(', '),
-          initialNode: createActionNode(huirthSendTriggerDeleteDataSetsStrategy.actionCreator({ names }), {
+          initialNode: createActionNode(deck.huirth.e.huirthSendTriggerDeleteDataSetsStrategy({ names }), {
             successNode: null,
             failureNode: null,
           }),

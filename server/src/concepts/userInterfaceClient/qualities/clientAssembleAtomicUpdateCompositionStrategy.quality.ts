@@ -11,6 +11,7 @@ import {
   createMethod,
   createQualityCardWithPayload,
   createStrategy,
+  Deck,
   nullReducer,
   refreshAction,
   strategyBegin,
@@ -28,9 +29,9 @@ export type UserInterfaceClientAssembleAtomicUpdateCompositionStrategyPayload = 
   boundActionQue: BoundSelectors[];
 };
 
-const stitchUpdatedLayers = (bound: BoundSelectors): [ActionNode, ActionStrategy] => {
-  const stepEnd = createActionNode(userInterfaceEnd.actionCreator());
-  const stepReplaceOuterHtml = createActionNode(userInterfaceClientReplaceOuterHtml.actionCreator({ id: bound.id }), {
+const stitchUpdatedLayers = (bound: BoundSelectors, deck: Deck<UserInterfaceClientDeck>): [ActionNode, ActionStrategy] => {
+  const stepEnd = createActionNode(deck.userInterfaceClient.e.userInterfaceEnd());
+  const stepReplaceOuterHtml = createActionNode(deck.userInterfaceClient.e.userInterfaceClientReplaceOuterHtml({ id: bound.id }), {
     successNode: stepEnd,
   });
   const stepAction = createActionNode(refreshAction(bound.action), {
@@ -60,7 +61,7 @@ export const userInterfaceClientAssembleAtomicUpdateCompositionStrategy = create
       let previous: ActionNode | undefined;
       let first: ActionNode | undefined;
       for (const bound of boundActionQue) {
-        const [stitchEnd, stitchStrategy] = stitchUpdatedLayers(bound);
+        const [stitchEnd, stitchStrategy] = stitchUpdatedLayers(bound, deck);
         if (previous) {
           const stitchNode = createActionNodeFromStrategy(stitchStrategy);
           previous.successNode = stitchNode;

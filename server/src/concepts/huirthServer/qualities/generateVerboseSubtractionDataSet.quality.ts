@@ -20,12 +20,13 @@ import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.con
 import { huirthServerVerboseSubtractionStrategy } from '../strategies/verboseSubtraction.strategy';
 import { huirth_convertNumberToStringVerbose } from '../verboseNumber.model';
 import { TRANSFORMATION_DATASET_LIMIT } from '../huirthServer.model';
+import { HuirthServerDeck, huirthServerState } from '../huirthServer.concept';
 
-export const huirthServerGenerateVerboseSubtractionStrategy = createQualityCard({
+export const huirthServerGenerateVerboseSubtractionStrategy = createQualityCard<huirthServerState, HuirthServerDeck>({
   type: 'huirthServer generate a verbose subtraction data set',
   reducer: nullReducer,
   methodCreator: () =>
-    createAsyncMethodWithConcepts(({ controller, concepts_ }) => {
+    createAsyncMethodWithConcepts(({ controller, concepts_, deck }) => {
       const muxiumState = getMuxiumState(concepts_);
       const fileSystemState = selectState<FileSystemState>(concepts_, fileSystemName);
       if (fileSystemState) {
@@ -41,10 +42,10 @@ export const huirthServerGenerateVerboseSubtractionStrategy = createQualityCard(
         let iterations = 0;
         let currentTopic = '';
         const plan = muxiumState.concepts$.plan(0)('Verbose Subtraction data set generation plan', ({ stage }) => [
-          stage(({ dispatch, e }) => {
+          stage(({ dispatch, d, e }) => {
             console.log('Transformation stage 1', iterations < 100, length < limit);
             if (iterations < 100 && length < limit) {
-              const newStrategy = huirthServerVerboseSubtractionStrategy(length);
+              const newStrategy = huirthServerVerboseSubtractionStrategy(length, deck);
               newStrategy.topic = iterations + 1 + '.) ' + newStrategy.topic;
               currentTopic = newStrategy.topic;
               console.log('BEGIN STRATEGY', currentTopic);
@@ -93,7 +94,9 @@ export const huirthServerGenerateVerboseSubtractionStrategy = createQualityCard(
           ),
           stage(({ concepts }) => {
             console.log('Transformation stage 3', iterations, length, named.dataSet.length);
-            controller.fire(strategyBegin(huirthServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseSubtraction', concepts)));
+            controller.fire(
+              strategyBegin(huirthServerSaveDataSetStrategy(fileSystemState.root, named, 'VerboseSubtraction', concepts, deck))
+            );
             plan.conclude();
           }),
         ]);

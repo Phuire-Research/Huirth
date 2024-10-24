@@ -3,33 +3,38 @@ For the graph programming framework Stratimux and a Concept huirth Server, gener
 $>*/
 /*<#*/
 import path from 'path';
-import { createActionNode, createStrategy } from 'stratimux';
+import { createActionNode, createStrategy, Deck } from 'stratimux';
 import { huirthServerSendUpdateProjectToInstalled } from './client/huirthServerSendUpdateProjectToInstalled.helper';
-import { fileSystemRemoveTargetDirectory } from '../../fileSystem/qualities/removeTargetDirectory.quality';
-import { huirthServerGitCloneRepoToDirectory } from '../qualities/gitCloneRepoToDirectory.quality';
-import { webSocketServerAppendToActionQue } from '../../webSocketServer/qualities/appendActionQue.quality';
-import { huirthUpdateProjectStatus } from '../../huirth/qualities/updateProjectToStatus.quality';
 import { ProjectStatus } from '../../huirth/huirth.model';
+import { HuirthDeck } from '../../huirth/huirth.concept';
+import { WebSocketServerDeck } from '../../webSocketServer/webSocketServer.concept';
+import { HuirthServerDeck } from '../huirthServer.concept';
+import { FileSystemDeck } from '../../fileSystem/fileSystem.concept';
 
 export const huirthServerCloneGitRepositoryToDirectoryTopic = 'huirthServer clone git repository to directory';
-export const huirthServerCloneGitRepositoryToDirectoryStrategy = (root: string, url: string, name: string) => {
+export const huirthServerCloneGitRepositoryToDirectoryStrategy = (
+  root: string,
+  url: string,
+  name: string,
+  deck: Deck<HuirthDeck & HuirthServerDeck & WebSocketServerDeck & FileSystemDeck>
+) => {
   const dataPath = path.join(root + '/data/repositories/' + name);
   // Step 3 Update status to installed by name as payload
   console.log('CLONING ', url, name);
   const stepUpdateProjectToUninstalled = createActionNode(
-    webSocketServerAppendToActionQue.actionCreator({
+    deck.webSocketServer.e.webSocketServerAppendToActionQue({
       actionQue: [
-        huirthUpdateProjectStatus.actionCreator({
+        deck.huirth.e.huirthUpdateProjectStatus({
           name,
           status: ProjectStatus.notInstalled,
         }),
       ],
     })
   );
-  const stepUpdateProjectToInstalled = createActionNode(huirthServerSendUpdateProjectToInstalled(name));
+  const stepUpdateProjectToInstalled = createActionNode(huirthServerSendUpdateProjectToInstalled(name, deck));
   // Step 2 Git clone into that directory by name
   const stepCloneRepo = createActionNode(
-    huirthServerGitCloneRepoToDirectory.actionCreator({
+    deck.huirthServer.e.huirthServerGitCloneRepoToDirectory({
       url,
       path: dataPath,
     }),
@@ -41,7 +46,7 @@ export const huirthServerCloneGitRepositoryToDirectoryStrategy = (root: string, 
     }
   );
   // Step 1 Remove directory if exists based on name
-  const stepRemoveDirectory = createActionNode(fileSystemRemoveTargetDirectory.actionCreator({ path: dataPath }), {
+  const stepRemoveDirectory = createActionNode(deck.fileSystem.e.fileSystemRemoveTargetDirectory({ path: dataPath }), {
     successNode: stepCloneRepo,
     agreement: 60000,
   });

@@ -4,8 +4,10 @@ $>*/
 /*<#*/
 import { userInterfaceServerSendActionToClient } from '../../../userInterfaceServer/strategies/sendActionToClient.helper';
 import { NamedDataSet } from '../../../huirth/huirth.model';
-import { huirthUpdateParsedProjectDataSet } from '../../../huirth/qualities/updateParsedProjectDataSet.quality';
+import { Deck } from 'stratimux';
+import { WebSocketServerDeck } from '../../../webSocketServer/webSocketServer.concept';
+import { HuirthDeck } from '../../../huirth/huirth.concept';
 
-export const huirthServerSendUpdateParsedProjectData = (dataSet: NamedDataSet) =>
-  userInterfaceServerSendActionToClient(huirthUpdateParsedProjectDataSet.actionCreator({ dataSet }));
+export const huirthServerSendUpdateParsedProjectData = (dataSet: NamedDataSet, deck: Deck<WebSocketServerDeck & HuirthDeck>) =>
+  userInterfaceServerSendActionToClient(deck.huirth.e.huirthUpdateParsedProjectDataSet({ dataSet }), deck);
 /*#>*/

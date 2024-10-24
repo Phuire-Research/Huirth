@@ -18,8 +18,8 @@ import { userInterfaceClientSendActionToServer } from '../../userInterfaceClient
 import { huirthServerState } from '../../huirthServer/huirthServer.concept';
 import { huirthClearDataSetSelection } from './clearDataSetSelection.quality';
 
-export const huirthSendTriggerSaveDataSetSelectionStrategy = createQualityCard<huirthState, HuirthDeck>({
-  type: 'huirth send trigger save data set selection strategy to server',
+export const huirthSendTriggerSaveDataSetSelectionJSONLStrategy = createQualityCard<huirthState, HuirthDeck>({
+  type: 'huirth send trigger save data set selection as JSONL strategy to server',
   reducer: (state) => {
     const { trainingData } = state;
     let { stratimuxStatus, huirthStatus, projectsStatuses } = state;
@@ -75,7 +75,7 @@ export const huirthSendTriggerSaveDataSetSelectionStrategy = createQualityCard<h
         topic: `Sending to server trigger save data set selection for: ${names.join(', ')}`,
         initialNode: createActionNode(
           userInterfaceClientSendActionToServer(
-            createAction('huirthServer trigger save data set selection strategy', {
+            createAction('huirthServer trigger save data set selection as JSONL strategy', {
               payload: {
                 names,
               },

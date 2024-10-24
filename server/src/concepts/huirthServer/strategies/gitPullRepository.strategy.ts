@@ -3,19 +3,17 @@ For the graph programming framework Stratimux and a Concept huirth Server, gener
 $>*/
 /*<#*/
 import path from 'path';
-import { createActionNode, createStrategy } from 'stratimux';
-import { huirthServerGitPullRepository } from '../qualities/gitPullRepository.quality';
+import { createActionNode, createStrategy, Deck } from 'stratimux';
 import { ProjectStatus } from '../../huirth/huirth.model';
-import { webSocketServerAppendToActionQue } from '../../webSocketServer/qualities/appendActionQue.quality';
-import { huirthUpdateProjectStatus } from '../../huirth/qualities/updateProjectToStatus.quality';
+import { HuirthServerDeck } from '../huirthServer.concept';
 
 export const huirthServerGitPullRepositoryTopic = 'huirthServer git pull target repository';
-export const huirthServerGitPullRepositoryStrategy = (root: string, name: string) => {
+export const huirthServerGitPullRepositoryStrategy = (root: string, name: string, deck: Deck<HuirthServerDeck>) => {
   const dataPath = path.join(root + '/data/repositories/' + name);
   const stepUpdateProjectStatusToPulled = createActionNode(
-    webSocketServerAppendToActionQue.actionCreator({
+    deck.webSocketServer.e.webSocketServerAppendToActionQue({
       actionQue: [
-        huirthUpdateProjectStatus.actionCreator({
+        deck.huirth.e.huirthUpdateProjectStatus({
           name,
           status: ProjectStatus.pulled,
         }),
@@ -23,7 +21,7 @@ export const huirthServerGitPullRepositoryStrategy = (root: string, name: string
     })
   );
   const stepGitPull = createActionNode(
-    huirthServerGitPullRepository.actionCreator({
+    deck.huirthServer.e.huirthServerGitPullRepository({
       path: dataPath,
     }),
     {

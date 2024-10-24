@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth, generate a Page Strategy Creator that will unify Sidebar, DataSet, Footer, and Header Action Strategy Component Stitches into a Page Composition.
 $>*/
 /*<#*/
-import { createActionNode, createStrategy } from 'stratimux';
+import { createActionNode, createStrategy, Deck, MuxiumDeck } from 'stratimux';
 import {
   ActionStrategyComponentStitch,
   PageStrategyCreators,
@@ -13,11 +13,10 @@ import { userInterfaceCreatePageStrategy } from '../../../userInterface/strategi
 import { huirthFooterStitch } from '../components/footer.strategy';
 import { huirthHeaderStitch } from '../components/header.strategy';
 import { huirthSidebarComponentStitch } from '../components/sidebar.strategy';
-import { huirthDataSetEnd } from '../../qualities/components/dataSet/dataSetEnd.quality';
-import { huirthDataSetContent } from '../../qualities/components/dataSet/dataSetContent.quality';
-import { huirthDataSetBegin } from '../../qualities/components/dataSet/dataSetBegin.quality';
+import { HtmlDeck } from '../../../html/html.concepts';
+import { HuirthDeck } from '../../huirth.concept';
 
-export const huirthGeneratedTrainingDataPageStrategy = (pageTitle: string): PageStrategyCreators => {
+export const huirthGeneratedTrainingDataPageStrategy = (pageTitle: string, deck: Deck<MuxiumDeck & HtmlDeck>): PageStrategyCreators => {
   const title = pageTitle;
   return () => () => {
     const pageData = userInterface_createPage({
@@ -32,16 +31,17 @@ export const huirthGeneratedTrainingDataPageStrategy = (pageTitle: string): Page
       title,
       pageData,
       [huirthSidebarComponentStitch, huirthGeneratedTrainingDataStrategyStitch, huirthFooterStitch],
+      deck,
       huirthHeaderStitch
     );
   };
 };
 
 export const huirthGeneratedTrainingDataStrategyStitchTopic = 'huirth Generated Training Data Strategy Component Stitch';
-export const huirthGeneratedTrainingDataStrategyStitch: ActionStrategyComponentStitch = (payload) => {
-  const stephuirthDataSetEnd = userInterface.createComponent(huirthDataSetEnd.actionCreator(payload));
-  const stephuirthDataManagerContent = userInterface.createComponent(huirthDataSetContent.actionCreator(payload), stephuirthDataSetEnd);
-  const stephuirthDataSetBegin = userInterface.createComponent(huirthDataSetBegin.actionCreator(payload), stephuirthDataManagerContent);
+export const huirthGeneratedTrainingDataStrategyStitch: ActionStrategyComponentStitch<HuirthDeck> = (payload, deck) => {
+  const stephuirthDataSetEnd = userInterface.createComponent(deck.huirth.e.huirthDataSetEnd(payload));
+  const stephuirthDataManagerContent = userInterface.createComponent(deck.huirth.e.huirthDataSetContent(payload), stephuirthDataSetEnd);
+  const stephuirthDataSetBegin = userInterface.createComponent(deck.huirth.e.huirthDataSetBegin(payload), stephuirthDataManagerContent);
   return [
     stephuirthDataSetEnd,
     createStrategy({

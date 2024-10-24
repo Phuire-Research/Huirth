@@ -25,7 +25,7 @@ const initialWebSocketClientState = (): WebSocketClientState => {
 
 export const webSocketClientQualities = { webSocketClientAppendToActionQue, webSocketClientSetServerSemaphore, webSocketClientForceSync };
 export type WebSocketClientDeck = {
-  webSocketClient: Concept<typeof webSocketClientQualities, WebSocketClientState>;
+  webSocketClient: Concept<WebSocketClientState, typeof webSocketClientQualities>;
 };
 export type WebSocketClientPrinciple = PrincipleFunction<
   typeof webSocketClientQualities,

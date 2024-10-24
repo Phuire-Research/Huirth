@@ -2,17 +2,15 @@
 For the graph programming framework Stratimux and a Concept huirth, generate an Action Strategy Component Stitch that appends the Sidebar first, content, and last component slices to the desired composition.
 $>*/
 /*<#*/
-import { createActionNode, createStrategy } from 'stratimux';
+import { createStrategy } from 'stratimux';
 import { ActionStrategyComponentStitch, userInterface } from '../../../../model/userInterface';
-import { huirthSideBarEnd } from '../../qualities/components/sideBar/sideBarEnd.quality';
-import { huirthSideBarBegin } from '../../qualities/components/sideBar/sideBarBegin.quality';
-import { huirthSideBarContent } from '../../qualities/components/sideBar/sideBarContent.quality';
+import { HuirthDeck } from '../../huirth.concept';
 
-export const huirthSidebarComponentStitch: ActionStrategyComponentStitch = (payload) => {
+export const huirthSidebarComponentStitch: ActionStrategyComponentStitch<HuirthDeck> = (payload, deck) => {
   // HEAD
-  const stephuirthSidebarEnd = userInterface.createComponent(huirthSideBarEnd.actionCreator(payload));
-  const stephuirthSidebarContent = userInterface.createComponent(huirthSideBarContent.actionCreator(payload), stephuirthSidebarEnd);
-  const stephuirthSidebarBegin = userInterface.createComponent(huirthSideBarBegin.actionCreator(payload), stephuirthSidebarContent);
+  const stephuirthSidebarEnd = userInterface.createComponent(deck.huirth.e.huirthSideBarEnd(payload));
+  const stephuirthSidebarContent = userInterface.createComponent(deck.huirth.e.huirthSideBarContent(payload), stephuirthSidebarEnd);
+  const stephuirthSidebarBegin = userInterface.createComponent(deck.huirth.e.huirthSideBarBegin(payload), stephuirthSidebarContent);
   return [
     stephuirthSidebarEnd,
     createStrategy({

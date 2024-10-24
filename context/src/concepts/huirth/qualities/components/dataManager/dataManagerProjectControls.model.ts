@@ -1,9 +1,11 @@
+import { Deck } from 'stratimux';
 import { elementEventBinding } from '../../../../../model/html';
 import { PreBind } from '../../../../../model/userInterface';
 import { GeneralProjectStatuses, ProjectStatus, generateNumID } from '../../../huirth.model';
 import { huirthSendTriggerParseRepositoryStrategy } from '../../sendTriggerParseRepositoryStrategy.quality';
+import { HuirthDeck } from '../../../huirth.concept';
 
-export const determineProjectControls = (statuses: GeneralProjectStatuses): [string, PreBind[]] => {
+export const determineProjectControls = (statuses: GeneralProjectStatuses, deck: Deck<HuirthDeck>): [string, PreBind[]] => {
   const pb: PreBind[] = [];
   let final = '';
   let dataNote = '';
@@ -15,7 +17,7 @@ export const determineProjectControls = (statuses: GeneralProjectStatuses): [str
     switch (st.status) {
       case ProjectStatus.installed: {
         pb.push({
-          action: huirthSendTriggerParseRepositoryStrategy.actionCreator({ name: st.name }),
+          action: deck.huirth.e.huirthSendTriggerParseRepositoryStrategy({ name: st.name }),
           elementId: dataID,
           eventBinding: elementEventBinding.onclick,
         });
@@ -24,7 +26,7 @@ export const determineProjectControls = (statuses: GeneralProjectStatuses): [str
       }
       case ProjectStatus.pulled: {
         pb.push({
-          action: huirthSendTriggerParseRepositoryStrategy.actionCreator({ name: st.name }),
+          action: deck.huirth.e.huirthSendTriggerParseRepositoryStrategy({ name: st.name }),
           elementId: dataID,
           eventBinding: elementEventBinding.onclick,
         });

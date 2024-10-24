@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate a ActionStrategy that will set up the data directory as needed, otherwise will record its contents to the state.
 $>*/
 /*<#*/
-import { createActionNode, createStrategy } from 'stratimux';
+import { createActionNode, createStrategy, Deck } from 'stratimux';
 import path from 'path';
 import { fileSystemGetDirectoriesAndFiles } from '../../fileSystem/qualities/getDirectoriesAndFiles.quality';
 import { huirthServerReadFromDataTrainingDataFromDirectories } from '../qualities/readFromDataTrainingDataFromDirectory.quality';
@@ -12,9 +12,10 @@ import { dataDirectories } from '../huirthServer.model';
 import { huirthServerSetRepositoriesFromData } from '../qualities/setRepositoriesFromData.quality';
 import { huirthServerSetTrainingDataFromData } from '../qualities/setTrainingDataFromData.quality';
 import { huirthSetTrainingDataInitialized } from '../../huirth/qualities/setTrainingDataInitialized.quality';
+import { HuirthServerDeck } from '../huirthServer.concept';
 
 const huirthServerInitializationStrategyTopic = 'huirth Server Initialization Strategy';
-export const huirthServerInitializationStrategy = (root: string) => {
+export const huirthServerInitializationStrategy = (root: string, deck: Deck<HuirthServerDeck>) => {
   const dataDirectory = path.join(root + '/data/');
   const dataSetsDirectory = path.join(root + '/data/sets/');
   // const DPODirectory = path.join(root + '/data/huirth');
@@ -22,14 +23,14 @@ export const huirthServerInitializationStrategy = (root: string) => {
   const gitSetsDirectory = path.join(root + '/data/' + dataDirectories.sets + '/');
   // If repositories doesn't exist
   // stepFour does folder repositories exists?
-  const stepSetTrainingDataInitialized = createActionNode(huirthSetTrainingDataInitialized.actionCreator());
-  const stepSetTrainingDataFromData = createActionNode(huirthServerSetTrainingDataFromData.actionCreator(), {
+  const stepSetTrainingDataInitialized = createActionNode(deck.huirth.e.huirthSetTrainingDataInitialized());
+  const stepSetTrainingDataFromData = createActionNode(deck.huirthServer.e.huirthServerSetTrainingDataFromData(), {
     successNode: stepSetTrainingDataInitialized,
   });
-  const stepReadTrainingDataFromData = createActionNode(huirthServerReadFromDataTrainingDataFromDirectories.actionCreator(), {
+  const stepReadTrainingDataFromData = createActionNode(deck.huirthServer.e.huirthServerReadFromDataTrainingDataFromDirectories(), {
     successNode: stepSetTrainingDataFromData,
   });
-  const stepVerifyDataSets = createActionNode(fileSystemGetDirectoriesAndFiles.actionCreator({ path: dataSetsDirectory }), {
+  const stepVerifyDataSets = createActionNode(deck.fileSystem.e.fileSystemGetDirectoriesAndFiles({ path: dataSetsDirectory }), {
     successNode: stepReadTrainingDataFromData,
   });
   // const stepSetDPO_data = createActionNode(huirthServerSetDPOFromData(), {
@@ -41,32 +42,32 @@ export const huirthServerInitializationStrategy = (root: string) => {
   // const stepVerifyDPOData = createActionNode(fileSystemGetDirectoriesAndFiles({path: DPODirectory}), {
   //   successNode: stepReadDPOFromData,
   // });
-  const stepSetRepositoriesFromData = createActionNode(huirthServerSetRepositoriesFromData.actionCreator(), {
+  const stepSetRepositoriesFromData = createActionNode(deck.huirthServer.e.huirthServerSetRepositoriesFromData(), {
     // No need to worry about setting status beyond installed here. In the next steps we will verify all currently installed data sources.
     successNode: stepVerifyDataSets,
   });
-  const stepReadDataRepoDirectory = createActionNode(fileSystemGetDirectoriesAndFiles.actionCreator({ path: gitRepoDirectory }), {
+  const stepReadDataRepoDirectory = createActionNode(deck.fileSystem.e.fileSystemGetDirectoriesAndFiles({ path: gitRepoDirectory }), {
     successNode: stepSetRepositoriesFromData,
   });
-  const stepCreateSetsDirectory = createActionNode(fileSystemCreateTargetDirectory.actionCreator({ path: gitSetsDirectory }), {
+  const stepCreateSetsDirectory = createActionNode(deck.fileSystem.e.fileSystemCreateTargetDirectory({ path: gitSetsDirectory }), {
     successNode: stepVerifyDataSets,
     agreement: 20000,
   });
-  const stepCreateRepoDirectory = createActionNode(fileSystemCreateTargetDirectory.actionCreator({ path: gitRepoDirectory }), {
+  const stepCreateRepoDirectory = createActionNode(deck.fileSystem.e.fileSystemCreateTargetDirectory({ path: gitRepoDirectory }), {
     successNode: stepCreateSetsDirectory,
     agreement: 20000,
   });
-  const stepIsTheDataDirectorySetUp = createActionNode(huirthServerIsDataDirectorySetUp.actionCreator(), {
+  const stepIsTheDataDirectorySetUp = createActionNode(deck.huirthServer.e.huirthServerIsDataDirectorySetUp(), {
     successNode: stepReadDataRepoDirectory,
     failureNode: stepCreateRepoDirectory,
   });
-  const stepReadDataDirectoryAgain = createActionNode(fileSystemGetDirectoriesAndFiles.actionCreator({ path: dataDirectory }), {
+  const stepReadDataDirectoryAgain = createActionNode(deck.fileSystem.e.fileSystemGetDirectoriesAndFiles({ path: dataDirectory }), {
     successNode: stepIsTheDataDirectorySetUp,
   });
-  const stepFailedFindingDataDirector = createActionNode(fileSystemCreateTargetDirectory.actionCreator({ path: dataDirectory }), {
+  const stepFailedFindingDataDirector = createActionNode(deck.fileSystem.e.fileSystemCreateTargetDirectory({ path: dataDirectory }), {
     successNode: stepReadDataDirectoryAgain,
   });
-  const stepReadDataDirectory = createActionNode(fileSystemGetDirectoriesAndFiles.actionCreator({ path: dataDirectory }), {
+  const stepReadDataDirectory = createActionNode(deck.fileSystem.e.fileSystemGetDirectoriesAndFiles({ path: dataDirectory }), {
     successNode: stepIsTheDataDirectorySetUp,
     failureNode: stepFailedFindingDataDirector,
   });

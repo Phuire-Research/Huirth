@@ -143,14 +143,15 @@ export const huirthTrainingDataPagePrinciple: HuirthPrinciple = ({ plan }) => {
                   list.push(
                     huirthAddTrainingDataPageStrategy(
                       add[i].name,
-                      huirthGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name),
-                      concepts
+                      huirthGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name, d),
+                      concepts,
+                      d
                     )
                   );
                   found = true;
                 }
                 if (currentPage === 'dataManager' && trainingData[add[i].i].type === DataSetTypes.project) {
-                  list.push(huirthUpdateProjectStatusStrategy(trainingData[add[i].i].name, ProjectStatus.parsed));
+                  list.push(huirthUpdateProjectStatusStrategy(trainingData[add[i].i].name, ProjectStatus.parsed, d));
                 }
               }
               if (!found) {
@@ -170,8 +171,9 @@ export const huirthTrainingDataPagePrinciple: HuirthPrinciple = ({ plan }) => {
                 list.push(
                   userInterfaceAddNewPageStrategy(
                     add[i].name,
-                    huirthGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name),
-                    concepts
+                    huirthGeneratedTrainingDataPageStrategy(trainingData[add[i].i].name, d),
+                    concepts,
+                    d
                   )
                 );
                 cachedTrainingDataNames.push(add[i].name);
