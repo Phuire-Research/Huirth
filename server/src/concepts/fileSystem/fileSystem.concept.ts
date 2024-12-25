@@ -15,6 +15,7 @@ import { fileSystemGetDirectoriesAndFiles } from './qualities/getDirectoriesAndF
 import { fileSystemReadDirectory } from './qualities/readDir.quality';
 import { fileSystemFilterFilesAndDirectories } from './qualities/filterFilesAndDirectories.quality';
 import { fileSystemReadFileContentsAndAppendToData } from './qualities/readFileContentsAndAppendToData.quality';
+import { fileSystemReadAllFileContentsAndAppendToData } from './qualities/readAllFileContentsAndAppendToData.quality copy';
 
 export type FileSystemState = {
   conceptDirectoryMap: string[];
@@ -42,6 +43,7 @@ const qualities = {
   fileSystemReadDirectory,
   fileSystemFilterFilesAndDirectories,
   fileSystemReadFileContentsAndAppendToData,
+  fileSystemReadAllFileContentsAndAppendToData,
 };
 
 export type FileSystemDeck = {

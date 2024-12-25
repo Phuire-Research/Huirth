@@ -73,8 +73,16 @@ const recursiveParse = (data: BaseDataSet[], content: string, file: FileDirent):
       output += recurseExclude(content.substring(contentBegin, contentEnd), file);
       output = output.trim();
       data.push({
-        prompt,
-        content: output,
+        contents: [
+          {
+            role: 'user',
+            text: prompt,
+          },
+          {
+            role: 'model',
+            text: output,
+          },
+        ],
       });
     }
     const sub = content.substring(contentEnd + ParsingTokens.contentEnd.length);

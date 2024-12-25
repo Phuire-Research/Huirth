@@ -15,11 +15,13 @@ import {
   huirthVerboseAddingStrategySelect,
   huirthVerboseAdditionAndSubtractionStrategySelect,
   huirthVerboseSubtractionStrategySelect,
+  huirthGenerateArcTrainingDataSets,
 } from '../../huirth/huirth.model';
 import { HuirthServerDeck, huirthServerState } from '../huirthServer.concept';
 import { huirthServerGenerateVerboseAddingStrategy } from './generateVerboseAddingDataSet.quality';
 import { huirthServerGenerateVerboseSubtractionStrategy } from './generateVerboseSubtractionDataSet.quality';
 import { huirthServerGenerateVerboseAdditionAndSubtractionStrategy } from './generateVerboseAdditionAndSubtractionDataSet.quality';
+import { huirthServerArcChallengeReadParseAppendStrategy } from './arcChallengeReadParseAppendStrategy.quality';
 
 export type huirthServerTriggerSelectTransformationStrategyPayload = {
   selection: string;
@@ -52,6 +54,10 @@ export const huirthServerTriggerSelectTransformationStrategy = createQualityCard
         }
         case huirthVerboseAdditionAndSubtractionStrategySelect: {
           finalAction = huirthServerGenerateVerboseAdditionAndSubtractionStrategy.actionCreator({ agreement: 600000 });
+          break;
+        }
+        case huirthGenerateArcTrainingDataSets: {
+          finalAction = huirthServerArcChallengeReadParseAppendStrategy.actionCreator({ agreement: 600000 });
           break;
         }
         default: {

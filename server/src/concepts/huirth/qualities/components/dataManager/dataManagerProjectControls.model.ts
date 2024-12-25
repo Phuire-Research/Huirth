@@ -10,10 +10,11 @@ export const determineProjectControls = (statuses: GeneralProjectStatuses, deck:
   let final = '';
   let dataNote = '';
   let dataStatus = '';
+  // console.log('CHECK STATUS', statuses);
   for (const [i, st] of statuses.entries()) {
-    // console.log('CHECK STATUS, st', st, statuses);
-    const dataID = '#projectID-' + generateNumID(i);
+    const dataID = '#projectID-' + generateNumID(i, 0);
     dataStatus = st.status;
+    // console.log('WHAT IS THIS STATUS', st);
     switch (st.status) {
       case ProjectStatus.installed: {
         pb.push({

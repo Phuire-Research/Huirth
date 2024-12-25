@@ -10,7 +10,7 @@ export type huirthUpdateDataSetSelectionPayload = {
 };
 
 export const huirthUpdateDataSetSelection = createQualityCardWithPayload<huirthState, huirthUpdateDataSetSelectionPayload>({
-  type: 'Create huirth update data set selection',
+  type: 'huirth update DataSet Selection',
   reducer: (state, action) => {
     const { index } = action.payload;
     const dataSetSelection = [...state.dataSetSelection];

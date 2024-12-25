@@ -3,10 +3,6 @@ For the graph programming framework Stratimux and a Concept huirth, generate a q
 $>*/
 /*<#*/
 import {
-  Action,
-  Concepts,
-  muxiumKick,
-  muxiumRegisterTimeOut,
   createActionNode,
   createMethodWithState,
   createQualityCardWithPayload,
@@ -17,9 +13,6 @@ import {
 import { HuirthDeck, huirthState } from '../huirth.concept';
 import { userInterface_selectInputTarget } from '../../../model/userInterface';
 import { DataSetTypes, PhuirEProjects, ProjectStatus } from '../huirth.model';
-import { Subject } from 'rxjs';
-import { huirthSendRemoveAddTrainingPageStrategy } from './sendTriggerRemoveAddTrainingPageStrategy.quality';
-import { webSocketClientForceSync } from '../../webSocketClient/qualities/forceSync.quality';
 import { WebSocketClientDeck } from '../../webSocketClient/webSocketClient.concept';
 
 export type huirthUpdateDataSetNamePayload = {
@@ -47,11 +40,12 @@ export const huirthUpdateDataSetName = createQualityCardWithPayload<
         } else if (name === PhuirEProjects.huirth) {
           huirthStatus = ProjectStatus.installed;
         } else {
-          for (const project of projectsStatuses) {
-            if (project.name.toLowerCase() === name) {
-              project.status = ProjectStatus.installed;
-            }
-          }
+          dataSet.type = DataSetTypes.general;
+          // for (const project of projectsStatuses) {
+          //   if (project.name.toLowerCase() === name) {
+          //     project.status = ProjectStatus.installed;
+          //   }
+          // }
         }
       }
       dataSet.name = target.value;

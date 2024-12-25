@@ -43,19 +43,20 @@ export const huirthServerSaveDataSetSelectionJSONLStrategy = (
           successNode: stepUpdateProjectStatusToSavedOnClient,
         }
       );
-      const stepCreateDirectory = createActionNode(deck.fileSystem.e.fileSystemCreateTargetDirectory({ path: p }), {
-        successNode: stepCreateFileWithContents,
-        agreement: 20000,
-      });
-      const stepRemoveDirectory = createActionNode(deck.fileSystem.e.fileSystemRemoveTargetDirectory({ path: p }), {
-        successNode: stepCreateDirectory,
-        agreement: 20000,
-      });
+      // const stepCreateDirectory = createActionNode(deck.fileSystem.e.fileSystemCreateTargetDirectory({ path: p }), {
+      //   successNode: stepCreateFileWithContents,
+      //   agreement: 20000,
+      // });
+      // const stepRemoveDirectory = createActionNode(deck.fileSystem.e.fileSystemRemoveTargetDirectory({ path: p }), {
+      //   successNode: stepCreateDirectory,
+      //   agreement: 20000,
+      // });
       if (first === undefined) {
-        first = stepRemoveDirectory;
+        first = stepCreateFileWithContents;
+        // first = stepRemoveDirectory;
         previous = stepUpdateProjectStatusToSavedOnClient;
       } else if (previous) {
-        previous.successNode = stepRemoveDirectory;
+        previous.successNode = stepCreateFileWithContents;
         previous = stepUpdateProjectStatusToSavedOnClient;
       }
     }

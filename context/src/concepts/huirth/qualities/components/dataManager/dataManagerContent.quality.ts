@@ -23,21 +23,9 @@ import {
   huirth_createStratimuxStatusSelector,
   huirth_createTrainingDataSelector,
 } from '../../../huirth.selector';
-import { huirthNewDataSet } from '../../newDataSet.quality';
 import { PhuirEProjects, ProjectStatus, dataSetNameID, dataSetSelectionID, generateNumID } from '../../../huirth.model';
-import { huirthUpdateDataSetName } from '../../updateDataSetName.quality';
-import { huirthTriggerInstallGitRepository } from '../../triggerInstallGitRepository.quality';
-import { huirthUpdateDataSetSelection } from '../../updateDataSetSelection.quality';
-import { huirthSendTriggerParseRepositoryStrategy } from '../../sendTriggerParseRepositoryStrategy.quality';
-import { huirthSendTriggerSaveDataSetSelectionStrategy } from '../../sendTriggerSaveDataSetSelectionStrategy.quality';
-import { huirthRemoveDataSetSelection } from '../../removeDataSetSelection.quality';
 import { determineProjectControls } from './dataManagerProjectControls.model';
-import { huirthSetPossibleProject } from '../../setPossibleProject.quality';
-import { huirthFilterTriggerInstallGitRepository } from '../../filterTriggerInstallGitRepository.quality';
-import { huirthSetSelectedTransformation } from '../../setSelectedTransformation.quality';
-import { huirthSendTriggerSelectedTransformationStrategy } from '../../sendTriggerSelectedTransformationStrategy.quality';
 import { huirthSendTriggerGitPullRepositoryStrategy } from '../../../strategies/server/triggerGitPullRepositoryStrategy.helper';
-import { huirthSendTriggerSaveDataSetSelectionJSONLStrategy } from '../../sendTriggerSaveDataSetSelectionJSONLStrategy.quality';
 
 export const huirthDataManagerContent = createQualityCardComponent<huirthState, ActionComponentPayload, HuirthDeck>({
   type: 'create userInterface for DataManagerContent',
@@ -50,6 +38,8 @@ export const huirthDataManagerContent = createQualityCardComponent<huirthState, 
     const saveID = '#saveID';
     const saveJSONLID = '#saveJSONLID';
     const addEntryID = '#addEntry' + payload.pageTitle;
+    const mergeID = '#mergeID' + payload.pageTitle;
+    const shuffleID = '#shuffleID' + payload.pageTitle;
     const removeID = '#removeID';
     const transformationSelectionID = '#transformationSelectionID';
     const triggerCreateTransformationDataSetID = '#triggerCreateTransformationDataSetID';
@@ -85,24 +75,47 @@ export const huirthDataManagerContent = createQualityCardComponent<huirthState, 
         }
         return false;
       })();
+      const twoOrMoreSelected = (() => {
+        let count = 0;
+        for (const selected of dataSetSelection) {
+          if (selected) {
+            count++;
+          }
+          if (count === 2) {
+            return true;
+          }
+        }
+        return false;
+      })();
       let finalOutput = '';
+      console.log('CHECK STATUS', projectsStatuses);
       const [finalProjects, bindingsArray] = determineProjectControls(projectsStatuses, deck);
       for (let i = 0; i < trainingData.length; i++) {
-        const elementID = generateNumID(i);
+        const elementID = generateNumID(i, 0);
         bindingsArray.push({
-          elementId: dataSetNameID + elementID,
-          eventBinding: elementEventBinding.onchange,
-          action: deck.huirth.e.huirthUpdateDataSetName({ index: i }),
+          elementId: dataSetNameID + elementID + 'up',
+          eventBinding: elementEventBinding.onclick,
+          action: deck.huirth.e.huirthUpdateDataSetPosition({ index: i, up: true }),
+        });
+        bindingsArray.push({
+          elementId: dataSetNameID + elementID + 'down',
+          eventBinding: elementEventBinding.onclick,
+          action: deck.huirth.e.huirthUpdateDataSetPosition({ index: i, up: false }),
         });
         bindingsArray.push({
           elementId: dataSetSelectionID + elementID,
           eventBinding: elementEventBinding.onchange,
           action: deck.huirth.e.huirthUpdateDataSetSelection({ index: i }),
         });
+        bindingsArray.push({
+          elementId: dataSetNameID + elementID,
+          eventBinding: elementEventBinding.onchange,
+          action: deck.huirth.e.huirthUpdateDataSetName({ index: i }),
+        });
         finalOutput += /*html*/ `
-<div class="w-full ml-4 mt-2 mb-2">
-  <div class="relative flex items-center h-10 w-full min-w-[200px]">
-    <div class="absolute top-2/4 right-52 grid h-5 w-5 -translate-y-2/4 place-items-center text-blue-gray-500">
+<div class="w-full ml-4 mt-2 mb-2"> 
+  <div class="relative flex items-center h-10 min-w-[200px]">
+    <div class="absolute top-2/4 right-72 grid h-5 w-5 -translate-y-2/4 place-items-center text-blue-gray-500">
       <i class="fa-solid fa-book"></i>
     </div>
     <input
@@ -115,7 +128,15 @@ export const huirthDataManagerContent = createQualityCardComponent<huirthState, 
       }"
       value="${trainingData[i].name}"
     />
-    <button class="ml-4 italic cursor-pointer bg-purple-800/5 hover:bg-purple-500 text-purple-50 font-semibold hover:text-white py-2 px-4 border border-purple-400 hover:border-transparent border-solid rounded">
+    <button id="${dataSetNameID + elementID + 'up'}"
+      class="ml-2 italic cursor-pointer bg-orange-800/5 hover:bg-orange-500 text-purple-50 font-semibold hover:text-white py-2 px-4 border border-orange-400 hover:border-transparent border-solid rounded">
+      <i class="fa-solid fa-up-long"></i>
+    </button>
+    <button id="${dataSetNameID + elementID + 'down'}"
+      class="ml-2 italic cursor-pointer bg-blue-800/5 hover:bg-blue-500 text-purple-50 font-semibold hover:text-white py-2 px-4 border border-blue-400 hover:border-transparent border-solid rounded">
+      <i class="fa-solid fa-down-long"></i>
+    </button>
+    <button class="ml-2 italic cursor-pointer bg-purple-800/5 hover:bg-purple-500 text-purple-50 font-semibold hover:text-white py-2 px-4 border border-purple-400 hover:border-transparent border-solid rounded">
       <a href="/${trainingData[i].name}"><i class="fa-solid fa-link"></i></a>
     </button>
     <input
@@ -138,6 +159,7 @@ export const huirthDataManagerContent = createQualityCardComponent<huirthState, 
       });
       const stratimuxSaved = trainingData.filter((d) => d.name.toLowerCase() === PhuirEProjects.stratimux.toLocaleLowerCase()).length > 0;
       const huirthSaved = trainingData.filter((d) => d.name.toLowerCase() === PhuirEProjects.huirth.toLocaleLowerCase()).length > 0;
+      console.log('STRATIMUX STATUS', stratimuxStatus, stratimuxStatus === ProjectStatus.pulled);
       if (stratimuxStatus === ProjectStatus.notInstalled) {
         bindingsArray.push({
           action: deck.huirth.e.huirthTriggerInstallGitRepository({
@@ -149,7 +171,8 @@ export const huirthDataManagerContent = createQualityCardComponent<huirthState, 
         });
         finalStratimuxID = installStratimuxID;
         finalStratimuxNote = 'Install Stratimux';
-      } else if (stratimuxStatus === ProjectStatus.installed && !stratimuxSaved) {
+      } else if ((stratimuxStatus === ProjectStatus.installed || stratimuxStatus === ProjectStatus.pulled) && !stratimuxSaved) {
+        console.log('STRATIMUX PARSE HIT');
         bindingsArray.push({
           action: deck.huirth.e.huirthSendTriggerParseRepositoryStrategy({ name: PhuirEProjects.stratimux }),
           elementId: parseStratimuxID,
@@ -177,7 +200,7 @@ export const huirthDataManagerContent = createQualityCardComponent<huirthState, 
         });
         finalHuirth_ID = installHuirth_ID;
         finalHuirth_note = 'Install Huirth';
-      } else if (huirthStatus === ProjectStatus.installed && !huirthSaved) {
+      } else if ((huirthStatus === ProjectStatus.installed || huirthStatus === ProjectStatus.pulled) && !huirthSaved) {
         bindingsArray.push({
           action: deck.huirth.e.huirthSendTriggerParseRepositoryStrategy({ name: PhuirEProjects.huirth }),
           elementId: parseHuirth_ID,
@@ -232,6 +255,16 @@ export const huirthDataManagerContent = createQualityCardComponent<huirthState, 
       bindingsArray.push({
         action: deck.huirth.e.huirthSendTriggerSelectedTransformationStrategy(),
         elementId: triggerCreateTransformationDataSetID,
+        eventBinding: elementEventBinding.onclick,
+      });
+      bindingsArray.push({
+        action: deck.huirth.e.huirthMergeDataSetSelection(),
+        elementId: mergeID,
+        eventBinding: elementEventBinding.onclick,
+      });
+      bindingsArray.push({
+        action: deck.huirth.e.huirthMergeShuffleDataSetSelection(),
+        elementId: shuffleID,
         eventBinding: elementEventBinding.onclick,
       });
       const bindings = createBinding(bindingsArray);
@@ -333,12 +366,35 @@ ${transformationStrategies
             </div>
             <h1 class="m-4 text-white text-3xl w-full text-center">Data Sets</h1>
             <div class="mb-4 flex-none flex items-center w-full">
-              <button id=${addEntryID} class="mb-8 mt-2 center-m bg-green-800/5 hover:bg-green-500 text-green-50 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
-                Custom Data Set <i class="fa-solid fa-plus"></i>
+              <button id="${addEntryID}" class="b-8 mt-2 center-m bg-green-800/5 hover:bg-green-500 text-green-50 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+                Data Set <i class="fa-solid fa-plus"></i>
               </button>
+${
+  twoOrMoreSelected
+    ? /*html*/ `
+              <button id="${mergeID}" class="b-8 mt-2 center-m bg-orange-800/5 hover:bg-orange-500 text-orange-50 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
+                Merge <i class="fa-solid fa-code-merge"></i>
+              </button>
+`
+    : /*html*/ `
               <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
-                Load <i class="fa-solid fa-folder-open"></i>
+                Merge <i class="fa-solid fa-code-merge"></i>
               </button>
+`
+}
+${
+  twoOrMoreSelected
+    ? /*html*/ `
+              <button id="${shuffleID}" class="b-8 mt-2 center-m bg-sky-800/5 hover:bg-sky-500 text-sky-50 font-semibold hover:text-white py-2 px-4 border border-sky-500 hover:border-transparent rounded">
+                Shuffle <i class="fa-solid fa-shuffle"></i>
+              </button>
+`
+    : /*html*/ `
+              <button class="italic cursor-not-allowed mb-8 mt-2 center-m bg-white/5 hover:bg-slate-500 text-slate-500 font-semibold hover:text-red-400 py-2 px-4 border border-slate-400 hover:border-transparent border-dashed rounded">
+                Shuffle <i class="fa-solid fa-shuffle"></i>
+              </button>
+`
+}
 ${
   !anySelected
     ? /*html*/ `

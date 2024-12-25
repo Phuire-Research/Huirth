@@ -2,7 +2,7 @@
 For the graph programming framework Stratimux and a Concept huirth Server, generate the model file contents that will handle Data Sets, Failure Conditions, and Tokens.
 $>*/
 /*<#*/
-import { DPO_DataSet } from '../../model/huirth';
+// import { DPO_DataSet } from '../../model/huirth';
 import { Active_DPO, BaseDataSet, DataSetTypes, NamedDataSet, TrainingData } from '../huirth/huirth.model';
 
 // eslint-disable-next-line no-shadow
@@ -17,40 +17,43 @@ export enum dataDirectories {
   sets = 'sets',
 }
 
+// Borked on purpose. Fix later if we need DPO
 export const convertDPOToSaveFormatDPO = (trainingData: Active_DPO[]) => {
-  const saveFormat: SavedFormat = {};
-  trainingData.forEach((entry) => {
-    saveFormat[entry.prompt] = {
-      type: DataSetTypes.dpo,
-      content: '',
-      chosen: entry.chosen,
-      rejected: entry.chosen,
-    };
-  });
+  const saveFormat: SavedFormat = {
+    name: 'dpo',
+    data: trainingData.map<BaseDataSet>((entry) => {
+      return {
+        contents: [{ text: entry.prompt }],
+      };
+    }),
+    type: DataSetTypes.dpo,
+  };
   return saveFormat;
 };
 
 export type SavedFormat = {
-  [prompt: string]: {
-    type: string;
-    content: string;
-  } & Record<string, string>;
+  name: string;
+  type: DataSetTypes;
+  data: BaseDataSet[];
+};
+
+export type ArcChallengeFormat = {
+  train: {
+    input: number[][];
+    output: number[][];
+  }[];
+  test: {
+    input: number[][];
+    output: number[][];
+  }[];
 };
 
 export const convertNamedDataSetToSaveFormat = (named: NamedDataSet) => {
-  const saveFormat: SavedFormat = {};
-  named.dataSet.forEach((entry) => {
-    saveFormat[entry.prompt] = {
-      type: named.type,
-      content: entry.content,
-    };
-    const keys = Object.keys(entry);
-    for (const key of keys) {
-      if (key !== 'prompt' && key !== 'content' && key !== 'type') {
-        saveFormat.prompt[key] = entry[key];
-      }
-    }
-  });
+  const saveFormat: SavedFormat = {
+    name: named.name,
+    type: named.type,
+    data: named.dataSet,
+  };
   return saveFormat;
 };
 
@@ -62,7 +65,7 @@ export type JSONLSavedFormat = {
     }[];
   };
   contents: {
-    role: string;
+    role?: string;
     parts: {
       text: string;
     }[];
@@ -77,38 +80,60 @@ const cleanPrompt = (str: string) => {
   }
 };
 
-const instruction = 'You are currently embodying Stratimux and a Muxium Deck Load of : [HuirthServerDeck, CounterDeck]';
 export const convertNamedDataSetToJSONLSavedFormat = (named: NamedDataSet) => {
   let output = '';
   named.dataSet.forEach((set) => {
-    const JSONL: JSONLSavedFormat = {
-      systemInstruction: {
-        role: 'model',
-        parts: [
-          {
-            text: instruction,
+    const JSONL: JSONLSavedFormat = set.systemInstructions
+      ? {
+          systemInstruction: {
+            role: 'model',
+            parts: [
+              {
+                text: set.systemInstructions as string,
+              },
+            ],
           },
-        ],
-      },
-      contents: [
-        {
-          role: 'user',
-          parts: [
-            {
-              text: cleanPrompt(set.prompt),
-            },
-          ],
-        },
-        {
-          role: 'model',
-          parts: [
-            {
-              text: set.content,
-            },
-          ],
-        },
-      ],
-    };
+          contents: set.contents.map((entry) => {
+            if (entry.role !== 'unset') {
+              return {
+                role: entry.role,
+                parts: [
+                  {
+                    text: entry.text,
+                  },
+                ],
+              };
+            }
+            return {
+              parts: [
+                {
+                  text: entry.text,
+                },
+              ],
+            };
+          }),
+        }
+      : {
+          contents: set.contents.map((entry) => {
+            if (entry.role !== 'unset') {
+              return {
+                role: entry.role,
+                parts: [
+                  {
+                    text: entry.text,
+                  },
+                ],
+              };
+            }
+            return {
+              parts: [
+                {
+                  text: entry.text,
+                },
+              ],
+            };
+          }),
+        };
     output += JSON.stringify(JSONL) + '\n';
   });
   return output;
@@ -117,43 +142,44 @@ export const convertNamedDataSetToJSONLSavedFormat = (named: NamedDataSet) => {
 export const convertSavedFormatToNamedDataSet = (saved: SavedFormat, name: string) => {
   const named: NamedDataSet = {
     name,
-    type: DataSetTypes.general,
-    dataSet: [],
+    type: saved.type,
+    dataSet: saved.data,
     index: 0,
   };
-  const keys = Object.keys(saved);
-  for (const key of keys) {
-    const final: BaseDataSet = {
-      prompt: key,
-      content: '',
-    };
-    const data = saved[key];
-    const dataKeys = Object.keys(data);
-    for (const d of dataKeys) {
-      if (d === 'type') {
-        named.type = data[d] as DataSetTypes;
-      } else {
-        final[d] = data[d];
-      }
-    }
-    named.dataSet.push(final);
-  }
   return named;
 };
 
+// Borked on purpose. Fix later if we need DPO
 export const convertSaveFormatDPOToDPO = (named: NamedDataSet) => {
   const DPO: Active_DPO[] = [];
   for (const set of named.dataSet) {
-    DPO.push({
-      prompt: set.prompt,
-      chosen: set.chosen !== undefined ? set.chosen : '',
-      rejected: set.rejected !== undefined ? set.rejected : '',
-    });
+    for (const entry of set.contents) {
+      DPO.push({
+        prompt: entry.text,
+        chosen: entry.text,
+        rejected: entry.text,
+      });
+    }
   }
   return DPO;
 };
 
-export const TRANSFORMATION_DATASET_LIMIT = 25;
+export const TRANSFORMATION_DATASET_LIMIT = 15;
+
+export const DEFAULT_SYSTEM_PROMPT = (names: string[], enhancement?: string) =>
+  enhancement
+    ? `
+You are currently Embodying the Stratimux Framework, a Graph Programming Framework purpose built as an Artificial Intelligence Operating System.
+
+${enhancement}
+
+Your Starting Stratideck is as Follows: [ ${names.join(', ')} ]
+`
+    : `
+You are currently Embodying the Stratimux Framework, a Graph Programming Framework purpose built as an Artificial Intelligence Operating System.
+
+Your Starting Stratideck is as Follows: [ ${names.join(', ')} ]
+`;
 
 /*#>*/
 /*<!!>*/

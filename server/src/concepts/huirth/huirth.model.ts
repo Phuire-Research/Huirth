@@ -47,15 +47,21 @@ export type Active_DPO = {
 };
 
 export type BaseDataSet = {
-  prompt: string;
-  content: string;
-} & Record<string, string>;
+  systemInstructions?: string;
+  contents: DataSetEntry[];
+};
+
+export type DataSetEntry = {
+  role?: string;
+  text: string;
+};
 
 // eslint-disable-next-line no-shadow
 export enum DataSetTypes {
   general = 'general',
   project = 'project',
   dpo = 'dpo',
+  challenge = 'challenge',
 }
 
 export type NamedDataSet = {
@@ -75,8 +81,16 @@ export const generateDPOTrainingData = (): Active_DPO => ({
 
 export const generateBaseDataSetEntry = (): BaseDataSet => {
   return {
-    prompt: '#insert prompt#',
-    content: '#insert chosen output#',
+    contents: [
+      {
+        role: 'user',
+        text: '#insert prompt#',
+      },
+      {
+        role: 'model',
+        text: '#insert chosen output#',
+      },
+    ],
   };
 };
 
@@ -96,14 +110,23 @@ export const contentID = '#contentID-';
 export const chosenID = '#chosenID-';
 export const rejectedID = '#rejectedID-';
 
-export function generateNumID(number: number) {
-  if (number < 10) {
-    return `00${number}`;
-  } else if (number < 100) {
-    return `0${number}`;
+export function generateNumID(i: number, iEntry: number) {
+  let index = '';
+  if (i < 10) {
+    index = `00${i}`;
+  } else if (i < 100) {
+    index = `0${i}`;
   } else {
-    return `${number}`;
+    index = `${i}`;
   }
+  if (iEntry < 10) {
+    index += `-00${iEntry}`;
+  } else if (i < 100) {
+    index += `-0${iEntry}`;
+  } else {
+    index += `-${iEntry}`;
+  }
+  return index;
 }
 
 export function selectTrainingDataIndex(element: HTMLElement, key: string) {
@@ -115,5 +138,5 @@ export function selectTrainingDataIndex(element: HTMLElement, key: string) {
 export const huirthVerboseAddingStrategySelect = 'Verbose Adding Transformation Strategy';
 export const huirthVerboseSubtractionStrategySelect = 'Verbose Subtraction Transformation Strategy';
 export const huirthVerboseAdditionAndSubtractionStrategySelect = 'Verbose Addition and Subtraction Transformation Strategy';
-
+export const huirthGenerateArcTrainingDataSets = 'Generate Arc Training Data Sets';
 /*#>*/

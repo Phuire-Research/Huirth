@@ -14,7 +14,7 @@ export const huirthUpdateProjectStatus = createQualityCardWithPayload<huirthStat
   type: 'huirth Update Project Status',
   reducer: (state, action) => {
     const { name, status } = action.payload;
-    // console.log('CHECK INCOMING STATUS', name, status);
+    console.log('CHECK INCOMING STATUS', name, status);
     if (name.toLocaleLowerCase() === PhuirEProjects.stratimux) {
       return {
         stratimuxStatus: status,
