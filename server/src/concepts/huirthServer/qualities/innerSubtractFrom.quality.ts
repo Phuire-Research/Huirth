@@ -42,9 +42,6 @@ export const huirthServerInnerSubtractFrom = createQualityCardWithPayload<huirth
             huirth_convertNumberToStringVerbose(subtractFrom).trim() +
             ', equals ' +
             huirth_convertNumberToStringVerbose(final).trim();
-          strategy.currentNode.successNotes = {
-            preposition: '',
-          };
           // console.log(verboseSum, ' subtract ', subtractFrom, ' equals ', final);
           return strategySuccess(
             strategy,

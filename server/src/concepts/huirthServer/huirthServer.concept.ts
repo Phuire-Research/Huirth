@@ -34,6 +34,10 @@ import { huirthServerTriggerSaveDataSetSelectionJSONLStrategy } from './qualitie
 import { UserInterfaceServerDeck } from '../userInterfaceServer/userInterfaceServer.concept';
 import { WebSocketServerDeck } from '../webSocketServer/webSocketServer.concept';
 import { FileSystemDeck } from '../fileSystem/fileSystem.concept';
+import { huirthServerArcChallengeParseFileFromData } from './qualities/parseArcChallengeFromData.quality';
+import { huirthServerArcChallengeReadParseAppendStrategy } from './qualities/arcChallengeReadParseAppendStrategy.quality';
+import { huirthServerReadFromDataArcTrainingDataFromDirectories } from './qualities/readFromDataArcTrainingDataFromDirectory.quality copy';
+import { huirthServerAppendParsedDataToNamedDataSetSilent } from './qualities/appendParsedDataToNamedDataSetSilent.quality';
 
 export const huirthServerName = 'huirthServer';
 export type huirthServerState = {
@@ -58,6 +62,7 @@ const qualities = {
   huirthServerParseFileFromData,
   huirthServerDetermineReadParseAppendStrategy,
   huirthServerAppendParsedDataToNamedDataSet,
+  huirthServerAppendParsedDataToNamedDataSetSilent,
   huirthServerPrepareParsedProjectDataUpdate,
   huirthServerInnerAddTo,
   huirthServerGenerateVerboseAddingStrategy,
@@ -66,6 +71,9 @@ const qualities = {
   huirthServerGenerateVerboseSubtractionStrategy,
   huirthServerGenerateVerboseAdditionAndSubtractionStrategy,
   huirthServerGitPullRepository,
+  huirthServerArcChallengeParseFileFromData,
+  huirthServerArcChallengeReadParseAppendStrategy,
+  huirthServerReadFromDataArcTrainingDataFromDirectories,
 };
 
 export type HuirthServerDeck = {

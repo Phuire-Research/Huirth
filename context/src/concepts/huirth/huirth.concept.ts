@@ -39,6 +39,7 @@ import {
   TrainingData,
   generateDPOTrainingData,
   generateDefaultTrainingData,
+  huirthGenerateArcTrainingDataSets,
   huirthVerboseAddingStrategySelect,
   huirthVerboseAdditionAndSubtractionStrategySelect,
   huirthVerboseSubtractionStrategySelect,
@@ -62,7 +63,10 @@ import { huirthDataSetBegin } from './qualities/components/dataSet/dataSetBegin.
 import { huirthDataSetEnd } from './qualities/components/dataSet/dataSetEnd.quality';
 import { huirthDataSetContent } from './qualities/components/dataSet/dataSetContent.quality';
 import { huirthUpdateDataSetContents, huirthUpdateDataSetContentsPayload } from './qualities/updateDataSetContents.quality';
-import { huirthUpdateDataSetPrompt, huirthUpdateDataSetPromptPayload } from './qualities/updateDataSetPrompt.quality';
+import {
+  huirthUpdateDataSetSystemInstructions,
+  huirthUpdateDataSetSystemInstructionsPayload,
+} from './qualities/updateDataSetSystemInstructions.quality';
 import { huirthUpdateProjectStatus, huirthUpdateProjectStatusPayload } from './qualities/updateProjectToStatus.quality';
 import {
   huirthTriggerInstallGitRepository,
@@ -107,6 +111,27 @@ import { createUserInterfaceState, UserInterfaceDeck, UserInterfaceState } from 
 import { huirthSendTriggerSaveDataSetSelectionJSONLStrategy } from './qualities/sendTriggerSaveDataSetSelectionJSONLStrategy.quality';
 import { HtmlDeck } from '../html/html.concepts';
 import { WebSocketClientDeck } from '../webSocketClient/webSocketClient.concept';
+import { huirthUpdateDataSetRole, huirthUpdateDataSetRolePayload } from './qualities/updateDataSetRole.quality';
+import { huirthUpdateDataSetPosition, huirthUpdateDataSetPositionPayload } from './qualities/updateDataSetPosition.quality';
+import { huirthUpdateDataSetPageIndex, huirthUpdateDataSetPageIndexPayload } from './qualities/updateDataSetPageIndex.quality';
+import {
+  huirthUpdateDataSetAddContentsEntry,
+  huirthUpdateDataSetAddContentsEntryPayload,
+} from './qualities/updateDataSetAddContentsEntry.quality';
+import {
+  huirthUpdateDataSetRemoveContentsEntry,
+  huirthUpdateDataSetRemoveContentsEntryPayload,
+} from './qualities/updateDataSetRemoveContentsEntry.quality';
+import {
+  huirthUpdateDataSetAddSystemInstructions,
+  huirthUpdateDataSetAddSystemInstructionsPayload,
+} from './qualities/updateDataSetAddSystemInstructions.quality';
+import {
+  huirthUpdateDataSetRemoveSystemInstructions,
+  huirthUpdateDataSetRemoveSystemInstructionsPayload,
+} from './qualities/updateDataSetRemoveSystemInstructions.quality copy';
+import { huirthMergeDataSetSelection } from './qualities/mergeDataSetSelection.quality';
+import { huirthMergeShuffleDataSetSelection } from './qualities/mergeShuffleDataSetSelection.quality';
 
 export const huirthName = 'huirth';
 export type huirthState = {
@@ -138,6 +163,7 @@ const createHuirthState = (): huirthState => {
       huirthVerboseAddingStrategySelect,
       huirthVerboseSubtractionStrategySelect,
       huirthVerboseAdditionAndSubtractionStrategySelect,
+      huirthGenerateArcTrainingDataSets,
     ],
     selectedTransformation: 'Some Strategy',
     possibleProject: '',
@@ -179,6 +205,8 @@ const qualities = {
   huirthDataSetBegin,
   huirthDataSetContent,
   huirthDataSetEnd,
+  huirthMergeDataSetSelection,
+  huirthMergeShuffleDataSetSelection,
   huirthSendTriggerParseRepositoryStrategy,
   huirthSendTriggerSaveDataSetSelectionStrategy,
   huirthSendTriggerSaveDataSetSelectionJSONLStrategy,
@@ -187,13 +215,20 @@ const qualities = {
   huirthUpdateFromPromptPayload,
   huirthUpdateFromChosenPayload,
   huirthUpdateFromRejectedPayload,
-  huirthUpdateDataSetName,
+  huirthUpdateDataSetPageIndex,
+  huirthUpdateDataSetPosition,
+  huirthUpdateDataSetRole,
   huirthUpdateDataSetContents,
-  huirthUpdateDataSetPrompt,
+  huirthUpdateDataSetAddContentsEntry,
+  huirthUpdateDataSetRemoveContentsEntry,
+  huirthUpdateDataSetSystemInstructions,
+  huirthUpdateDataSetAddSystemInstructions,
+  huirthUpdateDataSetRemoveSystemInstructions,
   huirthUpdateProjectStatus,
   huirthUpdateDataSetSelection,
   huirthUpdateParsedProjectDataSet,
   huirthUpdateProjectStatusToSaved,
+  huirthUpdateDataSetName,
   huirthNewDataSetEntry,
   huirthNewDataSet,
   huirthNewDPOEntry,
@@ -238,17 +273,27 @@ type Qualities = {
   huirthDataSetBegin: Quality<huirthState, ActionComponentPayload, any>;
   huirthDataSetContent: Quality<huirthState, ActionComponentPayload, any>;
   huirthDataSetEnd: Quality<huirthState, ActionComponentPayload, any>;
+  huirthMergeDataSetSelection: Quality<huirthState, void, any>;
+  huirthMergeShuffleDataSetSelection: Quality<huirthState, void, any>;
   huirthSendTriggerParseRepositoryStrategy: Quality<huirthState, huirthSendTriggerParseRepositoryStrategyPayload, any>;
   huirthSendTriggerSaveDataSetSelectionStrategy: Quality<huirthState, void, any>;
   huirthSendTriggerSaveDataSetSelectionJSONLStrategy: Quality<huirthState, void, any>;
   huirthSendTriggerDeleteDataSetsStrategy: Quality<huirthState, huirthSendTriggerDeleteDataSetsStrategyPayload, any>;
   huirthSendTriggerSelectedTransformationStrategy: Quality<huirthState, void, any>;
+  huirthUpdateDataSetPageIndex: Quality<huirthState, huirthUpdateDataSetPageIndexPayload, any>;
+  huirthUpdateDataSetPosition: Quality<huirthState, huirthUpdateDataSetPositionPayload, any>;
   huirthUpdateFromPromptPayload: Quality<huirthState, void, any>;
   huirthUpdateFromChosenPayload: Quality<huirthState, void, any>;
   huirthUpdateFromRejectedPayload: Quality<huirthState, void, any>;
   huirthUpdateDataSetName: Quality<huirthState, huirthUpdateDataSetNamePayload, any>;
+  huirthUpdateDataSetRole: Quality<huirthState, huirthUpdateDataSetRolePayload, any>;
   huirthUpdateDataSetContents: Quality<huirthState, huirthUpdateDataSetContentsPayload, any>;
-  huirthUpdateDataSetPrompt: Quality<huirthState, huirthUpdateDataSetPromptPayload, any>;
+  huirthUpdateDataSetAddContentsEntry: Quality<huirthState, huirthUpdateDataSetAddContentsEntryPayload, any>;
+  huirthUpdateDataSetRemoveContentsEntry: Quality<huirthState, huirthUpdateDataSetRemoveContentsEntryPayload, any>;
+  huirthUpdateDataSetSystemInstructions: Quality<huirthState, huirthUpdateDataSetSystemInstructionsPayload>;
+  huirthUpdateDataSetAddSystemInstructions: Quality<huirthState, huirthUpdateDataSetAddSystemInstructionsPayload, any>;
+  huirthUpdateDataSetRemoveSystemInstructions: Quality<huirthState, huirthUpdateDataSetRemoveSystemInstructionsPayload, any>;
+  huirthUpdateDataSetPrompt: Quality<huirthState, huirthUpdateDataSetSystemInstructionsPayload, any>;
   huirthUpdateProjectStatus: Quality<huirthState, huirthUpdateProjectStatusPayload, any>;
   huirthUpdateDataSetSelection: Quality<huirthState, huirthUpdateDataSetSelectionPayload, any>;
   huirthUpdateParsedProjectDataSet: Quality<huirthState, huirthUpdateParsedProjectDataSetPayload, any>;

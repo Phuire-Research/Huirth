@@ -43,9 +43,6 @@ export const huirthServerInnerAddTo = createQualityCardWithPayload<huirthServerS
             huirth_convertNumberToStringVerbose(addTo).trim() +
             ', equals ' +
             huirth_convertNumberToStringVerbose(final).trim();
-          strategy.currentNode.successNotes = {
-            preposition: '',
-          };
           // console.log(verboseSum, ' add to ', addTo, ' is ', final);
           return strategySuccess(
             strategy,

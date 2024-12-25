@@ -16,12 +16,11 @@ import {
 import { DataSetTypes, NamedDataSet } from '../../huirth/huirth.model';
 import { huirthServerVerboseAddingStrategy } from '../strategies/verboseAdding.strategy';
 import { huirthServerInnerAddField } from './innerAddTo.quality';
-import { huirthServerSaveDataSetStrategy } from '../strategies/saveDataSet.strategy';
 import { FileSystemState, fileSystemName } from '../../fileSystem/fileSystem.concept';
 import { huirth_convertNumberToStringVerbose } from '../verboseNumber.model';
-import { TRANSFORMATION_DATASET_LIMIT } from '../huirthServer.model';
+import { DEFAULT_SYSTEM_PROMPT, TRANSFORMATION_DATASET_LIMIT } from '../huirthServer.model';
 import { HuirthServerDeck, huirthServerState } from '../huirthServer.concept';
-import { huirthServerSaveDataSetSelectionJSONLStrategy } from '../strategies/saveDataSetSelectionAsJSONL.strategy';
+import { huirthServerSaveDataSetSelectionStrategy } from '../strategies/saveDataSetSelection.strategy';
 
 export const huirthServerGenerateVerboseAddingStrategy = createQualityCard<huirthServerState, HuirthServerDeck>({
   type: 'huirthServer generate a verbose adding data set',
@@ -44,8 +43,8 @@ export const huirthServerGenerateVerboseAddingStrategy = createQualityCard<huirt
         let currentTopic = '';
         const plan = muxiumState.concepts$.plan(0)('Verbose Adding data set generation plan', ({ stage, k__ }) => [
           stage(({ dispatch, e }) => {
-            console.log('Transformation stage 1', iterations < 100, length < limit);
-            if (iterations < 100 && length < limit) {
+            console.log('Transformation stage 1', iterations < 10, length < limit);
+            if (iterations < 10 && length < limit) {
               const newStrategy = huirthServerVerboseAddingStrategy(length, deck);
               newStrategy.topic = iterations + 1 + '.) ' + newStrategy.topic;
               currentTopic = newStrategy.topic;
@@ -74,18 +73,27 @@ export const huirthServerGenerateVerboseAddingStrategy = createQualityCard<huirt
               );
               if (state.lastStrategy === currentTopic) {
                 named.dataSet.push({
-                  prompt: (currentTopic + '.').trim(),
-                  content: (
-                    '' +
-                    state.lastStrategyDialog +
-                    '\nThe final sum is ' +
-                    huirth_convertNumberToStringVerbose((state.lastStrategyData as huirthServerInnerAddField).sum) +
-                    '.'
-                  ).trim(),
+                  systemInstructions: DEFAULT_SYSTEM_PROMPT(['counter']),
+                  contents: [
+                    {
+                      role: 'user',
+                      text: (currentTopic.split('.)')[1] + '.').trim(),
+                    },
+                    {
+                      role: 'model',
+                      text: (
+                        '' +
+                        state.lastStrategyDialog +
+                        '\nThe final sum is ' +
+                        huirth_convertNumberToStringVerbose((state.lastStrategyData as huirthServerInnerAddField).sum) +
+                        '.'
+                      ).trim(),
+                    },
+                  ],
                 });
                 console.log(iterations);
                 iterations++;
-                if (iterations === 100) {
+                if (iterations === 10) {
                   if (length <= limit) {
                     length++;
                     iterations = 0;
@@ -103,7 +111,7 @@ export const huirthServerGenerateVerboseAddingStrategy = createQualityCard<huirt
           stage(({ concepts, stagePlanner }) => {
             console.log('Transformation stage 3', iterations, length, named.dataSet.length);
             controller.fire(
-              strategyBegin(huirthServerSaveDataSetSelectionJSONLStrategy(fileSystemState.root, [named], ['VerboseAdding'], deck))
+              strategyBegin(huirthServerSaveDataSetSelectionStrategy(fileSystemState.root, [named], ['VerboseAdding'], deck))
             );
             stagePlanner.conclude();
           }),

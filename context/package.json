@@ -51,7 +51,6 @@
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.1",
     "jest": "^28.1.3",
-    "jest-cucumber": "^3.0.1",
     "nodemon": "^3.0.1",
     "onchange": "^7.1.0",
     "prettier": "^2.7.1",
@@ -64,6 +63,6 @@
   },
   "dependencies": {
     "rxjs": "^7.8.1",
-    "stratimux": "^0.2.43"
+    "stratimux": "^0.2.44"
   }
 }

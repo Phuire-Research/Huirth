@@ -30,12 +30,12 @@ async function readAllDirectories(fileDirent: FileDirent[]): Promise<TrainingDat
         if (entry.isFile() && !entry.name.toLocaleLowerCase().includes('jsonl')) {
           try {
             const json = JSON.parse((await fs.readFile(path.join(entry.path + '/' + entry.name))).toString());
-            const keys = Object.keys(json);
+            // const keys = Object.keys(json);
             // eslint-disable-next-line max-depth
-            if (json[keys[0]] && Object.keys(json[keys[0]]).includes('content')) {
-              const set: NamedDataSet = convertSavedFormatToNamedDataSet(json, fD.name);
-              data.push(set);
-            }
+            // if (json[keys[0]] && Object.keys(json[keys[0]]).includes('data')) {
+            const set: NamedDataSet = convertSavedFormatToNamedDataSet(json, fD.name);
+            data.push(set);
+            // }
           } catch (error) {
             console.error('ERROR AT READ ALL DIRECTORIES huirth SERVER READ FROM DATA TRAINING DATA', error);
           }
@@ -58,7 +58,6 @@ export const huirthServerReadFromDataTrainingDataFromDirectories = createQuality
       if (action.strategy && action.strategy.data) {
         const strategy = action.strategy;
         const data = strategyData_select(action.strategy) as GetDirectoriesAndFilesDataField;
-        // console.log('READ FROM DATA TRAINING CHECK', data);
         if (data.directories) {
           if (data.directories.length !== 0) {
             try {

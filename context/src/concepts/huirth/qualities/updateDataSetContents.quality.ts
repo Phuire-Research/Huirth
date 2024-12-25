@@ -9,17 +9,18 @@ import { userInterface_selectInputTarget } from '../../../model/userInterface';
 export type huirthUpdateDataSetContentsPayload = {
   index: number;
   dataSetIndex: number;
+  dataSetEntry: number;
 };
 
 export const huirthUpdateDataSetContents = createQualityCardWithPayload<huirthState, huirthUpdateDataSetContentsPayload>({
-  type: 'Create huirth UpdateDataSetContents',
+  type: 'huirth update DataSet Contents',
   reducer: (state, action) => {
     const payload = selectPayload<huirthUpdateDataSetContentsPayload>(action);
     const target = userInterface_selectInputTarget(action);
     const trainingData = [...state.trainingData];
     const named = trainingData[payload.index];
     if (named && target) {
-      named.dataSet[payload.dataSetIndex].content = target.value.trim();
+      named.dataSet[payload.dataSetIndex].contents[payload.dataSetEntry].text = target.value.trim();
     }
     return {
       trainingData,
